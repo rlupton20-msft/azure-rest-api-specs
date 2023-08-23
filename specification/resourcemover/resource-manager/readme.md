@@ -26,7 +26,7 @@ These are the global settings for the regionmove.
 
 ``` yaml
 openapi-type: arm
-tag: package-2021-08-01
+tag: package-2023-08-01
 ```
 
 
@@ -56,6 +56,24 @@ input-file:
   - Microsoft.Migrate/stable/2021-01-01/resourcemovercollection.json
 ```
 
+### Tag: package-2022-08-01
+
+These settings apply only when `--tag=package-2022-08-01` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-08-01'
+input-file:
+  - Microsoft.Migrate/stable/2022-08-01/resourcemovercollection.json
+```
+
+### Tag: package-2023-08-01
+
+These settings apply only when `--tag=package-2023-08-01` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-08-01'
+input-file:
+  - Microsoft.Migrate/stable/2023-08-01/resourcemovercollection.json
+```
+
 ---
 
 # Code Generation
@@ -70,7 +88,6 @@ swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
-  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-sdk-for-ruby
     after_scripts:

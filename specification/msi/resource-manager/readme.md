@@ -26,7 +26,25 @@ These are the global settings for the Managed Service Identity API.
 
 ``` yaml
 openapi-type: arm
-tag: package-preview-2021-09-30
+tag: package-2023-01-31
+```
+
+### Tag: package-2023-01-31
+
+These settings apply only when `--tag=package-2023-01-31` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-01-31'
+input-file:
+- Microsoft.ManagedIdentity/stable/2023-01-31/ManagedIdentity.json
+```
+
+### Tag: package-preview-2022-01
+
+These settings apply only when `--tag=package-preview-2022-01` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2022-01'
+input-file:
+  - Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
 ```
 
 
@@ -65,7 +83,7 @@ directive:
     where: $.definitions.SystemAssignedIdentity
     reason: The identity type exposed under any scope is not a tracked resource since it is an extension.
   - suppress: RequiredReadOnlySystemData
-    reason: User-assigned and system-assigned identities do not support systemData. 
+    reason: User-assigned and system-assigned identities do not support systemData.
 ```
 
 ---
@@ -79,11 +97,10 @@ This is not used by Autorest itself.
 
 ``` yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-net
+  - repo: azure-sdk-for-net-track2
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
-  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-ruby
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_msi']
@@ -93,7 +110,7 @@ swagger-to-sdk:
   - repo: azure-powershell
 ```
 
-## Pyhton
+## Python
 
 See configuration in [readme.python.md](./readme.python.md)
 
