@@ -54,13 +54,10 @@
       "name": "OracleSubscriptions"
     },
     {
-      "name": "dbNodes"
+      "name": "DbNodes"
     },
     {
-      "name": "dbServers"
-    },
-    {
-      "name": "DbVersions"
+      "name": "DbServers"
     },
     {
       "name": "GiVersions"
@@ -168,84 +165,6 @@
             "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/DbSystemShape"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/locations/{location}/providers/Oracle.Database/dbVersions": {
-      "get": {
-        "operationId": "DbVersions_ListByLocation",
-        "tags": [
-          "DbVersions"
-        ],
-        "description": "List DbVersion resources by location",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/LocationParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/DbVersionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/locations/{location}/providers/Oracle.Database/dbVersions/{dbVersionName}": {
-      "get": {
-        "operationId": "DbVersions_Get",
-        "tags": [
-          "DbVersions"
-        ],
-        "description": "Get a DbVersion",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "dbVersionName",
-            "in": "path",
-            "description": "DbVersion name",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/DbVersion"
             }
           },
           "default": {
@@ -937,7 +856,7 @@
       "get": {
         "operationId": "DbServers_ListByCloudExadataInfrastructure",
         "tags": [
-          "dbServers"
+          "DbServers"
         ],
         "description": "List all DbServer for a ExaCs Infrastructure",
         "parameters": [
@@ -981,7 +900,7 @@
       "get": {
         "operationId": "DbServers_Get",
         "tags": [
-          "dbServers"
+          "DbServers"
         ],
         "description": "Get DbServer by Ocid",
         "parameters": [
@@ -1416,7 +1335,7 @@
       "get": {
         "operationId": "DbNodes_ListByCloudVmCluster",
         "tags": [
-          "dbNodes"
+          "DbNodes"
         ],
         "description": "List all DbNodes for a Cluster",
         "parameters": [
@@ -1460,7 +1379,7 @@
       "get": {
         "operationId": "DbNodes_Get",
         "tags": [
-          "dbNodes"
+          "DbNodes"
         ],
         "description": "Get DbNode by Ocid",
         "parameters": [
@@ -2608,9 +2527,9 @@
           "description": "Cluster compartmentId",
           "readOnly": true
         },
-        "ociSubnetId": {
+        "subnetOcid": {
           "$ref": "#/definitions/Ocid",
-          "description": "Cluster subnetId",
+          "description": "Cluster subnet ocid",
           "readOnly": true
         }
       },
@@ -2625,7 +2544,7 @@
         "backupSubnetId",
         "displayName",
         "compartmentId",
-        "ociSubnetId"
+        "subnetOcid"
       ]
     },
     "CloudVmClusterProvisioningState": {
@@ -3600,83 +3519,6 @@
       },
       "required": [
         "availableCoreCount"
-      ]
-    },
-    "DbVersion": {
-      "type": "object",
-      "description": "DbVersion resource definition",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/DbVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "DbVersionListResult": {
-      "type": "object",
-      "description": "The response of a DbVersion list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The DbVersion items on this page",
-          "items": {
-            "$ref": "#/definitions/DbVersion"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "DbVersionProperties": {
-      "type": "object",
-      "description": "DbVersion resource model",
-      "properties": {
-        "version": {
-          "type": "string",
-          "description": "A valid Oracle Database version.",
-          "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
-        },
-        "isLatestForMajorVersion": {
-          "type": "boolean",
-          "description": "True if this version of the Oracle Database software is the latest version for a release.",
-          "readOnly": true
-        },
-        "supportsPdb": {
-          "type": "boolean",
-          "description": "True if this version of the Oracle Database software supports pluggable databases.",
-          "readOnly": true
-        },
-        "isPreviewDbVersion": {
-          "type": "boolean",
-          "description": "True if this version of the Oracle Database software is the preview version.",
-          "readOnly": true
-        },
-        "isUpgradeSupported": {
-          "type": "boolean",
-          "description": "True if this version of the Oracle Database software is supported for Upgrade.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "version"
       ]
     },
     "DiskRedundancy": {
