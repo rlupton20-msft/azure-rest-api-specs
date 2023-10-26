@@ -1,0 +1,743 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GraphServices",
+    "description": "Microsoft Graph Metering Service",
+    "version": "2022-07-19"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/accounts": {
+      "get": {
+        "description": "Returns list of accounts apps.",
+        "operationId": "Accounts_List_RG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts details.",
+            "schema": {
+              "$ref": "#/definitions/accountsResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Graph/accounts": {
+      "get": {
+        "description": "Returns list of accounts belonging to a subscription.",
+        "operationId": "Accounts_List_Subscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts details.",
+            "schema": {
+              "$ref": "#/definitions/accountsResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/accounts/{resourceName}": {
+      "get": {
+        "description": "Returns accounts resource for a given name.",
+        "operationId": "Accounts_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts details.",
+            "schema": {
+              "$ref": "#/definitions/accountsResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update accounts resource.",
+        "operationId": "Accounts_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "accountsResource",
+            "description": "Accounts details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountsResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/accountsResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update accounts details.",
+        "operationId": "Accounts_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "accountsPatchResource",
+            "description": "Accounts patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountsPatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/accountsResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a accounts resource.",
+        "operationId": "Accounts_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The accounts was successfully deleted"
+          },
+          "204": {
+            "description": "The accounts was not found"
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/accountsPrototype": {
+      "get": {
+        "description": "Returns list of accountsPrototype apps.",
+        "operationId": "AccountsPrototype_List_RG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AccountsPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Graph/accountsPrototype": {
+      "get": {
+        "description": "Returns list of accountsPrototype belonging to a subscription.",
+        "operationId": "AccountsPrototype_List_Subscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AccountsPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/accountsPrototype/{resourceName}": {
+      "get": {
+        "description": "Returns accountsPrototype resource for a given name.",
+        "operationId": "AccountsPrototype_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AccountsPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update accountsPrototype resource.",
+        "operationId": "AccountsPrototype_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "accountsPrototypeResource",
+            "description": "AccountsPrototype details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update accountsPrototype details.",
+        "operationId": "AccountsPrototype_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "accountsPrototypePatchResource",
+            "description": "AccountsPrototype patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/accountsPrototypeResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a accountsPrototype resource.",
+        "operationId": "AccountsPrototype_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The accountsPrototype was successfully deleted"
+          },
+          "204": {
+            "description": "The accountsPrototype was not found"
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.Graph/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operation_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ErrorResponse": {
+      "description": "Error response indicates that the service is not able to process the incoming request.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition",
+          "description": "The error details."
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error.",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          }
+        }
+      }
+    },
+    "accountsResource": {
+      "type": "object",
+      "description": "Accounts details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "description": "Property bag",
+          "type": "object",
+          "required": [
+            "appId"
+          ],
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned App Id",
+              "pattern": "^[A-Za-z0-9-]+$",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "billingPlanId": {
+              "type": "string",
+              "description": "Billing plan Id",
+              "pattern": "(^[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}?)$",
+              "readOnly": true,
+              "x-ms-mutability": [
+                "read"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "TagUpdate": {
+      "description": "Request payload used to update an existing resource's tags.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "List of key value pairs that describe the resource. This will overwrite the existing tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "accountsPatchResource": {
+      "type": "object",
+      "description": "Request payload used to update existing accounts resources",
+      "properties": {
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TagUpdate"
+        }
+      ]
+    },
+    "accountsResourceList": {
+      "description": "The list of accounts.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of accounts list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/accountsResource"
+          }
+        }
+      }
+    },
+    "accountsPrototypeResource": {
+      "type": "object",
+      "description": "AccountsPrototype details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "appId"
+          ],
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned AAD application ID",
+              "pattern": "^[A-Za-z0-9-]+$"
+            }
+          }
+        }
+      }
+    },
+    "accountsPrototypePatchResource": {
+      "type": "object",
+      "description": "AccountsPrototype patch properties",
+      "properties": {
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "properties": {
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned AAD application ID",
+              "pattern": "^[A-Za-z0-9-]+$"
+            }
+          },
+          "required": [
+            "appId"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    "accountsPrototypeResourceList": {
+      "description": "The list of accountsPrototype.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of accountsPrototype list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/accountsPrototypeResource"
+          }
+        }
+      }
+    },
+    "operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "operationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceNameParameter": {
+      "name": "resourceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

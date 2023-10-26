@@ -1,0 +1,494 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MobileCoreManagementClient",
+    "description": "The resources in this swagger specification will be used to manage serving area resources in mobile core",
+    "version": "2021-06-15-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/mobileCores/{mobileCoreName}/zones/{zoneName}/servingAreas/{servingAreaName}": {
+      "delete": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_Delete",
+        "description": "Deletes the specified mobile core serving area.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ZoneNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ServingAreaNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete successful."
+          },
+          "202": {
+            "description": "Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "204": {
+            "description": "Request successful. Resource does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete mobile core serving area": {
+            "$ref": "./examples/ServingAreaDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      },
+      "get": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_Get",
+        "description": "Gets information about the specified mobile core serving area.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ZoneNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ServingAreaNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns the resulting mobile core serving area resource.",
+            "schema": {
+              "$ref": "#/definitions/servingArea"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get mobile core serving area": {
+            "$ref": "./examples/ServingAreaGet.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_CreateOrUpdate",
+        "description": "Creates or updates a mobile core serving area.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ZoneNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ServingAreaNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/servingArea"
+            },
+            "description": "Parameters supplied to the create or update mobile core serving area operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update successful. The operation returns the resulting mobile core serving area resource.",
+            "schema": {
+              "$ref": "#/definitions/servingArea"
+            }
+          },
+          "201": {
+            "description": "Create successful. The operation returns the resulting mobile core serving area resource.",
+            "schema": {
+              "$ref": "#/definitions/servingArea"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create mobile core serving area": {
+            "$ref": "./examples/ServingAreaCreate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_UpdateTags",
+        "description": "Update serving area tags.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ZoneNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ServingAreaNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./common.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to update mobile core serving area tags."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update successful. The operation returns the resulting mobile core serving area resource.",
+            "schema": {
+              "$ref": "#/definitions/servingArea"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update mobile core serving area tags": {
+            "$ref": "./examples/ServingAreaUpdateTags.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileCore/servingAreas": {
+      "get": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_ListBySubscription",
+        "description": "Gets all the serving areas in a subscription.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of serving area resources.",
+            "schema": {
+              "$ref": "#/definitions/servingAreaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List serving areas in a subscription": {
+            "$ref": "./examples/ServingAreaListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/servingAreas": {
+      "get": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_ListByResourceGroup",
+        "description": "Gets all the serving areas in a resource group.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of serving area resources.",
+            "schema": {
+              "$ref": "#/definitions/servingAreaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List serving areas in resource group": {
+            "$ref": "./examples/ServingAreaListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/mobileCores/{mobileCoreName}/servingAreas": {
+      "get": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_ListByMobileCore",
+        "description": "Lists all serving areas in the mobile core.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of mobile core resources.",
+            "schema": {
+              "$ref": "#/definitions/servingAreaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List mobile core serving areas in a mobile core": {
+            "$ref": "./examples/ServingAreaListByMobileCore.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/mobileCores/{mobileCoreName}/zones/{zoneName}/servingAreas": {
+      "get": {
+        "tags": [
+          "servingAreas"
+        ],
+        "operationId": "servingAreas_ListByZone",
+        "description": "Lists all serving areas in the mobile core zone",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/MobileCoreNameParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/ZoneNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of mobile core resources.",
+            "schema": {
+              "$ref": "#/definitions/servingAreaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List mobile core serving areas in a zone": {
+            "$ref": "./examples/ServingAreaListByZone.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "servingArea": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/servingAreaPropertiesFormat",
+          "description": "serving area properties."
+        },
+        "systemData": {
+          "x-ms-client-flatten": true,
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true,
+          "description": "Metadata pertaining to creation and last modification of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "description": "Serving area resource."
+    },
+    "servingAreaPropertiesFormat": {
+      "description": "Serving area properties.",
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "./common.json#/definitions/ProvisioningState",
+          "description": "The provisioning state of the serving area resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description for this serving area."
+        },
+        "trackingAreas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of tracking areas."
+        }
+      }
+    },
+    "servingAreaListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/servingArea"
+          },
+          "description": "A list of serving areas in a resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for serving area API service call."
+    }
+  }
+}

@@ -1,0 +1,63 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/openapi";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-providerhub-controller";
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@versioned(Microsoft.AIOpsPlatform.Versions)
+@versionedDependency(
+  [
+    [Microsoft.AIOpsPlatform.Versions.v2022_10_01preview, Azure.ResourceManager.Versions.v1_0_Preview_1]
+  ]
+)
+namespace Microsoft.AIOpsPlatform {
+    enum Versions {
+        v2022_10_01preview: "2022-10-01-preview",
+    }
+
+    // note: this interface is required by ARM cadl-validation rule @azure-tools/cadl-azure-resource-manager/missing-operations-endpoint.
+    // We may run into issues naming our operation resource the same interface name.
+    interface Operations extends Azure.ResourceManager.Operations {}
+
+    @doc("Used to represent operation resource properties.")
+    model WorkspaceProperties {
+        @doc("Provisioning state.")
+        @visibility("read")
+        provisioningState?: ProvisioningState;
+    }
+
+    @doc("Step uses this connection to read from or update external target source")
+    model WorkspaceResource is TrackedResource<WorkspaceProperties> {
+        @doc("The name of the connection")
+        @pattern("^[a-zA-Z0-9-]{3,24}$")
+        @key("workspaceName")
+        @segment("workspaces")
+        @visibility("read")
+        @path
+        name: string;
+    }
+
+    @doc("The status of the current operation.")
+    @knownValues(ProvisioningStateKV)
+    model ProvisioningState is string {}
+    enum ProvisioningStateKV {
+        Succeeded,
+        Failed,
+        Canceled,
+        Provisioning,
+        Updating,
+        Deleting,
+        Accepted,
+    }
+
+    @armResourceOperations
+    interface Workspaces extends ResourceOperations<WorkspaceResource, WorkspaceProperties> {}
+}

@@ -27,7 +27,6 @@ These are the global settings for the adp.
 ```yaml
 title: AdpManagementClient
 openapi-type: arm
-openapi-subtype: rpaas
 tag: package-2021-11-01-preview
 ```
 
@@ -73,9 +72,13 @@ swagger-to-sdk:
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
+  - repo: azure-sdk-for-ruby
+    after_scripts:
+      - bundle install && rake arm:regen_all_profiles['azure_mgmt_adp']
   - repo: azure-cli-extensions
   - repo: azure-resource-manager-schemas
-  - repo: azure-powershell
+    after_scripts:
+      - node sdkauto_afterscript.js adp/resource-manager
 ```
 
 ## Go
@@ -86,6 +89,10 @@ See configuration in [readme.go.md](./readme.go.md)
 
 See configuration in [readme.python.md](./readme.python.md)
 
+## Ruby
+
+See configuration in [readme.ruby.md](./readme.ruby.md)
+
 ## TypeScript
 
 See configuration in [readme.typescript.md](./readme.typescript.md)
@@ -93,3 +100,7 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
+
+## AzureResourceSchema
+
+See configuration in [readme.azureresourceschema.md](./readme.azureresourceschema.md)

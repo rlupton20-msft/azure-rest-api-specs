@@ -1,0 +1,742 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GraphServices",
+    "description": "Microsoft Graph Metering Service",
+    "version": "2022-07-19"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/AzureADApplication": {
+      "get": {
+        "description": "Returns list of AzureADApplication apps.",
+        "operationId": "AzureADApplication_List_RG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplication details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Graph/AzureADApplication": {
+      "get": {
+        "description": "Returns list of AzureADApplication belonging to a subscription.",
+        "operationId": "AzureADApplication_List_Subscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplication details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/AzureADApplication/{resourceName}": {
+      "get": {
+        "description": "Returns AzureADApplication resource for a given name.",
+        "operationId": "AzureADApplication_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplication details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update AzureADApplication resource.",
+        "operationId": "AzureADApplication_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "AzureADApplicationResource",
+            "description": "AzureADApplication details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update AzureADApplication details.",
+        "operationId": "AzureADApplication_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "AzureADApplicationPatchResource",
+            "description": "AzureADApplication patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a AzureADApplication resource.",
+        "operationId": "AzureADApplication_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The AzureADApplication was successfully deleted"
+          },
+          "204": {
+            "description": "The AzureADApplication was not found"
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/AzureADApplicationPrototype": {
+      "get": {
+        "description": "Returns list of AzureADApplicationPrototype apps.",
+        "operationId": "AzureADApplicationPrototype_List_RG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplicationPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Graph/AzureADApplicationPrototype": {
+      "get": {
+        "description": "Returns list of AzureADApplicationPrototype belonging to a subscription.",
+        "operationId": "AzureADApplicationPrototype_List_Subscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplicationPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Graph/AzureADApplicationPrototype/{resourceName}": {
+      "get": {
+        "description": "Returns AzureADApplicationPrototype resource for a given name.",
+        "operationId": "AzureADApplicationPrototype_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AzureADApplicationPrototype details.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update AzureADApplicationPrototype resource.",
+        "operationId": "AzureADApplicationPrototype_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "AzureADApplicationPrototypeResource",
+            "description": "AzureADApplicationPrototype details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update AzureADApplicationPrototype details.",
+        "operationId": "AzureADApplicationPrototype_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "name": "AzureADApplicationPrototypePatchResource",
+            "description": "AzureADApplicationPrototype patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/AzureADApplicationPrototypeResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a AzureADApplicationPrototype resource.",
+        "operationId": "AzureADApplicationPrototype_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The AzureADApplicationPrototype was successfully deleted"
+          },
+          "204": {
+            "description": "The AzureADApplicationPrototype was not found"
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.Graph/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operation_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ErrorResponse": {
+      "description": "Error response indicates that the service is not able to process the incoming request.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition",
+          "description": "The error details."
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error.",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          }
+        }
+      }
+    },
+    "AzureADApplicationResource": {
+      "type": "object",
+      "description": "AzureADApplication details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "description": "Property bag",
+          "type": "object",
+          "required": [
+            "appId"
+          ],
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned App Id",
+              "pattern": "^[A-Za-z0-9-]+$",
+              "x-ms-mutability": [
+                "create", "read"
+              ]
+            },
+            "billingPlanId": {
+              "type": "string",
+              "description": "Billing plan Id",
+              "pattern": "(^[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}?)$",
+              "readOnly": true,
+              "x-ms-mutability": [
+                "read"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "TagUpdate": {
+      "description": "Request payload used to update an existing resource's tags.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "List of key value pairs that describe the resource. This will overwrite the existing tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "AzureADApplicationPatchResource": {
+      "type": "object",
+      "description": "Request payload used to update existing AzureADApplication resources",
+      "properties": {
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TagUpdate"
+        }
+      ]
+    },
+    "AzureADApplicationResourceList": {
+      "description": "The list of AzureADApplication.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of AzureADApplication list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AzureADApplicationResource"
+          }
+        }
+      }
+    },
+    "AzureADApplicationPrototypeResource": {
+      "type": "object",
+      "description": "AzureADApplicationPrototype details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "appId"
+          ],
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned AAD application ID",
+              "pattern": "^[A-Za-z0-9-]+$"
+            }
+          }
+        }
+      }
+    },
+    "AzureADApplicationPrototypePatchResource": {
+      "type": "object",
+      "description": "AzureADApplicationPrototype patch properties",
+      "properties": {
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "properties": {
+          "properties": {
+            "appId": {
+              "type": "string",
+              "description": "User owned AAD application ID",
+              "pattern": "^[A-Za-z0-9-]+$"
+            }
+          },
+          "required": [
+            "appId"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    "AzureADApplicationPrototypeResourceList": {
+      "description": "The list of AzureADApplicationPrototype.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of AzureADApplicationPrototype list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AzureADApplicationPrototypeResource"
+          }
+        }
+      }
+    },
+    "operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "operationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceNameParameter": {
+      "name": "resourceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

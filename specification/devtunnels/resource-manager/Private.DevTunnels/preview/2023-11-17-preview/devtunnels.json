@@ -1,0 +1,591 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure Dev Tunnels",
+    "version": "2023-11-17-preview",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "CheckNameAvailability"
+    },
+    {
+      "name": "TunnelDomains"
+    }
+  ],
+  "paths": {
+    "/providers/Private.DevTunnels/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListOperations": {
+            "$ref": "./examples/Operations_List.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DevTunnels/checkNameAvailability": {
+      "post": {
+        "operationId": "Operations_CheckName",
+        "tags": [
+          "CheckNameAvailability"
+        ],
+        "description": "Implements global CheckNameAvailability operations",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The CheckAvailability request",
+            "required": true,
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CheckNameAvailability": {
+            "$ref": "./examples/Operations_CheckName.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DevTunnels/tunnelDomains": {
+      "get": {
+        "operationId": "TunnelDomains_ListBySubscription",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "List TunnelDomainResource resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListTunnelDomainsBySubscription": {
+            "$ref": "./examples/TunnelDomains_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevTunnels/tunnelDomains": {
+      "get": {
+        "operationId": "TunnelDomains_ListByResourceGroup",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "List TunnelDomainResource resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListTunnelDomainsByResourceGroup": {
+            "$ref": "./examples/TunnelDomains_ListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevTunnels/tunnelDomains/{domainName}": {
+      "get": {
+        "operationId": "TunnelDomains_Get",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "Get a TunnelDomainResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "description": "The name of the Tunnel Domain",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetTunnelDomain": {
+            "$ref": "./examples/TunnelDomains_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "TunnelDomains_CreateOrUpdate",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "Create a TunnelDomainResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "description": "The name of the Tunnel Domain",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'TunnelDomainResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'TunnelDomainResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResource"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CreateOrUpdateTunnelPlan": {
+            "$ref": "./examples/TunnelDomains_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "TunnelDomains_Update",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "Update a TunnelDomainResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "description": "The name of the Tunnel Domain",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResourceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/TunnelDomainResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "UpdateTunnelDomain": {
+            "$ref": "./examples/TunnelDomains_Update.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "TunnelDomains_Delete",
+        "tags": [
+          "TunnelDomains"
+        ],
+        "description": "Delete a TunnelDomainResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "description": "The name of the Tunnel Domain",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DeleteTunnelDomain": {
+            "$ref": "./examples/TunnelDomains_Delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "ProvisioningState": {
+      "type": "string",
+      "description": "Provisioning state enum",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Deleting",
+        "Provisioning"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The operation succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The operation failed"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "The operation was canceled"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "A delete operation is in progress"
+          },
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "A provisioning operation is in progress"
+          }
+        ]
+      }
+    },
+    "TunnelDomainProperties": {
+      "type": "object",
+      "description": "The properties of TunnelDomain",
+      "properties": {
+        "clusterId": {
+          "type": "string",
+          "description": "Cluster ID where the TunnelDomain resides, used for data-plane operations",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the plan",
+          "readOnly": true
+        }
+      }
+    },
+    "TunnelDomainResource": {
+      "type": "object",
+      "description": "A Tunnel Domain resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TunnelDomainProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "eTag": {
+          "type": "string",
+          "description": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "TunnelDomainResourceListResult": {
+      "type": "object",
+      "description": "The response of a TunnelDomainResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The TunnelDomainResource items on this page",
+          "items": {
+            "$ref": "#/definitions/TunnelDomainResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "TunnelDomainResourceUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the TunnelDomainResource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Versions": {
+      "type": "string",
+      "description": "Dev Tunnels API Verisons",
+      "enum": [
+        "2023-05-23-preview",
+        "2023-11-17-preview"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "v2023_05_23_preview",
+            "value": "2023-05-23-preview",
+            "description": "Dev Tunnels API Version 2023-05-23-preview"
+          },
+          {
+            "name": "v2023_11_17_preview",
+            "value": "2023-11-17-preview",
+            "description": "Dev Tunnels API Version 2023-11-17-preview"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {}
+}

@@ -27,7 +27,7 @@ These are the global settings for NetworkCloud.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-07-01
+tag: package-2023-05-01-preview
 ```
 
 ---
@@ -52,15 +52,6 @@ input-file:
   - Microsoft.NetworkCloud/preview/2023-05-01-preview/networkcloud.json
 ```
 
-### Tag: package-2023-07-01
-
-These settings apply only when `--tag=package-2023-07-01` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-07-01'
-input-file:
-  - Microsoft.NetworkCloud/stable/2023-07-01/networkcloud.json
-```
-
 ---
 
 # Code Generation
@@ -75,7 +66,7 @@ swagger-to-sdk:
   - repo: azure-sdk-for-net
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions

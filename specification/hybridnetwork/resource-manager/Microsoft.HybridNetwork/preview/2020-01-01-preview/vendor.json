@@ -387,11 +387,121 @@
         "x-ms-examples": {
           "Create or update the sku of vendor resource": {
             "$ref": "./examples/VendorSkuCreate.json"
+          },
+          "Create a containerized network function vendor sku resource": {
+            "$ref": "./examples/ContainerizedVendorSkuCreate.json"
           }
         },
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "VendorSkus"
+        ],
+        "operationId": "VendorSkus_Update",
+        "description": "Update vendor sku resource properties.",
+        "parameters": [
+          {
+            "name": "vendorName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the vendor."
+          },
+          {
+            "name": "skuName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the sku."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VendorSku"
+            },
+            "description": "Parameters supplied to the create or update sku operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update SKU successful.",
+            "schema": {
+              "$ref": "#/definitions/VendorSku"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update vendor sku resource": {
+            "$ref": "./examples/VendorSkuPatch.json"
+          }
+        }       
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/vendors/{vendorName}/vendorSkus/{skuName}/generateCredential": {
+      "post": {
+        "tags": [ 
+          "GenerateSkuCredentials"
+        ],
+        "operationId": "VendorSkus_GenerateCredential",
+        "description": "Generate credentials for publishing SKU images.",
+        "parameters": [
+          {
+            "name": "vendorName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the vendor."
+          },
+          {
+            "name": "skuName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the sku."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operations returns the credentials for publishing SKU images.",
+            "schema": {
+              "$ref": "#/definitions/SkuCredential"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Generate a credential for vendor sku": {
+            "$ref": "./examples/VendorSkuGenerateCredential.json"
+          }
         }
       }
     },
@@ -762,6 +872,19 @@
             "modelAsString": true
           }
         },
+        "networkFunctionType": {
+          "type": "string",
+          "description": "The network function type.",
+          "enum": [
+            "Unknown",
+            "VirtualNetworkFunction",
+            "ContainerizedNetworkFunction"
+          ],
+          "x-ms-enum": {
+            "name": "networkFunctionType",
+            "modelAsString": true
+          }
+        },
         "preview": {
           "type": "boolean",
           "description": "Indicates if the vendor sku is in preview mode."
@@ -774,9 +897,21 @@
           "type": "object",
           "description": "The template for the managed application deployment."
         },
+        "azureResourceManagerTemplate": {
+          "type": "object",
+          "description": "The parameters for arm resource deployment."
+        },
+        "azureResourceManagerParameters": {
+          "type": "object",
+          "description": "The parameters for arm resource deployment."
+        },
         "networkFunctionTemplate": {
           "$ref": "#/definitions/NetworkFunctionTemplate",
           "description": "The template definition of the network function."
+        },
+        "containerizedNetworkFunctionConfiguration": {
+          "$ref": "#/definitions/ContainerizedNetworkFunctionConfiguration",
+          "description": "The configuration of containerized network function."
         }
       }
     },
@@ -1054,6 +1189,21 @@
           "type": "string",
           "readOnly": true,
           "description": "The type of the resource."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PreviewSubscriptionPropertiesFormat",
+          "description": "PreviewSubscription properties."
+        }
+      }
+    },
+    "PreviewSubscriptionPropertiesFormat": {
+      "description": "PreviewSubscription properties.",
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "./common.json#/definitions/ProvisioningState",
+          "description": "The provisioning state of the PreviewSubscription resource."
         }
       }
     },
@@ -1071,6 +1221,84 @@
           "readOnly": true,
           "type": "string",
           "description": "The URL to get the next set of results."
+        }
+      }
+    },
+    "ContainerizedNetworkFunctionConfiguration": {
+      "description": "The definition of the containerized network function configuration.",
+      "properties": {
+        "artifactProfile": {
+          "description": "The artifact profile information.",
+          "$ref": "#/definitions/ArtifactProfile"
+        }
+      }
+    },
+    "ArtifactProfile": {
+      "description": "The definition of the artifact profile information.",
+      "properties": {
+        "helmChartRepository": {
+          "type": "string",
+          "description": "The helm chart repository path."
+        },
+        "imageRepositories": {
+          "type": "array",
+          "description": "The image repositories that vendor needs to use.",
+          "items": {
+            "description": "The image repository.",
+            "type": "string"
+          }
+        },
+        "helmChartVersion": {
+          "type": "string",
+          "description": "Semantic version 2.0 of helm chart."
+        },
+        "helmChartValuesTemplate": {
+          "type": "object",
+          "description": "The helm chart values template."
+        },
+        "artifactState": {
+          "type": "string",
+          "description": "The artifact state.",
+          "enum": [
+            "Unknown",
+            "Ready",
+            "NotReady"
+          ],
+          "x-ms-enum": {
+            "name": "artifactState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "SkuCredential": {
+      "description": "The Sku credentail definition.",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The user name of the sku credential."
+        },
+        "password": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The credential value."
+        },
+        "acrServerUrl": {
+          "type": "string",
+          "description": "The Acr server url"
+        },
+        "repositories": {
+          "type": "array",
+          "description": "The repositories that could be accessed using the current credential.",
+          "items": {
+            "type": "string",
+            "description": "The repository that could be accessed using the current credential."
+          }
+        },
+        "expiry": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC time when credential will expire."
         }
       }
     }

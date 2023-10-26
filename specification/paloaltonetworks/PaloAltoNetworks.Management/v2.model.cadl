@@ -1,0 +1,873 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-resource-manager";
+import "./enums.cadl";
+
+using Azure.ResourceManager;
+using Cadl.Rest;
+using Cadl.Http;
+using Cadl.Versioning;
+using OpenAPI;
+using Autorest;
+
+namespace PaloAltoNetworks.Cloudngfw;
+
+@doc("IP Address")
+model IpAddress {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Address value")
+  address?: string;
+}
+
+@doc("IP Address Space")
+model IpAddressSpace {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Address Space")
+  addressSpace?: string;
+}
+
+@doc("VnetInfo for Firewall Networking")
+model VnetConfiguration {
+  @doc("Azure Virtual Network")
+  vnet: IpAddressSpace;
+
+  @doc("Trust Subnet")
+  trustSubnet: IpAddressSpace;
+
+  @doc("Untrust Subnet")
+  unTrustSubnet: IpAddressSpace;
+
+  @doc("IP of trust subnet for UDR")
+  ipOfTrustSubnetForUdr?: IpAddress;
+}
+
+@doc("VwanInfo for Firewall Networking")
+model VwanConfiguration {
+  @doc("Network Virtual Appliance resource ID ")
+  networkVirtualApplianceId?: string;
+
+  @doc("vHub Address")
+  vHub: IpAddressSpace;
+
+  @doc("Trust Subnet")
+  trustSubnet?: IpAddressSpace;
+
+  @doc("Untrust Subnet")
+  unTrustSubnet?: IpAddressSpace;
+
+  @doc("IP of trust subnet for UDR")
+  ipOfTrustSubnetForUdr?: IpAddress;
+}
+
+@doc("Network settings for Firewall")
+model NetworkProfile {
+  @doc("Vnet configurations")
+  vnetConfiguration?: VnetConfiguration;
+
+  @doc("Vwan configurations")
+  vwanConfiguration?: VwanConfiguration;
+
+  @doc("vnet or vwan, cannot be updated")
+  networkType: NetworkTypeValues;
+
+  @doc("List of IPs associated with the Firewall")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  publicIps: IpAddress[];
+
+  @doc("Enable egress NAT, enabled by default")
+  enableEgressNat: EnabledDisabledValues;
+
+  @doc("Egress nat IP to use")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  egressNatIp?: IpAddress[];
+}
+
+@doc("Associated rulestack details")
+model RulestackDetails {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Associated rulestack Id")
+  rulestackId?: string;
+
+  @doc("Rulestack location")
+  location?: string;
+}
+
+@doc("DNS Proxy settings for Firewall")
+model DnsSettings {
+  @doc("Enable DNS proxy, disabled by default")
+  enableDnsProxy?: EnabledDisabledValues;
+
+  @doc("Enabled DNS proxy type, disabled by default")
+  enabledDnsType?: DNSType;
+
+  @doc("List of IPs associated with the Firewall")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  dnsServers?: IpAddress[];
+}
+
+@doc("Endpoint Configuration for frontend and backend")
+model EndpointConfiguration {
+  @doc("port ID")
+  port: string;
+
+  @doc("Address Space")
+  address: IpAddress;
+}
+
+@doc("Frontend setting for Firewall")
+model FrontendSetting {
+  @doc("Settings name")
+  name: string;
+
+  @doc("Protocol Type")
+  protocol: ProtocolType;
+
+  @doc("Frontend configurations")
+  frontendConfiguration: EndpointConfiguration;
+
+  @doc("Backend configurations")
+  backendConfiguration: EndpointConfiguration;
+}
+
+@doc("Billing plan information.")
+model PlanData {
+  @doc("different usage type like PAYG/COMMITTED")
+  usageType?: UsageTypeValues;
+
+  @doc("different billing cycles like MONTHLY/WEEKLY")
+  billingCycle: BillingCycleValues;
+
+  @doc("plan id as published by Liftr.PAN")
+  @maxLength(50)
+  planId: string;
+
+  @visibility("read")
+  @doc("date when plan was applied")
+  effectiveDate?: zonedDateTime;
+}
+
+@doc("MarketplaceDetails of PAN Firewall resource")
+model MarketplaceDetails {
+  @doc("Marketplace Subscription Id")
+  @visibility("read")
+  marketplaceSubscriptionId?: string;
+
+  @doc("Offer Id")
+  offerId: string;
+
+  @doc("Publisher Id")
+  publisherId: string;
+
+  // @doc("Additional Properties")
+  // additionalProperties?:  Map<string,string>;
+}
+
+@doc("Application Insights key")
+model ApplicationInsights {
+  @doc("Resource id for Application Insights")
+  id?: string;
+
+  @doc("Application Insights key")
+  key?: string;
+}
+
+@doc("Log Destination")
+model LogDestination {
+  @doc("Storage account configurations")
+  storageConfigurations?: StorageAccount;
+
+  @doc("Event Hub configurations")
+  eventHubConfigurations?: EventHub;
+
+  @doc("Monitor Log configurations")
+  monitorConfigurations?: MonitorLog;
+}
+
+@doc("Storage Account configurations")
+model StorageAccount {
+  @doc("Resource ID of storage account")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("Storage account name")
+  accountName?: string;
+}
+
+@doc("EventHub configurations")
+model EventHub {
+  @doc("Resource ID of EventHub")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("EventHub name")
+  name?: string;
+
+  @doc("EventHub namespace")
+  nameSpace?: string;
+
+  @doc("EventHub policy name")
+  policyName?: string;
+}
+
+@doc("MonitorLog configurations")
+model MonitorLog {
+  @doc("Resource ID of MonitorLog")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("MonitorLog workspace")
+  workspace?: string;
+
+  @doc("Primary Key value for Monitor")
+  primaryKey?: string;
+
+  @doc("Secondary Key value for Monitor")
+  secondaryKey?: string;
+}
+
+@doc("Log Settings for Firewall")
+model LogSettings {
+  @doc("One of possible log type")
+  logType?: LogTypeValues;
+
+  @doc("Log option SAME/INDIVIDUAL")
+  logOption?: LogOptionValues;
+
+  @doc("Application Insight details")
+  applicationInsights?: ApplicationInsights;
+
+  @doc("Common destination configurations")
+  commonDestination?: LogDestination;
+
+  @doc("Traffic destination configurations")
+  trafficLogDestination?: LogDestination;
+
+  @doc("Threat destination configurations")
+  threatLogDestination?: LogDestination;
+
+  @doc("Decrypt destination configurations")
+  decryptLogDestination?: LogDestination;
+}
+
+@doc("PAN Rulestack Describe Object")
+model GlobalRulestackInfo {
+  @doc("rulestack description")
+  azureId: string;
+}
+
+@doc("Properties specific to the Firewall resource deployment.")
+model FirewallDeploymentProperties {
+  @doc("panEtag info")
+  panEtag?: string;
+
+  @doc("Network settings")
+  networkProfile: NetworkProfile;
+
+  @doc("Associated Rulestack")
+  associatedRulestack?: RulestackDetails;
+
+  @doc("DNS settings for Firewall")
+  dnsSettings: DnsSettings;
+
+  @doc("Frontend settings for Firewall")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  frontEndSettings?: FrontendSetting[];
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+
+  @doc("Billing plan information.")
+  planData: PlanData;
+
+  @doc("Marketplace details")
+  marketplaceDetails: MarketplaceDetails;
+}
+
+@doc("PAN Tag")
+model PanTag {
+  @doc("tag id")
+  tagId: string;
+
+  @doc("tag value")
+  tagValue: string;
+}
+
+@doc("PAN Tag Info")
+model PanTagInfo {
+  @doc("List of PAN Tags")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  panTags: PanTag[];
+}
+
+@doc("Countries Response Object")
+model CountriesResponse {
+  @doc("List of countries")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  value: Country[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Country Description")
+model Country {
+  @doc("country code")
+  code: string;
+
+  @doc("code description")
+  description?: string;
+}
+
+@doc("predefined url categories response")
+model PredefinedUrlCategoriesResponse {
+  @doc("predefined url categories")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  value: PredefinedUrlCategory[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Predefined URL category object")
+model PredefinedUrlCategory {
+  @doc("action value")
+  action: string;
+
+  @doc("name value")
+  name: string;
+}
+
+@doc("List firewalls response")
+model ListFirewallsResponse {
+  @doc("firewalls list")
+  value: string[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Changelog list")
+model Changelog {
+  @doc("list of changes")
+  changes: string[];
+
+  @doc("lastCommitted TimeStamp")
+  lastCommitted: zonedDateTime;
+
+  @doc("lastModified TimeStamp")
+  lastModified: zonedDateTime;
+}
+
+@doc("security services")
+model SecurityServices {
+  @doc("IPs Vulnerability Profile Data")
+  vulnerabilityProfile?: string;
+
+  @doc("Anti spyware Profile data")
+  antiSpywareProfile?: string;
+
+  @doc("anti virus profile data")
+  antiVirusProfile?: string;
+
+  @doc("URL filtering profile data")
+  urlFilteringProfile?: string;
+
+  @doc("File blocking profile data")
+  fileBlockingProfile?: string;
+
+  @doc("DNS Subscription profile data")
+  dnsSubscription?: string;
+
+  @doc("Untrusted Egress Decryption profile data")
+  outboundUnTrustCertificate?: string;
+
+  @doc("Trusted Egress Decryption profile data")
+  outboundTrustCertificate?: string;
+}
+
+@doc("Security services list response")
+model SecurityServicesResponse {
+  @doc("response value")
+  value: SecurityServicesTypeList;
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Security services type list")
+model SecurityServicesTypeList {
+  @doc("security services type")
+  type?: string;
+
+  @doc("list")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  entry: NameDescriptionObject[];
+}
+
+@doc("advanced security object")
+model AdvSecurityObjectListResponse {
+  @doc("response value")
+  value: AdvSecurityObjectModel;
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("List of custom and predefined url category")
+model AdvSecurityObjectModel {
+  @doc("type of object")
+  type?: string;
+
+  @doc("URL entry")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  entry: NameDescriptionObject[];
+}
+
+@doc("object type info")
+model NameDescriptionObject {
+  @doc("name value")
+  name: string;
+
+  @doc("description value")
+  description?: string;
+}
+
+@doc("PAN Local Rulestack Describe Object")
+model LocalRulestackProperties {
+  @doc("PanEtag info")
+  panEtag?: string;
+
+  @doc("Rulestack Type")
+  scope?: ScopeTypeValues;
+
+  @doc("rulestack description")
+  description?: string;
+
+  @doc("Mode for default rules creation")
+  defaultMode?: DefaultModeValues;
+
+  @doc("minimum version")
+  minAppIdVersion?: string;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+
+  @doc("Security Profile")
+  securityServices?: SecurityServices;
+}
+
+@doc("PAN Global Rulestack Describe Object")
+model GlobalRulestackProperties
+  extends LocalRulestackProperties {
+  @doc("Rulestack Location, Required for GlobalRulestacks, Not for LocalRulestacks")
+  panLocation?: string;
+
+  @doc("subscription scope of global rulestack")
+  associatedSubscriptions?: string[];
+}
+
+@doc("List Response for app ids")
+model ListAppIdResponse {
+  @doc("List of AppIds")
+  value: string[];
+
+  @doc("next Link")
+  nextLink?: string;
+}
+
+@doc("Address properties")
+model SourceAddr {
+  @doc("special value 'any'")
+  cidrs?: string[];
+
+  @doc("list of countries")
+  countries?: string[];
+
+  @doc("list of feeds")
+  feeds?: string[];
+
+  @doc("prefix list")
+  prefixLists?: string[];
+}
+
+@doc("destination address")
+model DestinationAddr {
+  @doc("special value 'any'")
+  cidrs?: string[];
+
+  @doc("list of countries")
+  countries?: string[];
+
+  @doc("list of feeds")
+  feeds?: string[];
+
+  @doc("prefix list")
+  prefixLists?: string[];
+
+  @doc("fqdn list")
+  fqdnLists?: string[];
+}
+
+@doc("URL/EDL to match")
+model Category {
+  @doc("custom URL")
+  urlCustom: string[];
+
+  @doc("feed list")
+  feeds: string[];
+}
+
+@doc("Tag")
+model TagInfo {
+  @doc("tag name")
+  key: string;
+
+  @doc("tag value")
+  value: string;
+}
+
+@doc("definition of rule")
+model RuleEntry {
+  @doc("etag info")
+  etag?: string;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @visibility("read")
+  @doc("rule priority")
+  priority?: int32;
+
+  @doc("rule description")
+  description?: string;
+
+  @doc("state of this rule")
+  ruleState?: EnabledDisabledValues;
+
+  @doc("source address")
+  source?: SourceAddr;
+
+  @doc("cidr should not be 'any'")
+  negateSource?: BooleanEnumValues;
+
+  @doc("destination address")
+  destination?: DestinationAddr;
+
+  @doc("cidr should not be 'any'")
+  negateDestination?: BooleanEnumValues;
+
+  @doc("array of rule applications")
+  applications?: string[];
+
+  @doc("rule category")
+  category?: Category;
+
+  @doc("any, application-default, TCP:number, UDP:number")
+  protocol?: string = "application-default";
+
+  @doc("prot port list")
+  protocolPortList?: string[];
+
+  @doc("inbound Inspection Certificate")
+  inboundInspectionCertificate?: string;
+
+  @doc("rule comment")
+  auditComment?: string;
+
+  @doc("rule action")
+  actionType?: ActionEnumValues;
+
+  @doc("enable or disable logging")
+  enableLogging?: EnabledDisabledValues;
+
+  @doc("enable or disable decryption")
+  decryptionRuleType?: DecryptionRuleTypeEnumValues;
+
+  @doc("tag for rule")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  tags?: TagInfo[];
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+}
+
+@doc("List of Rules associated with Firewall")
+model FirewallRules {
+  @doc("rules array")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  rules: Rule[];
+}
+
+@doc("Read only rule data")
+model Rule {
+  @doc("Rule type")
+  type: RulesTypeEnumValues;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @doc("Rule priority")
+  priority: int32;
+
+  @doc("rule description")
+  description?: string;
+
+  @doc("state of this rule")
+  ruleState?: EnabledDisabledValues;
+
+  @doc("source address")
+  source?: SourceAddr;
+
+  @doc("cidr should not be 'any'")
+  negateSource?: BooleanEnumValues;
+
+  @doc("destination address")
+  destination?: DestinationAddr;
+
+  @doc("cidr should not be 'any'")
+  negateDestination?: BooleanEnumValues;
+
+  @doc("array of rule applications")
+  applications?: string[];
+
+  @doc("rule category")
+  category?: Category;
+
+  @doc("any, application-default, TCP:number, UDP:number")
+  protocol?: string = "application-default";
+
+  @doc("prot port list")
+  protocolPortList?: string[];
+
+  @doc("inbound Inspection Certificate")
+  inboundInspectionCertificate?: string;
+
+  @doc("rule comment")
+  auditComment?: string;
+
+  @doc("rule action")
+  actionType?: ActionEnumValues;
+
+  @doc("enable or disable logging")
+  enableLogging?: EnabledDisabledValues;
+
+  @doc("enable or disable decryption")
+  decryptionRuleType?: DecryptionRuleTypeEnumValues;
+
+  @doc("tag for rule")
+  tags?: TagInfo;
+
+  @doc("etag info")
+  etag?: string;
+}
+
+@doc("Rule counter")
+model RuleCounter {
+  @doc("priority number")
+  priority: string;
+
+  @doc("rule Stack Name")
+  ruleStackName?: string;
+
+  @doc("rule list name")
+  ruleListName?: string;
+
+  @doc("firewall name")
+  firewallName?: string;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @doc("hit count")
+  hitCount?: int32;
+
+  @doc("apps seen")
+  appSeen?: AppSeenData;
+
+  @doc("timestamp of response")
+  timestamp?: zonedDateTime;
+
+  @doc("timestamp of request")
+  requestTimestamp: zonedDateTime;
+
+  @doc("last updated timestamp")
+  lastUpdatedTimestamp?: zonedDateTime;
+}
+
+@doc("Data Type for App Seen")
+model AppSeenData {
+  @doc("number of rows")
+  count: int32;
+
+  @doc("array of appSeen")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  appSeenList: AppSeenInfo[];
+}
+
+@doc("Definition for App Seen")
+model AppSeenInfo {
+  @doc("title value")
+  title: string;
+
+  @doc("category valuev")
+  category: string;
+
+  @doc("subCategory value")
+  subCategory: string;
+
+  @doc("risk value")
+  risk: string;
+
+  @doc("tag value")
+  tag: string;
+
+  @doc("technology value")
+  technology: string;
+
+  @doc("standardPorts value")
+  standardPorts: string;
+}
+
+@doc("Rule counter reset")
+model RuleCounterReset {
+  @visibility("read")
+  @doc("priority number")
+  priority?: string;
+
+  @doc("rule Stack Name")
+  ruleStackName?: string;
+
+  @doc("rule list name")
+  ruleListName?: string;
+
+  @doc("firewall name")
+  firewallName?: string;
+
+  @doc("rule name")
+  ruleName?: string;
+}
+
+@doc("Paginated Rules response")
+model RulesResponse {
+  @doc("value array")
+  @extension(
+    "x-ms-identifiers",
+    []
+  )
+  value: Rule[];
+
+  @doc("nextLink value")
+  nextLink?: string;
+}
+
+@doc("prefix entry")
+model PrefixObject {
+  @doc("prefix description")
+  description?: string;
+
+  @doc("prefix list")
+  prefixList: string[];
+
+  @doc("etag info")
+  etag?: string;
+
+  @doc("comment for this object")
+  auditComment?: string;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+}
+
+@doc("fqdn object")
+model FqdnObject {
+  @doc("fqdn object description")
+  description?: string;
+
+  @doc("fqdn list")
+  fqdnList: string[];
+
+  @doc("etag info")
+  etag?: string;
+
+  @doc("comment for this object")
+  auditComment?: string;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+}
+
+@doc("certificate used for inbound and outbound decryption")
+model CertificateObject {
+  @doc("Resource Id of certificate signer, to be populated only when certificateSelfSigned is false")
+  certificateSignerResourceId?: string;
+
+  @doc("use certificate self signed")
+  certificateSelfSigned: BooleanEnumValues;
+
+  @doc("comment for this object")
+  auditComment?: string;
+
+  @doc("user description for this object")
+  description?: string;
+
+  @doc("read only string representing last create or update")
+  etag?: string;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningStateValues;
+}

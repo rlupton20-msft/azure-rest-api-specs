@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2022-11-01` is specified on the co
 
 ```yaml $(tag) == 'package-2022-11-01'
 input-file:
-  - Microsoft.Orbital/stable/2022-11-01/orbital.json
+  - Microsoft.OrbitalTest/AOGS/stable/2022-11-01/orbital.json
 ```
 
 ### Tag: package-2022-03-01
@@ -44,7 +44,7 @@ These settings apply only when `--tag=package-2022-03-01` is specified on the co
 
 ```yaml $(tag) == 'package-2022-03-01'
 input-file:
-  - Microsoft.Orbital/stable/2022-03-01/orbital.json
+  - Microsoft.OrbitalTest/AOGS/stable/2022-03-01/orbital.json
 ```
 
 ---

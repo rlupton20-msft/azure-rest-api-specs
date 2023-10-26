@@ -361,11 +361,14 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "HybridConnectivityEndpointsServiceconfigurationsGetSSH": {
+          "HybridConnectivityEndpointsServiceConfigurationsGetSSH": {
             "$ref": "./examples/ServiceConfigurationsGetSSH.json"
           },
-          "HybridConnectivityEndpointsServiceconfigurationsGetWAC": {
+          "HybridConnectivityEndpointsServiceConfigurationsGetWAC": {
             "$ref": "./examples/ServiceConfigurationsGetWAC.json"
+          },
+          "HybridConnectivityEndpointsServiceconfigurationsGetSQLMGMT": {
+            "$ref": "./examples/ServiceConfigurationsGetSQLMGMT.json"
           }
         },
         "parameters": [
@@ -384,7 +387,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Service configuration resource request was successful",
+            "description": "Service details",
             "schema": {
               "$ref": "#/definitions/ServiceConfigurationResource"
             }
@@ -403,7 +406,7 @@
           "ServiceConfigurations"
         ],
         "description": "Create or update a service in serviceConfiguration for the endpoint resource.",
-        "operationId": "ServiceConfigurations_CreateOrupdate",
+        "operationId": "ServiceConfigurations_CreateOrUpdate",
         "produces": [
           "application/json"
         ],
@@ -413,6 +416,9 @@
           },
           "ServiceConfigurationsPutWAC": {
             "$ref": "./examples/ServiceConfigurationsPutWAC.json"
+          },
+          "ServiceConfigurationsPutSQLMGMT": {
+            "$ref": "./examples/ServiceConfigurationsPutSQLMGMT.json"
           }
         },
         "parameters": [
@@ -521,7 +527,7 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "ServiceConfigurationsDeleteSSH": {
+          "ServiceconfigurationsDeleteSSH": {
             "$ref": "./examples/ServiceConfigurationsDeleteSSH.json"
           }
         },
@@ -690,8 +696,8 @@
           },
           {
             "name": "ManagedProxyRequest",
-            "in": "body",
             "required": true,
+            "in": "body",
             "schema": {
               "$ref": "#/definitions/ManagedProxyRequest"
             },
@@ -920,7 +926,8 @@
           "description": "Name of the service.",
           "enum": [
             "SSH",
-            "WAC"
+            "WAC",
+            "SQLMGMT"
           ],
           "x-ms-enum": {
             "name": "serviceName",
@@ -948,14 +955,14 @@
             "Canceled"
           ],
           "x-ms-enum": {
-            "name": "ProvisioningState",
+            "name": "result",
             "modelAsString": true
           }
         }
       }
     },
     "ServiceConfigurationResourcePatch": {
-      "description": "The service details under service configuration for the target endpoint resource.",
+      "description": "The service details under serviceconfiguration for the target resource.",
       "type": "object",
       "properties": {
         "properties": {
@@ -1032,7 +1039,8 @@
           "description": "The name of the service. It is an optional property, if not provided, service configuration tokens issue code would be by passed.",
           "enum": [
             "SSH",
-            "WAC"
+            "WAC",
+            "SQLMGMT"
           ],
           "x-ms-enum": {
             "name": "serviceName",
@@ -1043,14 +1051,15 @@
     },
     "ListCredentialsRequest": {
       "type": "object",
-      "description": "The details of the service for which credentials needs to be returned.",
+      "description": "Represent ListCredentials Request object.",
       "properties": {
         "serviceName": {
           "type": "string",
-          "description": "The name of the service. If not provided, the request will by pass the generation of service configuration token ",
+          "description": "The name of the service.",
           "enum": [
             "SSH",
-            "WAC"
+            "WAC",
+            "SQLMGMT"
           ],
           "x-ms-enum": {
             "name": "serviceName",
@@ -1068,7 +1077,8 @@
           "description": "The name of the service.",
           "enum": [
             "SSH",
-            "WAC"
+            "WAC",
+            "SQLMGMT"
           ],
           "x-ms-enum": {
             "name": "serviceName",

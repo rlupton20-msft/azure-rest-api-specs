@@ -1,0 +1,123 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+@armProviderNamespace("Microsoft.FixMe")
+@service({
+  title: "Microsoft.FixMe",
+  version: "2021-08-01-preview",
+})
+@versionedDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+namespace Microsoft.FixMe;
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.ResourceManager;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+#suppress "@azure-tools/cadl-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
+#suppress "@azure-tools/cadl-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
+
+@doc("FixMe Deployment resource")
+model Deployment is TrackedResource<DeploymentProperties> {
+  @doc("Name of Deployment.")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("DeploymentName")
+  @segment("Deployments")
+  @path
+  @visibility("read")
+  name: string;
+}
+
+@doc("The status of the current operation.")
+@Azure.Core.lroStatus
+enum ProvisioningState {
+  ...ResourceProvisioningState,
+  Provisioning,
+  Updating,
+  Deleting,
+  Accepted,
+}
+
+@doc("Details of the Deployment resource.")
+model DeploymentProperties {
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+
+  @doc("Deployment Prefix.")
+  @visibility("create", "update")
+  prefix:string;
+
+  @doc("Name of publisher.")
+  @visibility("create", "update")
+  publisherName:string;
+
+  @doc("Publisher Email.")
+  @visibility("create", "update")
+  publisherEmail:string;
+
+  @doc("The administrator password of the SQL logical server.")
+  @visibility("create", "update")
+  administratorLoginPassword:string;
+
+  @doc("Synapse Administrator Login.")
+  @visibility("create", "update")
+  synapseAdminLogin:string;
+
+  @doc("Synapse Administrator Tenant.")
+  @visibility("create", "update")
+  synapseAdminTenant:string;
+
+  @doc("Synapse Admininstrator SID.")
+  @visibility("create", "update")
+  synapseAdminSid:string;
+
+  @doc("Power Plaform Admininstrator User Name.")
+  @visibility("create", "update")
+  adminUserName:string;
+
+  @doc("Power Plaform Admininstrator Password.")
+  @visibility("create", "update")
+  adminPassword:string;
+  
+  @doc("Power Plaform Access Policy User Id.")
+  @visibility("create", "update")
+  accessPolicyUserId:string;
+  
+  @doc("Power Plaform Access Target Tenant Id.")
+  @visibility("create", "update")
+  targetTenantId:string;
+  
+  @doc("Power Plaform Helpdesk User Name.")
+  @visibility("create", "update")
+  helpDeskUserName:string;
+  
+  @doc("Power Plaform Helpdesk User Password.")
+  @visibility("create", "update")
+  helpDeskUserPswd:string;
+  
+  @doc("Power Plaform Target Environment.")
+  @visibility("create", "update")
+  targetEnvironment:string;
+
+  @doc("Power Plaform SQL Connection Id.")
+  @visibility("create", "update")
+  sqlConnectionId:string;
+  
+  @doc("Power Plaform One Drive Connection Id.")
+  @visibility("create", "update")
+  oneDriveConnectionId:string;
+  
+  @doc("Power Plaform Teams Connection Id.")
+  @visibility("create", "update")
+  teamsConnectionId:string;
+
+}
+
+@armResourceOperations
+interface Deployments extends ResourceOperations<Deployment, DeploymentProperties> {}

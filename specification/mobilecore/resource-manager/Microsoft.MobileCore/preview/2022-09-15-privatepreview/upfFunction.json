@@ -1,0 +1,415 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "UPFFunction",
+    "description": "The definitions in this swagger specification will be used to create UPFFunction",
+    "version": "2022-09-15-privatepreview",
+    "x-ms-code-generation-settings": {
+      "name": "NetworkFunctionResource"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/upfFunctions": {
+      "get": {
+        "tags": [
+          "UpfFunctions"
+        ],
+        "operationId": "UPF_Retrieve_All_By_MobilePacketCore",
+        "description": "Lists all the component resources in a network function.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of component resources.",
+            "schema": {
+              "$ref": "#/definitions/UpfFunctionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List components in network function": {
+            "$ref": "./examples/UpfListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/upfFunctions/{upfFunctionName}": {
+      "get": {
+        "tags": [
+          "UpfFunctions"
+        ],
+        "operationId": "UPF_Retrieve",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/UpfFunctionName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves the UPF resource.",
+            "schema": {
+              "$ref": "#/definitions/UpfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get UPF": {
+            "$ref": "./examples/UpfGet.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UpfFunctions"
+        ],
+        "operationId": "UPF_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/UpfFunctionName"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpfFunction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the UPF resource.",
+            "schema": {
+              "$ref": "#/definitions/UpfFunction"
+            }
+          },
+          "201": {
+            "description": "Creates the UPF resource.",
+            "schema": {
+              "$ref": "#/definitions/UpfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update Vendor resource": {
+            "$ref": "./examples/UpfCreate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "UpfFunctions"
+        ],
+        "operationId": "UPF_Delete",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/UpfFunctionName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletes the UPF resource."
+          },
+          "202": {
+            "description": "Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "204": {
+            "description": "Request is successful. Resource with the specified name does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete UPF": {
+            "$ref": "./examples/UpfDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      },
+      "patch": {
+        "description": "Update UPFFunctions tags.",
+        "tags": [
+          "UpfFunctions"
+        ],
+        "operationId": "UPF_UpdateTags",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/UpfFunctionName"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./common.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to the update device tags operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the UPF resource.",
+            "schema": {
+              "$ref": "#/definitions/UpfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete UPF": {
+            "$ref": "./examples/UpfUpdateTags.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UpfLcmConfig": {
+      "type": "object",
+      "properties": {
+        "l3amMaxPpe": {
+          "type": "integer",
+          "description": "Maximum number of PPE pods expected in this UPF."
+        },
+        "l3amSpreadFactor": {
+          "type": "integer",
+          "description": "The number of L3AM Resource Blocks that will be assigned to each PPE pod. Each resource block encapsulates an N3 loopback as well as the UE Pool chunks from the UE Pools configured on the N6 network instances."
+        },
+        "tdefEnabled": {
+          "type": "boolean",
+          "description": "Enable/disable traffic detection enforced function."
+        },
+        "cfgmgrLbIp": {
+          "type": "string",
+          "description": "Load Balancer IP address."
+        },
+        "pfcpExtSvcName": {
+          "type": "string",
+          "description": "Name of external pfcp service; default to sxa-sxb-n4."
+        },
+        "pfcpExtSvcType": {
+          "type": "string",
+          "description": "Interface type for pfcp microservice; default to sxa-sxb-n4."
+        },
+        "pfcpExtLbIp": {
+          "type": "string",
+          "description": "IP for the load balancer."
+        }
+      },
+      "required": [
+        "l3amMaxPpe",
+        "l3amSpreadFactor",
+        "tdefEnabled",
+        "cfgmgrLbIp",
+        "pfcpExtLbIp"
+      ],
+      "description": "UPF resource LCM configuration."
+    },
+    "UpfCmConfig": {
+      "type": "object",
+      "properties": {
+        "pfcpConfig": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.json#/definitions/PfcpConfig"
+          },
+          "minItems": 0,
+          "description": "The UPF BaseConfig resource definition."
+        }
+      }
+    },
+    "UpfFunctionPropertiesFormat": {
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "$ref": "./common.json#/definitions/ProvisioningState"
+        },
+        "nssiRefList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0,
+          "description": "References to NSS instances associated with this NF."
+        },
+        "nfAbstract": {
+          "$ref": "./common.json#/definitions/NfAbstract"
+        },
+        "lcmConfig": {
+          "$ref": "#/definitions/UpfLcmConfig"
+        },
+        "cmConfig": {
+          "$ref": "#/definitions/UpfCmConfig"
+        }
+      },
+      "required": [
+        "nfAbstract",
+        "lcmConfig",
+        "cmConfig"
+      ],
+      "description": "The UPF resource definition."
+    },
+    "UpfFunction": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/UpfFunctionPropertiesFormat",
+          "description": "Mobile network properties."
+        },
+        "systemData": {
+          "x-ms-client-flatten": true,
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/systemData",
+          "readOnly": true,
+          "description": "Metadata pertaining to creation and last modification of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "description": "The UPF network function resource."
+    },
+    "UpfFunctionListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UpfFunction"
+          },
+          "description": "A list of UPF function in a subscription or resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for network function API service call."
+    }
+  },
+  "parameters": {
+    "UpfFunctionName": {
+      "name": "upfFunctionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of UPF Function"
+    }
+  }
+}

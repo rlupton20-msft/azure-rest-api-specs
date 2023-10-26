@@ -1,0 +1,255 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@service({title: "Microsoft.ArcVmAks", version: "2023-04-01-preview"})
+@versionedDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+namespace Microsoft.ArcVmAks;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+enum ProvisioningState {
+  ...ResourceProvisioningState,
+}
+
+@doc("extended location")
+model ExtendedLocation {
+    @doc("extended location type: CustomLocation")
+    type: string;
+
+    @doc("extended location resource id")
+    name: string;
+}
+
+@doc("Arc Vm admin credential")
+model ArcVmCredential {
+    @doc("user name")
+    user: string;
+
+    @doc("password")
+    password: string;
+}
+
+@doc("Vm creation properties")
+model ArcVmCreateData {
+    @doc("admin credential")
+    credential?: ArcVmCredential;
+
+    @doc("Vm init custom data")
+    customData?: string;
+}
+
+// ArcVm
+@doc("The properties of ArcVm")
+model ArcVmProperties {
+    @doc("Hci Resource Id")
+    hciResourceId: string;
+
+    @doc("Cpu number")
+    cpu: int64;
+
+    @doc("memory size in bytes")
+    memory: int64;
+
+    @doc("vm image")
+    image: string;
+
+    @doc("os disk resource id")
+    osDisk: string;
+
+    @doc("data disk resource ids")
+    dataDisks?: string[];
+
+    @doc("network interface resource ids")
+    networkInterfaces?: string[];
+
+    @doc("vm creation data")
+    createVmData?: ArcVmCreateData;
+
+    @doc("vm state")
+    state: string;
+
+    @doc("Resource provision state")
+    provisioningState?: ProvisioningState;
+}
+
+@doc("An ArcVm")
+model ArcVmResource is TrackedResource<ArcVmProperties> {
+    @doc("Name of ArcVm")
+    @key("vmName")
+    @segment("vm")
+    @path
+    @visibility("read")
+    @maxLength(64)
+    name: string;
+
+    // Extended location is not included in TrackedResource yet
+    @doc("Custom location of ArcVm")
+    extendedLocation: ExtendedLocation;
+}
+
+@armResourceOperations
+interface ArcVm extends ResourceOperations<ArcVmResource, ArcVmProperties> {}
+
+// ArcDisk
+@doc("The properties of ArcDisk")
+model ArcDiskProperties {
+    @doc("Hci Resource Id")
+    hciResourceId: string;
+
+    @doc("disk size in bytes")
+    size: int64;
+
+    @doc("os of the disk")
+    os?: string;
+
+    @doc("Resource provision state")
+    provisioningState?: ProvisioningState;
+}
+
+@doc("An ArcDisk")
+model ArcDiskResource is TrackedResource<ArcDiskProperties> {
+    @doc("Name of ArcDisk")
+    @key("diskName")
+    @segment("disk")
+    @path
+    @visibility("read")
+    @maxLength(64)
+    name: string;
+
+    // Extended location is not included in TrackedResource yet
+    @doc("Custom location of ArcVm")
+    extendedLocation: ExtendedLocation;
+}
+
+@armResourceOperations
+interface ArcDisk extends ResourceOperations<ArcDiskResource, ArcDiskProperties> {}
+
+// ArcNic
+@doc("The properties of ArcNic")
+model ArcNicProperties {
+    @doc("Hci Resource Id")
+    hciResourceId: string;
+
+    @doc("Vnet resource id")
+    network: string;
+
+    @doc("Ipv4 settings")
+    ipv4Settings: string;
+
+    @doc("ip address")
+    ip?: string;
+
+    @doc("subnet mask")
+    subnetMask?: string;
+
+    @doc("gateway ip")
+    gatewayIp?: string;
+
+    @doc("dns ips")
+    dnsIps?: string[];
+
+    @doc("Resource provision state")
+    provisioningState?: ProvisioningState;
+}
+
+@doc("An ArcNic")
+model ArcNicResource is TrackedResource<ArcNicProperties> {
+    @doc("Name of ArcNic")
+    @key("nicName")
+    @segment("nic")
+    @path
+    @visibility("read")
+    @maxLength(64)
+    name: string;
+
+    // Extended location is not included in TrackedResource yet
+    @doc("Custom location of ArcVm")
+    extendedLocation: ExtendedLocation;
+}
+
+@armResourceOperations
+interface ArcNic extends ResourceOperations<ArcNicResource, ArcNicProperties> {}
+
+// ArcVnet
+@doc("The properties of ArcVnet")
+model ArcVnetProperties {
+    @doc("Hci Resource Id")
+    hciResourceId: string;
+
+    @doc("Network type")
+    networkType: string;
+
+    @doc("Resource provision state")
+    provisioningState?: ProvisioningState;
+}
+
+@doc("An ArcVnet")
+model ArcVnetResource is TrackedResource<ArcVnetProperties> {
+    @doc("Name of ArcVnet")
+    @key("vnetName")
+    @segment("vnet")
+    @path
+    @visibility("read")
+    @maxLength(64)
+    name: string;
+
+    // Extended location is not included in TrackedResource yet
+    @doc("Custom location of ArcVm")
+    extendedLocation: ExtendedLocation;
+}
+
+@armResourceOperations
+interface ArcVnet extends ResourceOperations<ArcVnetResource, ArcVnetProperties> {}
+
+// ArcAks
+@doc("The properties of ArcAks")
+model ArcAksProperties {
+    @doc("Hci Resource Id")
+    hciResourceId: string;
+
+    @doc("Worker node count")
+    workerNodeCount: int64;
+
+    @doc("Control plane node count")
+    controlPlaneNodeCount: int64;
+
+    @doc("Node CPU count")
+    nodeCpu: int64;
+
+    @doc("Node memory size in bytes")
+    nodeMemory: int64;
+
+    @doc("K8s version")
+    kubernetesVersion: string;
+
+    @doc("Resource provision state")
+    provisioningState?: ProvisioningState;
+}
+
+@doc("An ArcAks")
+model ArcAksResource is TrackedResource<ArcAksProperties> {
+    @doc("Name of ArcAks")
+    @key("aksName")
+    @segment("aks")
+    @path
+    @visibility("read")
+    @maxLength(64)
+    name: string;
+
+    // Extended location is not included in TrackedResource yet
+    @doc("Custom location of ArcAks")
+    extendedLocation: ExtendedLocation;
+}
+
+@armResourceOperations
+interface ArcAks extends ResourceOperations<ArcAksResource, ArcAksProperties> {}

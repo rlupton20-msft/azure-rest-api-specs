@@ -1,0 +1,419 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Odyssey Platform Management Service APIs",
+    "description": "Odyssey Platform Management Rest API spec.",
+    "version": "2022-10-13-preview"
+  },
+  "host": "management.azure.com",
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MCIOdyssey/checkNameAvailability": {
+      "post": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Checks the name availability of the resource with requested resource name.",
+        "operationId": "Locations_CheckNameAvailability",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "NameAvailabilityRequest object.",
+            "required": true,
+            "schema": {
+              "description": "NameAvailabilityRequest object.",
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MCIOdyssey/odysseyPlatformServices": {
+      "get": {
+        "tags": [
+          "UserRPOdysseyResource"
+        ],
+        "description": "Returns list of Odyssey Platform resources..",
+        "operationId": "OdysseyPlatformServices_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformServiceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MCIOdyssey/odysseyPlatformServices": {
+      "get": {
+        "tags": [
+          "UserRPOdysseyResource"
+        ],
+        "description": "Lists a collection of Odyssey resources under the given Azure Subscription ID.",
+        "operationId": "OdysseyPlatformServices_ListBySubscription",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned when the operation is successful.",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformServiceList"
+            }
+          },
+          "default": {
+            "x-nullable": false,
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MCIOdyssey/odysseyPlatformServices/{resourceName}": {
+      "get": {
+        "tags": [
+          "UserRPOdysseyResource"
+        ],
+        "description": "Returns Odyssey resource for a given name.",
+        "operationId": "OdysseyPlatformServices_Get",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformService"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UserRPOdysseyResource"
+        ],
+        "description": "Method that gets called if subscribed for ResourceCreationBegin trigger.",
+        "operationId": "OdysseyPlatformServices_Create",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceNameParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request body.",
+            "schema": {
+              "description": "Request body.",
+              "$ref": "#/definitions/OdysseyPlatformService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Odyssey resource created.",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformService"
+            }
+          },
+          "201": {
+            "description": "The Odyssey resource will be created asynchronously",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformService"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure. 404 - NotFound (Confidential Ledger could not be created/updated)",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "OdysseyPlatformServices_Update",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OdysseyResourceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the Odyssey resource.",
+            "schema": {
+              "$ref": "#/definitions/OdysseyPlatformService"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes Odyssey resource",
+        "operationId": "OdysseyPlatformServices_Delete",
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "202": {
+            "description": "The Odyssey resource will be deleted asynchronously"
+          },
+          "204": {
+            "description": "Returned when the operation returns no content."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.MCIOdyssey/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "description": "Lists the available operations of Microsoft.MCIOdyssey resource provider.",
+        "operationId": "Operations_List",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "OdysseyPlatformServiceList": {
+      "description": "The list of Odyssey resources.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of Odyssey resources list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of Odyssey resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OdysseyPlatformService"
+          }
+        }
+      }
+    },
+    "OdysseyPlatformServiceProperties": {
+      "type": "object",
+      "properties": {
+        "dnsName": {
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "enum": [
+            "Unknown",
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "Creating",
+            "Deleting",
+            "Updating"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "authAppId": {
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    },
+    "OdysseyPlatformService": {
+      "required": [
+        "location"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/OdysseyPlatformServiceProperties"
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "description": "Geo-location where the resource lives.",
+          "type": "string"
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v3/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The type of identity used for the resource."
+        }
+      }
+    },
+    "OdysseyResourceUpdate": {
+      "description": "The resource model definition used for updating a tracked ARM resource.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "parameters": {
+    "resourceNameParameter": {
+      "name": "resourceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The resource name."
+    }
+  }
+}

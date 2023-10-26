@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "HybridNetworkManagementClient",
+    "description": "The resources in this swagger specification will be used to manage the hybrid network site.",
+    "version": "2021-09-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {},
+  "definitions": {
+    "SubResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "description": "Reference to another sub resource.",
+      "x-ms-azure-resource": true
+    },
+    "CustomLocationResourceId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^/[sS][uU][bB][sS][cC][rR][iI][pP][tT][iI][oO][nN][sS]/[^/?#]+/[rR][eE][sS][oO][uU][rR][cC][eE][gG][rR][oO][uU][pP][sS]/[^/?#]+/[pP][rR][oO][vV][iI][dD][eE][rR][sS]/[mM][iI][cC][rR][oO][sS][oO][fF][tT]\\.[eE][xX][tT][eE][nN][dD][eE][dD][lL][oO][cC][aA][tT][iI][oO][nN]/[cC][uU][sS][tT][oO][mM][lL][oO][cC][aA][tT][iI][oO][nN][sS]/[^/?#]+$",
+          "description": "Azure ARC custom location resource ID."
+        }
+      },
+      "description": "Reference to an Azure ARC custom location resource.",
+      "x-ms-azure-resource": true
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "readOnly": true,
+      "description": "The current provisioning state.",
+      "enum": [
+        "Unknown",
+        "Succeeded",
+        "Accepted",
+        "Deleting",
+        "Failed",
+        "Canceled",
+        "Deleted"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "NFVIType": {
+      "type": "string",
+      "description": "The NFVI type.",
+      "enum": [
+        "Unknown",
+        "AseMecDevice",
+        "AzureArcK8sCustomLocation",
+        "AzureArcOpenStackCustomLocation"
+      ],
+      "x-ms-enum": {
+        "name": "NFVIType",
+        "modelAsString": true
+      }
+    },
+    "TagsObject": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Tags object for patch operations."
+    },
+    "GenericParameters": {
+      "type": "object",
+      "description": "The parameters for the generic object."
+    },
+    "NetworkFunctionDescriptor": {
+      "type": "object",
+      "properties": {
+        "nfviType": {
+          "$ref": "#/definitions/NFVIType",
+          "description": "The NFVI type."
+        },
+        "skuName": {
+          "type": "string",
+          "description": "The sku name for the network function."
+        },
+        "vendorName": {
+          "type": "string",
+          "description": "The vendor name for the network function."
+        },
+        "referenceName": {
+          "type": "string",
+          "description": "The reference name."
+        },
+        "upgradeRing": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "descriptor": {
+          "$ref": "#/definitions/GenericParameters",
+          "description": "The parameters for the descriptor."
+        }
+      },
+      "description": "The service descriptor configuration."
+    }
+  },
+  "parameters": {
+    "NetworkOrchestratorNameParameter": {
+      "name": "orchestratorName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+      "maxLength": 64,
+      "description": "The name of the network orchestrator.",
+      "x-ms-parameter-location": "method"
+    },
+    "SiteNameParameter": {
+      "name": "siteName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+      "maxLength": 64,
+      "description": "The name of the network orchestrator site.",
+      "x-ms-parameter-location": "method"
+    },
+    "ServiceDesciptorNameParameter": {
+      "name": "serviceDescriptorName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+      "maxLength": 64,
+      "description": "The name of the service descriptor.",
+      "x-ms-parameter-location": "method"
+    },
+    "NetworkServiceNameParameter": {
+      "name": "networkServiceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+      "maxLength": 64,
+      "description": "The name of the network service.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

@@ -1,0 +1,467 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2022-07-11-privatepreview",
+    "title": "euclid",
+    "description": "Description of the new service",
+    "x-ms-code-generation-settings": {
+      "name": "euclidClient"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "security": [
+    {
+      "azure_auth": ["user_impersonation"]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Euclid/keyvaults": {
+      "get": {
+        "description": "Returns list of Euclid Key Vaults.",
+        "operationId": "KeyVaults_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key Vault details.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Euclid/keyvaults": {
+      "get": {
+        "description": "Returns list of Key Vaults.",
+        "operationId": "KeyVaults_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key Vault details.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Euclid/keyvaults/{keyVaultName}": {
+      "get": {
+        "description": "Returns Key Vault resource for a given name.",
+        "operationId": "KeyVault_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/KeyVaultNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key Vault details.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes Key Vault resource for a given name.",
+        "operationId": "KeyVault_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/KeyVaultNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletes the Key Vault details."
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update Key Vault resource.",
+        "operationId": "KeyVault_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/KeyVaultNameParameter"
+          },
+          {
+            "name": "KeyVaultResource",
+            "description": "Key Vault details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update Key Vault details.",
+        "operationId": "KeyVault_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/KeyVaultNameParameter"
+          },
+          {
+            "name": "KeyVaultPatchResource",
+            "description": "Key Vault patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/KeyVaultPatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultResource"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.Euclid/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operation_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Euclid/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "OperationResourceGroup_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {    
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "KeyVaultResource": {
+      "type": "object",
+      "description": "Key Vault details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "workspaceName",
+            "sandboxName",
+            "supportedCertificateType"
+          ],
+          "properties": {
+            "workspaceName": {
+              "type": "string",
+              "description": "Name of the Euclid Workspace the key vault is part of.",
+              "minLength": 1,
+              "maxLength": 25,
+              "pattern": "^[A-Za-z0-9-._]+$"
+            },
+            "sandboxName": {
+              "type": "string",
+              "description": "Name of the Euclid Sandbox the key vault is part of.",
+              "minLength": 1,
+              "maxLength": 25,
+              "pattern": "^[A-Za-z0-9-._]+$"
+            },
+            "supportedCertificateType": {
+              "type": "string",
+              "description": "Supported Certificate Type.",
+              "minLength": 1,
+              "maxLength": 25,
+              "pattern": "^[A-Za-z0-9-._]+$"
+            }
+          }
+        }
+      }
+    },
+    "KeyVaultPatchResource": {
+      "type": "object",
+      "description": "Key Vault patch properties",
+      "properties": {
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "group like Finance, HR etc..."
+            }
+          }
+        }
+      }
+    },
+    "KeyVaultResourceList": {
+      "description": "The list of key vaults.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of key vault list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KeyVaultResource"
+          }
+        }
+      }
+    },
+    "operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "operationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "KeyVaultNameParameter": {
+      "name": "keyVaultName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name key vault resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

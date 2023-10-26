@@ -48,13 +48,13 @@ input-file:
   - Qumulo.Storage/preview/2022-06-27-preview/Qumulo.Storage.json
 ```
 
-### Tag: package-2022-10-12-preview
+### Tag: package-2023-08-29-preview
 
-These settings apply only when `--tag=package-2022-10-12-preview` is specified on the command line.
+These settings apply only when `--tag=package-2023-08-29-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-10-12-preview'
+``` yaml $(tag) == 'package-2023-08-29-preview'
 input-file:
-  - Qumulo.Storage/preview/2022-10-12-preview/Qumulo.Storage.json
+  - Qumulo.Storage/preview/2023-08-29-preview/Qumulo.Storage.json
 ```
 
 ---
@@ -70,7 +70,7 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions

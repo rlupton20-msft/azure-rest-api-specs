@@ -120,12 +120,11 @@
           "type": "string",
           "enum": [
             "BasePrice",
-            "LicenseIncluded",
-            "DisasterRecovery"
+            "LicenseIncluded"
           ],
           "x-ms-enum": {
             "name": "arcSqlManagedInstanceLicenseType",
-            "modelAsString": true
+            "modelAsString": false
           },
           "default": "BasePrice",
           "description": "The license type to apply for this managed instance."
@@ -161,7 +160,9 @@
           "$ref": "#/definitions/SqlManagedInstanceK8sSpec"
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "SqlManagedInstanceK8sSpec": {
       "type": "object",
@@ -176,7 +177,9 @@
           "description": "This option specifies the number of SQL Managed Instance replicas that will be deployed in your Kubernetes cluster for high availability purposes. If sku.tier is BusinessCritical, allowed values are '2' or '3' with default of '3'. If sku.tier is GeneralPurpose, replicas must be '1'."
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "K8sScheduling": {
       "type": "object",
@@ -186,7 +189,9 @@
           "$ref": "#/definitions/K8sSchedulingOptions"
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "K8sSchedulingOptions": {
       "type": "object",
@@ -196,7 +201,9 @@
           "$ref": "#/definitions/K8sResourceRequirements"
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "K8sResourceRequirements": {
       "type": "object",
@@ -204,16 +211,22 @@
       "properties": {
         "requests": {
           "type": "object",
-          "additionalProperties": {},
+          "additionalProperties": {
+            "type": "string"
+          },
           "description": "Requests for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu' request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default 'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and maximum 'memory' is '128Gi'."
         },
         "limits": {
           "type": "object",
-          "additionalProperties": {},
+          "additionalProperties": {
+            "type": "string"
+          },
           "description": "Limits for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu' request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default 'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and maximum 'memory' is '128Gi'."
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "SqlManagedInstanceListResult": {
       "description": "A list of SqlManagedInstance.",
@@ -233,6 +246,59 @@
           "readOnly": true
         }
       }
+    },
+    "SqlManagedInstanceRestoreProperties": {
+      "type": "object",
+      "description": "The information needed to restore a database using Point-in-time Restore",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the source Azure Arc-enabled SQL managed instance."
+            },
+            "database": {
+              "type": "string",
+              "description": "Name of the source database from where the backups should be retrieved."
+            }
+          },
+          "required": [
+            "name",
+            "database"
+          ]
+        },
+        "restorePoint": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The point in time of the source database that will be restored to create the new database."
+        },
+        "destination": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the destination Azure Arc-enabled SQL managed instance."
+            },
+            "database": {
+              "type": "string",
+              "description": "Name of the database that will be created as the restore destination."
+            }
+          },
+          "required": [
+            "name",
+            "database"
+          ]
+        },
+        "dryRun": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source",
+        "restorePoint",
+        "destination"
+      ]
     }
   }
 }

@@ -26,6 +26,7 @@ These are the global settings for the dfp.
 
 ```yaml
 openapi-type: arm
+openapi-subtype: rpaas
 tag: package-2021-02-01-preview
 ```
 
@@ -55,7 +56,6 @@ swagger-to-sdk:
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions
-  - repo: azure-powershell
 ```
 ## Az
 

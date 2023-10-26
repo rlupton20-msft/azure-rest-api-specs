@@ -401,63 +401,63 @@
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/extendSoftwareAssuranceBenefit": {
-      "post": {
-        "tags": [
-          "Cluster"
-        ],
-        "operationId": "Clusters_ExtendSoftwareAssuranceBenefit",
-        "description": "Extends Software Assurance Benefit to a cluster",
-        "x-ms-examples": {
-          "Create cluster Identity": {
-            "$ref": "./examples/ExtendSoftwareAssuranceBenefit.json"
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ClusterNameParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "softwareAssuranceChangeRequest",
-            "in": "body",
-            "description": "Software Assurance Change Request Payload",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SoftwareAssuranceChangeRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Cluster"
-            }
-          },
-          "202": {
-            "description": "Accepted"
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        }
-      }
-    }
+			"post": {
+				"tags": [
+					"Cluster"
+				],
+				"operationId": "Clusters_ExtendSoftwareAssuranceBenefit",
+				"description": "Extends Software Assurance Benefit to a cluster",
+				"x-ms-examples": {
+					"Create cluster Identity": {
+						"$ref": "./examples/ExtendSoftwareAssuranceBenefit.json"
+					}
+				},
+				"parameters": [
+					{
+						"$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/ClusterNameParameter"
+					},
+					{
+						"$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+					},
+					{
+						"name": "softwareAssuranceChangeRequest",
+						"in": "body",
+						"description": "Software Assurance Change Request Payload",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SoftwareAssuranceChangeRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Cluster"
+						}
+					},
+					"202": {
+						"description": "Accepted"
+					},
+					"default": {
+						"description": "Error response describing why the operation failed.",
+						"schema": {
+							"$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-long-running-operation": true,
+				"x-ms-long-running-operation-options": {
+					"final-state-via": "location"
+				}
+			}
+		}
   },
   "definitions": {
     "ClusterList": {
@@ -493,6 +493,11 @@
           "x-ms-client-flatten": true,
           "readOnly": true
         },
+        "identity": {
+          "description": "Identity of Cluster resource",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "x-ms-client-flatten": true
+        },
         "properties": {
           "description": "Cluster properties.",
           "$ref": "#/definitions/ClusterProperties",
@@ -510,6 +515,11 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "identity": {
+          "description": "Identity of Cluster resource",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "x-ms-client-flatten": true
         },
         "properties": {
           "description": "Cluster properties.",
@@ -580,9 +590,9 @@
           "type": "string"
         },
         "softwareAssuranceProperties": {
-          "description": "Software Assurance properties of the cluster.",
-          "$ref": "#/definitions/SoftwareAssuranceProperties"
-        },
+					"description": "Software Assurance properties of the cluster.",
+					"$ref": "#/definitions/SoftwareAssuranceProperties"
+				},
         "desiredProperties": {
           "description": "Desired properties of the cluster.",
           "$ref": "#/definitions/ClusterDesiredProperties"
@@ -650,41 +660,41 @@
       }
     },
     "SoftwareAssuranceProperties": {
-      "description": "Software Assurance properties of the cluster.",
-      "type": "object",
-      "properties": {
-        "softwareAssuranceStatus": {
-          "description": "Status of the Software Assurance for the cluster.",
-          "type": "string",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "name": "SoftwareAssuranceStatus",
-            "modelAsString": true
-          }
-        },
-        "softwareAssuranceIntent": {
-          "description": "Customer Intent for Software Assurance Benefit.",
-          "type": "string",
-          "enum": [
-            "Enable",
-            "Disable"
-          ],
-          "x-ms-enum": {
-            "name": "SoftwareAssuranceIntent",
-            "modelAsString": true
-          }
-        },
-        "lastUpdated": {
-          "description": "TimeStamp denoting the latest SA benefit applicability is validated.",
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        }
-      }
-    },
+			"description": "Software Assurance properties of the cluster.",
+			"type": "object",
+			"properties": {
+				"softwareAssuranceStatus": {
+					"description": "Status of the Software Assurance for the cluster.",
+					"type": "string",
+					"enum": [
+						"Enabled",
+						"Disabled"
+					],
+					"x-ms-enum": {
+						"name": "SoftwareAssuranceStatus",
+						"modelAsString": true
+					}
+				},
+				"softwareAssuranceIntent": {
+					"description": "Customer Intent for Software Assurance Benefit.",
+					"type": "string",
+					"enum": [
+						"Enable",
+						"Disable"
+					],
+					"x-ms-enum": {
+						"name": "SoftwareAssuranceIntent",
+						"modelAsString": true
+					}
+				},
+				"lastUpdated": {
+					"description": "TimeStamp denoting the latest SA benefit applicability is validated.",
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				}
+			}
+		},
     "ClusterDesiredProperties": {
       "description": "Desired properties of the cluster.",
       "type": "object",
@@ -881,31 +891,23 @@
       "additionalProperties": false
     },
     "SoftwareAssuranceChangeRequestProperties": {
-      "type": "object",
-      "properties": {
-        "softwareAssuranceIntent": {
-          "type": "string",
-          "enum": [
-            "Enable",
-            "Disable"
-          ],
-          "x-ms-enum": {
-            "name": "SoftwareAssuranceIntent",
-            "modelAsString": true
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "SoftwareAssuranceChangeRequest": {
-      "type": "object",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SoftwareAssuranceChangeRequestProperties"
-        }
-      },
-      "additionalProperties": false
-    },
+			"type": "object",
+			"properties": {
+				"softwareAssuranceIntent": {
+					"type": "string"
+				}
+			},
+			"additionalProperties": false
+		},
+		"SoftwareAssuranceChangeRequest": {
+			"type": "object",
+			"properties": {
+				"properties": {
+					"$ref": "#/definitions/SoftwareAssuranceChangeRequestProperties"
+				}
+			},
+			"additionalProperties": false
+		},
     "ClusterIdentityResponse": {
       "description": "Cluster Identity details.",
       "type": "object",

@@ -39,6 +39,16 @@ These settings apply only when `--tag=package-2023-07-01` is specified on the co
 input-file:
   - Microsoft.DeviceUpdate/stable/2023-07-01/deviceupdate.json
 ```
+
+### Tag: package-2023-09-01-preview
+
+These settings apply only when `--tag=package-2023-09-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-09-01-preview'
+input-file:
+  - Microsoft.DeviceUpdate/preview/2023-09-01-preview/deviceupdate.json
+```
+
 ### Tag: package-2022-12-01-preview
 
 These settings apply only when `--tag=package-2022-12-01-preview` is specified on the command line.
@@ -85,7 +95,7 @@ directive:
     reason: Managed Identity type can be case in-sensitive
   - suppress: BodyTopLevelProperties
     from: deviceupdate.json
-    where: $.definitions.PrivateEndpointConnectionProxy.properties
+    where: $.definitions.PrivateEndpointConnectionProxy
     reason: Internal NRP resource, all properties are top level properties
 ```
 

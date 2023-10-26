@@ -1,0 +1,342 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-resource-manager";
+import "@azure-tools/cadl-providerhub-controller";
+import "@azure-tools/cadl-autorest";
+import "./models.cadl";
+
+namespace PaloAltoNetworks.Cloudngfw;
+
+using Azure.ARM;
+using Azure.ResourceManager;
+using Cadl.Http;
+
+@doc("Address properties")
+model SourceAddr {
+  @doc("special value 'any'")
+  cidrs?: string[];
+
+  @doc("list of countries")
+  countries?: string[];
+
+  @doc("list of feeds")
+  feeds?: string[];
+
+  @doc("prefix list")
+  prefixLists?: string[];
+}
+
+@doc("destination address")
+model DestinationAddr {
+  @doc("special value 'any'")
+  cidrs?: string[];
+
+  @doc("list of countries")
+  countries?: string[];
+
+  @doc("list of feeds")
+  feeds?: string[];
+
+  @doc("prefix list")
+  prefixLists?: string[];
+
+  @doc("fqdn list")
+  fqdnLists?: string[];
+}
+
+@doc("URL/EDL to match")
+model Category {
+  @doc("custom URL")
+  urlCustom: string[];
+
+  @doc("feed list")
+  feeds: string[];
+}
+
+enum ActionEnumValues {
+  "Allow",
+  "DenySilent",
+  "DenyResetServer",
+  "DenyResetBoth",
+}
+
+@knownValues(
+  ActionEnumValues
+)
+model ActionEnum is string {}
+
+enum DecryptionRuleTypeEnumValues {
+  "SSLOutboundInspection",
+  "SSLInboundInspection",
+  "None",
+}
+
+@knownValues(
+  DecryptionRuleTypeEnumValues
+)
+model DecryptionRuleTypeEnum is string {}
+
+@doc("Tag")
+model TagInfo {
+  @doc("tag name")
+  key: string;
+
+  @doc("tag value")
+  value: string;
+}
+
+@doc("definition of rule")
+model RuleEntry {
+  @doc("etag info")
+  etag?: string;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @visibility("read")
+  priority?: int32;
+
+  @doc("rule description")
+  description?: string;
+
+  @doc("state of this rule")
+  ruleState?: StateEnum;
+
+  @doc("source address")
+  source?: SourceAddr;
+
+  @doc("cidr should not be 'any'")
+  negateSource?: BooleanEnum;
+
+  @doc("destination address")
+  destination?: DestinationAddr;
+
+  @doc("cidr should not be 'any'")
+  negateDestination?: BooleanEnum;
+
+  @doc("array of rule applications")
+  applications?: string[];
+
+  @doc("rule category")
+  category?: Category;
+
+  @doc("any, application-default, TCP:number, UDP:number")
+  protocol?: string = "application-default";
+
+  @doc("prot port list")
+  protocolPortList?: string[];
+
+  @doc("inbound Inspection Certificate")
+  inboundInspectionCertificate?: string;
+
+  @doc("rule comment")
+  auditComment?: string;
+
+  @doc("rule action")
+  actionType?: ActionEnum;
+
+  @doc("enable or disable logging")
+  enableLogging?: StateEnum;
+
+  @doc("enable or disable decryption")
+  decryptionRuleType?: DecryptionRuleTypeEnum;
+
+  @doc("tag for rule")
+  tags?: TagInfo[];
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("List of Rules associated with Firewall")
+model FirewallRules {
+  rules: Rule[];
+}
+
+@doc("Read only rule data")
+model Rule {
+  @doc("Rule type")
+  type: RulesTypeEnum;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @doc("Rule priority")
+  priority: int32;
+
+  @doc("rule description")
+  description?: string;
+
+  @doc("state of this rule")
+  ruleState?: StateEnum;
+
+  @doc("source address")
+  source?: SourceAddr;
+
+  @doc("cidr should not be 'any'")
+  negateSource?: BooleanEnum;
+
+  @doc("destination address")
+  destination?: DestinationAddr;
+
+  @doc("cidr should not be 'any'")
+  negateDestination?: BooleanEnum;
+
+  @doc("array of rule applications")
+  applications?: string[];
+
+  @doc("rule category")
+  category?: Category;
+
+  @doc("any, application-default, TCP:number, UDP:number")
+  protocol?: string = "application-default";
+
+  @doc("prot port list")
+  protocolPortList?: string[];
+
+  @doc("inbound Inspection Certificate")
+  inboundInspectionCertificate?: string;
+
+  @doc("rule comment")
+  auditComment?: string;
+
+  @doc("rule action")
+  actionType?: ActionEnum;
+
+  @doc("enable or disable logging")
+  enableLogging?: StateEnum;
+
+  @doc("enable or disable decryption")
+  decryptionRuleType?: DecryptionRuleTypeEnum;
+
+  @doc("tag for rule")
+  tags?: TagInfo;
+
+  @doc("etag info")
+  etag?: string;
+}
+
+enum RulesTypeEnumValues {
+  "LocalRule",
+  "PreRule",
+  "PostRule",
+}
+
+@knownValues(
+  RulesTypeEnumValues
+)
+model RulesTypeEnum is string {}
+
+@doc("Rule counter")
+model RuleCounter {
+  @doc("priority number")
+  priority: string;
+
+  @doc("rule Stack Name")
+  ruleStackName?: string;
+
+  @doc("rule list name")
+  ruleListName?: string;
+
+  @doc("firewall name")
+  firewallName?: string;
+
+  @doc("rule name")
+  ruleName: string;
+
+  @doc("hit count")
+  hitCount?: int32;
+
+  @doc("apps seen")
+  appSeen?: AppSeenData;
+
+  @doc("timestamp of response")
+  timestamp?: zonedDateTime;
+
+  @doc("timestamp of request")
+  requestTimestamp?: zonedDateTime;
+
+  @doc("last updated timestamp")
+  lastUpdatedTimestamp?: zonedDateTime;
+}
+
+@doc("Data Type for App Seen")
+model AppSeenData {
+  @doc("number of rows")
+  count: int32;
+
+  @doc("array of appSeen")
+  appSeenList: AppSeenInfo[];
+}
+
+@doc("Definition for App Seen")
+model AppSeenInfo {
+  @doc("title")
+  title: string;
+
+  @doc("category")
+  category: string;
+
+  @doc("subCategory")
+  subCategory: string;
+
+  @doc("risk")
+  risk: string;
+
+  @doc("tag")
+  tag: string;
+
+  @doc("technology")
+  technology: string;
+
+  @doc("standardPorts")
+  standardPorts: string;
+}
+
+@doc("Rule counter reset")
+model RuleCounterReset {
+  @visibility("read")
+  @doc("priority number")
+  priority?: string;
+
+  @doc("rule Stack Name")
+  ruleStackName?: string;
+
+  @doc("rule list name")
+  ruleListName?: string;
+
+  @doc("firewall name")
+  firewallName?: string;
+
+  @doc("rule name")
+  ruleName?: string;
+}
+
+@doc("Enabled or Disabled Enum")
+enum StateEnumValues {
+  DISABLED,
+  ENABLED,
+}
+
+@knownValues(
+  StateEnumValues
+)
+model StateEnum is string {}
+
+@doc("Boolean Enum")
+enum BooleanEnumValues {
+  TRUE,
+  FALSE,
+}
+
+@knownValues(
+  BooleanEnumValues
+)
+model BooleanEnum is string {}
+
+@doc("Paginated Rules response")
+model RulesResponse {
+  value: Rule[];
+  nextLink?: string;
+}

@@ -1,0 +1,373 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2023-10-01-preview",
+    "title": "Schema Registry",
+    "description": "Use this API to manage schema registry resources in your Azure subscription."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}": {
+      "get": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Get the metadata of an schema registry definition.",
+        "operationId": "SchemaRegistry_Get",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The body contains all the non-security properties of the schema registry definition. Security-related properties are set to null.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          },
+          "default": {
+            "description": "Default error response",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Create or update the metadata of an schema registry definition. The usual pattern to modify a property is to retrieve the schema registry definition metadata and security metadata, and then combine them with the modified values in a new body to update the schema registry definition.",
+        "operationId": "SchemaRegistry_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          },
+          {
+            "name": "SchemaRegistry",
+            "in": "body",
+            "description": "The schema registry definition metadata and security metadata.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update request is being processed. The body contains the resource representation that indicates a transitional provisioning state.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "description": "URL to query for status of the operation. Returns current state, progress, and error metadata for the operation.",
+                "type": "string"
+              },
+              "Retry-After": {
+                "description": "How long the user should wait before making a follow-up request.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          },
+          "201": {
+            "description": "Create request is being processed. The body contains the resource representation that indicates a transitional provisioning state.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "description": "URL to query for status of the operation. Returns current state, progress, and error metadata for the operation.",
+                "type": "string"
+              },
+              "Retry-After": {
+                "description": "How long the user should wait before making a follow-up request.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Update the metadata of an schema registry definition.",
+        "operationId": "SchemaRegistry_Update",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          },
+          {
+            "name": "SchemaRegistry",
+            "in": "body",
+            "description": "The schema registry definition metadata.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistryPatchPayload"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted - Patch request accepted; the operation will complete asynchronously.",
+            "headers": {
+              "Location": {
+                "description": "URL to query for status of the operation. Returns 202 Accepted while the operation is in progress.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Delete an schema registry definition.",
+        "operationId": "SchemaRegistry_Delete",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted - Delete request accepted; the operation will complete asynchronously.",
+            "headers": {
+              "Location": {
+                "description": "URL to query for status of the operation. Returns 202 Accepted while the operation is in progress.",
+                "type": "string"
+              }
+            }
+          },
+          "204": {
+            "description": "If the resource does not exist, a 204 No Content status code is returned."
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/schemaRegistries": {
+      "get": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Get all schema registry definitions in a subscription.",
+        "operationId": "SchemaRegistry_ListBySubscription",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the schema registry definitions in the subscription.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistryListResult"
+            }
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries": {
+      "get": {
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Get all the schema registry definitions in a resource group.",
+        "operationId": "SchemaRegistry_ListByResourceGroup",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the schema registry definitions in the resource group.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistryListResult"
+            }
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "SchemaRegistry": {
+      "description": "The Schema Registry definition.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "The common properties of an schema registry definition.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SchemaRegistryProperties"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "SchemaRegistryProperties": {
+      "description": "The properties of a schema registry definition.",
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "description": "The unique identifier of the schema registry.",
+          "type": "string",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The display name of the schema registry.",
+          "type": "string"
+        }
+      }
+    },
+    "SchemaRegistryPatchPayload": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "properties": {
+          "$ref": "#/definitions/SchemaRegistryProperties",
+          "description": "Schema Registry definition metadata."
+        }
+      },
+      "description": "definition for Patch operation."
+    },
+    "SchemaRegistryListResult": {
+      "description": "A list of schema registry definitions with a next link.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of schema registry definitions.",
+          "type": "string"
+        },
+        "value": {
+          "description": "A list of schema registry definitions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaRegistry"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "schemaRegistryName": {
+      "name": "schemaRegistryName",
+      "in": "path",
+      "description": "The ARM resource name of the schema registry definition.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

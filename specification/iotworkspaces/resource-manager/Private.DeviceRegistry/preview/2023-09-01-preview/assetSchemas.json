@@ -1,0 +1,261 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Asset Schema Resource Provider",
+    "description": "Asset schema definition.",
+    "version": "2023-09-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{assetSchemaName}/assetSchemas": {
+      "get": {
+        "tags": [
+          "AssetSchemas"
+        ],
+        "operationId": "AssetSchemas_ListBySchemaRegistry",
+        "description": "List all asset schemas in a schema registry.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/assetSchemaName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Asset Schemas.",
+            "schema": {
+              "$ref": "#/definitions/AssetSchemaResponseList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/assetSchemas/{assetSchemaName}": {
+      "get": {
+        "tags": [
+          "AssetSchemas"
+        ],
+        "operationId": "AssetSchemas_GetById",
+        "description": "Get asset schema in a schema registry by id.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/assetSchemaName"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Asset Schema with id.",
+            "schema": {
+              "$ref": "#/definitions/AssetSchema"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AssetSchemas"
+        ],
+        "description": "Create an asset schema definition.",
+        "operationId": "AssetSchemas_Create",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/assetSchemaName"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          },
+          {
+            "name": "AssetSchema",
+            "in": "body",
+            "description": "The asset schema definition metadata.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AssetSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "Asset Schema is created or updated (replaced) successfully.",
+            "schema": {
+              "$ref": "#/definitions/AssetSchema"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "tags": [
+          "AssetSchemas"
+        ],
+        "description": "Delete an asset schema definition.",
+        "operationId": "AssetSchemas_Delete",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/assetSchemaName"
+          },
+          {
+            "$ref": "#/parameters/schemaRegistryName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset Schema is deleted successfully.",
+            "schema": {
+              "$ref": "#/definitions/AssetSchema"
+            }
+          },
+          "204": {
+            "description": "If the resource does not exist, a 204 No Content status code is returned."
+          },
+          "default": {
+            "description": "DefaultErrorResponse",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "AssetSchemaResponseList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AssetSchema"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      },
+      "description": "List of AssetSchemas."
+    },
+    "AssetSchema": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AssetSchemaProperties",
+          "description": "Asset Schema Resource properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AssetSchemaProperties": {
+      "description": "Defines the Asset Schema properties.",
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "description": "Globally unique, immutable, non-reusable id for the asset schema.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Name of the asset schema.",
+          "type": "string"
+        },
+        "schema": {
+          "description": "An string containing all user-defined properties of the asset schema.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "assetSchemaName": {
+      "name": "assetSchemaName",
+      "in": "path",
+      "description": "The resource id of the asset schema definition.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "schemaRegistryName": {
+      "name": "schemaRegistryName",
+      "in": "path",
+      "description": "The id of the schema registry definition.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

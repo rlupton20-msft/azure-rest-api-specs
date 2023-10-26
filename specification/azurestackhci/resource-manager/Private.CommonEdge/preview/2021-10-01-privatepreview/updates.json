@@ -1,0 +1,439 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "2021-01-01-preview",
+        "title": "AzureStackHCI",
+        "description": "Azure Stack HCI management service"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "security": [
+        {
+            "azure_auth": [
+                "user_impersonation"
+            ]
+        }
+    ],
+    "securityDefinitions": {
+        "azure_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+            "flow": "implicit",
+            "description": "Azure Active Directory OAuth2 Flow",
+            "scopes": {
+                "user_impersonation": "impersonate your user account"
+            }
+        }
+    },
+    "paths": {
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.CommonEdge/devices/{deviceName}/updates": {
+            "get": {
+                "tags": [
+                    "updates"
+                ],
+                "operationId": "updates_ListByResourceGroup",
+                "x-ms-examples": {
+                    "List updates in a given resource group": {
+                        "$ref": "./examples/ListUpdatesByResourceGroup.json"
+                    }
+                },
+                "description": "List all HCI updates in a resource group.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/deviceNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/updateList"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.CommonEdge/devices/{deviceName}/updates/{updateName}": {
+            "get": {
+                "tags": [
+                    "updates"
+                ],
+                "operationId": "updates_Get",
+                "x-ms-examples": {
+                    "Get updates": {
+                        "$ref": "./examples/GetUpdate.json"
+                    }
+                },
+                "description": "Get HCI updates.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/updateNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/deviceNameParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/update"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "updates"
+                ],
+                "operationId": "updates_Create",
+                "x-ms-examples": {
+                    "Create updates": {
+                        "$ref": "./examples/CreateUpdate.json"
+                    }
+                },
+                "description": "Create an HCI update.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/deviceNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/updateNameParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "name": "update",
+                        "in": "body",
+                        "description": "Details of the HCI update.",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/update"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/update"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "updates"
+                ],
+                "operationId": "updates_Update",
+                "x-ms-examples": {
+                    "Update update": {
+                        "$ref": "./examples/UpdateUpdate.json"
+                    }
+                },
+                "description": "Update an HCI updates.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/deviceNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/updateNameParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "name": "update",
+                        "in": "body",
+                        "description": "Details of the HCI update.",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/updatePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/update"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "updates"
+                ],
+                "operationId": "updates_Delete",
+                "x-ms-examples": {
+                    "Delete update": {
+                        "$ref": "./examples/DeleteUpdate.json"
+                    }
+                },
+                "description": "Delete an HCI update.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/deviceNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/updateNameParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No content"
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "updateList": {
+            "description": "List of updates.",
+            "type": "object",
+            "properties": {
+                "value": {
+                    "description": "List of updates.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/update"
+                    }
+                },
+                "nextLink": {
+                    "description": "Link to the next set of results.",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
+        "update": {
+            "description": "Update details.",
+            "type": "object",
+            "required": [
+                "kind"
+            ],
+            "allOf": [
+                {
+                    "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+                }
+            ],
+            "properties": {
+                "kind": {
+                    "description": "Type",
+                    "enum": [
+                        "Light",
+                        "HCI"
+                    ],
+                    "type": "string",
+                    "x-ms-enum": {
+                        "name": "Types",
+                        "modelAsString": true
+                    }
+                },
+                "allOf": {
+                    "$ref": "#/definitions/UpdateProperties"
+                }
+            },
+            "discriminator": "kind"
+        },
+        "UpdateProperties": {
+            "description": "ArcSetting properties.",
+            "type": "object",
+            "properties": {
+                "friendlyName": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                }
+            }
+        },
+        "LightUpdate": {
+            "description": "LightUpdate",
+            "required": [
+                "kind"
+            ],
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/update"
+                }
+            ],
+            "properties": {
+                "description": {
+                    "description": "description",
+                    "type": "string"
+                },
+                "compatibility": {
+                    "$ref": "#/definitions/compatibility",
+                    "x-ms-client-flatten": true
+                }
+            },
+            "x-ms-discriminator-value": "Light"
+        },
+        "HCIUpdate": {
+            "description": "HCIUpdate",
+            "required": [
+                "kind"
+            ],
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/update"
+                }
+            ],
+            "properties": {
+                "releaseLink": {
+                    "type": "string"
+                },
+                "rebootRequired": {
+                    "type": "string"
+                },
+                "progressPercentage": {
+                    "type": "string"
+                }
+            },
+            "x-ms-discriminator-value": "HCI"
+        },
+        "compatibility": {
+            "type": "object",
+            "properties": {
+                "deviceManufacturer": {
+                    "type":"string"
+                },
+                "deviceModel": {
+                    "type": "string"
+                }
+            }
+        },
+        "updatePatch": {
+            "description": "update details to update.",
+            "type": "object",
+            "properties": {
+                "tags": {
+                    "description": "Resource tags.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "description": "updates properties.",
+                    "$ref": "#/definitions/updatePatchProperties",
+                    "x-ms-client-flatten": true
+                }
+            }
+        },
+        "updatePatchProperties": {
+            "description": "update properties.",
+            "type": "object",
+            "properties": {}
+        }
+    },
+    "parameters": {
+        "deviceNameParameter": {
+            "name": "deviceName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the device.",
+            "x-ms-parameter-location": "method"
+        },
+        "updateNameParameter": {
+            "name": "updateName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the update.",
+            "x-ms-parameter-location": "method"
+        }
+    }
+}

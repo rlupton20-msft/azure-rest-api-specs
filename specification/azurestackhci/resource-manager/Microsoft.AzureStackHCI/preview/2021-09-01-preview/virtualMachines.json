@@ -40,7 +40,6 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualmachines/{virtualmachinesName}": {
       "get": {
         "operationId": "virtualmachines_Retrieve",
-        "description": "Gets virtual machines by resource name",
         "x-ms-examples": {
           "GetVirtualMachine": {
             "$ref": "./examples/GetVirtualMachine.json"
@@ -68,7 +67,7 @@
             }
           },
           "200": {
-            "description": "Retrieved the virtual machine resource.",
+            "description": "Retrieves the virtualmachines resource.",
             "schema": {
               "$ref": "#/definitions/virtualmachines"
             }
@@ -122,13 +121,13 @@
             }
           },
           "200": {
-            "description": "Updates the virtual machine resource.",
+            "description": "Updates the virtualmachines resource.",
             "schema": {
               "$ref": "#/definitions/virtualmachines"
             }
           },
           "201": {
-            "description": "Creates the virtual machine resource.",
+            "description": "Creates the virtualmachines resource.",
             "schema": {
               "$ref": "#/definitions/virtualmachines"
             }
@@ -164,7 +163,7 @@
             }
           },
           "200": {
-            "description": "Deletes the virtual machine resource."
+            "description": "Deletes the virtualmachines resource."
           },
           "204": {
             "description": "No content"
@@ -208,13 +207,13 @@
             }
           },
           "200": {
-            "description": "Updates the virtual machine resource.",
+            "description": "Updates the virtualmachines resource.",
             "schema": {
               "$ref": "#/definitions/virtualmachines"
             }
           },
           "201": {
-            "description": "Updates the virtual machine resource.",
+            "description": "Updates the virtualmachines resource.",
             "schema": {
               "$ref": "#/definitions/virtualmachines"
             }
@@ -1425,7 +1424,7 @@
                   "type": "string",
                   "description": "Name - Name of the image",
                   "x-ms-mutability": [
-                    "create",
+                    "create", 
                     "read"
                   ]
                 }
@@ -1442,9 +1441,9 @@
               },
               "description": "VHD to attach as OS disk"
             },
-            "vmConfigContainerName": {
+            "vmConfigStoragePathId": {
               "type": "string",
-              "description": "Name of the storage container that hosts the VM configuration file"
+              "description": "Id of the storage container that hosts the VM configuration file"
             }
           },
           "description": "StorageProfile - contains information about the disks and storage information for the virtual machine"
@@ -1457,8 +1456,7 @@
             "Failed",
             "InProgress",
             "Accepted",
-            "Deleting",
-            "Canceled"
+            "Deleting"
           ],
           "x-ms-enum": {
             "name": "ProvisioningStateEnum",
@@ -1466,7 +1464,7 @@
           }
         },
         "status": {
-          "$ref": "#/definitions/VirtualMachineStatus"
+          "$ref": "#/definitions/virtualMachineStatus"
         },
         "guestAgentProfile": {
           "description": "Guest agent status properties.",
@@ -1478,10 +1476,9 @@
           "readOnly": true
         }
       },
-      "description": "Properties of a virtual machine resource"
+      "description": "virtualmachinesProperties defines a list of properties under virtualmachines"
     },
-    "VirtualMachineStatus": {
-      "type": "object",
+    "virtualMachineStatus": {
       "x-ms-client-flatten": true,
       "readOnly": true,
       "properties": {
@@ -1511,8 +1508,6 @@
           }
         },
         "provisioningStatus": {
-          "type": "object",
-          "description": "The provisioning status of the virtual machine",
           "properties": {
             "operationId": {
               "type": "string",
@@ -1527,14 +1522,14 @@
                 "InProgress"
               ],
               "x-ms-enum": {
-                "name": "ProvisioningStatusEnum",
+                "name": "Status",
                 "modelAsString": true
               }
             }
           }
         }
       },
-      "description": "VirtualMachineStatus defines the observed state of virtualmachines"
+      "description": "virtualMachineStatus defines the observed state of virtualmachines"
     },
     "virtualmachines": {
       "type": "object",
@@ -1546,22 +1541,29 @@
           "$ref": "#/definitions/virtualmachinesProperties"
         },
         "extendedLocation": {
-          "$ref": "./common.json#/definitions/ExtendedLocation",
-          "description": "The extendedLocation of the resource."
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          }
         },
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/Identity"
-        },
-        "systemData": {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+          "$ref": "#/definitions/Identity",
+          "description": "The identity of the resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
         }
       ],
-      "description": "The virtual machine resource definition."
+      "description": "The virtualmachines resource definition."
     },
     "hardwareProfileUpdate": {
       "type": "object",
@@ -1679,7 +1681,7 @@
           "description": "Resource tags"
         }
       },
-      "description": "The virtual machine resource patch definition."
+      "description": "The virtualmachines resource patch definition."
     },
     "virtualmachinesListResult": {
       "type": "object",
@@ -1735,8 +1737,7 @@
           "items": {
             "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
           },
-          "description": "Details about the error state.",
-          "x-ms-identifiers": []
+          "description": "Details about the error state."
         }
       }
     },
@@ -1794,19 +1795,51 @@
           "type": "string"
         },
         "publicKey": {
-          "description": "The Public Key.",
+          "description": "Gets or sets the Public Key.",
           "type": "string"
         },
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/Identity",
+          "$ref": "#/definitions/Identity",
+          "description": "The identity of the resource.",
           "readOnly": true
         },
         "provisioningState": {
-          "description": "The provisioning state.",
+          "description": "Gets or sets the provisioning state.",
           "type": "string",
           "readOnly": true
         }
       }
+    },
+    "Identity": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "principalId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The principal id of managed service identity."
+        },
+        "tenantId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The tenant of managed service identity."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of managed service identity.",
+          "enum": [
+            "None",
+            "SystemAssigned"
+          ],
+          "x-ms-enum": {
+            "name": "IdentityType",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Managed service identity."
     },
     "ResourcePatch": {
       "type": "object",
@@ -1831,7 +1864,7 @@
           "description": "Describes Machine Extension Properties."
         },
         "location": {
-          "description": "The geo-location where the resource lives",
+          "description": "Gets or sets the location.",
           "type": "string",
           "x-ms-mutability": [
             "read",
@@ -1843,24 +1876,24 @@
           "description": "The system data."
         },
         "tags": {
-          "description": "Resource tags.",
+          "description": "Gets or sets the Resource tags.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
           }
         },
         "name": {
-          "description": "The name of the resource",
+          "description": "Gets or sets the name.",
           "type": "string",
           "readOnly": true
         },
         "id": {
-          "description": "Fully qualified resource ID for the resource.",
+          "description": "Gets or sets the Id.",
           "type": "string",
           "readOnly": true
         },
         "type": {
-          "description": "The type of the resource.",
+          "description": "Gets or sets the type of the resource.",
           "type": "string",
           "readOnly": true
         }
@@ -2108,11 +2141,11 @@
       "type": "object",
       "properties": {
         "username": {
-          "description": "The username to connect with the guest.",
+          "description": "Gets or sets username to connect with the guest.",
           "type": "string"
         },
         "password": {
-          "description": "The password to connect with the guest.",
+          "description": "Gets or sets the password to connect with the guest.",
           "type": "string",
           "x-ms-mutability": [
             "create",
@@ -2135,17 +2168,17 @@
           "$ref": "#/definitions/HttpProxyConfiguration"
         },
         "provisioningAction": {
-          "description": "The guest agent provisioning action.",
+          "description": "Gets or sets the guest agent provisioning action.",
           "$ref": "#/definitions/ProvisioningAction",
           "type": "string"
         },
         "status": {
-          "description": "The guest agent status.",
+          "description": "Gets or sets the guest agent status.",
           "type": "string",
           "readOnly": true
         },
         "provisioningState": {
-          "description": "The provisioning state.",
+          "description": "Gets or sets the provisioning state.",
           "type": "string",
           "readOnly": true
         }
@@ -2156,7 +2189,7 @@
       "type": "object",
       "properties": {
         "httpsProxy": {
-          "description": "The httpsProxy url.",
+          "description": "Gets or sets httpsProxy url.",
           "type": "string"
         }
       }
@@ -2169,7 +2202,7 @@
       "required": true,
       "type": "string",
       "x-ms-parameter-location": "method",
-      "maxLength": 64,
+      "maxLength": 100,
       "minLength": 3
     }
   }

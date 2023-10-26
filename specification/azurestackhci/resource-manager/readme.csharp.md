@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.Azure.Management.AzureStackHCI
-  output-folder: $(csharp-sdks-folder)/azurestackhci/Microsoft.Azure.Management.AzureStackHCI/src/Generated
+  namespace: Private.EdgeMarketPlace
+  output-folder: $(csharp-sdks-folder)/edgemarketplace/resource-manager/Private.EdgeMarketPlace/GeneratedProtocol
 ```

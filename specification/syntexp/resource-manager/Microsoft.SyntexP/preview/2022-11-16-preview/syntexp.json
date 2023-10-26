@@ -1,0 +1,563 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microsoft.SyntexP",
+    "version": "2022-11-16-preview"
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "Accounts"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.SyntexP/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.SyntexP/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_ListBySubscription",
+        "description": "List Account resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AccountListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SyntexP/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_ListByResourceGroup",
+        "description": "List Account resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AccountListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SyntexP/accounts/{accountName}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_Get",
+        "description": "Get a Account",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accountName",
+            "in": "path",
+            "required": true,
+            "description": "Account name",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_CreateOrUpdate",
+        "description": "Create a Account",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accountName",
+            "in": "path",
+            "required": true,
+            "description": "Account name",
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "required": true,
+            "description": "Resource create parameters.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "201": {
+            "description": "ARM create operation completed successfully.",
+            "headers": {
+              "Retry-After": {
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status.",
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Accounts_CreateOrUpdate": {
+            "$ref": "./examples/Accounts_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_Update",
+        "description": "Update a Account",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accountName",
+            "in": "path",
+            "required": true,
+            "description": "Account name",
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "required": true,
+            "description": "The resource properties to be updated.",
+            "schema": {
+              "$ref": "#/definitions/AccountUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Accounts_Update": {
+            "$ref": "./examples/Accounts_Update.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_Delete",
+        "description": "Delete a Account",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accountName",
+            "in": "path",
+            "required": true,
+            "description": "Account name",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status.",
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Accounts_Delete": {
+            "$ref": "./examples/Accounts_Delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AccountProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-client-flatten": true
+        }
+      },
+      "description": "An Account is a SyntexProviderHub resource",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "AccountListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          },
+          "description": "The Account items on this page"
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next page of items",
+          "format": "uri"
+        }
+      },
+      "description": "The response of a Account list operation.",
+      "required": [
+        "value"
+      ]
+    },
+    "AccountProperties": {
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "workload": {
+          "$ref": "#/definitions/Workload",
+          "description": "The workload providing the service."
+        },
+        "ownerType": {
+          "$ref": "#/definitions/OwnerType",
+          "description": "The Owner type."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "The OwnerId"
+        },
+        "scenario": {
+          "type": "string",
+          "description": "The scenario"
+        }
+      },
+      "description": "Details of the Syntex Account.",
+      "required": [
+        "workload",
+        "ownerType",
+        "ownerId",
+        "scenario"
+      ]
+    },
+    "AccountUpdate": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        },
+        "properties": {
+          "$ref": "#/definitions/AccountUpdateProperties"
+        }
+      },
+      "description": "The type used for update operations of the Account."
+    },
+    "AccountUpdateProperties": {
+      "type": "object",
+      "properties": {
+        "workload": {
+          "$ref": "#/definitions/Workload",
+          "description": "The workload providing the service."
+        },
+        "ownerType": {
+          "$ref": "#/definitions/OwnerType",
+          "description": "The Owner type."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "The OwnerId"
+        },
+        "scenario": {
+          "type": "string",
+          "description": "The scenario"
+        }
+      },
+      "description": "The updatable properties of the Account."
+    },
+    "OwnerType": {
+      "type": "string",
+      "description": "The OwnerType issuing the operation",
+      "enum": [
+        "App",
+        "Tenant"
+      ],
+      "x-ms-enum": {
+        "name": "OwnerType",
+        "modelAsString": true
+      }
+    },
+    "OwnerTypeValues": {
+      "type": "string",
+      "enum": [
+        "App",
+        "Tenant"
+      ],
+      "x-ms-enum": {
+        "name": "OwnerTypeValues",
+        "modelAsString": false
+      }
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "The status of the current operation.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "ProvisioningStateKV": {
+      "type": "string",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningStateKV",
+        "modelAsString": false
+      }
+    },
+    "Workload": {
+      "type": "string",
+      "description": "The workload issuing the operation",
+      "enum": [
+        "SharePoint",
+        "EXO"
+      ],
+      "x-ms-enum": {
+        "name": "Workload",
+        "modelAsString": true
+      }
+    },
+    "WorkloadStateValues": {
+      "type": "string",
+      "enum": [
+        "SharePoint",
+        "EXO"
+      ],
+      "x-ms-enum": {
+        "name": "WorkloadStateValues",
+        "modelAsString": false
+      }
+    }
+  },
+  "parameters": {}
+}
