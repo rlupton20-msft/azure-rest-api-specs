@@ -1,6 +1,5 @@
 import "@typespec/rest";
 import "@typespec/http";
-import "@typespec/http";
 import "@typespec/openapi";
 import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
