@@ -1,0 +1,847 @@
+{
+  "swagger": "2.0",
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "info": {
+    "title": "SmartML Resource Provider",
+    "version": "2019-11-06-preview"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionId": {
+      "name": "subscriptionId",
+      "type": "string",
+      "in": "path",
+      "required": true,
+      "description": "The id of the subscription that contains this ARM resource."
+    },
+    "apiVersion": {
+      "name": "api-version",
+      "type": "string",
+      "in": "query",
+      "required": true,
+      "description": "The API version to use for the operation."
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.IntelliCode/trainingServices": {
+      "get": {
+        "tags": [
+          "TrainingServiceResource"
+        ],
+        "summary": "List training services in the subscription.",
+        "operationId": "GetTrainingServicesBySubscription",
+        "x-ms-examples": {
+          "List training services by subscription": {
+            "$ref": "./examples/ListTrainingServiceBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TrainingServicesListResult"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IntelliCode/trainingServices": {
+      "get": {
+        "tags": [
+          "TrainingServiceResource"
+        ],
+        "summary": "List training services in the resource group.",
+        "operationId": "GetTrainingServicesByResourceGroup",
+        "x-ms-examples": {
+          "List training services by resource group": {
+            "$ref": "./examples/ListTrainingServiceByResourceGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "description": "The name of the resource group that contains this ARM resource.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TrainingServicesListResult"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IntelliCode/trainingServices/{resourceName}": {
+      "get": {
+        "tags": [
+          "TrainingServicesResource"
+        ],
+        "summary": "Gets an instance of the resource.",
+        "operationId": "GetTrainingService",
+        "x-ms-examples": {
+          "Get a training service": {
+            "$ref": "./examples/GetTrainingService.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "description": "The name of the resource group that contains this ARM resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resourceName",
+            "description": "The name of the resource.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TrainingServicesRequest"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TrainingServicesResource"
+        ],
+        "summary": "Creates or updates an instance of the resource.",
+        "operationId": "CreateTrainingService",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Create a training service": {
+            "$ref": "./examples/CreateTrainingService.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "description": "The name of the resource group that contains this ARM resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resourceName",
+            "description": "The name of the resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The request body.",
+            "schema": {
+              "$ref": "#/definitions/TrainingServicesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "TrainingServicesResource"
+        ],
+        "summary": "Updates an instance of the resource.",
+        "operationId": "UpdateTrainingService",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Update a training service": {
+            "$ref": "./examples/UpdateTrainingService.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "description": "The name of the resource group that contains this ARM resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resourceName",
+            "description": "The name of the resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The request body.",
+            "schema": {
+              "$ref": "#/definitions/TrainingServicesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TrainingServicesResource"
+        ],
+        "summary": "Deletes an existing instance of the resource.",
+        "operationId": "DeleteTrainingService",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Delete a training service": {
+            "$ref": "./examples/DeleteTrainingService.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "description": "The name of the resource group that contains this ARM resource.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resourceName",
+            "description": "The name of the resource.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "204": {
+            "description": "NoContent"
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.IntelliCode/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "summary": "Lists all the operations available in the resource provieder",
+        "operationId": "Operations_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/apiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BatchPoolApp": {
+      "description": "Represents the definition of a 3rd Party app that can be installed into a Batch VM Pool.",
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "description": "Gets the name of the file for the application.",
+          "type": "string",
+          "readOnly": true
+        },
+        "format": {
+          "description": "Gets or sets the format of the app within the store. Optional, defaults to zip.",
+          "type": "string"
+        },
+        "hasStartTask": {
+          "description": "Gets or sets a value indicating if this app contains a start task to include in the VM Pool.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Gets or sets the name of the app within the store.",
+          "type": "string",
+          "minLength": 1
+        },
+        "store": {
+          "description": "Gets or sets the name of the store in the RP that contains the specified app.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "store"
+      ]
+    },
+    "BatchPoolScaleMode": {
+      "description": "The different kinds of Scale modes for a ResourceProvider.API.Models.BatchPoolScale instance.",
+      "enum": [
+        "Auto",
+        "Fixed"
+      ],
+      "type": "string"
+    },
+    "BatchPoolScale": {
+      "description": "Represents the definition of the Scale strategy for a Batch VM Pool.",
+      "type": "object",
+      "properties": {
+        "dedicatedNodeCount": {
+          "format": "int32",
+          "description": "Gets or sets the number of nodes to have in the VM Pool when configured to use ResourceProvider.API.Models.BatchPoolScaleMode.Fixed scaling.",
+          "type": "integer"
+        },
+        "evaluationPeriodMinutes": {
+          "format": "int32",
+          "description": "Gets or sets the number of minutes to wait before evaluating the scaling formula when configured to use ResourceProvider.API.Models.BatchPoolScaleMode.Auto scaling.",
+          "type": "integer"
+        },
+        "formula": {
+          "description": "Gets or sets the scaling formula to use when configured to use ResourceProvider.API.Models.BatchPoolScaleMode.Auto scaling.",
+          "type": "string"
+        },
+        "mode": {
+          "description": "Gets or sets the kind of scaling the VM Pool instance will use.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BatchPoolScaleMode"
+            }
+          ]
+        }
+      }
+    },
+    "OsType": {
+      "description": "An enum representing the different OS Platforms supported by SmartML.",
+      "enum": [
+        "Windows",
+        "Linux"
+      ],
+      "type": "string"
+    },
+    "BatchPoolVmSize": {
+      "description": "The available sizes for Batch Pool Virtual Machines.",
+      "enum": [
+        "STANDARD_A2",
+        "STANDARD_A2_V2",
+        "STANDARD_D4_V3",
+        "STANDARD_F4S_V2",
+        "STANDARD_NC24",
+        "STANDARD_DS15_V2",
+        "STANDARD_G5",
+        "STANDARD_D48DS_V4"
+      ],
+      "type": "string"
+    },
+    "BatchPool": {
+      "description": "Represents the definition of a Batch VM Pool for an instance.",
+      "type": "object",
+      "properties": {
+        "apps": {
+          "description": "Gets or sets the ResourceProvider.API.Models.BatchPoolApp to install into the pool.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BatchPoolApp"
+          }
+        },
+        "name": {
+          "description": "Gets or sets the  name of the VM Pool.",
+          "type": "string",
+          "minLength": 1
+        },
+        "scale": {
+          "description": "Gets or sets the ResourceProvider.API.Models.BatchPoolScale to use for the pool.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BatchPoolScale"
+            }
+          ]
+        },
+        "vmOsType": {
+          "description": "Gets or sets the OS to be used in the Pool. Default is ResourceProvider.API.OsType.Windows",
+          "allOf": [
+            {
+              "$ref": "#/definitions/OsType"
+            }
+          ]
+        },
+        "vmSize": {
+          "description": "Gets or sets the size of the VM to be used in the Pool. Default is ResourceProvider.API.Models.BatchPoolVmSize.STANDARD_A2.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BatchPoolVmSize"
+            }
+          ]
+        },
+        "maxTasksPerNode": {
+          "format": "int32",
+          "description": "Gets or sets the maximum number of parallel tasks to run on a node.",
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "scale",
+        "name"
+      ]
+    },
+    "TrainingServicesApiTier": {
+      "description": "The different kinds of Tiers for the API of an instance.",
+      "enum": [
+        "S0",
+        "S1",
+        "S2",
+        "P1v2",
+        "P2v2",
+        "P3v2"
+      ],
+      "type": "string"
+    },
+    "TrainingServicesPermissions": {
+      "description": "Represents the permissions that can be granted in a ResourceProvider.API.Models.TrainingServices.TrainingServicesResource.",
+      "type": "object",
+      "properties": {
+        "appServiceCallers": {
+          "description": "The principal ids to grant access to call instance app service.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "blobContributors": {
+          "description": "The principal ids to grant contributor access to public and internal blob data.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "blobReaders": {
+          "description": "The principal ids to grant read access to public and internal blob data.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "secretsGetters": {
+          "description": "The principal ids to grant access to get keyvault secrets.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    },
+    "TrainingServicesTrafficManager": {
+      "description": "Represents the definition of a Traffic Manager resource associated with a ResourceProvider.API.Models.TrainingServices.TrainingServicesResource.",
+      "type": "object",
+      "properties": {
+        "enableEndpoint": {
+          "description": "Gets or sets a value indicating if the endpoint should be enabled at the completion of deployment. Default is true.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Gets or sets the name of the associated Traffic Manager resource.",
+          "type": "string",
+          "minLength": 1
+        },
+        "resourceGroupName": {
+          "description": "Gets or sets the resource group name of the associated Traffic Manager resource.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "resourceGroupName"
+      ]
+    },
+    "TrainingServicesResourceProperties": {
+      "description": "Represents the definition of properties of a ResourceProvider.API.Models.TrainingServices.TrainingServicesResource.",
+      "type": "object",
+      "properties": {
+        "apiTier": {
+          "description": "Gets or sets the ResourceProvider.API.Models.TrainingServices.TrainingServicesApiTier needed for this instance's expected workload. Default is ResourceProvider.API.Models.TrainingServices.TrainingServicesApiTier.S1.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrainingServicesApiTier"
+            }
+          ]
+        },
+        "enableDatabricks": {
+          "description": "Gets or sets a value that indicates if this instance should support Azure Databricks. Default is false.",
+          "type": "boolean"
+        },
+        "enableNotebooks": {
+          "description": "Gets or sets a value that indicates if this instance should support Azure Notebooks. Default is false.",
+          "type": "boolean"
+        },
+        "hostname": {
+          "description": "The shared SSL Hostname for the instance, if any. Must only include root of hostname and it must be a subdomain of *.smltenant.microsoft.com.",
+          "type": "string"
+        },
+        "instanceConfiguration": {
+          "description": "A collection of instance specific configuration values that are available to consume in the instance's resources.\r\nIn an update, the values are not remembered from so they should be included every time.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "notificationEmail": {
+          "description": "The notification alias for the instance.",
+          "type": "string",
+          "minLength": 1
+        },
+        "securityGroupPermissions": {
+          "description": "The permissions associated with the ResourceProvider.API.Models.TrainingServices.TrainingServicesResource granted to security groups.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrainingServicesPermissions"
+            }
+          ]
+        },
+        "servicePrincipalPermissions": {
+          "description": "The permissions associated with the ResourceProvider.API.Models.TrainingServices.TrainingServicesResource granted to service principals.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrainingServicesPermissions"
+            }
+          ]
+        },
+        "privateBuildRoot": {
+          "description": "The root folder for a private build drop.",
+          "type": "string"
+        },
+        "trafficManager": {
+          "description": "The Traffic Manager resource associated with the ResourceProvider.API.Models.TrainingServices.TrainingServicesResource.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrainingServicesTrafficManager"
+            }
+          ]
+        },
+        "virtualMachinePools": {
+          "description": "Gets or sets the Batch VM Pools the instance will contain. There must be at least one.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BatchPool"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "notificationEmail",
+        "virtualMachinePools"
+      ]
+    },
+    "TrainingServicesRequest": {
+      "description": "Represents the requested specifications for a ResourceProvider.API.Models.TrainingServices.TrainingServicesResource. Implements ResourceProvider.API.Models.IResourceRequest.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "Gets or sets the properties associated with this instance.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrainingServicesResourceProperties"
+            }
+          ]
+        },
+        "skipReleasesUpload": {
+          "description": "Gets or sets a value indicating if uploading the latest releases to the instance storage account should be skipped.",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "Gets or sets the fully qualified id for this resource.\r\nE.g. something like /subscriptions/{id}/resourcegroups/{resourceGroupName}/providers/Microsoft.IntelliCode/trainingServices/{name}",
+          "type": "string"
+        },
+        "instance": {
+          "description": "The name of the instance the resource belongs to.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Gets or sets the Azure Location (AKA region, AKA geo).  The region of a resource never changes after it is created.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Gets or sets the name of the resource.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Gets or sets the type of resource (e.g. Microsoft.IntelliCode/trainingServices).",
+          "type": "string"
+        },
+        "tags": {
+          "description": "Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups).\r\nThe resource provider is expected to store these tags with the resource.\r\nMax Tag Count: 10\r\nMax Key Length: 128\r\nMax Value Length: 256",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TrainingServicesListResult": {
+      "description": "Result of the request to list TrainingServices.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrainingServicesRequest"
+          },
+          "description": "List of training services the Resource Provider created."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of training service list results if there are any."
+        }
+      }
+    },
+    "OperationDisplay": {
+      "description": "The object that represents the operation.",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "description": "Service provider, i.e., Microsoft.IntelliCode.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Type on which the operation is performed, e.g., 'trainingServices'.",
+          "type": "string"
+        },
+        "operation": {
+          "description": "Operation type, e.g., read, write, delete, etc.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the operation, e.g., 'Write trainingServices'.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationResult": {
+      "description": "REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "isDataAction": {
+          "description": "Indicates whether the operation is a data action",
+          "type": "boolean"
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "$ref": "#/definitions/OperationDisplay"
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationResult"
+          },
+          "description": "List of Resource Provider operations supported by the Resource Provider resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    },
+    "ErrorResponseBody": {
+      "description": "Error response body.",
+      "title": "ErrorResponseBody",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "Error target.",
+          "type": "string"
+        },
+        "details": {
+          "description": "Error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorResponseBody"
+          }
+        }
+      }
+    },
+    "ResourceProviderDefaultErrorResponse": {
+      "description": "RP default error response.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "description": "Response body of Error",
+          "readOnly": true,
+          "$ref": "#/definitions/ErrorResponseBody"
+        }
+      }
+    }
+  }
+}

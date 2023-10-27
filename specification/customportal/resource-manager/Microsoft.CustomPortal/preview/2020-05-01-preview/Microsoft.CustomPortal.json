@@ -1,0 +1,244 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "CustomPortalManagementClient",
+		"version": "2020-05-01-preview",
+		"description": "Custom Portal Settings Provider"
+	},
+	"host": "management.azure.com",
+	"schemes": [
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"security": [
+		{
+			"azure_auth": [
+				"user_impersonation"
+			]
+		}
+	],
+	"securityDefinitions": {
+		"azure_auth": {
+			"type": "oauth2",
+			"authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+			"flow": "implicit",
+			"description": "Azure Active Directory OAuth2 Flow",
+			"scopes": {
+				"user_impersonation": "impersonate your user account"
+			}
+		}
+	},
+	"paths": {
+			"/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.CustomPortal/portalSettings/{portalSettingName}": {
+				"get": {
+					"tags": [
+						"PortalSettings"
+					],
+					"operationId": "PortalSetting_GetForResource",
+					"description": "Get a specific portal setting for a resource",
+					"parameters": [
+						{
+							"$ref": "#/parameters/ResourceGroupNameParameter"
+						},
+						{
+							"$ref": "#/parameters/ResourceProviderNamespaceParameter"
+						},
+						{
+							"name": "resourceType",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The resource type of the resource.",
+							"x-ms-skip-url-encoding": true
+						},
+						{
+							"name": "resourceName",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The name of the resource to get portal settings for."
+						},
+						{
+						"name": "portalSettingName",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The name of the portal setting name"
+					    },
+						{
+							"$ref": "#/parameters/ApiVersionParameter"
+						},
+						{
+							"$ref": "#/parameters/SubscriptionIdParameter"
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "OK - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						},
+						"default": {
+							"description": "Resource Provider error response describing why the operation failed.",
+							"schema": {
+								"$ref": "#/definitions/ErrorResponse"
+							}
+						}
+					}
+				},
+				"put": {
+					"tags": [
+						"PortalSettings"
+					],
+					"operationId": "PortalSetting_Create",
+					"description": "Creates a portal setting for a resource",
+					"parameters": [
+						{
+							"$ref": "#/parameters/ResourceGroupNameParameter"
+						},
+						{
+							"$ref": "#/parameters/ResourceProviderNamespaceParameter"
+						},
+						{
+							"name": "resourceType",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The resource type of the resource.",
+							"x-ms-skip-url-encoding": true
+						},
+						{
+							"name": "resourceName",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The name of the resource to get portal settings for."
+						},
+						{
+						"name": "portalSettingName",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The name of the portal setting name"
+					    },
+						{
+							"$ref": "#/parameters/ApiVersionParameter"
+						},
+						{
+							"$ref": "#/parameters/SubscriptionIdParameter"
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "OK - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						}, 
+						"201": {
+							"description": "Created - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						},
+						"default": {
+							"description": "Default error response.",
+							"schema": {
+								"$ref": "#/definitions/ErrorResponse"
+							}
+						}
+					}
+				}
+			}
+	},
+	"definitions": {
+			"PortalSetting": {
+				"properties": {
+					"id": {
+						"type": "string",
+						"readOnly": true,
+						"description": "The portal settings ID."
+					},
+					"name": {
+						"type": "string",
+						"readOnly": true,
+						"description": "The portal setting name."
+					},
+					"type": {
+						"type": "string",
+						"readOnly": true,
+						"description": "The portal setting type."
+					},
+					"priority": {
+						"type": "number",
+						"readOnly": true,
+						"description": "The portal setting priority."
+					}
+				},
+				"description": "Portal Settings"
+			},
+			"ErrorResponse": {
+				"description": "The error response that indicates why an operation has failed.",
+				"type": "object",
+				"properties": {
+					"error": {
+					"$ref": "#/definitions/ErrorDetails"
+					}
+				}
+			},
+			"ErrorDetails": {
+				"description": "The error response details containing error code and error message",
+				"type": "object",
+				"properties": {
+					"code": {
+					"description": "The error code.",
+					"type": "string",
+					"readOnly": true
+					},
+				"message": {
+					"description": "The error message.",
+					"type": "string",
+					"readOnly": true
+					}
+				}
+			}
+	},
+	"parameters": {
+		"SubscriptionIdParameter": {
+			"name": "subscriptionId",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The ID of the target subscription."
+		},
+		"ApiVersionParameter": {
+			"name": "api-version",
+			"in": "query",
+			"required": true,
+			"type": "string",
+			"description": "The API version to use for this operation."
+		},
+		"ResourceGroupNameParameter": {
+			"name": "resourceGroupName",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The name of the resource group.",
+			"x-ms-parameter-location": "method"
+		},
+		"ResourceProviderNamespaceParameter": {
+			"name": "resourceProviderNamespace",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The namespace of the resource provider.",
+			"x-ms-parameter-location": "method"
+		}
+	}
+}

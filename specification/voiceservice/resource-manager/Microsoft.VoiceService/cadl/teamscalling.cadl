@@ -1,0 +1,137 @@
+// Definitions for the TeamsCallingResource
+
+import "@cadl-lang/openapi";
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+namespace Microsoft.VoiceService;
+
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@doc("A TestLine resource")
+@parentResource(GlobalTeamsCallingDeployment)
+model TestLine is TrackedResource<TestLineProperties> {
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("testLineName")
+  @segment("testLines")
+  @doc("Some documentation")
+  @visibility("Read")
+  @path
+  name: string;
+}
+
+@doc("The purpose of the TestLine resource.")
+enum TestLinePurpose {
+  Manual,
+  Automated,
+}
+
+@doc("Details of the TestLine resource.")
+model TestLineProperties is ResourceProperties {
+  @doc("The phone number")
+  number: string;
+  @doc("Purpose of this test line, e.g. automated or manual testing")
+  purpose: TestLinePurpose;
+}
+
+@armResourceOperations
+interface TestLines extends ResourceOperations<TestLine, TestLineProperties> {}
+
+@doc("A Contact resource")
+@parentResource(GlobalTeamsCallingDeployment)
+model Contact is TrackedResource<ContactProperties> {
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("contactName")
+  @segment("contacts")
+  @doc("Some documentation")
+  @visibility("Read")
+  @path
+  name: string;
+}
+
+@doc("Details of the Contact resource.")
+model ContactProperties is ResourceProperties {
+  @doc("Full name of contact")
+  contactName: string;
+  @doc("Telephone number of contact")
+  number: string;
+}
+
+@armResourceOperations
+interface Contacts extends ResourceOperations<Contact, ContactProperties> {}
+
+@doc("A GlobalTeamsCallingDeployment resource")
+model GlobalTeamsCallingDeployment is TrackedResource<GlobalTeamsCallingDeploymentProperties> {
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("globalTeamsCallingDeploymentName")
+  @segment("globalTeamsCallingDeployments")
+  @doc("Some documentation")
+  @visibility("Read")
+  @path
+  name: string;
+}
+
+@doc("The status of the current GlobalTeamsCallingDeployment resource.")
+enum Status {
+  New,
+  ChangePending,
+  Complete,
+}
+
+@doc("The status of the current GlobalTeamsCallingDeployment resource.")
+enum E911Type {
+  None,
+  Esrp,
+  Elin
+}
+
+@doc("The voice codecs expected for communication with Teams.")
+enum TeamsCodecs {
+	PCMA,
+	PCMU,
+	G722,
+	SILK_8,
+	SILK_16
+}
+
+@doc("How this deployment connects back to the operator network, e.g. MAPS.")
+enum Connectivity {
+  Maps
+}
+
+@doc("The service region configuration needed for Teams Callings.")
+model ServiceRegionProperties {
+	@doc("The name of the region in which the resources needed for Teams Calling will be deployed.")
+	name: string;
+	@doc("IP address to use to contact the operator network from this region")
+	operatorAddresses: string[];
+	@doc("IP address to use to contact the ESRPs from this region")
+	esrpAddresses?: string[];
+}
+
+@doc("Details of the GlobalTeamsCallingDeployment resource.")
+model GlobalTeamsCallingDeploymentProperties is ResourceProperties {
+  @doc("The current status of the deployment.")
+  @visibility("read") status?: Status;
+
+  @doc("The regions in which to deploy the resources needed for Teams Calling")
+  @OpenAPI.extension("x-ms-identifiers", ["name"])
+  serviceLocations: ServiceRegionProperties[];
+
+  @doc("How to connect back to the operator network, e.g. MAPS")
+  connectivity: Connectivity;
+
+  @doc("Voice codecs to support")
+  codecs: TeamsCodecs[];
+  
+  @doc("How to handle 911 calls")
+  e911Type: E911Type;
+}
+
+@armResourceOperations
+interface GlobalTeamsCallingDeployments extends ResourceOperations<GlobalTeamsCallingDeployment, GlobalTeamsCallingDeploymentProperties> {}

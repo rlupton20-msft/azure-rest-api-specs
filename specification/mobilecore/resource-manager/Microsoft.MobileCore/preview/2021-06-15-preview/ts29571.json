@@ -1,0 +1,253 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MobileCoreManagementClient",
+    "description": "The resources in this swagger specification will be used to manage the virtual network functions deployed using mobile network. They are standard mobile network properties defined by 3GPP in TS 29.571 v16.6.0",
+    "version": "2021-06-15-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {},
+  "definitions": {
+    "Ipv4Addr": {
+      "type": "string",
+      "pattern": "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$",
+      "example": "198.51.100.1"
+    },
+    "Ipv4AddrRm": {
+      "type": "string",
+      "pattern": "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$",
+      "example": "198.51.100.1",
+      "x-nullable": true
+    },
+    "Ipv4AddrMask": {
+      "type": "string",
+      "pattern": "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+      "example": "198.51.0.0/16"
+    },
+    "Ipv4AddrMaskRm": {
+      "type": "string",
+      "pattern": "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+      "example": "198.51.0.0/16",
+      "x-nullable": true
+    },
+    "BitRate": {
+      "type": "string",
+      "pattern": "^\\d+(\\.\\d+)? (bps|Kbps|Mbps|Gbps|Tbps)$"
+    },
+    "BitRateRm": {
+      "type": "string",
+      "pattern": "^\\d+(\\.\\d+)? (bps|Kbps|Mbps|Gbps|Tbps)$",
+      "x-nullable": true
+    },
+    "Ambr": {
+      "type": "object",
+      "properties": {
+        "uplink": {
+          "$ref": "#/definitions/BitRate"
+        },
+        "downlink": {
+          "$ref": "#/definitions/BitRate"
+        }
+      },
+      "required": [
+        "uplink",
+        "downlink"
+      ]
+    },
+    "AmbrRm": {
+      "$ref": "#/definitions/Ambr",
+      "x-nullable": true
+    },
+    "RfspIndex": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "5Qi": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "5QiRm": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 0,
+      "maximum": 255,
+      "x-nullable": true
+    },
+    "5QiPriorityLevel": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 127
+    },
+    "5QiPriorityLevelRm": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 127,
+      "x-nullable": true
+    },
+    "ArpPriorityLevel": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 15
+    },
+    "ArpPriorityLevelRm": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 15,
+      "x-nullable": true
+    },
+    "PreemptionCapability": {
+      "type": "string",
+      "enum": [
+        "NOT_PREEMPT",
+        "MAY_PREEMPT"
+      ]
+    },
+    "PreemptionVulnerability": {
+      "type": "string",
+      "enum": [
+        "NOT_PREEMPTABLE",
+        "PREEMPTABLE"
+      ]
+    },
+    "Arp": {
+      "type": "object",
+      "properties": {
+        "priorityLevel": {
+          "$ref": "#/definitions/ArpPriorityLevel"
+        },
+        "preemptCap": {
+          "$ref": "#/definitions/PreemptionCapability"
+        },
+        "preemptVuln": {
+          "$ref": "#/definitions/PreemptionVulnerability"
+        }
+      },
+      "required": [
+        "priorityLevel",
+        "preemptCap",
+        "preemptVuln"
+      ]
+    },
+    "Mcc": {
+      "type": "string",
+      "pattern": "^\\d{3}$"
+    },
+    "MccRm": {
+      "type": "string",
+      "pattern": "^\\d{3}$",
+      "x-nullable": true
+    },
+    "Mnc": {
+      "type": "string",
+      "pattern": "^\\d{2,3}$"
+    },
+    "MncRm": {
+      "type": "string",
+      "pattern": "^\\d{2,3}$",
+      "x-nullable": true
+    },
+    "PlmnId": {
+      "type": "object",
+      "properties": {
+        "mcc": {
+          "$ref": "#/definitions/Mcc"
+        },
+        "mnc": {
+          "$ref": "#/definitions/Mnc"
+        }
+      },
+      "required": [
+        "mcc",
+        "mnc"
+      ]
+    },
+    "PlmnIdRm": {
+      "$ref": "#/definitions/PlmnId",
+      "x-nullable": true
+    },
+    "Tac": {
+      "type": "string",
+      "pattern": "(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)"
+    },
+    "TacRm": {
+      "type": "string",
+      "pattern": "(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)",
+      "x-nullable": true
+    },
+    "CoreNetworkType": {
+      "type": "string",
+      "enum": [
+        "5GC",
+        "EPC"
+      ]
+    },
+    "CoreNetworkTypeRm": {
+      "$ref": "#/definitions/CoreNetworkType",
+      "x-nullable": true
+    },
+    "PduSessionType": {
+      "type": "string",
+      "enum": [
+        "IPV4",
+        "IPV6"
+      ]
+    },
+    "PduSessionTypeRm": {
+      "$ref": "#/definitions/PduSessionType",
+      "x-nullable": true
+    },
+    "Snssai": {
+      "type": "object",
+      "properties": {
+        "sst": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "sd": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{6}$"
+        }
+      },
+      "required": [
+        "sst"
+      ]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "apisecurity",
+    "version": "2021-03-01-preview",
+    "description": "Description of the new service."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerNamespace}/{resourceType}/{resourceName}/providers/Microsoft.ApiSecurity/defenderSettings": {
+      "put": {
+        "tags": [
+          "DefenderSettings"
+        ],
+        "operationId": "DefenderSettings_Create",
+        "description": "Creates a defender setting.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "providerNamespace",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The namespace of the resource provider."
+          },
+          {
+            "name": "resourceType",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The resource type of the resource.",
+            "x-ms-skip-url-encoding": true
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource to get role assignments for."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created - Returns information about the defender setting.",
+            "schema": {
+              "$ref": "#/definitions/DefenderSetting"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+  "DefenderSettingPropertiesWithScope": {
+    "properties": {
+      "scope": {
+        "type": "string",
+          "description": "The defender setting scope."
+            },
+            "defenderDefinitionId": {
+              "type": "string",
+              "description": "The defender setting ID."
+            },
+            "principalId": {
+              "type": "string",
+              "description": "The principal ID."
+            }
+          },
+          "description": "Defender setting properties with scope."
+        },
+    "DefenderSetting": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The defender setting ID."
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The defender setting name."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The defender setting type."
+        },
+        "properties": {
+          "$ref": "#/definitions/DefenderSettingPropertiesWithScope",
+          "description": "defender setting properties."
+        }
+      },
+      "description": "Defender Settings"
+    }
+  },
+  "parameters": {}
+}

@@ -1,0 +1,140 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-providerhub-controller";
+import "@azure-tools/cadl-autorest";
+import "./models.cadl";
+import "./SecurityProfile.cadl";
+
+namespace PaloAltoNetworks.Cloudngfw;
+
+using Azure.ResourceManager;
+using Cadl.Http;
+
+@doc("PAN Rulestack Describe Object")
+model RulestackProperties {
+  @doc("PanEtag info")
+  panEtag?: string;
+
+  @doc("Rulestack Location, Required for GlobalRulestacks, Not for LocalRulestacks")
+  panLocation?: string;
+
+  @doc("Rulestack Type")
+  scope?: ScopeType;
+
+  @doc("subscription scope of global rulestack")
+  associatedSubscriptions?: string[];
+
+  @doc("rulestack description")
+  description?: string;
+
+  @doc("Mode for default rules creation")
+  defaultMode?: DefaultMode;
+
+  @doc("minimum version")
+  minAppIdVersion?: string;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningState;
+
+  @doc("Security Profile")
+  securityServices?: securityServices;
+}
+
+@doc("PAN Tag Info")
+model PANTagInfo {
+  @doc("List of PAN Tags")
+  panTags: PANTag[];
+}
+
+@doc("PAN Tag")
+model PANTag {
+  @doc("tag id")
+  tagId: string;
+
+  @doc("tag value")
+  tagValue: string;
+}
+
+@doc("Rulestack Type")
+enum ScopeTypeValues {
+  "LOCAL",
+  "GLOBAL",
+}
+
+enum DefaultModeValues {
+  "IPS",
+  "FIREWALL",
+  "NONE",
+}
+
+@doc("Type for Default Mode for rules creation")
+@knownValues(
+  DefaultModeValues
+)
+model DefaultMode is string {}
+
+@knownValues(
+  ScopeTypeValues
+)
+model ScopeType is string {}
+
+@doc("Countries Response Object")
+model CountriesResponse {
+  @doc("List of countries")
+  value: Country[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Country Description")
+model Country {
+  @doc("country code")
+  code: string;
+
+  @doc("code description")
+  description?: string;
+}
+
+@doc("predefined url categories response")
+model PredefinedUrlCategoriesResponse {
+  @doc("predefined url categories")
+  value: PredefinedUrlCategory[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Predefined URL category object")
+model PredefinedUrlCategory {
+  action: string;
+  name: string;
+}
+
+@doc("List firewalls response")
+model ListFirewallsResponse {
+  @doc("firewalls list")
+  value: string[];
+
+  @doc("next link")
+  nextLink?: string;
+}
+
+@doc("Changelog list")
+model Changelog {
+  @doc("list of changes")
+  changes: string[];
+
+  @doc("lastCommitted timestamp")
+  lastCommitted?: zonedDateTime;
+
+  @doc("lastModified timestamp")
+  lastModified?: zonedDateTime;
+}
+
+@doc("PAN Rulestack Describe Object")
+model GlobalRulestackInfo {
+  @doc("rulestack description")
+  azureId: string;
+}

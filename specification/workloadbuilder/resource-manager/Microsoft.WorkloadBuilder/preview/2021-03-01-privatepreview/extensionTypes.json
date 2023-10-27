@@ -1,0 +1,187 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "WorkloadBuilder Client",
+      "description": "Workload builder client provides access to workloads, migrationAgents, versions, artifacts, instances and it's status operations.",
+      "version": "2021-03-01-privatepreview"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+      "https"
+    ],
+    "securityDefinitions": {
+      "azure_auth": {
+        "type": "oauth2",
+        "flow": "implicit",
+        "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+        "scopes": {
+          "user_impersonation": "impersonate your user account"
+        },
+        "description": "Azure Active Directory OAuth2"
+      }
+    },
+    "security": [
+      {
+        "azure_auth": [
+          "user_impersonation"
+        ]
+      }
+    ],
+    "paths": {
+      "/providers/Microsoft.WorkloadBuilder/extensionTypes": {
+        "get": {
+          "tags": [
+            "ExtensionTypes"
+          ],
+          "description": "Lists all the available extensionTypes for Workload builder.",
+          "operationId": "ExtensionTypes_List",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ExtensionTypesListResult"
+              }
+            },
+            "default": {
+              "description": "Resource provider error response about the failure.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          },
+          "x-ms-examples": {
+            "Operations": {
+              "$ref": "./examples/ExtensionTypes_List.json"
+            }
+          }
+        }
+      },
+      "/providers/Microsoft.WorkloadBuilder/extensionTypes/{extensionTypeName}": {
+        "get": {
+          "tags": [
+            "ExtensionTypes"
+          ],
+          "description": "Lists all the available extensionTypes for Workload builder.",
+          "operationId": "ExtensionTypes_Get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "$ref": "#/parameters/ExtensionTypeNameParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ExtensionType"
+              }
+            },
+            "default": {
+              "description": "Resource provider error response about the failure.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          },
+          "x-ms-examples": {
+            "Operations": {
+              "$ref": "./examples/ExtensionTypes_Get.json"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "ExtensionTypeProperties":{
+        "description": "ExtensionType properties",
+        "type": "object",
+        "properties":{
+          "version": {
+            "description": "ExtensionType version",
+            "type": "string"
+          },
+          "parameters":{
+            "description": "Input Parameter names",
+            "type": "object",
+            "additionalProperties":{}
+          },
+          "suitableWorkloads": {
+            "description": "Workloads suitable for this ExtensionType",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ExtensionType": {
+        "description": "Spported ExtensionTypes under under workload builder RP",
+        "type": "object",
+        "properties": {
+          "properties": {
+            "description": "extension type properties",
+            "$ref": "#/definitions/ExtensionTypeProperties",
+            "x-ms-client-flatten": true
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
+          }
+        ]
+      },
+      "ExtensionTypesListResult": {
+        "description": "A list of ExtensionTypes under the workload builder RP",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ExtensionType"
+            },
+            "description": "List of ExtensionType publushed by the resource provider",
+            "readOnly": true
+          },
+          "nextLink": {
+            "type": "string",
+            "description": "URL to get the next set of operation list results (if there are any).",
+            "readOnly": true
+          }
+        }
+      }
+    },
+    "parameters": {
+      "ExtensionTypeNameParameter": {
+        "name": "extensionTypeName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "Extension type name",
+        "minLength": 1
+      },
+      "ApiVersionParameter": {
+        "name": "api-version",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "The API version to use for this operation.",
+        "minLength": 1
+      }
+    }
+  }
+  

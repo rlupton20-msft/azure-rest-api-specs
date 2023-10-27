@@ -1,0 +1,203 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "title": "Foundational ARM Client",
+      "description": "Managed Cert Provider",
+      "version": "2021-08-10-privatepreview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+      "https"
+  ],
+  "consumes": [
+      "application/json"
+  ],
+  "produces": [
+      "application/json"
+  ],
+  "security": [
+      {
+          "azure_auth": [
+              "user_impersonation"
+          ]
+      }
+  ],
+  "securityDefinitions": {
+      "azure_auth": {
+          "type": "oauth2",
+          "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+          "flow": "implicit",
+          "description": "Azure Active Directory OAuth2 Flow.",
+          "scopes": {
+              "user_impersonation": "impersonate your user account"
+          }
+      }
+  },
+  "paths": {
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/sSLAdminCertificateDsmss/{resourceName}": {
+          "put": {
+              "description": "Create chained certs",
+              "x-ms-examples": {
+                  "Create a DsmsAllowlist": {
+                      "$ref": "./examples/CreateSSLAdminCertificateDsms.json"
+                  }
+              },
+              "operationId": "SSLAdminCertificateDsms_Create",
+              "parameters": [
+                  {
+                      "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                  },
+                  {
+                      "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+                  },
+                  {
+                      "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+                  },
+                  {
+                      "$ref": "#/parameters/ResourceNameParameter"
+                  },
+                  {
+                      "name": "SSLAdminCertificateDsms",
+                      "description": "SSLAdminCertificateDsms details.",
+                      "in": "body",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/SSLAdminCertificateDsmsModel"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "SSLAdminCertificateDsms Resource created successfully.",
+                      "schema": {
+                          "$ref": "#/definitions/SSLAdminCertificateDsmsModel"
+                      }
+                  },
+                  "201": {
+                      "description": "Create SSLAdminCertificateDsms request has been accepted.",
+                      "schema": {
+                        "$ref": "#/definitions/SSLAdminCertificateDsmsModel"
+                      }
+                  },
+                  "default": {
+                      "description": "Error response describing the reason for operation failure.",
+                      "schema": {
+                          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "definitions":{
+    "InfFileMacros":{
+      "type": "object",
+      "description" :"inf file macros",
+      "properties" : {
+        "name":{
+          "type" : "string",
+          "description" : "name of the macro"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Macro value"
+        }
+      }
+    },
+    "InfFileDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the file."
+        },
+        "macro": {
+          "type": "array",
+          "description": "InfFileMacro",
+          "items": {
+            "$ref": "#/definitions/InfFileMacros"
+          }
+        }
+      }
+    },
+    "SSLAdminCertificateDsmsResource": {
+          "required": [
+              "name",
+              "rootPath",
+              "infFile"
+          ],
+          "type": "object",
+          "description": "Chanined Certificate properties",
+          "properties": {
+              "name": {
+                  "type": "string",
+                  "description": " The path to the certificate in dSMS will be {RootPath}/certificates/chained/{Name}"
+              },
+              "rootPath": {
+                  "type": "string",
+                  "description": "The path to the certificate in dSMS will be {RootPath}/certificates/chained/{Name}"
+              },
+              "infFile": {
+                  "description": "InfFile.",
+                  "$ref": "#/definitions/InfFileDefinition"
+              },
+              "cAName": {
+                  "type": "string",
+                  "description": "Template file used to create this certificate[optional] but recommended."
+              }
+          }
+      },
+      "SSLAdminCertificateDsmsModel": {
+          "type": "object",
+          "description": "SSLAdminCertificateDsms Response",
+          "properties": {
+            "properties": {
+                "x-ms-client-flatten": true,
+                "description": " SSLAdminCertificateDsms properties with provisioning state",
+                "type": "object",
+                "properties": {
+                "provisioningState": {
+                    "$ref": "#/definitions/ProvisioningState",
+                    "description": "The provisioning State of the resource."
+                    }
+                },
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/SSLAdminCertificateDsmsResource"
+                    }
+                ]
+            }
+        },
+        "allOf": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+          }
+        ]
+      },
+      "ProvisioningState": {
+          "description": "Provisioning status of the resource.",
+          "readOnly": true,
+          "enum": [
+              "Failed",
+              "Succeeded",
+              "Canceled",
+              "Accepted"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+              "name": "ProvisioningState",
+              "modelAsString": true
+          }
+      }
+  },
+  "parameters": {
+      "ResourceNameParameter": {
+          "name": "resourceName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The name of resource.",
+          "x-ms-parameter-location": "method"
+      }
+  }
+}

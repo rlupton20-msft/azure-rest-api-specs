@@ -1,0 +1,144 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/openapi";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-azure-resource-manager";
+
+namespace ARM.TenantResource;
+
+using Azure.ResourceManager;
+using Azure.Core;
+using Cadl.Http;
+using Cadl.Rest;
+using OpenAPI;
+using Autorest;
+
+model TenantScope<TResource> {
+  ...ApiVersionParameter;
+  ...ProviderNamespace<TResource>;
+}
+
+model TenantScopeParameters<TResource> {
+  ...TenantScope<TResource>;
+  ...ParentKeysOf<TResource>;
+}
+
+model TenantInstanceParameters<TResource> {
+  ...TenantScope<TResource>;
+  ...KeysOf<TResource>;
+}
+
+interface TenantResourceRead<TResource> {
+  @autoRoute
+  @doc(
+    "Get a {name}",
+    TResource
+  )
+  @get
+  @armResourceRead(
+    TResource
+  )
+  Get(
+    ...TenantInstanceParameters<TResource>
+  ): ArmResponse<TResource> | ErrorResponse;
+}
+
+interface TenantResourceCreate<TResource> {
+  @autoRoute
+  @doc(
+    "Create a {name}",
+    TResource
+  )
+  @extension(
+    "x-ms-long-running-operation",
+    true
+  )
+  @asyncOperationOptions("azure-async-operation")
+  @armResourceCreateOrUpdate(
+    TResource
+  )
+  @put
+  CreateOrUpdate(
+    ...TenantInstanceParameters<TResource>,
+
+    @doc("Resource create parameters.")
+    @body
+    resource: TResource
+  ): ArmResponse<TResource> | ArmCreatedResponse<TResource> | ErrorResponse;
+}
+
+interface TenantResourceDelete<TResource> {
+  @autoRoute
+  @doc(
+    "Delete a {name}",
+    TResource
+  )
+  @extension(
+    "x-ms-long-running-operation",
+    true
+  )
+  @asyncOperationOptions("azure-async-operation")
+  @armResourceDelete(
+    TResource
+  )
+  @delete
+  Delete(
+    ...TenantInstanceParameters<TResource>
+  ):
+    | ArmDeletedResponse
+    | ArmDeleteAcceptedResponse
+    | ArmDeletedNoContentResponse
+    | ErrorResponse;
+}
+
+interface TenantResourceList<TResource> {
+  @pageable
+  @autoRoute
+  @doc(
+    "List {name} resources by Tenant",
+    TResource
+  )
+  @list(TResource)
+  @segmentOf(
+    TResource
+  )
+  @armResourceList(
+    TResource
+  )
+  @get
+  List(
+    ...TenantScopeParameters<TResource>
+  ): ArmResponse<ResourceListResult<TResource>> | ErrorResponse;
+}
+
+interface TenantResourceUpdate<TResource, TProperties> {
+  @autoRoute
+  @doc(
+    "Update a {name}",
+    TResource
+  )
+  @armResourceUpdate(
+    TResource
+  )
+  @patch
+  Update(
+    ...TenantInstanceParameters<TResource>,
+
+    @doc("The resource properties to be updated.")
+    @body
+    properties: ResourceUpdateModel<TResource, TProperties>
+  ): ArmResponse<TResource> | ErrorResponse;
+}
+
+interface TenantInstanceOperations<TResource, TProperties>
+  extends TenantResourceRead<TResource>,
+    TenantResourceCreate<TResource>,
+    TenantResourceUpdate<TResource, TProperties>,
+    TenantResourceDelete<TResource>,
+    TenantResourceList<TResource> {}
+
+interface TenantProxyResourceOperations<TResource>
+  extends TenantResourceRead<TResource>,
+    TenantResourceCreate<TResource>,
+    TenantResourceDelete<TResource>,
+    TenantResourceList<TResource> {}

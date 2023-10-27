@@ -27,25 +27,43 @@ These are the global settings for the PaloAltoNetworks.Cloudngfw.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-09-01
+tag: package-2022-08-29-preview
 ```
 
+### Tag: package-2022-02-17-preview
 
-### Tag: package-2023-10-10-preview
+These settings apply only when `--tag=package-2022-02-17-preview` is specified on the command line.
 
-These settings apply only when `--tag=package-2023-10-10-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-10-10-preview'
+```yaml $(tag) == 'package-2022-02-17-preview'
 input-file:
-  - PaloAltoNetworks.Cloudngfw/preview/2023-10-10-preview/PaloAltoNetworks.Cloudngfw.json
+  - PaloAltoNetworks.Cloudngfw/preview/2022-02-17-preview/PaloAltoNetworks.Cloudngfw.json
 ```
-### Tag: package-2022-08-29
 
-These settings apply only when `--tag=package-2022-08-29` is specified on the command line.
+### Tag: package-2022-04-19-preview
 
-```yaml $(tag) == 'package-2022-08-29'
+These settings apply only when `--tag=package-2022-04-19-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-04-19-preview'
 input-file:
-  - PaloAltoNetworks.Cloudngfw/stable/2022-08-29/PaloAltoNetworks.Cloudngfw.json
+  - PaloAltoNetworks.Cloudngfw/preview/2022-04-19-preview/PaloAltoNetworks.Cloudngfw.json
+```
+
+### Tag: package-2022-07-07-preview
+
+These settings apply only when `--tag=package-2022-07-07-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-07-07-preview'
+input-file:
+  - PaloAltoNetworks.Cloudngfw/preview/2022-07-07-preview/PaloAltoNetworks.Cloudngfw.json
+```
+
+### Tag: package-2022-08-04-preview
+
+These settings apply only when `--tag=package-2022-08-04-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-08-04-preview'
+input-file:
+  - PaloAltoNetworks.Cloudngfw/preview/2022-08-04-preview/PaloAltoNetworks.Cloudngfw.json
 ```
 
 ### Tag: package-2022-08-29-preview
@@ -57,25 +75,8 @@ input-file:
   - PaloAltoNetworks.Cloudngfw/preview/2022-08-29-preview/PaloAltoNetworks.Cloudngfw.json
 ```
 
-### Tag: package-2023-09-01-preview
-
-These settings apply only when `--tag=package-2023-09-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-09-01-preview'
-input-file:
-  - PaloAltoNetworks.Cloudngfw/preview/2023-09-01-preview/PaloAltoNetworks.Cloudngfw.json
-```
-
-### Tag: package-2023-09-01
-
-These settings apply only when `--tag=package-2023-09-01` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-09-01'
-input-file:
-  - PaloAltoNetworks.Cloudngfw/stable/2023-09-01/PaloAltoNetworks.Cloudngfw.json
-```
-
 ---
+
 # Code Generation
 
 ## Swagger to SDK
@@ -87,7 +88,7 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions

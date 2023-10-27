@@ -1,0 +1,516 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Consumption Billing Interfaces",
+    "description": "Consumption Billing provider to enable different billing models such as Pay-as-you-go ( PAYG) for resource usage.",
+    "version": "2022-06-08-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.ScimConsumptionBilling/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "Lists all available PAYG RP operations.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all the operations.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResultDefinition"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ScimConsumptionBilling/privacy": {
+      "get": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygResource_List",
+        "description": "Returns PAYG resources for the subscription.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Existing PAYG resources for the subscription (array of 1 element, since one PAYG resource can exist at a time.).",
+            "schema": {
+              "$ref": "#/definitions/PaygResourcesListDefinition"
+            }
+          },
+          "default": {
+            "description": "'404' - 'Not Found'.\n'400' - 'Bad Request'",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygResource_List_MaximumSet_Gen": {
+            "$ref": "./examples/PaygResource_List_MaximumSet_Gen.json"
+          },
+          "PaygResource_List_MinimumSet_Gen": {
+            "$ref": "./examples/PaygResource_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScimConsumptionBilling/privacy": {
+      "get": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygResource_ListByRG",
+        "description": "Returns PAYG resources list by resource group.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Existing PAYG resources for the resource group (array of 1 element, since one PAYG resource can exist at a time.).",
+            "schema": {
+              "$ref": "#/definitions/PaygResourcesListDefinition"
+            }
+          },
+          "default": {
+            "description": "'404' - 'Not Found'.\n'400' - 'Bad Request'",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygResource_ListByRG_MaximumSet_Gen": {
+            "$ref": "./examples/PaygResource_ListByRG_MaximumSet_Gen.json"
+          },
+          "PaygResource_ListByRG_MinimumSet_Gen": {
+            "$ref": "./examples/PaygResource_ListByRG_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScimConsumptionBilling/privacy/{resourceName}": {
+      "get": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygResource_Get",
+        "description": "Returns existing PAYG resource.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Existing PAYG resource information.",
+            "schema": {
+              "$ref": "#/definitions/PaygResourceValueDefinition"
+            }
+          },
+          "default": {
+            "description": "'404' - 'Not Found'.\n'400' - 'Bad Request'",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygResource_Get_MaximumSet_Gen": {
+            "$ref": "./examples/PaygResource_Get_MaximumSet_Gen.json"
+          },
+          "PaygResource_Get_MinimumSet_Gen": {
+            "$ref": "./examples/PaygResource_Get_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygResource_Put",
+        "description": "Create or Update PAYG resource information to support PAYG opt-in or opt-out.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created/updated PAYG resource information.",
+            "schema": {
+              "$ref": "#/definitions/PaygResourceValueDefinition"
+            }
+          },
+          "default": {
+            "description": "400 - Bad Request with different error codes:\n - OnlyOnePrivacyResourceAllowedInTenant\n - InvalidSubscriptionStatus\n - UnsupportedAccount\n - UnsupportedAccountForCurrency",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygResource_Put_MaximumSet_Gen": {
+            "$ref": "./examples/PaygResource_Put_MaximumSet_Gen.json"
+          },
+          "PaygResource_Put_MinimumSet_Gen": {
+            "$ref": "./examples/PaygResource_Put_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygResource_Delete",
+        "description": "Deletes existing PAYG resource.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource has been successfully deleted."
+          },
+          "204": {
+            "description": "No content."
+          },
+          "default": {
+            "description": "'404' - 'Not Found'.\n'400' - 'Bad Request'",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygResource_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/PaygResource_Delete_MaximumSet_Gen.json"
+          },
+          "PaygResource_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/PaygResource_Delete_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScimConsumptionBilling/resourceEligibility": {
+      "post": {
+        "tags": [
+          "PAYG Resources"
+        ],
+        "security": [
+          {
+            "azure_auth": []
+          }
+        ],
+        "operationId": "PaygEligibility_Post",
+        "description": "Returns the new PAYG resource creation eligibility result. There can be only one active PAYG resource per Tenant.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PAYG eligibility result.",
+            "schema": {
+              "$ref": "#/definitions/EligibilityValueDefinition"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PaygEligibility_Post_MaximumSet_Gen": {
+            "$ref": "./examples/PaygEligibility_Post_MaximumSet_Gen.json"
+          },
+          "PaygEligibility_Post_MinimumSet_Gen": {
+            "$ref": "./examples/PaygEligibility_Post_MinimumSet_Gen.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorDefinition": {
+      "type": "object",
+      "title": "Error",
+      "description": "Error description and code explaining why an operation failed.",
+      "required": [
+        "message",
+        "code"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Description of the error."
+        },
+        "code": {
+          "type": "string",
+          "description": "Service specific error code which serves as the substatus for the HTTP error code."
+        }
+      }
+    },
+    "OperationListResultDefinition": {
+      "description": "Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of available operation details",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationDefinition"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to fetch the next page of operation list results (per server side paging).\r\nIt's null for now, added for future use."
+        }
+      }
+    },
+    "OperationDefinition": {
+      "description": "Operation detail payload",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "isDataAction": {
+          "description": "Indicates whether the operation is a data action",
+          "type": "boolean"
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "type": "object",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft.Subscription",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed: Profile, endpoint, etc.",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Operation type: Read, write, delete, etc.",
+              "type": "string"
+            },
+            "description": {
+              "description": "Text description of the operation.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "PaygResourcesListDefinition": {
+      "description": "Object that includes an array of PAYG resources and a possible link for next set.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of PAYG resources",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaygResourceValueDefinition"
+          }
+        },
+        "nextLink": {
+          "description": "The URL the client should use to fetch the next page (per server side paging).\r\nIt's null for now, added for future use.",
+          "type": "string"
+        }
+      }
+    },
+    "PaygResourceValueDefinition": {
+      "type": "object",
+      "description": "PAYG resource value information.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Full resource URI in format subscriptions/{subscriptionId}/providers/Microsoft.ScimConsumptionBilling/privacy/{resourceName}.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Unique resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Resource type.",
+          "readOnly": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "EligibilityValueDefinition": {
+      "type": "object",
+      "description": "PAYG eligibility result.",
+      "properties": {
+        "isEligible": {
+          "type": "boolean"
+        },
+        "error": {
+          "description": "(Optional) eligibility validation failure result.",
+          "$ref": "#/definitions/ErrorDefinition"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client API version."
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials that uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ResourceNameParameter": {
+      "name": "resourceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Unique PAYG resource name.",
+      "x-ms-parameter-location": "client"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Resource group name.",
+      "x-ms-parameter-location": "client"
+    }
+  }
+}

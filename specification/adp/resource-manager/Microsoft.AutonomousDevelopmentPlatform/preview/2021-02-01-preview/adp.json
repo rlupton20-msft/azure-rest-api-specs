@@ -105,12 +105,6 @@
             "schema": {
               "$ref": "#/definitions/CheckNameAvailabilityResult"
             }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -702,25 +696,19 @@
     },
     "Tags": {
       "type": "object",
-      "description": "Resource tags",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "create",
-            "update"
-          ],
-          "description": "Resource tags"
-        }
-      }
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-ms-mutability": [
+        "read",
+        "create",
+        "update"
+      ],
+      "description": "Resource tags"
     },
     "Account": {
-      "type": "object",
       "description": "ADP account",
+      "type": "object",
       "properties": {
         "properties": {
           "description": "List of account properties",
@@ -741,24 +729,21 @@
       ]
     },
     "AccountPatch": {
-      "type": "object",
       "description": "ADP account",
+      "type": "object",
       "properties": {
         "properties": {
           "description": "List of account properties",
           "type": "object",
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/AccountProperties"
-        }
-      },
-      "allOf": [
-        {
+        },
+        "tags": {
           "$ref": "#/definitions/Tags"
         }
-      ]
+      }
     },
     "AccountProperties": {
-      "type": "object",
       "description": "ADP account properties",
       "properties": {
         "accountId": {
@@ -786,8 +771,6 @@
       }
     },
     "AccountList": {
-      "type": "object",
-      "description": "The list operation response, that contains the data pools and their properties",
       "properties": {
         "value": {
           "readOnly": true,
@@ -801,10 +784,10 @@
           "type": "string",
           "description": "URL to get the next set of operation list results if there are any"
         }
-      }
+      },
+      "description": "The list operation response, that contains the data pools and their properties"
     },
     "DataPool": {
-      "type": "object",
       "description": "ADP Data Pool",
       "properties": {
         "properties": {
@@ -821,7 +804,6 @@
       ]
     },
     "DataPoolPatch": {
-      "type": "object",
       "description": "ADP Data Pool",
       "properties": {
         "properties": {
@@ -838,7 +820,6 @@
       ]
     },
     "DataPoolBaseProperties": {
-      "type": "object",
       "description": "Data Pool properties",
       "properties": {
         "dataPoolId": {
@@ -868,17 +849,20 @@
           "items": {
             "$ref": "#/definitions/DataPoolLocation"
           },
+          "minItems": 1,
           "description": "Gets or sets the collection of locations where Data Pool resources should be created"
         },
         "systemData": {
           "readOnly": true,
           "description": "The system meta data relating to this resource",
           "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/systemData"
+        },
+        "tags": {
+          "$ref": "#/definitions/Tags"
         }
       }
     },
     "DataPoolProperties": {
-      "type": "object",
       "description": "Data Pool properties",
       "allOf": [
         {
@@ -890,7 +874,6 @@
       ]
     },
     "DataPoolLocation": {
-      "type": "object",
       "description": "Location of a Data Pool",
       "properties": {
         "name": {
@@ -900,6 +883,16 @@
         "encryption": {
           "description": "Encryption properties of a Data Pool location",
           "$ref": "#/definitions/DataPoolEncryption"
+        },
+        "storageSku": {
+          "description": "The Storage SKU. Default: Standard_ZRS.",
+          "$ref": "#/definitions/storageSku",
+          "x-nullable": true
+        },
+        "storageAccountCount": {
+          "description": "The amount of storage accounts provisioned per Data Pool. Default: 5",
+          "type": "integer",
+          "minimum": 1
         }
       },
       "required": [
@@ -907,7 +900,6 @@
       ]
     },
     "DataPoolEncryption": {
-      "type": "object",
       "description": "Encryption properties of a Data Pool",
       "properties": {
         "keyVaultUri": {
@@ -933,8 +925,33 @@
         "userAssignedIdentity"
       ]
     },
+    "storageSku": {
+      "description": "The Storage SKU.",
+      "properties": {
+        "name": {
+          "description": "The SKU name",
+          "type": "string",
+          "enum": [
+            "Standard_LRS",
+            "Standard_GRS",
+            "Standard_Ragrs",
+            "Standard_ZRS",
+            "Premium_LRS",
+            "Premium_ZRS",
+            "Standard_Gzrs",
+            "Standard_Ragzrs"
+          ],
+          "x-ms-enum": {
+            "name": "StorageSkuName",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "DataPoolList": {
-      "type": "object",
       "properties": {
         "value": {
           "readOnly": true,
@@ -952,8 +969,8 @@
       "description": "The list operation response, that contains the data pools and their properties"
     },
     "Operation": {
-      "type": "object",
       "description": "Operation detail payload",
+      "type": "object",
       "properties": {
         "name": {
           "description": "Name of the operation",
@@ -983,8 +1000,8 @@
       }
     },
     "OperationDisplay": {
-      "type": "object",
       "description": "Operation display payload",
+      "type": "object",
       "properties": {
         "provider": {
           "description": "Resource provider of the operation",
@@ -1005,8 +1022,8 @@
       }
     },
     "OperationProperties": {
-      "type": "object",
       "description": "Additional details about an operation",
+      "type": "object",
       "x-ms-client-flatten": true,
       "properties": {
         "serviceSpecification": {
@@ -1016,8 +1033,8 @@
       }
     },
     "OperationServiceSpecification": {
-      "type": "object",
       "description": "Details about a service operation",
+      "type": "object",
       "properties": {
         "logSpecifications": {
           "description": "Details about operations related to logs",
@@ -1036,8 +1053,8 @@
       }
     },
     "OperationLogSpecification": {
-      "type": "object",
       "description": "Details about an operation related to logs",
+      "type": "object",
       "properties": {
         "name": {
           "description": "The name of the log category",
@@ -1054,8 +1071,8 @@
       }
     },
     "OperationMetricSpecification": {
-      "type": "object",
       "description": "Details about an operation related to metrics",
+      "type": "object",
       "properties": {
         "name": {
           "description": "The name of the metric",
@@ -1099,8 +1116,8 @@
       }
     },
     "OperationMetricAvailability": {
-      "type": "object",
       "description": "Defines how often data for a metric becomes available",
+      "type": "object",
       "properties": {
         "timeGrain": {
           "description": "The granularity for the metric",
@@ -1113,7 +1130,6 @@
       }
     },
     "OperationListResult": {
-      "type": "object",
       "description": "Available operations of the service",
       "properties": {
         "value": {
@@ -1130,7 +1146,6 @@
       }
     },
     "ErrorResponse": {
-      "type": "object",
       "description": "Error response",
       "properties": {
         "error": {
@@ -1140,7 +1155,6 @@
       }
     },
     "ErrorDefinition": {
-      "type": "object",
       "description": "Error definition",
       "properties": {
         "code": {

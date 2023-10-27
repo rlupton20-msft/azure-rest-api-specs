@@ -1,0 +1,377 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NRFFunction",
+    "description": "The definitions in this swagger specification will be used to create NRFFunction",
+    "version": "2022-09-15-privatepreview",
+    "x-ms-code-generation-settings": {
+      "name": "NetworkFunctionResource"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/nrfFunctions": {
+      "get": {
+        "tags": [
+          "NrfFunctions"
+        ],
+        "operationId": "NRF_Retrieve_All_By_MobilePacketCore",
+        "description": "Lists all the component resources in a network function.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of component resources.",
+            "schema": {
+              "$ref": "#/definitions/NrfFunctionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List components in network function": {
+            "$ref": "./examples/NrfListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileCore/nrfFunctions/{nrfFunctionName}": {
+      "get": {
+        "tags": [
+          "NrfFunctions"
+        ],
+        "operationId": "NRF_Retrieve",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/NrfFunctionName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves the NRF resource.",
+            "schema": {
+              "$ref": "#/definitions/NrfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get NRF": {
+            "$ref": "./examples/NrfGet.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "NrfFunctions"
+        ],
+        "operationId": "NRF_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/NrfFunctionName"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NrfFunction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the NRF resource.",
+            "schema": {
+              "$ref": "#/definitions/NrfFunction"
+            }
+          },
+          "201": {
+            "description": "Creates the NRF resource.",
+            "schema": {
+              "$ref": "#/definitions/NrfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update Vendor resource": {
+            "$ref": "./examples/NrfCreate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "NrfFunctions"
+        ],
+        "operationId": "NRF_Delete",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/NrfFunctionName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletes the NRF resource."
+          },
+          "202": {
+            "description": "Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "204": {
+            "description": "Request is successful. Resource with the specified name does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete NRF": {
+            "$ref": "./examples/NrfDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      },
+      "patch": {
+        "description": "Update NRFFunctions tags.",
+        "tags": [
+          "NrfFunctions"
+        ],
+        "operationId": "NRF_UpdateTags",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/NrfFunctionName"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./common.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to the update device tags operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the NRF resource.",
+            "schema": {
+              "$ref": "#/definitions/NrfFunction"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete NRF": {
+            "$ref": "./examples/NrfUpdateTags.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NrfLcmConfig": {
+      "type": "object",
+      "properties": {
+        "cfgmgrLbIp": {
+          "type": "string",
+          "description": "Load Balancer IP address."
+        }
+      },
+      "required": [
+        "cfgmgrLbIp"
+      ],
+      "description": "NRF resource LCM configuration."
+    },
+    "NrfCmConfig": {
+      "type": "object",
+      "properties": {
+        "nrfProfile": {
+          "$ref": "./common.json#/definitions/NrfProfile"
+        }
+      },
+      "required": [
+        "nrfProfile"
+      ]
+    },
+    "NrfFunctionPropertiesFormat": {
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "$ref": "./common.json#/definitions/ProvisioningState"
+        },
+        "nfAbstract": {
+          "$ref": "./common.json#/definitions/NfAbstract"
+        },
+        "lcmConfig": {
+          "$ref": "#/definitions/NrfLcmConfig"
+        },
+        "cmConfig": {
+          "$ref": "#/definitions/NrfCmConfig"
+        }
+      },
+      "required": [
+        "nfAbstract",
+        "lcmConfig",
+        "cmConfig"
+      ],
+      "description": "The NRF resource definition."
+    },
+    "NrfFunction": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NrfFunctionPropertiesFormat",
+          "description": "Mobile network properties."
+        },
+        "systemData": {
+          "x-ms-client-flatten": true,
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/systemData",
+          "readOnly": true,
+          "description": "Metadata pertaining to creation and last modification of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "description": "The NRF network function resource."
+    },
+    "NrfFunctionListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NrfFunction"
+          },
+          "description": "A list of NRF function in a subscription or resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for network function API service call."
+    }
+  },
+  "parameters": {
+    "NrfFunctionName": {
+      "name": "nrfFunctionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of NRF Function"
+    }
+  }
+}

@@ -1,0 +1,727 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2021-04-01-preview",
+    "title": "ava4m",
+    "description": "Microsoft Azure Video Analytics"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user analyzer"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.VideoAnalyzerMedia/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "description": "Lists all of the ava4milable Azure Video Analytics provider operations.",
+        "operationId": "Operations_List",
+        "x-ms-examples": {
+          "List operations": {
+            "$ref": "./examples/Ava4mOperationsList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.VideoAnalyzerMedia/analyzers": {
+      "get": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_List",
+        "description": "List all Azure Video Analytics analyzers ava4milable under the subscription",
+        "x-ms-examples": {
+          "List analyzers": {
+            "$ref": "./examples/Ava4mAnalyzersList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AnalyzerList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoAnalyzerMedia/analyzers": {
+      "get": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_ListByResourceGroup",
+        "description": "List all Azure Video Analytics analyzers ava4milable under the resource group",
+        "x-ms-examples": {
+          "List analyzers by resource group": {
+            "$ref": "./examples/Ava4mAnalyzersListByResourceGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AnalyzerList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoAnalyzerMedia/analyzers/{analyzerName}": {
+      "get": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_Get",
+        "description": "Gets the properties of an Azure Video Analytics analyzer.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AnalyzerNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The AVA4M analyzerproperties were retrieved successfully.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get analyzer": {
+            "$ref": "./examples/Ava4mAnalyzerGet.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_Update",
+        "x-ms-long-running-operation": true,
+        "description": "Updates the properties of an existing Azure Video Analytics analyzer.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AnalyzerNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "parameters",
+            "description": "The parameters to provide for the current AVA4M analyzer.",
+            "schema": {
+              "$ref": "#/definitions/AnalyzerPatch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The resource was updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          },
+          "201": {
+            "description": "The resource will be updated asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Patch analyzer": {
+            "$ref": "./examples/Ava4mAnalyzerPatch.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_CreateOrUpdate",
+        "description": "Creates or updates an Aazure Video Analytics analyzer.",
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AnalyzerNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "parameters",
+            "description": "The parameters to provide for the AVA4M analyzer.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The AVA4M analyzer was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          },
+          "201": {
+            "description": "The resource will be updated asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/Analyzer"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Put analyzer": {
+            "$ref": "./examples/Ava4mAnalyzerPut.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_Delete",
+        "description": "Deletes an Aazure Video Analytics analyzer.",
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AnalyzerNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Azure Video Analytics analyzer was successfully deleted."
+          },
+          "202": {
+            "description": "The Azure Video Analytics analyzer will be deleted asynchronously."
+          },
+          "204": {
+            "description": "The Azure Video Analytics analyzer does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete analyzer": {
+            "$ref": "./examples/Ava4mAnalyzerDelete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoAnalyzerMedia/analyzers/{analyzerName}/accessToken": {
+      "post": {
+        "tags": [
+          "Analyzers"
+        ],
+        "operationId": "Analyzers_AccessToken_Retrieve",
+        "description": "Retrieve an analyzer access token.",
+        "x-ms-examples": {
+          "Retrieve AccessToken": {
+            "$ref": "./examples/Ava4mAnalyzerAccessTokenRetrieve.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AnalyzerNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The AVA4M analyzer's access token properties were retrieved successfully.",
+            "schema": {
+              "$ref": "#/definitions/AccessToken"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }        
+      }
+    }
+  },
+  "definitions": {
+    "Tags": {
+      "description": "Resource tags",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        }
+      }
+    },
+    "Analyzer": {
+      "description": "An Azure Video Analytics analyzer.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "List of analyzer properties",
+          "type": "object",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AnalyzerProperties"
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource.",
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/systemData"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "AnalyzerPatch": {
+      "description": "An Azure Video Analytics analyzer.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "List of analyzer properties",
+          "type": "object",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AnalyzerProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Tags"
+        }
+      ]
+    },
+    "AnalyzerProperties": {
+      "description": "Azure Video Analytics analyzer properties",
+      "properties": {
+        "analyzerId": {
+          "description": "The analyzer's data-plane ID",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the status of the analyzer at the time the operation was called.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "Accepted",
+            "Provisioning",
+            "Deleting"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "AnalyzerList": {
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Analyzer"
+          },
+          "description": "List of analyzers and their properties."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      },
+      "description": "The list operation response, that contains the data pools and their properties."
+    },
+    "Operation": {
+      "description": "Operation detail payload",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the operation",
+          "type": "string"
+        },
+        "isDataAction": {
+          "description": "Indicates whether the operation is a data action",
+          "type": "boolean"
+        },
+        "actionType": {
+          "description": "Indicates the action type.",
+          "type": "string"
+        },
+        "display": {
+          "$ref": "#/definitions/OperationDisplay",
+          "description": "Display of the operation"
+        },
+        "origin": {
+          "description": "Origin of the operation",
+          "type": "string"
+        },
+        "properties": {
+          "$ref": "#/definitions/OperationProperties",
+          "description": "Properties of the operation",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "OperationDisplay": {
+      "description": "Operation display payload",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "description": "Resource provider of the operation",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource of the operation",
+          "type": "string"
+        },
+        "operation": {
+          "description": "Localized friendly name for the operation",
+          "type": "string"
+        },
+        "description": {
+          "description": "Localized friendly description for the operation",
+          "type": "string"
+        }
+      }
+    },
+    "OperationProperties": {
+      "description": "Additional details about an operation.",
+      "type": "object",
+      "x-ms-client-flatten": true,
+      "properties": {
+        "serviceSpecification": {
+          "description": "Details about a service operation.",
+          "$ref": "#/definitions/OperationServiceSpecification"
+        }
+      }
+    },
+    "OperationServiceSpecification": {
+      "description": "Details about a service operation.",
+      "type": "object",
+      "properties": {
+        "logSpecifications": {
+          "description": "Details about operations related to logs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationLogSpecification"
+          }
+        },
+        "metricSpecifications": {
+          "description": "Details about operations related to metrics.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationMetricSpecification"
+          }
+        }
+      }
+    },
+    "OperationLogSpecification": {
+      "description": "Details about an operation related to logs.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the log category.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Localized display name.",
+          "type": "string"
+        },
+        "blobDuration": {
+          "description": "Blobs created in the customer storage analyzer, per hour.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationMetricSpecification": {
+      "description": "Details about an operation related to metrics.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the metric.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Localized display name of the metric.",
+          "type": "string"
+        },
+        "displayDescription": {
+          "description": "The description of the metric.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "The unit that the metric is measured in.",
+          "type": "string"
+        },
+        "aggregationType": {
+          "description": "The type of metric aggregation.",
+          "type": "string"
+        },
+        "enableRegionalMdmAnalyzer": {
+          "description": "Whether or not the service is using regional MDM analyzers.",
+          "type": "string"
+        },
+        "sourceMdmAnalyzer": {
+          "description": "The name of the MDM analyzer.",
+          "type": "string"
+        },
+        "sourceMdmNamespace": {
+          "description": "The name of the MDM namespace.",
+          "type": "string"
+        },
+        "ava4milabilities": {
+          "description": "Defines how often data for metrics becomes ava4milable.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationMetricAvailability"
+          }
+        }
+      }
+    },
+    "OperationMetricAvailability": {
+      "description": "Defines how often data for a metric becomes ava4milable.",
+      "type": "object",
+      "properties": {
+        "timeGrain": {
+          "description": "The granularity for the metric.",
+          "type": "string"
+        },
+        "blobDuration": {
+          "description": "Blob created in the customer storage analyzer, per hour.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Ava4milable operations of the service.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of operations supported by the Resource Provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    },
+    "AccessToken": {
+      "description": "Object that includes an analyzer's access token.",
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The analyzer access token."
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "Error response.",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition",
+          "description": "The error details."
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error.",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          },
+          "readOnly": true
+        }
+      }
+    }
+  },
+  "parameters": {
+    "AnalyzerNameParameter": {
+      "name": "analyzerName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the Azure Video Analytics analyzer.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*",
+      "maxLength": 50,
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

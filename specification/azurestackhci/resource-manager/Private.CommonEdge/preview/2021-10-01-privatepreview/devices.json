@@ -1,0 +1,359 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "2021-01-01-preview",
+      "title": "AzureStackHCI",
+      "description": "Azure Stack HCI management service"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "security": [
+      {
+        "azure_auth": [
+          "user_impersonation"
+        ]
+      }
+    ],
+    "securityDefinitions": {
+      "azure_auth": {
+        "type": "oauth2",
+        "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+        "flow": "implicit",
+        "description": "Azure Active Directory OAuth2 Flow",
+        "scopes": {
+          "user_impersonation": "impersonate your user account"
+        }
+      }
+    },
+    "paths": {
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.CommonEdge/devices": {
+        "get": {
+          "tags": [
+            "devices"
+          ],
+          "operationId": "devices_ListByResourceGroup",
+          "x-ms-examples": {
+            "List devices in a given resource group": {
+              "$ref": "./examples/ListDevicesByResourceGroup.json"
+            }
+          },
+          "description": "List all HCI devices in a resource group.",
+          "parameters": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/deviceList"
+              }
+            },
+            "default": {
+              "description": "Error response describing why the operation failed.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.CommonEdge/devices/{deviceName}": {
+        "get": {
+          "tags": [
+            "devices"
+          ],
+          "operationId": "devices_Get",
+          "x-ms-examples": {
+            "Get device": {
+              "$ref": "./examples/GetDevice.json"
+            }
+          },
+          "description": "Get HCI device.",
+          "parameters": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/deviceNameParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            },
+            "default": {
+              "description": "Error response describing why the operation failed.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "devices"
+          ],
+          "operationId": "devices_Create",
+          "x-ms-examples": {
+            "Create device": {
+              "$ref": "./examples/CreateDevice.json"
+            }
+          },
+          "description": "Create an HCI device.",
+          "parameters": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/deviceNameParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "device",
+              "in": "body",
+              "description": "Details of the HCI device.",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            },
+            "default": {
+              "description": "Error response describing why the operation failed.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "devices"
+          ],
+          "operationId": "devices_Update",
+          "x-ms-examples": {
+            "Update device": {
+              "$ref": "./examples/UpdateDevice.json"
+            }
+          },
+          "description": "Update an HCI device.",
+          "parameters": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/deviceNameParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "device",
+              "in": "body",
+              "description": "Details of the HCI device.",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/devicePatch"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            },
+            "default": {
+              "description": "Error response describing why the operation failed.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "devices"
+          ],
+          "operationId": "devices_Delete",
+          "x-ms-examples": {
+            "Delete device": {
+              "$ref": "./examples/DeleteDevice.json"
+            }
+          },
+          "description": "Delete an HCI device.",
+          "parameters": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/deviceNameParameter"
+            },
+            {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "204": {
+              "description": "No content"
+            },
+            "default": {
+              "description": "Error response describing why the operation failed.",
+              "schema": {
+                "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "deviceList": {
+        "description": "List of devices.",
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "List of devices.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/device"
+            }
+          },
+          "nextLink": {
+            "description": "Link to the next set of results.",
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "device": {
+        "description": "device details.",
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+          }
+        ],
+        "properties": {
+          "systemData": {
+            "description": "System data of device resource",
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+            "x-ms-client-flatten": true,
+            "readOnly": true
+          },
+          "properties": {
+            "description": "device properties.",
+            "$ref": "#/definitions/deviceProperties",
+            "x-ms-client-flatten": true
+          }
+        }
+      },
+      "devicePatch": {
+        "description": "device details to update.",
+        "type": "object",
+        "properties": {
+          "tags": {
+            "description": "Resource tags.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "description": "device properties.",
+            "$ref": "#/definitions/devicePatchProperties",
+            "x-ms-client-flatten": true
+          }
+        }
+      },
+      "deviceProperties": {
+        "description": "device properties.",
+        "type": "object",
+        "properties": {
+          "provisioningState": {
+            "description": "Provisioning state.",
+            "type": "string",
+            "enum": [
+              "Succeeded",
+              "Failed",
+              "Canceled",
+              "Accepted",
+              "Provisioning"
+            ],
+            "x-ms-enum": {
+              "name": "ProvisioningState",
+              "modelAsString": true
+            },
+            "readOnly": true
+          }
+        }
+      },
+      "devicePatchProperties": {
+        "description": "device properties.",
+        "type": "object",
+        "properties": {
+        }
+      }
+    },
+    "parameters": {
+      "deviceNameParameter": {
+        "name": "deviceName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The name of the device.",
+        "x-ms-parameter-location": "method"
+      }
+    }
+  }
+  

@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.Orbital
+  namespace: Microsoft.OrbitalTest
   output-folder: $(csharp-sdks-folder)/orbital/management/Microsoft.Orbital/GeneratedProtocol
 ```

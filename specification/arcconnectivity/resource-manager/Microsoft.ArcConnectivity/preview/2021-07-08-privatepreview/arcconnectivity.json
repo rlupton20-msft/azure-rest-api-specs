@@ -1,0 +1,442 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure Arc Connectivity Platform Management API",
+    "description": "REST API for Azure Arc Connectivity Platform",
+    "version": "2021-07-08-privatepreview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.ArcConnectivity/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "description": "Lists the available Azure Arc Connectivity Platform REST API operations.",
+        "operationId": "Operations_List",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationListResult"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.ArcConnectivity/networks": {
+      "get": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "List of networks to the target resource.",
+        "operationId": "Networks_List",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of networks.",
+            "schema": {
+              "$ref": "#/definitions/NetworksList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.ArcConnectivity/networks/{networkId}": {
+      "get": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "Gets the network to the resource.",
+        "operationId": "Networks_Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network details",
+            "schema": {
+              "$ref": "#/definitions/NetworkResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "Create or update the network to the target resource.",
+        "operationId": "Networks_CreateOrUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkIdParameter"
+          },
+          {
+            "name": "NetworkResource",
+            "description": "Network details",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NetworkResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network details.",
+            "schema": {
+              "$ref": "#/definitions/NetworkResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "Update the network to the target resource.",
+        "operationId": "Networks_Update",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkIdParameter"
+          },
+          {
+            "name": "NetworkResource",
+            "description": "Network details",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NetworkResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network resource.",
+            "schema": {
+              "$ref": "#/definitions/NetworkResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "Deletes the network access to the target resource.",
+        "operationId": "Networks_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The network is deleted successfully."
+          },
+          "204": {
+            "description": "The network has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.ArcConnectivity/networks/{networkId}/listCredentials": {
+      "post": {
+        "tags": [
+          "Networks"
+        ],
+        "description": "Gets the network access credentials to the resource.",
+        "operationId": "Networks_ListCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkIdParameter"
+          },
+          {
+            "$ref": "#/parameters/NetworkAccessExpirationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network credentials",
+            "schema": {
+              "$ref": "#/definitions/NetworkAccessResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "NetworkAccessProperties": {
+      "type": "object",
+      "description": "Network access properties",
+      "required": [
+        "namespace",
+        "hybridConnectionName"
+      ],
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "The name of azure relay namespace",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[A-Za-z0-9-._/]+$"
+        },
+        "hybridConnectionName": {
+          "type": "string",
+          "description": "Azure Relay hybrid connection name for the resource."
+        },
+        "accessKey": {
+          "type": "string",
+          "description": "Access key for hybrid connection.",
+          "readOnly": true,
+          "x-ms-secret": true
+        },
+        "expiration": {
+          "type": "integer",
+          "description": "The experation of access key in unix time."
+        }
+      }
+    },
+    "NetworkAccessResource": {
+      "description": "The network access for the target resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "systemData": {
+          "description": "System data of Network access resource.",
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "description": "The network access detail.",
+          "$ref": "#/definitions/NetworkAccessProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "NetworkProperties": {
+      "type": "object",
+      "description": "Network details",
+      "required": [
+        "type",
+        "location"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of network.",
+          "enum": [
+            "default",
+            "privatelink",
+            "custom"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of network resource.",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^[A-Za-z0-9-._/]+$"
+        },
+        "namespaceResourceId": {
+          "type": "string",
+          "description": "The resource Id of the azure relay namespace (optional)."
+        }
+      }
+    },
+    "NetworkResource": {
+      "description": "The network for the target resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "systemData": {
+          "description": "System data of Networks resource",
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "description": "The network detail.",
+          "$ref": "#/definitions/NetworkProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "NetworksList": {
+      "description": "The list of networks.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of networks list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of networks.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkResource"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The fully qualified Azure Resource manager identifier of the resource to be connected.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "NetworkIdParameter": {
+      "name": "networkId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The network Id.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "NetworkAccessExpirationParameter": {
+      "name": "expiration",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "default": 600,
+      "minimum": 60,
+      "maximum": 600,
+      "description": "The requested expiration time in second for the network access.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

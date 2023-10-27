@@ -1,0 +1,1290 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Microsoft.SAP",
+		"description": "Microsoft.SAP",
+		"version": "2020-09-01"
+	},
+	"host": "management.azure.com",
+	"schemes": ["https"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"security": [{
+		"azure_auth": ["user_impersonation"]
+	}],
+	"securityDefinitions": {
+		"azure_auth": {
+			"type": "oauth2",
+			"authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+			"flow": "implicit",
+			"description": "Azure Active Directory OAuth2 Flow.",
+			"scopes": {
+				"user_impersonation": "impersonate your user account"
+			}
+		}
+	},
+	"paths": {
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}": {
+			"get": {
+				"description": "Returns a SID",
+				"operationId": "SID_Get",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SID",
+						"schema": {
+							"$ref": "#/definitions/SIDDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Create or update a SID.",
+				"operationId": "SID_CreateOrUpdate",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"name": "SIDType",
+						"description": "SID details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/SIDDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SID is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/SIDDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"patch": {
+				"description": "patch a SID.",
+				"operationId": "SID_Patch",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"name": "SIDType",
+						"description": "SID details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/SIDDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SID is patched successfully.",
+						"schema": {
+							"$ref": "#/definitions/SIDDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Deletes a SID",
+				"operationId": "SID_Delete",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SID has been deleted successfully."
+					},
+					"204": {
+						"description": "The SID has been deleted already."
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID": {
+			"get": {
+				"description": "Returns SID for given resource group.",
+				"operationId": "SID_List",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SID",
+						"schema": {
+							"$ref": "#/definitions/SIDList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/providers/Microsoft.SAP/SID": {
+			"get": {
+				"description": "Returns SID for given subscription.",
+				"operationId": "SID_Subscription_List",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SID",
+						"schema": {
+							"$ref": "#/definitions/SIDList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/SCS/{scsName}": {
+			"get": {
+				"description": "Returns a SCS",
+				"operationId": "SCS_Get",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SCSNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SCS",
+						"schema": {
+							"$ref": "#/definitions/SCSDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Create or update a SCS.",
+				"operationId": "SCS_CreateOrUpdate",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SCSNameParameter"
+					},
+					{
+						"name": "SCSType",
+						"description": "SCS details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/SCSDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SCS is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/SCSDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"patch": {
+				"description": "Patch a SCS.",
+				"operationId": "SCS_Patch",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SCSNameParameter"
+					},
+					{
+						"name": "SCSType",
+						"description": "SCS details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/SCSDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SCS is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/SCSDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Deletes a SCS",
+				"operationId": "SCS_Delete",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SCSNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The SCS has been deleted successfully."
+					},
+					"204": {
+						"description": "The SCS has been deleted already."
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/SCS": {
+			"get": {
+				"description": "Returns SCS for given resource group.",
+				"operationId": "SCS_List",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SCS",
+						"schema": {
+							"$ref": "#/definitions/SCSList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/Database/{databaseName}": {
+			"get": {
+				"description": "Returns a Database",
+				"operationId": "Database_Get",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/DatabaseNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Database",
+						"schema": {
+							"$ref": "#/definitions/DatabaseDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Create or update a Database.",
+				"operationId": "Database_CreateOrUpdate",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/DatabaseNameParameter"
+					},
+					{
+						"name": "DatabaseType",
+						"description": "Database details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The Database is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/DatabaseDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"patch": {
+				"description": "Patch a Database.",
+				"operationId": "Database_Patch",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/DatabaseNameParameter"
+					},
+					{
+						"name": "DatabaseType",
+						"description": "Database details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The Database is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/DatabaseDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Deletes a Database",
+				"operationId": "DatabaseName_Delete",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/DatabaseNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The Database has been deleted successfully."
+					},
+					"204": {
+						"description": "The Database has been deleted already."
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/Database": {
+			"get": {
+				"description": "Returns Database for given resource group.",
+				"operationId": "Database_List",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Database",
+						"schema": {
+							"$ref": "#/definitions/DatabaseList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/AppServerInstance/{appServerInstanceName}": {
+			"get": {
+				"description": "Returns a DatabaseName",
+				"operationId": "DatabaseName_Get",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/AppServerInstanceNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "AppServerInstance",
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Create or update a AppServerInstance.",
+				"operationId": "AppServerInstance_CreateOrUpdate",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/AppServerInstanceNameParameter"
+					},
+					{
+						"name": "AppServerInstanceType",
+						"description": "AppServerInstance details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The AppServerInstance is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"patch": {
+				"description": "Patch a AppServerInstance.",
+				"operationId": "AppServerInstance_Patch",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/AppServerInstanceNameParameter"
+					},
+					{
+						"name": "AppServerInstanceType",
+						"description": "AppServerInstance details.",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceDefinition"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The AppServerInstance is created or updated successfully.",
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceDefinition"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Deletes a AppServerInstance",
+				"operationId": "AppServerInstance_Delete",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					},
+					{
+						"$ref": "#/parameters/AppServerInstanceNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The AppServerInstance has been deleted successfully."
+					},
+					"204": {
+						"description": "The AppServerInstance has been deleted already."
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SAP/SID/{sidName}/AppServerInstance": {
+			"get": {
+				"description": "Returns AppServerInstance for given resource group.",
+				"operationId": "AppServerInstance_List",
+				"parameters": [{
+						"$ref": "#/parameters/ApiVersionParameter"
+					},
+					{
+						"$ref": "#/parameters/SubscriptionIdParameter"
+					},
+					{
+						"$ref": "#/parameters/ResourceGroupNameParameter"
+					},
+					{
+						"$ref": "#/parameters/SIDNameParameter"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "AppServerInstance",
+						"schema": {
+							"$ref": "#/definitions/AppServerInstanceList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		},
+		"/providers/microsoft.features/operations": {
+			"get": {
+				"description": "Returns list of operations.",
+				"operationId": "Operation_List",
+				"parameters": [{
+					"$ref": "#/parameters/ApiVersionParameter"
+				}],
+				"responses": {
+					"200": {
+						"description": "Operation details.",
+						"schema": {
+							"$ref": "#/definitions/operationsList"
+						}
+					},
+					"default": {
+						"description": "Error response describing the reason for operation failure.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				},
+				"deprecated": false,
+				"x-ms-pageable": {
+					"nextLinkName": "nextLink"
+				}
+			}
+		}
+	},
+	"definitions": {
+		"ProxyResource": {
+			"description": "An Azure proxy resource.",
+			"properties": {
+				"id": {
+					"description": "Azure resource Id.",
+					"type": "string",
+					"readOnly": true
+				},
+				"name": {
+					"description": "Azure resource name.",
+					"type": "string",
+					"readOnly": true
+				},
+				"type": {
+					"description": "Azure resource type.",
+					"type": "string",
+					"readOnly": true
+				}
+			},
+			"x-ms-azure-resource": true
+		},
+		"Resource": {
+			"description": "An Azure resource.",
+			"properties": {
+				"id": {
+					"description": "Azure resource Id.",
+					"type": "string",
+					"readOnly": true
+				},
+				"name": {
+					"description": "Azure resource name.",
+					"type": "string",
+					"readOnly": true
+				},
+				"type": {
+					"description": "Azure resource type.",
+					"type": "string",
+					"readOnly": true
+				},
+				"location": {
+					"description": "Location of the resource.",
+					"type": "string",
+					"readOnly": false
+				},
+				"tags": {
+					"description": "resource tags.",
+					"type": "object",
+					"readOnly": false,
+					"additionalProperties": {
+						"type": "string"
+					}
+				}
+			},
+			"x-ms-azure-resource": true
+		},
+		"operation": {
+			"description": "Operation provided by provider",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Name of the operation"
+				},
+				"display": {
+					"type": "object",
+					"description": "Properties of the operation",
+					"properties": {
+						"provider": {
+							"type": "string",
+							"description": "Provider name"
+						},
+						"resource": {
+							"type": "string",
+							"description": "Resource name"
+						},
+						"operation": {
+							"type": "string",
+							"description": "Operation name"
+						},
+						"description": {
+							"type": "string",
+							"description": "Description of the operation"
+						}
+					}
+				}
+			}
+		},
+		"operationsList": {
+			"description": "Lists the operations available.",
+			"properties": {
+				"nextLink": {
+					"description": "Url to follow for getting next page of operations.",
+					"type": "string"
+				},
+				"value": {
+					"description": "Array of operations",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/operation"
+					}
+				}
+			},
+			"required": ["value"]
+		},
+		"SIDDefinition": {
+			"type": "object",
+			"description": "SID details",
+			"allOf": [{
+				"$ref": "#/definitions/Resource"
+			}],
+			"properties": {
+				"properties": {
+					"properties": {
+						"name": {
+							"type": "string",
+							"description": "The name.",
+							"readOnly": false
+						},
+						"status": {
+							"type": "string",
+							"description": "The status.",
+							"readOnly": false
+						},
+						"health": {
+							"type": "string",
+							"description": "The health.",
+							"readOnly": false
+						},
+						"environment": {
+							"type": "string",
+							"description": "The environment.",
+							"readOnly": false
+						},
+						"landscape": {
+							"type": "string",
+							"description": "The landscape.",
+							"readOnly": false
+						},
+						"scs": {
+							"$ref": "#/definitions/SCSDefinition"
+						},
+						"database": {
+							"$ref": "#/definitions/SCSDefinition"
+						},
+						"appServerInstances": {
+							"description": "The list of app server instances.",
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/AppServerInstanceDefinition"
+							}
+						}
+					},
+					"type": "object"
+				}
+			}
+		},
+		"SIDList": {
+			"description": "The list of SID.",
+			"type": "object",
+			"properties": {
+				"nextLink": {
+					"description": "The link used to get the next page of SID list.",
+					"type": "string"
+				},
+				"value": {
+					"description": "The list of SID.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/SIDDefinition"
+					}
+				}
+			}
+		},
+		"SCSDefinition": {
+			"type": "object",
+			"description": "SCS details",
+			"allOf": [{
+				"$ref": "#/definitions/Resource"
+			}],
+			"properties": {
+				"properties": {
+					"properties": {
+						"name": {
+							"type": "string",
+							"description": "The name.",
+							"readOnly": false
+						},
+						"status": {
+							"type": "string",
+							"description": "The status.",
+							"readOnly": false
+						},
+						"health": {
+							"type": "string",
+							"description": "The health.",
+							"readOnly": false
+						},
+						"environment": {
+							"type": "string",
+							"description": "The environment.",
+							"readOnly": false
+						},
+						"landscape": {
+							"type": "string",
+							"description": "The landscape.",
+							"readOnly": false
+						},
+						"vms": {
+							"description": "Array of vms",
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"type": "object"
+				}
+			}
+		},
+		"SCSList": {
+			"description": "The list of SCS.",
+			"type": "object",
+			"properties": {
+				"nextLink": {
+					"description": "The link used to get the next page of SCS list.",
+					"type": "string"
+				},
+				"value": {
+					"description": "The list of SCS.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/SCSDefinition"
+					}
+				}
+			}
+		},
+		"DatabaseDefinition": {
+			"type": "object",
+			"description": "Database details",
+			"allOf": [{
+				"$ref": "#/definitions/Resource"
+			}],
+			"properties": {
+				"properties": {
+					"properties": {
+						"name": {
+							"type": "string",
+							"description": "The name.",
+							"readOnly": false
+						},
+						"status": {
+							"type": "string",
+							"description": "The status.",
+							"readOnly": false
+						},
+						"health": {
+							"type": "string",
+							"description": "The health.",
+							"readOnly": false
+						},
+						"environment": {
+							"type": "string",
+							"description": "The environment.",
+							"readOnly": false
+						},
+						"landscape": {
+							"type": "string",
+							"description": "The landscape.",
+							"readOnly": false
+						},
+						"vms": {
+							"description": "Array of vms",
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"type": "object"
+				}
+			}
+		},
+		"DatabaseList": {
+			"description": "The list of Database.",
+			"type": "object",
+			"properties": {
+				"nextLink": {
+					"description": "The link used to get the next page of Database list.",
+					"type": "string"
+				},
+				"value": {
+					"description": "The list of Database.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/DatabaseDefinition"
+					}
+				}
+			}
+		},
+		"AppServerInstanceDefinition": {
+			"type": "object",
+			"description": "AppServerInstance details",
+			"allOf": [{
+				"$ref": "#/definitions/Resource"
+			}],
+			"properties": {
+				"properties": {
+					"properties": {
+						"name": {
+							"type": "string",
+							"description": "The name.",
+							"readOnly": false
+						},
+						"status": {
+							"type": "string",
+							"description": "The status.",
+							"readOnly": false
+						},
+						"health": {
+							"type": "string",
+							"description": "The health.",
+							"readOnly": false
+						},
+						"environment": {
+							"type": "string",
+							"description": "The environment.",
+							"readOnly": false
+						},
+						"landscape": {
+							"type": "string",
+							"description": "The landscape.",
+							"readOnly": false
+						},
+						"vm": {
+							"type": "string",
+							"description": "The vm id.",
+							"readOnly": false
+						}
+					},
+					"type": "object"
+				}
+			}
+		},
+		"AppServerInstanceList": {
+			"description": "The list of app server instance.",
+			"type": "object",
+			"properties": {
+				"nextLink": {
+					"description": "The link used to get the next page of app server instance list.",
+					"type": "string"
+				},
+				"value": {
+					"description": "The list of app server instance.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/AppServerInstanceDefinition"
+					}
+				}
+			}
+		},
+		"ErrorResponse": {
+			"description": "Error response indicates that the service is not able to process the incoming request.",
+			"properties": {
+				"error": {
+					"$ref": "#/definitions/ErrorDefinition",
+					"description": "The error details."
+				}
+			}
+		},
+		"ErrorDefinition": {
+			"description": "Error definition.",
+			"properties": {
+				"code": {
+					"description": "Service specific error code which serves as the substatus for the HTTP error code.",
+					"type": "string",
+					"readOnly": true
+				},
+				"message": {
+					"description": "Description of the error.",
+					"type": "string",
+					"readOnly": true
+				},
+				"details": {
+					"description": "Internal error details.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ErrorDefinition"
+					}
+				}
+			}
+		}
+	},
+	"parameters": {
+		"SubscriptionIdParameter": {
+			"name": "subscriptionId",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The Azure subscription ID.",
+			"x-ms-parameter-location": "client"
+		},
+		"ApiVersionParameter": {
+			"name": "api-version",
+			"in": "query",
+			"required": true,
+			"type": "string",
+			"description": "Client Api Version.",
+			"x-ms-parameter-location": "method"
+		},
+		"ResourceGroupNameParameter": {
+			"name": "resourceGroupName",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The name of the resource group.",
+			"x-ms-parameter-location": "method"
+		},
+		"SIDNameParameter": {
+			"name": "sidName",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The sid name.",
+			"x-ms-parameter-location": "method"
+		},
+		"SCSNameParameter": {
+			"name": "scsName",
+			"in": "path",
+			"required": true,
+			"maxLength": 13,
+			"type": "string",
+			"description": "The scs name.",
+			"x-ms-parameter-location": "method"
+		},
+		"DatabaseNameParameter": {
+			"name": "databaseName",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The database name.",
+			"x-ms-parameter-location": "method"
+		},
+		"AppServerInstanceNameParameter": {
+			"name": "appServerInstanceName",
+			"in": "path",
+			"required": true,
+			"maxLength": 13,
+			"type": "string",
+			"description": "The app server instance name.",
+			"x-ms-parameter-location": "method"
+		}
+	}
+}

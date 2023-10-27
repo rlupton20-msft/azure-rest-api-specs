@@ -382,11 +382,6 @@
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/DevicePropertiesFormat",
           "description": "Device properties."
-        },
-        "systemData": {
-          "description": "The system meta data relating to this resource.",
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
-          "readOnly": true
         }
       },
       "allOf": [
@@ -402,18 +397,20 @@
         "azureStackEdge"
       ],
       "x-ms-discriminator-value": "AzureStackEdge",
-      "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/DevicePropertiesFormat"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "azureStackEdge": {
+              "$ref": "./common.json#/definitions/SubResource",
+              "description": "The reference to the Azure stack edge device."
+            }
+          }
         }
-      ],
-      "properties": {
-        "azureStackEdge": {
-          "$ref": "./common.json#/definitions/SubResource",
-          "description": "The reference to the Azure stack edge device."
-        }
-      }
+      ]
     },
     "DevicePropertiesFormat": {
       "description": "Device properties.",

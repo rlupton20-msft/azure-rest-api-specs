@@ -1,0 +1,47 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+@armNamespace
+@serviceTitle("Microsoft.BakeryRP")
+@serviceVersion("2021-08-01-preview")
+namespace Microsoft.BakeryRP;
+
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@doc("A BakeryRPProviderHub resource")
+model Bread is TrackedResource<BreadProperties> {
+  @doc("Name of a Bread")
+  @path("/name")
+  @visibility("read")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("BreadName")
+  @segment("Breads")
+  name: string;
+}
+
+@doc("The status of the current operation.")
+@knownValues(ProvisioningStateKV)
+model ProvisioningState is string {}
+enum ProvisioningStateKV {
+  Succeeded,
+  Failed,
+  Canceled,
+  Provisioning,
+  Updating,
+  Deleting,
+  Accepted,
+}
+
+@doc("Details of the BakeryRP Bread.")
+model BreadProperties {
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+}
+
+@armResourceOperations
+interface Breads extends ResourceOperations<Bread, BreadProperties> {}

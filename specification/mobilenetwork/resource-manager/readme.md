@@ -27,6 +27,7 @@ These are the global settings for the mobilenetwork.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
+
 tag: package-preview-2023-10
 ```
 
@@ -118,7 +119,7 @@ input-file:
 
 These settings apply only when `--tag=package-2023-06` is specified on the command line.
 
-``` yaml $(tag) == 'package-2023-06'
+```yaml $(tag) == 'package-2023-06'
 input-file:
   - Microsoft.MobileNetwork/stable/2023-06-01/attachedDataNetwork.json
   - Microsoft.MobileNetwork/stable/2023-06-01/common.json
@@ -136,6 +137,28 @@ input-file:
   - Microsoft.MobileNetwork/stable/2023-06-01/site.json
   - Microsoft.MobileNetwork/stable/2023-06-01/slice.json
   - Microsoft.MobileNetwork/stable/2023-06-01/ts29571.json
+```
+### Tag: package-2022-12-01-privatepreview
+
+These settings apply only when `--tag=package-2022-12-01-privatepreview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-12-01-privatepreview'
+input-file:
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/attachedDataNetwork.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/common.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/dataNetwork.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/mobileNetwork.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/operation.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/packetCoreControlPlane.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/packetCoreDataPlane.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/service.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/sim.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/simGroup.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/simPolicy.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/site.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/slice.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/ts29571.json
+  - Microsoft.MobileNetwork/preview/2022-12-01-privatepreview/radioAccessNetwork.json
 ```
 
 ### Tag: package-2022-12-01-privatepreview

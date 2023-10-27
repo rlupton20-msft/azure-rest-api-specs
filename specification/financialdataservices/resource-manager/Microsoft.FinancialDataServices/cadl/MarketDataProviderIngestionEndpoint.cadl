@@ -1,0 +1,56 @@
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+namespace Microsoft.FinancialDataServices;
+
+@doc("MarketDataProviderIngestionEndpoint resource")
+model MarketDataProviderIngestionEndpoint
+	is TrackedResource<MarketDataProviderIngestionEndpointProperties> {
+	@pattern("^[a-zA-Z0-9-]{3,24}$")
+	@key("endpointName")
+	@segment("marketDataProviderIngestionEndpoints")
+	@doc("Data provider ingestion endpoint name")
+	@visibility("read")
+	@path
+	name: string;
+}
+
+@doc("Details of MarketDataProviderIngestionEndpoint")
+model MarketDataProviderIngestionEndpointProperties {
+	@doc("The status of the last operation.")
+	@visibility("read")
+	provisioningState?: ProvisioningState;
+}
+
+@doc("Request parameters for ListEndpointSasRequest operation")
+model ListEndpointSasRequest {
+}
+
+@doc("Response parameters for ListEndpointSasRequest operation")
+model ListEndpointSasResponse {
+	@visibility("read")
+	@doc("Primary SAS token")
+	primarySasToken: string;
+
+	@visibility("read")
+	@doc("Secondary SAS token")
+	secondarySasToken: string;
+}
+
+@armResourceOperations
+interface MarketDataProviderIngestionEndpoints
+	extends ResourceOperations<MarketDataProviderIngestionEndpoint, MarketDataProviderIngestionEndpointProperties> {
+	@post
+	@doc("List SAS credentials of the endpoint")
+	@segment("listEndpointSas")
+	@armResourceAction(MarketDataProviderIngestionEndpoint)
+	ListEndpointSas(
+		...ResourceInstanceParameters<MarketDataProviderIngestionEndpoint>,
+
+		@doc("ListEndpointSasRequest body parameters")
+		@body
+		parameters: ListEndpointSasRequest
+	): ArmResponse<ListEndpointSasResponse> | ErrorResponse;
+	}

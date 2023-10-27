@@ -84,15 +84,6 @@ input-file:
 - Microsoft.Kubernetes/preview/2022-05-01-preview/connectedClusters.json
 ```
 
-### Tag: package-2022-10-01-preview
-
-These settings apply only when `--tag=package-2022-10-01-preview` is specified on the command line.
-
-``` yaml $(tag) == 'package-2022-10-01-preview'
-input-file:
-- Microsoft.Kubernetes/preview/2022-10-01-preview/connectedClusters.json
-```
-
 ---
 
 # Code Generation
@@ -108,11 +99,10 @@ swagger-to-sdk:
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-ruby
-  - repo: azure-sdk-for-net-track2
+  - repo: azure-sdk-for-net
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_hybridkubernetes']
   - repo: azure-resource-manager-schemas
-  - repo: azure-powershell
 ```
 
 ## Go
@@ -134,13 +124,3 @@ See configuration in [readme.csharp.md](./readme.csharp.md)
 ## Java
 
 See configuration in [readme.java.md](./readme.java.md)
-
-## Suppression
-
-``` yaml
-suppressions:
-  - code: DefinitionsPropertiesNamesCamelCase
-    from: connectedClusters.json
-    where: $.definitions.AadProfile.properties.enableAzureRBAC
-    reason: enableAzureRBAC is already used in Managed Clusters. so to ensure consistency between Managed Clusters and Connected Clusters usage of aadProfile.    
-```

@@ -1,0 +1,728 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DigitalFootprint",
+    "description": "DigitalFootprint provider",
+    "version": "2021-01-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [ "http" ],
+  "consumes": [ "application/json" ],
+  "produces": [ "application/json" ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DigitalFootprint/workspaces": {
+      "get": {
+        "description": "Returns a list of Workspaces under the given subscription.",
+        "operationId": "Workspace_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace details.",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResourceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalFootprint/workspaces": {
+      "get": {
+        "description": "Returns a list of Workspaces in the given resource group.",
+        "operationId": "Workspace_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace details.",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResourceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalFootprint/workspaces/{workspaceName}": {
+      "get": {
+        "description": "Returns the Workspace with the given name.",
+        "operationId": "Workspace_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace details.",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update a Workspace.",
+        "operationId": "Workspace_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "name": "WorkspaceResource",
+            "description": "Workspace details.",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update a Workspace.",
+        "operationId": "Workspace_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "name": "WorkspacePatchResource",
+            "description": "Workspace patch details.",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/WorkspacePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/WorkspaceResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a Workspace.",
+        "operationId": "Workspace_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Workspace was successfully deleted."
+          },
+          "202": {
+            "description": "The Workspace will be deleted asynchronously."
+          },
+          "204": {
+            "description": "The Workspace does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalFootprint/workspaces/{workspaceName}/labels": {
+      "get": {
+        "description": "Returns list of labels in the given workspace.",
+        "operationId": "Labels_ListByWorkspace",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Lists of Labels.",
+            "schema": {
+              "$ref": "#/definitions/LabelResourceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalFootprint/workspaces/{workspaceName}/labels/{labelName}": {
+      "get": {
+        "description": "Returns list of labels in the given Workspace.",
+        "operationId": "Labels_GetByWorkspace",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/LabelNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Label.",
+            "schema": {
+              "$ref": "#/definitions/LabelResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      },
+      "put": {
+        "description": "Create or update a Label.",
+        "operationId": "Label_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/LabelNameParameter"
+          },
+          {
+            "name": "LabelResource",
+            "description": "Label details.",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LabelResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/LabelResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "patch": {
+        "description": "Update a Label.",
+        "operationId": "Labels_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/LabelNameParameter"
+          },
+          {
+            "name": "LabelPatchResource",
+            "description": "Label patch details.",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LabelPatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/LabelResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a Label.",
+        "operationId": "Labels_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/LabelNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Label was successfully deleted."
+          },
+          "202": {
+            "description": "The Label will be deleted asynchronously."
+          },
+          "204": {
+            "description": "The Label does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorDetail"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.DigitalFootprint/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operations_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/OperationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ResourceState": {
+      "description": "Resources provisioning states.",
+      "enum": [
+        "NotSpecified",
+        "Accepted",
+        "Creating",
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Deleted",
+        "ProvisioningResources",
+        "InstallingApplication",
+        "ConfiguringApplication",
+        "MigratingApplicationData",
+        "RunningValidations",
+        "CreatingArtifacts",
+        "DeletingArtifacts"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "ResourceState",
+        "modelAsString": true
+      }
+    },
+    "ResourceBaseProperties": {
+      "description": "Resource base properties.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "Resource provisioning state.",
+          "$ref": "#/definitions/ResourceState",
+          "readOnly": true
+        }
+      }
+    },
+    "LabelResourceProperties": {
+      "description": "Label properties.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "Label display name.",
+          "type": "string"
+        },
+        "color": {
+          "description": "Label color.",
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceBaseProperties"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "WorkspaceResource": {
+      "type": "object",
+      "description": "Workspace details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "x-ms-azure-resource": true,
+      "properties": {
+        "properties": {
+          "description": "Workspace properties.",
+          "$ref": "#/definitions/ResourceBaseProperties",
+          "x-ms-client-flatten": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+        }
+      }
+    },
+    "WorkspacePatchResource": {
+      "type": "object",
+      "description": "Workspace patch properties",
+      "properties": {
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+        }
+      }
+    },
+    "WorkspaceResourceList": {
+      "description": "The list of Workspace.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of Workspace list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkspaceResource"
+          }
+        }
+      }
+    },
+    "LabelResource": {
+      "type": "object",
+      "description": "Label details",
+      "properties": {
+        "properties": {
+          "description": "Label properties",
+          "$ref": "#/definitions/LabelResourceProperties",
+          "x-ms-client-flatten": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "x-ms-azure-resource": true
+    },
+    "LabelPatchResource": {
+      "type": "object",
+      "description": "Label patch properties",
+      "properties": {
+        "properties": {},
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "LabelResourceList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The list of labels.",
+          "items": {
+            "$ref": "#/definitions/LabelResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link used to get the next page of Label list."
+        }
+      }
+    },
+    "Operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "OperationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        }
+      },
+      "required": [ "value" ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "WorkspaceNameParameter": {
+      "name": "workspaceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the Workspace resource.",
+      "x-ms-parameter-location": "method"
+    },
+    "LabelNameParameter": {
+      "name": "labelName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the Label resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

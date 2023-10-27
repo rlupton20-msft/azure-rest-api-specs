@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.Elastic",
-    "version": "2022-05-05-preview"
+    "version": "2021-10-01-preview"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -19,7 +19,7 @@
       "type": "oauth2",
       "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
       "flow": "implicit",
-      "description": "Microsoft Entra ID OAuth2 Flow",
+      "description": "Azure Active Directory OAuth2 Flow",
       "scopes": {
         "user_impersonation": "impersonate your user account"
       }
@@ -502,7 +502,7 @@
           }
         },
         "x-ms-examples": {
-          "ExternalUser_CreateOrUpdate": {
+          "DeploymentInfo_List": {
             "$ref": "./examples/ExternalUserInfo.json"
           }
         }
@@ -959,22 +959,28 @@
           "TrafficFilter"
         ],
         "summary": "Get the list of all traffic filters for the account.",
-        "operationId": "AllTrafficFilters_list",
+        "operationId": "AllTrafficFilters_Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -992,8 +998,8 @@
           }
         },
         "x-ms-examples": {
-          "AllTrafficFilters_list": {
-            "$ref": "./examples/AllTrafficFilters_list.json"
+          "AllTrafficFilters_Get": {
+            "$ref": "./examples/AllTrafficFilters_Get.json"
           }
         }
       }
@@ -1004,22 +1010,28 @@
           "TrafficFilter"
         ],
         "summary": "Get the list of all associated traffic filters for the given deployment.",
-        "operationId": "listAssociatedTrafficFilters_list",
+        "operationId": "TrafficFiltersAssociatedForDeployment_Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1037,45 +1049,49 @@
           }
         },
         "x-ms-examples": {
-          "listAssociatedTrafficFilters_list": {
-            "$ref": "./examples/AssociatedFiltersForDeployment_list.json"
+          "TrafficFiltersAssociatedForDeployment_Get": {
+            "$ref": "./examples/AssociatedFiltersForDeployment_Get.json"
           }
         }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createAndAssociateIPFilter": {
-      "post": {
+      "put": {
         "tags": [
           "TrafficFilter"
         ],
         "summary": "Create and Associate IP traffic filter for the given deployment.",
-        "operationId": "createAndAssociateIPFilter_Create",
+        "operationId": "IPTrafficFilters_Create",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
             "name": "ips",
-            "description": "List of ips",
             "type": "string"
           },
           {
             "in": "query",
             "name": "name",
-            "description": "Name of the traffic filter",
             "type": "string"
           }
         ],
@@ -1092,51 +1108,54 @@
         },
         "x-ms-long-running-operation": true,
         "x-ms-examples": {
-          "createAndAssociateIPFilter_Create": {
+          "IPTrafficFilters_Create": {
             "$ref": "./examples/IPTrafficFilter_Create.json"
           }
         }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createAndAssociatePLFilter": {
-      "post": {
+      "put": {
         "tags": [
           "TrafficFilter"
         ],
         "summary": "Create and Associate private link traffic filter for the given deployment.",
-        "operationId": "createAndAssociatePLFilter_Create",
+        "operationId": "PrivateLinkTrafficFilter_Create",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
             "name": "name",
-            "description": "Name of the traffic filter",
             "type": "string"
           },
           {
             "in": "query",
             "name": "privateEndpointGuid",
-            "description": "Guid of the private endpoint",
             "type": "string"
           },
           {
             "in": "query",
             "name": "privateEndpointName",
-            "description": "Name of the private endpoint",
             "type": "string"
           }
         ],
@@ -1153,7 +1172,7 @@
         },
         "x-ms-long-running-operation": true,
         "x-ms-examples": {
-          "createAndAssociatePLFilter_Create": {
+          "PrivateLinkTrafficFilter_Create": {
             "$ref": "./examples/PrivateLinkTrafficFilters_Create.json"
           }
         }
@@ -1165,34 +1184,36 @@
           "TrafficFilter"
         ],
         "summary": "Associate traffic filter for the given deployment.",
-        "operationId": "AssociateTrafficFilter_Associate",
+        "operationId": "AssociateTrafficFilter_Update",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
             "name": "rulesetId",
-            "description": "Ruleset Id of the filter",
             "type": "string"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success"
-          },
           "202": {
             "description": "Success"
           },
@@ -1205,91 +1226,44 @@
         },
         "x-ms-long-running-operation": true,
         "x-ms-examples": {
-          "AssociateTrafficFilter_Associate": {
+          "AssociateTrafficFilter_Update": {
             "$ref": "./examples/AssociateTrafficFilter_Update.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/detachAndDeleteTrafficFilter": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/removeAndDeleteTrafficFilter": {
       "delete": {
         "tags": [
           "TrafficFilter"
         ],
-        "summary": "Detach and Delete traffic filter from the given deployment.",
-        "operationId": "DetachAndDeleteTrafficFilter_Delete",
+        "summary": "Remove and Delete traffic filter from the given deployment.",
+        "operationId": "RemoveAndDeleteTrafficFilter_Delete",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
-          },
-          {
-            "in": "query",
-            "name": "rulesetId",
-            "description": "Ruleset Id of the filter",
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "204": {
-            "description": "Success"
-          },
-          "default": {
-            "description": "Default error response.",
-            "schema": {
-              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-examples": {
-          "DetachAndDeleteTrafficFilter_Delete": {
-            "$ref": "./examples/DetachAndDeleteTrafficFilter_Delete.json"
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/detachTrafficFilter": {
-      "post": {
-        "tags": [
-          "TrafficFilter"
-        ],
-        "summary": "Detach traffic filter for the given deployment.",
-        "operationId": "DetachTrafficFilter_Update",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
             "name": "rulesetId",
-            "description": "Ruleset Id of the filter",
             "type": "string"
           }
         ],
@@ -1306,8 +1280,62 @@
         },
         "x-ms-long-running-operation": true,
         "x-ms-examples": {
-          "DetachTrafficFilter_Update": {
-            "$ref": "./examples/DetachTrafficFilters_Update.json"
+          "RemoveAndDeleteTrafficFilter_Delete": {
+            "$ref": "./examples/RemoveAndDeleteTrafficFilter_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/removeTrafficFilter": {
+      "post": {
+        "tags": [
+          "TrafficFilter"
+        ],
+        "summary": "Remove traffic filter for the given deployment.",
+        "operationId": "RemoveTrafficFilters_Update",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "rulesetId",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "RemoveTrafficFilters_Update": {
+            "$ref": "./examples/RemoveTrafficFilters_Update.json"
           }
         }
       }
@@ -1324,29 +1352,31 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "in": "path",
+            "name": "resourceGroupName",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/MonitorNameParameter"
+            "in": "path",
+            "name": "monitorName",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
             "name": "rulesetId",
-            "description": "Ruleset Id of the filter",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
-          },
-          "204": {
             "description": "Success"
           },
           "default": {
@@ -1597,7 +1627,7 @@
         },
         "business": {
           "description": "Business of the company",
-          "maxLength": 64,
+          "maxLength": 50,
           "type": "string"
         },
         "employeesNumber": {
@@ -1607,12 +1637,12 @@
         },
         "state": {
           "description": "State of the company location.",
-          "maxLength": 64,
+          "maxLength": 50,
           "type": "string"
         },
         "country": {
           "description": "Country of the company location.",
-          "maxLength": 64,
+          "maxLength": 50,
           "type": "string"
         }
       }
@@ -1633,7 +1663,7 @@
         },
         "companyName": {
           "description": "Company name of the user",
-          "maxLength": 64,
+          "maxLength": 50,
           "type": "string"
         },
         "emailAddress": {
@@ -2195,13 +2225,9 @@
             "azure_private_endpoint"
           ],
           "type": "string",
-          "description": "Type of the elastic filter",
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "type"
-          }
+          "description": "Type of the elastic filter"
         },
-        "includeByDefault": {
+        "include_by_default": {
           "type": "boolean",
           "description": "IncludeByDefault for the elastic filter"
         },
@@ -2226,11 +2252,11 @@
           "type": "string",
           "description": "Description of the elastic filter rule"
         },
-        "azureEndpointGuid": {
+        "azure_endpoint_guid": {
           "type": "string",
           "description": "Guid of Private Endpoint in the elastic filter rule"
         },
-        "azureEndpointName": {
+        "azure_endpoint_name": {
           "type": "string",
           "description": "Name of the Private Endpoint in the elastic filter rule"
         },
@@ -2264,11 +2290,7 @@
         "2021-09-01-preview",
         "2021-10-01-preview",
         "2022-05-05-preview"
-      ],
-      "x-ms-enum": {
-        "modelAsString": true,
-        "name": "ApiVersionParameter"
-      }
+      ]
     },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",

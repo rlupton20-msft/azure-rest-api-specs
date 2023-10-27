@@ -21,44 +21,15 @@ azure-arm: true
 
 ``` yaml $(go) && $(multiapi)
 batch:
-  - tag: package-2021-03-01-preview
-  - tag: package-2021-01
-  - tag: package-2020-05
-  - tag: package-2019-02-preview
+  - tag: package-2023-07-01-preview
 ```
 
 ### Tag: package-2021-03-01-preview and go
 
-These settings apply only when `--tag=package-2021-03-01-preview --go` is specified on the command line.
+These settings apply only when `--tag=package-2023-07-01-preview --go` is specified on the command line.
 Please also specify `--go-sdk-folder=<path to the root directory of your azure-sdk-for-go clone>`.
 
-``` yaml $(tag) == 'package-2021-03-01-preview' && $(go)
-output-folder: $(go-sdk-folder)/services/preview/$(namespace)/mgmt/2021-03-01-preview/$(namespace)
+``` yaml $(tag) == 'package-2023-07-01-preview' && $(go)
+output-folder: $(go-sdk-folder)/services/preview/$(namespace)/mgmt/2023-07-01-preview/$(namespace)
 ```
 
-### Tag: package-2021-01 and go
-
-These settings apply only when `--tag=package-2021-01 --go` is specified on the command line.
-Please also specify `--go-sdk-folder=<path to the root directory of your azure-sdk-for-go clone>`.
-
-``` yaml $(tag) == 'package-2021-01' && $(go)
-output-folder: $(go-sdk-folder)/services/$(namespace)/mgmt/2021-01-01/$(namespace)
-```
-
-### Tag: package-2020-05 and go
-
-These settings apply only when `--tag=package-2020-05 --go` is specified on the command line.
-Please also specify `--go-sdk-folder=<path to the root directory of your azure-sdk-for-go clone>`.
-
-``` yaml $(tag) == 'package-2020-05' && $(go)
-output-folder: $(go-sdk-folder)/services/preview/$(namespace)/mgmt/2020-05-01-preview/$(namespace)
-```
-
-### Tag: package-2019-02-preview and go
-
-These settings apply only when `--tag=package-2019-02-preview --go` is specified on the command line.
-Please also specify `--go-sdk-folder=<path to the root directory of your azure-sdk-for-go clone>`.
-
-``` yaml $(tag) == 'package-2019-02-preview' && $(go)
-output-folder: $(go-sdk-folder)/services/preview/$(namespace)/mgmt/2019-02-28/$(namespace)
-```

@@ -1,0 +1,611 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "CustomPortalManagementClient",
+		"version": "2020-04-01-preview",
+		"description": "Custom Portal Settings Provider"
+	},
+	"host": "management.azure.com",
+	"schemes": [
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"security": [
+		{
+			"azure_auth": [
+				"user_impersonation"
+			]
+		}
+	],
+	"securityDefinitions": {
+		"azure_auth": {
+			"type": "oauth2",
+			"authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+			"flow": "implicit",
+			"description": "Azure Active Directory OAuth2 Flow",
+			"scopes": {
+				"user_impersonation": "impersonate your user account"
+			}
+		}
+	},
+	"paths": {
+			"/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.CustomPortal/portalSettings/{portalSettingName}": {
+				"get": {
+					"tags": [
+						"PortalSettings"
+					],
+					"operationId": "PortalSetting_GetForResource",
+					"description": "Get a specific portal setting for a resource",
+					"parameters": [
+						{
+							"$ref": "#/parameters/ResourceGroupNameParameter"
+						},
+						{
+							"$ref": "#/parameters/ResourceProviderNamespaceParameter"
+						},
+						{
+							"name": "resourceType",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The resource type of the resource.",
+							"x-ms-skip-url-encoding": true
+						},
+						{
+							"name": "resourceName",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The name of the resource to get portal settings for."
+						},
+						{
+						"name": "portalSettingName",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The name of the portal setting name"
+					    },
+						{
+							"$ref": "#/parameters/ApiVersionParameter"
+						},
+						{
+							"$ref": "#/parameters/SubscriptionIdParameter"
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "OK - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						},
+						"default": {
+							"description": "Resource Provider error response describing why the operation failed.",
+							"schema": {
+								"$ref": "#/definitions/ErrorResponse"
+							}
+						}
+					}
+				},
+				"put": {
+					"tags": [
+						"PortalSettings"
+					],
+					"operationId": "PortalSetting_Create",
+					"description": "Creates a portal setting for a resource",
+					"parameters": [
+						{
+							"$ref": "#/parameters/ResourceGroupNameParameter"
+						},
+						{
+							"$ref": "#/parameters/ResourceProviderNamespaceParameter"
+						},
+						{
+							"name": "resourceType",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The resource type of the resource.",
+							"x-ms-skip-url-encoding": true
+						},
+						{
+							"name": "resourceName",
+							"in": "path",
+							"required": true,
+							"type": "string",
+							"description": "The name of the resource to get portal settings for."
+						},
+						{
+						"name": "portalSettingName",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The name of the portal setting name"
+					    },
+						{
+							"$ref": "#/parameters/ApiVersionParameter"
+						},
+						{
+							"$ref": "#/parameters/SubscriptionIdParameter"
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "OK - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						}, 
+						"201": {
+							"description": "Created - Returns information about the portal setting.",
+							"schema": {
+								"$ref": "#/definitions/PortalSetting"
+							}
+						},
+						"default": {
+							"description": "Default error response.",
+							"schema": {
+								"$ref": "#/definitions/ErrorResponse"
+							}
+						}
+					}
+				}
+            },
+            "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.CustomPortal/portalTestResources/{portalResourceName}": {
+                "put": {
+                  "summary": "Register a new portal test resource with Azure Resource Manager.",
+                  "operationId": "PortalTestResource_Create",
+                  "description": "API to register a new portal test resource in Azure Resource Manager (ARM).",
+                  "consumes": [
+                    "application/json"
+                  ],
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                      "$ref": "#/parameters/TestResourcePathParam"
+                    },
+                    {
+                      "in": "body",
+                      "name": "PortalTestResource",
+                      "required": true,
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResource"
+                      },
+                      "description": "Parameters supplied to Create a portal test resource."
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "OK",
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResource"
+                      }
+                    },
+                    "201": {
+                      "description": "Resource creation request accepted",
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResource"
+                      }
+                    },
+                    "default": {
+                      "description": "Resource Provider error response describing why the operation failed.",
+                      "schema": {
+                        "$ref": "#/definitions/ErrorResponse"
+                      }
+                    }
+                  }
+                },
+                "patch": {
+                    "summary": "Updates a test resource.",
+                    "operationId": "PortalTestResource_Update",
+                    "description": "API to update certain properties of the portal test resource",
+                    "consumes": [
+                      "application/json"
+                    ],
+                    "produces": [
+                      "application/json"
+                    ],
+                    "parameters": [
+                      {
+                        "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                      },
+                      {
+                        "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                      },
+                      {
+                        "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+                      },
+                      {
+                        "$ref": "#/parameters/TestResourcePathParam"
+                      },
+                      {
+                        "in": "body",
+                        "name": "PortalTestResource",
+                        "required": true,
+                        "schema": {
+                          "$ref": "#/definitions/PortalTestResourcePatch"
+                        },
+                        "description": "Parameters supplied to update Portal Test Resource."
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "OK",
+                        "schema": {
+                          "$ref": "#/definitions/PortalTestResource"
+                        }
+                      },
+                      "default": {
+                        "description": "Resource Provider error response describing why the operation failed.",
+                        "schema": {
+                          "$ref": "#/definitions/ErrorResponse"
+                        }
+                      }
+                    }
+                  },            
+                "get": {
+                  "summary": "Get the properties of the portal test resource",
+                  "operationId": "PortalTestResource_Get",
+                  "description": "Returns the properties of the portal test resource",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                      "$ref": "#/parameters/TestResourcePathParam"
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "Resource retrieved successfully.",
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResource"
+                      }
+                    },
+                    "default": {
+                      "description": "Error response describing why the operation failed.",
+                      "schema": {
+                        "$ref": "#/definitions/ErrorResponse"
+                      }
+                    }
+                  }
+                },
+                "delete": {
+                  "summary": "Delete a portal test resource.",
+                  "operationId": "PortalTestResource_Delete",
+                  "description": "Delete a portal test resource, removing the tracked resource in Azure Resource Manager (ARM).",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                      "$ref": "#/parameters/TestResourcePathParam"
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "OK"
+                    },
+                    "default": {
+                      "description": "Resource Provider error response describing why the operation failed.",
+                      "schema": {
+                        "$ref": "#/definitions/ErrorResponse"
+                      }
+                    }
+                  }
+                }
+            },
+            "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.customPortal/portalTestResources": {
+                "get": {
+                  "summary": "Lists all portal test resources",
+                  "operationId": "PortalTestResource_ListByResourceGroup",
+                  "description": "API to enumerate registered test resources under a Resource Group",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "OK",
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResourceList"
+                      }
+                    },
+                    "default": {
+                      "description": "Resource Provider error response describing why the operation failed.",
+                      "schema": {
+                        "$ref": "#/definitions/ErrorResponse"
+                      }
+                    }
+                  }
+                }
+              },
+              "/subscriptions/{subscriptionId}/providers/Microsoft.customPortal/portalTestResources": {
+                "get": {
+                  "summary": "Lists all test resources",
+                  "operationId": "PortalTestResource_ListBySubscription",
+                  "description": "API to enumerate test resources under a Subscription",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                      "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "OK",
+                      "schema": {
+                        "$ref": "#/definitions/PortalTestResourceList"
+                      }
+                    },
+                    "default": {
+                      "description": "Resource Provider error response describing why the operation failed.",
+                      "schema": {
+                        "$ref": "#/definitions/ErrorResponse"
+                      }
+                    }
+                  }
+                }
+              }
+	},
+	"definitions": {
+			"PortalSetting": {
+				"type": "object",
+				"required": [
+					"properties"
+				],
+				"properties": {
+					"properties": {
+						"x-ms-client-flatten": true,
+						"$ref": "#/definitions/PortalSettingProperties",
+						"description": "Describes the portal setting resource properties."
+					}
+				},
+				"description": "Portal Settings"
+			},
+			"PortalSettingProperties": {
+				"type": "object",
+				"properties":{
+					"ResourceProvider": {
+						"type": "string",
+						"description": "Targetted RP for the custom portal settings"
+					},
+					"ResourceType": {
+						"type": "string",
+						"description": "Targetted resource type under the RP for the custom portal settings"
+					},
+					"BladeTarget": {
+						"type": "string",
+						"description": "Blade target where the customization needs to be applied"
+					},
+					"add": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "array of items to add"
+					},
+					"remove": {
+						"type": "array",
+						"items": {
+						"type": "string"
+						},
+					"description": "array of items to remove"
+					}
+				}
+			},
+			"ErrorResponse": {
+				"description": "The error response that indicates why an operation has failed.",
+				"type": "object",
+				"properties": {
+					"error": {
+					"$ref": "#/definitions/ErrorDetails"
+					}
+				}
+			},
+			"ErrorDetails": {
+				"description": "The error response details containing error code and error message",
+				"type": "object",
+				"properties": {
+					"code": {
+					"description": "The error code.",
+					"type": "string",
+					"readOnly": true
+					},
+				"message": {
+					"description": "The error message.",
+					"type": "string",
+					"readOnly": true
+					}
+				}
+            },
+            "PortalTestResourceList": {
+                "description": "The paginated list of test resources",
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "The list of test resources",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/PortalTestResource"
+                    }
+                  }
+                }
+              },
+            "PortalTestResource": {
+                "type": "object",
+                "required": [
+                  "properties"
+                ],
+                "properties": {
+                  "properties": {
+                    "x-ms-client-flatten": true,
+                    "$ref": "#/definitions/portaltestresourceproperties",
+                    "description": "Describes the connected cluster resource properties."
+                  }
+                },
+                "allOf": [
+                  {
+                    "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/TrackedResource"
+                  }
+                ],
+                "description": "Represents a portal test resource."
+              },
+            "portaltestresourceproperties": {
+                "type": "object",
+                "properties": {
+                  "resourceVersion": {
+                    "readOnly": true,
+                    "type": "string",
+                    "description": "The version of the test cluster resource"
+                  },
+                  "totalNodeCount": {
+                    "readOnly": true,
+                    "type": "integer",
+                    "description": "Number of nodes present"
+                  },
+                  "agentVersion": {
+                    "readOnly": true,
+                    "type": "string",
+                    "description": "Version of the agent running on the resource"
+                  },
+                  "provisioningState": {
+                    "$ref": "#/definitions/ProvisioningState"
+                  }
+                }
+              },
+              "ProvisioningState": {
+                "type": "string",
+                "description": "The current deployment state of resource.",
+                "enum": [
+                  "Succeeded",
+                  "Failed",
+                  "Canceled",
+                  "Provisioning",
+                  "Updating",
+                  "Deleting",
+                  "Accepted"
+                ],
+                "x-ms-enum": {
+                  "name": "ProvisioningState",
+                  "modelAsString": true
+                }
+              },
+        "PortalTestResourcePatch": {
+            "type": "object",
+            "properties": {
+              "tags": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Resource tags."
+              },
+              "properties": {
+                "x-ms-client-flatten": true,
+                "$ref": "#/definitions/PortalTestResourcePatchProperties",
+                "description": "Describes the portal test resource properties that can be updated during PATCH operation."
+              }
+            },
+            "description": "Object containing updates for patch operations."
+          },
+          "PortalTestResourcePatchProperties": {
+            "type": "object",
+            "properties": {
+              "resourceVersion": {
+                "type": "string",
+                "description": "Version"
+              }
+            }
+          }
+	},
+	"parameters": {
+		"SubscriptionIdParameter": {
+			"name": "subscriptionId",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The ID of the target subscription."
+		},
+		"ApiVersionParameter": {
+			"name": "api-version",
+			"in": "query",
+			"required": true,
+			"type": "string",
+			"description": "The API version to use for this operation."
+		},
+		"ResourceGroupNameParameter": {
+			"name": "resourceGroupName",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The name of the resource group.",
+			"x-ms-parameter-location": "method"
+		},
+		"ResourceProviderNamespaceParameter": {
+			"name": "resourceProviderNamespace",
+			"in": "path",
+			"required": true,
+			"type": "string",
+			"description": "The namespace of the resource provider.",
+			"x-ms-parameter-location": "method"
+        },
+        "TestResourcePathParam": {
+            "name": "portalResourceName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the test resource on which get is called.",
+            "x-ms-parameter-location": "method"
+        }          
+	}
+}

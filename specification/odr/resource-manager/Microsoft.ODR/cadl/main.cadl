@@ -1,0 +1,88 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/openapi";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@versioned(Microsoft.ODR.Versions)
+@versionedDependency(
+  [
+    [Microsoft.ODR.Versions.v2018_11_01, Azure.ResourceManager.Versions.v1_0_Preview_1]
+  ]
+)
+namespace Microsoft.ODR {
+  enum Versions {
+    v2018_11_01: "2018-11-01-preview",
+  }
+
+@doc("An operation's method is composed of a list of steps and their execution policies")
+model OperationStep {
+  @doc("The name of the step")
+  name: string;
+
+  @doc("The Rego decision policy plain text")
+  input: string;
+
+  // TODO: Define the full-fledged step resource
+  @doc("The step resource referenced by this operation. TODO: Define step resources as child resource relationship to operation")
+  step: string;
+}
+
+@doc("A method is an executable part of an operation")
+model OperationMethod {
+  @doc("The name of the method that can be executed")
+  name: string;
+
+  @doc("The steps to be executed as part of the operation")
+  steps: OperationStep[];
+
+  @doc("The Rego data output policy plain text")
+  result: string;
+}
+
+@doc("Details of the ODR Operation.")
+model OperationProperties {
+  @doc("Provisioning state")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The methods that are accessible from this operation")
+  methods: OperationMethod[];
+}
+
+// If you see an error for this resource complaining about the missing `@key` decorator, ignore it.
+// The project continues to build everything correctly. I can't figure out how to remove the error.
+@doc("An ODR Operation has runnable methods and safe operational semantics")
+model OperationResource is TrackedResource<OperationProperties> {
+  @doc("The name of the operation")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("operationName")
+  @segment("operations")
+  @visibility("read")
+  @path
+  name: string;
+}
+
+@doc("The status of the current operation.")
+@knownValues(ProvisioningStateKV)
+model ProvisioningState is string {}
+enum ProvisioningStateKV {
+  Succeeded,
+  Failed,
+  Canceled,
+  Provisioning,
+  Updating,
+  Deleting,
+  Accepted,
+}
+
+@armResourceOperations
+interface Operations extends ResourceOperations<OperationResource, OperationProperties> {}
+
+}

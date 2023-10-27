@@ -2,11 +2,18 @@
 
 These settings apply only when `--go` is specified on the command line.
 
-```yaml $(go) && $(track2)
-license-header: MICROSOFT_MIT_NO_VERSION
-module-name: sdk/resourcemanager/edgemarketplace/armedgemarketplace
-module: github.com/Azure/azure-sdk-for-go/$(module-name)
-output-folder: $(go-sdk-folder)/$(module-name)
-azure-arm: true
-module-version: 0.1.0
+```yaml $(go)
+go:
+  license-header: MICROSOFT_APACHE_NO_VERSION
+  clear-output-folder: true
+```
+
+### Tag: package-2023-04-01-preview and go
+
+These settings apply only when `--tag=package-2023-04-01-preview --go` is specified on the command line.
+Please also specify `--go-sdks-folder=<path to the root directory of your azure-sdk-for-go clone>`.
+
+```yaml $(tag) == 'package-2023-04-01-preview' && $(go)
+namespace: edgemarketplace
+output-folder: $(go-sdk-folder)/Microsoft.EdgeMarketPlace/preview/2023-04-01-preview/$(namespace)
 ```

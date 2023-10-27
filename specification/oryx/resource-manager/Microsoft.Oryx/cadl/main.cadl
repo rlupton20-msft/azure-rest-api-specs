@@ -1,0 +1,160 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@service({
+    title: "oryx", 
+    version: "2022-09-22-privatepreview"
+})
+@doc("Oryx service that enables customers to build and deploy code from source into containers without defining a dockerfile")
+@versionedDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+namespace Microsoft.Oryx;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+@lroStatus
+@doc("Resource instance provisioning state.")
+enum ProvisioningState {
+  ...ResourceProvisioningState,
+  Creating,
+  Updating,
+  Deleting,
+}
+
+@doc("Configuration of the managed resource group associated with the builder.")
+model ManagedResourceGroupConfiguration {
+  @doc("The resource group name.")
+  name: string;
+
+  @doc("The resource group location.")
+  location: string;
+}
+
+@doc("The builder properties.")
+model BuilderProperties {
+  @doc("Resource instance provisioning state.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("Configuration of the managed resource group associated with the builder.")
+  @visibility("read")
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+}
+
+@doc("Information about the Oryx++ builder resource.")
+model BuilderResource is TrackedResource<BuilderProperties> {
+  @key("builderName")
+  @segment("builders")
+  @doc("The name of the builder.")
+  @minLength(3)
+  @maxLength(64)
+  @path
+  name: string;
+}
+
+@armResourceOperations
+interface Builders extends ResourceOperations<BuilderResource, BuilderProperties> {}
+
+// Storage account
+@doc("Storage account resource properties to upload code to.")
+model StorageAccountResourceProperties {
+  @doc("Resource instance provisioning state.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("Storage account resource to upload code to.")
+model StorageAccountResource extends TrackedResource<StorageAccountResourceProperties> {}
+
+@doc("Storage account to upload code to.")
+model StorageAccount {
+  @doc("Storage account resource to upload code to.")
+  resource: StorageAccountResource;
+
+  @doc("Path of the container that code should be uploaded to in order to initiate the build.")
+  uploadPath: string;
+}
+
+// Container Registry
+@doc("Properties for the container registry that the final image will be uploaded to.")
+model ContainerRegistryResourceProperties {
+  @doc("Resource instance provisioning state.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("Container registry that the final image will be uploaded to.")
+model ContainerRegistryResource extends TrackedResource<ContainerRegistryResourceProperties> {}
+
+@doc("Container registry that the final image will be uploaded to.")
+model ContainerRegistry {
+  @doc("Container registry resource that the final image will be uploaded to.")
+  resource: ContainerRegistryResource;
+
+  @doc("Location of the registry that the final image will be uploaded to.")
+  imageUploadLocation: string;
+}
+
+// Compute
+@doc("Properties for compute that the build will be performed on.")
+model ComputeResourceProperties {
+  @doc("Resource instance provisioning state.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("Compute resource.")
+model ComputeResource extends TrackedResource<ComputeResourceProperties> {}
+
+@doc("Compute that the build will be performed on.")
+model Compute {
+  @doc("Compute resource that the build will be performed on.")
+  resource: ComputeResource;
+}
+
+@doc("The build properties.")
+model BuildProperties {
+  @doc("Resource instance provisioning state.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("GUID of the build operation.")
+  @visibility("read")
+  buildId?: string;
+
+  @doc("Storage account to upload code to.")
+  @visibility("read")
+  storageAccount?: StorageAccount;
+  
+  @doc("Container registry that the final image will be uploaded to.")
+  @visibility("read")
+  containerRegistry?: ContainerRegistry;
+
+  @doc("Compute that the build will be performed on.")
+  @visibility("read")
+  compute?: Compute;
+}
+
+@doc("Information pertaining to an individual build.")
+@parentResource(BuilderResource)
+model BuildResource is ProxyResource<BuildProperties> {
+  @key("buildName")
+  @segment("builds")
+  @doc("The name of a build.")
+  @minLength(3)
+  @maxLength(64)
+  @path
+  name: string;
+}
+
+@armResourceOperations
+interface Builds extends ProxyResourceOperations<BuildResource> {}

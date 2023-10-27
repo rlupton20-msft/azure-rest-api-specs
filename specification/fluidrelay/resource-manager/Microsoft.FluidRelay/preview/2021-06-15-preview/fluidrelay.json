@@ -198,7 +198,7 @@
             "schema": {
               "$ref": "#/definitions/FluidRelayServerUpdate"
             },
-            "description": "The updatable details of the Fluid Relay server resource."
+            "description": "The details of the Fluid Relay server resource included in update calls."
           }
         ],
         "responses": {
@@ -549,6 +549,10 @@
         "identity": {
           "$ref": "#/definitions/Identity",
           "description": "The type of identity used for the resource."
+        },
+        "location": {
+          "type": "string",
+          "description": "The geo-location where the resource lives"
         }
       },
       "description": "The updatable properties of a Fluid Relay server"
@@ -650,26 +654,44 @@
       "type": "object",
       "properties": {
         "principalId": {
-          "readOnly": true,
           "type": "string",
           "description": "The principal ID of resource identity."
         },
         "tenantId": {
-          "readOnly": true,
           "type": "string",
           "description": "The tenant ID of resource."
         },
         "type": {
           "enum": [
             "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
             "None"
           ],
           "x-ms-enum": {
             "name": "ResourceIdentityType",
-            "modelAsString": true
+            "modelAsString": false
           },
           "type": "string",
           "description": "The identity type."
+        },
+         "userAssignedIdentities": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "x-ms-client-name": "userAssignedIdentitiesValue",
+            "properties": {
+              "principalId": {
+                "type": "string",
+                "description": "The principal id of user assigned identity."
+              },
+              "clientId": {
+                "type": "string",
+                "description": "The client id of user assigned identity."
+              }
+            }
+          },
+          "description": "The list of user identities associated with the resource."
         }
       }
     },

@@ -198,6 +198,126 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets": {
+      "get": {
+        "description": "Get a list of bare metal machine key sets of the cluster in the provided subscription.",
+        "summary": "List bare metal machine key sets of the cluster in the subscription.",
+        "operationId": "BareMetalMachineKeySets_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BareMetalMachineKeySetList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List bare metal machine key set of cluster for subscription": {
+            "$ref": "./examples/BareMetalMachineKeySets_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets": {
+      "get": {
+        "description": "Get a list of baseboard management controller key sets of the cluster in the provided subscription.",
+        "summary": "List baseboard management controller key sets of the cluster in the subscription.",
+        "operationId": "BmcKeySets_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BmcKeySetList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List baseboard management controller key set of cluster for subscription": {
+            "$ref": "./examples/BmcKeySets_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations": {
+      "get": {
+        "description": "Get a list of metrics configurations of the cluster in the provided subscription.",
+        "summary": "List metrics configurations of the cluster in the subscription.",
+        "operationId": "MetricsConfigurations_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ClusterMetricsConfigurationList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List metrics configurations of cluster for subscription": {
+            "$ref": "./examples/ClusterMetricsConfigurations_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/defaultCniNetworks": {
       "get": {
         "description": "Get a list of default CNI networks in the provided subscription.",
@@ -561,6 +681,46 @@
         "x-ms-examples": {
           "List virtual machines for subscription": {
             "$ref": "./examples/VirtualMachines_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles": {
+      "get": {
+        "description": "Get a list of virtual machine consoles in the provided subscription.",
+        "summary": "List virtual machine consoles in the subscription.",
+        "operationId": "Consoles_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ConsoleList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List virtual machine consoles for subscription": {
+            "$ref": "./examples/Consoles_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -6334,8 +6494,7 @@
           "readOnly": true
         },
         "bmcCredentials": {
-          "$ref": "#/definitions/AdministrativeCredentials",
-          "description": "The credentials of the baseboard management controller on this bare metal machine."
+          "$ref": "#/definitions/AdministrativeCredentials"
         },
         "bmcMacAddress": {
           "description": "The MAC address of the BMC for this machine.",
@@ -6539,11 +6698,7 @@
           "description": "The name of the group that users will be assigned to on the operating system of the machines.",
           "type": "string",
           "maxLength": 32,
-          "pattern": "^([A-Za-z]([A-Za-z0-9]*))$",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "pattern": "^([A-Za-z]([A-Za-z0-9]*))$"
         },
         "privilegeLevel": {
           "description": "The access level allowed for the users in this key set.",
@@ -6686,8 +6841,7 @@
           "type": "string"
         },
         "bmcCredentials": {
-          "$ref": "#/definitions/AdministrativeCredentials",
-          "description": "The credentials of the baseboard management controller on this bare metal machine."
+          "$ref": "#/definitions/AdministrativeCredentials"
         },
         "bmcMacAddress": {
           "description": "The MAC address of the BMC device.",
@@ -6740,14 +6894,10 @@
           "readOnly": true
         },
         "hardwareInventory": {
-          "$ref": "#/definitions/HardwareInventory",
-          "description": "The hardware inventory, including information acquired from the model/sku information and from the ironic inspector.",
-          "readOnly": true
+          "$ref": "#/definitions/HardwareInventory"
         },
         "hardwareValidationStatus": {
-          "$ref": "#/definitions/HardwareValidationStatus",
-          "description": "The details of the latest hardware validation performed for this bare metal machine.",
-          "readOnly": true
+          "$ref": "#/definitions/HardwareValidationStatus"
         },
         "hybridAksClustersAssociatedIds": {
           "description": "The list of the resource IDs for the HybridAksClusters that have nodes hosted on this bare metal machine.",
@@ -6875,8 +7025,7 @@
       "title": "BareMetalMachineReplaceParameters represents the body of the request to physically swap a bare metal machine for another.",
       "properties": {
         "bmcCredentials": {
-          "$ref": "#/definitions/AdministrativeCredentials",
-          "description": "The credentials of the baseboard management controller on this bare metal machine."
+          "$ref": "#/definitions/AdministrativeCredentials"
         },
         "bmcMacAddress": {
           "description": "The MAC address of the BMC device.",
@@ -7702,7 +7851,7 @@
         },
         "managerExtendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location (custom location) that represents the cluster manager's control plane location. This extended location is used when creating cluster and rack manifest resources.",
+          "description": "The extended location (custom location) that represents the cluster manager's control plane location.\n This extended location is used when creating cluster and rack manifest resources.",
           "readOnly": true
         },
         "provisioningState": {
@@ -7901,20 +8050,17 @@
       "title": "ClusterPatchProperties represents the properties of the cluster for patching.",
       "properties": {
         "aggregatorOrSingleRackDefinition": {
-          "$ref": "#/definitions/RackDefinition",
-          "description": "The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster."
+          "$ref": "#/definitions/RackDefinition"
         },
         "clusterLocation": {
           "description": "The customer-provided location information to identify where the cluster resides.",
           "type": "string"
         },
         "clusterServicePrincipal": {
-          "$ref": "#/definitions/ServicePrincipalInformation",
-          "description": "The service principal to be used by the cluster during Arc Appliance installation."
+          "$ref": "#/definitions/ServicePrincipalInformation"
         },
         "computeDeploymentThreshold": {
-          "$ref": "#/definitions/ValidationThreshold",
-          "description": "The validation threshold indicating the allowable failures of compute machines during environment validation and deployment."
+          "$ref": "#/definitions/ValidationThreshold"
         },
         "computeRackDefinitions": {
           "description": "The list of rack definitions for the compute racks in a multi-rack\ncluster, or an empty list in a single-rack cluster.",
@@ -7940,8 +8086,7 @@
       ],
       "properties": {
         "aggregatorOrSingleRackDefinition": {
-          "$ref": "#/definitions/RackDefinition",
-          "description": "The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster."
+          "$ref": "#/definitions/RackDefinition"
         },
         "analyticsWorkspaceId": {
           "description": "The resource ID of the Log Analytics Workspace that will be used for storing relevant logs.",
@@ -7963,9 +8108,7 @@
           "readOnly": true
         },
         "clusterCapacity": {
-          "$ref": "#/definitions/ClusterCapacity",
-          "description": "The capacity supported by this cluster.",
-          "readOnly": true
+          "$ref": "#/definitions/ClusterCapacity"
         },
         "clusterConnectionStatus": {
           "description": "The latest heartbeat status between the cluster manager and the cluster.",
@@ -7983,7 +8126,7 @@
         },
         "clusterExtendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location (custom location) that represents the cluster's control plane location. This extended location is used to route the requests of child objects of the cluster that are handled by the platform operator.",
+          "description": "The extended location (custom location) that represents the cluster's control plane location.\nThis extended location is used to route the requests of child objects of the cluster that are handled by the platform operator.",
           "readOnly": true
         },
         "clusterLocation": {
@@ -8010,8 +8153,7 @@
           "readOnly": true
         },
         "clusterServicePrincipal": {
-          "$ref": "#/definitions/ServicePrincipalInformation",
-          "description": "The service principal to be used by the cluster during Arc Appliance installation."
+          "$ref": "#/definitions/ServicePrincipalInformation"
         },
         "clusterType": {
           "description": "The type of rack configuration for the cluster.",
@@ -8038,8 +8180,7 @@
           ]
         },
         "computeDeploymentThreshold": {
-          "$ref": "#/definitions/ValidationThreshold",
-          "description": "The validation threshold indicating the allowable failures of compute machines during environment validation and deployment."
+          "$ref": "#/definitions/ValidationThreshold"
         },
         "computeRackDefinitions": {
           "description": "The list of rack definitions for the compute racks in a multi-rack\ncluster, or an empty list in a single-rack cluster.",
@@ -8077,7 +8218,7 @@
         },
         "hybridAksExtendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location (custom location) that represents the Hybrid AKS control plane location. This extended location is used when creating provisioned clusters (Hybrid AKS clusters).",
+          "description": "The extended location (custom location) that represents the Hybrid AKS control plane location.\nThis extended location is used when creating provisioned clusters (Hybrid AKS clusters).",
           "readOnly": true
         },
         "managedResourceGroupConfiguration": {
@@ -8300,6 +8441,11 @@
       "type": "object",
       "title": "ConsolePatchProperties represents the properties of the virtual machine console that can be patched.",
       "properties": {
+        "duration": {
+          "description": "The duration this console access will be allowed for the user. The values are specified in ISO8601 duration format.",
+          "type": "string",
+          "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+        },
         "enabled": {
           "description": "The credentials used to login to the image repository that has access to the specified image.",
           "type": "string",
@@ -8312,14 +8458,8 @@
             "name": "ConsoleEnabled"
           }
         },
-        "expiration": {
-          "description": "The date and time after which the key will be disallowed access.",
-          "type": "string",
-          "format": "date-time"
-        },
         "sshPublicKey": {
-          "$ref": "#/definitions/SshPublicKey",
-          "description": "The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in."
+          "$ref": "#/definitions/SshPublicKey"
         }
       }
     },
@@ -8388,8 +8528,7 @@
           "readOnly": true
         },
         "sshPublicKey": {
-          "$ref": "#/definitions/SshPublicKey",
-          "description": "The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in."
+          "$ref": "#/definitions/SshPublicKey"
         },
         "virtualMachineAccessId": {
           "description": "The unique identifier for the virtual machine that is used to access the console.",
@@ -8473,12 +8612,7 @@
           "readOnly": true
         },
         "cniBgpConfiguration": {
-          "$ref": "#/definitions/CniBgpConfiguration",
-          "description": "The Calico BGP configuration.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "$ref": "#/definitions/CniBgpConfiguration"
         },
         "detailedStatus": {
           "description": "The more detailed status of the default CNI network.",
@@ -8604,7 +8738,11 @@
       "properties": {
         "category": {
           "description": "The descriptive category name of endpoints accessible by the AKS agent node. For example, azure-resource-management, API server, etc. The platform egress endpoints provided by default will use the category 'default'.",
-          "type": "string"
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "endpoints": {
           "description": "The list of endpoint dependencies.",
@@ -8613,7 +8751,11 @@
           "items": {
             "$ref": "#/definitions/EndpointDependency"
           },
-          "x-ms-identifiers": []
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       }
     },
@@ -8626,14 +8768,22 @@
       "properties": {
         "domainName": {
           "description": "The domain name of the dependency.",
-          "type": "string"
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "port": {
           "description": "The port of this endpoint.",
           "type": "integer",
           "format": "int64",
           "maximum": 65535,
-          "minimum": 1
+          "minimum": 1,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       }
     },
@@ -8972,8 +9122,7 @@
           "maxLength": 256
         },
         "sshPublicKey": {
-          "$ref": "#/definitions/SshPublicKey",
-          "description": "The SSH public key for this user."
+          "$ref": "#/definitions/SshPublicKey"
         }
       }
     },
@@ -9695,9 +9844,7 @@
       "title": "Type Deprecated. Will be removed in an upcoming version. Nic represents the network interface card details.",
       "properties": {
         "lldpNeighbor": {
-          "$ref": "#/definitions/LldpNeighbor",
-          "description": "The information about the device connected to this NIC.",
-          "readOnly": true
+          "$ref": "#/definitions/LldpNeighbor"
         },
         "macAddress": {
           "description": "The MAC address associated with this NIC.",
@@ -10268,8 +10415,7 @@
       ],
       "properties": {
         "adminCredentials": {
-          "$ref": "#/definitions/AdministrativeCredentials",
-          "description": "The credentials of the administrative interface on this storage appliance."
+          "$ref": "#/definitions/AdministrativeCredentials"
         },
         "rackSlot": {
           "description": "The slot that storage appliance is in the rack based on the BOM configuration.",
@@ -10359,12 +10505,7 @@
       ],
       "properties": {
         "administratorCredentials": {
-          "$ref": "#/definitions/AdministrativeCredentials",
-          "description": "The credentials of the administrative interface on this storage appliance.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "$ref": "#/definitions/AdministrativeCredentials"
         },
         "capacity": {
           "description": "The total capacity of the storage appliance.",
@@ -10571,8 +10712,7 @@
       ],
       "properties": {
         "osDisk": {
-          "$ref": "#/definitions/OsDisk",
-          "description": "The disk to use with this virtual machine."
+          "$ref": "#/definitions/OsDisk"
         },
         "volumeAttachments": {
           "description": "The resource IDs of volumes that are requested to be attached to the virtual machine.",
@@ -10876,8 +11016,7 @@
       "title": "VirtualMachinePatchProperties represents the properties of the virtual machine that can be patched.",
       "properties": {
         "vmImageRepositoryCredentials": {
-          "$ref": "#/definitions/ImageRepositoryCredentials",
-          "description": "The credentials used to login to the image repository that has access to the specified image."
+          "$ref": "#/definitions/ImageRepositoryCredentials"
         }
       }
     },
@@ -11015,12 +11154,7 @@
           ]
         },
         "cloudServicesNetworkAttachment": {
-          "$ref": "#/definitions/NetworkAttachment",
-          "description": "The cloud service network that provides platform-level services for the virtual machine.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "$ref": "#/definitions/NetworkAttachment"
         },
         "clusterId": {
           "description": "The resource ID of the cluster the virtual machine is created for.",
@@ -11157,12 +11291,7 @@
           ]
         },
         "storageProfile": {
-          "$ref": "#/definitions/StorageProfile",
-          "description": "The storage profile that specifies size and other parameters about the disks related to the virtual machine.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "$ref": "#/definitions/StorageProfile"
         },
         "userData": {
           "description": "The Base64 encoded cloud-init user data.",
@@ -11215,8 +11344,7 @@
           ]
         },
         "vmImageRepositoryCredentials": {
-          "$ref": "#/definitions/ImageRepositoryCredentials",
-          "description": "The credentials used to login to the image repository that has access to the specified image."
+          "$ref": "#/definitions/ImageRepositoryCredentials"
         },
         "volumes": {
           "description": "The resource IDs of volumes that are attached to the virtual machine.",
@@ -11355,11 +11483,7 @@
           "description": "The size of the allocation for this volume in Mebibytes.",
           "type": "integer",
           "format": "int64",
-          "minimum": 1,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "minimum": 1
         }
       }
     }

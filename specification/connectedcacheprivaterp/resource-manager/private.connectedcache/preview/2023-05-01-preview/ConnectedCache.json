@@ -1,0 +1,2680 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2023-05-01-preview",
+    "title": "ConnectedCache",
+    "description": "Private RP Microsoft Connected cache REST API version 2023-05-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user node"
+      }
+    }
+  },
+  "paths": {
+    "/providers/private.connectedcache/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "x-ms-examples": {
+          "ConnectedCacheOperationsList": {
+            "$ref": "./examples/ConnectedCacheOperationsList.json"
+          }
+        },
+        "description": "Retrieves a list of available API operations",
+        "summary": "Retrieves a list of available API operations under this Resource Provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request was successful; response contains the list of operations under private.connectedcache resource provider",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderOperationList"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure. 404 - NotFound (Connected Cache does not exist.)",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/ispCustomers/{customerName}": {
+      "get": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "Gets ispCustomer resource information",
+        "description": "Gets the ispCustomer resource information using this get call",
+        "operationId": "ispCustomers_Get",
+        "x-ms-examples": {
+          "ispCustomers Get": {
+            "$ref": "./examples/ispCustomersGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResource"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "Creates an ispCustomer resource",
+        "description": "This api creates an ispCustomer with the specified create parameters",
+        "operationId": "ispCustomers_CreateOrUpdate",
+        "x-ms-examples": {
+          "ispCustomers CreateOrUpdate": {
+            "$ref": "./examples/ispCustomersCreateOrUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+           {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "ispCustomer create parameters",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The put request was successful; response contains the ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerResponse"
+            }
+          },
+          "201": {
+            "description": "The put request was successful; response contains the updated ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "The create/update request has failed; error response details : 4xx/5xx for ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "Deletes an ispCustomer resource",
+        "description": "This api deletes an existing ispCustomer resource",
+        "operationId": "ispCustomers_Delete",
+        "x-ms-examples": {
+          "ispCustomers Delete": {
+            "$ref": "./examples/ispCustomersDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The delete request was successful; the ispCustomer was deleted"
+          },
+          "202": {
+            "description": "The delete request was accepted; the ispCustomer is being deleted"
+          },
+          "204": {
+            "description": "The delete request was successful; the ispCustomer does not exists"
+          },
+          "default": {
+            "description": "The delete request has failed; error response details : 4xx/5xx for ispCustomer"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "updates an existing ispCustomer resource",
+        "description": "This api updates an existing ispCustomer resource",
+        "operationId": "ispCustomers_Update",
+        "x-ms-examples": {
+          "ispCustomers Update": {
+            "$ref": "./examples/ispCustomersUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "ispCustomers patch parameters",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCachePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The update request was successful; response contains the updated ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResource"
+            }
+          },
+          "201": {
+            "description": "The update request was successful; the ispCustomer does not exists",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResource"
+            }
+          },
+          "default": {
+            "description": "The update request has failed; error response details : 4xx/5xx for ispCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/ispCustomers": {
+      "get": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "Retrieves information about all ispCustomer resources under the given subscription and resource group",
+        "description": "This api gets the information about all ispCustomer resources under the given subscription and resource group",
+        "operationId": "ispCustomers_ListByResourceGroup",
+        "x-ms-examples": {
+          "ispCustomers ListBy ResourceGroup": {
+            "$ref": "./examples/ispCustomersListByResourceGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResourceList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/private.connectedcache/ispCustomers": {
+      "get": {
+        "tags": [
+          "ispCustomers"
+        ],
+        "summary": "Retrieves information about all ispCustomer resources under the given subscription",
+        "description": "This api gets information about all ispCustomer resources under the given subscription",
+        "operationId": "ispCustomers_ListBySubscription",
+        "x-ms-examples": {
+          "ispCustomers ListBy Subscription": {
+            "$ref": "./examples/ispCustomersListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the list of ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResourceList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/ispCustomers/{customerName}/ispCacheNodes/{cacheNodeName}": {
+      "get": {
+        "tags": [
+          "ispCacheNodes"
+        ],
+        "summary": "Gets ispCacheNode resource information of an ispCustomer parent resource",
+        "description": "This api gets ispCacheNode resource information",
+        "operationId": "ispCacheNodes_Get",
+        "x-ms-examples": {
+          "ispCacheNodes Get": {
+            "$ref": "./examples/ispCacheNodesGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCache"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ispCacheNodes"
+        ],
+        "summary": "Creates an ispCacheNode resource",
+        "description": "This api creates an ispCacheNode with the specified create parameters",
+        "operationId": "ispCacheNodes_CreateOrUpdate",
+        "x-ms-examples": {
+          "ispCacheNodes CreateOrUpdate": {
+            "$ref": "./examples/ispCacheNodesCreateOrUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          },
+		      {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "ispCustomer create parameters un request body",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The put request was successful; response contains the ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeResponse"
+            }
+          },
+          "201": {
+            "description": "The put request was successful; response contains the updated ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeResponse"
+            }
+          },
+          "default": {
+            "description": "The create/update request has failed; error response details : 4xx/5xx for ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "ispCacheNodes"
+        ],
+        "summary": "Deletes an ispCacheNode  resource",
+        "description": "This api deletes an existing ispCacheNode resource",
+        "operationId": "ispCacheNodes_Delete",
+        "x-ms-examples": {
+          "ispCacheNodes Delete": {
+            "$ref": "./examples/ispCacheNodesDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The delete request was successful; the ispCacheNode was deleted"
+          },
+          "202": {
+            "description": "The delete request was accepted; the ispCacheNode is being deleted"
+          },
+          "204": {
+            "description": "The delete request was successful; the ispCacheNode does not exists"
+          },
+          "default": {
+            "description": "The delete request has failed; error response details : 4xx/5xx for ispCacheNode"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "ispCacheNodes"
+        ],
+        "summary": "Updates an existing ispCacheNode resource",
+        "description": "This api updates an existing ispCacheNode resource",
+        "operationId": "ispCacheNodes_Update",
+        "x-ms-examples": {
+          "ispCacheNodes Update": {
+            "$ref": "./examples/ispCacheNodesUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "cacheNodes patch parameters",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCachePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The update request was successful; the response contains the updated ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCache"
+            }
+          },
+          "201": {
+            "description": "The update request was successful; the ispCacheNode does not exists",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCache"
+            }
+          },
+          "default": {
+            "description": "The update request has failed; error response details : 4xx/5xx for ispCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/ispCustomers/{customerName}/ispCacheNodes": {
+      "get": {
+        "tags": [
+          "ispCacheNodes"
+        ],
+        "summary": "Retrieves information about all ispCacheNode resources under the given subscription and resource group",
+        "description": "This api retrieves information about all ispCacheNode resources under the given subscription and resource group",
+        "operationId": "ispCacheNodes_ListByCustomers",
+        "x-ms-examples": {
+          "ispCacheNodes ListBy Customers": {
+            "$ref": "./examples/ispCacheNodesListByCustomer.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the list of ispCacheNode resources",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCacheList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCacheNode resources",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/enterpriseMccCustomers/{customerName}": {
+      "get": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "Gets enterpriseMccCustomers resource information",
+        "description": "This api gets the enterpriseMccCustomers resource information using this get call",
+        "operationId": "enterpriseMccCustomers_Get",
+        "x-ms-examples": {
+          "enterpriseMccCustomers Get": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResource"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "Creates an enterpriseMccCustomer resource",
+        "description": "This api creates an enterpriseMccCustomer with the specified create parameters",
+        "operationId": "enterpriseMccCustomers_CreateOrUpdate",
+        "x-ms-examples": {
+          "enterpriseMccCustomers CreateOrUpdate": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersCreateOrUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+           {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "enterpriseMccCustomer create parameters",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The put request was successful; response contains the enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerResponse"
+            }
+          },
+          "201": {
+            "description": "The put request was successful; response contains the updated enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "The create/update request has failed; error response details : 4xx/5xx for enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "Deletes an enterpriseMccCustomer resource",
+        "description": "This api deletes an existing enterpriseMccCustomer resource",
+        "operationId": "enterpriseMccCustomers_Delete",
+        "x-ms-examples": {
+          "enterpriseMccCustomers Delete": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The delete request was successful; the enterpriseMccCustomer was deleted"
+          },
+          "202": {
+            "description": "The delete request was accepted; the enterpriseMccCustomer is being deleted"
+          },
+          "204": {
+            "description": "The delete request was successful; the enterpriseMccCustomer does not exists"
+          },
+          "default": {
+            "description": "The delete request has failed; error response details : 4xx/5xx for enterpriseMccCustomer"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "updates an existing enterpriseMccCustomer resource",
+        "description": "This api updates an existing enterpriseMccCustomer resource",
+        "operationId": "enterpriseMccCustomers_Update",
+        "x-ms-examples": {
+          "enterpriseMccCustomers Update": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "enterpriseMccCustomers patch parameters",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCachePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The update request was successful; response contains the updated enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResource"
+            }
+          },
+          "202": {
+            "description": "Initial Accepted state for patch request"
+          },
+          "default": {
+            "description": "The update request has failed; error response details : 4xx/5xx for enterpriseMccCustomer",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/enterpriseMccCustomers": {
+      "get": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "Retrieves information about all enterprise Mcc Customer resources under the given subscription and resource group",
+        "description": "This api gets the information about all enterprise Mcc Customer resources under the given subscription and resource group",
+        "operationId": "enterpriseMccCustomers_ListByResourceGroup",
+        "x-ms-examples": {
+          "enterpriseMccCustomers ListBy ResourceGroup": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersListByResourceGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResourceList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for ispCustomer resources",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/private.connectedcache/enterpriseMccCustomers": {
+      "get": {
+        "tags": [
+          "enterpriseMccCustomers"
+        ],
+        "summary": "Retrieves information about all enterprise mcc customer resources under the given subscription",
+        "description": "This api gets information about all enterprise mcc customer resources under the given subscription",
+        "operationId": "enterpriseMccCustomers_ListBySubscription",
+        "x-ms-examples": {
+          "enterpriseMccCustomers ListBy Subscription": {
+            "$ref": "./examples/enterprise/enterpriseMccCustomersListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the list of enterprise mcc customer resources",
+            "schema": {
+              "$ref": "#/definitions/MccCustomerResourceList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for enterprise mcc customer resources",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/enterpriseMccCustomers/{customerName}/enterpriseMccCacheNodes/{cacheNodeName}": {
+      "get": {
+        "tags": [
+          "enterpriseMccCacheNodes"
+        ],
+        "summary": "Gets enterpriseMccCacheNode resource information of an enterprise mcc customer parent resource",
+        "description": "This api gets enterpriseMccCacheNode resource information",
+        "operationId": "enterpriseMccCacheNodes_Get",
+        "x-ms-examples": {
+          "enterpriseMccCacheNodes Get": {
+            "$ref": "./examples/enterprise/enterpriseMccCacheNodesGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCache"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "enterpriseMccCacheNodes"
+        ],
+        "summary": "Creates an enterpriseMccCacheNode resource",
+        "description": "This api creates an enterpriseMccCacheNode with the specified create parameters",
+        "operationId": "enterpriseMccCacheNodes_CreateOrUpdate",
+        "x-ms-examples": {
+          "enterpriseMccCacheNodes CreateOrUpdate": {
+            "$ref": "./examples/enterprise/enterpriseMccCacheNodesCreateOrUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          },
+		      {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "enterpriseMccCacheNode create parameters un request body",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The put request was successful; response contains the enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeResponse"
+            }
+          },
+          "201": {
+            "description": "The put request was successful; response contains the updated enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeResponse"
+            }
+          },
+          "default": {
+            "description": "The create/update request has failed; error response details : 4xx/5xx for enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "delete": {
+        "tags": [
+          "enterpriseMccCacheNodes"
+        ],
+        "summary": "Deletes an enterpriseMccCacheNode resource",
+        "description": "This api deletes an existing enterpriseMccCacheNode resource",
+        "operationId": "enterpriseMccCacheNodes_Delete",
+        "x-ms-examples": {
+          "enterpriseMccCacheNodes Delete": {
+            "$ref": "./examples/enterprise/enterpriseMccCacheNodesDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The delete request was successful; the enterpriseMccCacheNode was deleted"
+          },
+          "202": {
+            "description": "The delete request was accepted; the enterpriseMccCacheNode is being deleted"
+          },
+          "204": {
+            "description": "The delete request was successful; the enterpriseMccCacheNode does not exists"
+          },
+          "default": {
+            "description": "The delete request has failed; error response details : 4xx/5xx for enterpriseMccCacheNode"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "enterpriseMccCacheNodes"
+        ],
+        "summary": "Updates an existing enterpriseMccCacheNode resource",
+        "description": "This api updates an existing enterpriseMccCacheNode resource",
+        "operationId": "enterpriseMccCacheNodes_Update",
+        "x-ms-examples": {
+          "enterpriseMccCacheNodes Update": {
+            "$ref": "./examples/enterprise/enterpriseMccCacheNodesUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CacheNodeNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "enterpriseMccCacheNode patch parameters",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCachePatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The update request was successful; the response contains the updated enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCache"
+            }
+          },
+          "202": {
+            "description": "Initial Accepted state for patch request"
+          },
+          "default": {
+            "description": "The update request has failed; error response details : 4xx/5xx for enterpriseMccCacheNode",
+            "schema": {
+              "$ref": "#/definitions/MCCErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.connectedcache/enterpriseMccCustomers/{customerName}/enterpriseMccCacheNodes": {
+      "get": {
+        "tags": [
+          "enterpriseMccCacheNodes"
+        ],
+        "summary": "Retrieves information about all enterpriseMccCacheNode resources under the given subscription and resource group",
+        "description": "This api retrieves information about all enterpriseMccCacheNode resources under the given subscription and resource group",
+        "operationId": "enterpriseMccCacheNodes_ListByCustomers",
+        "x-ms-examples": {
+          "enterpriseMccCacheNodes ListBy Customers": {
+            "$ref": "./examples/enterprise/enterpriseMccCacheNodesListByCustomer.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CustomerNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get request was successful; response contains the list of enterpriseMccCacheNode resources",
+            "schema": {
+              "$ref": "#/definitions/ConnectedCacheList"
+            }
+          },
+          "default": {
+            "description": "The get request has failed; error response details : 4xx/5xx for enterpriseMccCacheNode resources",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MCCErrorResponse": {
+      "description": "Error response indicates that the service is not able to process the incoming request",
+      "properties": {
+        "status": {
+          "description": "status of the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorDefinition"
+            }
+          ],
+          "description": "The error details"
+        },
+        "properties": {
+          "description": "Additional ConnectedCache properties",
+          "title": "ConnectedCache Additional properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CacheNode"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "type": "object",
+      "description": "Error definition",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          },
+          "x-ms-identifiers": [
+            "message"
+          ],
+          "readOnly": true
+        }
+      }
+    },
+    "MccCustomerResourceList": {
+      "description": "Object that includes an array of MccCustomerResource and a possible link for next set",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of MccCustomerResource resources",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MccCustomerResource"
+          }
+        },
+        "nextLink": {
+          "description": "The URL the client should use to fetch the next page (per server side paging)",
+          "type": "string"
+        }
+      }
+    },
+    "CreateOrUpdateCustomerResponse": {
+      "type": "object",
+      "description": "Represents the high level customer properties needed to provision customer resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Create or update customer response entity",
+          "title": "Create or update customer response entity",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CreateOrUpdateCustomerResponseEntity"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "CreateOrUpdateCustomerResponseEntity": {
+      "type": "object",
+      "description": "Model representing customer for ConnectedCache resource",
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The provisioned state of the resource",
+          "enum": [
+            "Unknown",
+            "Accepted",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Upgrading",
+            "Deleting"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "customer": {
+          "title": "MCC customer entity details",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CustomerEntity"
+            }
+          ],
+          "description": " Mcc Customer entity"
+        },
+        "additionalCustomerProperties": {
+          "title": "Additional customer properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/AdditionalCustomerProperties"
+            }
+          ],
+          "description": " Mcc Customer entity"
+        },
+        "statusCode": {
+          "type": "string",
+          "description": "statusCode used to get code details of MCC response object"
+        },
+        "statusText": {
+          "type": "string",
+          "description": "statusText used to get status details in string format of MCC response object"
+        },
+        "statusDetails": {
+          "type": "string",
+          "description": "statusDetails used to get inner details of MCC response object"
+        },
+        "status": {
+          "description": "status of the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorDefinition"
+            }
+          ],
+          "description": "The error details"
+        }
+      }
+    },
+    "AdditionalCustomerProperties": {
+      "type": "object",
+      "description": "Model representing customer for connected cache resource",
+      "properties": {
+        "peeringDbLastUpdateTime": {
+          "type": "string",
+          "description": "last update timestamp of peering db update"
+        },
+        "cacheEffeciency": {
+          "type": "string",
+          "description": "cache efficiency"
+        },
+        "averageEgressMbps": {
+          "type": "string",
+          "description": "average egress in mbps"
+        },
+        "averageMissMbps": {
+          "type": "string",
+          "description": "average miss throughput in mbps"
+        },
+        "egressMbpsMax": {
+          "type": "string",
+          "description": "max egress in mbps"
+        },
+        "egressMbpsMaxDateTime": {
+          "type": "string",
+          "description": "timestamp of max egress"
+        },
+        "missMbpsMax": {
+          "type": "string",
+          "description": "max miss throughput"
+        },
+        "missMbpsMaxDateTime": {
+          "type": "string",
+          "description": "timestamp of miss max throughput"
+        },
+        "cacheNodesHealthyCount": {
+          "type": "string",
+          "description": "count of healthy cache nodes"
+        },
+        "cacheNodesUnhealthyCount": {
+          "type": "string",
+          "description": "count of unhealthy cache nodes"
+        },
+        "signupStatus": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupStatusCode": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupStatusText": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupPhaseStatusCode": {
+          "type": "string",
+          "description": "statusCode of signup phase"
+        },
+        "signupPhaseStatusText": {
+          "type": "string",
+          "description": "status of signup phase"
+        },
+        "peeringDbLastUpdateDate": {
+          "type": "string",
+          "description": "timestamp of last update to peering db"
+        },
+        "customerOrgName": {
+          "type": "string",
+          "description": "name of organization of customer"
+        },
+        "customerEmail": {
+          "type": "string",
+          "description": "email of customer"
+        },
+        "customerTransitAsn": {
+          "type": "string",
+          "description": "transit asn of the customer who provides transit"
+        },
+        "customerTransitState": {
+          "type": "string",
+          "description": "transit state of the customer"
+        },
+        "customerAsn": {
+          "type": "string",
+          "description": "asn of the customer"
+        },
+        "optionalPropery1": {
+          "type": "string",
+          "description": "optional property#1 of MCC response object"
+        },
+        "optionalPropery2": {
+          "type": "string",
+          "description": "optional property#2 of MCC response object"
+        },
+        "optionalPropery3": {
+          "type": "string",
+          "description": "optional property#3 of MCC response object"
+        },
+        "optionalPropery4": {
+          "type": "string",
+          "description": "optional property#4 of MCC response object"
+        },
+        "optionalPropery5": {
+          "type": "string",
+          "description": "optional property#5 of MCC response object"
+        }
+      }
+    },
+
+    "CreateOrUpdateCacheNodeResponse": {
+      "type": "object",
+      "description": "Represents the high level cache node properties needed to provision cache node resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Create or update cache node response entity",
+          "title": "Create or update cache node response entity",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeResponseEntity"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "CreateOrUpdateCacheNodeResponseEntity": {
+      "type": "object",
+      "description": "Model representing cache node for ConnectedCache resource",
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The provisioned state of the resource",
+          "enum": [
+            "Unknown",
+            "Accepted",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Upgrading",
+            "Deleting"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "cacheNode": {
+          "title": "MCC cache node entity details",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CacheNodeEntity"
+            }
+          ],
+          "description": "Mcc cache node entity"
+        },
+        "additionalCacheNodeProperties": {
+          "title": "Additional cache node properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/AdditionalCacheNodeProperties"
+            }
+          ],
+          "description": " Mcc cache node entity"
+        },
+        "statusCode": {
+          "type": "string",
+          "description": "statusCode used to get code details of MCC response object"
+        },
+        "statusText": {
+          "type": "string",
+          "description": "statusText used to get status details in string format of MCC response object"
+        },
+        "statusDetails": {
+          "type": "string",
+          "description": "statusDetails used to get inner details of MCC response object"
+        },
+        "status": {
+          "description": "status of the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorDefinition"
+            }
+          ],
+          "description": "The error details"
+        }
+      }
+    },
+    "AdditionalCacheNodeProperties": {
+      "type": "object",
+      "description": "Model representing cache node for connected cache resource",
+      "properties": {
+        "detailsIssuesList": {
+          "type": "string",
+          "description": "issues list to return the issues as part of the additional cache node properties"
+        },
+        "bgpCidrs": {
+          "type": "string",
+          "description": "bgpCidrs as part of the additional cache node properties"
+        },
+        "aggregatedStatusDetails": {
+          "type": "string",
+          "description": "aggregated status details as part of additional cache node properties"
+        },
+        "aggregatedStatusText": {
+          "type": "string",
+          "description": "aggregated status text as part of additional cache node properties"
+        },
+        "aggregatedStatusCode": {
+          "type": "string",
+          "description": "aggregated status code as part of additonal cache enode properties"
+        },
+        "productVersion": {
+          "type": "string",
+          "description": "product version as part of additonal cache enode properties"
+        },
+        "isProvisioned": {
+          "type": "string",
+          "description": "is provisioned flag as part of additonal cache enode properties"
+        },
+        "cacheNodeStateDetailedText": {
+          "type": "string",
+          "description": "detailed text for cache node state as part of additonal cache enode properties"
+        },
+        "cacheNodeStateShortText": {
+          "type": "string",
+          "description": "short text for cache node state as part of additonal cache enode properties"
+        },
+        "cacheNodeState": {
+          "type": "string",
+          "description": "state of cache node state as part of additonal cache enode properties"
+        },
+        "registrationKey": {
+          "type": "string",
+          "description": "iot device registration temporary registration key"
+        },
+        "optionalPropery1": {
+          "type": "string",
+          "description": "optional property#1 of MCC response object"
+        },
+        "optionalPropery2": {
+          "type": "string",
+          "description": "optional property#2 of MCC response object"
+        },
+        "optionalPropery3": {
+          "type": "string",
+          "description": "optional property#3 of MCC response object"
+        },
+        "optionalPropery4": {
+          "type": "string",
+          "description": "optional property#4 of MCC response object"
+        },
+        "optionalPropery5": {
+          "type": "string",
+          "description": "optional property#5 of MCC response object"
+        }
+      }
+    },
+
+    "CreateOrUpdateCustomerRequest": {
+      "type": "object",
+      "description": "Represents the high level Nodes needed to provision customer resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Additional ConnectedCache properties",
+          "title": "ConnectedCache Additional properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CreateOrUpdateCustomerRequestEntity"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "CreateOrUpdateCustomerRequestEntity": {
+      "type": "object",
+      "description": "Model representing customer for ConnectedCache resource",
+      "properties": {
+        "apiKey": {
+          "type": "string",
+          "description": "api key."
+        },
+        "customerName": {
+          "type": "string",
+          "description": "name of the customer"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "customer id of the customer"
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "email of the customer contact"
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "phone number of the customer contact"
+        },
+        "contactName": {
+          "type": "string",
+          "description": "contact name of the customer"
+        },
+        "isEntitled": {
+          "type": "boolean",
+          "description": "is the customer entitled"
+        },
+        "shouldMigrate": {
+          "type": "boolean",
+          "description": "should the customer be migrated"
+        },
+        "customerAsn": {
+          "type": "string",
+          "description": "asn of the customer"
+        },
+        "transitState": {
+          "type": "string",
+          "description": "transit state of the customer"
+        },
+        "transitAsn": {
+          "type": "string",
+          "description": "transit asn for customer who provides transit"
+        },
+        "resendSignupCode": {
+          "type": "boolean",
+          "description": "should the signup code be resent"
+        },
+        "verifySignupCode": {
+          "type": "boolean",
+          "description": "should the code for signup be verified"
+        },
+        "verifySignupPhrase": {
+          "type": "string",
+          "description": "phrase for verify signup"
+        }
+      }
+    },
+    "CreateOrUpdateCacheNodeRequest": {
+      "type": "object",
+      "description": "Represents the high level Nodes needed to provision cache node resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Additional ConnectedCache properties",
+          "title": "ConnectedCache Additional properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CreateOrUpdateCacheNodeRequestEntity"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "CreateOrUpdateCacheNodeRequestEntity": {
+      "type": "object",
+      "description": "Model representing customer for ConnectedCache resource",
+      "properties": {
+        "apiKey": {
+          "type": "string",
+          "description": "api key."
+        },
+        "cacheNodeId": {
+          "type": "string",
+          "description": "cache node Id of the cache node to be updated. It is acceptable to be empty for a new cache node"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "customer id of the parent customer"
+        },
+        "cacheNodeName": {
+          "type": "string",
+          "description": "name of the cache node"
+        },
+        "cidrCsv": {
+          "type": "string",
+          "description": "comma separated values of cidr"
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "ip address"
+        },
+        "maxAllowableEgressInMbps": {
+          "type": "boolean",
+          "description": "maximum allowable egress of the cache node in mbps"
+        },
+        "shouldMigrate": {
+          "type": "boolean",
+          "description": "should the customer be migrated"
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "description": "is the cache node enabled"
+        },
+        "isEnterprise": {
+          "type": "string",
+          "description": "is the cache node an enterprise cache node"
+        },
+        "cidrSelectionType": {
+          "type": "string",
+          "description": "cidr selection type"
+        }
+      }
+    },
+    "MccCustomerResource": {
+      "type": "object",
+      "description": "Represents the high level Nodes needed to provision customer resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Properties of mcc customer resource.",
+          "title": "Properties of mcc customer resource.",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Customer"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "description": "Model representing customer for connectedCache resource",
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The provisioned state of the resource",
+          "enum": [
+            "Unknown",
+            "Accepted",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Upgrading",
+            "Deleting"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "customer": {
+          "title": "properties of customer entity",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CustomerEntity"
+            }
+          ],
+          "description": " Mcc Customer entity"
+        },
+        "peeringDbLastUpdateTime": {
+          "type": "string",
+          "description": "last update timestamp of peering db update"
+        },
+        "cacheEffeciency": {
+          "type": "string",
+          "description": "cache efficiency"
+        },
+        "averageEgressMbps": {
+          "type": "string",
+          "description": "average egress in mbps"
+        },
+        "averageMissMbps": {
+          "type": "string",
+          "description": "average miss throughput in mbps"
+        },
+        "egressMbpsMax": {
+          "type": "string",
+          "description": "max egress in mbps"
+        },
+        "egressMbpsMaxDateTime": {
+          "type": "string",
+          "description": "timestamp of max egress"
+        },
+        "missMbpsMax": {
+          "type": "string",
+          "description": "max miss throughput"
+        },
+        "missMbpsMaxDateTime": {
+          "type": "string",
+          "description": "timestamp of miss max throughput"
+        },
+        "cacheNodesHealthyCount": {
+          "type": "string",
+          "description": "count of healthy cache nodes"
+        },
+        "cacheNodesUnhealthyCount": {
+          "type": "string",
+          "description": "count of unhealthy cache nodes"
+        },
+        "signupStatus": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupStatusCode": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupStatusText": {
+          "type": "string",
+          "description": "status of signup"
+        },
+        "signupPhaseStatusCode": {
+          "type": "string",
+          "description": "statusCode of signup phase"
+        },
+        "signupPhaseStatusText": {
+          "type": "string",
+          "description": "status of signup phase"
+        },
+        "peeringDbLastUpdateDate": {
+          "type": "string",
+          "description": "timestamp of last update to peering db"
+        },
+        "customerOrgName": {
+          "type": "string",
+          "description": "name of organization of customer"
+        },
+        "customerEmail": {
+          "type": "string",
+          "description": "email of customer"
+        },
+        "customerTransitAsn": {
+          "type": "string",
+          "description": "transit asn of the customer who provides transit"
+        },
+        "customerTransitState": {
+          "type": "string",
+          "description": "transit state of the customer"
+        },
+        "customerAsn": {
+          "type": "string",
+          "description": "asn of the customer"
+        },
+        "optionalPropery1": {
+          "type": "string",
+          "description": "optional property#1 of MCC response object"
+        },
+        "optionalPropery2": {
+          "type": "string",
+          "description": "optional property#2 of MCC response object"
+        },
+        "optionalPropery3": {
+          "type": "string",
+          "description": "optional property#3 of MCC response object"
+        },
+        "optionalPropery4": {
+          "type": "string",
+          "description": "optional property#4 of MCC response object"
+        },
+        "optionalPropery5": {
+          "type": "string",
+          "description": "optional property#5 of MCC response object"
+        },
+        "statusCode": {
+          "type": "string",
+          "description": "statusCode used to get code details of MCC response object"
+        },
+        "statusText": {
+          "type": "string",
+          "description": "statusText used to get status details in string format of MCC response object"
+        },
+        "statusDetails": {
+          "type": "string",
+          "description": "statusDetails used to get inner details of MCC response object"
+        },
+        "status": {
+          "description": "status of the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorDefinition"
+            }
+          ],
+          "description": "The error details"
+        }
+      }
+    },
+    "CustomerEntity": {
+      "type": "object",
+      "description": "Model representing Cache Node for ConnectedCache resource",
+      "properties": {
+        "FullyQualifiedResourceId": {
+          "type": "string",
+          "description": "fully qualified resource id of the customer in azure resource manager"
+        },
+        "CustomerId": {
+          "type": "string",
+          "description": "mcc customer id"
+        },
+        "CustomerName": {
+          "type": "string",
+          "description": "name of the customer"
+        },
+        "PrimaryAccountKey": {
+          "type": "string",
+          "description": "primary account key. This is internal to mcc"
+        },
+        "SecondaryAccountKey": {
+          "type": "string",
+          "description": "secondary account key. This is internal to mcc"
+        },
+        "ContactEmail": {
+          "type": "string",
+          "description": "contact email of the customer"
+        },
+        "ContactPhone": {
+          "type": "string",
+          "description": "contact phone of the customer"
+        },
+        "ContactName": {
+          "type": "string",
+          "description": "name of the customer contact"
+        },
+        "IsEntitled": {
+          "type": "boolean",
+          "description": "flag to indicate if the customer is entitled"
+        },
+        "Location": {
+          "type": "string",
+          "description": "azure region where the customer is created"
+        },
+        "ResourceType": {
+          "type": "string",
+          "description": "type of resource"
+        },
+        "ReleaseVersion": {
+          "type": "string",
+          "description": "release version of the customer"
+        },
+        "CreateCorrelationId": {
+          "type": "string",
+          "description": "correlation id of the create customer operation"
+        },
+        "UpdateCorrelationId": {
+          "type": "string",
+          "description": "correlation id of the update customer operation"
+        },
+        "ShouldDelete": {
+          "type": "boolean",
+          "description": "indicates if the customer is marked for deletion"
+        },
+        "DeleteRectifierCorrelationId": {
+          "type": "string",
+          "description": "correlation id of the delete operation"
+        },
+        "DeleteAsyncOperationId": {
+          "type": "string",
+          "description": "async operation id of the delete operation"
+        },
+        "ClientTenantId": {
+          "type": "string",
+          "description": "client tenantId of the customer subscription"
+        },
+        "AttemptedDeletes": {
+          "type": "string",
+          "description": "number of delete attempts of the customer"
+        },
+        "DeletedFlagSetDateTime": {
+          "type": "string",
+          "description": "timestamp when delete flag was set for the customer"
+        },
+        "ProvisioningState": {
+          "type": "integer",
+          "description": "provisioning state of the customer"
+        },
+        "LastAttemptedDeleteTime": {
+          "type": "string",
+          "description": "timestamp of last delete attempt"
+        },
+        "SynchWithArmAttemptsCount": {
+          "type": "string",
+          "description": "number of sync attempts with arm"
+        },
+        "LastSyncWithArmTimestamp": {
+          "type": "string",
+          "description": "timestamp of last sync with arm"
+        },
+        "IsEnterpriseManaged": {
+          "type": "boolean",
+          "description": "flag indicating if customer enterprise managed"
+        }
+      }
+    },
+    "CacheNodeEntity": {
+      "type": "object",
+      "description": "Model representing Cache Node for ConnectedCache resource",
+      "properties": {
+        "FullyQualifiedResourceId": {
+          "type": "string",
+          "description": "fully qualified resource id of the customer in azure resource manager"
+        },
+        "CustomerId": {
+          "type": "string",
+          "description": "mcc customer id"
+        },
+        "CustomerName": {
+          "type": "string",
+          "description": "name of the customer"
+        },
+        "IpAddress": {
+          "type": "string",
+          "description": "IP address of the cache node"
+        },
+        "CustomerIndex": {
+          "type": "string",
+          "description": "Customer index"
+        },
+        "CacheNodeId": {
+          "type": "string",
+          "description": "identifier of the cache node"
+        },
+        "CacheNodeName": {
+          "type": "boolean",
+          "description": "name of the cache node"
+        },
+        "Asn": {
+          "type": "integer",
+          "description": "Asn of the customer"
+        },
+        "CountryCodes": {
+          "type": "string",
+          "description": "country codes"
+        },
+        "IsEnabled": {
+          "type": "boolean",
+          "description": "flag indicating if the cache node is enabled"
+        },
+        "MaxAllowableEgressInMbps": {
+          "type": "integer",
+          "description": "maximum alloweable egress in mbps"
+        },
+        "MaxAllowableProbability": {
+          "type": "integer",
+          "description": "maximum alloweable probability of the cache node"
+        },
+        "XCid": {
+          "type": "string",
+          "description": "xcid"
+        },
+        "IsEnterpriseManaged": {
+          "type": "boolean",
+          "description": "is the cache node managed by enterprise"
+        },
+        "DeleteAsyncOperationId": {
+          "type": "string",
+          "description": "async operation id of the delete operation"
+        },
+        "ClientTenantId": {
+          "type": "string",
+          "description": "client tenantId of the customer subscription"
+        },
+        "Category": {
+          "type": "string",
+          "description": "category of cache node"
+        },
+        "DeletedFlagSetDateTime": {
+          "type": "string",
+          "description": "timestamp when delete flag was set for the customer"
+        },
+        "ProvisioningState": {
+          "type": "integer",
+          "description": "provisioning state of the customer"
+        },
+        "LastAttemptedDeleteTime": {
+          "type": "string",
+          "description": "timestamp of last delete attempt"
+        },
+        "ReleaseVersion": {
+          "type": "integer",
+          "description": "release version of the cache node"
+        },
+        "LastSyncWithArmTimestamp": {
+          "type": "string",
+          "description": "timestamp of last sync with arm"
+        },
+        "SynchWithArmAttemptsCount": {
+          "type": "integer",
+          "description": "number of attempts to synchronize the customer with ARM"
+        },
+        "ContainerConfigurations": {
+          "type": "string",
+          "description": "configuration details of cache node container"
+        },
+        "CidrCsv": {
+          "type": "string",
+          "description": "comma separated values of cidr"
+        },
+        "CidrCsvLastUpdateTime": {
+          "type": "string",
+          "description": "timestamp of last update to cidr csv"
+        },
+        "BgpCidrCsv": {
+          "type": "string",
+          "description": "comma separated value of bgp cidrs"
+        },
+        "BgpCidrCsvLastUpdateTime": {
+          "type": "string",
+          "description": "timestamp of last update to bgp cidr csv"
+        },
+        "BgpLastReportedTime": {
+          "type": "string",
+          "description": "timestamp of last bgp report time"
+        },
+        "BgpReviewStateText": {
+          "type": "string",
+          "description": "bgp review state text"
+        },
+        "BgpReviewState": {
+          "type": "integer",
+          "description": "bgp review state"
+        },
+        "BgpReviewFeedback": {
+          "type": "string",
+          "description": "bgp review feedback"
+        },
+        "BgpNumberOfTimesUpdated": {
+          "type": "integer",
+          "description": "number of times bgp has been updated"
+        },
+        "BgpNumberOfRecords": {
+          "type": "integer",
+          "description": "number of bgp records"
+        },
+        "BgpCidrBlocksCount": {
+          "type": "integer",
+          "description": "number of bgp blocks"
+        },
+        "BgpAddressSpace": {
+          "type": "integer",
+          "description": "total addressable space as defined by the BGP CIDR blocks"
+        },
+        "BgpFileBytesTruncated": {
+          "type": "integer",
+          "description": "number of bytes truncated from source BGP output file on the CacheNode"
+        },
+        "CidrSelectionType": {
+          "type": "integer",
+          "description": "current selection type for CIDR range precedence"
+        },
+        "IsFrozen": {
+          "type": "boolean",
+          "description": "indicates that a specific cache node has been frozen (not selectable, not editable in UI)"
+        },
+        "ControllingCacheNodeId": {
+          "type": "string",
+          "description": "indicates the cache node id of the controlling cache node"
+        },
+        "ReviewState": {
+          "type": "integer",
+          "description": "current state of the review process"
+        },
+        "ReviewStateText": {
+          "type": "string",
+          "description": "current text associated with the review state"
+        },
+        "ReviewFeedback": {
+          "type": "string",
+          "description": "current review feedback for the user"
+        },
+        "ConfigurationState": {
+          "type": "integer",
+          "description": "current configuration state"
+        },
+        "ConfigurationStateText": {
+          "type": "string",
+          "description": "current configuration text"
+        },
+        "AddressSpace": {
+          "type": "integer",
+          "description": "total addressable space as defined by the CIDR blocks"
+        },
+        "IsVerified": {
+          "type": "boolean",
+          "description": "total addressable space as defined by the CIDR blocks"
+        },
+        "Location": {
+          "type": "string",
+          "description": "ARM resource location for the cache node"
+        },
+        "ResourceType": {
+          "type": "string",
+          "description": "ARM resource type for the cache node"
+        },
+        "IsDeleted": {
+          "type": "boolean",
+          "description": "indicates that we have successfully received deleted"
+        },
+        "CreateCorrelationId": {
+          "type": "string",
+          "description": "correlation Id that should be used for create"
+        },
+        "UpdateCorrelationId": {
+          "type": "string",
+          "description": "correlation Id that should be used for update"
+        },
+        "DeleteRectifierCorrelationId": {
+          "type": "string",
+          "description": "correlation Id that should be used for delete"
+        },
+        "IoTRectifierCorrelationId": {
+          "type": "string",
+          "description": "correlation Id that should be used for iot rectification"
+        },
+        "WorkerConnections": {
+          "type": "integer",
+          "description": "number of worker connections that is needed for the deployment manifest for MCC Container"
+        },
+        "WorkerConnections_LastUpdatedDateTime": {
+          "type": "string",
+          "description": "indicates the most recent date time when the worker count on the physical MCC was successfully updated"
+        },
+        "ContainerResyncTrigger": {
+          "type": "integer",
+          "description": "increment to trigger immediate re-sync of CacheNode to container configurations"
+        },
+        "ImageURI": {
+          "type": "string",
+          "description": "mcc Container Id Uri"
+        }
+      }
+    },
+    "ConnectedCache": {
+      "type": "object",
+      "description": "ConnectedCache Resource. Represents the high level Nodes needed to provision CacheNode resources",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Region where the Azure resource is located",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "Additional ConnectedCache properties",
+          "title": "ConnectedCache Additional properties",
+          "x-ms-client-flatten": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/CacheNode"
+            }
+          ]
+        },
+        "systemData": {
+          "readOnly": true,
+          "description": "The system meta data relating to this resource",
+          "allOf": [
+            {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData"
+            }
+          ]
+        }
+      }
+    },
+    "ConnectedCachePatchResource": {
+      "type": "object",
+      "description": "cacheNodes patch properties",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Additional tag configuration related properties",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CacheNode": {
+      "type": "object",
+      "description": "Model representing Cache Node for ConnectedCache resource",
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The provisioned state of the resource",
+          "enum": [
+            "Unknown",
+            "Accepted",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Upgrading",
+            "Deleting"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "customer": {
+          "type": "object",
+          "description": " Mcc Customer Json response"
+        },
+        "additionalCustomerProperties": {
+          "type": "object",
+          "description": "additional Mcc Customer Json properties",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "cacheNode": {
+          "type": "object",
+          "description": " Mcc Cache Node Json response"
+        },
+        "additionalCacheNodeProperties": {
+          "type": "object",
+          "description": "additional Mcc cachenode Json properties for BGP and Update and IOT central",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "statusCode": {
+          "type": "string",
+          "description": "statusCode used to get code details of MCC response object"
+        },
+        "statusText": {
+          "type": "string",
+          "description": "statusText used to get status details in string format of MCC response object"
+        },
+        "statusDetails": {
+          "type": "string",
+          "description": "statusDetails used to get inner details of MCC response object"
+        },
+        "status": {
+          "description": "status of the HTTP error code",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorDefinition"
+            }
+          ],
+          "description": "The error details"
+        }
+      }
+    },
+    "ResourceProviderOperationList": {
+      "title": "Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results",
+      "description": "List containing this Resource Provider's available operations",
+      "properties": {
+        "value": {
+          "description": "Resource provider operations list",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceProviderOperationDefinition"
+          }
+        },
+        "nextLink": {
+          "description": "The URI that can be used to request the next page for list of Azure operations",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ResourceProviderOperationDefinition": {
+      "title": "A REST API operation",
+      "type": "object",
+      "description": "Describes the Resource Provider Operation",
+      "properties": {
+        "name": {
+          "title": "The operations name",
+          "description": "Resource provider operation name",
+          "type": "string"
+        },
+        "isDataAction": {
+          "description": "Indicates whether the operation is a data action",
+          "type": "string"
+        },
+        "display": {
+          "description": "Resource provider display properties",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ResourceProviderOperationDisplay"
+            }
+          ]
+        },
+        "origin": {
+          "description": "Origin of the operation",
+          "type": "string"
+        }
+      }
+    },
+    "ResourceProviderOperationDisplay": {
+      "description": "Describes the properties of the Operation",
+      "properties": {
+        "provider": {
+          "description": "Name of the resource provider",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Name of the resource type",
+          "type": "string"
+        },
+        "operation": {
+          "description": "Name of the resource provider operation",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the resource provider operation",
+          "type": "string"
+        }
+      }
+    },
+    "ConnectedCacheList": {
+      "description": "Object that includes an array of ConnectedCache and a possible link for next set",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of ConnectedCache resources",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectedCache"
+          }
+        },
+        "additionalAggregatedProperties": {
+          "description": "Tags for the ConnectedCache",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "nextLink": {
+          "description": "The URL the client should use to fetch the next page (per server side paging)",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "CacheNodeNameParameter": {
+      "name": "cacheNodeName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Name of the ConnectedCache resource",
+      "pattern": "^[a-zA-Z0-9]",
+      "x-ms-parameter-location": "method"
+    },
+    "CustomerNameParameter": {
+      "name": "customerName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Name of the Customer resource",
+      "pattern": "^[a-zA-Z0-9]",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

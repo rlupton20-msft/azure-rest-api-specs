@@ -1,0 +1,2985 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2021-08-22-preview",
+    "title": "CloudSanManagement"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "CloudSan Operations",
+      "description": "APIs for CloudSan operations."
+    },
+    {
+      "name": "Volume Group Operations",
+      "description": "APIs for Volume Group operations."
+    },
+    {
+      "name": "Volume Operations",
+      "description": "APIs for Volume operations."
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.CloudSan/operations": {
+      "get": {
+        "tags": [
+          "CloudSan Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "Gets a list of CloudSan operations.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved RP operations",
+            "schema": {
+              "$ref": "#/definitions/CloudSanOperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CloudSan/cloudSans": {
+      "get": {
+        "tags": [
+          "Cloud San operations"
+        ],
+        "operationId": "CloudSan_ListBySubscription",
+        "description": "Gets a list of CloudSans in a subscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved Cloud San by subscription",
+            "schema": {
+              "$ref": "#/definitions/CloudSanListResult"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "CloudSan_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSan_ListBySubscription_MaximumSet_Gen.json"
+          },
+          "CloudSan_ListBySubscription_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSan_ListBySubscription_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans": {
+      "get": {
+        "tags": [
+          "CloudSan"
+        ],
+        "operationId": "CloudSans_ListByResourceGroup",
+        "description": "Gets a list of CloudSan in a resource group.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved cloudSans by resource group",
+            "schema": {
+              "$ref": "#/definitions/CloudSanListResult"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "CloudSans_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSans_ListByResourceGroup_MaximumSet_Gen.json"
+          },
+          "CloudSans_ListByResourceGroup_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSans_ListByResourceGroup_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}": {
+      "put": {
+        "tags": [
+          "CloudSan"
+        ],
+        "operationId": "CloudSan_CreateOrUpdate",
+        "description": "Create or Update CloudSan.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/CloudSanCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/CloudSan"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/CloudSan"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "CloudSan_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSan_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "CloudSan_CreateOrUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSan_CreateOrUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "CloudSan"
+        ],
+        "operationId": "CloudSan_Update",
+        "description": "Update a Cloud San.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/CloudSanUpdate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/CloudSan"
+            }
+          },
+          "202": {
+            "description": "Accepted -- Update request accepted; operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "CloudSan_Update_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSan_Update_MaximumSet_Gen.json"
+          },
+          "CloudSan_Update_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSan_Update_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CloudSan"
+        ],
+        "operationId": "CloudSan_Delete",
+        "description": "Delete a Cloud San.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete operation completed successfully."
+          },
+          "202": {
+            "description": "Delete request accepted; operation will complete asynchronously."
+          },
+          "204": {
+            "description": "Resource does not exist in the subscription."
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "CloudSan_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSan_Delete_MaximumSet_Gen.json"
+          },
+          "CloudSan_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSan_Delete_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "CloudSan"
+        ],
+        "operationId": "CloudSan_Get",
+        "description": "Get a CloudSan.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved CloudSan.",
+            "schema": {
+              "$ref": "#/definitions/CloudSan"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CloudSan_Get_MaximumSet_Gen": {
+            "$ref": "./examples/CloudSan_Get_MaximumSet_Gen.json"
+          },
+          "CloudSan_Get_MinimumSet_Gen": {
+            "$ref": "./examples/CloudSan_Get_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumeGroups": {
+      "get": {
+        "tags": [
+          "VolumeGroup"
+        ],
+        "description": "List VolumeGroups.",
+        "operationId": "VolumeGroups_ListByCloudSan",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved Volume Group List.",
+            "schema": {
+              "$ref": "#/definitions/VolumeGroupListResult"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VolumeGroups_ListByCloudSan_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_ListByCloudSan_MaximumSet_Gen.json"
+          },
+          "VolumeGroups_ListByCloudSan_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_ListByCloudSan_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}": {
+      "put": {
+        "tags": [
+          "VolumeGroup"
+        ],
+        "description": "Create or Update a Volume Group.",
+        "operationId": "VolumeGroup_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/VolumeGroup"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/VolumeGroup"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "VolumeGroup_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeGroup_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "VolumeGroup_CreateOrUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeGroup_CreateOrUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "VolumeGroup"
+        ],
+        "description": "Update an VolumeGroup.",
+        "operationId": "VolumeGroups_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupUpdate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/VolumeGroup"
+            }
+          },
+          "202": {
+            "description": "Accepted -- Update request accepted; operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "VolumeGroups_Update_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_Update_MaximumSet_Gen.json"
+          },
+          "VolumeGroups_Update_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_Update_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "VolumeGroup"
+        ],
+        "description": "Delete an VolumeGroup.",
+        "operationId": "volumeGroup_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete operation completed successfully."
+          },
+          "202": {
+            "description": "Delete request accepted; operation will complete asynchronously."
+          },
+          "204": {
+            "description": "Resource does not exist in the subscription."
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "volumeGroup_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/volumeGroup_Delete_MaximumSet_Gen.json"
+          },
+          "volumeGroup_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/volumeGroup_Delete_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "VolumeGroup"
+        ],
+        "description": "Get an VolumeGroups.",
+        "operationId": "VolumeGroups_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved iSCSI Target.",
+            "schema": {
+              "$ref": "#/definitions/VolumeGroup"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VolumeGroups_Get_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_Get_MaximumSet_Gen.json"
+          },
+          "VolumeGroups_Get_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeGroups_Get_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}": {
+      "put": {
+        "tags": [
+          "Volume"
+        ],
+        "description": "Create or Update a Volume.",
+        "operationId": "Volume_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeName"
+          },
+          {
+            "$ref": "#/parameters/VolumeCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/Volume"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/Volume"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Volume_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/Volume_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "Volume_CreateOrUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/Volume_CreateOrUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Volume"
+        ],
+        "description": "Update an Volume.",
+        "operationId": "Volumes_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeName"
+          },
+          {
+            "$ref": "#/parameters/VolumeUpdate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/Volume"
+            }
+          },
+          "202": {
+            "description": "Accepted -- Update request accepted; operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Volumes_Update_MaximumSet_Gen": {
+            "$ref": "./examples/Volumes_Update_MaximumSet_Gen.json"
+          },
+          "Volumes_Update_MinimumSet_Gen": {
+            "$ref": "./examples/Volumes_Update_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Volume"
+        ],
+        "description": "Delete an Volume.",
+        "operationId": "volume_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete operation completed successfully."
+          },
+          "202": {
+            "description": "Delete request accepted; operation will complete asynchronously."
+          },
+          "204": {
+            "description": "Resource does not exist in the subscription."
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "volume_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/volume_Delete_MaximumSet_Gen.json"
+          },
+          "volume_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/volume_Delete_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Volume"
+        ],
+        "description": "Get an Volume.",
+        "operationId": "Volume_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/VolumeName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved Volume.",
+            "schema": {
+              "$ref": "#/definitions/Volume"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Volume_Get_MaximumSet_Gen": {
+            "$ref": "./examples/Volume_Get_MaximumSet_Gen.json"
+          },
+          "Volume_Get_MinimumSet_Gen": {
+            "$ref": "./examples/Volume_Get_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/volumes": {
+      "get": {
+        "tags": [
+          "Volumes"
+        ],
+        "description": "List Volumes in a VolumeGroup.",
+        "operationId": "Volumes_ListByVolumeGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved volumes in a volume group.",
+            "schema": {
+              "$ref": "#/definitions/VolumeList"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Volumes_ListByVolumeGroup_MaximumSet_Gen": {
+            "$ref": "./examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json"
+          },
+          "Volumes_ListByVolumeGroup_MinimumSet_Gen": {
+            "$ref": "./examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/iscsiTargets": {
+      "get": {
+        "tags": [
+          "IscsiTargets"
+        ],
+        "description": "Get iSCSI Targets in a VolumeGroup.",
+        "operationId": "IscsiTargets_ListByCloudSan",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved iSCSI Targets in a CloudSan.",
+            "schema": {
+              "$ref": "#/definitions/IscsiTargetList"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "IscsiTargets_ListByCloudSan_MaximumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_ListByCloudSan_MaximumSet_Gen.json"
+          },
+          "IscsiTargets_ListByCloudSan_MinimumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_ListByCloudSan_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/iscsiTargets/{iscsiTargetName}": {
+      "put": {
+        "tags": [
+          "IscsiTargets"
+        ],
+        "description": "Create or Update an iSCSI Target.",
+        "operationId": "IscsiTargets_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/IscsiTarget"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/IscsiTarget"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "IscsiTargets_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "IscsiTargets_CreateOrUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_CreateOrUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "IscsiTargets"
+        ],
+        "description": "Update an iSCSI Target.",
+        "operationId": "IscsiTargets_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetUpdate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/IscsiTarget"
+            }
+          },
+          "202": {
+            "description": "Accepted -- Update request accepted; operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "IscsiTargets_Update_MaximumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Update_MaximumSet_Gen.json"
+          },
+          "IscsiTargets_Update_MinimumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Update_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "IscsiTargets"
+        ],
+        "description": "Delete an iSCSI Target.",
+        "operationId": "IscsiTargets_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete operation completed successfully."
+          },
+          "202": {
+            "description": "Delete request accepted; operation will complete asynchronously."
+          },
+          "204": {
+            "description": "Resource does not exist in the subscription."
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "IscsiTargets_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Delete_MaximumSet_Gen.json"
+          },
+          "IscsiTargets_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Delete_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "IscsiTargets"
+        ],
+        "description": "Get an iSCSI Target.",
+        "operationId": "IscsiTargets_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/IscsiTargetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved iSCSI Target.",
+            "schema": {
+              "$ref": "#/definitions/IscsiTarget"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "IscsiTargets_Get_MaximumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Get_MaximumSet_Gen.json"
+          },
+          "IscsiTargets_Get_MinimumSet_Gen": {
+            "$ref": "./examples/IscsiTargets_Get_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/snapshotSets/{snapshotSetName}": {
+      "put": {
+        "tags": [
+          "Volume Snapshot"
+        ],
+        "description": "Create a Volume SnapshotSet.",
+        "operationId": "VolumeSnapshotSet_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "VolumeSnapshotSet_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "VolumeSnapshotSet_CreateOrUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_CreateOrUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Volume Snapshot"
+        ],
+        "description": "Update an Volume Snapshot.",
+        "operationId": "Volume_SnapshotSetUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetCreate"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "202": {
+            "description": "Accepted -- Update request accepted; operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "Volume_SnapshotSetUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/Volume_SnapshotSetUpdate_MaximumSet_Gen.json"
+          },
+          "Volume_SnapshotSetUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/Volume_SnapshotSetUpdate_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Volume Snapshot"
+        ],
+        "description": "Delete an Volume SnapshotSet.",
+        "operationId": "volumeSnapshotSet_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete operation completed successfully."
+          },
+          "202": {
+            "description": "Delete request accepted; operation will complete asynchronously."
+          },
+          "204": {
+            "description": "Resource does not exist in the subscription."
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "volumeSnapshotSet_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/volumeSnapshotSet_Delete_MaximumSet_Gen.json"
+          },
+          "volumeSnapshotSet_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/volumeSnapshotSet_Delete_MinimumSet_Gen.json"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Volume SnapshotSet"
+        ],
+        "description": "Get an Volume SnapshotSet.",
+        "operationId": "VolumeSnapshot_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved Volume.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VolumeSnapshot_Get_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshot_Get_MaximumSet_Gen.json"
+          },
+          "VolumeSnapshot_Get_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshot_Get_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/snapshotSets": {
+      "get": {
+        "tags": [
+          "SnapshotSet"
+        ],
+        "description": "List SnapshotSets in a VolumeGroup.",
+        "operationId": "SnapshotSet_ListByVolumeGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully; retrieved volumes in a volume group.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSetList"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "SnapshotSet_ListByVolumeGroup_MaximumSet_Gen": {
+            "$ref": "./examples/SnapshotSet_ListByVolumeGroup_MaximumSet_Gen.json"
+          },
+          "SnapshotSet_ListByVolumeGroup_MinimumSet_Gen": {
+            "$ref": "./examples/SnapshotSet_ListByVolumeGroup_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/snapshotSets/{snapshotSetName}/createSnapshot": {
+      "post": {
+        "tags": [
+          "Create Snapshot"
+        ],
+        "description": "Create a Volume SnapshotSet.",
+        "operationId": "VolumeSnapshotSet_Create",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the create or update operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "VolumeSnapshotSet_Create_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_Create_MaximumSet_Gen.json"
+          },
+          "VolumeSnapshotSet_Create_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_Create_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudSan/cloudSans/{cloudSanName}/volumegroups/{volumeGroupName}/snapshotSets/{snapshotSetName}/restoreSnapshot": {
+      "post": {
+        "tags": [
+          "Restore from a SnapshotSet"
+        ],
+        "description": "Restore from a Volume SnapshotSet.",
+        "operationId": "VolumeSnapshotSet_Restore",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CloudSanName"
+          },
+          {
+            "$ref": "#/parameters/VolumeGroupName"
+          },
+          {
+            "$ref": "#/parameters/SnapshotSetName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returned when the restore operation is successfully completed.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "201": {
+            "description": "Accepted -- Create or update request accepted; operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/SnapshotSet"
+            }
+          },
+          "default": {
+            "description": "Error from the RP.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "VolumeSnapshotSet_Restore_MaximumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_Restore_MaximumSet_Gen.json"
+          },
+          "VolumeSnapshotSet_Restore_MinimumSet_Gen": {
+            "$ref": "./examples/VolumeSnapshotSet_Restore_MinimumSet_Gen.json"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the target subscription.",
+      "minLength": 1
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to use for this operation.",
+      "minLength": 1
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group. The name is case insensitive.",
+      "pattern": "^[-\\w\\._]*[0-9A-Za-z]$",
+      "minLength": 1,
+      "maxLength": 90,
+      "x-ms-parameter-location": "method"
+    },
+    "CloudSanName": {
+      "name": "cloudSanName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the CloudSan.",
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeGroupName": {
+      "name": "volumeGroupName",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The name of the VolumeGroup.",
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeName": {
+      "name": "volumeName",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The name of the Volume.",
+      "x-ms-parameter-location": "method"
+    },
+    "IscsiTargetName": {
+      "name": "iscsiTargetName",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The name of the iSCSI Target.",
+      "x-ms-parameter-location": "method"
+    },
+    "SnapshotSetName": {
+      "name": "snapshotSetName",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The name of the Volume SnapshotSet.",
+      "x-ms-parameter-location": "method"
+    },
+    "CloudSanCreate": {
+      "name": "CloudSanCreatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for CloudSan create operation",
+      "schema": {
+        "$ref": "#/definitions/CloudSanCreate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "CloudSanUpdate": {
+      "name": "CloudSanUpdatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for CloudSan update operation",
+      "schema": {
+        "$ref": "#/definitions/CloudSanUpdate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeGroupCreate": {
+      "name": "VolumeGroupCreate",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for VolumeGroup create operation.",
+      "schema": {
+        "$ref": "#/definitions/VolumeGroupCreate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeGroupUpdate": {
+      "name": "VolumeGroupUpdatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for VolumeGroup update operation.",
+      "schema": {
+        "$ref": "#/definitions/VolumeGroupUpdate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeCreate": {
+      "name": "VolumeCreate",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for Volume create operation.",
+      "schema": {
+        "$ref": "#/definitions/VolumeCreate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "VolumeUpdate": {
+      "name": "VolumeUpdatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for Volume update operation.",
+      "schema": {
+        "$ref": "#/definitions/VolumeUpdate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "SnapshotSetCreate": {
+      "name": "SnapshotSetCreatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for Volume SnapshotSet create operation.",
+      "schema": {
+        "$ref": "#/definitions/SnapshotSetCreate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "SnapshotSetUpdate": {
+      "name": "SnapshotSetUpdatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for Volume SnapshotSet update operation.",
+      "schema": {
+        "$ref": "#/definitions/SnapshotSetUpdate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "IscsiTargetCreate": {
+      "name": "iscsiTargetCreatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for iSCSI Target create operation.",
+      "schema": {
+        "$ref": "#/definitions/IscsiTargetCreate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "IscsiTargetUpdate": {
+      "name": "iscsiTargetUpdatePayload",
+      "required": true,
+      "in": "body",
+      "description": "Request payload for iSCSI Target update operation.",
+      "schema": {
+        "$ref": "#/definitions/IscsiTargetUpdate"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "OperationId": {
+      "name": "operationId",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The unique uuid of an operation.",
+      "x-ms-parameter-location": "method"
+    },
+    "Location": {
+      "name": "location",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "description": "The location of the resource.",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "definitions": {
+    "CloudSanRPOperation": {
+      "type": "object",
+      "required": [
+        "name",
+        "isDataAction",
+        "display"
+      ],
+      "description": "Description of a CloudSan RP Operation",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the operation being performed on this particular object"
+        },
+        "isDataAction": {
+          "type": "boolean",
+          "description": "Indicates whether the operation applies to data-plane."
+        },
+        "actionType": {
+          "type": "string",
+          "description": "Indicates the action type."
+        },
+        "display": {
+          "type": "string",
+          "description": "Additional metadata about RP operation."
+        },
+        "origin": {
+          "type": "string",
+          "description": "The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX."
+        }
+      }
+    },
+    "CloudSanOperationListResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of operations supported by the RP.",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "An array of operations supported by the CloudSan RP.",
+          "items": {
+            "$ref": "#/definitions/CloudSanRPOperation"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string"
+        }
+      }
+    },
+    "CloudSanListResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of Cloud San",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "An array of Cloud San objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudSan"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "CloudSan": {
+      "type": "object",
+      "description": "Response for CloudSan request.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "sku": {
+          "description": "Determines the SKU of the Cloud San",
+          "$ref": "#/definitions/Sku",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties of CloudSan.",
+          "$ref": "#/definitions/CloudSanProperties"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "CloudSanProperties": {
+      "type": "object",
+      "description": "Cloud San response properties.",
+      "required": [
+        "subscriptionid",
+        "availabilityZones",
+        "provisioningState",
+        "size"
+      ],
+      "properties": {
+        "subscriptionid": {
+          "description": "Subscription ID of Cloud San",
+          "type": "string",
+          "x-ms-client-flatten": true
+        },
+        "availabilityZones": {
+          "type": "array",
+          "description": "Logical zone for Cloud San resource; example: [\"1\"].",
+          "items": {
+            "$ref": "#/definitions/AvailabilityZone"
+          }
+        },
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "size": {
+          "description": "Size of the CloudSan.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      }
+    },
+    "CloudSanCreate": {
+      "type": "object",
+      "description": "Request payload for create or update Cloud San request.",
+      "required": [
+        "sku"
+      ],
+      "properties": {
+        "sku": {
+          "description": "Determines the SKU of the Cloud San",
+          "type": "object",
+          "$ref": "#/definitions/Sku"
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for CloudSan create request.",
+          "$ref": "#/definitions/CloudSanCreateProperties"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives."
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of the resource"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "CloudSanUpdate": {
+      "type": "object",
+      "description": "Request payload for Update CloudSan request.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for CloudSan update request.",
+          "$ref": "#/definitions/CloudSanUpdateProperties"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        }
+      }
+    },
+    "VolumeGroupListResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of Volume Groups",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "An array of Volume Groups objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VolumeGroup"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "VolumeGroup": {
+      "type": "object",
+      "description": "Response for Volume Group request.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "sku": {
+          "description": "Determines the SKU of the VolumeGroup",
+          "$ref": "#/definitions/Sku",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties of VolumeGroup.",
+          "$ref": "#/definitions/VolumeGroupProperties"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "Volume": {
+      "type": "object",
+      "description": "Response for Volume request.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties of Volume.",
+          "$ref": "#/definitions/VolumeProperties"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "VolumeList": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of Volumes",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "An array of Volume objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Volume"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "AvailabilityZone": {
+      "type": "string",
+      "description": "Availability zone."
+    },
+    "VolumeGroupProperties": {
+      "type": "object",
+      "description": "VolumeGroup response properties.",
+      "required": [
+        "name",
+        "iops",
+        "bandwidth",
+        "provisioningState",
+        "subnetid",
+        "iscsitargetinfo",
+        "size",
+        "volumes"
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "availabilityZones": {
+          "type": "array",
+          "description": "Logical zone for Volume Group resource; example: [\"1\"].",
+          "items": {
+            "$ref": "#/definitions/AvailabilityZone"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the volume"
+        },
+        "iops": {
+          "type": "string",
+          "description": "Iops for the volume group."
+        },
+        "bandwidth": {
+          "type": "string",
+          "description": "bandwidth for the volume group"
+        },
+        "size": {
+          "description": "Volume Group size.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "iscsitargetinfo": {
+          "description": "Iscsi Target Information",
+          "$ref": "#/definitions/IscsiTarget"
+        },
+        "volumes": {
+          "type": "array",
+          "description": "List of Volumes attached to this Volume Group.",
+          "items": {
+            "$ref": "#/definitions/Volume"
+          }
+        },
+        "subnetid": {
+          "type": "string",
+          "description": "Azure Resource ID of a Subnet for the Volume Group.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        }
+      }
+    },
+    "VolumeProperties": {
+      "type": "object",
+      "description": "Volume response properties.",
+      "required": [
+        "name",
+        "size",
+        "iops",
+        "bandwidth",
+        "provisioningState"
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the volume"
+        },
+        "iops": {
+          "type": "string",
+          "description": "Iops for the volume group."
+        },
+        "bandwidth": {
+          "type": "string",
+          "description": "bandwidth for the volume group"
+        },
+        "size": {
+          "description": "Volume Group size.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "CloudSanCreateProperties": {
+      "type": "object",
+      "description": "Properties for Cloud San create or update request.",
+      "required": [
+        "subnetId"
+      ],
+      "properties": {
+        "availabilityZones": {
+          "type": "array",
+          "description": "Logical zone for Cloud San resource; example: [\"1\"].",
+          "items": {
+            "$ref": "#/definitions/AvailabilityZone"
+          }
+        },
+        "subnetId": {
+          "type": "string",
+          "description": "Azure Resource ID of a Subnet for the Cloud San.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "size": {
+          "description": "size of the Cloud San appliance",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "CloudSanUpdateProperties": {
+      "type": "object",
+      "description": "Properties for CloudSan update request.",
+      "properties": {
+        "size": {
+          "description": "size of cloud San",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "IscsiTargetList": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of iSCSI Targets.",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "An array of iSCSI Targets in a VolumeGroup.",
+          "items": {
+            "$ref": "#/definitions/IscsiTarget"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "IscsiTarget": {
+      "type": "object",
+      "description": "Response for iSCSI Target requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for iSCSI Target operations.",
+          "$ref": "#/definitions/IscsiTargetProperties"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "IscsiTargetCreate": {
+      "type": "object",
+      "description": "Payload for iSCSI Target create or update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for iSCSI Target create request.",
+          "$ref": "#/definitions/IscsiTargetCreateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "IscsiTargetUpdate": {
+      "type": "object",
+      "description": "Payload for iSCSI Target update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for iSCSI Target update request.",
+          "$ref": "#/definitions/IscsiTargetUpdateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "IscsiTargetProperties": {
+      "type": "object",
+      "description": "Response properties for iSCSI Target operations.",
+      "required": [
+        "targetIqn",
+        "status"
+      ],
+      "properties": {
+        "targetIqn": {
+          "type": "string",
+          "description": "iSCSI Target IQN (iSCSI Qualified Name); example: \"iqn.2005-03.org.iscsi:server\"."
+        },
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "status": {
+          "type": "string",
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status of the iSCSI Target."
+        },
+        "endpoints": {
+          "description": "List of private IPv4 addresses to connect to the iSCSI Target.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used by iSCSI Target portal group."
+        }
+      }
+    },
+    "IscsiTargetCreateProperties": {
+      "type": "object",
+      "description": "Properties for iSCSI Target create or update request.",
+      "required": [
+        "targetIqn"
+      ],
+      "properties": {
+        "targetIqn": {
+          "type": "string",
+          "description": "iSCSI Target IQN (iSCSI Qualified Name); example: \"iqn.2005-03.org.iscsi:server\"."
+        },
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "status": {
+          "type": "string",
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status of the iSCSI Target."
+        },
+        "endpoints": {
+          "description": "List of private IPv4 addresses to connect to the iSCSI Target.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used by iSCSI Target portal group."
+        }
+      }
+    },
+    "IscsiTargetUpdateProperties": {
+      "type": "object",
+      "description": "Properties for iSCSI Target update request.",
+      "properties": {
+        "targetIqn": {
+          "type": "string",
+          "description": "iSCSI Target IQN (iSCSI Qualified Name); example: \"iqn.2005-03.org.iscsi:server\"."
+        },
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "status": {
+          "type": "string",
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status of the iSCSI Target."
+        },
+        "endpoints": {
+          "description": "List of private IPv4 addresses to connect to the iSCSI Target.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used by iSCSI Target portal group."
+        }
+      }
+    },
+    "VolumeGroupCreate": {
+      "type": "object",
+      "description": "Payload for VolumeGroup create or update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for VolumeGroup create request.",
+          "$ref": "#/definitions/VolumeGroupCreateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "VolumeGroupUpdate": {
+      "type": "object",
+      "description": "Payload for VolumeGroup update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for VolumeGroup update request.",
+          "$ref": "#/definitions/VolumeGroupUpdateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "VolumeGroupCreateProperties": {
+      "type": "object",
+      "description": "Properties for VolumeGroup create or update request.",
+      "required": [
+        "volumegroupname",
+        "volumegroupiops",
+        "volumegroupbandwidth",
+        "volumegroupsize",
+        "subnetid"
+      ],
+      "properties": {
+        "volumegroupname": {
+          "description": "Volume Group name.",
+          "type": "string"
+        },
+        "volumegroupiops": {
+          "description": "Volume Group iops.",
+          "type": "string"
+        },
+        "volumegroupbandwidth": {
+          "description": "Volume Group bandwidth.",
+          "type": "string"
+        },
+        "subnetid": {
+          "description": "Volume Group subnet id.",
+          "type": "string"
+        },
+        "volumegroupsize": {
+          "description": "Volume Group size.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "iscsitargetinfo": {
+          "description": "Iscsi Target Information",
+          "readOnly": true,
+          "$ref": "#/definitions/IscsiTarget"
+        }
+      }
+    },
+    "VolumeGroupUpdateProperties": {
+      "type": "object",
+      "description": "Properties for VolumeGroup update request.",
+      "properties": {
+        "volumegroupname": {
+          "description": "Volume Group name.",
+          "type": "string"
+        },
+        "volumegroupiops": {
+          "description": "Volume Group iops.",
+          "type": "string"
+        },
+        "volumegroupbandwidth": {
+          "description": "Volume Group bandwidth.",
+          "type": "string"
+        },
+        "volumegroupsize": {
+          "description": "Volume Group size.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "iscsitargetinfo": {
+          "description": "Iscsi Target Information",
+          "$ref": "#/definitions/IscsiTarget"
+        }
+      }
+    },
+    "VolumeCreate": {
+      "type": "object",
+      "description": "Payload for Volume create or update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for Volume create request.",
+          "$ref": "#/definitions/VolumeCreateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "VolumeUpdate": {
+      "type": "object",
+      "description": "Payload for Volume update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for Volume update request.",
+          "$ref": "#/definitions/VolumeUpdateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "VolumeCreateProperties": {
+      "type": "object",
+      "description": "Properties for Volume create or update request.",
+      "required": [
+        "volumename",
+        "volumeiops",
+        "volumebandwidth",
+        "volumesize"
+      ],
+      "properties": {
+        "volumename": {
+          "description": "Volume name.",
+          "type": "string"
+        },
+        "volumeiops": {
+          "description": "Volume iops.",
+          "type": "string"
+        },
+        "volumebandwidth": {
+          "description": "Volume bandwidth.",
+          "type": "string"
+        },
+        "volumesize": {
+          "description": "Volume size.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "VolumeUpdateProperties": {
+      "type": "object",
+      "description": "Properties for Volume update request.",
+      "properties": {
+        "volumename": {
+          "description": "Volume name.",
+          "type": "string"
+        },
+        "volumeiops": {
+          "description": "Volume iops.",
+          "type": "string"
+        },
+        "volumebandwidth": {
+          "description": "Volume bandwidth.",
+          "type": "string"
+        },
+        "volumesize": {
+          "description": "Volume size.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SnapshotSet": {
+      "type": "object",
+      "description": "Response for SnapshotSet request.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties of SnapshotSet.",
+          "$ref": "#/definitions/SnapshotSetProperties"
+        },
+        "systemData": {
+          "description": "Resource metadata required by ARM RPC",
+          "readOnly": true,
+          "$ref": "#/definitions/SystemMetadata"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "SnapshotSetProperties": {
+      "type": "object",
+      "description": "SnapshotSet response properties.",
+      "required": [
+        "name",
+        "volumes",
+        "provisioningState"
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "State of the operation on the resource.",
+          "type": "string",
+          "$ref": "#/definitions/ProvisioningState"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the volume"
+        },
+        "volumes": {
+          "description": "An array of Volume objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Volume"
+          }
+        }
+      }
+    },
+    "SnapshotSetList": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "description": "List of Volumes",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "An array of Volume objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Volume"
+          }
+        },
+        "nextLink": {
+          "description": "URI to fetch the next section of the paginated response.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "SnapshotSetCreate": {
+      "type": "object",
+      "description": "Payload for Volume SnapshotSet create or update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for Volume SnapshotSet create request.",
+          "$ref": "#/definitions/SnapshotSetCreateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SnapshotSetUpdate": {
+      "type": "object",
+      "description": "Payload for Volume SnapshotSet update requests.",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for Volume SnapshotSet update request.",
+          "$ref": "#/definitions/SnapshotSet"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SnapshotSetCreateProperties": {
+      "type": "object",
+      "description": "Properties for Volume create or update request.",
+      "required": [
+        "volumes"
+      ],
+      "properties": {
+        "volumes": {
+          "type": "array",
+          "description": "List of Volumes to attach to a Snapshot Set.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SnapshotSetUpdateProperties": {
+      "type": "object",
+      "description": "Properties for Volume Snapshot update request.",
+      "properties": {
+        "volumes": {
+          "type": "array",
+          "description": "List of Volumes to attach to a Disk Pool.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "description": "The resource management error response.",
+      "properties": {
+        "error": {
+          "type": "object",
+          "description": "RP error response.",
+          "$ref": "#/definitions/ErrorResponse"
+        }
+      }
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "enum": [
+        "Invalid",
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Pending",
+        "Creating",
+        "Updating",
+        "Deleting"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningStates",
+        "modelAsString": true
+      },
+      "description": "Provisioning state of the iSCSI Target.",
+      "readOnly": true
+    },
+    "OperationalStatus": {
+      "type": "string",
+      "enum": [
+        "Invalid",
+        "Unknown",
+        "Healthy",
+        "Unhealthy",
+        "Updating",
+        "Running",
+        "Stopped",
+        "Stopped (deallocated)"
+      ],
+      "x-ms-enum": {
+        "name": "OperationalStatus",
+        "modelAsString": true
+      },
+      "description": "Operational status of the resource."
+    },
+    "Sku": {
+      "type": "object",
+      "description": "Sku for ARM resource",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sku name"
+        },
+        "tier": {
+          "type": "string",
+          "description": "Sku tier"
+        }
+      }
+    },
+    "SystemMetadata": {
+      "type": "object",
+      "description": "Resource metadata required by ARM RPC.",
+      "properties": {
+        "createdBy": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A string identifier for the identity that created the resource."
+        },
+        "createdByType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of identity that created the resource: user, application, managedIdentity."
+        },
+        "createdAt": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The timestamp of resource creation (UTC)."
+        },
+        "lastModifiedBy": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A string identifier for the identity that last modified the resource."
+        },
+        "lastModifiedByType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of identity that last modified the resource: user, application, managedIdentity."
+        },
+        "lastModifiedAt": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The timestamp of resource last modification (UTC)."
+        }
+      }
+    },
+    "TrackedResource": {
+      "description": "The resource model definition for a ARM tracked top level resource.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "ARM resource model definition.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of the resource"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ProxyResource": {
+      "description": "The resource model definition for a ARM proxy resource. It will have everything other than required location and tags",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ErrorAdditionalInfo": {
+      "description": "The resource management error additional info.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The additional info type."
+        },
+        "info": {
+          "readOnly": true,
+          "type": "object",
+          "description": "The additional info."
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The error target."
+        },
+        "details": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorResponse"
+          },
+          "description": "The error details."
+        },
+        "additionalInfo": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorAdditionalInfo"
+          },
+          "description": "The error additional info."
+        }
+      },
+      "description": "The resource management error response."
+    }
+  }
+}
