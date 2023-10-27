@@ -36,10 +36,6 @@ model AmfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Usage SKU")
-  @visibility("create", "read")
-  usageSku: UsageSku;
-
   @doc("UnityCloud NF Federation Parameters")
   unityCloudDeploymentParameters: UnityCloudFederationParameters;
 
@@ -50,13 +46,13 @@ model AmfDeploymentResourceProperties {
   @doc("Unity Cloud Release version of the NF. This is inherited from the cluster")
   unityCloudRelease?: UnityCloudRelease;
 
-  @doc("Simultaneously Attached Users (SAU)")
+  @doc("Billing Details")
   @visibility("read")
-  simultaneouslyAttachedUsersCount?: int32;
+  billingDetails?: BillingDetails;
 
-  @doc("Deployment status")
+  @doc("Operational status")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(AmfDeploymentResource)

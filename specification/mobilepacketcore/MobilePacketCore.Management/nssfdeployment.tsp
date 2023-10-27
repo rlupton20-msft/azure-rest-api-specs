@@ -46,9 +46,9 @@ model NssfDeploymentResourceProperties {
   @doc("Unity Cloud Release version of the NF. This is inherited from the cluster")
   unityCloudRelease?: UnityCloudRelease;
 
-  @doc("Deployment status")
+  @doc("Operational status")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(NssfDeploymentResource)

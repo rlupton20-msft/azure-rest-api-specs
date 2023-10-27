@@ -131,14 +131,11 @@ scalar EmsDeploymentIdProperty
     }
   ]>;
 
-@doc("ARM resource ID of a connected or provisioned cluster.")
+@doc("ARM resource ID of a connected cluster.")
 scalar ConnectedClusterIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
       type: "Microsoft.Kubernetes/connectedClusters",
-    },
-    {
-      type: "Microsoft.HybridContainerService/provisionedClusters",
     }
   ]>;
 
@@ -202,6 +199,7 @@ model NexusL3NetworkProperties {
   bgpListenRangePrefixes?: IPv4Cidr[];
 
   @doc("List of static routes for network fabric L3 internal networks.")
+  @extension("x-ms-identifiers", ["prefix", "nextHop"])
   staticRouteConfiguration?: Ipv4StaticRouteConfiguration[];
 }
 
@@ -214,10 +212,15 @@ model Ipv4StaticRouteConfiguration {
   nextHop: IPv4Address[];
 }
 
-@doc("Deployment Status of Network Functions")
-model DeploymentStatus {
-  @doc("Placeholder")
-  status: string;
+@doc("Operational Status of the resource")
+model OperationalStatus {
+  @doc("Status of the deployed workloads")
+  @visibility("read")
+  workload?: string;
+
+  @doc("Health check results")
+  @visibility("read")
+  healthCheck?: string;
 }
 
 @doc("Infrastructure Type Definitions")
@@ -240,49 +243,40 @@ enum ClusterType {
 
 @doc("Deployment Type Definitions")
 enum SkuDeploymentType {
-  @doc("Producton SKU")
+  @doc("Producton Deployment")
   Production,
 
-  @doc("Lab SKU")
+  @doc("Lab Deployment")
   Lab,
 }
 
-@doc("Usage Definitions")
-enum SkuUsageDefinitions {
-  @doc("10K Sessions or Simultaneously Attached Users")
-  `10K`,
-}
-
-@doc("Mobile Core Scaling Unit Definitions")
-enum SkuMobileCoreScalingUnitDefinitions {
-  @doc("Unit of 4 vCPUs")
-  `4`,
-}
-
 @doc("Usage SKU Definition")
-model UsageSku {
-  @doc("Deployment Type")
-  deploymentType: SkuDeploymentType;
-
-  @doc("Usage Definition")
-  usageUnits: SkuUsageDefinitions;
-
-  @doc("Full SKU for the Resource")
-  @visibility("read")
-  sku?: string;
-}
+scalar UsageSku extends string;
 
 @doc("Mobile Core Scaling Unit SKU Definition")
-model MobileCoreScalingUnitSku {
-  @doc("Deployment Type")
-  deploymentType: SkuDeploymentType;
+scalar MobileCoreScalingUnitSku extends string;
 
-  @doc("Usage Definition")
-  mobileCoreScalingUnits: SkuMobileCoreScalingUnitDefinitions;
-
-  @doc("Full SKU for the Resource")
+@doc("Billing Details")
+model BillingDetails {
+  @doc("Mobile Core Scaling Unit SKU")
   @visibility("read")
-  sku?: string;
+  mobileCoreScalingUnitSku?: MobileCoreScalingUnitSku;
+
+  @doc("Usage SKU")
+  @visibility("read")
+  usageSku?: UsageSku;
+
+  @doc("Mobile Core Scaling Units (MCSU)")
+  @visibility("read")
+  mobileCoreScalingUnits?: float32;
+
+  @doc("Simultaneously Attached Users (SAU)")
+  @visibility("read")
+  simultaneouslyAttachedUsersCount?: int32;
+
+  @doc("PDN/PDU Sessions")
+  @visibility("read")
+  sessionCount?: int32;
 }
 
 @doc("UnityCloud Release definition.")
@@ -299,6 +293,18 @@ enum ProductName {
   @doc("UnityCloud product line")
   UnityCloud,
 }
+
+@doc("MME Parameters")
+scalar MmeParameters extends string;
+
+@doc("MME Secrets")
+scalar MmeSecrets extends string;
+
+@doc("EMS Parameters")
+scalar EmsParameters extends string;
+
+@doc("EMS Secrets")
+scalar EmsSecrets extends string;
 
 @doc("UnityCloud Federation Parameters")
 scalar UnityCloudFederationParameters extends string;

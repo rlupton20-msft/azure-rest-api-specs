@@ -36,12 +36,13 @@ model PaasDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/")
-  keyVault: url;
+  @doc("Unity Cloud Observability PaaS federation parameters.  One set per federation type")
+  @extension("x-ms-identifiers", ["type"])
+  unityCloudFederationParameters: UnityCloudDeploymentParameters[];
 
-  @doc("Deployment status")
+  @doc("Operational status")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(PaasDeploymentResource)

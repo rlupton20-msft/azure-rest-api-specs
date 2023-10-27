@@ -35,19 +35,27 @@ model ClusterResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Mobile Core Scaling Unit SKU")
+  @doc("Cluster deployment type")
   @visibility("create", "read")
-  mobileCoreScalingUnitSku: MobileCoreScalingUnitSku;
+  deploymentType: SkuDeploymentType;
 
-  @doc("Mobile Core Scaling Units (MCSU)")
-  @visibility("read")
-  actualMobileCoreScalingUnits?: float32;
-
-  @doc("Unity Cloud Release Version.  This is applied to all running workloads in this cluster")
+  @doc("Unity Cloud Release Version.  This is applied to all PaaS components and running workloads in this cluster")
   unityCloudRelease: UnityCloudRelease;
 
   @doc("Cluster type specific data.  Contents depend on the cluster type")
   clusterTypeSpecificData: ClusterTypeSpecificData;
+
+  @doc("Unity Cloud Local PaaS federation parameters.  One set per federation type")
+  @extension("x-ms-identifiers", ["type"])
+  unityCloudFederationParameters: UnityCloudDeploymentParameters[];
+
+  @doc("Billing Details")
+  @visibility("read")
+  billingDetails?: BillingDetails;
+
+  @doc("Operational status")
+  @visibility("read")
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(ClusterResource)
@@ -68,9 +76,6 @@ model ClusterTypeSpecificData {
 
   @doc("Custom Location resource ID")
   customLocationId: CustomLocationIdProperty;
-
-  @doc("Connected Cluster resource ID")
-  connectedClusterId: ConnectedClusterIdProperty;
 }
 
 @doc("AKS Cluster specific data.")

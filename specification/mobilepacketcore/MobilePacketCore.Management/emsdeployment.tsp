@@ -36,20 +36,30 @@ model EmsDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Mobile Core Scaling Unit SKU")
-  @visibility("create", "read")
-  mobileCoreScalingUnitSku: MobileCoreScalingUnitSku;
-
   @doc("EMS Release Version")
   emsRelease: EmsRelease;
 
-  @doc("Deployment status")
-  @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  @doc("EMS deployment type")
+  @visibility("create", "read")
+  deploymentType: SkuDeploymentType;
 
-  @doc("Mobile Core Scaling Units (MCSU)")
+  @doc("Infrastructure type specific data.  Contents depend on the infrastructure type")
+  typeSpecificData: EmsDeploymentTypeSpecificData;
+
+  @doc("EMS Parameters")
+  emsParameters: EmsParameters;
+
+  @doc("EMS Secrets")
+  @secret
+  emsSecrets: EmsSecrets;
+
+  @doc("Billing Details")
   @visibility("read")
-  actualMobileCoreScalingUnits?: float32;
+  billingDetails?: BillingDetails;
+
+  @doc("Operational status")
+  @visibility("read")
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(EmsDeploymentResource)
@@ -60,4 +70,29 @@ interface EmsDeployments {
   delete is ArmResourceDeleteSync<EmsDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<EmsDeploymentResource>;
   listBySubscription is ArmListBySubscription<EmsDeploymentResource>;
+}
+
+/* Type definitions */
+
+@doc("EMS Deployment type specific data.")
+@discriminator("type")
+model EmsDeploymentTypeSpecificData {
+  @doc("NFVI Type")
+  type: InfrastructureType;
+}
+
+@doc("EMS Deployment Azure Core specific data.")
+model EmsDeploymentAzureCoreData extends EmsDeploymentTypeSpecificData {
+  @doc("EMS Azure Core Deployment Properties.")
+  type: InfrastructureType.AzureCore;
+}
+
+@doc("EMS Deployment Azure Nexus specific data")
+model EmsDeploymentAzureOperatorNexusData
+  extends EmsDeploymentTypeSpecificData {
+  @doc("EMS Azure Nexus Deployment Properties.")
+  type: InfrastructureType.AzureOperatorNexus;
+
+  @doc("Custom Location resource ID")
+  customLocationId: CustomLocationIdProperty;
 }

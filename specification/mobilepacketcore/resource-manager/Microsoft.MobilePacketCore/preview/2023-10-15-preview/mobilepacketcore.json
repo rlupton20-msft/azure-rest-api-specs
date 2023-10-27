@@ -2923,14 +2923,6 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "usageSku": {
-          "$ref": "#/definitions/UsageSku",
-          "description": "Usage SKU",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
           "description": "UnityCloud NF Federation Parameters"
@@ -2947,20 +2939,18 @@
           "$ref": "#/definitions/UnityCloudRelease",
           "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
         },
-        "simultaneouslyAttachedUsersCount": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Simultaneously Attached Users (SAU)",
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetails",
+          "description": "Billing Details",
           "readOnly": true
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
       "required": [
-        "usageSku",
         "unityCloudDeploymentParameters",
         "cluster"
       ]
@@ -3012,6 +3002,40 @@
             "description": "Zone 3"
           }
         ]
+      }
+    },
+    "BillingDetails": {
+      "type": "object",
+      "description": "Billing Details",
+      "properties": {
+        "mobileCoreScalingUnitSku": {
+          "$ref": "#/definitions/MobileCoreScalingUnitSku",
+          "description": "Mobile Core Scaling Unit SKU",
+          "readOnly": true
+        },
+        "usageSku": {
+          "$ref": "#/definitions/UsageSku",
+          "description": "Usage SKU",
+          "readOnly": true
+        },
+        "mobileCoreScalingUnits": {
+          "type": "number",
+          "format": "float",
+          "description": "Mobile Core Scaling Units (MCSU)",
+          "readOnly": true
+        },
+        "simultaneouslyAttachedUsersCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Simultaneously Attached Users (SAU)",
+          "readOnly": true
+        },
+        "sessionCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "PDN/PDU Sessions",
+          "readOnly": true
+        }
       }
     },
     "CloudServiceNetworkIdProperty": {
@@ -3088,33 +3112,48 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "mobileCoreScalingUnitSku": {
-          "$ref": "#/definitions/MobileCoreScalingUnitSku",
-          "description": "Mobile Core Scaling Unit SKU",
+        "deploymentType": {
+          "$ref": "#/definitions/SkuDeploymentType",
+          "description": "Cluster deployment type",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "actualMobileCoreScalingUnits": {
-          "type": "number",
-          "format": "float",
-          "description": "Mobile Core Scaling Units (MCSU)",
-          "readOnly": true
-        },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release Version.  This is applied to all running workloads in this cluster"
+          "description": "Unity Cloud Release Version.  This is applied to all PaaS components and running workloads in this cluster"
         },
         "clusterTypeSpecificData": {
           "$ref": "#/definitions/ClusterTypeSpecificData",
           "description": "Cluster type specific data.  Contents depend on the cluster type"
+        },
+        "unityCloudFederationParameters": {
+          "type": "array",
+          "description": "Unity Cloud Local PaaS federation parameters.  One set per federation type",
+          "items": {
+            "$ref": "#/definitions/UnityCloudDeploymentParameters"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
+        },
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetails",
+          "description": "Billing Details",
+          "readOnly": true
+        },
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
+          "readOnly": true
         }
       },
       "required": [
-        "mobileCoreScalingUnitSku",
+        "deploymentType",
         "unityCloudRelease",
-        "clusterTypeSpecificData"
+        "clusterTypeSpecificData",
+        "unityCloudFederationParameters"
       ]
     },
     "ClusterResourceTagsUpdate": {
@@ -3165,30 +3204,22 @@
         "customLocationId": {
           "$ref": "#/definitions/CustomLocationIdProperty",
           "description": "Custom Location resource ID"
-        },
-        "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterIdProperty",
-          "description": "Connected Cluster resource ID"
         }
       },
       "discriminator": "type",
       "required": [
         "type",
-        "customLocationId",
-        "connectedClusterId"
+        "customLocationId"
       ]
     },
     "ConnectedClusterIdProperty": {
       "type": "string",
       "format": "arm-id",
-      "description": "ARM resource ID of a connected or provisioned cluster.",
+      "description": "ARM resource ID of a connected cluster.",
       "x-ms-arm-id-details": {
         "allowedResources": [
           {
             "type": "Microsoft.Kubernetes/connectedClusters"
-          },
-          {
-            "type": "Microsoft.HybridContainerService/provisionedClusters"
           }
         ]
       }
@@ -3205,18 +3236,34 @@
         ]
       }
     },
-    "DeploymentStatus": {
+    "EmsDeploymentAzureCoreData": {
       "type": "object",
-      "description": "Deployment Status of Network Functions",
+      "description": "EMS Deployment Azure Core specific data.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EmsDeploymentTypeSpecificData"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureCore"
+    },
+    "EmsDeploymentAzureOperatorNexusData": {
+      "type": "object",
+      "description": "EMS Deployment Azure Nexus specific data",
       "properties": {
-        "status": {
-          "type": "string",
-          "description": "Placeholder"
+        "customLocationId": {
+          "$ref": "#/definitions/CustomLocationIdProperty",
+          "description": "Custom Location resource ID"
         }
       },
       "required": [
-        "status"
-      ]
+        "customLocationId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EmsDeploymentTypeSpecificData"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureOperatorNexus"
     },
     "EmsDeploymentIdProperty": {
       "type": "string",
@@ -3280,33 +3327,49 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "mobileCoreScalingUnitSku": {
-          "$ref": "#/definitions/MobileCoreScalingUnitSku",
-          "description": "Mobile Core Scaling Unit SKU",
+        "emsRelease": {
+          "$ref": "#/definitions/EmsRelease",
+          "description": "EMS Release Version"
+        },
+        "deploymentType": {
+          "$ref": "#/definitions/SkuDeploymentType",
+          "description": "EMS deployment type",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "emsRelease": {
-          "$ref": "#/definitions/EmsRelease",
-          "description": "EMS Release Version"
+        "typeSpecificData": {
+          "$ref": "#/definitions/EmsDeploymentTypeSpecificData",
+          "description": "Infrastructure type specific data.  Contents depend on the infrastructure type"
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "emsParameters": {
+          "$ref": "#/definitions/EmsParameters",
+          "description": "EMS Parameters"
+        },
+        "emsSecrets": {
+          "$ref": "#/definitions/EmsSecrets",
+          "format": "password",
+          "description": "EMS Secrets",
+          "x-ms-secret": true
+        },
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetails",
+          "description": "Billing Details",
           "readOnly": true
         },
-        "actualMobileCoreScalingUnits": {
-          "type": "number",
-          "format": "float",
-          "description": "Mobile Core Scaling Units (MCSU)",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
       "required": [
-        "mobileCoreScalingUnitSku",
-        "emsRelease"
+        "emsRelease",
+        "deploymentType",
+        "typeSpecificData",
+        "emsParameters",
+        "emsSecrets"
       ]
     },
     "EmsDeploymentResourceTagsUpdate": {
@@ -3322,9 +3385,31 @@
         }
       }
     },
+    "EmsDeploymentTypeSpecificData": {
+      "type": "object",
+      "description": "EMS Deployment type specific data.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/InfrastructureType",
+          "description": "NFVI Type"
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "EmsParameters": {
+      "type": "string",
+      "description": "EMS Parameters"
+    },
     "EmsRelease": {
       "type": "string",
       "description": "EMS Release definition."
+    },
+    "EmsSecrets": {
+      "type": "string",
+      "description": "EMS Secrets"
     },
     "IPv4Address": {
       "type": "string",
@@ -3395,254 +3480,9 @@
         ]
       }
     },
-    "MmeDataLoopbackConfig": {
-      "type": "object",
-      "description": "Loopback configuration for Data VMs",
-      "properties": {
-        "ip": {
-          "$ref": "#/definitions/IPv4Address",
-          "description": "A 3GPP loopback IP address"
-        },
-        "vmService": {
-          "$ref": "#/definitions/MmeVmService",
-          "description": "MME VM service"
-        }
-      },
-      "required": [
-        "ip",
-        "vmService"
-      ]
-    },
-    "MmeDeploymentProfile": {
-      "type": "string",
-      "description": "MME Profile properties. The format of the VM count is <num of MRM>-<Num of MSM> or <num of MGMT>-<Num of RM>-<num of CallP>-<num of SIG>-<Num of LB>-<num of DATA>",
-      "enum": [
-        "MME2VM_SMALL_1_1",
-        "MME2VM_MEDIUM_2_2",
-        "MME2VM_LARGE_2_8",
-        "MME6VM_SMALL_1_1_1_1_1_0",
-        "MME6VM_SMALL_1_1_1_1_1_1",
-        "MME6VM_SMALL_2_2_2_2_2_2",
-        "MME6VM_SMALL_2_2_2_2_2_0",
-        "MME6VM_MEDIUM_2_2_2_2_2_2",
-        "MME6VM_MEDIUM_2_2_2_2_2_0",
-        "MME6VM_MEDIUM_2_2_4_3_2_2",
-        "MME6VM_MEDIUM_2_2_4_3_2_0",
-        "MME6VM_LARGE_2_2_20_10_5_4",
-        "MME6VM_LARGE_2_2_20_10_5_0"
-      ],
-      "x-ms-enum": {
-        "name": "MmeDeploymentProfile",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "MME2VM_SMALL_1_1",
-            "value": "MME2VM_SMALL_1_1",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME2VM_MEDIUM_2_2",
-            "value": "MME2VM_MEDIUM_2_2",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME2VM_LARGE_2_8",
-            "value": "MME2VM_LARGE_2_8",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_SMALL_1_1_1_1_1_0",
-            "value": "MME6VM_SMALL_1_1_1_1_1_0",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_SMALL_1_1_1_1_1_1",
-            "value": "MME6VM_SMALL_1_1_1_1_1_1",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_SMALL_2_2_2_2_2_2",
-            "value": "MME6VM_SMALL_2_2_2_2_2_2",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_SMALL_2_2_2_2_2_0",
-            "value": "MME6VM_SMALL_2_2_2_2_2_0",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_MEDIUM_2_2_2_2_2_2",
-            "value": "MME6VM_MEDIUM_2_2_2_2_2_2",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_MEDIUM_2_2_2_2_2_0",
-            "value": "MME6VM_MEDIUM_2_2_2_2_2_0",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_MEDIUM_2_2_4_3_2_2",
-            "value": "MME6VM_MEDIUM_2_2_4_3_2_2",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_MEDIUM_2_2_4_3_2_0",
-            "value": "MME6VM_MEDIUM_2_2_4_3_2_0",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_LARGE_2_2_20_10_5_4",
-            "value": "MME6VM_LARGE_2_2_20_10_5_4",
-            "description": "Azure Lab SKU"
-          },
-          {
-            "name": "MME6VM_LARGE_2_2_20_10_5_0",
-            "value": "MME6VM_LARGE_2_2_20_10_5_0",
-            "description": "Azure Lab SKU"
-          }
-        ]
-      }
-    },
     "MmeDeploymentProfileAzureCoreData": {
       "type": "object",
       "description": "MME Deployment Profile Azure Core specific data.",
-      "properties": {
-        "managementSubnet": {
-          "$ref": "#/definitions/MmeManagementSubnet",
-          "description": "Management subnet information for MME deployments",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "northSouthSubnet": {
-          "$ref": "#/definitions/MmeNorthSouthSubnet",
-          "description": "North/south subnet for MME deployments",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "northSouthDataSubnet": {
-          "$ref": "#/definitions/MmeNorthSouthSubnet",
-          "description": "North/south data subnet for MME deployments",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "internalSecurityGroupId": {
-          "$ref": "#/definitions/SecurityGroupIdProperty",
-          "description": "ARM resource ID of the security group for internal traffic",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "managementIpPool": {
-          "$ref": "#/definitions/MmeExternalIpPool",
-          "description": "IP pools for management traffic where the subnetId is taken from the management Subnet of containing NFVi instance, e.g. 172.32.0.0/24",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "oamIpPool": {
-          "$ref": "#/definitions/MmeExternalIpPool",
-          "description": "IP pools from which the floating IP is assigned where the subnetId is taken from the OAM Subnet of containing NFVi instance, e.g. 172.32.6.0/24",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "northSouthIpPool": {
-          "$ref": "#/definitions/MmeExternalIpPool",
-          "description": "IP pools for north/south control plane traffic where the subnetId is taken from the north/south of containing NFVi instance",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "northSouthDataIpPool": {
-          "$ref": "#/definitions/MmeExternalIpPool",
-          "description": "IP pools for north/south data plane traffic where the subnetId is taken from the north/south-data of containing NFVi instance",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "baseNetwork": {
-          "$ref": "#/definitions/MmeInternalSubnet",
-          "description": "The base network subnet"
-        },
-        "eastWestNetwork": {
-          "$ref": "#/definitions/MmeInternalSubnet",
-          "description": "The east/west network subnet"
-        },
-        "mgmtIfIps": {
-          "type": "string",
-          "description": "Comma separated list of Interface IP addresses for the mgmt interface on the MGMT/MRM VMs in the cluster."
-        },
-        "mgmtBaseIfIps": {
-          "type": "string",
-          "description": "Comma separated list of IP addresses assigned to the Base Interface. These IPs would be assigned to Base interfaces in MGMT VMs in the order (mgmt-0, mgmt-1)."
-        },
-        "mgmtDataIfIps": {
-          "type": "string",
-          "description": "Comma separated list of IP addresses assigned to the Data Interface. These IPs would be assigned to Data interfaces in MGMT VMs in the order (mgmt-0, mgmt-1)."
-        },
-        "northSouth1Ips": {
-          "type": "string",
-          "description": "Comma separated list of IP addresses assigned to the LB/MSM VM NS1 Interface. These IPs would be used assigned to North/South 1 interfaces in LB/MSM VMs in the order (lb-0 ... lb-n) or (msm0-0, msm0-1, msm1-0 ... msmX-Y)."
-        },
-        "northSouthData1Ips": {
-          "type": "string",
-          "description": "Comma separated list of IP addresses assigned to the DATA VM NS1 Interface. These IPs would be used assigned to North/South 1 interfaces in DATA VMs in the order (data-0 ... data-n). Required only if DATA VM is part of the deployment profile."
-        },
-        "loopbackConfig": {
-          "type": "array",
-          "description": "Loopback configuration for LB VMs.",
-          "items": {
-            "$ref": "#/definitions/MmeLoopbackConfig"
-          },
-          "x-ms-identifiers": []
-        },
-        "dataLoopbackConfig": {
-          "type": "array",
-          "description": "Loopback configuration for LB VMs.",
-          "items": {
-            "$ref": "#/definitions/MmeDataLoopbackConfig"
-          },
-          "x-ms-identifiers": []
-        },
-        "availabilityZoneA": {
-          "$ref": "#/definitions/AvailabilityZone",
-          "description": "Availability zone for cluster side A."
-        },
-        "availabilityZoneB": {
-          "$ref": "#/definitions/AvailabilityZone",
-          "description": "Availability zone for cluster side B."
-        }
-      },
-      "required": [
-        "managementSubnet",
-        "northSouthSubnet",
-        "northSouthDataSubnet",
-        "internalSecurityGroupId",
-        "managementIpPool",
-        "oamIpPool",
-        "northSouthIpPool",
-        "northSouthDataIpPool",
-        "baseNetwork",
-        "eastWestNetwork",
-        "mgmtIfIps",
-        "mgmtBaseIfIps",
-        "mgmtDataIfIps",
-        "northSouth1Ips",
-        "northSouthData1Ips",
-        "loopbackConfig",
-        "dataLoopbackConfig"
-      ],
       "allOf": [
         {
           "$ref": "#/definitions/MmeDeploymentProfileTypeSpecificData"
@@ -3714,37 +3554,22 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "usageSku": {
-          "$ref": "#/definitions/UsageSku",
-          "description": "Usage SKU",
+        "deploymentType": {
+          "$ref": "#/definitions/SkuDeploymentType",
+          "description": "MME deployment type",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "mobileCoreScalingUnitSku": {
-          "$ref": "#/definitions/MobileCoreScalingUnitSku",
-          "description": "Mobile Core Scaling Unit SKU",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetails",
+          "description": "Billing Details",
           "readOnly": true
         },
-        "actualMobileCoreScalingUnits": {
-          "type": "number",
-          "format": "float",
-          "description": "Mobile Core Scaling Units (MCSU)",
-          "readOnly": true
-        },
-        "simultaneouslyAttachedUsersCount": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Simultaneously Attached Users (SAU)",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         },
         "emsDeployment": {
@@ -3755,13 +3580,19 @@
             "create"
           ]
         },
-        "deploymentProfile": {
-          "$ref": "#/definitions/MmeDeploymentProfile",
-          "description": "MME deployment profile",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+        "mmeRelease": {
+          "$ref": "#/definitions/VirtualMmeRelease",
+          "description": "MME Release Version"
+        },
+        "mmeParameters": {
+          "$ref": "#/definitions/MmeParameters",
+          "description": "MME Parameters"
+        },
+        "mmeSecrets": {
+          "$ref": "#/definitions/MmeSecrets",
+          "format": "password",
+          "description": "MME Secrets",
+          "x-ms-secret": true
         },
         "typeSpecificData": {
           "$ref": "#/definitions/MmeDeploymentProfileTypeSpecificData",
@@ -3770,24 +3601,15 @@
             "read",
             "create"
           ]
-        },
-        "mmeRelease": {
-          "$ref": "#/definitions/VirtualMmeRelease",
-          "description": "MME Release Version"
-        },
-        "managementFloatingIp": {
-          "$ref": "#/definitions/IPv4Address",
-          "description": "Floating IPv4 address for Management Access"
         }
       },
       "required": [
-        "usageSku",
-        "mobileCoreScalingUnitSku",
+        "deploymentType",
         "emsDeployment",
-        "deploymentProfile",
-        "typeSpecificData",
         "mmeRelease",
-        "managementFloatingIp"
+        "mmeParameters",
+        "mmeSecrets",
+        "typeSpecificData"
       ]
     },
     "MmeDeploymentResourceTagsUpdate": {
@@ -3803,238 +3625,21 @@
         }
       }
     },
-    "MmeExternalIpPool": {
-      "type": "object",
-      "description": "MME External IP Pool definition.",
-      "properties": {
-        "subnetId": {
-          "$ref": "#/definitions/VnetSubnetIdProperty",
-          "description": "ARM resource ID of the vnet subnet",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "poolPrefix": {
-          "$ref": "#/definitions/IPv4Cidr",
-          "description": "The CIDR of the address pool partition from the subnet address space.  E.g. 10.0.0.0/24",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "subnetId",
-        "poolPrefix"
-      ]
-    },
-    "MmeInternalSubnet": {
-      "type": "object",
-      "description": "Common attributes for internal subnet provisioning.",
-      "properties": {
-        "subnetId": {
-          "$ref": "#/definitions/VnetSubnetIdProperty",
-          "description": "ARM resource ID of the vnet subnet",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "subnetPrefix": {
-          "$ref": "#/definitions/IPv4Cidr",
-          "description": "The CIDR of the subnet.  E.g. 10.0.0.0/24",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "subnetId",
-        "subnetPrefix"
-      ]
-    },
-    "MmeLoopbackConfig": {
-      "type": "object",
-      "description": "Loopback configuration for LB VMs",
-      "properties": {
-        "ip": {
-          "$ref": "#/definitions/IPv4Address",
-          "description": "The 3GPP loopback IP address"
-        },
-        "subnetId": {
-          "$ref": "#/definitions/VnetSubnetIdProperty",
-          "description": "ARM resource ID of the loopback subnet"
-        }
-      },
-      "required": [
-        "ip",
-        "subnetId"
-      ]
-    },
-    "MmeManagementSubnet": {
-      "type": "object",
-      "description": "MME Management subnet definition.",
-      "properties": {
-        "subnetId": {
-          "$ref": "#/definitions/VnetSubnetIdProperty",
-          "description": "ARM resource ID of the vnet subnet",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "poolPrefix": {
-          "$ref": "#/definitions/IPv4Cidr",
-          "description": "The CIDR of the address pool partition from the subnet address space.  E.g. 10.0.0.0/24",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "securityGroupId": {
-          "$ref": "#/definitions/SecurityGroupIdProperty",
-          "description": "ARM resource ID of the security group",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "subnetId",
-        "poolPrefix",
-        "securityGroupId"
-      ]
-    },
-    "MmeNorthSouthSubnet": {
-      "type": "object",
-      "description": "Common attributes for external subnet provisioning.",
-      "properties": {
-        "usage": {
-          "$ref": "#/definitions/NorthSouthNetworkUsage",
-          "description": "Vnet subnet usage",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "subnetId": {
-          "$ref": "#/definitions/VnetSubnetIdProperty",
-          "description": "ARM resource ID of the vnet subnet",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "securityGroupId": {
-          "$ref": "#/definitions/SecurityGroupIdProperty",
-          "description": "ARM resource ID of the security group",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "usage",
-        "subnetId",
-        "securityGroupId"
-      ]
+    "MmeParameters": {
+      "type": "string",
+      "description": "MME Parameters"
     },
     "MmeProfileAzureOperatorNexusData": {
       "type": "object",
       "description": "Azure for Operators 5G Core MME Deployment Resource",
       "properties": {
-        "networkFabricId": {
-          "$ref": "#/definitions/NetworkFabricIdProperty",
-          "description": "ARM Resource ID of the Network Fabric",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "cloudServiceNetworkId": {
-          "$ref": "#/definitions/CloudServiceNetworkIdProperty",
-          "description": "ARM Resource ID of the Cloud Service Network shared by MME deployments",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "managementL3IsolationDomainId": {
-          "$ref": "#/definitions/L3IsolationDomainIdProperty",
-          "description": "ARM Resource ID of the L3 Isolation Domain for management traffic",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "northSouthL3IsolationDomainId": {
-          "$ref": "#/definitions/L3IsolationDomainIdProperty",
-          "description": "ARM Resource ID of the L3 Isolation Domain for north/south traffic",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "managementL3Network": {
-          "$ref": "#/definitions/NexusL3NetworkProperties",
-          "description": "Management Network",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "accessL3Network": {
-          "$ref": "#/definitions/NexusL3NetworkProperties",
-          "description": "Access Network",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "coreL3Network": {
-          "$ref": "#/definitions/NexusL3NetworkProperties",
-          "description": "Core Network",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "baseL2Network": {
-          "$ref": "#/definitions/NexusL2NetworkProperties",
-          "description": "Base Network",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "dataL2Network": {
-          "$ref": "#/definitions/NexusL2NetworkProperties",
-          "description": "Data Network",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "mgmtIfIps": {
-          "type": "string",
-          "description": "Comma separated list of Interface IP addresses for the mgmt interface on the MGMT/MRM VMs in the cluster."
+        "customLocationId": {
+          "$ref": "#/definitions/CustomLocationIdProperty",
+          "description": "Custom Location resource ID"
         }
       },
       "required": [
-        "networkFabricId",
-        "cloudServiceNetworkId",
-        "managementL3IsolationDomainId",
-        "northSouthL3IsolationDomainId",
-        "managementL3Network",
-        "accessL3Network",
-        "coreL3Network",
-        "baseL2Network",
-        "dataL2Network",
-        "mgmtIfIps"
+        "customLocationId"
       ],
       "allOf": [
         {
@@ -4043,136 +3648,13 @@
       ],
       "x-ms-discriminator-value": "AzureOperatorNexus"
     },
-    "MmeVmService": {
+    "MmeSecrets": {
       "type": "string",
-      "description": "MME VM Service",
-      "enum": [
-        "data0",
-        "data1",
-        "data2",
-        "data3",
-        "data4",
-        "data5",
-        "data6",
-        "data7",
-        "data8",
-        "data9",
-        "data10",
-        "data11",
-        "data12",
-        "data13",
-        "data14",
-        "data15"
-      ],
-      "x-ms-enum": {
-        "name": "MmeVmService",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "data0",
-            "value": "data0",
-            "description": "data-0"
-          },
-          {
-            "name": "data1",
-            "value": "data1",
-            "description": "data-1"
-          },
-          {
-            "name": "data2",
-            "value": "data2",
-            "description": "data-2"
-          },
-          {
-            "name": "data3",
-            "value": "data3",
-            "description": "data-3"
-          },
-          {
-            "name": "data4",
-            "value": "data4",
-            "description": "data-4"
-          },
-          {
-            "name": "data5",
-            "value": "data5",
-            "description": "data-5"
-          },
-          {
-            "name": "data6",
-            "value": "data6",
-            "description": "data-6"
-          },
-          {
-            "name": "data7",
-            "value": "data7",
-            "description": "data-7"
-          },
-          {
-            "name": "data8",
-            "value": "data8",
-            "description": "data-8"
-          },
-          {
-            "name": "data9",
-            "value": "data9",
-            "description": "data-9"
-          },
-          {
-            "name": "data10",
-            "value": "data10",
-            "description": "data-10"
-          },
-          {
-            "name": "data11",
-            "value": "data11",
-            "description": "data-11"
-          },
-          {
-            "name": "data12",
-            "value": "data12",
-            "description": "data-12"
-          },
-          {
-            "name": "data13",
-            "value": "data13",
-            "description": "data-13"
-          },
-          {
-            "name": "data14",
-            "value": "data14",
-            "description": "data-14"
-          },
-          {
-            "name": "data15",
-            "value": "data15",
-            "description": "data-15"
-          }
-        ]
-      }
+      "description": "MME Secrets"
     },
     "MobileCoreScalingUnitSku": {
-      "type": "object",
-      "description": "Mobile Core Scaling Unit SKU Definition",
-      "properties": {
-        "deploymentType": {
-          "$ref": "#/definitions/SkuDeploymentType",
-          "description": "Deployment Type"
-        },
-        "mobileCoreScalingUnits": {
-          "$ref": "#/definitions/SkuMobileCoreScalingUnitDefinitions",
-          "description": "Usage Definition"
-        },
-        "sku": {
-          "type": "string",
-          "description": "Full SKU for the Resource",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "deploymentType",
-        "mobileCoreScalingUnits"
-      ]
+      "type": "string",
+      "description": "Mobile Core Scaling Unit SKU Definition"
     },
     "NetworkFabricIdProperty": {
       "type": "string",
@@ -4264,7 +3746,10 @@
           "items": {
             "$ref": "#/definitions/Ipv4StaticRouteConfiguration"
           },
-          "x-ms-identifiers": []
+          "x-ms-identifiers": [
+            "prefix",
+            "nextHop"
+          ]
         }
       },
       "required": [
@@ -4272,48 +3757,6 @@
         "vlanId",
         "mtu"
       ]
-    },
-    "NorthSouthNetworkUsage": {
-      "type": "string",
-      "description": "North/South network usage",
-      "enum": [
-        "NorthSouth1",
-        "NorthSouth2",
-        "NorthSouth3",
-        "NorthSouth4",
-        "NorthSouth5"
-      ],
-      "x-ms-enum": {
-        "name": "NorthSouthNetworkUsage",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "NorthSouth1",
-            "value": "NorthSouth1",
-            "description": "Usage 1"
-          },
-          {
-            "name": "NorthSouth2",
-            "value": "NorthSouth2",
-            "description": "Usage 2"
-          },
-          {
-            "name": "NorthSouth3",
-            "value": "NorthSouth3",
-            "description": "Usage 3"
-          },
-          {
-            "name": "NorthSouth4",
-            "value": "NorthSouth4",
-            "description": "Usage 4"
-          },
-          {
-            "name": "NorthSouth5",
-            "value": "NorthSouth5",
-            "description": "Usage 5"
-          }
-        ]
-      }
     },
     "NrfDeploymentResource": {
       "type": "object",
@@ -4381,9 +3824,9 @@
           "$ref": "#/definitions/UnityCloudRelease",
           "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
@@ -4471,9 +3914,9 @@
           "$ref": "#/definitions/UnityCloudRelease",
           "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
@@ -4492,6 +3935,22 @@
           "additionalProperties": {
             "type": "string"
           }
+        }
+      }
+    },
+    "OperationalStatus": {
+      "type": "object",
+      "description": "Operational Status of the resource",
+      "properties": {
+        "workload": {
+          "type": "string",
+          "description": "Status of the deployed workloads",
+          "readOnly": true
+        },
+        "healthCheck": {
+          "type": "string",
+          "description": "Health check results",
+          "readOnly": true
         }
       }
     },
@@ -4545,19 +4004,24 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "keyVault": {
-          "type": "string",
-          "format": "uri",
-          "description": "Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/"
+        "unityCloudFederationParameters": {
+          "type": "array",
+          "description": "Unity Cloud Observability PaaS federation parameters.  One set per federation type",
+          "items": {
+            "$ref": "#/definitions/UnityCloudDeploymentParameters"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
       "required": [
-        "keyVault"
+        "unityCloudFederationParameters"
       ]
     },
     "PaasDeploymentResourceTagsUpdate": {
@@ -4671,48 +4135,12 @@
           {
             "name": "Production",
             "value": "Production",
-            "description": "Producton SKU"
+            "description": "Producton Deployment"
           },
           {
             "name": "Lab",
             "value": "Lab",
-            "description": "Lab SKU"
-          }
-        ]
-      }
-    },
-    "SkuMobileCoreScalingUnitDefinitions": {
-      "type": "string",
-      "description": "Mobile Core Scaling Unit Definitions",
-      "enum": [
-        "4"
-      ],
-      "x-ms-enum": {
-        "name": "SkuMobileCoreScalingUnitDefinitions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "4",
-            "value": "4",
-            "description": "Unit of 4 vCPUs"
-          }
-        ]
-      }
-    },
-    "SkuUsageDefinitions": {
-      "type": "string",
-      "description": "Usage Definitions",
-      "enum": [
-        "10K"
-      ],
-      "x-ms-enum": {
-        "name": "SkuUsageDefinitions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "10K",
-            "value": "10K",
-            "description": "10K Sessions or Simultaneously Attached Users"
+            "description": "Lab Deployment"
           }
         ]
       }
@@ -4767,14 +4195,6 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "usageSku": {
-          "$ref": "#/definitions/UsageSku",
-          "description": "Usage SKU",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
           "description": "UnityCloud NF Federation Parameters"
@@ -4791,20 +4211,18 @@
           "$ref": "#/definitions/UnityCloudRelease",
           "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
         },
-        "sessionCount": {
-          "type": "integer",
-          "format": "int32",
-          "description": "PDN/PDU Sessions",
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetails",
+          "description": "Billing Details",
           "readOnly": true
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
       "required": [
-        "usageSku",
         "unityCloudDeploymentParameters",
         "cluster"
       ]
@@ -4918,9 +4336,9 @@
           "$ref": "#/definitions/UnityCloudRelease",
           "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
         },
-        "deploymentStatus": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment status",
+        "operationalStatus": {
+          "$ref": "#/definitions/OperationalStatus",
+          "description": "Operational status",
           "readOnly": true
         }
       },
@@ -4943,27 +4361,8 @@
       }
     },
     "UsageSku": {
-      "type": "object",
-      "description": "Usage SKU Definition",
-      "properties": {
-        "deploymentType": {
-          "$ref": "#/definitions/SkuDeploymentType",
-          "description": "Deployment Type"
-        },
-        "usageUnits": {
-          "$ref": "#/definitions/SkuUsageDefinitions",
-          "description": "Usage Definition"
-        },
-        "sku": {
-          "type": "string",
-          "description": "Full SKU for the Resource",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "deploymentType",
-        "usageUnits"
-      ]
+      "type": "string",
+      "description": "Usage SKU Definition"
     },
     "Versions": {
       "type": "string",
