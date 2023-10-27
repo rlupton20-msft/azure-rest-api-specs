@@ -412,6 +412,122 @@
           "final-state-via": "location"
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/moveSims": {
+      "post": {
+        "tags": [
+          "SIMs"
+        ],
+        "operationId": "Move_Sims",
+        "description": "Moving bulk sims to other Sim Groups/Mobile Networks",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/SimGroupNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SimCloneOrMove"
+            },
+            "description": "Parameters supplied to move the sims."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Async operation completed.",
+            "schema": {
+              "$ref": "./common.json#/definitions/AsyncOperationStatus"
+            }
+          },
+          "202": {
+            "description": "Accepted. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Move list of sims to target sim group": {
+            "$ref": "./examples/SimMoveCopy.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/cloneSims": {
+      "post": {
+        "tags": [
+          "SIMs"
+        ],
+        "operationId": "Clone_Sims",
+        "description": "Cloning/Copying bulk sims to other Sim Groups/Mobile Networks",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/SimGroupNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SimCloneOrMove"
+            },
+            "description": "Parameters supplied to copy or clone the sims."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Async operation completed.",
+            "schema": {
+              "$ref": "./common.json#/definitions/AsyncOperationStatus"
+            }
+          },
+          "202": {
+            "description": "Accepted. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Copy list of sims to target sim group": {
+            "$ref": "./examples/SimMoveCopy.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      }
     }
   },
   "definitions": {
@@ -719,6 +835,24 @@
         "signedTransportKey",
         "sims"
       ]
+    },
+    "SimCloneOrMove": {
+      "type": "object",
+      "description": "The SIMs to move or clone.",
+      "properties": {
+        "targetSimGroupId": {
+          "$ref": "./common.json#/definitions/SimGroupResourceId",
+          "description": "The SIM Group resource where the sims have to be moved or cloned. The SIM Group can be in any subscription within same tenant."
+        },
+        "sims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "A list of SIM resource names to be moved or cloned."
+        }
+      }
     }
   }
 }
