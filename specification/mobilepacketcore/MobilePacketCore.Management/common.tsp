@@ -48,15 +48,6 @@ op ArmResourceCreateOrUpdate2Async<
 model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.ArmResource>
   is ArmResponse<TResource>;
 
-@pattern("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$")
-scalar IPv4Address extends string;
-
-@pattern("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})/[0-9]{1,2}$")
-scalar IPv4Cidr extends string;
-
-@pattern("^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
-scalar Ipv6Address extends string;
-
 @doc("Provisioning state of the resource")
 @Azure.Core.lroStatus
 enum ProvisioningState {
@@ -75,46 +66,6 @@ enum ProvisioningState {
   Accepted,
 }
 
-@doc("ARM resource ID of the vnet subnet.")
-scalar VnetSubnetIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.Network/virtualNetworks/subnets",
-    }
-  ]>;
-
-@doc("ARM resource ID of the security group.")
-scalar SecurityGroupIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.Network/virtualNetworks/networkSecurityGroups",
-    }
-  ]>;
-
-@doc("ARM resource ID of the Cloud Service Network.")
-scalar CloudServiceNetworkIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.NetworkCloud/cloudServicesNetworks",
-    }
-  ]>;
-
-@doc("ARM resource ID of the Network Fabric.")
-scalar NetworkFabricIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedNetworkFabric/networkFabrics",
-    }
-  ]>;
-
-@doc("ARM resource ID of the L3 Isolation Domain.")
-scalar L3IsolationDomainIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedNetworkFabric/l3IsolationDomains",
-    }
-  ]>;
-
 @doc("ARM resource ID of a cluster.")
 scalar ClusterIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
@@ -131,14 +82,6 @@ scalar EmsDeploymentIdProperty
     }
   ]>;
 
-@doc("ARM resource ID of a connected cluster.")
-scalar ConnectedClusterIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.Kubernetes/connectedClusters",
-    }
-  ]>;
-
 @doc("ARM resource ID of a custom location.")
 scalar CustomLocationIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
@@ -147,74 +90,9 @@ scalar CustomLocationIdProperty
     }
   ]>;
 
-@doc("Azure Availability Zones.")
-enum AvailabilityZone {
-  @doc("No availability zone")
-  None,
-
-  @doc("Zone 1")
-  `1`,
-
-  @doc("Zone 2")
-  `2`,
-
-  @doc("Zone 3")
-  `3`,
-}
-
-@doc("Common attributes for L2 networks for cloud workload network on Nexus")
-model NexusL2NetworkProperties {
-  @doc("Vlan Identifier. Example: 501.")
-  @minValue(100)
-  @maxValue(4094)
-  vlanId: int32;
-
-  @doc("Maximum transmission unit. Default value is 1500.")
-  @minValue(64)
-  @maxValue(9200)
-  mtu: int32 = 1500;
-}
-
-@doc("Common attributes for L3 networks for both fabric internal network and cloud workload network on Nexus")
-model NexusL3NetworkProperties {
-  @doc("ip prefix of the connected IPv4 Subnet. The first three usable IP addresses for internal use")
-  subnetPrefix: IPv4Cidr;
-
-  @doc("Vlan Identifier. Example: 501.")
-  @minValue(100)
-  @maxValue(4094)
-  vlanId: int32;
-
-  @doc("Maximum transmission unit. Default value is 1500.")
-  @minValue(64)
-  @maxValue(9200)
-  mtu: int32 = 1500;
-
-  @doc("BGP Peer ASN. Example: 65047.")
-  @minValue(1)
-  @maxValue(65535)
-  bgpPeerAsn?: int32;
-
-  @doc("BGP Ipv4 Listen Range.")
-  bgpListenRangePrefixes?: IPv4Cidr[];
-
-  @doc("List of static routes for network fabric L3 internal networks.")
-  @extension("x-ms-identifiers", ["prefix", "nextHop"])
-  staticRouteConfiguration?: Ipv4StaticRouteConfiguration[];
-}
-
-@doc("IPv4 Static Route Configuration")
-model Ipv4StaticRouteConfiguration {
-  @doc("ip prefix of the static route")
-  prefix: IPv4Cidr;
-
-  @doc("List of next hop ipv4 addresses.")
-  nextHop: IPv4Address[];
-}
-
 @doc("Operational Status of the resource")
 model OperationalStatus {
-  @doc("Status of the deployed workloads")
+  @doc("Status of the deployed workload")
   @visibility("read")
   workload?: string;
 
@@ -232,15 +110,6 @@ enum InfrastructureType {
   AzureOperatorNexus,
 }
 
-@doc("Cluster Type Definitions")
-enum ClusterType {
-  @doc("Azure Kubernetes Service")
-  Aks,
-
-  @doc("Azure Operator Nexus Kubernetes Service")
-  NexusAks,
-}
-
 @doc("Deployment Type Definitions")
 enum SkuDeploymentType {
   @doc("Producton Deployment")
@@ -256,7 +125,7 @@ scalar UsageSku extends string;
 @doc("Mobile Core Scaling Unit SKU Definition")
 scalar MobileCoreScalingUnitSku extends string;
 
-@doc("Billing Details")
+@doc("Information used for billing of the resources.  Different fields may be applicable to different resource types.")
 model BillingDetails {
   @doc("Mobile Core Scaling Unit SKU")
   @visibility("read")
@@ -270,41 +139,17 @@ model BillingDetails {
   @visibility("read")
   mobileCoreScalingUnits?: float32;
 
-  @doc("Simultaneously Attached Users (SAU)")
+  @doc("Simultaneously Attached User Units")
   @visibility("read")
-  simultaneouslyAttachedUsersCount?: int32;
+  simultaneouslyAttachedUserUnits?: int32;
 
-  @doc("PDN/PDU Sessions")
+  @doc("PDN/PDU Sessions Units")
   @visibility("read")
-  sessionCount?: int32;
+  sessionUnits?: int32;
 }
 
 @doc("UnityCloud Release definition.")
 scalar UnityCloudRelease extends string;
-
-@doc("Virtual MME Release definition.")
-scalar VirtualMmeRelease extends string;
-
-@doc("EMS Release definition.")
-scalar EmsRelease extends string;
-
-@doc("Product Name.")
-enum ProductName {
-  @doc("UnityCloud product line")
-  UnityCloud,
-}
-
-@doc("MME Parameters")
-scalar MmeParameters extends string;
-
-@doc("MME Secrets")
-scalar MmeSecrets extends string;
-
-@doc("EMS Parameters")
-scalar EmsParameters extends string;
-
-@doc("EMS Secrets")
-scalar EmsSecrets extends string;
 
 @doc("UnityCloud Federation Parameters")
 scalar UnityCloudFederationParameters extends string;

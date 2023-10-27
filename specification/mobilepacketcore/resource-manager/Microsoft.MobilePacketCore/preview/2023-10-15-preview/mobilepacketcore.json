@@ -2875,7 +2875,7 @@
     },
     "AmfDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core AMF/MME Deployment Resource",
+      "description": "Azure for Operators 5G Core Access and Mobility Function (AMF) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/AmfDeploymentResourceProperties",
@@ -2925,11 +2925,11 @@
         },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
-          "description": "UnityCloud NF Federation Parameters"
+          "description": "UnityCloud Network Function Federation Parameters"
         },
         "cluster": {
           "$ref": "#/definitions/ClusterIdProperty",
-          "description": "Cluster where the NF is deployed",
+          "description": "Cluster where the Network Function is deployed",
           "x-ms-mutability": [
             "read",
             "create"
@@ -2937,7 +2937,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
+          "description": "Unity Cloud Release version of the Network Function. This is inherited from the cluster"
         },
         "billingDetails": {
           "$ref": "#/definitions/BillingDetails",
@@ -2968,45 +2968,9 @@
         }
       }
     },
-    "AvailabilityZone": {
-      "type": "string",
-      "description": "Azure Availability Zones.",
-      "enum": [
-        "None",
-        "1",
-        "2",
-        "3"
-      ],
-      "x-ms-enum": {
-        "name": "AvailabilityZone",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "None",
-            "value": "None",
-            "description": "No availability zone"
-          },
-          {
-            "name": "1",
-            "value": "1",
-            "description": "Zone 1"
-          },
-          {
-            "name": "2",
-            "value": "2",
-            "description": "Zone 2"
-          },
-          {
-            "name": "3",
-            "value": "3",
-            "description": "Zone 3"
-          }
-        ]
-      }
-    },
     "BillingDetails": {
       "type": "object",
-      "description": "Billing Details",
+      "description": "Information used for billing of the resources.  Different fields may be applicable to different resource types.",
       "properties": {
         "mobileCoreScalingUnitSku": {
           "$ref": "#/definitions/MobileCoreScalingUnitSku",
@@ -3024,30 +2988,18 @@
           "description": "Mobile Core Scaling Units (MCSU)",
           "readOnly": true
         },
-        "simultaneouslyAttachedUsersCount": {
+        "simultaneouslyAttachedUserUnits": {
           "type": "integer",
           "format": "int32",
-          "description": "Simultaneously Attached Users (SAU)",
+          "description": "Simultaneously Attached User Units",
           "readOnly": true
         },
-        "sessionCount": {
+        "sessionUnits": {
           "type": "integer",
           "format": "int32",
-          "description": "PDN/PDU Sessions",
+          "description": "PDN/PDU Sessions Units",
           "readOnly": true
         }
-      }
-    },
-    "CloudServiceNetworkIdProperty": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of the Cloud Service Network.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
-          }
-        ]
       }
     },
     "ClusterIdProperty": {
@@ -3114,7 +3066,7 @@
         },
         "deploymentType": {
           "$ref": "#/definitions/SkuDeploymentType",
-          "description": "Cluster deployment type",
+          "description": "Cluster deployment type (Lab or Production)",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3122,7 +3074,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release Version.  This is applied to all PaaS components and running workloads in this cluster"
+          "description": "Unity Cloud Release Version.  This is applied to all platform as a service (PaaS) components and running workloads in this cluster"
         },
         "clusterTypeSpecificData": {
           "$ref": "#/definitions/ClusterTypeSpecificData",
@@ -3212,18 +3164,6 @@
         "customLocationId"
       ]
     },
-    "ConnectedClusterIdProperty": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of a connected cluster.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Kubernetes/connectedClusters"
-          }
-        ]
-      }
-    },
     "CustomLocationIdProperty": {
       "type": "string",
       "format": "arm-id",
@@ -3279,7 +3219,7 @@
     },
     "EmsDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core EMS Deployment Resource",
+      "description": "Azure for Operators 5G Core Element Management System (EMS) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/EmsDeploymentResourceProperties",
@@ -3333,7 +3273,7 @@
         },
         "deploymentType": {
           "$ref": "#/definitions/SkuDeploymentType",
-          "description": "EMS deployment type",
+          "description": "EMS deployment type (Lab or Production)",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3391,7 +3331,7 @@
       "properties": {
         "type": {
           "$ref": "#/definitions/InfrastructureType",
-          "description": "NFVI Type"
+          "description": "Network Function Virtualization Infrastructure Type"
         }
       },
       "discriminator": "type",
@@ -3410,14 +3350,6 @@
     "EmsSecrets": {
       "type": "string",
       "description": "EMS Secrets"
-    },
-    "IPv4Address": {
-      "type": "string",
-      "pattern": "^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$"
-    },
-    "IPv4Cidr": {
-      "type": "string",
-      "pattern": "^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})/[0-9]{1,2}$"
     },
     "InfrastructureType": {
       "type": "string",
@@ -3443,70 +3375,19 @@
         ]
       }
     },
-    "Ipv4StaticRouteConfiguration": {
-      "type": "object",
-      "description": "IPv4 Static Route Configuration",
-      "properties": {
-        "prefix": {
-          "$ref": "#/definitions/IPv4Cidr",
-          "description": "ip prefix of the static route"
-        },
-        "nextHop": {
-          "type": "array",
-          "description": "List of next hop ipv4 addresses.",
-          "items": {
-            "$ref": "#/definitions/IPv4Address"
-          }
-        }
-      },
-      "required": [
-        "prefix",
-        "nextHop"
-      ]
-    },
-    "Ipv6Address": {
-      "type": "string",
-      "pattern": "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$"
-    },
-    "L3IsolationDomainIdProperty": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of the L3 Isolation Domain.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.ManagedNetworkFabric/l3IsolationDomains"
-          }
-        ]
-      }
-    },
     "MmeDeploymentProfileAzureCoreData": {
       "type": "object",
       "description": "MME Deployment Profile Azure Core specific data.",
       "allOf": [
         {
-          "$ref": "#/definitions/MmeDeploymentProfileTypeSpecificData"
+          "$ref": "#/definitions/MmeDeploymentTypeSpecificData"
         }
       ],
       "x-ms-discriminator-value": "AzureCore"
     },
-    "MmeDeploymentProfileTypeSpecificData": {
-      "type": "object",
-      "description": "MME Deployment Profile type specific data.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/InfrastructureType",
-          "description": "NFVI Type"
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
     "MmeDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core virtual MME/SGSN Deployment Resource",
+      "description": "Azure for Operators 5G Core virtual Mobility Management Entity (MME) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/MmeDeploymentResourceProperties",
@@ -3556,7 +3437,7 @@
         },
         "deploymentType": {
           "$ref": "#/definitions/SkuDeploymentType",
-          "description": "MME deployment type",
+          "description": "MME deployment type (Lab or Production)",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3585,18 +3466,18 @@
           "description": "MME Release Version"
         },
         "mmeParameters": {
-          "$ref": "#/definitions/MmeParameters",
+          "$ref": "#/definitions/VirtualMmeParameters",
           "description": "MME Parameters"
         },
         "mmeSecrets": {
-          "$ref": "#/definitions/MmeSecrets",
+          "$ref": "#/definitions/VirtualMmeSecrets",
           "format": "password",
           "description": "MME Secrets",
           "x-ms-secret": true
         },
         "typeSpecificData": {
-          "$ref": "#/definitions/MmeDeploymentProfileTypeSpecificData",
-          "description": "MME deployment NFVI type specific data",
+          "$ref": "#/definitions/MmeDeploymentTypeSpecificData",
+          "description": "Infrastructure type specific data.  Contents depend on the infrastructure type",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3625,9 +3506,19 @@
         }
       }
     },
-    "MmeParameters": {
-      "type": "string",
-      "description": "MME Parameters"
+    "MmeDeploymentTypeSpecificData": {
+      "type": "object",
+      "description": "MME Deployment type specific data.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/InfrastructureType",
+          "description": "Network Function Virtualization Infrastructure Type"
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
     },
     "MmeProfileAzureOperatorNexusData": {
       "type": "object",
@@ -3643,30 +3534,14 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/MmeDeploymentProfileTypeSpecificData"
+          "$ref": "#/definitions/MmeDeploymentTypeSpecificData"
         }
       ],
       "x-ms-discriminator-value": "AzureOperatorNexus"
     },
-    "MmeSecrets": {
-      "type": "string",
-      "description": "MME Secrets"
-    },
     "MobileCoreScalingUnitSku": {
       "type": "string",
       "description": "Mobile Core Scaling Unit SKU Definition"
-    },
-    "NetworkFabricIdProperty": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of the Network Fabric.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.ManagedNetworkFabric/networkFabrics"
-          }
-        ]
-      }
     },
     "NexusAksClusterData": {
       "type": "object",
@@ -3678,89 +3553,9 @@
       ],
       "x-ms-discriminator-value": "NexusAks"
     },
-    "NexusL2NetworkProperties": {
-      "type": "object",
-      "description": "Common attributes for L2 networks for cloud workload network on Nexus",
-      "properties": {
-        "vlanId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Vlan Identifier. Example: 501.",
-          "minimum": 100,
-          "maximum": 4094
-        },
-        "mtu": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Maximum transmission unit. Default value is 1500.",
-          "default": 1500,
-          "minimum": 64,
-          "maximum": 9200
-        }
-      },
-      "required": [
-        "vlanId",
-        "mtu"
-      ]
-    },
-    "NexusL3NetworkProperties": {
-      "type": "object",
-      "description": "Common attributes for L3 networks for both fabric internal network and cloud workload network on Nexus",
-      "properties": {
-        "subnetPrefix": {
-          "$ref": "#/definitions/IPv4Cidr",
-          "description": "ip prefix of the connected IPv4 Subnet. The first three usable IP addresses for internal use"
-        },
-        "vlanId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Vlan Identifier. Example: 501.",
-          "minimum": 100,
-          "maximum": 4094
-        },
-        "mtu": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Maximum transmission unit. Default value is 1500.",
-          "default": 1500,
-          "minimum": 64,
-          "maximum": 9200
-        },
-        "bgpPeerAsn": {
-          "type": "integer",
-          "format": "int32",
-          "description": "BGP Peer ASN. Example: 65047.",
-          "minimum": 1,
-          "maximum": 65535
-        },
-        "bgpListenRangePrefixes": {
-          "type": "array",
-          "description": "BGP Ipv4 Listen Range.",
-          "items": {
-            "$ref": "#/definitions/IPv4Cidr"
-          }
-        },
-        "staticRouteConfiguration": {
-          "type": "array",
-          "description": "List of static routes for network fabric L3 internal networks.",
-          "items": {
-            "$ref": "#/definitions/Ipv4StaticRouteConfiguration"
-          },
-          "x-ms-identifiers": [
-            "prefix",
-            "nextHop"
-          ]
-        }
-      },
-      "required": [
-        "subnetPrefix",
-        "vlanId",
-        "mtu"
-      ]
-    },
     "NrfDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core NRF Deployment Resource",
+      "description": "Azure for Operators 5G Core Network Repository Functoin (NRF) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/NrfDeploymentResourceProperties",
@@ -3810,11 +3605,11 @@
         },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
-          "description": "UnityCloud NF Federation Parameters"
+          "description": "UnityCloud Network Function Federation Parameters"
         },
         "cluster": {
           "$ref": "#/definitions/ClusterIdProperty",
-          "description": "Cluster where the NF is deployed",
+          "description": "Cluster where the Network Function is deployed",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3822,7 +3617,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
+          "description": "Unity Cloud Release version of the Network Function. This is inherited from the cluster"
         },
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
@@ -3850,7 +3645,7 @@
     },
     "NssfDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core NSSF Deployment Resource",
+      "description": "Azure for Operators 5G Core Network Slice Selection Function (NSSF) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/NssfDeploymentResourceProperties",
@@ -3900,11 +3695,11 @@
         },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
-          "description": "UnityCloud NF Federation Parameters"
+          "description": "UnityCloud Network Function Federation Parameters"
         },
         "cluster": {
           "$ref": "#/definitions/ClusterIdProperty",
-          "description": "Cluster where the NF is deployed",
+          "description": "Cluster where the Network Function is deployed",
           "x-ms-mutability": [
             "read",
             "create"
@@ -3912,7 +3707,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
+          "description": "Unity Cloud Release version of the network function. This is inherited from the cluster"
         },
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
@@ -3944,7 +3739,7 @@
       "properties": {
         "workload": {
           "type": "string",
-          "description": "Status of the deployed workloads",
+          "description": "Status of the deployed workload",
           "readOnly": true
         },
         "healthCheck": {
@@ -3956,7 +3751,7 @@
     },
     "PaasDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core PaaS Deployment Resource",
+      "description": "Azure for Operators 5G Core Platform as a Service (PaaS) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/PaasDeploymentResourceProperties",
@@ -3997,7 +3792,7 @@
     },
     "PaasDeploymentResourceProperties": {
       "type": "object",
-      "description": "PAAS Deployment Properties.",
+      "description": "Platform as a Service Deployment Properties.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4006,7 +3801,7 @@
         },
         "unityCloudFederationParameters": {
           "type": "array",
-          "description": "Unity Cloud Observability PaaS federation parameters.  One set per federation type",
+          "description": "Unity Cloud Observability platform as a service federation parameters.  One set per federation type",
           "items": {
             "$ref": "#/definitions/UnityCloudDeploymentParameters"
           },
@@ -4035,24 +3830,6 @@
             "type": "string"
           }
         }
-      }
-    },
-    "ProductName": {
-      "type": "string",
-      "description": "Product Name.",
-      "enum": [
-        "UnityCloud"
-      ],
-      "x-ms-enum": {
-        "name": "ProductName",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "UnityCloud",
-            "value": "UnityCloud",
-            "description": "UnityCloud product line"
-          }
-        ]
       }
     },
     "ProvisioningState": {
@@ -4109,18 +3886,6 @@
         ]
       }
     },
-    "SecurityGroupIdProperty": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of the security group.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Network/virtualNetworks/networkSecurityGroups"
-          }
-        ]
-      }
-    },
     "SkuDeploymentType": {
       "type": "string",
       "description": "Deployment Type Definitions",
@@ -4147,7 +3912,7 @@
     },
     "SmfDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core SMF/SAEGW-CP/GGSN Deployment Resource",
+      "description": "Azure for Operators 5G Core Session Management Function (SMF) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/SmfDeploymentResourceProperties",
@@ -4197,11 +3962,11 @@
         },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
-          "description": "UnityCloud NF Federation Parameters"
+          "description": "UnityCloud Network Function Federation Parameters"
         },
         "cluster": {
           "$ref": "#/definitions/ClusterIdProperty",
-          "description": "Cluster where the NF is deployed",
+          "description": "Cluster where the Network Function is deployed",
           "x-ms-mutability": [
             "read",
             "create"
@@ -4209,7 +3974,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
+          "description": "Unity Cloud Release version of the Network Function. This is inherited from the cluster"
         },
         "billingDetails": {
           "$ref": "#/definitions/BillingDetails",
@@ -4272,7 +4037,7 @@
     },
     "UpfDeploymentResource": {
       "type": "object",
-      "description": "Azure for Operators 5G Core UPF/SAEGW-UP Deployment Resource",
+      "description": "Azure for Operators 5G Core User Plane Function (UPF) Deployment Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/UpfDeploymentResourceProperties",
@@ -4322,11 +4087,11 @@
         },
         "unityCloudDeploymentParameters": {
           "$ref": "#/definitions/UnityCloudFederationParameters",
-          "description": "UnityCloud NF Federation Parameters"
+          "description": "UnityCloud Network Function Federation Parameters"
         },
         "cluster": {
           "$ref": "#/definitions/ClusterIdProperty",
-          "description": "Cluster where the NF is deployed",
+          "description": "Cluster where the Network Function is deployed",
           "x-ms-mutability": [
             "read",
             "create"
@@ -4334,7 +4099,7 @@
         },
         "unityCloudRelease": {
           "$ref": "#/definitions/UnityCloudRelease",
-          "description": "Unity Cloud Release version of the NF. This is inherited from the cluster"
+          "description": "Unity Cloud Release version of the Network Function. This is inherited from the cluster"
         },
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
@@ -4382,21 +4147,17 @@
         ]
       }
     },
+    "VirtualMmeParameters": {
+      "type": "string",
+      "description": "Virtual MME Parameters"
+    },
     "VirtualMmeRelease": {
       "type": "string",
       "description": "Virtual MME Release definition."
     },
-    "VnetSubnetIdProperty": {
+    "VirtualMmeSecrets": {
       "type": "string",
-      "format": "arm-id",
-      "description": "ARM resource ID of the vnet subnet.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Network/virtualNetworks/subnets"
-          }
-        ]
-      }
+      "description": "Virtual MME Secrets"
     }
   },
   "parameters": {}

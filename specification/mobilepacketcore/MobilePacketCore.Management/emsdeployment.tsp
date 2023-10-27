@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core EMS Deployment Resource")
+@doc("Azure for Operators 5G Core Element Management System (EMS) Deployment Resource")
 @resource("emsDeployments")
 model EmsDeploymentResource
   is TrackedResource<EmsDeploymentResourceProperties> {
@@ -39,7 +39,7 @@ model EmsDeploymentResourceProperties {
   @doc("EMS Release Version")
   emsRelease: EmsRelease;
 
-  @doc("EMS deployment type")
+  @doc("EMS deployment type (Lab or Production)")
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
@@ -77,7 +77,7 @@ interface EmsDeployments {
 @doc("EMS Deployment type specific data.")
 @discriminator("type")
 model EmsDeploymentTypeSpecificData {
-  @doc("NFVI Type")
+  @doc("Network Function Virtualization Infrastructure Type")
   type: InfrastructureType;
 }
 
@@ -96,3 +96,12 @@ model EmsDeploymentAzureOperatorNexusData
   @doc("Custom Location resource ID")
   customLocationId: CustomLocationIdProperty;
 }
+
+@doc("EMS Release definition.")
+scalar EmsRelease extends string;
+
+@doc("EMS Parameters")
+scalar EmsParameters extends string;
+
+@doc("EMS Secrets")
+scalar EmsSecrets extends string;

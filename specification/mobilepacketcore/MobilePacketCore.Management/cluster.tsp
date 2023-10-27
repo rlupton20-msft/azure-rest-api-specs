@@ -35,11 +35,11 @@ model ClusterResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Cluster deployment type")
+  @doc("Cluster deployment type (Lab or Production)")
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
-  @doc("Unity Cloud Release Version.  This is applied to all PaaS components and running workloads in this cluster")
+  @doc("Unity Cloud Release Version.  This is applied to all platform as a service (PaaS) components and running workloads in this cluster")
   unityCloudRelease: UnityCloudRelease;
 
   @doc("Cluster type specific data.  Contents depend on the cluster type")
@@ -88,4 +88,13 @@ model AksClusterData extends ClusterTypeSpecificData {
 model NexusAksClusterData extends ClusterTypeSpecificData {
   @doc("Nexus Operator Kubenetes Service Properties.")
   type: ClusterType.NexusAks;
+}
+
+@doc("Cluster Type Definitions")
+enum ClusterType {
+  @doc("Azure Kubernetes Service")
+  Aks,
+
+  @doc("Azure Operator Nexus Kubernetes Service")
+  NexusAks,
 }

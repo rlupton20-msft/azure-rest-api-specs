@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core UPF/SAEGW-UP Deployment Resource")
+@doc("Azure for Operators 5G Core User Plane Function (UPF) Deployment Resource")
 @resource("upfDeployments")
 model UpfDeploymentResource
   is TrackedResource<UpfDeploymentResourceProperties> {
@@ -36,14 +36,14 @@ model UpfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("UnityCloud NF Federation Parameters")
+  @doc("UnityCloud Network Function Federation Parameters")
   unityCloudDeploymentParameters: UnityCloudFederationParameters;
 
-  @doc("Cluster where the NF is deployed")
+  @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")
   cluster: ClusterIdProperty;
 
-  @doc("Unity Cloud Release version of the NF. This is inherited from the cluster")
+  @doc("Unity Cloud Release version of the Network Function. This is inherited from the cluster")
   unityCloudRelease?: UnityCloudRelease;
 
   @doc("Operational status")

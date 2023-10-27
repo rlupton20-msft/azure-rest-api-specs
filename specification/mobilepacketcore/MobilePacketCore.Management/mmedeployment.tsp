@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core virtual MME/SGSN Deployment Resource")
+@doc("Azure for Operators 5G Core virtual Mobility Management Entity (MME) Deployment Resource")
 @resource("mmeDeployments")
 model MmeDeploymentResource
   is TrackedResource<MmeDeploymentResourceProperties> {
@@ -36,7 +36,7 @@ model MmeDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("MME deployment type")
+  @doc("MME deployment type (Lab or Production)")
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
@@ -56,15 +56,15 @@ model MmeDeploymentResourceProperties {
   mmeRelease: VirtualMmeRelease;
 
   @doc("MME Parameters")
-  mmeParameters: MmeParameters;
+  mmeParameters: VirtualMmeParameters;
 
   @doc("MME Secrets")
   @secret
-  mmeSecrets: MmeSecrets;
+  mmeSecrets: VirtualMmeSecrets;
 
-  @doc("MME deployment NFVI type specific data")
+  @doc("Infrastructure type specific data.  Contents depend on the infrastructure type")
   @visibility("read", "create")
-  typeSpecificData: MmeDeploymentProfileTypeSpecificData;
+  typeSpecificData: MmeDeploymentTypeSpecificData;
 }
 
 @armResourceOperations(MmeDeploymentResource)
@@ -78,26 +78,33 @@ interface MmeDeployments {
 }
 
 /* Type definitions */
-@doc("MME Deployment Profile type specific data.")
+@doc("MME Deployment type specific data.")
 @discriminator("type")
-model MmeDeploymentProfileTypeSpecificData {
-  @doc("NFVI Type")
+model MmeDeploymentTypeSpecificData {
+  @doc("Network Function Virtualization Infrastructure Type")
   type: InfrastructureType;
 }
 
 @doc("MME Deployment Profile Azure Core specific data.")
-model MmeDeploymentProfileAzureCoreData
-  extends MmeDeploymentProfileTypeSpecificData {
+model MmeDeploymentProfileAzureCoreData extends MmeDeploymentTypeSpecificData {
   @doc("MME Deployment Properties.")
   type: InfrastructureType.AzureCore;
 }
 
 @doc("Azure for Operators 5G Core MME Deployment Resource")
-model MmeProfileAzureOperatorNexusData
-  extends MmeDeploymentProfileTypeSpecificData {
+model MmeProfileAzureOperatorNexusData extends MmeDeploymentTypeSpecificData {
   @doc("MME Deployment Nexus Properties.")
   type: InfrastructureType.AzureOperatorNexus;
 
   @doc("Custom Location resource ID")
   customLocationId: CustomLocationIdProperty;
 }
+
+@doc("Virtual MME Release definition.")
+scalar VirtualMmeRelease extends string;
+
+@doc("Virtual MME Parameters")
+scalar VirtualMmeParameters extends string;
+
+@doc("Virtual MME Secrets")
+scalar VirtualMmeSecrets extends string;

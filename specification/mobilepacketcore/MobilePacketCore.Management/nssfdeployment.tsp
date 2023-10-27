@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core NSSF Deployment Resource")
+@doc("Azure for Operators 5G Core Network Slice Selection Function (NSSF) Deployment Resource")
 @resource("nssfDeployments")
 model NssfDeploymentResource
   is TrackedResource<NssfDeploymentResourceProperties> {
@@ -36,14 +36,14 @@ model NssfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("UnityCloud NF Federation Parameters")
+  @doc("UnityCloud Network Function Federation Parameters")
   unityCloudDeploymentParameters: UnityCloudFederationParameters;
 
-  @doc("Cluster where the NF is deployed")
+  @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")
   cluster: ClusterIdProperty;
 
-  @doc("Unity Cloud Release version of the NF. This is inherited from the cluster")
+  @doc("Unity Cloud Release version of the network function. This is inherited from the cluster")
   unityCloudRelease?: UnityCloudRelease;
 
   @doc("Operational status")

@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core PaaS Deployment Resource")
+@doc("Azure for Operators 5G Core Platform as a Service (PaaS) Deployment Resource")
 @resource("paasDeployments")
 model PaasDeploymentResource
   is TrackedResource<PaasDeploymentResourceProperties> {
@@ -30,13 +30,13 @@ model PaasDeploymentResource
   name: string;
 }
 
-@doc("PAAS Deployment Properties.")
+@doc("Platform as a Service Deployment Properties.")
 model PaasDeploymentResourceProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Unity Cloud Observability PaaS federation parameters.  One set per federation type")
+  @doc("Unity Cloud Observability platform as a service federation parameters.  One set per federation type")
   @extension("x-ms-identifiers", ["type"])
   unityCloudFederationParameters: UnityCloudDeploymentParameters[];
 
