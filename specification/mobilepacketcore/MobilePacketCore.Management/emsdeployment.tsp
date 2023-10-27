@@ -44,7 +44,14 @@ model EmsDeploymentResourceProperties {
   deploymentType: SkuDeploymentType;
 
   @doc("Infrastructure type specific data.  Contents depend on the infrastructure type")
-  emsDeploymentTypeSpecificData: EmsDeploymentTypeSpecificData;
+  typeSpecificData: EmsDeploymentTypeSpecificData;
+
+  @doc("EMS Parameters")
+  emsParameters: EmsParameters;
+
+  @doc("EMS Secrets")
+  @secret
+  emsSecrets: EmsSecrets;
 
   @doc("Billing Details")
   @visibility("read")

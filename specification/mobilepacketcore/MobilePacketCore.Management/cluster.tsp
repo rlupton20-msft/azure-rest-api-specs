@@ -76,9 +76,6 @@ model ClusterTypeSpecificData {
 
   @doc("Custom Location resource ID")
   customLocationId: CustomLocationIdProperty;
-
-  @doc("Connected Cluster resource ID")
-  connectedClusterId: ConnectedClusterIdProperty;
 }
 
 @doc("AKS Cluster specific data.")

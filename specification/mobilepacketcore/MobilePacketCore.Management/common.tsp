@@ -131,14 +131,11 @@ scalar EmsDeploymentIdProperty
     }
   ]>;
 
-@doc("ARM resource ID of a connected or provisioned cluster.")
+@doc("ARM resource ID of a connected cluster.")
 scalar ConnectedClusterIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
       type: "Microsoft.Kubernetes/connectedClusters",
-    },
-    {
-      type: "Microsoft.HybridContainerService/provisionedClusters",
     }
   ]>;
 
@@ -296,6 +293,18 @@ enum ProductName {
   @doc("UnityCloud product line")
   UnityCloud,
 }
+
+@doc("MME Parameters")
+scalar MmeParameters extends string;
+
+@doc("MME Secrets")
+scalar MmeSecrets extends string;
+
+@doc("EMS Parameters")
+scalar EmsParameters extends string;
+
+@doc("EMS Secrets")
+scalar EmsSecrets extends string;
 
 @doc("UnityCloud Federation Parameters")
 scalar UnityCloudFederationParameters extends string;
