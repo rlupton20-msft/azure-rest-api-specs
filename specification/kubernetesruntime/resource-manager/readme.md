@@ -31,7 +31,7 @@ tag: package-preview-2023-10-01
 
 suppressions:
   - code: ConsistentPatchProperties
-    from: storageclass.json
+    from: kubernetesruntime.json
     reason: The tooling doens't check properties in derived models of discriminated unions.
 
 ```
@@ -41,7 +41,7 @@ These settings apply only when `--tag=package-preview-2023-10-01` is specified o
 
 ```yaml $(tag) == 'package-preview-2023-10-01'
 input-file:
-  - Microsoft.KubernetesRuntime/preview/2023-10-01-preview/storageclass.json
+  - Microsoft.KubernetesRuntime/preview/2023-10-01-preview/kubernetesruntime.json
 ```
 
 ---
