@@ -1,13 +1,17 @@
 import "./create/childzonedelegation.tsp";
 import "./create/aaaarecordset.tsp";
 import "./create/arecordset.tsp";
+import "./create/cnamerecordset.tsp";
 import "./create/txtrecordset.tsp";
 import "./create/srvrecordset.tsp";
+
 import "./update/updatechildzonedelegation.tsp";
 import "./update/updateaaaarecordset.tsp";
 import "./update/updatearecordset.tsp";
+import "./update/updatecnamerecordset.tsp";
 import "./update/updatetxtrecordset.tsp";
 import "./update/updatesrvrecordset.tsp";
+
 import "./append/appendaaaarecordset.tsp";
 import "./append/appendarecordset.tsp";
 import "./append/appendtxtrecordset.tsp";
@@ -42,12 +46,20 @@ model Arecord {
     ipV4Address: string;
 }
 
+// CName Record Common Models
+@doc("Represents an CNAME Record")
+model CnameRecord {
+    @doc("Gets or sets the Canonical Name")
+    cName: string;
+}
+
 // TXT Record Models
 @doc("Represents an TXT Record")
 model TxtRecord {
     @doc("Gets or sets the TXT record in String format.")
     txt: Array<string>;
 }
+
 // Srv Record Models
 @doc("Represents a SRV Record")
 model SrvRecord {
@@ -63,6 +75,7 @@ model SrvRecord {
     @doc("Gets or sets the SRV record Target in String format.")
     target: string;
 }
+
 // Common Models
 @doc("RecordSetOwner type model")
 model RecordSetOwner {
