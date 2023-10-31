@@ -1,11 +1,14 @@
 import "./create/aaaarecordset.tsp";
 import "./create/arecordset.tsp";
+import "./create/txtrecordset.tsp";
 import "./create/srvrecordset.tsp";
 import "./update/updateaaaarecordset.tsp";
 import "./update/updatearecordset.tsp";
+import "./update/updatetxtrecordset.tsp";
 import "./update/updatesrvrecordset.tsp";
 import "./append/appendaaaarecordset.tsp";
 import "./append/appendarecordset.tsp";
+import "./append/appendtxtrecordset.tsp";
 import "./append/appendsrvrecordset.tsp";
 
 using TypeSpec.Versioning;
@@ -37,6 +40,12 @@ model Arecord {
     ipV4Address: string;
 }
 
+// TXT Record Models
+@doc("Represents an TXT Record")
+model TxtRecord {
+    @doc("Gets or sets the TXT record in String format.")
+    txt: Array<string>;
+}
 // Srv Record Models
 @doc("Represents a SRV Record")
 model SrvRecord {
