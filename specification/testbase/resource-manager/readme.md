@@ -27,7 +27,7 @@ These are the global settings for the testbase.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-11-01-preview
+tag: package-2023-12-01-preview
 ```
 
 
