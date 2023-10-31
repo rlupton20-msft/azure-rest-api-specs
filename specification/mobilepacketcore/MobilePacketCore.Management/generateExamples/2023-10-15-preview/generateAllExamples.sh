@@ -5,5 +5,5 @@
 ./generateExamples.sh nssfDeployment nssfDeployment1 nssfdeploymentget.txt nssfdeploymentput.txt NssfDeployment
 ./generateExamples.sh mmeDeployment mmeDeployment1 mmedeploymentget.txt mmedeploymentput.txt MmeDeployment
 ./generateExamples.sh emsDeployment emsDeployment1 emsdeploymentget.txt emsdeploymentput.txt EmsDeployment
-./generateExamples.sh paasDeployment paasDeployment1 paasdeploymentget.txt paasdeploymentput.txt PaasDeployment
+./generateExamples.sh observabilityDeployment observabilityDeployment1 observabilitydeploymentget.txt observabilitydeploymentput.txt ObservabilityDeployment
 ./generateExamples.sh cluster cluster1 clusterdeploymentget.txt clusterdeploymentput.txt Cluster

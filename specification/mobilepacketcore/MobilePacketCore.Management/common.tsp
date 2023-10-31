@@ -125,43 +125,20 @@ scalar UsageSku extends string;
 @doc("Mobile Core Scaling Unit SKU Definition")
 scalar MobileCoreScalingUnitSku extends string;
 
-@doc("Information used for billing of the resources.  Different fields may be applicable to different resource types.")
-model BillingDetails {
-  @doc("Mobile Core Scaling Unit SKU")
-  @visibility("read")
-  mobileCoreScalingUnitSku?: MobileCoreScalingUnitSku;
+@doc("Azure for Operators 5G Core Release Version.")
+scalar ReleaseVersion extends string;
 
-  @doc("Usage SKU")
-  @visibility("read")
-  usageSku?: UsageSku;
+@doc("Containerized Network Function (CNF) Component Deployment Parameters")
+scalar ComponentDeploymentParameters extends string;
 
-  @doc("Mobile Core Scaling Units (MCSU)")
-  @visibility("read")
-  mobileCoreScalingUnits?: float32;
+@doc("Containerized Network Function (CNF) Component Deployment Type")
+scalar ComponentDeploymentType extends string;
 
-  @doc("Simultaneously Attached User Units")
-  @visibility("read")
-  simultaneouslyAttachedUserUnits?: int32;
-
-  @doc("PDN/PDU Sessions Units")
-  @visibility("read")
-  sessionUnits?: int32;
-}
-
-@doc("UnityCloud Release definition.")
-scalar UnityCloudRelease extends string;
-
-@doc("UnityCloud Federation Parameters")
-scalar UnityCloudFederationParameters extends string;
-
-@doc("UnityCloud Federation Type")
-scalar UnityCloudFederationType extends string;
-
-@doc("UnityCloud Deployment Parameters")
-model UnityCloudDeploymentParameters {
+@doc("Containerized Network Function (CNF) Qualified Deployment Parameters")
+model QualifiedComponentDeploymentParameters {
   @doc("Federaton Type")
-  type: UnityCloudFederationType;
+  type: ComponentDeploymentType;
 
   @doc("Usage Definition")
-  parameters: UnityCloudFederationParameters;
+  parameters: ComponentDeploymentParameters;
 }

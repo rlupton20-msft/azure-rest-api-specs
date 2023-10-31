@@ -36,8 +36,8 @@ model EmsDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("EMS Release Version")
-  emsRelease: EmsRelease;
+  @doc("Azure for Operators 5G Core Release Version.")
+  releaseVersion: ReleaseVersion;
 
   @doc("EMS deployment type (Lab or Production)")
   @visibility("create", "read")
@@ -52,10 +52,6 @@ model EmsDeploymentResourceProperties {
   @doc("EMS Secrets")
   @secret
   emsSecrets: EmsSecrets;
-
-  @doc("Billing Details")
-  @visibility("read")
-  billingDetails?: BillingDetails;
 
   @doc("Operational status")
   @visibility("read")

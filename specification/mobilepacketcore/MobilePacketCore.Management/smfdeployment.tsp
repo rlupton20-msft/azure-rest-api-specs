@@ -36,19 +36,16 @@ model SmfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("UnityCloud Network Function Federation Parameters")
-  unityCloudDeploymentParameters: UnityCloudFederationParameters;
+  @doc("Azure for Operators 5G Core SMF component parameters")
+  componentParameters: ComponentDeploymentParameters;
 
   @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")
   cluster: ClusterIdProperty;
 
-  @doc("Unity Cloud Release version of the Network Function. This is inherited from the cluster")
-  unityCloudRelease?: UnityCloudRelease;
-
-  @doc("Billing Details")
+  @doc("Release version. This is inherited from the cluster")
   @visibility("read")
-  billingDetails?: BillingDetails;
+  releaseVersion?: ReleaseVersion;
 
   @doc("Operational status")
   @visibility("read")

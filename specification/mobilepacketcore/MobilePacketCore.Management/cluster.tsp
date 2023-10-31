@@ -39,19 +39,15 @@ model ClusterResourceProperties {
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
-  @doc("Unity Cloud Release Version.  This is applied to all platform as a service (PaaS) components and running workloads in this cluster")
-  unityCloudRelease: UnityCloudRelease;
+  @doc("Azure for Operators 5G Core Release Version.  This is applied to all platform as a service (PaaS) components and running workloads in this cluster")
+  releaseVersion: ReleaseVersion;
 
   @doc("Cluster type specific data.  Contents depend on the cluster type")
   clusterTypeSpecificData: ClusterTypeSpecificData;
 
-  @doc("Unity Cloud Local PaaS federation parameters.  One set per federation type")
+  @doc("Azure for Operators 5G Core Local PaaS component parameters.  One set per component type")
   @extension("x-ms-identifiers", ["type"])
-  unityCloudFederationParameters: UnityCloudDeploymentParameters[];
-
-  @doc("Billing Details")
-  @visibility("read")
-  billingDetails?: BillingDetails;
+  componentParameters: QualifiedComponentDeploymentParameters[];
 
   @doc("Operational status")
   @visibility("read")

@@ -13,7 +13,7 @@ import "./nrfdeployment.tsp";
 import "./nssfdeployment.tsp";
 import "./cluster.tsp";
 import "./emsdeployment.tsp";
-import "./paasdeployment.tsp";
+import "./observabilitydeployment.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

@@ -40,10 +40,6 @@ model MmeDeploymentResourceProperties {
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
-  @doc("Billing Details")
-  @visibility("read")
-  billingDetails?: BillingDetails;
-
   @doc("Operational status")
   @visibility("read")
   operationalStatus?: OperationalStatus;
@@ -52,8 +48,8 @@ model MmeDeploymentResourceProperties {
   @visibility("read", "create")
   emsDeployment: EmsDeploymentIdProperty;
 
-  @doc("MME Release Version")
-  mmeRelease: VirtualMmeRelease;
+  @doc("Azure for Operators 5G Core Release Version.")
+  releaseVersion: ReleaseVersion;
 
   @doc("MME Parameters")
   mmeParameters: VirtualMmeParameters;

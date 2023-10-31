@@ -36,15 +36,16 @@ model NssfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("UnityCloud Network Function Federation Parameters")
-  unityCloudDeploymentParameters: UnityCloudFederationParameters;
+  @doc("Azure for Operators 5G Core NSSF component parameters")
+  componentParameters: ComponentDeploymentParameters;
 
   @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")
   cluster: ClusterIdProperty;
 
-  @doc("Unity Cloud Release version of the network function. This is inherited from the cluster")
-  unityCloudRelease?: UnityCloudRelease;
+  @doc("Release version. This is inherited from the cluster")
+  @visibility("read")
+  releaseVersion?: ReleaseVersion;
 
   @doc("Operational status")
   @visibility("read")
