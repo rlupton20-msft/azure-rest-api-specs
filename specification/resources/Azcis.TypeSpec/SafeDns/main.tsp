@@ -35,55 +35,55 @@ interface Operations extends Azure.ResourceManager.Operations {}
 // AAAA Record Common Models
 @doc("AAAA Record type model")
 model AaaaRecord {
-    @doc("Gets or sets the IPv6 Address in String format")
-    ipV6Address: string;
+  @doc("Gets or sets the IPv6 Address in String format")
+  ipV6Address: string;
 }
 
 // A Record Common Models
 @doc("A Record type model")
 model Arecord {
-    @doc("Gets or sets the IPv4 Address in String format")
-    ipV4Address: string;
+  @doc("Gets or sets the IPv4 Address in String format")
+  ipV4Address: string;
 }
 
 // CName Record Common Models
 @doc("Represents an CNAME Record")
 model CnameRecord {
-    @doc("Gets or sets the Canonical Name")
-    cName: string;
+  @doc("Gets or sets the Canonical Name")
+  cName: string;
 }
 
 // TXT Record Models
 @doc("Represents an TXT Record")
 model TxtRecord {
-    @doc("Gets or sets the TXT record in String format.")
-    txt: Array<string>;
+  @doc("Gets or sets the TXT record in String format.")
+  txt: Array<string>;
 }
 
 // Srv Record Models
 @doc("Represents a SRV Record")
 model SrvRecord {
-    @doc("Gets or sets the SRV record Priority in Integer format.")
-    priority: int32;
+  @doc("Gets or sets the SRV record Priority in Integer format.")
+  priority: int32;
 
-    @doc("Gets or sets the SRV record Weight in Integer format.")
-    weight: int32;
+  @doc("Gets or sets the SRV record Weight in Integer format.")
+  weight: int32;
 
-    @doc("Gets or sets the SRV record Port in Integer format.")
-    port: int32;
+  @doc("Gets or sets the SRV record Port in Integer format.")
+  port: int32;
 
-    @doc("Gets or sets the SRV record Target in String format.")
-    target: string;
+  @doc("Gets or sets the SRV record Target in String format.")
+  target: string;
 }
 
 // Common Models
 @doc("RecordSetOwner type model")
 model RecordSetOwner {
-    @doc("Gets or sets ServiceTreeId")
-    serviceTreeId: string;
+  @doc("Gets or sets ServiceTreeId")
+  serviceTreeId: string;
 
-    @doc("Gets or sets ContactEmail")
-    contactEmail: string;
+  @doc("Gets or sets ContactEmail")
+  contactEmail: string;
 }
 
 @doc("Provisioning status of the resource.")
