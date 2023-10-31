@@ -1,7 +1,9 @@
+import "./create/childzonedelegation.tsp";
 import "./create/aaaarecordset.tsp";
 import "./create/arecordset.tsp";
 import "./create/txtrecordset.tsp";
 import "./create/srvrecordset.tsp";
+import "./update/updatechildzonedelegation.tsp";
 import "./update/updateaaaarecordset.tsp";
 import "./update/updatearecordset.tsp";
 import "./update/updatetxtrecordset.tsp";
