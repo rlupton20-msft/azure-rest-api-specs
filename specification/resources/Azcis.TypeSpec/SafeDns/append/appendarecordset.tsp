@@ -16,14 +16,15 @@ using Autorest;
   title: "Foundational ARM Client",
   version: "2023-08-22-preview",
 })
-@doc("DnsNamespaceManagerAppendArecordSet Provider")
+@doc("DnsNamespaceManagerAppendARecordSet Provider")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.AzureCIS;
 
-@doc("DnsNamespaceManagerAppendArecordSet properties")
-model DnsNamespaceManagerAppendArecordSetResourceProperties {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerAppendARecordSet properties")
+model DnsNamespaceManagerAppendARecordSetResourceProperties {
   @doc("Gets or sets the A Records")
-  aRecords: Array<Arecord>;
+  aRecords: Array<ARecord>;
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;
@@ -39,23 +40,25 @@ model DnsNamespaceManagerAppendArecordSetResourceProperties {
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
-@doc("DnsNamespaceManagerAppendArecordSet Resource")
-model DnsNamespaceManagerAppendArecordSetResource
-  is ProxyResource<DnsNamespaceManagerAppendArecordSetResourceProperties> {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerAppendARecordSet Resource")
+model DnsNamespaceManagerAppendARecordSetResource
+  is ProxyResource<DnsNamespaceManagerAppendARecordSetResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerAppendArecordSet") // start with lower case
+  @segment("dnsNamespaceManagerAppendARecordSet") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Interface types must use PascalCase"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerAppendArecordSets {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerAppendArecordSetResource>;
-  listBySubscription is ArmListBySubscription<DnsNamespaceManagerAppendArecordSetResource>;
-  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerAppendArecordSetResource>;
-  get is ArmResourceRead<DnsNamespaceManagerAppendArecordSetResource>;
+interface DnsNamespaceManagerAppendARecordSets {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerAppendARecordSetResource>;
+  listBySubscription is ArmListBySubscription<DnsNamespaceManagerAppendARecordSetResource>;
+  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerAppendARecordSetResource>;
+  get is ArmResourceRead<DnsNamespaceManagerAppendARecordSetResource>;
 }

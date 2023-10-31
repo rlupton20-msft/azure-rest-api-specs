@@ -16,14 +16,15 @@ using Autorest;
   title: "Foundational ARM Client",
   version: "2023-08-22-preview",
 })
-@doc("DnsNamespaceManagerCnameRecordSet Provider")
+@doc("DnsNamespaceManagerCNameRecordSet Provider")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.AzureCIS;
 
-@doc("DnsNamespaceManagerCnameRecordSet properties")
-model DnsNamespaceManagerCnameRecordSetResourceProperties {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerCNameRecordSet properties")
+model DnsNamespaceManagerCNameRecordSetResourceProperties {
   @doc("Gets or sets the canonical name in String format")
-  cName: CnameRecord;
+  cName: CNameRecord;
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;
@@ -39,9 +40,10 @@ model DnsNamespaceManagerCnameRecordSetResourceProperties {
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
-@doc("DnsNamespaceManagerCnameRecordSet Resource")
-model DnsNamespaceManagerCnameRecordSetResource
-  is ProxyResource<DnsNamespaceManagerCnameRecordSetResourceProperties> {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerCNameRecordSet Resource")
+model DnsNamespaceManagerCNameRecordSetResource
+  is ProxyResource<DnsNamespaceManagerCNameRecordSetResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
@@ -51,11 +53,12 @@ model DnsNamespaceManagerCnameRecordSetResource
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Interface types must use PascalCase"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerCnameRecordSets {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerCnameRecordSetResource>;
-  listBySubscription is ArmListBySubscription<DnsNamespaceManagerCnameRecordSetResource>;
-  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerCnameRecordSetResource>;
-  get is ArmResourceRead<DnsNamespaceManagerCnameRecordSetResource>;
+interface DnsNamespaceManagerCNameRecordSets {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerCNameRecordSetResource>;
+  listBySubscription is ArmListBySubscription<DnsNamespaceManagerCNameRecordSetResource>;
+  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerCNameRecordSetResource>;
+  get is ArmResourceRead<DnsNamespaceManagerCNameRecordSetResource>;
 }

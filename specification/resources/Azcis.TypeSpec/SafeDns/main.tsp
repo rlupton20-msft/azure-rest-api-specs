@@ -40,15 +40,17 @@ model AaaaRecord {
 }
 
 // A Record Common Models
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("A Record type model")
-model Arecord {
+model ARecord {
   @doc("Gets or sets the IPv4 Address in String format")
   ipV4Address: string;
 }
 
 // CName Record Common Models
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("Represents an CNAME Record")
-model CnameRecord {
+model CNameRecord {
   @doc("Gets or sets the Canonical Name")
   cName: string;
 }

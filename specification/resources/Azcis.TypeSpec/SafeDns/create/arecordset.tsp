@@ -16,14 +16,15 @@ using Autorest;
   title: "Foundational ARM Client",
   version: "2023-08-22-preview",
 })
-@doc("DnsNamespaceManagerArecordSet Provider")
+@doc("DnsNamespaceManagerARecordSet Provider")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.AzureCIS;
 
-@doc("DnsNamespaceManagerArecordSet properties")
-model DnsNamespaceManagerArecordSetResourceProperties {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerARecordSet properties")
+model DnsNamespaceManagerARecordSetResourceProperties {
   @doc("Gets or sets the A Records")
-  aRecords: Array<Arecord>;
+  aRecords: Array<ARecord>;
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;
@@ -39,23 +40,25 @@ model DnsNamespaceManagerArecordSetResourceProperties {
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
-@doc("DnsNamespaceManagerArecordSet Resource")
-model DnsNamespaceManagerArecordSetResource
-  is ProxyResource<DnsNamespaceManagerArecordSetResourceProperties> {
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("DnsNamespaceManagerARecordSet Resource")
+model DnsNamespaceManagerARecordSetResource
+  is ProxyResource<DnsNamespaceManagerARecordSetResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerArecordSet") // start with lower case
+  @segment("dnsNamespaceManagerARecordSet") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Interface types must use PascalCase"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerArecordSets {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerArecordSetResource>;
-  listBySubscription is ArmListBySubscription<DnsNamespaceManagerArecordSetResource>;
-  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerArecordSetResource>;
-  get is ArmResourceRead<DnsNamespaceManagerArecordSetResource>;
+interface DnsNamespaceManagerARecordSets {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerARecordSetResource>;
+  listBySubscription is ArmListBySubscription<DnsNamespaceManagerARecordSetResource>;
+  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerARecordSetResource>;
+  get is ArmResourceRead<DnsNamespaceManagerARecordSetResource>;
 }
