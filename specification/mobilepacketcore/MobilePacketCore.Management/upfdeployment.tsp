@@ -36,7 +36,7 @@ model UpfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure for Operators 5G Core UPFomponent parameters")
+  @doc("Azure for Operators 5G Core UPF component parameters")
   componentParameters: ComponentDeploymentParameters;
 
   @doc("Cluster where the Network Function is deployed")
