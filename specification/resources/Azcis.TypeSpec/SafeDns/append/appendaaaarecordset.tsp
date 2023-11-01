@@ -42,7 +42,7 @@ model DnsNamespaceManagerAppendAaaaRecordSetResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerAppendAaaaRecordSet") // start with lower case
+  @segment("dnsNamespaceManagerAppendAaaaRecordSets") // start with lower case
   @visibility("read")
   @path
   name: string;

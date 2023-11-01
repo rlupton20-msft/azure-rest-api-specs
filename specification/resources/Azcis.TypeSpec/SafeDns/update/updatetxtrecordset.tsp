@@ -42,7 +42,7 @@ model DnsNamespaceManagerUpdateTxtRecordSetResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerUpdateTxtRecordSet") // start with lower case
+  @segment("dnsNamespaceManagerUpdateTxtRecordSets") // start with lower case
   @visibility("read")
   @path
   name: string;
