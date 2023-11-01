@@ -193,7 +193,7 @@ interface Workload {
   delete is ArmResourceDeleteAsync<WorkloadResource>;
   listByParent is ArmResourceListByParent<WorkloadResource>;
   listBySubscription is ArmListBySubscription<WorkloadResource>;
-  
+
   @autoRoute
   @doc("Request to fetch parameters based on a list of parameter names.")
   @armResourceAction(WorkloadResource)
