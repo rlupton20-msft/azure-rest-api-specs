@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "../shared/provisioningstate.tsp";
 import "../shared/resourceid.tsp";
+import "../shared/endpointrulebase.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -33,6 +34,14 @@ enum CommunityEndpointProtocol {
 
   @doc("CommunityEndpointProtocol Type AH")
   AH,
+
+  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
+  @doc("CommunityEndpointProtocol Type HTTPS")
+  HTTPS,
+
+  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
+  @doc("CommunityEndpointProtocol Type HTTP")
+  HTTP,
 }
 
 @doc("Destination Type Enum")
@@ -50,6 +59,8 @@ enum DestinationType {
   PrivateNetwork,
 }
 
+#suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Using @removed is not backward compatible."
+@removed(Microsoft.Mission.Versions.v2023_11_01_preview)
 @doc("Base type for destination rules.")
 model DestinationRule {
   @doc("Destination Rule Name.")
@@ -71,11 +82,32 @@ model DestinationRule {
   transitHubResourceId?: TransitHubResourceId;
 }
 
+@added(Microsoft.Mission.Versions.v2023_11_01_preview)
+@doc("Base type for destination rules.")
+model CommunityEndpointDestinationRule extends EndpointRuleBase {
+  @doc("Destination Type.")
+  destinationType?: DestinationType;
+
+  @doc("Protocol. Options specified by Endpoint Protocol Enum.")
+  protocol?: CommunityEndpointProtocol[];
+
+  @doc("Transit Hub Resource Id.")
+  transitHubResourceId?: TransitHubResourceId;
+}
+
 @doc("Community Endpoint Resource properties")
 model CommunityEndpointProperties {
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Using @removed is not backward compatible."
+  @removed(Microsoft.Mission.Versions.v2023_11_01_preview)
   @extension("x-ms-identifiers", ["name"])
   @doc("Destination Rule Collection.")
   destinationRuleCollection: DestinationRule[];
+
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
+  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
+  @extension("x-ms-identifiers", [])
+  @doc("Community Endpoint Rule Collection.")
+  ruleCollection: CommunityEndpointDestinationRule[];
 
   @doc("Provisioning State.")
   @visibility("read")
