@@ -21,7 +21,10 @@
           "description": "null",
           "x-ms-client-flatten": false
         }
-      }
+      },
+      "required": [
+        "properties"
+      ]
     },
     "SqlServerLicenseProperties": {
       "description": "Properties of SqlServerLicense.",
@@ -55,14 +58,14 @@
           "minimum": 4,
           "description": "The number of total cores of the license covers."
         },
-        "edition": {
+        "licenseCategory": {
           "type": "string",
-          "description": "The edition SQL Server license covers.",
+          "description": "SQL Server license type.",
           "enum": [
-            "Enterprise"
+            "SQLServerCoreLicense"
           ],
           "x-ms-enum": {
-            "name": "edition",
+            "name": "licenseCategory",
             "modelAsString": true
           }
         },
@@ -77,8 +80,47 @@
             "name": "state",
             "modelAsString": true
           }
+        },
+        "scopeType": {
+          "type": "string",
+          "description": "The scope of resources the license covers.",
+          "enum": [
+            "Tenant",
+            "ManagementGroup",
+            "Subscription",
+            "ResourceGroup"
+          ],
+          "x-ms-enum": {
+            "name": "scopeType",
+            "modelAsString": true
+          }
+        },
+        "lastActivationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was last activated.",
+          "readOnly": true
+        },
+        "lastDeactivationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was last deactivated.",
+          "readOnly": true
+        },
+        "scopeId": {
+          "type": "string",
+          "description": "The resource corresponding to the scope type."
         }
-      }
+      },
+      "required": [
+        "billingPlan",
+        "unitType",
+        "unitCount",
+        "licenseCategory",
+        "scopeType",
+        "scopeId",
+        "state"
+      ]
     },
     "SqlServerLicenseUpdateProperties": {
       "description": "Properties of update SqlServerLicense.",
@@ -86,7 +128,7 @@
       "properties": {
         "billingPlan": {
           "type": "string",
-          "description": "SQL Server version.",
+          "description": "SQL Server license billing plan.",
           "enum": [
             "PAYG"
           ],
@@ -97,7 +139,7 @@
         },
         "unitType": {
           "type": "string",
-          "description": "SQL Server edition.",
+          "description": "SQL Server license unit type.",
           "enum": [
             "PhysicalCore"
           ],
@@ -112,14 +154,14 @@
           "minimum": 4,
           "description": "The number of total cores of the license covers."
         },
-        "edition": {
+        "licenseCategory": {
           "type": "string",
           "description": "SQL Server license type.",
           "enum": [
-            "Enterprise"
+            "SQLServerCoreLicense"
           ],
           "x-ms-enum": {
-            "name": "edition",
+            "name": "licenseCategory",
             "modelAsString": true
           }
         },
@@ -134,6 +176,36 @@
             "name": "state",
             "modelAsString": true
           }
+        },
+        "scopeType": {
+          "type": "string",
+          "description": "The scope of resources the license covers.",
+          "enum": [
+            "Tenant",
+            "ManagementGroup",
+            "Subscription",
+            "ResourceGroup"
+          ],
+          "x-ms-enum": {
+            "name": "scopeType",
+            "modelAsString": true
+          }
+        },
+        "lastActivationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was last activated.",
+          "readOnly": true
+        },
+        "lastDeactivationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was last deactivated.",
+          "readOnly": true
+        },
+        "scopeId": {
+          "type": "string",
+          "description": "The resource corresponding to the scope type."
         }
       }
     },
