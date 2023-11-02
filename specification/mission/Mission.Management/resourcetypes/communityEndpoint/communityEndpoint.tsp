@@ -35,11 +35,9 @@ enum CommunityEndpointProtocol {
   @doc("CommunityEndpointProtocol Type AH")
   AH,
 
-  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
   @doc("CommunityEndpointProtocol Type HTTPS")
   HTTPS,
 
-  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
   @doc("CommunityEndpointProtocol Type HTTP")
   HTTP,
 }
@@ -59,30 +57,6 @@ enum DestinationType {
   PrivateNetwork,
 }
 
-#suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Using @removed is not backward compatible."
-@removed(Microsoft.Mission.Versions.v2023_11_01_preview)
-@doc("Base type for destination rules.")
-model DestinationRule {
-  @doc("Destination Rule Name.")
-  name?: string;
-
-  @doc("Destination Type.")
-  destinationType?: DestinationType;
-
-  @doc("Destination must follow the format for FQDNs if it is selected as the destination type (no IP/CIDR or full web URLs).")
-  destination: string[];
-
-  @doc("Port. Can include multiple ports separated by commas or a range indicated by a hyphen.")
-  port?: string;
-
-  @doc("Protocol. Options specified by Endpoint Protocol Enum.")
-  protocol?: CommunityEndpointProtocol[];
-
-  @doc("Transit Hub Resource Id.")
-  transitHubResourceId?: TransitHubResourceId;
-}
-
-@added(Microsoft.Mission.Versions.v2023_11_01_preview)
 @doc("Base type for destination rules.")
 model CommunityEndpointDestinationRule extends EndpointRuleBase {
   @doc("Destination Type.")
@@ -97,14 +71,6 @@ model CommunityEndpointDestinationRule extends EndpointRuleBase {
 
 @doc("Community Endpoint Resource properties")
 model CommunityEndpointProperties {
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Using @removed is not backward compatible."
-  @removed(Microsoft.Mission.Versions.v2023_11_01_preview)
-  @extension("x-ms-identifiers", ["name"])
-  @doc("Destination Rule Collection.")
-  destinationRuleCollection: DestinationRule[];
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2023_11_01_preview)
   @extension("x-ms-identifiers", [])
   @doc("Community Endpoint Rule Collection.")
   ruleCollection: CommunityEndpointDestinationRule[];
