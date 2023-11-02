@@ -35,7 +35,7 @@ model AddressRecordResource is ProxyResource<AddressRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("addressRecord") // start with lower case
+  @segment("addressRecords") // start with lower case
   @visibility("read")
   @path
   name: string;

@@ -35,7 +35,7 @@ model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("ptrRecord") // start with lower case
+  @segment("ptrRecords") // start with lower case
   @visibility("read")
   @path
   name: string;
