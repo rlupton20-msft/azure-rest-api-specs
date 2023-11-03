@@ -13,12 +13,8 @@ namespace Microsoft.AzureCIS;
 
 @doc("AadApplication properties")
 model AadApplicationResourceProperties {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
-  @doc("The name of the AAD Application resource, case-insensitive.")
-  name: string; // Camel case for the parameter names.
-
   @doc("The name of the AAD Application Tenant Id.")
-  tenantId: string;
+  tenantId: string; // Camel case for the parameter names.
 
   @doc("The value defines if the AAD Application is available to other tenants. False by default.")
   availableToOtherTenants?: string;
