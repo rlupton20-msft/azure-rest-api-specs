@@ -44,9 +44,9 @@ model MmeDeploymentResourceProperties {
   @visibility("read")
   operationalStatus?: OperationalStatus;
 
-  @doc("EMS instance managing this MME")
+  @doc("VNF Agent instance managing this MME")
   @visibility("read", "create")
-  emsDeployment: EmsDeploymentIdProperty;
+  vnfAgentDeployment: VnfAgentDeploymentIdProperty;
 
   @doc("Azure for Operators 5G Core Release Version.")
   releaseVersion: ReleaseVersion;

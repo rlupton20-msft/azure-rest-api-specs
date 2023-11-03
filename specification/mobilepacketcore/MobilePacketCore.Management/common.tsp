@@ -74,11 +74,11 @@ scalar ClusterIdProperty
     }
   ]>;
 
-@doc("ARM resource ID of a EMS deployment.")
-scalar EmsDeploymentIdProperty
+@doc("ARM resource ID of a VNF Agent deployment.")
+scalar VnfAgentDeploymentIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.MobilePacketCore/emsDeployments",
+      type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
     }
   ]>;
 

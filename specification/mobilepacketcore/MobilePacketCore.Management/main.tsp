@@ -12,7 +12,7 @@ import "./upfdeployment.tsp";
 import "./nrfdeployment.tsp";
 import "./nssfdeployment.tsp";
 import "./cluster.tsp";
-import "./emsdeployment.tsp";
+import "./vnfagentdeployment.tsp";
 import "./observabilitydeployment.tsp";
 
 using TypeSpec.Http;
