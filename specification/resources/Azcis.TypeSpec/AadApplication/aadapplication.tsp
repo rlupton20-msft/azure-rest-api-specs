@@ -20,7 +20,7 @@ model AadApplicationResourceProperties {
   @doc("The name of the AAD Application Tenant Id.")
   tenantId: string;
 
-  @doc("The value defines if the AAD Aplication is available to other tenants. False by default.")
+  @doc("The value defines if the AAD Application is available to other tenants. False by default.")
   availableToOtherTenants?: string;
 
   @doc("The App ID Uri of multiple-tenant application to be globally unique.")
