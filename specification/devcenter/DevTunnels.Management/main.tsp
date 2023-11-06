@@ -44,22 +44,26 @@ enum ProvisioningState {
   Provisioning,
 }
 
-model Project
-  is TrackedResource<{
-    @doc("The provisioning state of the project")
-    @visibility("read")
-    provisioningState?: ProvisioningState;
-  }> {
+alias ProjectParameter = Project<{
   @key("projectName")
   @segment("projects")
-  @doc("The name of the project")
   @visibility("read")
+  @doc("The name of the associated project")
   @path
+  @Azure.ResourceManager.Private.resourceParameterBaseFor(
+    [Azure.ResourceManager.Foundations.ResourceHome.ResourceGroup]
+  )
   name: string;
+}>;
+
+@Azure.ResourceManager.Private.armResourceInternal({})
+model Project<T extends {}>
+  extends Azure.ResourceManager.Foundations.TrackedResourceBase {
+  ...T;
 }
 
 @doc("A Tunnel Domain resource")
-@parentResource(Project)
+@parentResource(ProjectParameter)
 model TunnelDomainResource is TrackedResource<TunnelDomainProperties> {
   @key("domainName")
   @segment("tunnelDomains")
