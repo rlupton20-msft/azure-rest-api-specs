@@ -32,11 +32,11 @@ tag: package-2022-12-01
 
 ## Suppression
 
-``` yaml
+```yaml
 directive:
   - suppress: NoDuplicatePathsForScopeParameter
     from: loadtestservice.json
-    reason: {scope}/providers/Microsoft.LoadTestService/extensionResources/{extensionName} and {scope}/providers/Microsoft.LoadTestService/extensionResources are two different APIs, they are not having the duplicate paths.
+    reason: '/{scope}/providers/Microsoft.LoadTestService/extensionResources/{extensionName}' and '/{scope}/providers/Microsoft.LoadTestService/extensionResources' are two different APIs, they are not having the duplicate paths.
 ```
 
 ### Tag: package-2022-12-01
