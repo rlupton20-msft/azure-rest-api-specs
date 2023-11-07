@@ -36,7 +36,7 @@ tag: package-2022-12-01
 directive:
   - suppress: NoDuplicatePathsForScopeParameter
     from: loadtestservice.json
-    reason: '/{scope}/providers/Microsoft.LoadTestService/extensionResources/{extensionName}' and '/{scope}/providers/Microsoft.LoadTestService/extensionResources' are two different APIs, they are not having the duplicate paths.
+    reason: They are two different APIs.( extensionResources and extensionResource/extensionName)
 ```
 
 ### Tag: package-2022-12-01
