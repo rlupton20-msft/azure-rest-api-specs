@@ -30,6 +30,15 @@ openapi-subtype: rpaas
 tag: package-2022-12-01
 ```
 
+## Suppression
+
+```yaml
+directive:
+  - suppress: NoDuplicatePathsForScopeParameter
+    from: loadtestservice.json
+    reason: They are two different APIs.( extensionResources and extensionResource/extensionName)
+```
+
 ### Tag: package-2022-12-01
 
 These settings apply only when `--tag=package-2022-12-01` is specified on the command line.
