@@ -547,6 +547,43 @@
         }
       }
     },
+    "/{scope}/providers/Microsoft.LoadTestService/extensionResources": {
+      "get": {
+        "tags": [
+          "LoadTestExtensions"
+        ],
+        "description": "Lists loadtest extension resources in a resource group.",
+        "operationId": "LoadTestExtensions_ListByBaseResourceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ScopeParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- list of loadtest extension resources retrieved",
+            "schema": {
+              "$ref": "#/definitions/LoadTestExtensionResourcePageList"
+            }
+          },
+          "default": {
+            "description": "Resource provider error response about the failure.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/{scope}/providers/Microsoft.LoadTestService/extensionResources/{extensionName}" : {
       "get": {
         "tags": [
@@ -1089,6 +1126,23 @@
               "minLength": 1
             }
           }
+        }
+      }
+    },
+    "LoadTestExtensionResourcePageList": {
+      "description": "List of resources page result.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of resources in current page.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadTestExtensionResource"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
         }
       }
     },
