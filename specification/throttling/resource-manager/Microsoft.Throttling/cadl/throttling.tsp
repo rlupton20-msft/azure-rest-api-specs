@@ -11,6 +11,7 @@ import "@azure-tools/typespec-providerhub";
 })
 @versioned(Versions)
 @armProviderNamespace
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Throttling;
 
 enum Versions {
