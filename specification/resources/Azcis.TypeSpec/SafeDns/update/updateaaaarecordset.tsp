@@ -50,7 +50,7 @@ model DnsNamespaceManagerUpdateAaaaRecordSetResource
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerUpdateAaaaRecordSets {
+interface DnsNamespaceManagerUpdateAaaaRecordSet {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerUpdateAaaaRecordSetResource>;
   listBySubscription is ArmListBySubscription<DnsNamespaceManagerUpdateAaaaRecordSetResource>;
   listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerUpdateAaaaRecordSetResource>;

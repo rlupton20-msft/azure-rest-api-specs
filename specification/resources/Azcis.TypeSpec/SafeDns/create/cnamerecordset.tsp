@@ -56,7 +56,7 @@ model DnsNamespaceManagerCNameRecordSetResource
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Interface types must use PascalCase"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerCNameRecordSets {
+interface DnsNamespaceManagerCNameRecordSet {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerCNameRecordSetResource>;
   listBySubscription is ArmListBySubscription<DnsNamespaceManagerCNameRecordSetResource>;
   listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerCNameRecordSetResource>;

@@ -56,7 +56,7 @@ model DnsNamespaceManagerAppendARecordSetResource
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Interface types must use PascalCase"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerAppendARecordSets {
+interface DnsNamespaceManagerAppendARecordSet {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerAppendARecordSetResource>;
   listBySubscription is ArmListBySubscription<DnsNamespaceManagerAppendARecordSetResource>;
   listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerAppendARecordSetResource>;

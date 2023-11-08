@@ -45,7 +45,7 @@ model DnsNamespaceManagerUpdateDelegationResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerUpdateDelegationResources") // start with lower case
+  @segment("dnsNamespaceManagerUpdateDelegations") // start with lower case
   @visibility("read")
   @path
   name: string;
@@ -53,7 +53,7 @@ model DnsNamespaceManagerUpdateDelegationResource
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerUpdateDelegationResources {
+interface DnsNamespaceManagerUpdateDelegation {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerUpdateDelegationResource>;
   listBySubscription is ArmListBySubscription<DnsNamespaceManagerUpdateDelegationResource>;
   listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerUpdateDelegationResource>;

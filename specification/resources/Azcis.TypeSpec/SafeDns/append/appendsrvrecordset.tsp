@@ -50,7 +50,7 @@ model DnsNamespaceManagerAppendSrvRecordSetResource
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DnsNamespaceManagerAppendSrvRecordSets {
+interface DnsNamespaceManagerAppendSrvRecordSet {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerAppendSrvRecordSetResource>;
   listBySubscription is ArmListBySubscription<DnsNamespaceManagerAppendSrvRecordSetResource>;
   listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerAppendSrvRecordSetResource>;
