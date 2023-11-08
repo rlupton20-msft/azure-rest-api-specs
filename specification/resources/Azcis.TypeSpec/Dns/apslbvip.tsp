@@ -51,7 +51,7 @@ enum ApSlbVipProvisioningState {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface ApSlbVips {
+interface ApSlbVip {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ApSlbVipResource>;
   listBySubscription is ArmListBySubscription<ApSlbVipResource>;
   listByResourceGroup is ArmResourceListByParent<ApSlbVipResource>;

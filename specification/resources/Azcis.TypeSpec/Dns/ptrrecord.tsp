@@ -51,7 +51,7 @@ enum PtrRecordProvisioningState {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface PtrRecords {
+interface PtrRecord {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<PtrRecordResource>;
   listBySubscription is ArmListBySubscription<PtrRecordResource>;
   listByResourceGroup is ArmResourceListByParent<PtrRecordResource>;
