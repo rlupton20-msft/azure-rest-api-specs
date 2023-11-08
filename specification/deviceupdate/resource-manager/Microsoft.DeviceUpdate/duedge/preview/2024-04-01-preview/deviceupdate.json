@@ -34,6 +34,52 @@
     }
   },
   "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/checknameavailability": {
+      "post": {
+        "description": "Checks ADU resource name availability.",
+        "operationId": "CheckNameAvailability",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityRequest"
+            },
+            "in": "body",
+            "name": "request",
+            "required": true,
+            "description": "Check Name Availability Request."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check Name Availability Response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/CheckNameAvailabilityResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CheckNameAvailability_Available": {
+            "$ref": "./examples/CheckNameAvailability_Available.json"
+          },
+          "CheckNameAvailability_AlreadyExists": {
+            "$ref": "./examples/CheckNameAvailability_AlreadyExists.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/updateAccounts": {
       "get": {
         "description": "Returns list of Update Accounts.",
@@ -348,16 +394,16 @@
           }
         },
         "x-ms-examples": {
-          "Creates or updates Account": {
+          "Calculates Update Compliance": {
             "$ref": "./examples/UpdateAccounts/UpdateAccounts_CalculateUpdateCompliance.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/calculateBestUpdates": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/calculateHighestVersionUpdates": {
       "post": {
-        "description": "Calculate the best updates for the Account.",
-        "operationId": "Accounts_CalculateBestUpdates",
+        "description": "Calculate the highest version updates for the Account.",
+        "operationId": "UpdateAccounts_CalculateHighestVersionUpdates",
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -374,7 +420,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The best updates for the Account.",
+            "description": "The highest version updates for the Account.",
             "schema": {
               "$ref": "#/definitions/DeviceClassUpdatableDevicesList"
             }
@@ -387,8 +433,8 @@
           }
         },
         "x-ms-examples": {
-          "Creates or updates Account": {
-            "$ref": "./examples/UpdateAccounts/UpdateAccounts_CalculateBestUpdates.json"
+          "Calculates Highest Version Updates": {
+            "$ref": "./examples/UpdateAccounts/UpdateAccounts_CalculateHighestVersionUpdates.json"
           }
         }
       }
@@ -919,10 +965,10 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deviceCompatibilityClasses": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deviceClasses": {
       "get": {
         "description": "Returns device compatibility classes for the given account name.",
-        "operationId": "DeviceCompatibilityClasses_ListByUpdateAccount",
+        "operationId": "DeviceClasses_ListByUpdateAccount",
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -939,9 +985,9 @@
         ],
         "responses": {
           "200": {
-            "description": "List of Device Compatibility Classes.",
+            "description": "List of Device Classes.",
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClassList"
+              "$ref": "#/definitions/DeviceClassList"
             }
           },
           "default": {
@@ -956,15 +1002,15 @@
         },
         "x-ms-examples": {
           "Gets list of Device Compatibility Classes by Account": {
-            "$ref": "./examples/DeviceCompatibilityClasses/DeviceCompatibilityClasses_ListByUpdateAccount.json"
+            "$ref": "./examples/DeviceClasses/DeviceClasses_ListByUpdateAccount.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deviceCompatibilityClasses/{deviceCompatibilityClassName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deviceClasses/{deviceClassName}": {
       "get": {
-        "description": "Returns Device Compatibility Class details.",
-        "operationId": "DeviceCompatibilityClasses_Get",
+        "description": "Returns Device Class details.",
+        "operationId": "DeviceClasses_Get",
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -976,7 +1022,7 @@
             "$ref": "#/parameters/UpdateAccountNameParameter"
           },
           {
-            "$ref": "#/parameters/DeviceCompatibilityClassNameParameter"
+            "$ref": "#/parameters/DeviceClassNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -984,9 +1030,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Device Compatibility Class details.",
+            "description": "Device Class details.",
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClass"
+              "$ref": "#/definitions/DeviceClass"
             }
           },
           "default": {
@@ -997,14 +1043,14 @@
           }
         },
         "x-ms-examples": {
-          "Gets details for a Device Compatibility Class": {
-            "$ref": "./examples/DeviceCompatibilityClasses/DeviceCompatibilityClasses_Get.json"
+          "Gets details for a Device Class": {
+            "$ref": "./examples/DeviceClasses/DeviceClasses_Get.json"
           }
         }
       },
       "put": {
-        "description": "Creates or updates a Device Compatibility Class.",
-        "operationId": "DeviceCompatibilityClasses_Create",
+        "description": "Creates or updates a Device Class.",
+        "operationId": "DeviceClasses_Create",
         "x-ms-long-running-operation": false,
         "parameters": [
           {
@@ -1017,32 +1063,32 @@
             "$ref": "#/parameters/UpdateAccountNameParameter"
           },
           {
-            "$ref": "#/parameters/DeviceCompatibilityClassNameParameter"
+            "$ref": "#/parameters/DeviceClassNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "name": "deviceCompatibilityClass",
-            "description": "Device Compatibility Class details.",
+            "name": "deviceClass",
+            "description": "Device Class details.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClass"
+              "$ref": "#/definitions/DeviceClass"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Device Compatibility Class was created or updated successfully.",
+            "description": "Device Class was created or updated successfully.",
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClass"
+              "$ref": "#/definitions/DeviceClass"
             }
           },
           "201": {
-            "description": "Device Compatibility Class was created or updated successfully.",
+            "description": "Device Class was created or updated successfully.",
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClass"
+              "$ref": "#/definitions/DeviceClass"
             }
           },
           "default": {
@@ -1053,14 +1099,14 @@
           }
         },
         "x-ms-examples": {
-          "Creates or updates Device Compatibility Class": {
-            "$ref": "./examples/DeviceCompatibilityClasses/DeviceCompatibilityClasses_Create.json"
+          "Creates or updates Device Class": {
+            "$ref": "./examples/DeviceClasses/DeviceClasses_Create.json"
           }
         }
       },
       "delete": {
-        "description": "Delete Device Compatibility Class.",
-        "operationId": "DeviceCompatibilityClasses_Delete",
+        "description": "Delete Device Class.",
+        "operationId": "DeviceClasses_Delete",
         "x-ms-long-running-operation": false,
         "parameters": [
           {
@@ -1073,7 +1119,7 @@
             "$ref": "#/parameters/UpdateAccountNameParameter"
           },
           {
-            "$ref": "#/parameters/DeviceCompatibilityClassNameParameter"
+            "$ref": "#/parameters/DeviceClassNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1081,10 +1127,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Device Compatiblity Class was deleted."
+            "description": "Device Class was deleted."
           },
           "204": {
-            "description": "Device Compatibility Class has been already deleted."
+            "description": "Device Class has been already deleted."
           },
           "default": {
             "description": "Error response describing the reason for operation failure.",
@@ -1094,14 +1140,14 @@
           }
         },
         "x-ms-examples": {
-          "Deletes Device Compatibility Class": {
-            "$ref": "./examples/DeviceCompatibilityClasses/DeviceCompatibilityClasses_Delete.json"
+          "Deletes Device Class": {
+            "$ref": "./examples/DeviceClasses/DeviceClasses_Delete.json"
           }
         }
       },
       "patch": {
-        "description": "Updates Device Compatiblity Class.",
-        "operationId": "DeviceCompatibilityClasses_Update",
+        "description": "Updates Device Class.",
+        "operationId": "DeviceClasses_Update",
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -1113,7 +1159,7 @@
             "$ref": "#/parameters/UpdateAccountNameParameter"
           },
           {
-            "$ref": "#/parameters/DeviceCompatibilityClassNameParameter"
+            "$ref": "#/parameters/DeviceClassNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1130,9 +1176,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Device Compatiblity Class updated successfully.",
+            "description": "Device Class updated successfully.",
             "schema": {
-              "$ref": "#/definitions/DeviceCompatibilityClass"
+              "$ref": "#/definitions/DeviceClass"
             }
           },
           "default": {
@@ -1143,8 +1189,8 @@
           }
         },
         "x-ms-examples": {
-          "Updates Device Compatibility Class": {
-            "$ref": "./examples/DeviceCompatibilityClasses/DeviceCompatibilityClasses_Update.json"
+          "Updates Device Class": {
+            "$ref": "./examples/DeviceClasses/DeviceClasses_Update.json"
           }
         }
       }
@@ -1609,6 +1655,102 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deployments/{deploymentName}/calculateStatus": {
+      "post": {
+        "description": "Calculate the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed.",
+        "operationId": "Deployments_CalculateStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UpdateAccountNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status of the deployment.",
+            "schema": {
+              "$ref": "#/definitions/DeploymentStatus"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gets the status of a Deployment": {
+            "$ref": "./examples/Deployments/Deployments_CalculateStatus.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/updateAccounts/{updateAccountName}/deployments/{deploymentName}/calculateDeviceStates": {
+      "post": {
+        "description": "Calculates the list of devices in a deployment along with their state. Useful for getting a list of failed devices.",
+        "operationId": "Deployments_CalculateDeviceStates",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UpdateAccountNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "filter",
+            "description": "Device state filter. Uses OData syntax. Example: deviceState eq 'Succeeded'",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The devices in the deployment along with their states.",
+            "schema": {
+              "$ref": "#/definitions/DeploymentDeviceStatesList"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Gets a list of devices in a Deployment": {
+            "$ref": "./examples/Deployments/Deployments_CalculateDeviceStates.json"
+          }
+        }
+      }
+    },
     "/providers/Microsoft.DeviceUpdate/operations": {
       "get": {
         "description": "Returns list of operations for Microsoft.DeviceUpdate resource provider.",
@@ -1645,97 +1787,6 @@
     }
   },
   "definitions": {
-    "Account": {
-      "description": "Device Update account details.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "description": "Device Update account properties.",
-          "x-ms-client-flatten": true,
-          "type": "object",
-          "properties": {
-            "provisioningState": {
-              "description": "Provisioning state.",
-              "type": "string",
-              "enum": [
-                "Succeeded",
-                "Deleted",
-                "Failed",
-                "Canceled",
-                "Accepted",
-                "Creating"
-              ],
-              "readOnly": true,
-              "x-ms-enum": {
-                "name": "ProvisioningState",
-                "modelAsString": true
-              }
-            },
-            "hostName": {
-              "description": "API host name.",
-              "type": "string",
-              "readOnly": true
-            },
-            "publicNetworkAccess": {
-              "description": "Whether or not public network access is allowed for the account.",
-              "default": "Enabled",
-              "enum": [
-                "Enabled",
-                "Disabled"
-              ],
-              "type": "string",
-              "x-ms-enum": {
-                "name": "PublicNetworkAccess",
-                "modelAsString": true
-              }
-            },
-            "privateEndpointConnections": {
-              "description": "List of private endpoint connections associated with the account.",
-              "type": "array",
-              "items": {
-                "$ref": "./privatelinks.json#/definitions/PrivateEndpointConnection"
-              }
-            },
-            "sku": {
-              "description": "Device Update Sku",
-              "type": "string",
-              "enum": [
-                "Free",
-                "Standard"
-              ],
-              "default": "Standard",
-              "readOnly": false,
-              "x-ms-enum": {
-                "name": "SKU",
-                "modelAsString": true
-              }
-            },
-            "encryption": {
-              "$ref": "#/definitions/Encryption",
-              "description": "CMK encryption at rest properties"
-            },
-            "locations": {
-              "description": "Device Update account primary and failover location details",
-              "readOnly": true,
-              "x-ms-identifiers": [],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Location"
-              }
-            }
-          }
-        },
-        "identity": {
-          "$ref": "../../../../../../common-types/resource-management/v3/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The type of identity used for the resource."
-        }
-      }
-    },
     "UpdateAccount": {
       "description": "Device Update update account details.",
       "type": "object",
@@ -1814,7 +1865,12 @@
               "description": "User assigned managed identity used for device enrollment.",
               "type": "string"
             }
-          }
+          },
+          "required": [
+            "mqttBrokerEndpoints",
+            "deviceEnrollmentScope",
+            "deviceEnrollmentManagedIdentityResourceId"
+          ]
         },
         "identity": {
           "$ref": "../../../../../../common-types/resource-management/v3/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -1876,110 +1932,6 @@
         }
       }
     },
-    "Instance": {
-      "description": "Device Update instance details.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "description": "Device Update instance properties.",
-          "x-ms-client-flatten": true,
-          "type": "object",
-          "properties": {
-            "provisioningState": {
-              "description": "Provisioning state.",
-              "type": "string",
-              "enum": [
-                "Succeeded",
-                "Deleted",
-                "Failed",
-                "Canceled",
-                "Accepted",
-                "Creating"
-              ],
-              "readOnly": true,
-              "x-ms-enum": {
-                "name": "ProvisioningState",
-                "modelAsString": true
-              }
-            },
-            "accountName": {
-              "description": "Parent Device Update Account name which Instance belongs to.",
-              "type": "string",
-              "readOnly": true
-            },
-            "iotHubs": {
-              "description": "List of IoT Hubs associated with the account.",
-              "type": "array",
-              "x-ms-identifiers": [],
-              "items": {
-                "$ref": "#/definitions/IotHubSettings"
-              }
-            },
-            "enableDiagnostics": {
-              "description": "Enables or Disables the diagnostic logs collection",
-              "type": "boolean"
-            },
-            "diagnosticStorageProperties": {
-              "$ref": "#/definitions/DiagnosticStorageProperties"
-            }
-          }
-        }
-      },
-      "required": [
-        "properties"
-      ]
-    },
-    "DiagnosticStorageProperties": {
-      "description": "Customer-initiated diagnostic log collection storage properties",
-      "type": "object",
-      "properties": {
-        "authenticationType": {
-          "description": "Authentication Type",
-          "enum": [
-            "KeyBased"
-          ],
-          "type": "string",
-          "readOnly": false,
-          "x-ms-enum": {
-            "name": "AuthenticationType",
-            "modelAsString": true
-          }
-        },
-        "connectionString": {
-          "description": "ConnectionString of the diagnostic storage account",
-          "x-ms-secret": true,
-          "type": "string"
-        },
-        "resourceId": {
-          "description": "ResourceId of the diagnostic storage account",
-          "type": "string"
-        }
-      },
-      "required": [
-        "authenticationType",
-        "resourceId"
-      ]
-    },
-    "IotHubSettings": {
-      "type": "object",
-      "description": "Device Update account integration with IoT Hub settings.",
-      "properties": {
-        "resourceId": {
-          "description": "IoTHub resource ID",
-          "type": "string",
-          "minLength": 108,
-          "maxLength": 244
-        }
-      },
-      "required": [
-        "resourceId"
-      ]
-    },
     "UpdateAccountUpdate": {
       "description": "Request payload used to update an existing Update Account.",
       "type": "object",
@@ -2016,316 +1968,23 @@
         }
       }
     },
-    "GroupInformation": {
-      "description": "The group information for creating a private endpoint on an Account",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "description": "The properties for a group information object",
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/GroupInformationProperties"
-        }
-      },
-      "required": [
-        "properties"
-      ]
-    },
-    "GroupInformationProperties": {
-      "description": "The properties for a group information object",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "./privatelinks.json#/definitions/PrivateLinkResourceProperties"
-        }
-      ],
-      "properties": {
-        "provisioningState": {
-          "description": "The provisioning state of private link group ID.",
-          "enum": [
-            "Succeeded",
-            "Failed",
-            "Canceled"
-          ],
-          "type": "string",
-          "readOnly": true,
-          "x-ms-enum": {
-            "name": "GroupIdProvisioningState",
-            "modelAsString": true
-          }
-        }
-      }
-    },
-    "PrivateEndpointConnectionProxy": {
-      "description": "Private endpoint connection proxy details.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
-        },
-        {
-          "$ref": "#/definitions/PrivateEndpointConnectionProxyProperties"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "description": "Private endpoint connection proxy object property bag.",
-          "type": "object",
-          "x-ms-client-flatten": true,
-          "properties": {
-            "provisioningState": {
-              "$ref": "#/definitions/PrivateEndpointConnectionProxyProvisioningState",
-              "description": "The provisioning state of the private endpoint connection proxy resource."
-            }
-          }
-        }
-      }
-    },
-    "PrivateEndpointConnectionProxyProperties": {
-      "description": "Private endpoint connection proxy object properties.",
-      "type": "object",
-      "x-ms-client-flatten": true,
-      "properties": {
-        "eTag": {
-          "description": "ETag from NRP.",
-          "type": "string",
-          "readOnly": true
-        },
-        "remotePrivateEndpoint": {
-          "description": "Remote private endpoint details.",
-          "$ref": "#/definitions/RemotePrivateEndpoint"
-        },
-        "status": {
-          "description": "Operation status.",
-          "type": "string"
-        }
-      }
-    },
-    "RemotePrivateEndpoint": {
-      "description": "Remote private endpoint details.",
+    "UpdateProtocol": {
       "type": "object",
       "properties": {
         "id": {
-          "description": "Remote endpoint resource ID.",
-          "type": "string"
-        },
-        "location": {
-          "description": "ARM location of the remote private endpoint.",
-          "type": "string"
-        },
-        "immutableSubscriptionId": {
-          "description": "Original subscription ID needed by Microsoft.Network.",
-          "type": "string"
-        },
-        "immutableResourceId": {
-          "description": "Original resource ID needed by Microsoft.Network.",
-          "type": "string"
-        },
-        "vnetTrafficTag": {
-          "description": "Virtual network traffic tag.",
-          "type": "string"
-        },
-        "manualPrivateLinkServiceConnections": {
-          "description": "List of private link service connections that need manual approval.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "$ref": "#/definitions/PrivateLinkServiceConnection"
-          }
-        },
-        "privateLinkServiceConnections": {
-          "description": "List of automatically approved private link service connections.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "$ref": "#/definitions/PrivateLinkServiceConnection"
-          }
-        },
-        "privateLinkServiceProxies": {
-          "description": "List of private link service proxies.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "$ref": "#/definitions/PrivateLinkServiceProxy"
-          }
-        },
-        "connectionDetails": {
-          "description": "List of connection details.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "$ref": "#/definitions/ConnectionDetails"
-          }
-        }
-      }
-    },
-    "PrivateLinkServiceConnection": {
-      "description": "Private link service connection details.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Private link service connection name.",
-          "type": "string"
-        },
-        "groupIds": {
-          "description": "List of group IDs.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "type": "string"
-          }
-        },
-        "requestMessage": {
-          "description": "Request message.",
-          "type": "string"
-        }
-      }
-    },
-    "PrivateLinkServiceProxy": {
-      "description": "Private link service proxy details.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "NRP resource ID.",
-          "type": "string"
-        },
-        "remotePrivateLinkServiceConnectionState": {
-          "description": "Remote private link service connection state",
-          "$ref": "./privatelinks.json#/definitions/PrivateLinkServiceConnectionState"
-        },
-        "remotePrivateEndpointConnection": {
-          "description": "Remote private endpoint connection details.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/RemotePrivateEndpointConnection"
-            }
-          ]
-        },
-        "groupConnectivityInformation": {
-          "description": "Group connectivity information.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "$ref": "#/definitions/GroupConnectivityInformation"
-          }
-        }
-      }
-    },
-    "RemotePrivateEndpointConnection": {
-      "description": "Remote private endpoint connection details.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Remote private endpoint connection ID.",
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "GroupConnectivityInformation": {
-      "description": "Group connectivity details.",
-      "type": "object",
-      "properties": {
-        "groupId": {
-          "description": "Group ID.",
-          "type": "string",
-          "readOnly": true
-        },
-        "memberName": {
-          "description": "Member name.",
-          "type": "string",
-          "readOnly": true
-        },
-        "customerVisibleFqdns": {
-          "description": "List of customer visible FQDNs.",
-          "type": "array",
-          "x-ms-identifiers": [],
-          "items": {
-            "type": "string"
-          }
-        },
-        "internalFqdn": {
-          "description": "Internal FQDN.",
-          "type": "string",
-          "readOnly": true
-        },
-        "redirectMapId": {
-          "description": "Redirect map ID.",
-          "type": "string"
-        },
-        "privateLinkServiceArmRegion": {
-          "description": "PrivateLinkService ARM region.",
-          "type": "string"
-        }
-      }
-    },
-    "ConnectionDetails": {
-      "description": "Private endpoint connection proxy object properties.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Connection details ID.",
-          "type": "string",
-          "readOnly": true
-        },
-        "privateIpAddress": {
-          "description": "Private IP address.",
-          "type": "string",
-          "readOnly": true
-        },
-        "linkIdentifier": {
-          "description": "Link ID.",
-          "type": "string",
-          "readOnly": true
-        },
-        "groupId": {
-          "description": "Group ID.",
-          "type": "string",
-          "readOnly": true
-        },
-        "memberName": {
-          "description": "Member name.",
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "PrivateEndpointConnectionProxyProvisioningState": {
-      "type": "string",
-      "readOnly": true,
-      "description": "The current provisioning state.",
-      "enum": [
-        "Succeeded",
-        "Creating",
-        "Deleting",
-        "Failed"
-      ],
-      "x-ms-enum": {
-        "name": "PrivateEndpointConnectionProxyProvisioningState",
-        "modelAsString": true
-      }
-    },
-    "ProtocolId": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "The protocol Id identifier",
+          "description": "The update protocol identifier",
           "type": "integer",
           "format": "int32"
         }
       },
-      "description": "The protocol identifier representing the version of the device update protocol the agent supports."
+      "description": "The update protocol representing the version of the device update protocol the agent supports."
     },
     "AgentInfo": {
       "type": "object",
       "properties": {
-        "protocolId": {
-          "description": "The protocol identifier representing the version of the device update protocol the agent supports",
-          "$ref": "#/definitions/ProtocolId"
+        "updateProtocol": {
+          "description": "The update protocol representing the version of the device update protocol the agent supports",
+          "$ref": "#/definitions/UpdateProtocol"
         },
         "compatibilityProperties": {
           "type": "object",
@@ -2334,9 +1993,10 @@
           },
           "description": "The compat properties of the agent. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property and no more than 5"
         },
-        "version": {
-          "description": "The version of the agent info used to distinguish whether the agent info needs to be updated from the agent",
-          "type": "string"
+        "sequenceNumber": {
+          "description": "The sequence number of the agent info used to distinguish whether the agent info needs to be updated from the agent",
+          "type": "integer",
+          "format": "int64"
         }
       },
       "description": "The agent info for the agent that indicates what updates it is compatible with."
@@ -2482,6 +2142,206 @@
       },
       "description": "Deployment state."
     },
+    "DeploymentDeviceStatesList": {
+      "description": "The list of deployment device states.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The collection of pageable items.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeploymentDeviceState"
+          },
+          "x-ms-identifiers": []
+        },
+        "nextLink": {
+          "description": "The link to the next page of items.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeploymentDeviceState": {
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "type": "string",
+          "description": "Agent identity."
+        },
+        "retryCount": {
+          "type": "integer",
+          "description": "The number of times this deployment has been retried on this device.",
+          "format": "int32"
+        },
+        "movedOnToNewDeployment": {
+          "type": "boolean",
+          "description": "Boolean flag indicating whether this device is in a newer deployment and can no longer retry this deployment."
+        },
+        "deviceState": {
+          "$ref": "#/definitions/DeviceDeploymentState",
+          "description": "Deployment device state."
+        }
+      },
+      "required": [
+        "agentId",
+        "retryCount",
+        "movedOnToNewDeployment",
+        "deviceState"
+      ],
+      "description": "Deployment device status."
+    },
+    "DeploymentStatus": {
+      "description": "Deployment status metadata.",
+      "type": "object",
+      "properties": {
+        "deploymentState": {
+          "description": "The state of the deployment.",
+          "$ref": "#/definitions/DeploymentState"
+        },
+        "error": {
+          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse",
+          "description": "The error details of the Failed state.  This is not present if the deployment state is not Failed."
+        },
+        "subgroupStatus": {
+          "type": "array",
+          "description": "The collection of device class subgroup status objects",
+          "items": {
+            "$ref": "#/definitions/DeviceClassSubgroupDeploymentStatus"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "deploymentState",
+        "subgroupStatus"
+      ]
+    },
+    "DeploymentState": {
+      "description": "Deployment state.",
+      "type": "string",
+      "enum": [
+        "Active",
+        "ActiveWithSubgroupFailures",
+        "Failed",
+        "Inactive",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "DeploymentState",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Active",
+            "name": "Active",
+            "description": "The deployment can be sent to devices targeted in the deployment."
+          },
+          {
+            "value": "ActiveWithSubgroupFailures",
+            "name": "ActiveWithSubgroupFailures",
+            "description": "The deployment can be sent to some devices targeted in the deployment but at least 1 subgroup is in a failed state."
+          },
+          {
+            "value": "Failed",
+            "name": "Failed",
+            "description": "The deployment will not be sent to any devices.  Consult error for more details about what failed."
+          },
+          {
+            "value": "Inactive",
+            "name": "Inactive",
+            "description": "A newer deployment for this group has been created and no devices in the group will receive this deployment."
+          },
+          {
+            "value": "Canceled",
+            "name": "Canceled",
+            "description": "The deployment has been canceled and no devices will receive it."
+          }
+        ]
+      }
+    },
+    "DeviceClassSubgroupDeploymentStatus": {
+      "description": "Device class subgroup deployment status metadata.",
+      "type": "object",
+      "properties": {
+        "deviceClassId": {
+          "type": "string",
+          "description": "The device class subgroup identity"
+        },
+        "deploymentState": {
+          "$ref": "#/definitions/DeviceClassSubgroupDeploymentState",
+          "description": "The state of the subgroup deployment."
+        },
+        "error": {
+          "$ref": "../../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse",
+          "description": "The error details of the Failed state.  This is not present if the deployment state is not Failed."
+        },
+        "totalDevices": {
+          "type": "integer",
+          "description": "The total number of devices in the deployment.",
+          "format": "int32"
+        },
+        "devicesInProgressCount": {
+          "type": "integer",
+          "description": "The number of devices that are currently in deployment.",
+          "format": "int32"
+        },
+        "devicesCompletedFailedCount": {
+          "type": "integer",
+          "description": "The number of devices that have completed deployment with a failure.",
+          "format": "int32"
+        },
+        "devicesCompletedSucceededCount": {
+          "type": "integer",
+          "description": "The number of devices which have successfully completed deployment.",
+          "format": "int32"
+        },
+        "devicesCanceledCount": {
+          "type": "integer",
+          "description": "The number of devices which have had their deployment canceled.",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "deviceClassId",
+        "deploymentState"
+      ]
+    },
+    "DeviceClassSubgroupDeploymentState": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Failed",
+        "Inactive",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "DeviceClassSubgroupDeploymentState",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Active",
+            "name": "Active",
+            "description": "The subgroup deployment can be sent to devices targeted in the deployment."
+          },
+          {
+            "value": "Failed",
+            "name": "Failed",
+            "description": "The subgroup deployment failed and will not be sent to any devices."
+          },
+          {
+            "value": "Inactive",
+            "name": "Inactive",
+            "description": "A newer deployment for this subgroup has been created and no devices in the subgroup will receive this deployment."
+          },
+          {
+            "value": "Canceled",
+            "name": "Canceled",
+            "description": "The subgroup deployment has been canceled and no devices will receive it."
+          }
+        ]
+      }
+    },
     "DeploymentInfo": {
       "type": "object",
       "properties": {
@@ -2574,7 +2434,8 @@
                 "Failed",
                 "Canceled",
                 "Accepted",
-                "Creating"
+                "Creating",
+                "Deleting"
               ],
               "readOnly": false,
               "x-ms-enum": {
@@ -2590,8 +2451,8 @@
                 "read"
               ]
             },
-            "deviceCompatibilityClassId": {
-              "description": "This is the ID of the device compatibility class of this agent",
+            "deviceClassId": {
+              "description": "This is the ID of the device class of this agent",
               "type": "string"
             },
             "deviceResourceId": {
@@ -2624,7 +2485,6 @@
             }
           },
           "required": [
-            "provisioningState",
             "deviceResourceId",
             "enrollmentStatus",
             "deviceUuid"
@@ -2654,25 +2514,25 @@
         }
       }
     },
-    "DeviceCompatibilityClassInfo": {
+    "DeviceClassInfo": {
       "type": "object",
       "properties": {
-        "protocolId": {
-          "description": "The protocol identifier representing the version of the device update protocol the agent supports",
-          "$ref": "#/definitions/ProtocolId"
+        "updateProtocol": {
+          "description": "The update protocol representing the version of the device update protocol the agent supports",
+          "$ref": "#/definitions/UpdateProtocol"
         },
         "compatibilityProperties": {
           "type": "object",
           "additionalProperties": {
             "type": "string"
           },
-          "description": "The compat properties of the device compatibility class. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property and no more than 5"
+          "description": "The compat properties of the device class. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property and no more than 5"
         }
       },
-      "description": "The compatiblity info for the device compatibility class that indicates what updates it is compatible with."
+      "description": "The compatiblity info for the device class that indicates what updates it is compatible with."
     },
-    "DeviceCompatibilityClass": {
-      "description": "Device Update Device Compatibility Class details.",
+    "DeviceClass": {
+      "description": "Device Update Device Class details.",
       "type": "object",
       "allOf": [
         {
@@ -2681,7 +2541,7 @@
       ],
       "properties": {
         "properties": {
-          "description": "Device Update Device Compatibility Class properties.",
+          "description": "Device Update Device Class properties.",
           "x-ms-client-flatten": true,
           "type": "object",
           "properties": {
@@ -2694,7 +2554,8 @@
                 "Failed",
                 "Canceled",
                 "Accepted",
-                "Creating"
+                "Creating",
+                "Deleting"
               ],
               "readOnly": false,
               "x-ms-enum": {
@@ -2702,19 +2563,19 @@
                 "modelAsString": true
               }
             },
-            "deviceCompatibilityClassId": {
-              "description": "This is the ID of the Device Compatibility Class",
+            "deviceClassId": {
+              "description": "This is the ID of the Device Class",
               "type": "string",
               "x-ms-mutability": [
                 "create",
                 "read"
               ]
             },
-            "deviceCompatibilityClassInfo": {
-              "description": "This is the compatibility info for the device compatibility class that will be used to check compatibility with updates.",
-              "$ref": "#/definitions/DeviceCompatibilityClassInfo"
+            "deviceClassInfo": {
+              "description": "This is the compatibility info for the device class that will be used to check compatibility with updates.",
+              "$ref": "#/definitions/DeviceClassInfo"
             },
-            "bestCompatibleUpdateId": {
+            "highestVersionCompatibleUpdateId": {
               "description": "UpdateId that is the highest version compatible with this device compatibility class.",
               "$ref": "#/definitions/UpdateId"
             },
@@ -2728,9 +2589,8 @@
             }
           },
           "required": [
-            "provisioningState",
-            "deviceCompatibilityClassId",
-            "deviceCompatibilityClassInfo"
+            "deviceClassId",
+            "deviceClassInfo"
           ]
         }
       },
@@ -2738,21 +2598,21 @@
         "properties"
       ]
     },
-    "DeviceCompatibilityClassList": {
-      "description": "List of Device Compatibility Classes.",
+    "DeviceClassList": {
+      "description": "List of Device Classes.",
       "type": "object",
       "properties": {
         "nextLink": {
-          "description": "The link used to get the next page of Device Compatibility Classes list.",
+          "description": "The link used to get the next page of Device Classes list.",
           "type": "string"
         },
         "value": {
-          "description": "List of Device Compatibility Classes.",
+          "description": "List of Device Classes.",
           "type": "array",
           "x-ms-identifiers": [],
           "items": {
-            "$ref": "#/definitions/DeviceCompatibilityClass",
-            "description": "Device Compatibility Class details."
+            "$ref": "#/definitions/DeviceClass",
+            "description": "Device Class details."
           }
         }
       }
@@ -2780,7 +2640,8 @@
                 "Failed",
                 "Canceled",
                 "Accepted",
-                "Creating"
+                "Creating",
+                "Deleting"
               ],
               "readOnly": false,
               "x-ms-enum": {
@@ -2805,17 +2666,17 @@
                 "read"
               ]
             },
-            "deviceCompatibilityClassId": {
-              "description": "The device compatibility class Id",
+            "deviceClassId": {
+              "description": "The device class Id",
               "type": "string",
               "x-ms-mutability": [
                 "create",
                 "read"
               ]
             },
-            "protocolId": {
-              "description": "The protocol Id",
-              "$ref": "#/definitions/ProtocolId",
+            "updateProtocol": {
+              "description": "The update protocol",
+              "$ref": "#/definitions/UpdateProtocol",
               "x-ms-mutability": [
                 "create",
                 "read"
@@ -2847,11 +2708,10 @@
             }
           },
           "required": [
-            "provisioningState",
             "deploymentId",
             "startDateTime",
-            "deviceCompatibilityClassId",
-            "protocolId",
+            "deviceClassId",
+            "updateProtocol",
             "workflow",
             "updateManifest",
             "updateManifestSignature"
@@ -2904,7 +2764,8 @@
                 "Failed",
                 "Canceled",
                 "Accepted",
-                "Creating"
+                "Creating",
+                "Deleting"
               ],
               "readOnly": false,
               "x-ms-enum": {
@@ -2950,7 +2811,6 @@
             }
           },
           "required": [
-            "provisioningState",
             "deploymentId",
             "startDateTime",
             "updateId"
@@ -3397,10 +3257,10 @@
           "format": "int32",
           "description": "Total number of devices."
         },
-        "onLatestUpdateDeviceCount": {
+        "onHighestVersionUpdateDeviceCount": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of devices on the latest update."
+          "description": "Number of devices on the highest version update."
         },
         "newUpdatesAvailableDeviceCount": {
           "type": "integer",
@@ -3415,7 +3275,7 @@
       },
       "required": [
         "totalDeviceCount",
-        "onLatestUpdateDeviceCount",
+        "onHighestVersionUpdateDeviceCount",
         "newUpdatesAvailableDeviceCount",
         "updatesInProgressDeviceCount"
       ],
@@ -3424,7 +3284,7 @@
     "DeviceClassUpdatableDevices": {
       "type": "object",
       "properties": {
-        "deviceCompatibilityClassId": {
+        "deviceClassId": {
           "type": "string",
           "description": "The device compatibility class Id"
         },
@@ -3439,7 +3299,7 @@
         }
       },
       "required": [
-        "deviceCompatibilityClassId",
+        "deviceClassId",
         "updateId",
         "deviceCount"
       ],
@@ -3449,8 +3309,8 @@
       "description": "The list of updatable devices for a device class.",
       "type": "object",
       "properties": {
-        "deviceClassBestUpdates": {
-          "description": "The list of device classes and the best updates details for each.",
+        "deviceClassHighestVersionUpdates": {
+          "description": "The list of device classes and the highest version update details for each.",
           "type": "array",
           "x-ms-identifiers": [],
           "items": {
@@ -3459,7 +3319,7 @@
         }
       },
       "required": [
-        "deviceClassBestUpdates"
+        "deviceClassHighestVersionUpdates"
       ]
     }
   },
@@ -3516,12 +3376,12 @@
       "minLength": 1,
       "maxLength": 1016
     },
-    "DeviceCompatibilityClassNameParameter": {
-      "name": "deviceCompatibilityClassName",
+    "DeviceClassNameParameter": {
+      "name": "deviceClassName",
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Device Compatibility Class Name.",
+      "description": "Device Class Name.",
       "x-ms-parameter-location": "method",
       "pattern": "^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$",
       "minLength": 1,
@@ -3559,6 +3419,17 @@
       "pattern": "^[a-zA-Z0-9.-_]+$",
       "minLength": 7,
       "maximum": 173
+    },
+    "DeviceClassIdParameter": {
+      "name": "deviceClassId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Device class identifier.",
+      "x-ms-parameter-location": "method",
+      "pattern": "^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 255
     }
   }
 }
