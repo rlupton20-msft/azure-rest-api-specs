@@ -60,7 +60,7 @@ enum ServiceRecordProvisioningState {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface ServiceRecords {
+interface ServiceRecord {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ServiceRecordResource>;
   listBySubscription is ArmListBySubscription<ServiceRecordResource>;
   listByResourceGroup is ArmResourceListByParent<ServiceRecordResource>;

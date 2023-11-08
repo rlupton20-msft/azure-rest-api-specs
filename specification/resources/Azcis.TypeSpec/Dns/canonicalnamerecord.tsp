@@ -52,7 +52,7 @@ enum CanonicalNameRecordProvisioningState {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface CanonicalNameRecords {
+interface CanonicalNameRecord {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CanonicalNameRecordResource>;
   listBySubscription is ArmListBySubscription<CanonicalNameRecordResource>;
   listByResourceGroup is ArmResourceListByParent<CanonicalNameRecordResource>;

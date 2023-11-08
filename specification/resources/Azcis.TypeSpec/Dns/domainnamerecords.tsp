@@ -64,7 +64,7 @@ enum DomainNameRecordsProvisioningState {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface DomainNameRecordss {
+interface DomainNameRecords {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DomainNameRecordsResource>;
   listBySubscription is ArmListBySubscription<DomainNameRecordsResource>;
   listByResourceGroup is ArmResourceListByParent<DomainNameRecordsResource>;
