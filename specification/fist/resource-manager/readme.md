@@ -40,6 +40,7 @@ input-file:
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/common.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/firmwares.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/workspaces.json
+  - Private.IoTFirmwareDefense/preview/2023-09-01-preview/sbomResults.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/operations.json
 ```
 ### Tag: package-2023-02-08-preview
