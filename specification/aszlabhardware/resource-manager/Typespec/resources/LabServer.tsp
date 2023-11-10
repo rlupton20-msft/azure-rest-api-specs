@@ -53,6 +53,10 @@ model LabServerProperties {
     @visibility("create", "update", "read")
     @doc("Server nickname. Temporary field during development.")
     nickname?: string;
+
+    @visibility("read", "query")
+    @doc("Physical location of the server.")
+    physicalLocation?: string;
 }
 
 @armResourceOperations(LabServer)
