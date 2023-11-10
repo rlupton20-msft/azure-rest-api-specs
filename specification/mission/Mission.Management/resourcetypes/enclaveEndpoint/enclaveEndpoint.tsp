@@ -44,7 +44,7 @@ model EnclaveEndpointDestinationRule extends EndpointRuleBase {
 
 @doc("Enclave Endpoint Resource properties")
 model EnclaveEndpointProperties {
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers",[])
   @doc("Enclave Endpoint Rule Collection.")
   ruleCollection: EnclaveEndpointDestinationRule[];
 

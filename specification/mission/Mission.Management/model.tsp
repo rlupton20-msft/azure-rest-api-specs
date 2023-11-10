@@ -15,7 +15,6 @@ import "./resourcetypes/endpoint/endpoint.tsp";
 import "./resourcetypes/internalConnection/internalConnection.tsp";
 import "./resourcetypes/externalConnection/externalConnection.tsp";
 import "./resourcetypes/postActions/checkaddressspaceavailability.tsp";
-import "./resourcetypes/postActions/getenclavemetadata.tsp";
 import "./resourcetypes/transitHub/transitHub.tsp";
 import "./resourcetypes/enclaveConnection/enclaveConnection.tsp";
 import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
@@ -193,19 +192,6 @@ interface Workload {
   delete is ArmResourceDeleteAsync<WorkloadResource>;
   listByParent is ArmResourceListByParent<WorkloadResource>;
   listBySubscription is ArmListBySubscription<WorkloadResource>;
-
-  @autoRoute
-  @doc("Request to fetch parameters based on a list of parameter names.")
-  @armResourceAction(WorkloadResource)
-  @post
-  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
-  getEnclaveMetadata(
-    ...ResourceInstanceParameters<WorkloadResource>,
-
-    @doc("Fetch parameters based on a list of parameter names.")
-    @body
-    getEnclaveMetadataRequest: GetEnclaveMetadataRequest,
-  ): ArmResponse<GetEnclaveMetadataResponse> | ErrorResponse;
 }
 
 @doc("Endpoint Interface")

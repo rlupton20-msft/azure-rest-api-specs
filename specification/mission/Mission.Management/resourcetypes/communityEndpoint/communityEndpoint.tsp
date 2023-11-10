@@ -39,7 +39,7 @@ enum CommunityEndpointProtocol {
   HTTPS,
 
   @doc("CommunityEndpointProtocol Type HTTP")
-  HTTP,
+  HTTP
 }
 
 @doc("Destination Type Enum")
@@ -63,7 +63,7 @@ model CommunityEndpointDestinationRule extends EndpointRuleBase {
   destinationType?: DestinationType;
 
   @doc("Protocol. Options specified by Endpoint Protocol Enum.")
-  protocol?: CommunityEndpointProtocol[];
+  protocol?: CommunityEndpointProtocol[];  
 
   @doc("Transit Hub Resource Id.")
   transitHubResourceId?: TransitHubResourceId;
@@ -71,7 +71,7 @@ model CommunityEndpointDestinationRule extends EndpointRuleBase {
 
 @doc("Community Endpoint Resource properties")
 model CommunityEndpointProperties {
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers",[])
   @doc("Community Endpoint Rule Collection.")
   ruleCollection: CommunityEndpointDestinationRule[];
 
