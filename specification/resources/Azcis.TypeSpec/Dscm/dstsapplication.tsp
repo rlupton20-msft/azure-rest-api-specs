@@ -13,6 +13,9 @@ namespace Microsoft.AzureCIS;
 
 @doc("dstsApplication properties")
 model DstsApplicationResourceProperties {
+  @doc("Optional. The claim rule which apply to this Application.")
+  claimRules?: Array<ApplicationClaimRule>;
+
   @doc("Application.")
   applicationAccount: ApplicationAccount;
 
@@ -35,6 +38,30 @@ model DstsApplicationResource
   @visibility("read")
   @path
   name: string;
+}
+
+@doc("The claim rule which apply to Application.")
+model ApplicationClaimRule {
+  @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+  clientIdentifier: Claim;
+
+  @doc("The claim")
+  claim: Claim;
+
+  @doc("The name of the original identity provider of the client. e.g., federation for user or dsts instance for applications.")
+  clientIdentityOrigin: string;
+
+  @doc("If true, when the claim is scoped to service account group, only SCIs on the same dsts instance where the service accounts exist can get the claim.")
+  isRegionalEnforced: boolean = true;
+}
+
+@doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+model Claim {
+  @doc("Type of the claim")
+  type: string;
+
+  @doc("Value of claim")
+  value: string;
 }
 
 @doc("Application.")
