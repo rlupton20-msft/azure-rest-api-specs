@@ -26,7 +26,7 @@ title: EdgeMarketPlaceClient
 description: Edge marketplace extensions
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-09
+tag: package-preview-2023-11
 ```
 
 ## Suppression
@@ -51,11 +51,31 @@ directive:
     reason: Microsoft.AzureStackHCI is the correct name for our RP.
 ```
 
+
+### Tag: package-preview-2023-11
+
+These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2023-11'
+input-file:
+  - Private.AzureStackHCI/preview/2023-11-01-preview/arcSettings.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/clusters.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/deploymentSettings.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/edgeDevices.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/extensions.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/offers.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/operations.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/publishers.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/skus.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/updateRuns.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/updateSummaries.json
+  - Private.AzureStackHCI/preview/2023-11-01-preview/updates.json
+```
 ### Tag: package-2023-09
 
 These settings apply only when `--tag=package-2023-09` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-09'
+``` yaml $(tag) == 'package-2023-09'
 input-file:
   - Microsoft.AzureStackHCI/preview/2023-09-01/galleryImages.json
   - Microsoft.AzureStackHCI/preview/2023-09-01/marketplaceGalleryImages.json
@@ -65,11 +85,12 @@ input-file:
   - Microsoft.AzureStackHCI/preview/2023-09-01/virtualMachineInstances.json
   - Microsoft.AzureStackHCI/preview/2023-09-01/virtualNetworks.json
 ```
+
 ### Tag: package-preview-2023-06
 
 These settings apply only when `--tag=package-preview-2023-06` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-06'
+``` yaml $(tag) == 'package-preview-2023-06'
 input-file:
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/clusters.json
@@ -83,6 +104,7 @@ input-file:
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/updates.json
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/nodeConfiguration.json
 ```
+
 ### Tag: package-2023-07
 
 These settings apply only when `--tag=package-2023-07` is specified on the command line.
