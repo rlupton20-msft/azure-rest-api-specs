@@ -39,7 +39,7 @@
         "tags": [
           "connectors_Start"
         ],
-        "summary": "Perform Start operation.",
+        "description": "Starts a chamber connector.",
         "operationId": "connectors_Start",
         "parameters": [
           {
@@ -104,7 +104,7 @@
         "tags": [
           "connectors_Stop"
         ],
-        "summary": "Perform Stop operation.",
+        "description": "Stops a chamber connector.",
         "operationId": "connectors_Stop",
         "parameters": [
           {
@@ -169,7 +169,7 @@
         "tags": [
           "connectors_Restart"
         ],
-        "summary": "Perform Restart operation.",
+        "description": "Restarts a chamber connector.",
         "operationId": "connectors_Restart",
         "parameters": [
           {
@@ -234,7 +234,7 @@
         "tags": [
           "connectors_LicenseAdd"
         ],
-        "summary": "Add license to an ModSim Workbench connector.",
+        "description": "Add license to a chamber connector.",
         "operationId": "connectors_LicenseAdd",
         "consumes": [
           "application/json"
@@ -334,7 +334,7 @@
           "connectors_CreateOrUpdate"
         ],
         "operationId": "connectors_CreateOrUpdate",
-        "description": "Creates or updates the specified connector.",
+        "description": "Creates or updates a chamber connector.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -403,7 +403,7 @@
           "connectors_Update"
         ],
         "operationId": "connectors_Update",
-        "description": "Updates the specified connectors.",
+        "description": "Updates a chamber connector.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -432,7 +432,14 @@
             "in": "body",
             "description": "Parameters supplied to the create or update connector operation.",
             "schema": {
-              "$ref": "#/definitions/Connector"
+              "description": "Connector resource",
+              "type": "object",
+              "properties": {
+                "properties": {
+                  "x-ms-client-flatten": true,
+                  "$ref": "#/definitions/ConnectorPropertiesFormat"
+                }
+              }
             }
           }
         ],
@@ -477,7 +484,7 @@
           "connectors_Get"
         ],
         "operationId": "connectors_Get",
-        "description": "Gets information about the specified connector.",
+        "description": "Gets information about a chamber connector.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -528,7 +535,7 @@
           "connectors_Delete"
         ],
         "operationId": "connectors_Delete",
-        "description": "Deletes the specified connector.",
+        "description": "Deletes a chamber connector.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -599,7 +606,7 @@
           "connectors_List"
         ],
         "operationId": "connectors_List",
-        "description": "Lists all connectors.",
+        "description": "Lists all connectors within a chamber.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -748,9 +755,7 @@
           "items": {
             "type": "string"
           },
-          "x-ms-identifiers": [
-            "allowedAddressSpaces"
-          ]
+          "x-ms-identifiers": []
         }
       }
     },
@@ -769,7 +774,7 @@
             "$ref": "#/definitions/Connector"
           },
           "x-ms-identifiers": [
-            "value"
+            "id"
           ]
         }
       }
@@ -787,7 +792,7 @@
         },
         "networkAcls": {
           "$ref": "#/definitions/NetworkAcls",
-          "description": "Specifies set of source IP address ranges to allow access the ModSim Workbench workbench."
+          "description": "Specifies set of source IP address ranges to allow access the workbench."
         },
         "provisioningState": {
           "$ref": "./common-types.json#/definitions/ProvisioningState",
@@ -802,13 +807,13 @@
     },
     "Connector": {
       "description": "Connector resource",
+      "type": "object",
       "x-ms-azure-resource": true,
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/ConnectorPropertiesFormat",
-          "description": "Connector properties.",
-          "type": "object"
+          "description": "Connector properties."
         }
       },
       "allOf": [

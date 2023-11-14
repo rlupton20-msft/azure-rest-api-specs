@@ -39,7 +39,7 @@
         "tags": [
           "chambers_GetUploadUri"
         ],
-        "summary": "Gets a URI to upload files to the specified Chamber resource.",
+        "description": "Gets a SAS URI to upload files to a chamber data pipeline.",
         "operationId": "chambers_GetUploadUri",
         "parameters": [
           {
@@ -113,7 +113,7 @@
         "tags": [
           "chambers_Start"
         ],
-        "summary": "Perform Start operation.",
+        "description": "Starts a chamber.",
         "operationId": "chambers_Start",
         "parameters": [
           {
@@ -183,7 +183,7 @@
         "tags": [
           "chambers_Stop"
         ],
-        "summary": "Perform Stop operation.",
+        "description": "Stops a chamber.",
         "operationId": "chambers_Stop",
         "parameters": [
           {
@@ -253,7 +253,7 @@
         "tags": [
           "chambers_Restart"
         ],
-        "summary": "Perform Restart operation.",
+        "description": "Restarts a chamber.",
         "operationId": "chambers_Restart",
         "parameters": [
           {
@@ -323,7 +323,7 @@
         "tags": [
           "chambers_LicenseUpdate"
         ],
-        "summary": "Perform Update LicenseServices operation.",
+        "description": "Updates a chamber license services settings.",
         "operationId": "chambers_LicenseUpdate",
         "parameters": [
           {
@@ -401,7 +401,7 @@
         "tags": [
           "chambers_LicenseRestart"
         ],
-        "summary": "Perform License Restart operation.",
+        "description": "Restarts a chamber license services.",
         "operationId": "chambers_LicenseRestart",
         "parameters": [
           {
@@ -480,7 +480,7 @@
           "chambers_CreateOrUpdate"
         ],
         "operationId": "chambers_CreateOrUpdate",
-        "description": "Creates or updates the specified Chamber.",
+        "description": "Creates or updates a chamber.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -554,7 +554,7 @@
           "chambers_Update"
         ],
         "operationId": "chambers_Update",
-        "description": "Updates the specified Chamber.",
+        "description": "Updates a chamber.",
         "consumes": [
           "application/merge-patch+json",
           "application/json"
@@ -590,9 +590,14 @@
           {
             "name": "parameters",
             "in": "body",
-            "description": "Parameters supplied to the create or update Chamber operation.",
+            "description": "Parameters supplied to the update Chamber operation.",
             "schema": {
-              "$ref": "#/definitions/Chamber"
+              "type":"object",
+              "properties": {
+                "properties": {
+                  "$ref": "#/definitions/ChamberPropertiesFormat"
+                }
+              }
             }
           }
         ],
@@ -633,7 +638,7 @@
           "chambers_Get"
         ],
         "operationId": "chambers_Get",
-        "description": "Gets information about the specified Chamber.",
+        "description": "Gets information about a chamber.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -689,7 +694,7 @@
           "chambers_Delete"
         ],
         "operationId": "chambers_Delete",
-        "description": "Deletes the specified Chamber.",
+        "description": "Deletes a chamber.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -762,7 +767,7 @@
           "chambers_List"
         ],
         "operationId": "chambers_List",
-        "description": "Lists all Chambers.",
+        "description": "Lists all chambers within a workbench.",
         "produces": [
           "application/json"
         ],
@@ -831,11 +836,21 @@
       "properties": {
         "lmhostId": {
           "type": "array",
-          "description": "Unique identifier of chamber license servers used by FlexNet Licensing Service.",
+          "description": "FLEXlm host identifier of chamber license servers used by FlexNet Licensing Service. (NIC mac address based)",
           "items": {
             "type": "string"
           },
           "x-ms-identifiers": []
+        }
+      }
+    },
+    "Server": {
+      "type": "object",
+      "description": "Property for assigning licensing server.",
+      "properties": {
+        "server": {
+          "type": "string",
+          "description": "License Service server. e.g., 5280@primaryHostname for single VM, 5280@primaryHostname:5280@secondaryHostname for redundant VMs."
         }
       }
     },
@@ -854,7 +869,7 @@
             "$ref": "#/definitions/Chamber"
           },
           "x-ms-identifiers": [
-            "value"
+            "id"
           ]
         }
       }
@@ -910,7 +925,7 @@
           }
         },
         "licenseKey": {
-          "description": "EDA License file contents",
+          "description": "License file contents",
           "type": "string"
         }
       },
@@ -923,13 +938,10 @@
     "Ansys": {
       "type": "object",
       "description": "Ansys Common Licensing.",
-      "properties": {
-        "server": {
-          "type": "string",
-          "description": "License Service server."
-        }
-      },
       "allOf": [
+        {
+          "$ref": "#/definitions/Server"
+        },
         {
           "$ref": "#/definitions/Enable"
         },
@@ -942,22 +954,19 @@
       "type": "object",
       "description": "Cadence License Manager",
       "properties": {
-        "server": {
-          "type": "string",
-          "description": "License Service server."
-        },
         "mfp": {
           "type": "array",
           "description": "License server information for Cadence License Manager.",
           "items": {
             "type": "string"
           },
-          "x-ms-identifiers": [
-            "mfp"
-          ]
+          "x-ms-identifiers": []
         }
       },
       "allOf": [
+        {
+          "$ref": "#/definitions/Server"
+        },
         {
           "$ref": "#/definitions/Enable"
         },
@@ -969,13 +978,10 @@
     "Siemens": {
       "type": "object",
       "description": "Siemens Standard Licensing.",
-      "properties": {
-        "server": {
-          "type": "string",
-          "description": "License Service server."
-        }
-      },
       "allOf": [
+        {
+          "$ref": "#/definitions/Server"
+        },
         {
           "$ref": "#/definitions/Enable"
         },
@@ -988,13 +994,9 @@
       "type": "object",
       "description": "Synopsys Common Licensing",
       "properties": {
-        "server": {
-          "type": "string",
-          "description": "License Service server."
-        },
         "vmUuid": {
           "type": "array",
-          "description": "Virtual machine universal unique identifier of ModSim Workbench chamber license servers used by FlexNet Licensing Service.",
+          "description": "Virtual machine universal unique identifier of chamber license servers used by FlexNet Licensing Service. (SMBIOS UUID based)",
           "items": {
             "type": "string"
           },
@@ -1004,6 +1006,9 @@
         }
       },
       "allOf": [
+        {
+          "$ref": "#/definitions/Server"
+        },
         {
           "$ref": "#/definitions/Enable"
         }
@@ -1015,7 +1020,7 @@
         "licenseServices": {
           "x-ms-client-flatten": true,
           "readOnly": true,
-          "description": "Gets or sets the license services for each EDA vendor.",
+          "description": "Gets or sets the license services for each vendor.",
           "type": "object",
           "properties": {
             "cadence": {
@@ -1054,12 +1059,12 @@
           "description": "Gets the status of the Chamber at the time the operation was called"
         },
         "dataPipelineInboundPath": {
-          "description": "Directory for the ModSim Workbench chamber data pipeline inbound.",
+          "description": "Directory for the chamber data pipeline inbound. E.g. /mount/datapipeline/datain",
           "readOnly": true,
           "type": "string"
         },
         "dataPipelineOutboundPath": {
-          "description": "Directory for the ModSim Workbench chamber data pipeline outbound.",
+          "description": "Directory for the chamber data pipeline outbound. E.g. /mount/datapipeline/dataout",
           "readOnly": true,
           "type": "string"
         }
@@ -1078,6 +1083,7 @@
     },
     "Chamber": {
       "description": "Chamber resource",
+      "type":"object",
       "x-ms-azure-resource": true,
       "properties": {
         "properties": {

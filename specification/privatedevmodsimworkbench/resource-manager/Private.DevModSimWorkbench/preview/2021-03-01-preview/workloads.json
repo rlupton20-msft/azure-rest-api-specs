@@ -39,7 +39,7 @@
         "tags": [
           "workloads_Start"
         ],
-        "summary": "Perform Start operation.",
+        "description": "Starts a chamber workload.",
         "operationId": "workloads_Start",
         "parameters": [
           {
@@ -116,7 +116,7 @@
         "tags": [
           "workloads_Stop"
         ],
-        "summary": "Perform Stop operation.",
+        "description": "Stops a chamber workload.",
         "operationId": "workloads_Stop",
         "parameters": [
           {
@@ -193,7 +193,7 @@
         "tags": [
           "workloads_Restart"
         ],
-        "summary": "Perform Restart operation.",
+        "description": "Restarts a chamber workload.",
         "operationId": "workloads_Restart",
         "parameters": [
           {
@@ -271,7 +271,7 @@
           "workloads_CreateOrUpdate"
         ],
         "operationId": "workloads_CreateOrUpdate",
-        "description": "Creates or updates the specified workload.",
+        "description": "Creates or updates a chamber workload.",
         "consumes": [
           "application/json"
         ],
@@ -355,7 +355,7 @@
           "workloads_Update"
         ],
         "operationId": "workloads_Update",
-        "description": "Updates the specified workload.",
+        "description": "Updates a chamber workload.",
         "consumes": [
           "application/merge-patch+json",
           "application/json"
@@ -403,7 +403,13 @@
             "in": "body",
             "description": "Parameters supplied to the create or update workload operation.",
             "schema": {
-              "$ref": "#/definitions/Workload"
+              "type": "object",
+              "properties": {
+                "properties": {
+                  "x-ms-client-flatten": true,
+                  "$ref": "#/definitions/WorkloadPropertiesFormat"
+                }
+              }
             }
           }
         ],
@@ -448,7 +454,7 @@
           "workloads_Get"
         ],
         "operationId": "workloads_Get",
-        "description": "Gets information about the specified workload.",
+        "description": "Gets information about a chamber workload.",
         "produces": [
           "application/json"
         ],
@@ -514,7 +520,7 @@
           "workloads_Delete"
         ],
         "operationId": "workloads_Delete",
-        "description": "Deletes the specified workload.",
+        "description": "Deletes a chamber workload.",
         "produces": [
           "application/json"
         ],
@@ -600,7 +606,7 @@
           "workloads_List"
         ],
         "operationId": "workloads_List",
-        "description": "Lists all workloads.",
+        "description": "Lists all workloads within a chamber.",
         "produces": [
           "application/json"
         ],
@@ -661,7 +667,7 @@
   },
   "definitions": {
     "WorkloadPageableList": {
-      "description": "Microsoft.Sdw.Core.ResourceMetadata.PageableList implementation specific to pageable lists of Microsoft.Sdw.Core.ResourceMetadata.AzureResource`1.",
+      "description": "Pageable list of chamber workloads.",
       "type": "object",
       "properties": {
         "nextLink": {
@@ -675,7 +681,7 @@
             "$ref": "#/definitions/Workload"
           },
           "x-ms-identifiers": [
-            "value"
+            "id"
           ]
         }
       }
@@ -689,22 +695,18 @@
           "description": "Gets the status of the workload at the time the operation was called"
         },
         "vmSize": {
-          "description": "Gets or sets the VmSize.",
+          "description": "The virtual machine size of the chamber workload. For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).<br/>The available chamber workload VM sizes depend on region.<br/>For a list of available sizes use these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/virtualmachinesizes/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes).*",
           "type": "string"
         },
         "edaType": {
-          "description": "Gets or sets the edaType.",
+          "description": "The application type of the chamber workload.<br/>Default value: **Semiconductor**",
           "type": "string",
           "enum": [
-            "Cadence",
-            "Siemens",
-            "Synopsys",
-            "Ansys",
-            "Common"
+            "Semiconductor"
           ],
-          "default": "Common",
+          "default": "Semiconductor",
           "x-ms-enum": {
-            "name": "EdaType",
+            "name": "ApplicationType",
             "modelAsString": true
           }
         },
@@ -718,12 +720,12 @@
           "description": "Workload Restart date by which Workload needs to be restarted."
         },
         "privateIP": {
-          "description": "Gets or sets the private IpAddress of workload.",
+          "description": "The chamber workload private IP address.",
           "type": "string",
           "readOnly": true
         },
         "workloadZone": {
-          "description": "Gets or sets the zone of workload.",
+          "description": "The chamber workload zone.",
           "type": "array",
           "items": {
             "type": "string"
@@ -733,14 +735,14 @@
       }
     },
     "Workload": {
-      "description": "Workload resource",
+      "description": "Chamber workload resource",
+      "type": "object",
       "x-ms-azure-resource": true,
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/WorkloadPropertiesFormat",
-          "description": "Workload properties.",
-          "type": "object"
+          "description": "Chamber workload properties."
         }
       },
       "allOf": [
