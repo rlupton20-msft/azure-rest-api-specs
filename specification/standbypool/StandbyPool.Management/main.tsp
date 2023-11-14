@@ -4,5 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+import "./service.tsp";
 import "./standbyVMPool.tsp";
 import "./standbyVM.tsp";
