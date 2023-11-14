@@ -19,8 +19,11 @@ model DstsApplicationResourceProperties {
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
 
-  @doc("Optional. The claim rule which apply to this Application.")
+  @doc("The claim rule which apply to this Application. Optional.")
   claimRules?: Array<ApplicationClaimRule>;
+
+  @doc("Client identity when use application as client. Optional.")
+  clientIdentity?: ApplicationClientIdentity;
 
   @doc("Provisioning state")
   @visibility("read")
@@ -62,6 +65,57 @@ model Claim {
 
   @doc("Value of claim")
   value: string;
+}
+
+@doc("Represents application client identity.")
+model ApplicationClientIdentity {
+  @doc("Dmsi client.")
+  dmsiInfo: DmsiInfo;
+
+  @doc("Certificate client.")
+  certificateBasedIdentity: CertificateBasedIdentity;
+
+  @doc("Subject name client.")
+  subjectNameBasedIdentity: SubjectNameBasedIdentity;
+
+  @doc("The type of your client identity.e.g., Dmsi, Certificate, SubjectName.")
+  type: string;
+
+  @doc("Provide a list IP address ranges to restrict where this application's client token can be requested. Optional.")
+  clientTokenIpRangeRestrictions?: Array<IpRange>;
+}
+
+@doc("DMSI information")
+model DmsiInfo {
+  @doc("DMSI path")
+  path: string;
+
+  @doc("DMSI region")
+  region: string;
+
+  @doc("DMSI subscriptions")
+  subscriptions: Array<string>;
+}
+
+@doc("Represents certificate based authentication.")
+model CertificateBasedIdentity {
+  @doc("Certificate")
+  certificates: Array<CertificateInfo>;
+}
+
+@doc("Certification based application client identity.")
+model CertificateInfo {
+  @doc("Certificate thumbprint information")
+  thumbprint: string;
+
+  @doc("Certificate expiry date")
+  expiryDate: string;
+}
+
+@doc("Represents application subject name base identity.")
+model SubjectNameBasedIdentity {
+  @doc("List of subject names for sni based auth")
+  subjectNames: Array<string>;
 }
 
 @doc("Application.")
