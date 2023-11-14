@@ -1,21 +1,6 @@
-import "./create/childzonedelegation.tsp";
-import "./create/aaaarecordset.tsp";
 import "./create/arecordset.tsp";
-import "./create/cnamerecordset.tsp";
-import "./create/txtrecordset.tsp";
-import "./create/srvrecordset.tsp";
-
-import "./update/updatechildzonedelegation.tsp";
-import "./update/updateaaaarecordset.tsp";
 import "./update/updatearecordset.tsp";
-import "./update/updatecnamerecordset.tsp";
-import "./update/updatetxtrecordset.tsp";
-import "./update/updatesrvrecordset.tsp";
-
-import "./append/appendaaaarecordset.tsp";
 import "./append/appendarecordset.tsp";
-import "./append/appendtxtrecordset.tsp";
-import "./append/appendsrvrecordset.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -32,50 +17,12 @@ namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-// AAAA Record Common Models
-@doc("AAAA Record type model")
-model AaaaRecord {
-  @doc("Gets or sets the IPv6 Address in String format")
-  ipV6Address: string;
-}
-
 // A Record Common Models
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("A Record type model")
 model ARecord {
   @doc("Gets or sets the IPv4 Address in String format")
   ipV4Address: string;
-}
-
-// CName Record Common Models
-#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
-@doc("Represents an CNAME Record")
-model CNameRecord {
-  @doc("Gets or sets the Canonical Name")
-  cName: string;
-}
-
-// TXT Record Models
-@doc("Represents an TXT Record")
-model TxtRecord {
-  @doc("Gets or sets the TXT record in String format.")
-  txt: Array<string>;
-}
-
-// Srv Record Models
-@doc("Represents a SRV Record")
-model SrvRecord {
-  @doc("Gets or sets the SRV record Priority in Integer format.")
-  priority: int32;
-
-  @doc("Gets or sets the SRV record Weight in Integer format.")
-  weight: int32;
-
-  @doc("Gets or sets the SRV record Port in Integer format.")
-  port: int32;
-
-  @doc("Gets or sets the SRV record Target in String format.")
-  target: string;
 }
 
 // Common Models
