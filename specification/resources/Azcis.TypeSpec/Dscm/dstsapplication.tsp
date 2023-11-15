@@ -64,13 +64,13 @@ model Claim {
 @doc("Represents application client identity.")
 model ApplicationClientIdentity {
   @doc("Dmsi client.")
-  dmsiInfo: DmsiInfo;
+  dmsiInfo?: DmsiInfo;
 
   @doc("Certificate client.")
-  certificateBasedIdentity: CertificateBasedIdentity;
+  certificateBasedIdentity?: CertificateBasedIdentity;
 
   @doc("Subject name client.")
-  subjectNameBasedIdentity: SubjectNameBasedIdentity;
+  subjectNameBasedIdentity?: SubjectNameBasedIdentity;
 
   @doc("The type of your client identity.e.g., Dmsi, Certificate, SubjectName.")
   type: string;
