@@ -19,12 +19,6 @@ model DstsApplicationResourceProperties {
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
 
-  @doc("The claim rule which apply to this Application. Optional.")
-  claimRules?: Array<ApplicationClaimRule>;
-
-  @doc("Client identity when use application as client. Optional.")
-  clientIdentity?: ApplicationClientIdentity;
-
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
@@ -155,6 +149,12 @@ model ApplicationAccount {
 
   @doc("If your application (service) is exclusively NonProduction, set it to false. Optional.")
   isProduction?: boolean = true;
+
+  @doc("The claim rule which apply to this Application. Optional.")
+  claimRules?: Array<ApplicationClaimRule>;
+
+  @doc("Client identity when using the application as a client. Optional.")
+  clientIdentity?: ApplicationClientIdentity;
 }
 
 @doc("The application group. Optional.")
@@ -200,6 +200,12 @@ model ApplicationGroup {
 
   @doc("Specific dSTS instances to create applications on.")
   regions?: Array<string>;
+
+  @doc("The claim rules that apply to this Application Group. Optional.")
+  claimRules?: Array<ApplicationClaimRule>;
+
+  @doc("Client identity when using the application as a client. Optional.")
+  clientIdentity?: ApplicationClientIdentity;
 }
 
 @doc("Class for a contiguous range of IP Addresses.")
