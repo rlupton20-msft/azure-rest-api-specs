@@ -107,26 +107,32 @@
           "type": "string",
           "x-nullable": true
         },
-        "releaseDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Release date for the component.",
-          "x-nullable": true
-        },
-        "paths": {
+        "filePaths": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "description": "Paths of the component."
-        },
-        "isUpdateAvailable": {
-          "description": "Flag if new update is available for the component.",
-          "type": "boolean",
-          "x-nullable": true
         }
       },
       "description": "Component of a firmware."
+    },
+    "SbomResource": {
+      "type": "object",
+      "description": "SBOM analysis result resource",
+      "properties": {
+        "properties": {
+          "title": "SBOM result properties",
+          "description": "The properties of an SBOM component found within a firmware image",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SbomComponent"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./common.json#/definitions/Resource"
+        }
+      ]
     },
     "SbomList": {
       "type": "object",
@@ -136,12 +142,9 @@
           "type": "array",
           "readOnly": true,
           "items": {
-            "$ref": "#/definitions/SbomComponent"
+            "$ref": "#/definitions/SbomResource"
           },
-          "description": "The list of SBOM components.",
-          "x-ms-identifiers": [
-            "componentId"
-          ]
+          "description": "The list of SBOM components."
         },
         "nextLink": {
           "type": "string",
@@ -151,12 +154,12 @@
     }
   },
   "parameters": {
-    "ComponentIdParameter": {
+    "componentIdParameter": {
       "name": "componentId",
       "in": "query",
       "required": false,
       "type": "string",
-      "description": "The id of firmware component.",
+      "description": "The id of SBOM component.",
       "x-ms-parameter-location": "method"
     }
   }
