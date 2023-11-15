@@ -154,7 +154,7 @@ model ApplicationAccount {
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
-  clientIdentity?: ApplicationClientIdentity;
+  applicationClientIdentity?: ApplicationClientIdentity;
 }
 
 @doc("The application group. Optional.")
@@ -205,7 +205,7 @@ model ApplicationGroup {
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
-  clientIdentity?: ApplicationClientIdentity;
+  applicationClientIdentity?: ApplicationClientIdentity;
 }
 
 @doc("Class for a contiguous range of IP Addresses.")
