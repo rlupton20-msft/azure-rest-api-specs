@@ -23,7 +23,7 @@ namespace Microsoft.AzureCIS;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("DnsNamespaceManagerAppendARecordSet properties")
 model DnsNamespaceManagerAppendARecordSetResourceProperties {
-  @doc("Gets or sets the A Records")
+  @doc("Gets or sets the array of A Records")
   aRecords: Array<ARecord>;
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
