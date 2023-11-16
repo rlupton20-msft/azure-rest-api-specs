@@ -24,7 +24,7 @@ namespace Microsoft.AzureCIS;
 @doc("DnsNamespaceManagerUpdateARecordSet properties")
 model DnsNamespaceManagerUpdateARecordSetResourceProperties {
   @doc("Gets or sets the array of A Records")
-  aRecords: Array<ARecord>;
+  aRecords: ARecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;
