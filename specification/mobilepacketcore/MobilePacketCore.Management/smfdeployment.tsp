@@ -37,7 +37,11 @@ model SmfDeploymentResourceProperties {
   provisioningState?: ProvisioningState;
 
   @doc("Azure for Operators 5G Core SMF component parameters")
-  componentParameters: ComponentDeploymentParameters;
+  componentParameters?: ComponentDeploymentParameters;
+
+  @doc("Azure for Operators 5G Core SMF secrets parameters")
+  @secret
+  secretsParameters?: ComponentDeploymentSecrets;
 
   @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")

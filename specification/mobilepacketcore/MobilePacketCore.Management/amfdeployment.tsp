@@ -37,7 +37,11 @@ model AmfDeploymentResourceProperties {
   provisioningState?: ProvisioningState;
 
   @doc("Azure for Operators 5G Core AMF component parameters")
-  componentParameters: ComponentDeploymentParameters;
+  componentParameters?: ComponentDeploymentParameters;
+
+  @doc("Azure for Operators 5G Core AMF secrets parameters")
+  @secret
+  secretsParameters?: ComponentDeploymentSecrets;
 
   @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")

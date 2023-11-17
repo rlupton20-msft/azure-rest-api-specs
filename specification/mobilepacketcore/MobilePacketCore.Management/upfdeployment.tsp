@@ -39,6 +39,10 @@ model UpfDeploymentResourceProperties {
   @doc("Azure for Operators 5G Core UPF component parameters")
   componentParameters: ComponentDeploymentParameters;
 
+  @doc("Azure for Operators 5G Core F secrets parameters")
+  @secret
+  secretsParameters?: ComponentDeploymentSecrets;
+
   @doc("Cluster where the Network Function is deployed")
   @visibility("create", "read")
   cluster: ClusterIdProperty;

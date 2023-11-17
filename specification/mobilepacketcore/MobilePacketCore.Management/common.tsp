@@ -132,6 +132,9 @@ scalar ReleaseVersion extends string;
 @doc("Containerized Network Function (CNF) Component Deployment Parameters")
 scalar ComponentDeploymentParameters extends string;
 
+@doc("Containerized Network Function (CNF) Component Secrets")
+scalar ComponentDeploymentSecrets extends string;
+
 @doc("Containerized Network Function (CNF) Component Deployment Type")
 scalar ComponentDeploymentType extends string;
 
@@ -140,6 +143,10 @@ model QualifiedComponentDeploymentParameters {
   @doc("Federaton Type")
   type: ComponentDeploymentType;
 
-  @doc("Usage Definition")
-  parameters: ComponentDeploymentParameters;
+  @doc("Deployment Parameters")
+  parameters?: ComponentDeploymentParameters;
+
+  @doc("Deployment secrets")
+  @secret
+  secrets?: ComponentDeploymentSecrets;
 }
