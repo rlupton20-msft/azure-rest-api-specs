@@ -24,11 +24,11 @@ model LabServer is TrackedResource<LabServerProperties> {
 model LabServerProperties {
     @visibility("read")
     @doc("The current status of the GoalState")
-    resourceManager: ResourceManager;
+    resourceManager?: ResourceManager;
 
     @visibility("read", "query")
     @doc("The status of the server")
-    status: string;
+    status?: string;
 
     @visibility("read")
     @doc("The status of the last operation.")

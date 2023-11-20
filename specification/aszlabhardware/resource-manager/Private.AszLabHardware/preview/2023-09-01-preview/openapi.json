@@ -659,7 +659,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The IP Address of the server to be used as unique identifer. Typespec requires this per https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#modeling-arrays-of-complex-types"
+          "description": "The IP Address of the server to be used as unique identifier. Typespec requires this per https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#modeling-arrays-of-complex-types"
         },
         "bmcIpAddress": {
           "type": "string",
@@ -773,6 +773,30 @@
         }
       },
       "description": "Information regarding individual Disk Drives"
+    },
+    "DriveCollection": {
+      "type": "object",
+      "properties": {
+        "totalDriveCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of drives"
+        },
+        "totalDriveCapacityBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The total capacity in bytes"
+        },
+        "drives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Drive"
+          },
+          "x-typespec-name": "Drive[]",
+          "description": "Information about individual disk drives"
+        }
+      },
+      "description": "Information regarding collection of disk drives"
     },
     "Inventory": {
       "type": "object",
@@ -914,12 +938,17 @@
             "update",
             "create"
           ]
+        },
+        "physicalLocation": {
+          "type": "string",
+          "description": "Physical location of the server.",
+          "x-ms-mutability": [
+            "read"
+          ]
         }
       },
       "description": "Details of the AszLabHw LabServer.",
       "required": [
-        "resourceManager",
-        "status",
         "assetTag",
         "bmcIpAddress"
       ]
@@ -1522,13 +1551,22 @@
           "format": "int32",
           "description": "Number of disk drives"
         },
-        "drives": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Drive"
-          },
-          "x-typespec-name": "Drive[]",
-          "description": "Information about individual disk drives"
+        "totalDriveCapacityBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The total capacity in bytes"
+        },
+        "ssdSata": {
+          "$ref": "#/definitions/DriveCollection",
+          "description": "SSD_SATA Disk drive collections"
+        },
+        "hdd": {
+          "$ref": "#/definitions/DriveCollection",
+          "description": "HDD Disk drive collections"
+        },
+        "ssdNvme": {
+          "$ref": "#/definitions/DriveCollection",
+          "description": "SSD_NVMe Disk drive collections"
         }
       },
       "description": "Information regarding the storage of the server"
