@@ -13,7 +13,7 @@ using Azure.Core;
 @armProviderNamespace("Microsoft.AzurePlaywrightService")
 @service({
   title: "Microsoft AzurePlaywrightService Management API",
-  version: "2023-10-01-preview",
+  version: "2024-01-01-preview",
 })
 @doc("Microsoft.AzurePlaywrightService Resource Provider management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -22,9 +22,9 @@ namespace Microsoft.AzurePlaywrightService;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("An account resource")
+@doc("An account resource.")
 model Account is TrackedResource<AccountProperties> {
-  @doc("Name of account")
+  @doc("Name of account.")
   @minLength(3)
   @maxLength(64)
   @pattern("^[a-zA-Z]{1}[a-zA-Z0-9]{2,63}$")
@@ -34,7 +34,7 @@ model Account is TrackedResource<AccountProperties> {
   name: string;
 }
 
-@doc("Account properties")
+@doc("Account properties.")
 model AccountProperties {
   @visibility("read")
   @doc("The Playwright testing dashboard URI for the account resource.")
@@ -68,6 +68,9 @@ enum EnablementStatus {
 enum ProvisioningState {
   ...ResourceProvisioningState,
 
+  @doc("Creation in progress")
+  Creating,
+
   @doc("Deletion in progress")
   Deleting,
 
@@ -79,7 +82,7 @@ enum ProvisioningState {
 interface Accounts
   extends TrackedResourceOperations<Account, AccountProperties> {}
 
-@doc("The location of quota resource")
+@doc("The location of quota resource.")
 @subscriptionResource
 model Location {
   @doc("The location of quota in ARM Normalized format like eastus, southeastasia etc.")
@@ -90,7 +93,7 @@ model Location {
   name: string;
 }
 
-@doc("A quota resource")
+@doc("A quota resource.")
 @parentResource(Location)
 model Quota is ProxyResource<QuotaProperties> {
   @doc("The quota name.")
@@ -106,7 +109,7 @@ enum QuotaNames {
   ScalableExecution,
 }
 
-@doc("Quota properties")
+@doc("Quota properties.")
 model QuotaProperties {
   @doc("The free-trial quota.")
   freeTrial?: FreeTrialProperties;
@@ -116,12 +119,39 @@ model QuotaProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("The free-trial properties")
+@doc("The free-trial properties.")
 model FreeTrialProperties {
   @doc("The playwright account id.")
   @visibility("read")
   accountId: string;
 
+  @doc("The free-trial state.")
+  @visibility("read")
+  state: FreeTrialState;
+}
+
+@doc("A quota resource for an account.")
+@parentResource(Account)
+model AccountQuota is ProxyResource<AccountQuotaProperties> {
+  @doc("The quota name.")
+  @key("quotaName")
+  @path
+  @segment("quotas")
+  name: QuotaNames;
+}
+
+@doc("Quota properties for an account.")
+model AccountQuotaProperties {
+  @doc("The free-trial quota.")
+  freeTrial?: AccountFreeTrialProperties;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("The free-trial properties for an account.")
+model AccountFreeTrialProperties {
   @doc("The free-trial createdAt utcDateTime.")
   @visibility("read")
   createdAt: utcDateTime;
@@ -143,10 +173,6 @@ model FreeTrialProperties {
   @minValue(0)
   @maxValue(100)
   percentageUsed: decimal;
-
-  @doc("The free-trial state.")
-  @visibility("read")
-  state: FreeTrialState;
 }
 
 @doc("The free-trial state.")
@@ -156,6 +182,12 @@ enum FreeTrialState {
 
   @doc("The free-trial is Expired.")
   Expired,
+
+  @doc("The free-trial is Not Eligible.")
+  NotEligible,
+
+  @doc("The free-trial is Not Registered.")
+  NotRegistered,
 }
 
 @armResourceOperations
@@ -165,4 +197,10 @@ interface Quotas {
 
   @doc("List quotas for a given subscription Id.")
   listBySubscription is ArmListBySubscription<Quota>;
+}
+
+@armResourceOperations
+interface AccountQuotas {
+  @doc("Get quota by name for an account.")
+  get is ArmResourceRead<AccountQuota>;
 }
