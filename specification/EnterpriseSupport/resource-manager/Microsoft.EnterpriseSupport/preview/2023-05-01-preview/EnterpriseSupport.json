@@ -85,6 +85,38 @@
         }
       }
     },
+    "/providers/Microsoft.EnterpriseSupport/validate": {
+      "post": {
+        "operationId": "ProviderLevelOperations_ValidateEnterpriseSupport",
+        "tags": [
+          "ProviderLevelOperations"
+        ],
+        "description": "ProviderLevel operation to check eligibility to create EnterpriseSupport instance",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidateEnterpriseSupportRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ValidateEnterpriseSupportResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ValidateEnterpriseSupport": {
+            "$ref": "./examples/ProviderLevelOperations_ValidateEnterpriseSupport.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.EnterpriseSupport/EnterpriseSupports": {
       "get": {
         "operationId": "EnterpriseSupportsResource_ListBySubscription",
@@ -400,44 +432,6 @@
         },
         "x-ms-long-running-operation": true
       }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EnterpriseSupport/validate": {
-      "post": {
-        "operationId": "ProviderLevelOperations_ValidateEnterpriseSupport",
-        "tags": [
-          "ProviderLevelOperations"
-        ],
-        "description": "ProviderLevel operation to check eligibility to create EnterpriseSupport instance",
-        "parameters": [
-          {
-            "$ref": "#/parameters/CustomParams.subscriptionId"
-          },
-          {
-            "$ref": "#/parameters/CustomParams.resourceGroupName"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ValidateEnterpriseSupportRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ValidateEnterpriseSupportResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ValidateEnterpriseSupport": {
-            "$ref": "./examples/ProviderLevelOperations_ValidateEnterpriseSupport.json"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -751,22 +745,5 @@
       ]
     }
   },
-  "parameters": {
-    "CustomParams.resourceGroupName": {
-      "name": "resourceGroupName",
-      "in": "path",
-      "description": "Resource Group Name",
-      "required": true,
-      "type": "string",
-      "x-ms-parameter-location": "method"
-    },
-    "CustomParams.subscriptionId": {
-      "name": "subscriptionId",
-      "in": "path",
-      "description": "Subscription ID",
-      "required": true,
-      "type": "string",
-      "x-ms-parameter-location": "method"
-    }
-  }
+  "parameters": {}
 }
