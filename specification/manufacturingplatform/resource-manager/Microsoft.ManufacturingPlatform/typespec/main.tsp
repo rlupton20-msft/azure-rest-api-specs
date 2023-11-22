@@ -325,11 +325,6 @@ model EventHubProfile {
   @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   ingestionInstanceId?: string;
 
-  //@doc("Resource Id of Data History Instance EventHub Resource")
-  //@visibility("read")
-  //@renamedFrom(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview, "dhInstanceId")
-  //AdxInstanceId?: string;
-
   @doc("Resource Id of Data History Instance EventHub Resource")
   @visibility("read")
   @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
@@ -338,7 +333,7 @@ model EventHubProfile {
   @doc("Resource Id of Adx Instance")
   @visibility("read")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  AdxInstanceId?: string;
+  adxInstanceId?: string;
 
   @doc("Host Name")
   @visibility("read")
