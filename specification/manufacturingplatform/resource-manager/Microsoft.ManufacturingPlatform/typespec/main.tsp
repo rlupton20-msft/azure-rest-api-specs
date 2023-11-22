@@ -94,7 +94,8 @@ model MdsResourceProperties {
   @visibility("read", "create")
   @doc("AKS Admin Group Id.")
   @pattern("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
-  aksAdminGroupId: string;
+  @madeOptional(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  aksAdminGroupId?: string;
 
   @visibility("read", "create")
   @doc("Continuous Export Period.")
@@ -121,10 +122,6 @@ model MdsResourceProperties {
   adxProfile?: AdxProfile;
 
   @visibility("read")
-  @doc("Profile of Adt Created.")
-  adtProfile?: AdtProfile;
-  
-  @visibility("read")
   @doc("Profile of Akv Created.")
   akvProfile?: AkvProfile;
 
@@ -133,7 +130,13 @@ model MdsResourceProperties {
   redisProfile?: RedisProfile;
 
   @visibility("read")
+  @doc("Profile of Adt Created.")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  adtProfile?: AdtProfile;
+  
+  @visibility("read")
   @doc("Profile of Synapse Created.")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   synapseProfile?: SynapseProfile;
 
   @visibility("read")
@@ -163,7 +166,7 @@ model MdsResourceProperties {
   amlProfile?: AmlProfile;
 
   @doc("Profile of User Managed Database.")
-  @added(Versions.v2024_02_01_preview)
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create")
   userManagedDatabaseProfile?: UserManagedDatabaseProfile;
  
@@ -172,15 +175,15 @@ model MdsResourceProperties {
   @visibility("read", "create")
   userMangedAdxProfile?: UserManagedAdxProfile;
 
-  @doc("Profile of User Managed Adt .")
-  @added(Versions.v2024_02_01_preview)
-  @visibility("read", "create")
-  userManagedAdtProfile?: UserManagedAdtProfile;
-  
   @visibility("read", "create")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Profile of CMK Settings.")
   cmkProfile?: CmkProfile;
+
+  @visibility("read", "create", "update")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Profile of Fabric resources.")
+  fabricProfile?: FabricProfile;
  
 }
 
@@ -229,6 +232,7 @@ model AdxProfile {
 
 
 @doc("The properties related to Azure Digital Twin (Adt) Resource")
+@removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
 model AdtProfile {
   
   @doc("Resource Id of Adt Resource")
@@ -270,20 +274,6 @@ model UserManagedAdxProfile {
 }
 
 
-@doc("The properties related to User Managed Azure Digital Twin (Adt) Resource")
-@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-model UserManagedAdtProfile {
-  
-  @doc("Resource Id of Adt Resource")
-  @visibility("read","create")
-  id: string;
-  
-  @doc("Host Name")
-  @visibility("read")
-  hostName?: string;
-
-}
-
 @doc("The properties related to Azure Key Vault (Akv) Resource")
 model AkvProfile {
   
@@ -314,6 +304,7 @@ model MonitoringProfile {
 }
 
 @doc("The properties related to Synapse Resource")
+@removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
 model SynapseProfile {
   
   @doc("Resource Id of Synapse Resource")
@@ -331,11 +322,13 @@ model EventHubProfile {
   
   @doc("Resource Id of Ingestion Instance EventHub Resource")
   @visibility("read")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   ingestionInstanceId?: string;
 
   @doc("Resource Id of Data History Instance EventHub Resource")
   @visibility("read")
-  dhInstanceId?: string;
+  @renamedFrom(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview, "dhInstanceId")
+  AdxInstanceId?: string;
 
   @doc("Host Name")
   @visibility("read")
@@ -387,6 +380,25 @@ model CmkProfile {
   @visibility("read","create")
   keyUri: string;
 }
+
+@doc("The properties related to Fabric")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+model FabricProfile {
+  
+  @doc("URI of Key in AKV")
+  @visibility("read", "create", "update")
+  keyUri: string;
+  
+  @doc("URI of OneLakeHose")
+  @visibility("read", "create")
+  oneLakeHouseUri: string;
+   
+  @doc("Folder Path")
+  @visibility("read", "create", "update")
+  folderPath: string;
+  
+}
+
 
 @armResourceOperations(MdsResource)
 interface ManufacturingDataServices  {

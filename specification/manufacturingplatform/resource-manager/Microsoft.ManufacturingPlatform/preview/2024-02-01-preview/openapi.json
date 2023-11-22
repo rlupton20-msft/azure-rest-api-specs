@@ -422,22 +422,6 @@
     }
   },
   "definitions": {
-    "AdtProfile": {
-      "type": "object",
-      "description": "The properties related to Azure Digital Twin (Adt) Resource",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource Id of Adt Resource",
-          "readOnly": true
-        },
-        "hostName": {
-          "type": "string",
-          "description": "Host Name",
-          "readOnly": true
-        }
-      }
-    },
     "AdxProfile": {
       "type": "object",
       "description": "The properties related to Azure Data Explorer (Adx) Resource",
@@ -564,12 +548,7 @@
       "type": "object",
       "description": "The properties related to EventHub Resource",
       "properties": {
-        "ingestionInstanceId": {
-          "type": "string",
-          "description": "Resource Id of Ingestion Instance EventHub Resource",
-          "readOnly": true
-        },
-        "dhInstanceId": {
+        "AdxInstanceId": {
           "type": "string",
           "description": "Resource Id of Data History Instance EventHub Resource",
           "readOnly": true
@@ -578,6 +557,67 @@
           "type": "string",
           "description": "Host Name",
           "readOnly": true
+        }
+      }
+    },
+    "FabricProfile": {
+      "type": "object",
+      "description": "The properties related to Fabric",
+      "properties": {
+        "keyUri": {
+          "type": "string",
+          "description": "URI of Key in AKV",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "oneLakeHouseUri": {
+          "type": "string",
+          "description": "URI of OneLakeHose",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "folderPath": {
+          "type": "string",
+          "description": "Folder Path",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "keyUri",
+        "oneLakeHouseUri",
+        "folderPath"
+      ]
+    },
+    "FabricProfileUpdate": {
+      "type": "object",
+      "description": "The properties related to Fabric",
+      "properties": {
+        "keyUri": {
+          "type": "string",
+          "description": "URI of Key in AKV",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "folderPath": {
+          "type": "string",
+          "description": "Folder Path",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
     },
@@ -747,11 +787,6 @@
           "description": "Profile of Adx Created.",
           "readOnly": true
         },
-        "adtProfile": {
-          "$ref": "#/definitions/AdtProfile",
-          "description": "Profile of Adt Created.",
-          "readOnly": true
-        },
         "akvProfile": {
           "$ref": "#/definitions/AkvProfile",
           "description": "Profile of Akv Created.",
@@ -760,11 +795,6 @@
         "redisProfile": {
           "$ref": "#/definitions/RedisProfile",
           "description": "Profile of Azure Redis Created.",
-          "readOnly": true
-        },
-        "synapseProfile": {
-          "$ref": "#/definitions/SynapseProfile",
-          "description": "Profile of Synapse Created.",
           "readOnly": true
         },
         "monitoringProfile": {
@@ -813,14 +843,6 @@
             "create"
           ]
         },
-        "userManagedAdtProfile": {
-          "$ref": "#/definitions/UserManagedAdtProfile",
-          "description": "Profile of User Managed Adt .",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "cmkProfile": {
           "$ref": "#/definitions/CmkProfile",
           "description": "Profile of CMK Settings.",
@@ -828,11 +850,19 @@
             "read",
             "create"
           ]
+        },
+        "fabricProfile": {
+          "$ref": "#/definitions/FabricProfile",
+          "description": "Profile of Fabric resources.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "required": [
         "aadApplicationId",
-        "aksAdminGroupId",
         "continuousExportPeriod"
       ]
     },
@@ -886,6 +916,15 @@
         "enableCopilot": {
           "type": "boolean",
           "description": "Enable Copilot.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "fabricProfile": {
+          "$ref": "#/definitions/FabricProfileUpdate",
+          "description": "Profile of Fabric resources.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -991,44 +1030,6 @@
           "readOnly": true
         }
       }
-    },
-    "SynapseProfile": {
-      "type": "object",
-      "description": "The properties related to Synapse Resource",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource Id of Synapse Resource",
-          "readOnly": true
-        },
-        "devEndpoint": {
-          "type": "string",
-          "description": "Synapse Development Endpoint",
-          "readOnly": true
-        }
-      }
-    },
-    "UserManagedAdtProfile": {
-      "type": "object",
-      "description": "The properties related to User Managed Azure Digital Twin (Adt) Resource",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource Id of Adt Resource",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "hostName": {
-          "type": "string",
-          "description": "Host Name",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "id"
-      ]
     },
     "UserManagedAdxProfile": {
       "type": "object",
