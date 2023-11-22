@@ -95,8 +95,8 @@ model MdsResourceProperties {
   @doc("AKS Admin Group Id.")
   @pattern("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
   @madeOptional(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  aksAdminGroupId?: string;
-
+  aksAdminGroupId?: string = "00000000-0000-0000-0000-000000000000";
+ 
   @visibility("read", "create")
   @doc("Continuous Export Period.")
   continuousExportPeriod: int32;
@@ -325,9 +325,19 @@ model EventHubProfile {
   @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   ingestionInstanceId?: string;
 
+  //@doc("Resource Id of Data History Instance EventHub Resource")
+  //@visibility("read")
+  //@renamedFrom(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview, "dhInstanceId")
+  //AdxInstanceId?: string;
+
   @doc("Resource Id of Data History Instance EventHub Resource")
   @visibility("read")
-  @renamedFrom(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview, "dhInstanceId")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  dhInstanceId?: string;
+
+  @doc("Resource Id of Adx Instance")
+  @visibility("read")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   AdxInstanceId?: string;
 
   @doc("Host Name")
