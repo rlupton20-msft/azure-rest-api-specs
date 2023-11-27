@@ -34,7 +34,7 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/chambers/{chamberName}/storages/{storageName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/chambers/{chamberName}/storages/{storageName}": {
       "put": {
         "tags": [
           "storages_CreateOrUpdate"
@@ -52,7 +52,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -66,6 +66,7 @@
           {
             "name": "parameters",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update a chamber storage resource.",
             "schema": {
               "$ref": "#/definitions/Storage"
@@ -110,7 +111,6 @@
         "operationId": "storages_Update",
         "description": "Updates a chamber storage.",
         "consumes": [
-          "application/merge-patch+json",
           "application/json"
         ],
         "produces": [
@@ -124,7 +124,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -138,19 +138,10 @@
           {
             "name": "parameters",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to update chamber storage resource.",
             "schema": {
-              "type":"object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/StoragePropertiesFormat"
-                }
-              },
-              "allOf": [
-                {
-                  "$ref": "./common-types.json#/definitions/PatchableResource"
-                }
-              ]
+              "$ref": "#/definitions/StoragePatch"
             }
           }
         ],
@@ -207,7 +198,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -257,7 +248,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -270,12 +261,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The operation is completed successfully",
-            "schema": {
-              "$ref": "#/definitions/Storage"
-            }
-          },
           "204": {
             "description": "Request is successful. Resource with the specified name does not exist."
           },
@@ -309,7 +294,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/chambers/{chamberName}/storages": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/chambers/{chamberName}/storages": {
       "get": {
         "tags": [
           "storages_List"
@@ -327,7 +312,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -428,7 +413,22 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "./common-types.json#/definitions/SubResource"
+        }
+      ]
+    },
+    "StoragePatch": {
+      "description": "Storage properties to update.",
+      "type": "object",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/StoragePropertiesFormat"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/PatchableResource"
         }
       ]
     }

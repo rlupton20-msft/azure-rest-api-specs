@@ -94,7 +94,21 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "./common-types.json#/definitions/SubResource"
+        }
+      ]
+    },
+    "SharedStoragePatch": {
+      "description": "Shared storage properties to update.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SharedStoragePropertiesFormat"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/PatchableResource"
         }
       ]
     },
@@ -146,6 +160,7 @@
           {
             "name": "parameters",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update shared storage resource.",
             "schema": {
               "$ref": "#/definitions/SharedStorage"
@@ -190,7 +205,6 @@
         "operationId": "SharedStorages_Update",
         "description": "Updates the shared storage.",
         "consumes": [
-          "application/merge-patch+json",
           "application/json"
         ],
         "produces": [
@@ -215,19 +229,10 @@
           {
             "name": "parameters",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to update shared storage resource.",
             "schema": {
-              "type":"object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/SharedStoragePropertiesFormat"
-                }
-              },
-              "allOf": [
-                {
-                  "$ref": "./common-types.json#/definitions/PatchableResource"
-                }
-              ]
+              "$ref": "#/definitions/SharedStoragePatch"
             }
           }
         ],
@@ -338,17 +343,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The operation is completed successfully",
-            "schema": {
-              "$ref": "#/definitions/SharedStorage"
-            }
-          },
           "204": {
             "description": "Request is successful. Resource with the specified name does not exist."
           },
           "202": {
-            "description": "Accepted"
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "type": "string"
+              },
+              "x-ms-async-operation-timeout": {
+                "type": "string"
+              }
+            }
           },
           "default": {
             "description": "Default Error Response",
@@ -358,6 +365,10 @@
             "x-ms-error-response": true
           }
         },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
         "x-ms-examples": {
           "Delete Storage": {
             "$ref": "./examples/SharedStoragesDelete.json"
@@ -365,7 +376,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/sharedStorages": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/sharedStorages": {
       "get": {
         "tags": [
           "sharedStorages_List"
@@ -383,7 +394,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"

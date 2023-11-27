@@ -65,17 +65,33 @@
         }
       }
     },
+    "SubResource": {
+      "description": "Azure nested resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/AzureEntityResource"
+        },
+        {
+          "$ref": "#/definitions/Tags"
+        },
+        {
+          "$ref": "#/definitions/Location"
+        }
+      ]
+    },
     "PatchableResource": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Tags"
+        },
+        {
+          "$ref": "#/definitions/Location"
+        }
+      ]
+    },
+    "Tags": {
       "type": "object",
       "properties": {
-        "location": {
-          "type": "string",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ],
-          "description": "The geo-location where the resource lives"
-        },
         "tags": {
           "type": "object",
           "additionalProperties": {
@@ -89,6 +105,20 @@
           "description": "Resource tags."
         }
       }
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "The geo-location where the resource lives. deprecated: Delete this property when RP code is fixed."
+        }
+      }
     }
   },
   "parameters": {
@@ -97,28 +127,80 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The name of the workbench."
+      "description": "The name of the workbench.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
     },
     "ChamberNameParameter": {
       "name": "chamberName",
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The name of the chamber."
-    },
-    "ResourceGroupDeprecatedParameter": {
-      "name": "resourceGroup",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "description": "The name of the resource group. Use this instead: resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+      "description": "The name of the chamber.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
     },
     "StorageNameParameter": {
       "name": "storageName",
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The name of the storage."
+      "description": "The name of the storage.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "ConnectorNameParameter": {
+      "name": "connectorName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the connector.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "WorkloadNameParameter": {
+      "name": "workloadName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the workload.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "FileRequestNameParameter": {
+      "name": "requestName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the file request.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "FileNameParameter": {
+      "name": "fileName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the file.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "NameParameter": {
+      "name": "name",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of a resource. Prefer to use parameter name specific to resource type.",
+      "pattern": "^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$",
+      "minLength": 3,
+      "maxLength": 63
     }
   }
 }
