@@ -150,3 +150,15 @@ model QualifiedComponentDeploymentParameters {
   @secret
   secrets?: ComponentDeploymentSecrets;
 }
+
+@doc("ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure.")
+model ManagedResourceGroupConfiguration {
+  @doc("The name for the managed resource group. If not specified, the unique name is automatically generated.")
+  @visibility("create", "read")
+  @maxLength(75)
+  name?: string;
+
+  @doc("The location of the managed resource group. If not specified, the location of the parent resource is chosen.")
+  @visibility("create", "read")
+  location?: string;
+}

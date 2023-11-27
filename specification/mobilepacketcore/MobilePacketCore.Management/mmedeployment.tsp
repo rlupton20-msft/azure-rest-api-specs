@@ -36,6 +36,10 @@ model MmeDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("Managed Resource Group Configuration")
+  @visibility("create", "read")
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+
   @doc("MME deployment type (Lab or Production)")
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
