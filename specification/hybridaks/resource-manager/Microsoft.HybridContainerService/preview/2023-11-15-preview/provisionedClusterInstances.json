@@ -567,6 +567,11 @@
           },
           "202": {
             "description": "Updates the agent pool in the provisionedClusterInstances resource.",
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            },
             "schema": {
               "$ref": "#/definitions/agentPool"
             }
@@ -634,7 +639,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CredentialResults"
+              "$ref": "#/definitions/ListCredentialResponse"
             }
           },
           "202": {
@@ -655,7 +660,7 @@
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation",
-          "final-state-schema": "#/definitions/CredentialResults"
+          "final-state-schema": "#/definitions/ListCredentialResponse"
         },
         "x-ms-examples": {
           "ListClusterUserCredentials": {
@@ -684,7 +689,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CredentialResults"
+              "$ref": "#/definitions/ListCredentialResponse"
             }
           },
           "202": {
@@ -705,7 +710,7 @@
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation",
-          "final-state-schema": "#/definitions/CredentialResults"
+          "final-state-schema": "#/definitions/ListCredentialResponse"
         },
         "x-ms-examples": {
           "ListClusterAdminCredentials": {
@@ -1074,7 +1079,7 @@
     }
   },
   "definitions": {
-    "CredentialResults": {
+    "ListCredentialResponse": {
       "type": "object",
       "properties": {
         "id": {
@@ -1089,13 +1094,19 @@
         },
         "resourceId": {
           "type": "string",
+          "format": "arm-id",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.HybridContainerService/provisionedClusterInstances"
+              }
+            ]
+          },
           "readOnly": true,
-          "description": "Resource Id"
+          "description": "ARM Resource Id of the provisioned cluster instance"
         },
         "status": {
-          "type": "string",
-          "readOnly": true,
-          "description": "Operation Status"
+          "$ref": "#/definitions/ProvisioningState"
         },
         "error": {
           "type": "object",
@@ -1630,6 +1641,10 @@
       "type": "object",
       "readOnly": true,
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the addon"
+        },
         "phase": {
           "type": "string",
           "description": "Observed phase of the addon on the target cluster. Possible values include: 'pending', 'provisioning', 'provisioning {HelmChartInstalled}', 'provisioning {MSICertificateDownloaded}', 'provisioned', 'deleting', 'failed', 'upgrading'",
@@ -1760,7 +1775,7 @@
               "type": "array",
               "description": "List of supported Kubernetes versions",
               "items": {
-                "$ref": "#/definitions/KubernetesVersionProfileProperties"
+                "$ref": "#/definitions/KubernetesVersionProperties"
               },
               "x-ms-identifiers": []
             }
@@ -1768,7 +1783,7 @@
         }
       }
     },
-    "KubernetesVersionProfileProperties": {
+    "KubernetesVersionProperties": {
       "type": "object",
       "description": "Kubernetes version profile for given major.minor release",
       "properties": {
@@ -1851,19 +1866,7 @@
           }
         },
         "osSku": {
-          "type": "string",
-          "description": "The particular KubernetesVersion's Image's OS SKU (CBLMariner, Windows, Windows2022)",
-          "readOnly": true,
-          "enum": [
-            "CBLMariner",
-            "Windows2019",
-            "Windows2022"
-          ],
-          "default": "CBLMariner",
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "osSku"
-          }
+          "$ref": "#/definitions/OSSKU"
         },
         "ready": {
           "type": "boolean",
@@ -1933,7 +1936,7 @@
               "type": "array",
               "description": "Array of HybridAKS Support VM Skus",
               "items": {
-                "$ref": "#/definitions/VmSkuProfileProperties"
+                "$ref": "#/definitions/VmSkuProperties"
               },
               "x-ms-identifiers": []
             }
@@ -1941,7 +1944,7 @@
         }
       }
     },
-    "VmSkuProfileProperties": {
+    "VmSkuProperties": {
       "type": "object",
       "description": "The profile for supported VM skus",
       "readOnly": true,
