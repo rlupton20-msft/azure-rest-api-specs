@@ -11,5 +11,5 @@ csharp:
   clear-output-folder: true
   client-side-validation: false
   namespace: Microsoft.XiangTestBase
-  output-folder: $(csharp-sdks-folder)/xiangtestbase/management/Microsoft.XiangTestBase/GeneratedProtocol
+  output-folder: $(csharp-sdks-folder)/testbase/management/Microsoft.XiangTestBase/GeneratedProtocol
 ```
