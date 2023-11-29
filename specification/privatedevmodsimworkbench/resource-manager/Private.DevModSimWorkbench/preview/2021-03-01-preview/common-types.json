@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "4.0",
+    "version": "2021-03-01-preview",
     "title": "Common types"
   },
   "paths": {},
@@ -44,6 +44,27 @@
         }
       }
     },
+    "PowerState": {
+      "description": "The power state of resource.",
+      "enum": [
+        "Running",
+        "Stopped",
+        "Starting",
+        "Stopping"
+      ],
+      "type": "string",
+      "readOnly": true
+    },
+    "PowerStateProperty": {
+      "type": "object",
+      "properties": {
+        "powerState": {
+          "readOnly": true,
+          "$ref": "#/definitions/PowerState",
+          "description": "Gets the power state at the time the operation was called"
+        }
+      }
+    },
     "CapacityAllocatedProperty": {
       "type": "object",
       "properties": {
@@ -69,13 +90,7 @@
       "description": "Azure nested resource.",
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/AzureEntityResource"
-        },
-        {
-          "$ref": "#/definitions/Tags"
-        },
-        {
-          "$ref": "#/definitions/Location"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
     },
