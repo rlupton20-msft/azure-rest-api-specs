@@ -160,7 +160,7 @@ model MdsResourceProperties {
   @doc("Configuration of the managed resource group associated with the resource.")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
-  @visibility("read")
+  @visibility("read", "create", "update")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Profile of Azure Machine Learning Resource.")
   amlProfile?: AmlProfile;
@@ -373,8 +373,12 @@ model ManagedResourceGroupConfiguration {
 model AmlProfile {
   
   @doc("Resource Id of Azure Machine Learning Resource")
-  @visibility("read")
+  @visibility("read", "create", "update")
   id?: string;
+
+  @doc("Custom Ner Service Uri")
+  @visibility("read", "create", "update")
+  customNerServiceUri?: string;
 }
 
 @doc("The properties related to CMK")
@@ -394,13 +398,13 @@ model FabricProfile {
   @visibility("read", "create", "update")
   keyUri: string;
   
-  @doc("URI of OneLakeHose")
-  @visibility("read", "create")
-  oneLakeHouseUri: string;
-   
-  @doc("Folder Path")
+  @doc("URI of One Lake")
   @visibility("read", "create", "update")
-  folderPath: string;
+  oneLakeUri: string;
+   
+  @doc("One Lake Path")
+  @visibility("read", "create", "update")
+  oneLakePath: string;
   
 }
 
