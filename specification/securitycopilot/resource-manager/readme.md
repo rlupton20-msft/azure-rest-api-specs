@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2023-11-27-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-11-27-preview'
 input-file:
-  - Microsoft.SecurityCopilot/preview/2023-11-27-preview/securitycopilot.json
+  - Private.SecurityCopilot/preview/2023-11-27-preview/securitycopilot.json
 ```
 
 ---

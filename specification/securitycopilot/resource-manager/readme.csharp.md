@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.SecurityCopilot
-  output-folder: $(csharp-sdks-folder)/securitycopilot/management/Microsoft.SecurityCopilot/GeneratedProtocol
+  namespace: Private.SecurityCopilot
+  output-folder: $(csharp-sdks-folder)/securitycopilot/management/Private.SecurityCopilot/GeneratedProtocol
 ```

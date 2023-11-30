@@ -19,7 +19,7 @@ using Azure.ResourceManager;
 @doc("SecurityCopilot Resource Provider management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Microsoft.SecurityCopilot;
+namespace Private.SecurityCopilot;
 
 @doc("A Security Copilot Unit resource")
 model SecurityCopilotUnit is TrackedResource<SecurityCopilotUnitProperties> {
