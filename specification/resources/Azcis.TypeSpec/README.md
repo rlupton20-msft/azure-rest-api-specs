@@ -39,5 +39,6 @@ input-file:
   - Microsoft.AzureCIS/preview/2023-08-22-preview/environment.json
   - Microsoft.AzureCIS/preview/2023-08-22-preview/rnmVip.json
   - Microsoft.AzureCIS/preview/2023-08-22-preview/storageAccountDsms.json
+  - Microsoft.AzureCIS/preview/2023-08-22-preview/genevaActions.json
 ```
 ---

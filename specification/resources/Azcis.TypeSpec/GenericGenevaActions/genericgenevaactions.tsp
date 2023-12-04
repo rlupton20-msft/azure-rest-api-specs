@@ -13,9 +13,8 @@ namespace Microsoft.AzureCIS;
 
 @doc("GenericGenevaActions properties")
 model GenericGenevaActionsResourceProperties {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("User given name for geneva action")
-  name: string;
+  actionName: string;
 
   @doc("The execution environment for geneva action")
   environment: string;
@@ -46,14 +45,14 @@ model GenericGenevaActionsResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("genericGenevaActionss") // Start with lower case. Should be plural
+  @segment("genericGenevaActions") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
 @doc("GenericGenevaActions Resource Parameter")
-model Parameter { // this can be TrackedResource based on resourcetype
+model Parameter {
   @doc("Parameter name.")
   name: string;
 
@@ -67,4 +66,5 @@ interface GenericGenevaActions {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<GenericGenevaActionsResource>;
   listBySubscription is ArmListBySubscription<GenericGenevaActionsResource>;
   listByResourceGroup is ArmResourceListByParent<GenericGenevaActionsResource>;
+  get is ArmResourceRead<GenericGenevaActionsResource>;
 }
