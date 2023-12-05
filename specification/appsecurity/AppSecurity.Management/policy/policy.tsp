@@ -50,28 +50,6 @@ model PolicyProperties {
 
   @doc("Customization for managed rules (including exclusions and overrides)")
   managedRulesCustomization?: ManagedRulesCustomization;
-
-  @doc("Test read-only property 1")
-  @visibility("read")
-  readOnly1?: string;
-
-  @doc("Test read-only property 2")
-  @visibility("read")
-  readOnly2?: int32;
-
-  @visibility("read")
-  @doc("Test read-only property 3")
-  readOnly3?: TestModel;
-}
-
-@doc("Test model")
-model TestModel {
-  @doc("Test property 1")
-  property1?: string;
-
-  @doc("Test property 2")
-  @visibility("read")
-  property2?: string;
 }
 
 @doc("Policy resource definition")
