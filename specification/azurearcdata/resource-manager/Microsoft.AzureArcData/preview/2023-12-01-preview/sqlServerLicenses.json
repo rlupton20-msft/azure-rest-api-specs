@@ -8,7 +8,7 @@
   "paths": {},
   "definitions": {
     "SqlServerLicense": {
-      "description": "A SqlServerLicense.",
+      "description": "Describe SQL Server license resource.",
       "type": "object",
       "allOf": [
         {
@@ -18,7 +18,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SqlServerLicenseProperties",
-          "description": "null",
+          "description": "SQL Server license properties",
           "x-ms-client-flatten": false
         }
       },
@@ -27,53 +27,59 @@
       ]
     },
     "SqlServerLicenseProperties": {
-      "description": "Properties of SqlServerLicense.",
+      "description": "Properties of SQL Server License.",
       "type": "object",
       "properties": {
         "billingPlan": {
           "type": "string",
-          "description": "SQL Server License type.",
+          "description": "SQL Server license type.",
           "enum": [
             "PAYG",
             "Paid"
           ],
           "x-ms-enum": {
             "name": "billingPlan",
-            "modelAsString": false
-          },
-          "x-ms-mutability": [ "create", "read" ]
+            "modelAsString": true
+          }
         },
         "unitType": {
           "type": "string",
-          "description": "SQL Server License Core type.",
+          "description": "SQL Server license core type.",
           "enum": [
             "PhysicalCore"
           ],
           "x-ms-enum": {
             "name": "unitType",
-            "modelAsString": false
+            "modelAsString": true
           },
-          "x-ms-mutability": [ "create", "read" ]
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "unitCount": {
-          "type": "number",
+          "type": "integer",
+          "format": "int32",
           "multipleOf": 2,
           "minimum": 4,
           "description": "The number of total cores of the license covers."
         },
         "licenseCategory": {
           "type": "string",
-          "description": "SQL Server license type.",
+          "description": "SQL Server license category.",
           "enum": [
-            "SQLServerCoreLicense"
+            "SqlServerCoreSharedLicense"
           ],
           "x-ms-enum": {
             "name": "licenseCategory",
-            "modelAsString": false
+            "modelAsString": true
           },
-          "x-ms-mutability": [ "create", "read" ]
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
-        "state": {
+        "activationState": {
           "type": "string",
           "description": "The activation state of the license.",
           "enum": [
@@ -82,7 +88,7 @@
           ],
           "x-ms-enum": {
             "name": "state",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "scopeType": {
@@ -96,26 +102,29 @@
           ],
           "x-ms-enum": {
             "name": "scopeType",
-            "modelAsString": false
-          },
-          "x-ms-mutability": [ "create", "read" ]
+            "modelAsString": true
+          }
         },
-        "lastActivationTime": {
+        "lastActivatedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "The time when the resource was last activated.",
+          "description": "The timestamp of the most recent activation of the SqlServerLicense.",
           "readOnly": true
         },
-        "lastDeactivationTime": {
+        "lastDeactivatedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "The time when the resource was last deactivated.",
+          "description": "The timestamp of the most recent deactivation of the SqlServerLicense.",
           "readOnly": true
         },
         "scopeId": {
           "type": "string",
-          "description": "The resource corresponding to the scope type.",
-          "x-ms-mutability": [ "create", "read" ]
+          "description": "The scope resource Id."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The tenantId the SQL Server license resource subscription resides in.",
+          "readOnly": true
         }
       },
       "required": [
@@ -125,7 +134,7 @@
         "licenseCategory",
         "scopeType",
         "scopeId",
-        "state"
+        "activationState"
       ]
     },
     "SqlServerLicenseUpdateProperties": {
@@ -134,48 +143,54 @@
       "properties": {
         "billingPlan": {
           "type": "string",
-          "description": "SQL Server license billing plan.",
+          "description": "SQL Server license type.",
           "enum": [
             "PAYG",
             "Paid"
           ],
           "x-ms-enum": {
             "name": "billingPlan",
-            "modelAsString": false
-          },
-          "x-ms-mutability": [ "create", "read" ]
+            "modelAsString": true
+          }
         },
         "unitType": {
           "type": "string",
-          "description": "SQL Server license unit type.",
+          "description": "SQL Server license core type.",
           "enum": [
             "PhysicalCore"
           ],
           "x-ms-enum": {
             "name": "unitType",
-            "modelAsString": false
+            "modelAsString": true
           },
-          "x-ms-mutability": [ "create", "read" ]
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "unitCount": {
-          "type": "number",
+          "type": "integer",
+          "format": "int32",
           "multipleOf": 2,
           "minimum": 4,
           "description": "The number of total cores of the license covers."
         },
         "licenseCategory": {
           "type": "string",
-          "description": "SQL Server license type.",
+          "description": "SQL Server license category.",
           "enum": [
-            "SQLServerCoreLicense"
+            "SqlServerCoreSharedLicense"
           ],
           "x-ms-enum": {
             "name": "licenseCategory",
-            "modelAsString": false
+            "modelAsString": true
           },
-          "x-ms-mutability": [ "create", "read" ]
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
-        "state": {
+        "activationState": {
           "type": "string",
           "description": "The activation state of the license.",
           "enum": [
@@ -183,8 +198,8 @@
             "Deactivated"
           ],
           "x-ms-enum": {
-            "name": "state",
-            "modelAsString": false
+            "name": "activationState",
+            "modelAsString": true
           }
         },
         "scopeType": {
@@ -198,31 +213,34 @@
           ],
           "x-ms-enum": {
             "name": "scopeType",
-            "modelAsString": false
-          },
-          "x-ms-mutability": [ "create", "read" ]
+            "modelAsString": true
+          }
         },
-        "lastActivationTime": {
+        "lastActivatedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "The time when the resource was last activated.",
+          "description": "The timestamp of the most recent activation of the SqlServerLicense.",
           "readOnly": true
         },
-        "lastDeactivationTime": {
+        "lastDeactivatedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "The time when the resource was last deactivated.",
+          "description": "The timestamp of the most recent deactivation of the SqlServerLicense.",
           "readOnly": true
         },
         "scopeId": {
           "type": "string",
-          "description": "The resource corresponding to the scope type.",
-          "x-ms-mutability": [ "create", "read" ]
+          "description": "The scope resource Id."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The tenantId the SQL Server license resource subscription resides in.",
+          "readOnly": true
         }
       }
     },
     "SqlServerLicenseUpdate": {
-      "description": "An update to a SQL Server License.",
+      "description": "An update to a SQL Server license resource.",
       "type": "object",
       "properties": {
         "tags": {
@@ -240,7 +258,7 @@
       }
     },
     "SqlServerLicenseListResult": {
-      "description": "A list of SqlServerLicense.",
+      "description": "A list of SQL Server licenses.",
       "type": "object",
       "properties": {
         "value": {

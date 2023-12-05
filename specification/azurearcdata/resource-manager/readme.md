@@ -27,15 +27,34 @@ These are the global settings for the azurearcdata.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-preview-2023-12
+tag: package-preview-2024-02
 ```
 
 
+### Tag: package-preview-2024-02
+
+These settings apply only when `--tag=package-preview-2024-02` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2024-02'
+input-file:
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/activeDirectoryConnectors.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/azurearcdata.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/common.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/dataControllers.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/failoverGroups.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/operations.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/postgresInstances.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/sqlServerAvailabilityGroups.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/sqlServerDatabases.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/sqlServerInstances.json
+  - Microsoft.AzureArcData/preview/2024-02-01-preview/sqlServerLicenses.json
+```
 ### Tag: package-preview-2023-12
 
 These settings apply only when `--tag=package-preview-2023-12` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-12'
+``` yaml $(tag) == 'package-preview-2023-12'
 input-file:
   - Microsoft.AzureArcData/preview/2023-12-01-preview/activeDirectoryConnectors.json
   - Microsoft.AzureArcData/preview/2023-12-01-preview/azurearcdata.json
@@ -50,6 +69,7 @@ input-file:
   - Microsoft.AzureArcData/preview/2023-12-01-preview/sqlServerInstances.json
   - Microsoft.AzureArcData/preview/2023-12-01-preview/sqlServerLicenses.json
 ```
+
 ### Tag: package-preview-2023-11
 
 These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
@@ -83,28 +103,28 @@ input-file:
   - Microsoft.AzureArcData/preview/2023-10-01-preview/operations.json
   - Microsoft.AzureArcData/preview/2023-10-01-preview/postgresInstances.json
   - Microsoft.AzureArcData/preview/2023-10-01-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2023-10-01-preview/sqlServerAvailabilityGroups.json
   - Microsoft.AzureArcData/preview/2023-10-01-preview/sqlServerDatabases.json
   - Microsoft.AzureArcData/preview/2023-10-01-preview/sqlServerInstances.json
-  - Microsoft.AzureArcData/preview/2023-10-01-preview/sqlServerAvailabilityGroups.json
 ```
 
-### Tag: package-preview-2023-06
+### Tag: package-preview-2023-09
 
-These settings apply only when `--tag=package-preview-2023-06` is specified on the command line.
+These settings apply only when `--tag=package-preview-2023-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2023-06'
+``` yaml $(tag) == 'package-preview-2023-09'
 input-file:
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/activeDirectoryConnectors.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/azurearcdata.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/common.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/dataControllers.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/failoverGroups.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/operations.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/postgresInstances.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/sqlManagedInstances.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/sqlServerDatabases.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/sqlServerInstances.json
-  - Microsoft.AzureArcData/preview/2023-06-13-alpha/sqlServerAvailabilityGroups.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/activeDirectoryConnectors.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/azurearcdata.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/common.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/dataControllers.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/failoverGroups.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/operations.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/postgresInstances.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/sqlServerAvailabilityGroups.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/sqlServerDatabases.json
+  - Microsoft.AzureArcData/preview/2023-09-01-preview/sqlServerInstances.json
 ```
 
 ### Tag: package-preview-2023-05
@@ -124,6 +144,56 @@ input-file:
   - Microsoft.AzureArcData/preview/2023-05-16-preview/sqlServerDatabases.json
   - Microsoft.AzureArcData/preview/2023-05-16-preview/sqlServerInstances.json
   - Microsoft.AzureArcData/preview/2023-05-16-preview/sqlServerAvailabilityGroups.json
+```
+
+### Tag: package-preview-2023-01
+
+These settings apply only when `--tag=package-preview-2023-01` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2023-01'
+input-file:
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/activeDirectoryConnectors.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/azurearcdata.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/common.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/dataControllers.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/failoverGroups.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/operations.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/postgresInstances.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/sqlServerInstances.json
+  - Microsoft.AzureArcData/preview/2023-01-15-preview/sqlServerDatabases.json
+```
+
+### Tag: package-preview-2022-06
+
+These settings apply only when `--tag=package-preview-2022-06` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2022-06'
+input-file:
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/activeDirectoryConnectors.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/azurearcdata.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/common.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/dataControllers.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/operations.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/postgresInstances.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/sqlServerInstances.json
+  - Microsoft.AzureArcData/preview/2022-06-15-preview/sqlServerDatabases.json
+```
+
+### Tag: package-preview-2022-03
+
+These settings apply only when `--tag=package-preview-2022-03` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2022-03'
+input-file:
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/azurearcdata.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/common.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/dataControllers.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/operations.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/postgresInstances.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/sqlManagedInstances.json
+  - Microsoft.AzureArcData/preview/2022-03-01-preview/sqlServerInstances.json
 ```
 
 ### Tag: package-2021-11-01
@@ -176,12 +246,14 @@ swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-sdk-for-net
   - repo: azure-sdk-for-ruby
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_azurearcdata']
   - repo: azure-resource-manager-schemas
+  - repo: azure-powershell
 ```
 
 ## Go
