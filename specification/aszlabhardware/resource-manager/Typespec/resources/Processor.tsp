@@ -10,7 +10,7 @@ model Processor {
     manufacturer?: string;
 
     @doc("The processor model")
-    processorModel?: string;
+    `model`?: string;
 
     @doc("The processor version")
     version?: string;

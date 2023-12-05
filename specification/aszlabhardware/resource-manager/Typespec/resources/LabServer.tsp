@@ -1,5 +1,5 @@
 import "../main.tsp";
-import "./Inventory.tsp";
+import "./AszLabHardwareSystem.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -44,7 +44,7 @@ model LabServerProperties {
 
     @visibility("read", "query")
     @doc("Server Inventory Information")
-    inventory?: Inventory;
+    inventory?: AszLabHardwareSystem;
 
     @visibility("create", "update", "read")
     @doc("Server banner. Temporary field during development.")

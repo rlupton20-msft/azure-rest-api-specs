@@ -10,7 +10,7 @@ model Drive {
     manufacturer?: string;
 
     @doc("Disk drive model")
-    driveModel?: string;
+    `model`?: string;
 
     @doc("Part number of the disk drive")
     partNumber?: string;
@@ -25,5 +25,5 @@ model Drive {
     mediaType?: string;
 
     @doc("Capacity of the disk drive in bytes")
-    capacityBytes?: int64;
+    capacityBytes: int64;
 }

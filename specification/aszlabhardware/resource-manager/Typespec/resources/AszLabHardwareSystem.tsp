@@ -16,7 +16,7 @@ model AszLabHardwareSystem {
     manufacturer?: string;
 
     @doc("The model of the server")
-    aszLabHardwareSystemModel?: string;
+    `model`?: string;
 
     @doc("The part number of the server")
     partNumber?: string;

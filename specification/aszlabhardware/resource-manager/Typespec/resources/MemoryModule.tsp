@@ -20,7 +20,7 @@ model MemoryModule {
     serialNumber?: string;
 
     @doc("Capacity of memory module in MiB")
-    capacityMib?: int64;
+    capacityMib: int64;
 
     @doc("Device type of memory module")
     memoryDeviceType?: string;

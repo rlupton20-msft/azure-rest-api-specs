@@ -7,7 +7,7 @@ model Port {
     linkType?: string;
 
     @doc("Link speed of port in Mbps")
-    linkSpeedMbps?: int64;
+    linkSpeedMbps: int64;
 
     @doc("Link status of port")
     linkStatus?: string;

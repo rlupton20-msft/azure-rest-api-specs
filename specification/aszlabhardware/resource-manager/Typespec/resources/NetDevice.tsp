@@ -9,7 +9,7 @@ model NetDevice {
     manufacturer?: string;
 
     @doc("Model of the network device")
-    netDeviceModel?: string;
+    `model`?: string;
 
     @doc("Part number of the network device")
     partNumber?: string;
