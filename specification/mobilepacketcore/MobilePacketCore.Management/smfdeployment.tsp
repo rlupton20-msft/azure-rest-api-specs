@@ -16,7 +16,7 @@ using OpenAPI;
 namespace Microsoft.MobilePacketCore;
 
 @doc("Azure for Operators 5G Core Session Management Function (SMF) Deployment Resource")
-@resource("smfDeployment")
+@resource("smfDeployments")
 model SmfDeploymentResource
   is TrackedResource<SmfDeploymentResourceProperties> {
   @doc("The name of the SmfDeployment")
