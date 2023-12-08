@@ -1,12 +1,3 @@
-import "../main.tsp";
-
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.ResourceManager;
-
-namespace Private.AszLabHardware;
-
 @doc("The status of the resource manager.")
 enum ResourceManagerStatus {
     @doc("The resource is being created.")

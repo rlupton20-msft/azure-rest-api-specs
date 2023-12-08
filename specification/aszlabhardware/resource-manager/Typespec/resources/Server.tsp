@@ -1,4 +1,5 @@
 import "../main.tsp";
+import "../models/ResourceManager.tsp";
 import "./Reservation.tsp";
 
 using TypeSpec.Http;
@@ -38,6 +39,10 @@ model ServerProperties {
     @visibility("read")
     @doc("IP address of the server's BMC.")
     bmcIpAddress: string;
+
+    @visibility("read", "query")
+    @doc("Server Inventory Information")
+    inventory?: System;
 }
 
 @armResourceOperations(Server)

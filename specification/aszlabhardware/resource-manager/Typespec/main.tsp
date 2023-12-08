@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./resources/LabServer.tsp";
-import "./resources/ResourceManager.tsp";
 import "./resources/Reservation.tsp";
 import "./resources/Server.tsp";
 

@@ -4,7 +4,7 @@ import "./StorageCollection.tsp";
 import "./NetworkCollection.tsp";
 
 @doc("Details of the physical properties of the AszLabHw Server System")
-model AszLabHardwareSystem {
+model System {
     @doc("The IP Address of the server to be used as unique identifier. Typespec requires this per https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#modeling-arrays-of-complex-types")
     id?: string;
 

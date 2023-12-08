@@ -1,5 +1,6 @@
 import "../main.tsp";
-import "./ReservationConstraints.tsp";
+import "../models/ReservationConstraints.tsp";
+import "../models/ResourceManager.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
