@@ -2,7 +2,7 @@ import "./common.tsp";
 
 @doc("The Subscription internal properties")
 model SubscriptionInternalProperties {
-  @doc("Billing properties.")
+  @doc("Subscription Billing properties.")
   billingProperties?: BillingProperties;
 
   @doc("Subscription Id")
@@ -11,13 +11,13 @@ model SubscriptionInternalProperties {
   @doc("Subscription display name")
   displayName?: string;
 
-  @doc("Entitlement start date")
+  @doc("Subscription Entitlement start date")
   entitlementStartDate?: string;
 
-  @doc("Offer Category")
+  @doc("Subscription Offer Category")
   offerCategory?: string;
 
-  @doc("offer Type")
+  @doc("Subscription offer Type")
   offerType?: string;
 
   @doc("Promotions offered to the subscription")
@@ -29,31 +29,31 @@ model SubscriptionInternalProperties {
   @doc("Subscription policies")
   subscriptionPolicies?: SubscriptionPolicies;
 
-  @doc("internal subscription policies")
+  @doc("Internal subscription policies")
   internalSubscriptionPolicies?: InternalSubscriptionPolicies;
 
-  @doc("Tenant Id")
+  @doc("Subscription Tenant Id")
   tenantId: string;
 
-  @doc("Created Time")
+  @doc("Subscription Created Time")
   changedTime?: utcDateTime;
 
-  @doc("Created Time")
+  @doc("Subscription Created Time")
   createdTime?: utcDateTime;
 
-  @doc("Provisioning state")
+  @doc("Subscription Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
 @doc("List of promotions")
 model PromotionsList {
-  @doc("Promotion")
+  @doc("Promotions that are offered to the subscription")
   @OpenAPI.extension("x-ms-identifiers", [])
   value: PromotionData[];
 }
 
-@doc("Promotion")
+@doc("Promotion cateegory and end date time")
 model PromotionData {
   @doc("promotion category free vs pay-as-you-go")
   category: string;
@@ -62,7 +62,7 @@ model PromotionData {
   endDateTime: utcDateTime;
 }
 
-@doc("Subscription state")
+@doc("Subscription states")
 enum State {
   @doc("Registered subscription state")
   Registered,
@@ -119,7 +119,7 @@ model BillingAccount {
   id: string;
 }
 
-@doc("Subscription state image type")
+@doc("Subscription billing types")
 enum BillingType {
   @doc("Legacy billing type")
   Legacy,
@@ -128,7 +128,7 @@ enum BillingType {
   Modern,
 }
 
-@doc("Subscription state image type")
+@doc("Subscription channel type")
 enum ChannelType {
   @doc("None channel type")
   None,
@@ -146,7 +146,7 @@ enum ChannelType {
   PartnerLed,
 }
 
-@doc("Subscription state image type")
+@doc("Subscription state payment type")
 enum PaymentType {
   @doc("None payment type")
   None,
@@ -170,7 +170,7 @@ enum PaymentType {
   Benefit,
 }
 
-@doc("Subscription state image type")
+@doc("Subscription tier")
 enum Tier {
   @doc("Unknown tier")
   Unknown,
@@ -185,7 +185,7 @@ enum Tier {
   Priority,
 }
 
-@doc("Subscription state image type")
+@doc("Subscription workload type")
 enum WorkloadType {
   @doc("None workload type")
   None,
