@@ -1044,17 +1044,6 @@
         "type"
       ]
     },
-    "BootstrapAuthenticationRuleUpdate": {
-      "type": "object",
-      "description": "The authentication rule for bootstrap.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/BootstrapAuthenticationType",
-          "description": "The type of authentication rule."
-        }
-      },
-      "discriminator": "type"
-    },
     "BootstrapAuthenticationType": {
       "type": "string",
       "description": "The authentication type for bootstrap.",
@@ -1097,16 +1086,6 @@
         "properties"
       ]
     },
-    "CaConfigUpdate": {
-      "type": "object",
-      "description": "The configuration for setting up a CA.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/CertificatePropertiesUpdate",
-          "description": "Certificate properties."
-        }
-      }
-    },
     "CertPolicyConfig": {
       "type": "object",
       "description": "The configuration for setting up a policy.",
@@ -1120,17 +1099,6 @@
       "required": [
         "validityPeriodInDays"
       ]
-    },
-    "CertPolicyConfigUpdate": {
-      "type": "object",
-      "description": "The configuration for setting up a policy.",
-      "properties": {
-        "validityPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The validity period in days."
-        }
-      }
     },
     "CertificateIssuanceRule": {
       "type": "object",
@@ -1160,29 +1128,6 @@
         "leafCertificateConfiguration",
         "renewalInterval"
       ]
-    },
-    "CertificateIssuanceRuleUpdate": {
-      "type": "object",
-      "description": "Certificate issuance configurations.",
-      "properties": {
-        "issuingAuthority": {
-          "$ref": "#/definitions/SupportedIssuingAuthority",
-          "description": "The type of authority for cert issuance."
-        },
-        "certificateAuthorityConfiguration": {
-          "$ref": "#/definitions/CaConfigUpdate",
-          "description": "The configuration to set up an ICA."
-        },
-        "leafCertificateConfiguration": {
-          "$ref": "#/definitions/CertPolicyConfigUpdate",
-          "description": "The leaf certificate configuration."
-        },
-        "renewalInterval": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Cert renewal interval."
-        }
-      }
     },
     "CertificateProperties": {
       "type": "object",
@@ -1221,16 +1166,6 @@
       "required": [
         "keyType"
       ]
-    },
-    "CertificatePropertiesUpdate": {
-      "type": "object",
-      "description": "Certificate properties.",
-      "properties": {
-        "keyType": {
-          "$ref": "#/definitions/SupportedKeyType",
-          "description": "Crypto type: RSA or EC."
-        }
-      }
     },
     "DeviceEndpoint": {
       "type": "object",
@@ -1415,26 +1350,6 @@
       ],
       "x-ms-discriminator-value": "Microsoft.DeviceRegistry/devices"
     },
-    "DeviceRegistryProvisioningPolicyResourceDetailsUpdate": {
-      "type": "object",
-      "description": "Details of the ProvisioningService Device Registry ProvisioningPolicy.",
-      "properties": {
-        "operationalIdentityInfo": {
-          "$ref": "#/definitions/IdentityInfoUpdate",
-          "description": "Identity information."
-        },
-        "resourceMetadata": {
-          "$ref": "#/definitions/ResourceMetadata",
-          "description": "Resource metadata."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "Microsoft.DeviceRegistry/devices"
-    },
     "DiscoveryBootstrapAuthenticationRule": {
       "type": "object",
       "description": "The Discovery-based authentication rule for bootstrapping.",
@@ -1445,32 +1360,12 @@
       ],
       "x-ms-discriminator-value": "Discovery"
     },
-    "DiscoveryBootstrapAuthenticationRuleUpdate": {
-      "type": "object",
-      "description": "The Discovery-based authentication rule for bootstrapping.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "Discovery"
-    },
     "DiscoveryProvisioningPolicyResourceDetails": {
       "type": "object",
       "description": "Details of the ProvisioningService Discovery ProvisioningPolicy.",
       "allOf": [
         {
           "$ref": "#/definitions/ProvisioningPolicyResourceDetails"
-        }
-      ],
-      "x-ms-discriminator-value": "Microsoft.HybridCompute/machines"
-    },
-    "DiscoveryProvisioningPolicyResourceDetailsUpdate": {
-      "type": "object",
-      "description": "Details of the ProvisioningService Discovery ProvisioningPolicy.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate"
         }
       ],
       "x-ms-discriminator-value": "Microsoft.HybridCompute/machines"
@@ -1545,20 +1440,6 @@
         "deviceTemplateId",
         "staticGroupId"
       ]
-    },
-    "IdentityInfoUpdate": {
-      "type": "object",
-      "description": "The information related to device identity.",
-      "properties": {
-        "certificateIssuance": {
-          "$ref": "#/definitions/CertificateIssuanceRuleUpdate",
-          "description": "Certificate issuance settings."
-        },
-        "staticGroupId": {
-          "type": "string",
-          "description": "Guid for static AAD group."
-        }
-      }
     },
     "JitRule": {
       "type": "object",
@@ -1682,6 +1563,48 @@
         "value"
       ]
     },
+    "ProvisioningPolicyPatchProperties": {
+      "type": "object",
+      "description": "Provisioning policies model for patch.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the policy"
+        },
+        "status": {
+          "type": "boolean",
+          "description": "The policy status"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "bootstrapAuthentication": {
+          "$ref": "#/definitions/BootstrapAuthenticationRule",
+          "description": "The bootstrap authentication rule."
+        },
+        "allocations": {
+          "type": "array",
+          "description": "Allocation rules.",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/AllocationRule"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
+        "jit": {
+          "$ref": "#/definitions/JitRuleUpdate",
+          "description": "Just-in-time rule to create the device resource."
+        },
+        "resourceDetails": {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails",
+          "description": "Further details about the policy resource"
+        }
+      }
+    },
     "ProvisioningPolicyProperties": {
       "type": "object",
       "description": "Details of the ProvisioningService ProvisioningPolicy.",
@@ -1729,55 +1652,6 @@
         "resourceDetails"
       ]
     },
-    "ProvisioningPolicyPropertiesUpdate": {
-      "type": "object",
-      "description": "The template for adding optional properties.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the policy"
-        },
-        "status": {
-          "type": "boolean",
-          "description": "The policy status"
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "bootstrapAuthentication": {
-          "$ref": "#/definitions/BootstrapAuthenticationRule",
-          "description": "The bootstrap authentication rule."
-        },
-        "allocations": {
-          "type": "array",
-          "description": "Allocation rules.",
-          "maxItems": 1,
-          "items": {
-            "$ref": "#/definitions/AllocationRule"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
-        },
-        "jit": {
-          "$ref": "#/definitions/JitRule",
-          "description": "Just-in-time rule to create the device resource."
-        },
-        "resourceDetails": {
-          "$ref": "#/definitions/ProvisioningPolicyResourceDetails",
-          "description": "Further details about the policy resource"
-        }
-      }
-    },
     "ProvisioningPolicyResourceDetails": {
       "type": "object",
       "description": "Common further details about the policy resource",
@@ -1791,17 +1665,6 @@
       "required": [
         "type"
       ]
-    },
-    "ProvisioningPolicyResourceDetailsUpdate": {
-      "type": "object",
-      "description": "Common further details about the policy resource",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/ProvisioningResourceType",
-          "description": "Type of the resource being provisioned."
-        }
-      },
-      "discriminator": "type"
     },
     "ProvisioningPolicyResourceId": {
       "type": "string",
@@ -1846,7 +1709,7 @@
           "description": "The policy status"
         },
         "bootstrapAuthentication": {
-          "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate",
+          "$ref": "#/definitions/BootstrapAuthenticationRule",
           "description": "The bootstrap authentication rule."
         },
         "allocations": {
@@ -1865,7 +1728,7 @@
           "description": "Just-in-time rule to create the device resource."
         },
         "resourceDetails": {
-          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate",
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails",
           "description": "Further details about the policy resource"
         }
       }
@@ -2054,7 +1917,9 @@
       "description": "Resource metadata",
       "properties": {
         "customAttributes": {
+          "type": "object",
           "description": "Custom attributes",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "create"
@@ -2121,32 +1986,13 @@
       ],
       "x-ms-discriminator-value": "X509"
     },
-    "X509BootstrapAuthenticationRuleUpdate": {
-      "type": "object",
-      "description": "The x509-based authentication rule for bootstrapping.",
-      "properties": {
-        "primaryCertificate": {
-          "$ref": "#/definitions/X509CertificateUpdate",
-          "description": "The primary certificate. B64 x509 cert"
-        },
-        "secondaryCertificate": {
-          "$ref": "#/definitions/X509CertificateUpdate",
-          "description": "The secondary certificate."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "X509"
-    },
     "X509Certificate": {
       "type": "object",
       "description": "X509 Certificate.",
       "properties": {
         "certificate": {
           "type": "string",
+          "format": "byte",
           "description": "The certificate."
         },
         "thumbprint": {
@@ -2164,16 +2010,6 @@
       "required": [
         "certificate"
       ]
-    },
-    "X509CertificateUpdate": {
-      "type": "object",
-      "description": "X509 Certificate.",
-      "properties": {
-        "certificate": {
-          "type": "string",
-          "description": "The certificate."
-        }
-      }
     }
   },
   "parameters": {
