@@ -123,6 +123,7 @@ model MdsResourceProperties {
 
   @visibility("read")
   @doc("Profile of Akv Created.")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   akvProfile?: AkvProfile;
 
   @visibility("read")
@@ -170,10 +171,10 @@ model MdsResourceProperties {
   @visibility("read", "create")
   userManagedDatabaseProfile?: UserManagedDatabaseProfile;
  
-  @doc("Profile of User Manged Adx.")
+  @doc("Profile of User Managed Adx.")
   @added(Versions.v2024_02_01_preview)
   @visibility("read", "create")
-  userMangedAdxProfile?: UserManagedAdxProfile;
+  userManagedAdxProfile?: UserManagedAdxProfile;
 
   @visibility("read", "create")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
@@ -275,6 +276,7 @@ model UserManagedAdxProfile {
 
 
 @doc("The properties related to Azure Key Vault (Akv) Resource")
+@removed(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
 model AkvProfile {
   
   @doc("Resource Id of Akv Resource")
@@ -374,11 +376,11 @@ model AmlProfile {
   
   @doc("Resource Id of Azure Machine Learning Resource")
   @visibility("read", "create", "update")
-  id?: string;
+  id: string;
 
   @doc("Custom Ner Service Uri")
   @visibility("read", "create", "update")
-  customNerServiceUri?: string;
+  customNerServiceUri: string;
 }
 
 @doc("The properties related to CMK")
