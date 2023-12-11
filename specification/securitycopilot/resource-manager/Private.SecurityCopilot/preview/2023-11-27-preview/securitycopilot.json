@@ -43,7 +43,7 @@
       "name": "Operations"
     },
     {
-      "name": "SecurityCopilotUnits"
+      "name": "Capacities"
     }
   ],
   "paths": {
@@ -73,12 +73,38 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Operations_List_MaximumSet_Gen": {
-            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.SecurityCopilot/capacities": {
+      "get": {
+        "operationId": "Capacities_ListBySubscription",
+        "tags": [
+          "Capacities"
+        ],
+        "description": "List Capacity resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
-          "Operations_List_MinimumSet_Gen": {
-            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CapacityListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
@@ -88,9 +114,9 @@
     },
     "/subscriptions/{subscriptionId}/providers/Private.SecurityCopilot/checkNameAvailability": {
       "post": {
-        "operationId": "SecurityCopilotUnits_CheckGlobalNameAvailability",
+        "operationId": "Capacities_CheckGlobalNameAvailability",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
         "description": "Adds check global name availability operation, normally used if\na resource name must be globally unique (for example, if the resource\nexposes and endpoint that uses the resource name in the url)",
         "parameters": [
@@ -123,63 +149,16 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_CheckGlobalNameAvailability_MaximumSet_Gen": {
-            "$ref": "./examples/SecurityCopilotUnits_CheckGlobalNameAvailability_MaximumSet_Gen.json"
-          },
-          "SecurityCopilotUnits_CheckGlobalNameAvailability_MinimumSet_Gen": {
-            "$ref": "./examples/SecurityCopilotUnits_CheckGlobalNameAvailability_MinimumSet_Gen.json"
-          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Private.SecurityCopilot/scu": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.SecurityCopilot/capacities": {
       "get": {
-        "operationId": "SecurityCopilotUnits_ListBySubscription",
+        "operationId": "Capacities_ListByResourceGroup",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
-        "description": "List SecurityCopilotUnit resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnitListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_ListBySubscription": {
-            "$ref": "./examples/SecurityCopilotUnits_ListBySubscription_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.SecurityCopilot/scu": {
-      "get": {
-        "operationId": "SecurityCopilotUnits_ListByResourceGroup",
-        "tags": [
-          "SecurityCopilotUnits"
-        ],
-        "description": "List SecurityCopilotUnit resources by resource group",
+        "description": "List Capacity resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -195,7 +174,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnitListResult"
+              "$ref": "#/definitions/CapacityListResult"
             }
           },
           "default": {
@@ -205,23 +184,18 @@
             }
           }
         },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_ListByResourceGroup": {
-            "$ref": "./examples/SecurityCopilotUnits_ListByResourceGroup_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.SecurityCopilot/scu/{name}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.SecurityCopilot/capacities/{name}": {
       "get": {
-        "operationId": "SecurityCopilotUnits_Get",
+        "operationId": "Capacities_Get",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
-        "description": "Get a SecurityCopilotUnit",
+        "description": "Get a Capacity",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -245,7 +219,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnit"
+              "$ref": "#/definitions/Capacity"
             }
           },
           "default": {
@@ -254,19 +228,14 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_Get": {
-            "$ref": "./examples/SecurityCopilotUnits_Get_MaximumSet_Gen.json"
-          }
         }
       },
       "put": {
-        "operationId": "SecurityCopilotUnits_CreateOrUpdate",
+        "operationId": "Capacities_CreateOrUpdate",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
-        "description": "Create a SecurityCopilotUnit",
+        "description": "Create a Capacity",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -291,21 +260,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnit"
+              "$ref": "#/definitions/Capacity"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'SecurityCopilotUnit' update operation succeeded",
+            "description": "Resource 'Capacity' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnit"
+              "$ref": "#/definitions/Capacity"
             }
           },
           "201": {
-            "description": "Resource 'SecurityCopilotUnit' create operation succeeded",
+            "description": "Resource 'Capacity' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnit"
+              "$ref": "#/definitions/Capacity"
             },
             "headers": {
               "Retry-After": {
@@ -322,22 +291,17 @@
             }
           }
         },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_CreateOrUpdate": {
-            "$ref": "./examples/SecurityCopilotUnits_CreateOrUpdate_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       },
       "patch": {
-        "operationId": "SecurityCopilotUnits_Update",
+        "operationId": "Capacities_Update",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
-        "description": "Update a SecurityCopilotUnit",
+        "description": "Update a Capacity",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -362,7 +326,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnitUpdate"
+              "$ref": "#/definitions/CapacityUpdate"
             }
           }
         ],
@@ -370,7 +334,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SecurityCopilotUnit"
+              "$ref": "#/definitions/Capacity"
             }
           },
           "default": {
@@ -379,19 +343,14 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_Update": {
-            "$ref": "./examples/SecurityCopilotUnits_Update_MaximumSet_Gen.json"
-          }
         }
       },
       "delete": {
-        "operationId": "SecurityCopilotUnits_Delete",
+        "operationId": "Capacities_Delete",
         "tags": [
-          "SecurityCopilotUnits"
+          "Capacities"
         ],
-        "description": "Delete a SecurityCopilotUnit",
+        "description": "Delete a Capacity",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -424,19 +383,111 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "SecurityCopilotUnits_Delete_MaximumSet_Gen": {
-            "$ref": "./examples/SecurityCopilotUnits_Delete_MaximumSet_Gen.json"
-          },
-          "SecurityCopilotUnits_Delete_MinimumSet_Gen": {
-            "$ref": "./examples/SecurityCopilotUnits_Delete_MinimumSet_Gen.json"
-          }
         }
       }
     }
   },
   "definitions": {
+    "Capacity": {
+      "type": "object",
+      "description": "A Capacity resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CapacityProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "CapacityListResult": {
+      "type": "object",
+      "description": "The response of a Capacity list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Capacity items on this page",
+          "items": {
+            "$ref": "#/definitions/Capacity"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "CapacityProperties": {
+      "type": "object",
+      "description": "Capacity properties",
+      "properties": {
+        "noOfUnits": {
+          "type": "integer",
+          "format": "int64",
+          "description": "No of Units",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "isAllowCrossRegionCompute": {
+          "type": "boolean",
+          "description": "Is corss region compute allowed"
+        }
+      },
+      "required": [
+        "isAllowCrossRegionCompute"
+      ]
+    },
+    "CapacityUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the Capacity.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/CapacityUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "CapacityUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the Capacity.",
+      "properties": {
+        "noOfUnits": {
+          "type": "integer",
+          "format": "int64",
+          "description": "No of Units",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "isAllowCrossRegionCompute": {
+          "type": "boolean",
+          "description": "Is corss region compute allowed"
+        }
+      }
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource.",
@@ -489,112 +540,6 @@
             "description": "The resource create request has been accepted"
           }
         ]
-      }
-    },
-    "SecurityCopilotUnit": {
-      "type": "object",
-      "description": "A Security Copilot Unit resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SecurityCopilotUnitProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "SecurityCopilotUnitListResult": {
-      "type": "object",
-      "description": "The response of a SecurityCopilotUnit list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The SecurityCopilotUnit items on this page",
-          "items": {
-            "$ref": "#/definitions/SecurityCopilotUnit"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "SecurityCopilotUnitProperties": {
-      "type": "object",
-      "description": "Security Copilots Unit properties",
-      "properties": {
-        "noOfUnits": {
-          "type": "integer",
-          "format": "int64",
-          "description": "No of Units",
-          "minimum": 1
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "capacityLocation": {
-          "type": "string",
-          "description": "Location of Capacity Unit",
-          "readOnly": true
-        },
-        "workspace": {
-          "type": "string",
-          "description": "Name of the workspace",
-          "pattern": "^[a-zA-Z0-9-]{3,63}$"
-        }
-      },
-      "required": [
-        "capacityLocation",
-        "workspace"
-      ]
-    },
-    "SecurityCopilotUnitUpdate": {
-      "type": "object",
-      "description": "The type used for update operations of the SecurityCopilotUnit.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/SecurityCopilotUnitUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "SecurityCopilotUnitUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the SecurityCopilotUnit.",
-      "properties": {
-        "noOfUnits": {
-          "type": "integer",
-          "format": "int64",
-          "description": "No of Units",
-          "minimum": 1
-        },
-        "workspace": {
-          "type": "string",
-          "description": "Name of the workspace",
-          "pattern": "^[a-zA-Z0-9-]{3,63}$"
-        }
       }
     }
   },

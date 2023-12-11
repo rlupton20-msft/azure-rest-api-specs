@@ -21,33 +21,29 @@ using Azure.ResourceManager;
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.SecurityCopilot;
 
-@doc("A Security Copilot Unit resource")
-model SecurityCopilotUnit is TrackedResource<SecurityCopilotUnitProperties> {
+@doc("A Capacity resource")
+model Capacity is TrackedResource<CapacityProperties> {
   @doc("Name of capacity unit")
   @pattern("^[a-zA-Z0-9-]{3,63}$")
   @key("name")
   @path
-  @segment("scu")
+  @segment("capacities")
   name: string;
 }
 
-@doc("Security Copilots Unit properties")
-model SecurityCopilotUnitProperties {
+@doc("Capacity properties")
+model CapacityProperties {
   @doc("No of Units")
   @minValue(1)
+  @maxValue(999)
   noOfUnits?: int64;
 
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("Location of Capacity Unit")
-  @visibility("read")
-  capacityLocation: string;
-
-  @doc("Name of the workspace")
-  @pattern("^[a-zA-Z0-9-]{3,63}$")
-  workspace: string;
+  @doc("Is corss region compute allowed")
+  isAllowCrossRegionCompute: boolean;
 }
 
 @doc("The provisioning state of a resource.")
@@ -71,15 +67,12 @@ enum ProvisioningState {
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @armResourceOperations
-interface SecurityCopilotUnits {
-  get is ArmResourceRead<SecurityCopilotUnit>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SecurityCopilotUnit>;
-  update is ArmResourcePatchSync<
-    SecurityCopilotUnit,
-    SecurityCopilotUnitProperties
-  >;
-  delete is ArmResourceDeleteSync<SecurityCopilotUnit>;
-  listByResourceGroup is ArmResourceListByParent<SecurityCopilotUnit>;
-  listBySubscription is ArmListBySubscription<SecurityCopilotUnit>;
+interface Capacities {
+  get is ArmResourceRead<Capacity>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<Capacity>;
+  update is ArmResourcePatchSync<Capacity, CapacityProperties>;
+  delete is ArmResourceDeleteSync<Capacity>;
+  listByResourceGroup is ArmResourceListByParent<Capacity>;
+  listBySubscription is ArmListBySubscription<Capacity>;
   checkGlobalNameAvailability is checkGlobalNameAvailability;
 }
