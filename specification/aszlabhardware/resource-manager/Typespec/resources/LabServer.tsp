@@ -61,4 +61,7 @@ model LabServerProperties {
 }
 
 @armResourceOperations(LabServer)
-interface LabServers extends TrackedResourceOperations<LabServer, LabServerProperties>{}
+interface LabServers extends TrackedResourceOperations<LabServer, LabServerProperties>{
+    @doc("Collects the inventory of the server")
+    collectInventory is ArmResourceActionNoContentSync<LabServer, {}>
+}
