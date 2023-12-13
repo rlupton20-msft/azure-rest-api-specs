@@ -24,7 +24,7 @@ model NetDevice {
     portCount: int32;
 
     @doc("List of MACs for network device")
-    netDeviceMacs: string[];
+    netDeviceMACs: string[];
 
     @doc("Information of individual ports on network device")
     ports: Port[];
