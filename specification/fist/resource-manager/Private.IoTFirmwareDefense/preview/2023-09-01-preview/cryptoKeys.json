@@ -34,13 +34,13 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/binaryHardeningResults": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cryptoKeys": {
       "get": {
         "tags": [
-          "BinaryHardening"
+          "CryptoKeys"
         ],
-        "operationId": "BinaryHardening_ListByFirmware",
-        "description": "Lists binary hardening analysis results of a firmware.",
+        "operationId": "CryptoKeys_ListByFirmware",
+        "description": "Lists cryptographic key analysis results found in a firmware.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
@@ -62,7 +62,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/BinaryHardeningListResult"
+              "$ref": "#/definitions/CryptoKeyListResult"
             }
           },
           "default": {
@@ -76,94 +76,80 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "BinaryHardening_ListByFirmware_MaximumSet_Gen": {
-            "$ref": "./examples/BinaryHardening_ListByFirmware_MaximumSet_Gen.json"
+          "CryptoKeys_ListByFirmware_MaximumSet_Gen": {
+            "$ref": "./examples/CryptoKeys_ListByFirmware_MaximumSet_Gen.json"
           },
-          "BinaryHardening_ListByFirmware_MinimumSet_Gen": {
-            "$ref": "./examples/BinaryHardening_ListByFirmware_MinimumSet_Gen.json"
+          "CryptoKeys_ListByFirmware_MinimumSet_Gen": {
+            "$ref": "./examples/CryptoKeys_ListByFirmware_MinimumSet_Gen.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "BinaryHardeningFeatures": {
+    "CryptoKey": {
       "type": "object",
       "properties": {
-        "nx": {
-          "description": "NX (no-execute) flag.",
-          "type": "boolean"
-        },
-        "pie": {
-          "description": "PIE (position independent executable) flag.",
-          "type": "boolean"
-        },
-        "relro": {
-          "description": "RELRO (relocation read-only) flag.",
-          "type": "boolean"
-        },
-        "canary": {
-          "description": "Canary (stack canaries) flag.",
-          "type": "boolean"
-        },
-        "stripped": {
-          "description": "Stripped flag.",
-          "type": "boolean"
-        }
-      },
-      "description": "Binary hardening features."
-    },
-    "BinaryHardeningResult": {
-      "type": "object",
-      "properties": {
-        "binaryHardeningId": {
-          "description": "ID for the binary hardening result.",
+        "cryptoKeyId": {
+          "description": "ID for the key result.",
           "type": "string",
           "x-nullable": true
         },
-        "features": {
-          "title": "BinaryHardeningFeatures",
-          "description": "Binary hardening features.",
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/BinaryHardeningFeatures"
-        },
-        "architecture": {
-          "description": "The architecture of the uploaded firmware.",
+        "keyType": {
+          "description": "Type of the key (public or private).",
           "type": "string",
           "x-nullable": true
         },
-        "filePath": {
-          "description": "The executable path.",
+        "keySize": {
+          "description": "Size of the key in bits.",
+          "type": "integer",
+          "format": "int64",
+          "x-nullable": true
+        },
+        "keyAlgorithm": {
+          "description": "Key algorithm name.",
           "type": "string",
           "x-nullable": true
         },
-        "class": {
-          "description": "The executable class to indicate 32 or 64 bit.",
-          "type": "string",
+        "usage": {
+          "description": "Functions the key can fulfill.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
           "x-nullable": true
         },
-        "runpath": {
-          "description": "The runpath of the uploaded firmware.",
-          "type": "string",
+        "filePaths": {
+          "type": "array",
+          "readOnly": true,
+          "description": "List of files where this key was found.",
+          "items": {
+            "type": "string"
+          },
           "x-nullable": true
         },
-        "rpath": {
-          "description": "The rpath of the uploaded firmware.",
-          "type": "string",
+        "pairedKey": {
+          "description": "A matching paired key or certificate.",
+          "$ref": "./common.json#/definitions/PairedKey",
+          "x-nullable": true
+        },
+        "isShortKeySize": {
+          "description": "Indicates the key size is considered too small to be secure for the algorithm.",
+          "type": "boolean",
           "x-nullable": true
         }
       },
-      "description": "Binary hardening of a firmware."
+      "description": "Crypto key properties"
     },
-    "BinaryHardeningResource": {
+    "CryptoKeyResource": {
       "type": "object",
-      "description": "binary hardening analysis result resource",
+      "description": "Crypto key resource",
       "properties": {
         "properties": {
-          "title": "binary hardening result properties",
-          "description": "The properties of a binary hardening result found within a firmware image",
+          "title": "Crypto key properties",
+          "description": "The properties of a crypto key found within a firmware image",
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/BinaryHardeningResult"
+          "$ref": "#/definitions/CryptoKey"
         }
       },
       "allOf": [
@@ -172,17 +158,17 @@
         }
       ]
     },
-    "BinaryHardeningListResult": {
+    "CryptoKeyListResult": {
       "type": "object",
-      "description": "List of binary hardening results.",
+      "description": "List of crypto keys.",
       "properties": {
         "value": {
           "type": "array",
           "readOnly": true,
           "items": {
-            "$ref": "#/definitions/BinaryHardeningResource"
+            "$ref": "#/definitions/CryptoKeyResource"
           },
-          "description": "The list of binary hardening results."
+          "description": "The list of crypto key results."
         },
         "nextLink": {
           "type": "string",

@@ -34,13 +34,13 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/binaryHardeningResults": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cves": {
       "get": {
         "tags": [
-          "BinaryHardening"
+          "CVEs"
         ],
-        "operationId": "BinaryHardening_ListByFirmware",
-        "description": "Lists binary hardening analysis results of a firmware.",
+        "operationId": "Cves_ListByFirmware",
+        "description": "Lists CVE analysis results of a firmware.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
@@ -62,7 +62,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/BinaryHardeningListResult"
+              "$ref": "#/definitions/CveListResult"
             }
           },
           "default": {
@@ -76,94 +76,120 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "BinaryHardening_ListByFirmware_MaximumSet_Gen": {
-            "$ref": "./examples/BinaryHardening_ListByFirmware_MaximumSet_Gen.json"
+          "Cves_ListByFirmware_MaximumSet_Gen": {
+            "$ref": "./examples/Cves_ListByFirmware_MaximumSet_Gen.json"
           },
-          "BinaryHardening_ListByFirmware_MinimumSet_Gen": {
-            "$ref": "./examples/BinaryHardening_ListByFirmware_MinimumSet_Gen.json"
+          "Cves_ListByFirmware_MinimumSet_Gen": {
+            "$ref": "./examples/Cves_ListByFirmware_MinimumSet_Gen.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "BinaryHardeningFeatures": {
+    "CveLink": {
       "type": "object",
+      "description": "Properties of a reference link for a CVE.",
       "properties": {
-        "nx": {
-          "description": "NX (no-execute) flag.",
-          "type": "boolean"
+        "href": {
+          "description": "The destination of the reference link.",
+          "type": "string"
         },
-        "pie": {
-          "description": "PIE (position independent executable) flag.",
-          "type": "boolean"
-        },
-        "relro": {
-          "description": "RELRO (relocation read-only) flag.",
-          "type": "boolean"
-        },
-        "canary": {
-          "description": "Canary (stack canaries) flag.",
-          "type": "boolean"
-        },
-        "stripped": {
-          "description": "Stripped flag.",
-          "type": "boolean"
-        }
-      },
-      "description": "Binary hardening features."
-    },
-    "BinaryHardeningResult": {
-      "type": "object",
-      "properties": {
-        "binaryHardeningId": {
-          "description": "ID for the binary hardening result.",
-          "type": "string",
-          "x-nullable": true
-        },
-        "features": {
-          "title": "BinaryHardeningFeatures",
-          "description": "Binary hardening features.",
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/BinaryHardeningFeatures"
-        },
-        "architecture": {
-          "description": "The architecture of the uploaded firmware.",
-          "type": "string",
-          "x-nullable": true
-        },
-        "filePath": {
-          "description": "The executable path.",
-          "type": "string",
-          "x-nullable": true
-        },
-        "class": {
-          "description": "The executable class to indicate 32 or 64 bit.",
-          "type": "string",
-          "x-nullable": true
-        },
-        "runpath": {
-          "description": "The runpath of the uploaded firmware.",
-          "type": "string",
-          "x-nullable": true
-        },
-        "rpath": {
-          "description": "The rpath of the uploaded firmware.",
+        "label": {
+          "description": "The label of the reference link.",
           "type": "string",
           "x-nullable": true
         }
-      },
-      "description": "Binary hardening of a firmware."
+      }
     },
-    "BinaryHardeningResource": {
+    "CveComponent": {
       "type": "object",
-      "description": "binary hardening analysis result resource",
+      "description": "Propertes of the SBOM component for a CVE.",
+      "properties": {
+        "componentId": {
+          "description": "ID of the SBOM component",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the SBOM component",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of the SBOM component.",
+          "type": "string"
+        }
+      }
+    },
+    "CveResult": {
+      "type": "object",
+      "properties": {
+        "cveId": {
+          "description": "ID of the CVE result.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "component": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/CveComponent"
+          },
+          "description": "The SBOM component for the CVE."
+        },
+        "severity": {
+          "description": "Severity of the CVE.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "name": {
+          "description": "Name of the CVE.",
+          "type": "string"
+        },
+        "cvssScore": {
+          "description": "A single CVSS score to represent the CVE. If a V3 score is specified, then it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "cvssVersion": {
+          "description": "CVSS version of the CVE.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "cvssV2Score": {
+          "description": "CVSS V2 score of the CVE.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "cvssV3Score": {
+          "description": "CVSS V3 score of the CVE.",
+          "type": "string",
+          "x-nullable": true
+        },
+        "links": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/CveLink"
+          },
+          "description": "The list of reference links for the CVE.",
+          "x-ms-identifiers": []
+        },
+        "description": {
+          "description": "The CVE description.",
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "description": "Details of a CVE detected in firmware."
+    },
+    "CveResource": {
+      "type": "object",
+      "description": "CVE analysis result resource",
       "properties": {
         "properties": {
-          "title": "binary hardening result properties",
-          "description": "The properties of a binary hardening result found within a firmware image",
+          "title": "CVE result properties",
+          "description": "The properties of a CVE result found within a firmware image",
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/BinaryHardeningResult"
+          "$ref": "#/definitions/CveResult"
         }
       },
       "allOf": [
@@ -172,17 +198,17 @@
         }
       ]
     },
-    "BinaryHardeningListResult": {
+    "CveListResult": {
       "type": "object",
-      "description": "List of binary hardening results.",
+      "description": "List of CVE results.",
       "properties": {
         "value": {
           "type": "array",
           "readOnly": true,
           "items": {
-            "$ref": "#/definitions/BinaryHardeningResource"
+            "$ref": "#/definitions/CveResource"
           },
-          "description": "The list of binary hardening results."
+          "description": "The list of CVE results."
         },
         "nextLink": {
           "type": "string",

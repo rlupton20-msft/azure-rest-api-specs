@@ -34,12 +34,12 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/sbomResults": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/sbomComponents": {
       "get": {
         "tags": [
           "SBOM"
         ],
-        "operationId": "SbomResults_ListByFirmware",
+        "operationId": "SbomComponents_ListByFirmware",
         "description": "Lists SBOM analysis results of a firmware.",
         "parameters": [
           {
@@ -62,7 +62,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/SbomListResult"
+              "$ref": "#/definitions/SbomComponentListResult"
             }
           },
           "default": {
@@ -76,11 +76,11 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "SbomResults_ListByFirmware_MaximumSet_Gen": {
-            "$ref": "./examples/SbomResults_ListByFirmware_MaximumSet_Gen.json"
+          "SbomComponents_ListByFirmware_MaximumSet_Gen": {
+            "$ref": "./examples/SbomComponents_ListByFirmware_MaximumSet_Gen.json"
           },
-          "SbomResults_ListByFirmware_MinimumSet_Gen": {
-            "$ref": "./examples/SbomResults_ListByFirmware_MinimumSet_Gen.json"
+          "SbomComponents_ListByFirmware_MinimumSet_Gen": {
+            "$ref": "./examples/SbomComponents_ListByFirmware_MinimumSet_Gen.json"
           }
         }
       }
@@ -92,7 +92,8 @@
       "properties": {
         "componentId": {
           "description": "ID for the component.",
-          "type": "string"
+          "type": "string",
+          "x-nullable": true
         },
         "componentName": {
           "description": "Name for the component.",
@@ -112,12 +113,12 @@
           "items": {
             "type": "string"
           },
-          "description": "Paths of the component."
+          "description": "File paths related to the component."
         }
       },
-      "description": "Component of a firmware."
+      "description": "SBOM component of a firmware."
     },
-    "SbomResource": {
+    "SbomComponentResource": {
       "type": "object",
       "description": "SBOM analysis result resource",
       "properties": {
@@ -134,15 +135,15 @@
         }
       ]
     },
-    "SbomListResult": {
+    "SbomComponentListResult": {
       "type": "object",
-      "description": "List of SBOM results",
+      "description": "List of SBOM results.",
       "properties": {
         "value": {
           "type": "array",
           "readOnly": true,
           "items": {
-            "$ref": "#/definitions/SbomResource"
+            "$ref": "#/definitions/SbomComponentResource"
           },
           "description": "The list of SBOM components."
         },
@@ -153,14 +154,5 @@
       }
     }
   },
-  "parameters": {
-    "componentIdParameter": {
-      "name": "componentId",
-      "in": "query",
-      "required": false,
-      "type": "string",
-      "description": "The id of SBOM component.",
-      "x-ms-parameter-location": "method"
-    }
-  }
+  "parameters": {}
 }
