@@ -36,7 +36,7 @@ model CapacityProperties {
   @doc("No of Units")
   @minValue(1)
   @maxValue(999)
-  noOfUnits?: int64;
+  noOfUnits: int64;
 
   @visibility("read")
   @doc("The status of the last operation.")
