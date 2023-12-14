@@ -19,10 +19,10 @@ model Processor {
     microCodeInfo?: string;
 
     @doc("The max clock speed")
-    maxSpeedMhz?: int64;
+    maxSpeedMHz?: int64;
 
     @doc("The operating clock speed")
-    operatingSpeedMhz?: int64;
+    operatingSpeedMHz?: int64;
 
     @doc("The number of cores")
     totalCores?: int64;
