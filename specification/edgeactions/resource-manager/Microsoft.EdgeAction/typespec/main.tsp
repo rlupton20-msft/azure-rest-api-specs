@@ -56,6 +56,8 @@ interface UserEdgeActions {
     create is ArmResourceCreateOrUpdateAsync<UserEdgeAction>;
     update is ArmResourcePatchSync<UserEdgeAction, UserEdgeActionProperties>;
     delete is ArmResourceDeleteSync<UserEdgeAction>;
+    listByResourceGroup is ArmResourceListByParent<UserEdgeAction>;
+    listBySubscription is ArmListBySubscription<UserEdgeAction>;
 }
 
 @armResourceOperations
