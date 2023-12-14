@@ -54,6 +54,8 @@ model UserEdgeActionAttachment is ProxyResource<UserEdgeActionAttachmentProperti
 interface UserEdgeActions {
     get is ArmResourceRead<UserEdgeAction>;
     create is ArmResourceCreateOrUpdateAsync<UserEdgeAction>;
+    update is ArmResourcePatchSync<UserEdgeAction, UserEdgeActionProperties>;
+    delete is ArmResourceDeleteSync<UserEdgeAction>;
 }
 
 @armResourceOperations
