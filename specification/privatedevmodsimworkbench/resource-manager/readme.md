@@ -26,7 +26,7 @@ These are the global settings for the privatedevmodsimworkbench.
 
 ```yaml
 openapi-type: arm
-openapi-subtype: providerHub
+openapi-subtype: rpaas
 tag: package-2021-03-01-preview
 ```
 
