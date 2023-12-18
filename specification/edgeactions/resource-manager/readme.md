@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2021-08-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2021-08-01-preview'
 input-file:
-  - Microsoft.EdgeAction/preview/2021-08-01-preview/openapi.json
+  - Microsoft.EdgeAction/preview/2021-08-01-preview/edgeaction.json
 ```
 
 ---
