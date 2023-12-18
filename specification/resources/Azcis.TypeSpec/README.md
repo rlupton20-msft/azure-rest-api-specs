@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2023-08-22-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-08-22-preview'
 input-file:
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/aadApplication.json
+  - Microsoft.AzureCIS/preview/2023-08-22-preview/aad.json
   - Microsoft.AzureCIS/preview/2023-08-22-preview/dns.json
   - Microsoft.AzureCIS/preview/2023-08-22-preview/dscm.json
   - Microsoft.AzureCIS/preview/2023-08-22-preview/environment.json
