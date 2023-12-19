@@ -369,6 +369,70 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlServerInstances/{sqlServerInstanceName}/createAvailabilityGroup": {
+      "post": {
+        "tags": [
+          "SqlServerAvailabilityGroups"
+        ],
+        "description": "Create a SQL Server availability group",
+        "operationId": "SqlServerAvailabilityGroups_CreateAvailabilityGroup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupName"
+          },
+          {
+            "$ref": "#/parameters/sqlServerInstanceName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "createAgConfiguration",
+            "in": "body",
+            "description": "The configuration for the new SQL Server availability group resource.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AvailabilityGroupCreateUpdateConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created the Availability Group.",
+            "schema": {
+              "$ref": "#/definitions/SqlServerAvailabilityGroupResource"
+            }
+          },
+          "202": {
+            "description": "Availability group creation is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create an availability group using this server for the primary replica.": {
+            "$ref": "./examples/CreateSqlServerAvailabilityGroup.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlServerInstances/{sqlServerInstanceName}/availabilityGroups": {
       "get": {
         "tags": [
@@ -684,6 +748,206 @@
         }
       }
     },
+    "AvailabilityGroupCreateUpdateConfiguration": {
+      "description": "Options used in creating an availability group",
+      "type": "object",
+      "properties": {
+        "availabilityGroupName": {
+          "type": "string",
+          "description": "Name of the availability group."
+        },
+        "replicas": {
+          "type": "array",
+          "description": "List of availability group replicas.",
+          "items": {
+            "$ref": "#/definitions/AvailabilityGroupCreateUpdateReplicaConfiguration"
+          },
+          "x-ms-identifiers": [
+            "serverInstance"
+          ]
+        },
+        "databases": {
+          "type": "array",
+          "description": "List of databases to include in the availability group.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "automatedBackupPreference": {
+          "type": "string",
+          "description": "Preferred replica for running automated backups.",
+          "enum": [
+            "PRIMARY",
+            "SECONDARY_ONLY",
+            "SECONDARY",
+            "NONE"
+          ],
+          "x-ms-enum": {
+            "name": "automatedBackupPreference",
+            "modelAsString": false
+          }
+        },
+        "failureConditionLevel": {
+          "type": "integer",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "x-ms-enum": {
+            "name": "failureConditionLevel",
+            "modelAsString": false
+          },
+          "description": "User-defined failure condition level under which an automatic failover must be triggered.",
+          "format": "int32"
+        },
+        "healthCheckTimeout": {
+          "type": "integer",
+          "description": "Wait time (in milliseconds) for the sp_server_diagnostics system stored procedure to return server-health information, before the server instance is assumed to be slow or not responding.",
+          "format": "int32"
+        },
+        "dbFailover": {
+          "type": "string",
+          "description": "Specifies whether the availability group supports failover for database health conditions.",
+          "enum": [
+            "ON",
+            "OFF"
+          ],
+          "x-ms-enum": {
+            "name": "dbFailover",
+            "modelAsString": false
+          }
+        },
+        "dtcSupport": {
+          "type": "string",
+          "description": "Specifies whether DTC support has been enabled for this availability group.",
+          "enum": [
+            "PER_DB",
+            "NONE"
+          ],
+          "x-ms-enum": {
+            "name": "dtcSupport",
+            "modelAsString": false
+          }
+        },
+        "requiredSynchronizedSecondariesToCommit": {
+          "type": "integer",
+          "description": "The number of secondary replicas that must be in a synchronized state for a commit to complete.",
+          "format": "int32"
+        },
+        "listener": {
+          "description": "The listener for the sql server availability group",
+          "$ref": "#/definitions/SqlAvailabilityGroupStaticIPListenerProperties"
+        }
+      }
+    },
+    "AvailabilityGroupCreateUpdateReplicaConfiguration": {
+      "description": "The specifications of the availability group replica configuration",
+      "type": "object",
+      "properties": {
+        "serverInstance": {
+          "type": "string",
+          "description": "the server instance hosting the replica."
+        },
+        "endpointName": {
+          "type": "string",
+          "description": "Name of the database mirroring endpoint URL for the availability group replica"
+        },
+        "endpointUrl": {
+          "type": "string",
+          "description": "Database mirroring endpoint URL of availability group replica"
+        },
+        "availabilityMode": {
+          "type": "string",
+          "description": "Property that determines whether a given availability replica can run in synchronous-commit mode",
+          "enum": [
+            "SYNCHRONOUS_COMMIT",
+            "ASYNCHRONOUS_COMMIT"
+          ],
+          "x-ms-enum": {
+            "name": "arcSqlServerAvailabilityMode",
+            "modelAsString": true
+          }
+        },
+        "failoverMode": {
+          "type": "string",
+          "description": "Property to set the failover mode of the availability group replica",
+          "enum": [
+            "AUTOMATIC",
+            "MANUAL",
+            "EXTERNAL"
+          ],
+          "x-ms-enum": {
+            "name": "arcSqlServerFailoverMode",
+            "modelAsString": true
+          }
+        },
+        "seedingMode": {
+          "type": "string",
+          "description": "Specifies how the secondary replica will be initially seeded. AUTOMATIC enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica. MANUAL specifies manual seeding (default). This method requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.",
+          "enum": [
+            "AUTOMATIC",
+            "MANUAL"
+          ],
+          "x-ms-enum": {
+            "name": "seedingMode",
+            "modelAsString": false
+          }
+        },
+        "backupPriority": {
+          "type": "integer",
+          "description": "Represents the user-specified priority for performing backups on this replica relative to the other replicas in the same availability group.",
+          "format": "int32"
+        },
+        "secondaryRoleAllowConnections": {
+          "type": "string",
+          "description": "Whether the secondary replica should allow all connections, no connections, or only ReadOnly connections.",
+          "enum": [
+            "NO",
+            "ALL",
+            "READ_ONLY"
+          ],
+          "x-ms-enum": {
+            "name": "secondaryAllowConnections",
+            "modelAsString": false
+          }
+        },
+        "secondaryRoleReadOnlyRoutingUrl": {
+          "type": "string",
+          "description": "Connectivity endpoint (URL) of the read only availability replica."
+        },
+        "primaryRoleAllowConnections": {
+          "type": "string",
+          "description": "Whether the primary replica should allow all connections or only READ_WRITE connections (disallowing ReadOnly connections)",
+          "enum": [
+            "ALL",
+            "READ_WRITE"
+          ],
+          "x-ms-enum": {
+            "name": "primaryAllowConnections",
+            "modelAsString": false
+          }
+        },
+        "primaryRoleReadOnlyRoutingList": {
+          "type": "array",
+          "description": "List of read only routing URLs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "primaryRoleReadWriteRoutingUrl": {
+          "type": "string",
+          "description": "Connectivity endpoint (URL) of the read write availability replica."
+        },
+        "sessionTimeout": {
+          "type": "integer",
+          "description": "The time-out period of availability group session replica, in seconds.",
+          "format": "int32"
+        }
+      }
+    },
     "ArcSqlServerAvailabilityGroupListResult": {
       "description": "A list of Arc Sql Server Availability Groups.",
       "type": "object",
@@ -829,10 +1093,6 @@
         "replicaName": {
           "type": "string",
           "description": "the replica name."
-        },
-        "dagPeerAgArmId": {
-          "type": "string",
-          "description": "The resource group/instance name/AG for the peer AG for a DAG."
         },
         "configure": {
           "$ref": "#/definitions/AvailabilityGroupConfigure",
