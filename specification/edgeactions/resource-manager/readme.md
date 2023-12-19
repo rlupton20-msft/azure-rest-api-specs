@@ -1,8 +1,8 @@
-# EdgeAction
+# edgeactions
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for EdgeAction.
+This is the AutoRest configuration file for edgeactions.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the EdgeAction.
+These are the global settings for the edgeactions.
 
 ```yaml
 openapi-type: openapi
@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2021-08-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2021-08-01-preview'
 input-file:
-  - Microsoft.EdgeAction/preview/2021-08-01-preview/openapi.json
+  - Microsoft.EdgeAction/preview/2021-08-01-preview/edgeaction.json
 ```
 
 ---
