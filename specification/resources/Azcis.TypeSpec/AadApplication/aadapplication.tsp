@@ -13,8 +13,11 @@ namespace Microsoft.AzureCIS;
 
 @doc("AadApplication properties")
 model AadApplicationResourceProperties {
+  @doc("Display name of the AAD Application resource. Also used as a key to make the resource idempotent. Must be unique in the tenant. Case-insensitive.")
+  applicationName: string; // Camel case for the parameter names.
+
   @doc("The Tenant Id for AAD Application provision.")
-  tenantId: string; // Camel case for the parameter names.
+  tenantId: string;
 
   @doc("The value defines if the AAD Application is available to other tenants. False by default.")
   availableToOtherTenants?: string;
