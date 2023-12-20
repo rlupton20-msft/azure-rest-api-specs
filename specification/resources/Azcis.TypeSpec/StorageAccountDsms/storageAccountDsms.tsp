@@ -97,12 +97,30 @@ model StorageAccountDsmsResourceProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
+
+  @doc("Properties list")
+  propertiesList?: Properties;
 }
 
 @doc("Defines the array of whitelists for a secret.")
 model Whitelists {
   @doc("Gets or sets the whitelist elements.")
   elements?: Whitelist[];
+}
+
+@doc("Defines the array of properties.")
+model Properties {
+  @doc("Gets or sets the whitelist elements.")
+  elements?: Property[];
+}
+
+@doc("Defines the property element.")
+model Property {
+  @doc("Gets or sets the name of the property.")
+  name?: string;
+
+  @doc("Gets or sets the value of the property.")
+  value?: string;
 }
 
 @doc("Defines the whitelist element for a secret.")
