@@ -43,9 +43,9 @@ model SmfDeploymentResourceProperties {
   @secret
   secretsParameters?: ComponentDeploymentSecrets;
 
-  @doc("Cluster where the Network Function is deployed")
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  cluster: ClusterIdProperty;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
@@ -61,7 +61,7 @@ interface SmfDeployments {
   get is ArmResourceRead<SmfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<SmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<SmfDeploymentResource>;
-  delete is ArmResourceDeleteSync<SmfDeploymentResource>;
+  delete is ArmResourceDeleteAsync<SmfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<SmfDeploymentResource>;
   listBySubscription is ArmListBySubscription<SmfDeploymentResource>;
 }

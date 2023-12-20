@@ -15,27 +15,28 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core Cluster Resource")
-@resource("clusters")
-model ClusterResource is TrackedResource<ClusterResourceProperties> {
-  @doc("The name of the Cluster")
+@doc("Azure for Operators 5G Core Cluster Service Resource")
+@resource("clusterServices")
+model ClusterServiceResource
+  is TrackedResource<ClusterServiceResourceProperties> {
+  @doc("The name of the Cluster Service")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
-  @key("clusterName")
+  @key("clusterServiceName")
   @path
-  @segment("clusters")
+  @segment("clusterServices")
   @visibility("create", "read")
   name: string;
 }
 
-@doc("Cluster Properties.")
-model ClusterResourceProperties {
+@doc("Cluster Service Properties.")
+model ClusterServiceResourceProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Cluster deployment type (Lab or Production)")
+  @doc("Cluster type (Lab or Production)")
   @visibility("create", "read")
   deploymentType: SkuDeploymentType;
 
@@ -43,7 +44,7 @@ model ClusterResourceProperties {
   releaseVersion: ReleaseVersion;
 
   @doc("Cluster type specific data.  Contents depend on the cluster type")
-  clusterTypeSpecificData: ClusterTypeSpecificData;
+  clusterTypeSpecificData: ClusterServiceClusterTypeSpecificData;
 
   @doc("Azure for Operators 5G Core Local PaaS component parameters.  One set per component type")
   @extension("x-ms-identifiers", ["type"])
@@ -54,19 +55,19 @@ model ClusterResourceProperties {
   operationalStatus?: OperationalStatus;
 }
 
-@armResourceOperations(ClusterResource)
-interface Clusters {
-  get is ArmResourceRead<ClusterResource>;
-  createOrUpdate is ArmResourceCreateOrUpdate2Async<ClusterResource>;
-  updateTags is ArmTagsPatchSync<ClusterResource>;
-  delete is ArmResourceDeleteSync<ClusterResource>;
-  listByResourceGroup is ArmResourceListByParent<ClusterResource>;
-  listBySubscription is ArmListBySubscription<ClusterResource>;
+@armResourceOperations(ClusterServiceResource)
+interface ClusterServices {
+  get is ArmResourceRead<ClusterServiceResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<ClusterServiceResource>;
+  updateTags is ArmTagsPatchSync<ClusterServiceResource>;
+  delete is ArmResourceDeleteAsync<ClusterServiceResource>;
+  listByResourceGroup is ArmResourceListByParent<ClusterServiceResource>;
+  listBySubscription is ArmListBySubscription<ClusterServiceResource>;
 }
 
-@doc("Cluster type specific data.")
+@doc("Cluster Service cluster type specific data.")
 @discriminator("type")
-model ClusterTypeSpecificData {
+model ClusterServiceClusterTypeSpecificData {
   @doc("Cluster Type")
   type: ClusterType;
 
@@ -75,22 +76,15 @@ model ClusterTypeSpecificData {
 }
 
 @doc("AKS Cluster specific data.")
-model AksClusterData extends ClusterTypeSpecificData {
+model ClusterServiceAksClusterData
+  extends ClusterServiceClusterTypeSpecificData {
   @doc("Azure Kubernetes Service Properties.")
   type: ClusterType.Aks;
 }
 
 @doc("Nexus AKS Cluster specific data.")
-model NexusAksClusterData extends ClusterTypeSpecificData {
+model ClusterServiceNexusAksClusterData
+  extends ClusterServiceClusterTypeSpecificData {
   @doc("Nexus Operator Kubenetes Service Properties.")
   type: ClusterType.NexusAks;
-}
-
-@doc("Cluster Type Definitions")
-enum ClusterType {
-  @doc("Azure Kubernetes Service")
-  Aks,
-
-  @doc("Azure Operator Nexus Kubernetes Service")
-  NexusAks,
 }

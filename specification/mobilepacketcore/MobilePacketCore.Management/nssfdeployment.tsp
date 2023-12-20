@@ -43,9 +43,9 @@ model NssfDeploymentResourceProperties {
   @secret
   secretsParameters?: ComponentDeploymentSecrets;
 
-  @doc("Cluster where the Network Function is deployed")
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  cluster: ClusterIdProperty;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
@@ -61,7 +61,7 @@ interface NssfDeployments {
   get is ArmResourceRead<NssfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NssfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NssfDeploymentResource>;
-  delete is ArmResourceDeleteSync<NssfDeploymentResource>;
+  delete is ArmResourceDeleteAsync<NssfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<NssfDeploymentResource>;
   listBySubscription is ArmListBySubscription<NssfDeploymentResource>;
 }

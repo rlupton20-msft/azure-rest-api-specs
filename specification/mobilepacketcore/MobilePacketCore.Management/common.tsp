@@ -67,10 +67,10 @@ enum ProvisioningState {
 }
 
 @doc("ARM resource ID of a cluster.")
-scalar ClusterIdProperty
+scalar ClusterServiceIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.MobilePacketCore/clusters",
+      type: "Microsoft.MobilePacketCore/clusterServices",
     }
   ]>;
 
@@ -119,6 +119,15 @@ enum SkuDeploymentType {
   Lab,
 }
 
+@doc("Cluster Type Definitions")
+enum ClusterType {
+  @doc("Azure Kubernetes Service")
+  Aks,
+
+  @doc("Azure Operator Nexus Kubernetes Service")
+  NexusAks,
+}
+
 @doc("Usage SKU Definition")
 scalar UsageSku extends string;
 
@@ -126,7 +135,6 @@ scalar UsageSku extends string;
 scalar MobileCoreScalingUnitSku extends string;
 
 @doc("Azure for Operators 5G Core Release Version.")
-@pattern("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$")
 scalar ReleaseVersion extends string;
 
 @doc("Containerized Network Function (CNF) Component Deployment Parameters")

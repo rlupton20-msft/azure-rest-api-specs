@@ -11,9 +11,9 @@ import "./smfdeployment.tsp";
 import "./upfdeployment.tsp";
 import "./nrfdeployment.tsp";
 import "./nssfdeployment.tsp";
-import "./cluster.tsp";
+import "./clusterservice.tsp";
 import "./vnfagentdeployment.tsp";
-import "./observabilitydeployment.tsp";
+import "./observabilityservice.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

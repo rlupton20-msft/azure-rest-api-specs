@@ -43,9 +43,9 @@ model UpfDeploymentResourceProperties {
   @secret
   secretsParameters?: ComponentDeploymentSecrets;
 
-  @doc("Cluster where the Network Function is deployed")
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  cluster: ClusterIdProperty;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
@@ -61,7 +61,7 @@ interface UpfDeployments {
   get is ArmResourceRead<UpfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<UpfDeploymentResource>;
   updateTags is ArmTagsPatchSync<UpfDeploymentResource>;
-  delete is ArmResourceDeleteSync<UpfDeploymentResource>;
+  delete is ArmResourceDeleteAsync<UpfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<UpfDeploymentResource>;
   listBySubscription is ArmListBySubscription<UpfDeploymentResource>;
 }

@@ -43,9 +43,9 @@ model NrfDeploymentResourceProperties {
   @secret
   secretsParameters?: ComponentDeploymentSecrets;
 
-  @doc("Cluster where the Network Function is deployed")
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  cluster: ClusterIdProperty;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
@@ -61,7 +61,7 @@ interface NrfDeployments {
   get is ArmResourceRead<NrfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NrfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NrfDeploymentResource>;
-  delete is ArmResourceDeleteSync<NrfDeploymentResource>;
+  delete is ArmResourceDeleteAsync<NrfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<NrfDeploymentResource>;
   listBySubscription is ArmListBySubscription<NrfDeploymentResource>;
 }

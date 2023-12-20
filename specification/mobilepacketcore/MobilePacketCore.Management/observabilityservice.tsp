@@ -15,23 +15,23 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core Observability Deployment Resource")
-@resource("observabilityDeployments")
-model ObservabilityDeploymentResource
-  is TrackedResource<ObservabilityDeploymentResourceProperties> {
-  @doc("The name of the Observability Deployment")
+@doc("Azure for Operators 5G Core Observability Service Resource")
+@resource("observabilityServices")
+model ObservabilityServiceResource
+  is TrackedResource<ObservabilityServiceResourceProperties> {
+  @doc("The name of the Observability Service")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
-  @key("observabilityDeploymentName")
+  @key("observabilityServiceName")
   @path
-  @segment("observabilityDeployments")
+  @segment("observabilityServices")
   @visibility("create", "read")
   name: string;
 }
 
-@doc("Observability Deployment Properties.")
-model ObservabilityDeploymentResourceProperties {
+@doc("Observability Service Properties.")
+model ObservabilityServiceResourceProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -49,12 +49,12 @@ model ObservabilityDeploymentResourceProperties {
   operationalStatus?: OperationalStatus;
 }
 
-@armResourceOperations(ObservabilityDeploymentResource)
-interface ObservabilityDeployments {
-  get is ArmResourceRead<ObservabilityDeploymentResource>;
-  createOrUpdate is ArmResourceCreateOrUpdate2Async<ObservabilityDeploymentResource>;
-  updateTags is ArmTagsPatchSync<ObservabilityDeploymentResource>;
-  delete is ArmResourceDeleteSync<ObservabilityDeploymentResource>;
-  listByResourceGroup is ArmResourceListByParent<ObservabilityDeploymentResource>;
-  listBySubscription is ArmListBySubscription<ObservabilityDeploymentResource>;
+@armResourceOperations(ObservabilityServiceResource)
+interface ObservabilityServices {
+  get is ArmResourceRead<ObservabilityServiceResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<ObservabilityServiceResource>;
+  updateTags is ArmTagsPatchSync<ObservabilityServiceResource>;
+  delete is ArmResourceDeleteAsync<ObservabilityServiceResource>;
+  listByResourceGroup is ArmResourceListByParent<ObservabilityServiceResource>;
+  listBySubscription is ArmListBySubscription<ObservabilityServiceResource>;
 }

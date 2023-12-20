@@ -72,7 +72,7 @@ interface MmeDeployments {
   get is ArmResourceRead<MmeDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<MmeDeploymentResource>;
   updateTags is ArmTagsPatchSync<MmeDeploymentResource>;
-  delete is ArmResourceDeleteSync<MmeDeploymentResource>;
+  delete is ArmResourceDeleteAsync<MmeDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<MmeDeploymentResource>;
   listBySubscription is ArmListBySubscription<MmeDeploymentResource>;
 }
