@@ -14,7 +14,7 @@ using Azure.ResourceManager;
 @armProviderNamespace
 @service({
   title: "SecurityCopilotClient",
-  version: "2023-11-27-preview",
+  version: "2023-12-01-preview",
 })
 @doc("SecurityCopilot Resource Provider management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
