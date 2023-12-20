@@ -13,93 +13,40 @@ namespace Microsoft.AzureCIS;
 
 @doc("storageAccountDsms properties.")
 model StorageAccountDsmsResourceProperties {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
+  @doc("Gets or sets the root path of the certificate.")
+  name?: string;
+
   @doc("Gets or sets the root path of the certificate.")
   rootPath?: string;
-
-  @doc("Define in which region of dSMS to provision the storage account such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). This is used only when provision storage account in non-home-dsms endpoint.")
-  dsmsDns?: string;
-
-  @doc("Subscription ID to use this xstore account.")
-  subscriptionId?: string;
-
-  @doc("Account type on data replicateion.")
-  accountReplicationType?: string;
-
-  @doc("Owner of this storage account.")
-  owner?: string;
-
-  @doc("Alias to find existing subscription.")
-  subscriptionAlias?: string;
 
   @doc("Description to this xstore account.")
   description?: string;
 
-  @doc("Location of this storage account.")
-  location?: string;
+  @doc("Alias to find existing subscription.")
+  subscriptionAlias?: string;
+
+  @doc("Subscription ID to use this xstore account.")
+  subscriptionId?: string;
+
+  @doc("Resource providet type.")
+  resourceProvider?: string;
 
   @doc("Label of this xstore account.")
   label?: string;
 
-  @doc("Gets or sets whether to enable 2TB for this xstore account.")
-  enable2tb?: boolean;
-
-  @doc("If false, create storage account and dSMS object in Deferred Provisioning. If true, create dSMS object in Provisioning, then create storage account in Deferred Provisioning and refresh keys in dSMS. Optional, true by default.")
-  xstoreBootstrapping?: boolean;
-
-  @doc("Gets or sets the name of the event to emit once the XStore account is created.")
-  eventEmittedUponProvisioning?: string;
-
-  @doc("Storage account whitelist in dSMS.")
-  whitelists?: Whitelists;
-
-  @doc("Storage account Replication in dSMS.")
-  replicate?: Replicate;
-
-  @doc("Block auto key roll over.")
-  blockAutoRollover?: boolean;
-
-  @doc("Override default key renewal period.")
-  keyRenewalPeriodInDays?: int32;
-
-  @doc("Make the key available to agents.")
-  releaseKeyToAgent?: boolean;
-
-  @doc("If false, skip global sync of dSMS secret. If true, global sync of dSMS secret. Optional, false by default.")
-  forceSyncGlobalDsmsSecret?: boolean;
+  @doc("Location of this storage account.")
+  location?: string;
 
   @doc("Storage account resource group name.")
   resourceGroupName?: string;
 
-  @doc("Storage account resource provider. Valid values are \"Classic\", \"ARM\".")
-  resourceProvider?: string;
-
-  @doc("Whether to pilot Xstore resource provider. In new region or new cloud scenario, it can create storage account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE.")
-  pilotXstoreResourceProvider?: string;
-
-  @doc("Storage account shared access signature.")
-  accountSasInfos?: AccountSasInfo[];
-
-  @doc("Residency boundary, e.g Worldwide, National.")
-  residencyBoundary?: string;
-
-  @doc("The minimum account replication type, e.g. Standard_LRS. If it's set, then will enable VRS feature for the storage account, and the 'AccountReplicationType' property will not be used.")
-  resiliencyMinimum?: string;
-
-  @doc("The maximum account replication type, e.g. Standard_ZRS.")
-  resiliencyMaximum?: string;
-
-  @doc("Resiliencies progression id, e.g. Default.")
-  resilienciesProgressionId?: string;
-
-  @doc("Additional locations to support resiliency, e.g. primary.")
-  additionalLocations?: string;
+  @doc("Properties list")
+  propertiesList?: Properties;
 
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
-
-  @doc("Properties list")
-  propertiesList?: Properties;
 }
 
 @doc("Defines the array of whitelists for a secret.")
