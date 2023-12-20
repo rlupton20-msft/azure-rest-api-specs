@@ -16,25 +16,25 @@ model AadApplicationResourceProperties {
   @doc("Display name of the AAD Application resource. Also used as a key to make the resource idempotent. Must be unique in the tenant. Case-insensitive.")
   applicationName: string; // Camel case for the parameter names.
 
-  @doc("The Tenant Id for AAD Application provision.")
+  @doc("Tenant Id of the AAD Application resource.")
   tenantId: string;
 
-  @doc("The value defines if the AAD Application is available to other tenants. False by default.")
+  @doc("The value defines if the AAD Application resource is available to other tenants. False by default.")
   availableToOtherTenants?: string;
 
-  @doc("The App ID Uri of multiple-tenant application to be globally unique.")
+  @doc("App ID Uri of a multiple-tenant AAD Application resource. Must be globally unique.")
   appIdUri?: string;
 
-  @doc("The Subject Name for SNIssuer Config.")
+  @doc("SN Issuer config of an AAD Application resource.")
   snIssuerConfig?: Array<string>;
 
-  @doc("The Owners of the AAD Application.")
+  @doc("List of the owners of an AAD Application resource.")
   owners?: Array<string>;
 
-  @doc("The AD Groups to join.")
+  @doc("List of the AD groups to join for an AAD Application resource.")
   adGroupsToJoin?: Array<string>;
 
-  @doc("The certificate paths of the AAD Application.")
+  @doc("List of the certificates paths for an AAD Application resource.")
   certificates?: Array<string>;
 
   @doc("Provisioning state")
