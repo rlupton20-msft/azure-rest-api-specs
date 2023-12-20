@@ -94,7 +94,21 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "./common-types.json#/definitions/SubResource"
+        }
+      ]
+    },
+    "SharedStoragePatch": {
+      "description": "Shared storage properties to update.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SharedStoragePropertiesFormat"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/PatchableResource"
         }
       ]
     },
@@ -178,7 +192,7 @@
           "final-state-via": "azure-async-operation"
         },
         "x-ms-examples": {
-          "Create storage": {
+          "Create shared storage": {
             "$ref": "./examples/SharedStoragesCreateOrUpdate.json"
           }
         }
@@ -190,7 +204,6 @@
         "operationId": "SharedStorages_Update",
         "description": "Updates the shared storage.",
         "consumes": [
-          "application/merge-patch+json",
           "application/json"
         ],
         "produces": [
@@ -217,7 +230,7 @@
             "in": "body",
             "description": "Parameters supplied to update shared storage resource.",
             "schema": {
-              "$ref": "#/definitions/SharedStorage"
+              "$ref": "#/definitions/SharedStoragePatch"
             }
           }
         ],
@@ -249,7 +262,7 @@
           "final-state-via": "azure-async-operation"
         },
         "x-ms-examples": {
-          "Update storage": {
+          "Update shared storage": {
             "$ref": "./examples/SharedStoragesPatch.json"
           }
         }
@@ -296,7 +309,7 @@
           }
         },
         "x-ms-examples": {
-          "Get Storage": {
+          "Get shared storage": {
             "$ref": "./examples/SharedStoragesGet.json"
           }
         }
@@ -328,17 +341,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The operation is completed successfully",
-            "schema": {
-              "$ref": "#/definitions/SharedStorage"
-            }
-          },
           "204": {
             "description": "Request is successful. Resource with the specified name does not exist."
           },
           "202": {
-            "description": "Accepted"
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "type": "string"
+              },
+              "x-ms-async-operation-timeout": {
+                "type": "string"
+              }
+            }
           },
           "default": {
             "description": "Default Error Response",
@@ -348,14 +363,18 @@
             "x-ms-error-response": true
           }
         },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
         "x-ms-examples": {
-          "Delete Storage": {
+          "Delete shared storage": {
             "$ref": "./examples/SharedStoragesDelete.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/sharedStorages": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches/{workbenchName}/sharedStorages": {
       "get": {
         "tags": [
           "sharedStorages_List"
@@ -373,7 +392,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./common-types.json#/parameters/ResourceGroupDeprecatedParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "./common-types.json#/parameters/WorkbenchNameParameter"
@@ -398,7 +417,7 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "List all storages": {
+          "List all shared storages": {
             "$ref": "./examples/SharedStoragesList.json"
           }
         }

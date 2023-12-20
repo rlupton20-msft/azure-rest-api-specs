@@ -36,6 +36,10 @@ model VnfAgentDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("Managed Resource Group Configuration")
+  @visibility("create", "read")
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+
   @doc("Azure for Operators 5G Core Release Version.")
   releaseVersion: ReleaseVersion;
 
@@ -63,7 +67,7 @@ interface VnfAgentDeployments {
   get is ArmResourceRead<VnfAgentDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<VnfAgentDeploymentResource>;
   updateTags is ArmTagsPatchSync<VnfAgentDeploymentResource>;
-  delete is ArmResourceDeleteSync<VnfAgentDeploymentResource>;
+  delete is ArmResourceDeleteAsync<VnfAgentDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<VnfAgentDeploymentResource>;
   listBySubscription is ArmListBySubscription<VnfAgentDeploymentResource>;
 }

@@ -1166,12 +1166,85 @@
           "type": "boolean",
           "description": "If your application (service) is exclusively NonProduction, set it to false. Optional.",
           "default": true
+        },
+        "claimRules": {
+          "type": "array",
+          "description": "The claim rule which apply to this Application. Optional.",
+          "items": {
+            "$ref": "#/definitions/ApplicationClaimRule"
+          },
+          "x-ms-identifiers": []
+        },
+        "applicationClientIdentity": {
+          "$ref": "#/definitions/ApplicationClientIdentity",
+          "description": "Client identity when using the application as a client. Optional."
         }
       },
       "required": [
         "dstsInstance",
         "name",
         "serviceTreeId"
+      ]
+    },
+    "ApplicationClaimRule": {
+      "type": "object",
+      "description": "The claim rule which apply to Application.",
+      "properties": {
+        "clientIdentifier": {
+          "$ref": "#/definitions/Claim",
+          "description": "A claim used to identifiy client. e.g., group claim, application name claim, object id claim."
+        },
+        "claim": {
+          "$ref": "#/definitions/Claim",
+          "description": "The claim"
+        },
+        "clientIdentityOrigin": {
+          "type": "string",
+          "description": "The name of the original identity provider of the client. e.g., federation for user or dsts instance for applications."
+        },
+        "isRegionalEnforced": {
+          "type": "boolean",
+          "description": "If true, when the claim is scoped to service account group, only SCIs on the same dsts instance where the service accounts exist can get the claim.",
+          "default": true
+        }
+      },
+      "required": [
+        "clientIdentifier",
+        "claim",
+        "clientIdentityOrigin"
+      ]
+    },
+    "ApplicationClientIdentity": {
+      "type": "object",
+      "description": "Represents application client identity.",
+      "properties": {
+        "dmsiInfo": {
+          "$ref": "#/definitions/DmsiInfo",
+          "description": "Dmsi client."
+        },
+        "certificateBasedIdentity": {
+          "$ref": "#/definitions/CertificateBasedIdentity",
+          "description": "Certificate client."
+        },
+        "subjectNameBasedIdentity": {
+          "$ref": "#/definitions/SubjectNameBasedIdentity",
+          "description": "Subject name client."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of your client identity.e.g., Dmsi, Certificate, SubjectName."
+        },
+        "clientTokenIpRangeRestrictions": {
+          "type": "array",
+          "description": "Provide a list IP address ranges to restrict where this application's client token can be requested. Optional.",
+          "items": {
+            "$ref": "#/definitions/IpRange"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "type"
       ]
     },
     "ApplicationGroup": {
@@ -1254,6 +1327,18 @@
           "items": {
             "type": "string"
           }
+        },
+        "claimRules": {
+          "type": "array",
+          "description": "The claim rules that apply to this Application Group. Optional.",
+          "items": {
+            "$ref": "#/definitions/ApplicationClaimRule"
+          },
+          "x-ms-identifiers": []
+        },
+        "applicationClientIdentity": {
+          "$ref": "#/definitions/ApplicationClientIdentity",
+          "description": "Client identity when using the application as a client. Optional."
         }
       },
       "required": [
@@ -1291,6 +1376,85 @@
           }
         ]
       }
+    },
+    "CertificateBasedIdentity": {
+      "type": "object",
+      "description": "Represents certificate based authentication.",
+      "properties": {
+        "certificates": {
+          "type": "array",
+          "description": "Certificate",
+          "items": {
+            "$ref": "#/definitions/CertificateInfo"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "certificates"
+      ]
+    },
+    "CertificateInfo": {
+      "type": "object",
+      "description": "Certification based application client identity.",
+      "properties": {
+        "thumbprint": {
+          "type": "string",
+          "description": "Certificate thumbprint information"
+        },
+        "expiryDate": {
+          "type": "string",
+          "description": "Certificate expiry date"
+        }
+      },
+      "required": [
+        "thumbprint",
+        "expiryDate"
+      ]
+    },
+    "Claim": {
+      "type": "object",
+      "description": "A claim used to identifiy client. e.g., group claim, application name claim, object id claim.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the claim"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of claim"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "DmsiInfo": {
+      "type": "object",
+      "description": "DMSI information",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "DMSI path"
+        },
+        "region": {
+          "type": "string",
+          "description": "DMSI region"
+        },
+        "subscriptions": {
+          "type": "array",
+          "description": "DMSI subscriptions",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "path",
+        "region",
+        "subscriptions"
+      ]
     },
     "DscmProvisioningState": {
       "type": "string",
@@ -1903,6 +2067,22 @@
       "required": [
         "fromIpAddress",
         "toIpAddress"
+      ]
+    },
+    "SubjectNameBasedIdentity": {
+      "type": "object",
+      "description": "Represents application subject name base identity.",
+      "properties": {
+        "subjectNames": {
+          "type": "array",
+          "description": "List of subject names for sni based auth",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "subjectNames"
       ]
     }
   },

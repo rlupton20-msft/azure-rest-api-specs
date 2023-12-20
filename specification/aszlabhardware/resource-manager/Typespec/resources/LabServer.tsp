@@ -1,5 +1,6 @@
 import "../main.tsp";
-import "./Inventory.tsp";
+import "../models/ResourceManager.tsp";
+import "../models/System.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -24,11 +25,11 @@ model LabServer is TrackedResource<LabServerProperties> {
 model LabServerProperties {
     @visibility("read")
     @doc("The current status of the GoalState")
-    resourceManager: ResourceManager;
+    resourceManager?: ResourceManager;
 
     @visibility("read", "query")
     @doc("The status of the server")
-    status: string;
+    status?: string;
 
     @visibility("read")
     @doc("The status of the last operation.")
@@ -44,7 +45,7 @@ model LabServerProperties {
 
     @visibility("read", "query")
     @doc("Server Inventory Information")
-    inventory?: Inventory;
+    inventory?: System;
 
     @visibility("create", "update", "read")
     @doc("Server banner. Temporary field during development.")
@@ -60,4 +61,7 @@ model LabServerProperties {
 }
 
 @armResourceOperations(LabServer)
-interface LabServers extends TrackedResourceOperations<LabServer, LabServerProperties>{}
+interface LabServers extends TrackedResourceOperations<LabServer, LabServerProperties>{
+    @doc("Collects the inventory of the server")
+    collectInventory is ArmResourceActionNoContentSync<LabServer, {}>
+}

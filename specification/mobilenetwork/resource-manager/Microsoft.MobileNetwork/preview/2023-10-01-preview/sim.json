@@ -418,7 +418,7 @@
         "tags": [
           "SIMs"
         ],
-        "operationId": "Move_Sims",
+        "operationId": "Sims_Move",
         "description": "Move SIMs to another SIM Group",
         "parameters": [
           {
@@ -438,9 +438,9 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SimCloneOrMove"
+              "$ref": "#/definitions/SimMove"
             },
-            "description": "Parameters supplied to move the sims."
+            "description": "Parameters supplied to move the SIMs."
           }
         ],
         "responses": {
@@ -451,6 +451,12 @@
             }
           },
           "202": {
+            "headers": {
+              "Location": {
+                "description": "The Location header contains the URL where the status of the long running operation can be checked.",
+                "type": "string"
+              }
+            },
             "description": "Accepted. Returns an operation URI that can be queried to find the current state of the operation."
           },
           "default": {
@@ -461,8 +467,8 @@
           }
         },
         "x-ms-examples": {
-          "Move list of sims to target sim group": {
-            "$ref": "./examples/SimMoveCopy.json"
+          "Move list of SIMs to target SIM group": {
+            "$ref": "./examples/SimMove.json"
           }
         },
         "x-ms-long-running-operation": true,
@@ -476,8 +482,8 @@
         "tags": [
           "SIMs"
         ],
-        "operationId": "Clone_Sims",
-        "description": "Clone SIMS to another SIM Group",
+        "operationId": "Sims_Clone",
+        "description": "Clone SIMs to another SIM Group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
@@ -496,9 +502,9 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SimCloneOrMove"
+              "$ref": "#/definitions/SimClone"
             },
-            "description": "Parameters supplied to copy or clone the sims."
+            "description": "Parameters supplied to clone the SIMs."
           }
         ],
         "responses": {
@@ -509,6 +515,12 @@
             }
           },
           "202": {
+            "headers": {
+              "Location": {
+                "description": "The Location header contains the URL where the status of the long running operation can be checked.",
+                "type": "string"
+              }
+            },
             "description": "Accepted. Returns an operation URI that can be queried to find the current state of the operation."
           },
           "default": {
@@ -519,8 +531,8 @@
           }
         },
         "x-ms-examples": {
-          "Copy list of sims to target sim group": {
-            "$ref": "./examples/SimMoveCopy.json"
+          "Clone list of SIMs to target SIM group": {
+            "$ref": "./examples/SimClone.json"
           }
         },
         "x-ms-long-running-operation": true,
@@ -836,23 +848,49 @@
         "sims"
       ]
     },
-    "SimCloneOrMove": {
+    "SimMove": {
       "type": "object",
-      "description": "The SIMs to move or clone.",
+      "description": "The SIMs to move.",
       "properties": {
         "targetSimGroupId": {
           "$ref": "./common.json#/definitions/SimGroupResourceId",
-          "description": "The SIM Group where the sims should be moved or cloned. The SIM Group can be in any subscription within same tenant."
+          "description": "The SIM Group where the SIMs should be moved."
         },
         "sims": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/SimName",
+            "description": "SIM name."
           },
           "minItems": 1,
-          "description": "A list of SIM resource names to be moved or cloned."
+          "description": "A list of SIM resource names to be moved."
         }
       }
+    },
+    "SimClone": {
+      "type": "object",
+      "description": "The SIMs to clone.",
+      "properties": {
+        "targetSimGroupId": {
+          "$ref": "./common.json#/definitions/SimGroupResourceId",
+          "description": "The SIM Group where the SIMs should be cloned."
+        },
+        "sims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimName",
+            "description": "SIM name."
+          },
+          "minItems": 1,
+          "description": "A list of SIM resource names to be cloned."
+        }
+      }
+    },
+    "SimName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+      "maxLength": 64,
+      "description": "The name of the SIM."
     }
   }
 }

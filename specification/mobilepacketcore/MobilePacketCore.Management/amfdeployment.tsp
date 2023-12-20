@@ -37,11 +37,15 @@ model AmfDeploymentResourceProperties {
   provisioningState?: ProvisioningState;
 
   @doc("Azure for Operators 5G Core AMF component parameters")
-  componentParameters: ComponentDeploymentParameters;
+  componentParameters?: ComponentDeploymentParameters;
 
-  @doc("Cluster where the Network Function is deployed")
+  @doc("Azure for Operators 5G Core AMF secrets parameters")
+  @secret
+  secretsParameters?: ComponentDeploymentSecrets;
+
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  cluster: ClusterIdProperty;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
@@ -57,7 +61,7 @@ interface AmfDeployments {
   get is ArmResourceRead<AmfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<AmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<AmfDeploymentResource>;
-  delete is ArmResourceDeleteSync<AmfDeploymentResource>;
+  delete is ArmResourceDeleteAsync<AmfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<AmfDeploymentResource>;
   listBySubscription is ArmListBySubscription<AmfDeploymentResource>;
 }

@@ -67,10 +67,10 @@ enum ProvisioningState {
 }
 
 @doc("ARM resource ID of a cluster.")
-scalar ClusterIdProperty
+scalar ClusterServiceIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.MobilePacketCore/clusters",
+      type: "Microsoft.MobilePacketCore/clusterServices",
     }
   ]>;
 
@@ -119,6 +119,15 @@ enum SkuDeploymentType {
   Lab,
 }
 
+@doc("Cluster Type Definitions")
+enum ClusterType {
+  @doc("Azure Kubernetes Service")
+  Aks,
+
+  @doc("Azure Operator Nexus Kubernetes Service")
+  NexusAks,
+}
+
 @doc("Usage SKU Definition")
 scalar UsageSku extends string;
 
@@ -126,11 +135,13 @@ scalar UsageSku extends string;
 scalar MobileCoreScalingUnitSku extends string;
 
 @doc("Azure for Operators 5G Core Release Version.")
-@pattern("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$")
 scalar ReleaseVersion extends string;
 
 @doc("Containerized Network Function (CNF) Component Deployment Parameters")
 scalar ComponentDeploymentParameters extends string;
+
+@doc("Containerized Network Function (CNF) Component Secrets")
+scalar ComponentDeploymentSecrets extends string;
 
 @doc("Containerized Network Function (CNF) Component Deployment Type")
 scalar ComponentDeploymentType extends string;
@@ -140,6 +151,22 @@ model QualifiedComponentDeploymentParameters {
   @doc("Federaton Type")
   type: ComponentDeploymentType;
 
-  @doc("Usage Definition")
-  parameters: ComponentDeploymentParameters;
+  @doc("Deployment Parameters")
+  parameters?: ComponentDeploymentParameters;
+
+  @doc("Deployment secrets")
+  @secret
+  secrets?: ComponentDeploymentSecrets;
+}
+
+@doc("ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure.")
+model ManagedResourceGroupConfiguration {
+  @doc("The name for the managed resource group. If not specified, the unique name is automatically generated.")
+  @visibility("create", "read")
+  @maxLength(75)
+  name?: string;
+
+  @doc("The location of the managed resource group. If not specified, the location of the parent resource is chosen.")
+  @visibility("create", "read")
+  location?: string;
 }

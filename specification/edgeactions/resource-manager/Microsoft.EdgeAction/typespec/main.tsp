@@ -1,9 +1,12 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./edgeactionsbasemodels.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -22,40 +25,49 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A EdgeActionProviderHub resource")
-model EdgeAction is TrackedResource<EdgeActionProperties> {
-  @doc("The name of the EdgeAction")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("EdgeActionName")
-  @segment("EdgeActions")
+
+model UserEdgeAction is TrackedResource<UserEdgeActionProperties> {
+  @doc("The name of the Edge Action")
+  @segment("edgeactions")
+  @key("edgeactionName")
+  name: smallString;
+}
+
+@parentResource(UserEdgeAction)
+model UserEdgeActionVersion is ProxyResource<UserEdgeActionVersionProperties> {
+  @doc("The name of the User Edge Action version")
+  @segment("versions")
+  @key("version")
+  name: smallString;
+}
+
+@parentResource(UserEdgeAction)
+model UserEdgeActionAttachment is ProxyResource<UserEdgeActionAttachmentProperties> {
+  @doc("The name of attachment")
+  @segment("attachments")
+  @key("attachment")
   @path
-  name: string;
+  name: smallString;
 }
 
-@doc("The status of the current operation.")
-@Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning,
-
-  @doc("Update in progress")
-  Updating,
-
-  @doc("Deletion in progress")
-  Deleting,
-
-  @doc("Change accepted for processing")
-  Accepted,
-}
-
-@doc("Details of the EdgeAction EdgeAction.")
-model EdgeActionProperties {
-  @visibility("read")
-  @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+@armResourceOperations(UserEdgeAction)
+interface UserEdgeActions {
+    get is ArmResourceRead<UserEdgeAction>;
+    create is ArmResourceCreateOrUpdateAsync<UserEdgeAction>;
+    update is ArmResourcePatchSync<UserEdgeAction, UserEdgeActionProperties>;
+    delete is ArmResourceDeleteSync<UserEdgeAction>;
+    listByResourceGroup is ArmResourceListByParent<UserEdgeAction>;
+    listBySubscription is ArmListBySubscription<UserEdgeAction>;
 }
 
 @armResourceOperations
-interface EdgeActions extends TrackedResourceOperations<EdgeAction, EdgeActionProperties> {}
+interface UserEdgeActionVersions
+  extends ProxyResourceOperations<
+    UserEdgeActionVersion> {
+}
+
+@armResourceOperations
+interface UserEdgeActionAttachments 
+    extends ProxyResourceOperations<
+        UserEdgeActionAttachment> {
+}

@@ -26,6 +26,7 @@ These are the global settings for the edgezones.
 
 ```yaml
 openapi-type: arm
+openapi-subtype: providerHub
 tag: package-2021-08-01-preview
 ```
 

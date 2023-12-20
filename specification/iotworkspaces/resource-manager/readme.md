@@ -26,15 +26,31 @@ These are the global settings for the deviceregistry.
 
 ``` yaml
 openapi-type: arm
-tag: package-preview-2023-10
+tag: package-preview-2021-10
 ```
 
 
+### Tag: package-preview-2021-10
+
+These settings apply only when `--tag=package-preview-2021-10` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2021-10'
+input-file:
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/asset.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetEndpointProfiles.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetTypes.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetnestedrelationship.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/deviceGroup.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nested.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nestedmembers.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/scaletest.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/workspace.json
+```
 ### Tag: package-preview-2023-10
 
 These settings apply only when `--tag=package-preview-2023-10` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-10'
+``` yaml $(tag) == 'package-preview-2023-10'
 input-file:
   - Private.DeviceRegistry/preview/2023-10-01-preview/assetSchemas.json
   - Private.DeviceRegistry/preview/2023-10-01-preview/assetendpointprofiles.json
@@ -43,6 +59,7 @@ input-file:
   - Private.DeviceRegistry/preview/2023-10-01-preview/devices.json
   - Private.DeviceRegistry/preview/2023-10-01-preview/schemaregistry.json
 ```
+
 ### Tag: package-preview-2023-09
 
 These settings apply only when `--tag=package-preview-2023-09` is specified on the command line.

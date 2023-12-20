@@ -74,6 +74,12 @@ model ApplicationAccount {
 
   @doc("If your application (service) is exclusively NonProduction, set it to false. Optional.")
   isProduction?: boolean = true;
+
+  @doc("The claim rule which apply to this Application. Optional.")
+  claimRules?: Array<ApplicationClaimRule>;
+
+  @doc("Client identity when using the application as a client. Optional.")
+  applicationClientIdentity?: ApplicationClientIdentity;
 }
 
 @doc("The application group. Optional.")
@@ -119,6 +125,87 @@ model ApplicationGroup {
 
   @doc("Specific dSTS instances to create applications on.")
   regions?: Array<string>;
+
+  @doc("The claim rules that apply to this Application Group. Optional.")
+  claimRules?: Array<ApplicationClaimRule>;
+
+  @doc("Client identity when using the application as a client. Optional.")
+  applicationClientIdentity?: ApplicationClientIdentity;
+}
+
+@doc("The claim rule which apply to Application.")
+model ApplicationClaimRule {
+  @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+  clientIdentifier: Claim;
+
+  @doc("The claim")
+  claim: Claim;
+
+  @doc("The name of the original identity provider of the client. e.g., federation for user or dsts instance for applications.")
+  clientIdentityOrigin: string;
+
+  @doc("If true, when the claim is scoped to service account group, only SCIs on the same dsts instance where the service accounts exist can get the claim.")
+  isRegionalEnforced?: boolean = true;
+}
+
+@doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+model Claim {
+  @doc("Type of the claim")
+  type: string;
+
+  @doc("Value of claim")
+  value: string;
+}
+
+@doc("Represents application client identity.")
+model ApplicationClientIdentity {
+  @doc("Dmsi client.")
+  dmsiInfo?: DmsiInfo;
+
+  @doc("Certificate client.")
+  certificateBasedIdentity?: CertificateBasedIdentity;
+
+  @doc("Subject name client.")
+  subjectNameBasedIdentity?: SubjectNameBasedIdentity;
+
+  @doc("The type of your client identity.e.g., Dmsi, Certificate, SubjectName.")
+  type: string;
+
+  @doc("Provide a list IP address ranges to restrict where this application's client token can be requested. Optional.")
+  clientTokenIpRangeRestrictions?: Array<IpRange>;
+}
+
+@doc("DMSI information")
+model DmsiInfo {
+  @doc("DMSI path")
+  path: string;
+
+  @doc("DMSI region")
+  region: string;
+
+  @doc("DMSI subscriptions")
+  subscriptions: Array<string>;
+}
+
+@doc("Represents certificate based authentication.")
+model CertificateBasedIdentity {
+  @doc("Certificate")
+  certificates: Array<CertificateInfo>;
+}
+
+@doc("Certification based application client identity.")
+model CertificateInfo {
+  @doc("Certificate thumbprint information")
+  thumbprint: string;
+
+  @doc("Certificate expiry date")
+  expiryDate: string;
+}
+
+@doc("Represents application subject name base identity.")
+model SubjectNameBasedIdentity {
+  @doc("List of subject names for sni based auth")
+  subjectNames: Array<string>;
 }
 
 @doc("Class for a contiguous range of IP Addresses.")

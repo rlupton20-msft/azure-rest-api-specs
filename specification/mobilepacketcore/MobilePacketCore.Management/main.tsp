@@ -11,9 +11,9 @@ import "./smfdeployment.tsp";
 import "./upfdeployment.tsp";
 import "./nrfdeployment.tsp";
 import "./nssfdeployment.tsp";
-import "./cluster.tsp";
+import "./clusterservice.tsp";
 import "./vnfagentdeployment.tsp";
-import "./observabilitydeployment.tsp";
+import "./observabilityservice.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -22,6 +22,7 @@ using Azure.ResourceManager;
 
 @doc("Mobile Packet Core Management API")
 @armProviderNamespace("Microsoft.MobilePacketCore")
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @service({
   title: "Microsoft.MobilePacketCore Mobile Packet Core Service",
 })

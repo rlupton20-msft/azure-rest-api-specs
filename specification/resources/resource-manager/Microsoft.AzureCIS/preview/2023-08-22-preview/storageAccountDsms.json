@@ -314,6 +314,34 @@
         }
       }
     },
+    "Properties": {
+      "type": "object",
+      "description": "Defines the array of properties.",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "description": "Gets or sets the whitelist elements.",
+          "items": {
+            "$ref": "#/definitions/Property"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "Property": {
+      "type": "object",
+      "description": "Defines the property element.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the name of the property."
+        },
+        "value": {
+          "type": "string",
+          "description": "Gets or sets the value of the property."
+        }
+      }
+    },
     "Replicate": {
       "type": "object",
       "description": "Defines where the secret should be replicated to.",
@@ -409,118 +437,45 @@
       "type": "object",
       "description": "storageAccountDsms properties.",
       "properties": {
-        "rootPath": {
+        "name": {
           "type": "string",
           "description": "Gets or sets the root path of the certificate."
         },
-        "dsmsDns": {
+        "rootPath": {
           "type": "string",
-          "description": "Define in which region of dSMS to provision the storage account such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). This is used only when provision storage account in non-home-dsms endpoint."
-        },
-        "subscriptionId": {
-          "type": "string",
-          "description": "Subscription ID to use this xstore account."
-        },
-        "accountReplicationType": {
-          "type": "string",
-          "description": "Account type on data replicateion."
-        },
-        "owner": {
-          "type": "string",
-          "description": "Owner of this storage account."
-        },
-        "subscriptionAlias": {
-          "type": "string",
-          "description": "Alias to find existing subscription."
+          "description": "Gets or sets the root path of the certificate."
         },
         "description": {
           "type": "string",
           "description": "Description to this xstore account."
         },
-        "location": {
+        "subscriptionAlias": {
           "type": "string",
-          "description": "Location of this storage account."
+          "description": "Alias to find existing subscription."
+        },
+        "subscriptionId": {
+          "type": "string",
+          "description": "Subscription ID to use this xstore account."
+        },
+        "resourceProvider": {
+          "type": "string",
+          "description": "Resource providet type."
         },
         "label": {
           "type": "string",
           "description": "Label of this xstore account."
         },
-        "enable2tb": {
-          "type": "boolean",
-          "description": "Gets or sets whether to enable 2TB for this xstore account."
-        },
-        "xstoreBootstrapping": {
-          "type": "boolean",
-          "description": "If false, create storage account and dSMS object in Deferred Provisioning. If true, create dSMS object in Provisioning, then create storage account in Deferred Provisioning and refresh keys in dSMS. Optional, true by default."
-        },
-        "eventEmittedUponProvisioning": {
+        "location": {
           "type": "string",
-          "description": "Gets or sets the name of the event to emit once the XStore account is created."
-        },
-        "whitelists": {
-          "$ref": "#/definitions/Whitelists",
-          "description": "Storage account whitelist in dSMS."
-        },
-        "replicate": {
-          "$ref": "#/definitions/Replicate",
-          "description": "Storage account Replication in dSMS."
-        },
-        "blockAutoRollover": {
-          "type": "boolean",
-          "description": "Block auto key roll over."
-        },
-        "keyRenewalPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Override default key renewal period."
-        },
-        "releaseKeyToAgent": {
-          "type": "boolean",
-          "description": "Make the key available to agents."
-        },
-        "forceSyncGlobalDsmsSecret": {
-          "type": "boolean",
-          "description": "If false, skip global sync of dSMS secret. If true, global sync of dSMS secret. Optional, false by default."
+          "description": "Location of this storage account."
         },
         "resourceGroupName": {
           "type": "string",
           "description": "Storage account resource group name."
         },
-        "resourceProvider": {
-          "type": "string",
-          "description": "Storage account resource provider. Valid values are \"Classic\", \"ARM\"."
-        },
-        "pilotXstoreResourceProvider": {
-          "type": "string",
-          "description": "Whether to pilot Xstore resource provider. In new region or new cloud scenario, it can create storage account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE."
-        },
-        "accountSasInfos": {
-          "type": "array",
-          "description": "Storage account shared access signature.",
-          "items": {
-            "$ref": "#/definitions/AccountSasInfo"
-          },
-          "x-ms-identifiers": []
-        },
-        "residencyBoundary": {
-          "type": "string",
-          "description": "Residency boundary, e.g Worldwide, National."
-        },
-        "resiliencyMinimum": {
-          "type": "string",
-          "description": "The minimum account replication type, e.g. Standard_LRS. If it's set, then will enable VRS feature for the storage account, and the 'AccountReplicationType' property will not be used."
-        },
-        "resiliencyMaximum": {
-          "type": "string",
-          "description": "The maximum account replication type, e.g. Standard_ZRS."
-        },
-        "resilienciesProgressionId": {
-          "type": "string",
-          "description": "Resiliencies progression id, e.g. Default."
-        },
-        "additionalLocations": {
-          "type": "string",
-          "description": "Additional locations to support resiliency, e.g. primary."
+        "propertiesList": {
+          "$ref": "#/definitions/Properties",
+          "description": "Properties list"
         },
         "provisioningState": {
           "$ref": "#/definitions/StorageAccountDsmsProvisioningState",

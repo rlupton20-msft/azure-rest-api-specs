@@ -5,9 +5,9 @@ import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "./resources/Server.tsp";
 import "./resources/LabServer.tsp";
-import "./resources/ResourceManager.tsp";
+import "./resources/Reservation.tsp";
+import "./resources/Server.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -17,7 +17,7 @@ using Azure.ResourceManager;
 @armProviderNamespace("Private.AszLabHardware")
 @service({
     title: "Private.AszLabHardware",
-    version: "2023-09-01-preview",
+    version: "2023-10-01-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Private.AszLabHardware;

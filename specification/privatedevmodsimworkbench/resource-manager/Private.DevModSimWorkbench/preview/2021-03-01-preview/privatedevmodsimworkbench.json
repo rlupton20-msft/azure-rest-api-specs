@@ -111,7 +111,7 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches": {
       "get": {
         "tags": [
           "workbenches_ListByResourceGroup"
@@ -123,10 +123,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "in": "path",
-            "name": "resourceGroup",
-            "required": true,
-            "type": "string"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -164,7 +161,7 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Private.DevModSimWorkbench/workbenches/{name}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DevModSimWorkbench/workbenches/{name}": {
       "get": {
         "tags": [
           "workbenches_Get"
@@ -176,18 +173,10 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "in": "path",
-            "name": "resourceGroup",
-            "description": "the resource group.",
-            "required": true,
-            "type": "string"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "in": "path",
-            "name": "name",
-            "description": "the workbench name.",
-            "required": true,
-            "type": "string"
+            "$ref": "./common-types.json#/parameters/NameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -198,14 +187,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/Workbench"
-            }
-          },
-          "202": {
-            "description": "Accepted",
-            "headers": {
-              "Location": {
-                "type": "string"
-              }
             }
           },
           "default": {
@@ -223,10 +204,6 @@
             ]
           }
         ],
-        "x-ms-long-running-operation": true,
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
         "x-ms-examples": {
           "Workbenches Get": {
             "$ref": "./examples/WorkbenchesGet.json"
@@ -244,18 +221,10 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "in": "path",
-            "name": "resourceGroup",
-            "description": "the resource group.",
-            "required": true,
-            "type": "string"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "in": "path",
-            "name": "name",
-            "description": "the workbench name.",
-            "required": true,
-            "type": "string"
+            "$ref": "./common-types.json#/parameters/NameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -309,9 +278,9 @@
       },
       "patch": {
         "tags": [
-          "workbenches_Patch"
+          "workbenches_Update"
         ],
-        "operationId": "workbenches_Patch",
+        "operationId": "workbenches_Update",
         "description": "Updates a workbench.",
         "parameters": [
           {
@@ -321,23 +290,17 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "in": "path",
-            "name": "resourceGroup",
-            "required": true,
-            "type": "string"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "type": "string"
+            "$ref": "./common-types.json#/parameters/NameParameter"
           },
           {
             "in": "body",
             "name": "parameters",
             "description": "Parameters supplied to the update workbench operation.",
             "schema": {
-              "$ref": "#/definitions/Workbench"
+              "$ref": "#/definitions/WorkbenchPatch"
             }
           }
         ],
@@ -364,6 +327,10 @@
             "x-ms-error-response": true
           }
         },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
         "x-ms-examples": {
           "Workbenches Update": {
             "$ref": "./examples/WorkbenchesPatch.json"
@@ -381,28 +348,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "in": "path",
-            "name": "resourceGroup",
-            "required": true,
-            "type": "string"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "type": "string"
+            "$ref": "./common-types.json#/parameters/NameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Workbench"
-            }
-          },
           "204": {
             "description": "Success, no content"
           },
@@ -499,10 +454,24 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "./common-types.json#/definitions/SubResource"
         }
       ],
       "description": "Workbench resource"
+    },
+    "WorkbenchPatch": {
+      "description": "Workbench properties to update.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WorkbenchPropertiesFormat"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/PatchableResource"
+        }
+      ]
     }
   }
 }
