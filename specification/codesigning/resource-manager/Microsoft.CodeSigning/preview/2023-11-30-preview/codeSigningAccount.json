@@ -332,58 +332,6 @@
           "CertificateProfiles"
         ]
       },
-      "patch": {
-        "operationId": "CertificateProfile_Update",
-        "description": "Update a certificate profile",
-        "x-ms-examples": {
-          "Update Certificate Profile": {
-            "$ref": "./examples/updateCertificateProfile.json"
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/AccountNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ProfileNameParameter"
-          },
-          {
-            "in": "body",
-            "name": "certificateProfilePatch",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CertificateProfilePatch"
-            },
-            "description": "Parameters supplied to update certificate profile"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/CertificateProfile"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "tags": [
-          "CertificateProfiles"
-        ]
-      },
       "get": {
         "operationId": "CertificateProfile_Get",
         "description": "Get details of a certificate profile",
@@ -604,6 +552,55 @@
         ]
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}/revokeCertificate": {
+      "post": {
+        "operationId": "CertificateProfile_RevokeCertificate",
+        "description": "Revoke a certificate.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AccountNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ProfileNameParameter"
+          },
+          {
+            "in": "body",
+            "name": "revokeCertificate",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RevokeCertificate"
+            },
+            "description": "Parameters to revoke the certificate profile"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "tags": [
+          "RevokeCertificate"
+        ]
+      }
+    },
     "/providers/Microsoft.CodeSigning/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -716,11 +713,6 @@
       "description": "Properties of the code signing account",
       "type": "object",
       "properties": {
-        "accountUri": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Account Uri of the code signing account"
-        },
         "sku": {
           "$ref": "#/definitions/AccountSku"
         }
@@ -1074,6 +1066,33 @@
             "name": "SkuName",
             "modelAsString": false
           }
+        }
+      }
+    },
+    "RevokeCertificate": {
+      "description": "Defines the certificate revoke properties.",
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "description": "Serial number of the certificate",
+          "type": "string"
+        },
+        "thumbprint": {
+          "description": "Thumbprint of the certificate",
+          "type": "string"
+        },
+        "revokedAt": {
+          "description": "Revocation timestamp",
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "description": "Reason for revocation",
+          "type": "string"
+        },
+        "remarks": {
+          "description": "Remarks for the revocation",
+          "type": "string"
         }
       }
     }
