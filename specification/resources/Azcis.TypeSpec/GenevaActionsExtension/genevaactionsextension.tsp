@@ -13,8 +13,12 @@ namespace Microsoft.AzureCIS;
 
 @doc("GenevaActionsExtension properties")
 model GenevaActionsExtensionResourceProperties {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
+  @doc("User given name for GenevaActionExtension.")
+  name: string; // camel case for the parameter names
+
   @doc("User provided package source branch.")
-  packageSourceBranch: string; // Camel case for the parameter names.
+  packageSourceBranch: string;
 
   @doc("This is the sub folder path to the package folder relative to the branch root.")
   packageSourceRelativePath: string;
@@ -26,11 +30,11 @@ model GenevaActionsExtensionResourceProperties {
 
 @doc("GenevaActionsExtension Resource")
 model GenevaActionsExtensionResource
-  is ProxyResource<GenevaActionsExtensionResourceProperties> { // This can be TrackedResource based on resourcetype.
+  is ProxyResource<GenevaActionsExtensionResourceProperties> { // This can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
-  @segment("genevaActionsExtensions") // Start with lower case. Should be plural.
+  @segment("genevaActionsExtensions") // Start with lower case. Should be plural
   @visibility("read")
   @path
   name: string;
