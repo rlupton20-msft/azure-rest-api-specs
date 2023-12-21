@@ -3061,15 +3061,15 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/aggregateUsage": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/aggregateUsages": {
       "get": {
-        "operationId": "BillingHubService_GetAggregateUsage",
+        "operationId": "BillingHubService_ListAggregateUsages",
         "description": "Get test usage including all resources under a Test Base account.",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/BillingHubGetAggregateUsageResponse"
+              "$ref": "#/definitions/BillingHubAggregateUsageListResult"
             }
           },
           "default": {
@@ -3112,8 +3112,8 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "BillingHubGetAggregateUsage": {
-            "$ref": "./examples/BillingHubGetAggregateUsage.json"
+          "BillingHubListAggregateUsages": {
+            "$ref": "./examples/BillingHubAggregateUsagesList.json"
           }
         }
       }
@@ -6201,13 +6201,15 @@
         "endTimeStamp"
       ]
     },
-    "BillingHubGetAggregateUsageResponse": {
+    "BillingHubAggregateUsageListResult": {
       "type": "object",
-      "description": "Aggregate usage result response.",
+      "description": "Aggregate usage list result",
       "properties": {
         "value": {
-          "type": "object",
-          "$ref": "#/definitions/BillingHubGetAggregateUsage",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BillingHubAggregateUsageResource"
+          },
           "description": "The result set of usage."
         },
         "nextLink": {
@@ -6217,9 +6219,25 @@
         }
       }
     },
-    "BillingHubGetAggregateUsage": {
+    "BillingHubAggregateUsageResource": {
       "type": "object",
-      "description": "The result set of usage.",
+      "description": "Aggregate usage result response.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/BillingHubAggregateUsageProperties",
+          "x-ms-client-flatten": true,
+          "description": "The aggregate usage properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "BillingHubAggregateUsageProperties": {
+      "type": "object",
+      "description": "The aggregate usage properties.",
       "properties": {
         "totalUsedFreeHours": {
           "type": "number",
@@ -6240,15 +6258,16 @@
           "type": "array",
           "x-ms-identifiers": [],
           "items": {
-            "$ref": "#/definitions/BillingHubAggregateUsage"
+            "$ref": "#/definitions/BillingHubAggregateUsageEntry"
           },
           "description": "The result set of usage entries."
         }
       }
     },
-    "BillingHubAggregateUsage": {
+    "BillingHubAggregateUsageEntry": {
       "type": "object",
       "discriminator": "usageType",
+      "description": "Generic aggregate usage entry",
       "properties": {
         "usageType": {
           "type": "string",
@@ -6292,7 +6311,7 @@
         "usageType"
       ]
     },
-    "BillingHubAggregatePackageUsage": {
+    "BillingHubAggregatePackageUsageEntry": {
       "description": "Test usage counting for a package.",
       "type": "object",
       "x-ms-discriminator-value": "PackageUsage",
@@ -6313,11 +6332,11 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/BillingHubAggregateUsage"
+          "$ref": "#/definitions/BillingHubAggregateUsageEntry"
         }
       ]
     },
-    "BillingHubAggregateImageValidationUsage": {
+    "BillingHubAggregateImageValidationUsageEntry": {
       "description": "Image validation usage counting for an image.",
       "type": "object",
       "x-ms-discriminator-value": "ImageValidationUsage",
@@ -6370,7 +6389,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/BillingHubAggregateUsage"
+          "$ref": "#/definitions/BillingHubAggregateUsageEntry"
         }
       ]
     },
