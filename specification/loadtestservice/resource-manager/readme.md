@@ -32,11 +32,11 @@ tag: package-preview-2023-12
 
 ## Suppression
 
-``` yaml
+```yaml
 directive:
   - suppress: NoDuplicatePathsForScopeParameter
     from: loadtestservice.json
-    reason: They are two different APIs.( extensionResources and extensionResource/extensionName)
+    reason: They are two different APIs.( loadtestMappings and loadTestMappings/loadtestMappingName)
 ```
 
 

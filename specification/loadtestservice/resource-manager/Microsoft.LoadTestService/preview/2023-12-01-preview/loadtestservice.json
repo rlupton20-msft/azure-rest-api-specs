@@ -469,9 +469,6 @@
                 "description": "URL to query for status of the operation.",
                 "type": "string"
               }
-            },
-            "schema": {
-              "$ref": "#/definitions/LoadTestResource"
             }
           },
           "default": {
@@ -525,9 +522,6 @@
                 "description": "URL to query for status of the operation.",
                 "type": "string"
               }
-            },
-            "schema": {
-              "$ref": "#/definitions/LoadTestResource"
             }
           },
           "204": {
@@ -547,48 +541,53 @@
         }
       }
     },
-    "/{scope}/providers/Microsoft.LoadTestService/extensionResources/{extensionName}": {
+    "/{scope}/providers/Microsoft.LoadTestService/loadTestMappings/{loadTestMappingName}": {
       "get": {
         "tags": [
-          "LoadTestExtensions"
+          "LoadTestMappings"
         ],
-        "description": "Get a LoadTest extension resource.",
-        "operationId": "LoadTestExtensions_Get",
+        "description": "Get a LoadTest mapping resource.",
+        "operationId": "LoadTestMappings_Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ScopeParameter"
+            "$ref": "#/parameters/ScopeParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/LoadTestExtensionNameParameter"
+            "$ref": "#/parameters/LoadTestMappingNameParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK -- loadtest extension resource retrieved",
+            "description": "OK -- loadtest mapping resource retrieved",
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResource"
+              "$ref": "#/definitions/LoadTestMappingResource"
             }
           },
           "default": {
             "description": "Resource provider error response about the failure.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "LoadTestMappings_Get": {
+            "$ref": "./examples/LoadTestMappings_Get.json"
           }
         }
       },
       "put": {
         "tags": [
-          "LoadTestExtensions"
+          "LoadTestMappings"
         ],
-        "description": "Create or update LoadTest extension resource.",
-        "operationId": "LoadTestExtensions_CreateOrUpdate",
+        "description": "Create or update LoadTest mapping resource.",
+        "operationId": "LoadTestMappings_CreateOrUpdate",
         "consumes": [
           "application/json"
         ],
@@ -597,21 +596,21 @@
         ],
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ScopeParameter"
+            "$ref": "#/parameters/ScopeParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/LoadTestExtensionNameParameter"
+            "$ref": "#/parameters/LoadTestMappingNameParameter"
           },
           {
             "in": "body",
-            "name": "LoadTestExtensionResource",
-            "description": "LoadTest extension resource data",
+            "name": "LoadTestMappingResourceBody",
+            "description": "LoadTest mapping resource data",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResource"
+              "$ref": "#/definitions/LoadTestMappingResource"
             }
           }
         ],
@@ -619,29 +618,34 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResource"
+              "$ref": "#/definitions/LoadTestMappingResource"
             }
           },
           "201": {
-            "description": "Created -- LoadTest resource created",
+            "description": "Created -- LoadTest mapping resource created",
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResource"
+              "$ref": "#/definitions/LoadTestMappingResource"
             }
           },
           "default": {
             "description": "Resource provider error response about the failure.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "LoadTestMappings_CreateOrUpdate": {
+            "$ref": "./examples/LoadTestMappings_CreateOrUpdate.json"
           }
         }
       },
       "patch": {
         "tags": [
-          "LoadTestExtensions"
+          "LoadTestMappings"
         ],
-        "description": "Update a loadtest extension resource.",
-        "operationId": "LoadTestExtensions_Update",
+        "description": "Update a loadtest mapping resource.",
+        "operationId": "LoadTestMappings_Update",
         "consumes": [
           "application/json"
         ],
@@ -650,21 +654,21 @@
         ],
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ScopeParameter"
+            "$ref": "#/parameters/ScopeParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/LoadTestExtensionNameParameter"
+            "$ref": "#/parameters/LoadTestMappingNameParameter"
           },
           {
             "in": "body",
-            "name": "LoadTestExtensionResourcePatchRequestBody",
-            "description": "LoadTest extension resource update data",
+            "name": "LoadTestMappingResourcePatchRequestBody",
+            "description": "LoadTest mapping resource update data",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResourcePatchRequestBody"
+              "$ref": "#/definitions/LoadTestMappingResourcePatchRequestBody"
             }
           }
         ],
@@ -672,35 +676,40 @@
           "200": {
             "description": "OK -- resource updated",
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResource"
+              "$ref": "#/definitions/LoadTestMappingResource"
             }
           },
           "default": {
             "description": "Resource provider error response about the failure.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "LoadTestMappings_Update": {
+            "$ref": "./examples/LoadTestMappings_Update.json"
           }
         }
       },
       "delete": {
         "tags": [
-          "LoadTestExtensions"
+          "LoadTestMappings"
         ],
-        "description": "Delete a LoadTest extension resource.",
-        "operationId": "LoadTestExtensions_Delete",
+        "description": "Delete a LoadTest mapping resource.",
+        "operationId": "LoadTestMappings_Delete",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ScopeParameter"
+            "$ref": "#/parameters/ScopeParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/LoadTestExtensionNameParameter"
+            "$ref": "#/parameters/LoadTestMappingNameParameter"
           }
         ],
         "responses": {
@@ -713,46 +722,56 @@
           "default": {
             "description": "Resource provider error response about the failure.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "LoadTestMappings_Delete": {
+            "$ref": "./examples/LoadTestMappings_Delete.json"
           }
         }
       }
     },
-    "/{scope}/providers/Microsoft.LoadTestService/extensionResources": {
+    "/{scope}/providers/Microsoft.LoadTestService/loadTestMappings": {
       "get": {
         "tags": [
-          "LoadTestExtensions"
+          "LoadTestMappings"
         ],
-        "description": "Lists loadtest extension resources.",
-        "operationId": "LoadTestExtensions_ListByBaseResourceId",
+        "description": "Lists loadtest mapping resources.",
+        "operationId": "LoadTestMappings_ListBySourceResourceId",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ScopeParameter"
+            "$ref": "#/parameters/ScopeParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK -- list of loadtest extension resources retrieved",
+            "description": "OK -- list of loadtest mapping resources retrieved",
             "schema": {
-              "$ref": "#/definitions/LoadTestExtensionResourcePageList"
+              "$ref": "#/definitions/LoadTestMappingResourcePageList"
             }
           },
           "default": {
             "description": "Resource provider error response about the failure.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "LoadTestMappings_ListBySourceResourceId": {
+            "$ref": "./examples/LoadTestMappings_ListBySourceResourceId.json"
+          }
         }
       }
     },
@@ -1099,7 +1118,7 @@
         }
       }
     },
-    "LoadTestExtensionResourcePageList": {
+    "LoadTestMappingResourcePageList": {
       "description": "List of resources page result.",
       "type": "object",
       "properties": {
@@ -1107,7 +1126,7 @@
           "description": "List of resources in current page.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LoadTestExtensionResource"
+            "$ref": "#/definitions/LoadTestMappingResource"
           }
         },
         "nextLink": {
@@ -1116,63 +1135,63 @@
         }
       }
     },
-    "LoadTestExtensionResource": {
+    "LoadTestMappingResource": {
       "type": "object",
-      "description": "LoadTest extension details",
+      "description": "LoadTest mapping resource details",
       "properties": {
         "properties": {
-          "description": "Load Test resource extension properties",
-          "$ref": "#/definitions/LoadTestExtensionProperties",
+          "description": "Load Test mapping resource properties",
+          "$ref": "#/definitions/LoadTestMappingProperties",
           "x-ms-client-flatten": true
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
         }
       ]
     },
-    "LoadTestExtensionProperties": {
-      "description": "LoadTest resource extension properties.",
+    "LoadTestMappingProperties": {
+      "description": "Azure LoadTest mapping resource properties.",
       "type": "object",
       "properties": {
-        "description": {
-          "description": "Description of the resource extension.",
-          "maxLength": 512,
-          "type": "string"
+        "sourceResourceId": {
+          "description": "Mapped source resource Id.",
+          "type": "string",
+          "maxLength": 1024
         },
-        "azureLoadTestResourceId": {
+        "azureLoadTestingResourceId": {
           "description": "Mapped Azure Load Test resource Id.",
           "type": "string",
-          "maxLength": 2083
+          "maxLength": 1024
         },
-        "azureLoadTestResourceTestId": {
-          "description": "Mapped Azure Load Test resource test Id.",
+        "testId": {
+          "description": "Mapped Azure Load Test resource test-id.",
           "type": "string",
           "maxLength": 256
         }
       }
     },
-    "LoadTestExtensionResourcePatchRequestBody": {
-      "description": "LoadTest extension resource patch request body.",
+    "LoadTestMappingResourcePatchRequestBody": {
+      "description": "LoadTest mapping resource patch request body.",
       "type": "object",
       "properties": {
         "properties": {
-          "description": "Load Test extension resource properties",
+          "description": "LoadTest mapping resource properties",
           "type": "object",
           "x-ms-client-flatten": true,
           "properties": {
-            "description": {
-              "description": "Description of the resource.",
-              "maxLength": 512,
-              "type": "string"
+            "sourceResourceId": {
+              "description": "Mapped source resource Id.",
+              "type": "string",
+              "maxLength": 1024
             },
-            "azureLoadTestResourceId": {
+            "azureLoadTestingResourceId": {
               "description": "Mapped Azure Load Test resource Id.",
               "type": "string",
-              "maxLength": 2083
+              "maxLength": 1024
             },
-            "azureLoadTestResourceTestId": {
+            "testId": {
               "description": "Mapped Azure Load Test resource test Id.",
               "type": "string",
               "maxLength": 256
@@ -1271,13 +1290,13 @@
       "x-ms-parameter-location": "method",
       "type": "string"
     },
-    "LoadTestExtensionNameParameter": {
+    "LoadTestMappingNameParameter": {
       "in": "path",
-      "name": "extensionName",
-      "description": "Load Test extension name.",
+      "name": "loadTestMappingName",
+      "description": "Load Test mapping name.",
       "required": true,
       "x-ms-parameter-location": "method",
-      "pattern": "^[a-zA-Z]{3,100}$",
+      "pattern": "^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$",
       "type": "string"
     },
     "ScopeParameter": {
@@ -1285,8 +1304,11 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Request scope",
-      "x-ms-parameter-location": "method"
+      "description": "The scope at which the operation is performed.",
+      "minLength": 1,
+      "maxLength": 200,
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
     },
     "QuotaBucketNameParameter": {
       "in": "path",
