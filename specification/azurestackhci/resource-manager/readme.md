@@ -1,17 +1,17 @@
 # azurestackhci
 
 > see https://aka.ms/autorest
-This is the AutoRest configuration file for azurestackhci.
+> This is the AutoRest configuration file for azurestackhci.
 
 ## Getting Started
 
 To build the SDKs for My API, simply install AutoRest via `npm` (`npm install -g autorest`) and then run:
 
 > `autorest readme.md`
-To see additional help and options, run:
+> To see additional help and options, run:
 
 > `autorest --help`
-For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
+> For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
 
 ---
 
@@ -21,7 +21,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 These are the global settings for the azurestackhci.
 
-``` yaml
+```yaml
 title: EdgeMarketPlaceClient
 description: Edge marketplace extensions
 openapi-type: arm
@@ -31,7 +31,7 @@ tag: package-preview-2023-11
 
 ## Suppression
 
-``` yaml
+```yaml
 directive:
   - suppress: R3020
     from:
@@ -50,7 +50,6 @@ directive:
       - nodeConfiguration.json
     reason: Microsoft.AzureStackHCI is the correct name for our RP.
 ```
-
 
 ### Tag: package-preview-2023-11
 
@@ -71,11 +70,12 @@ input-file:
   - Private.AzureStackHCI/preview/2023-11-01-preview/updateSummaries.json
   - Private.AzureStackHCI/preview/2023-11-01-preview/updates.json
 ```
+
 ### Tag: package-2023-09
 
 These settings apply only when `--tag=package-2023-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-2023-09'
+```yaml $(tag) == 'package-2023-09'
 input-file:
   - Microsoft.AzureStackHCI/preview/2023-09-01/galleryImages.json
   - Microsoft.AzureStackHCI/preview/2023-09-01/marketplaceGalleryImages.json
@@ -90,7 +90,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2023-06` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2023-06'
+```yaml $(tag) == 'package-preview-2023-06'
 input-file:
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2023-06-15-preview/clusters.json
@@ -109,7 +109,7 @@ input-file:
 
 These settings apply only when `--tag=package-2023-07` is specified on the command line.
 
-``` yaml $(tag) == 'package-2023-07'
+```yaml $(tag) == 'package-2023-07'
 input-file:
   - Microsoft.AzureStackHCI/preview/2023-07-01-preview/galleryImages.json
   - Microsoft.AzureStackHCI/preview/2023-07-01-preview/marketplaceGalleryImages.json
@@ -124,7 +124,7 @@ input-file:
 
 These settings apply only when `--tag=package-2023-02` is specified on the command line.
 
-``` yaml $(tag) == 'package-2023-02'
+```yaml $(tag) == 'package-2023-02'
 input-file:
   - Microsoft.AzureStackHCI/stable/2023-02-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2023-02-01/clusters.json
@@ -142,7 +142,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2022-12` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2022-12'
+```yaml $(tag) == 'package-preview-2022-12'
 input-file:
   - Microsoft.AzureStackHCI/preview/2022-12-15-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2022-12-15-preview/clusters.json
@@ -164,7 +164,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-12` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-12'
+```yaml $(tag) == 'package-2022-12'
 input-file:
   - Microsoft.AzureStackHCI/stable/2022-12-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2022-12-01/clusters.json
@@ -182,7 +182,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-10` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-10'
+```yaml $(tag) == 'package-2022-10'
 input-file:
   - Microsoft.AzureStackHCI/stable/2022-10-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2022-10-01/clusters.json
@@ -197,7 +197,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-09'
+```yaml $(tag) == 'package-2022-09'
 input-file:
   - Microsoft.AzureStackHCI/stable/2022-09-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2022-09-01/clusters.json
@@ -212,7 +212,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2022-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2022-09'
+```yaml $(tag) == 'package-preview-2022-09'
 input-file:
   - Microsoft.AzureStackHCI/preview/2022-09-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2022-09-01-preview/clusters.json
@@ -227,7 +227,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-05` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-05'
+```yaml $(tag) == 'package-2022-05'
 input-file:
   - Microsoft.AzureStackHCI/stable/2022-05-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2022-05-01/clusters.json
@@ -239,7 +239,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2022-04` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2022-04'
+```yaml $(tag) == 'package-preview-2022-04'
 input-file:
   - Microsoft.AzureStackHCI/preview/2022-04-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2022-04-01-preview/clusters.json
@@ -260,7 +260,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2022-03` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2022-03'
+```yaml $(tag) == 'package-preview-2022-03'
 input-file:
   - Microsoft.AzureStackHCI/preview/2022-03-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2022-03-01-preview/clusters.json
@@ -278,7 +278,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-01` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-01'
+```yaml $(tag) == 'package-2022-01'
 input-file:
   - Microsoft.AzureStackHCI/stable/2022-01-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2022-01-01/clusters.json
@@ -290,7 +290,7 @@ input-file:
 
 These settings apply only when `--tag=package-2021-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-2021-09'
+```yaml $(tag) == 'package-2021-09'
 input-file:
   - Microsoft.AzureStackHCI/stable/2021-09-01/arcSettings.json
   - Microsoft.AzureStackHCI/stable/2021-09-01/clusters.json
@@ -302,7 +302,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2021-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2021-09'
+```yaml $(tag) == 'package-preview-2021-09'
 input-file:
   - Microsoft.AzureStackHCI/preview/2021-09-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2021-09-01-preview/clusters.json
@@ -321,7 +321,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2021-07` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2021-07'
+```yaml $(tag) == 'package-preview-2021-07'
 input-file:
   - Microsoft.AzureStackHCI/preview/2021-07-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2021-07-01-preview/clusters.json
@@ -339,7 +339,7 @@ input-file:
 
 These settings apply only when `--tag=package-preview-2021-01` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2021-01'
+```yaml $(tag) == 'package-preview-2021-01'
 input-file:
   - Microsoft.AzureStackHCI/preview/2021-01-01-preview/arcSettings.json
   - Microsoft.AzureStackHCI/preview/2021-01-01-preview/clusters.json
@@ -357,7 +357,7 @@ input-file:
 
 These settings apply only when `--tag=package-2020-11-01-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2020-11-01-preview'
+```yaml $(tag) == 'package-2020-11-01-preview'
 input-file:
   - Microsoft.AzureStackHCI/preview/2020-11-01-preview/galleryImages.json
   - Microsoft.AzureStackHCI/preview/2020-11-01-preview/networkInterfaces.json
@@ -373,7 +373,7 @@ input-file:
 
 These settings apply only when `--tag=package-2020-03-01-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2020-03-01-preview'
+```yaml $(tag) == 'package-2020-03-01-preview'
 input-file:
   - Microsoft.AzureStackHCI/preview/2020-03-01-preview/azurestackhci.json
 ```
@@ -387,7 +387,7 @@ input-file:
 This section describes what SDK should be generated by the automatic system.
 This is not used by Autorest itself.
 
-``` yaml $(swagger-to-sdk)
+```yaml $(swagger-to-sdk)
 swagger-to-sdk:
   - repo: azure-sdk-for-python
   - repo: azure-sdk-for-java
