@@ -47,9 +47,199 @@
     },
     {
       "name": "DiscoverySources"
+    },
+    {
+      "name": "Statuses"
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Private.DependencyMap/statuses": {
+      "get": {
+        "operationId": "Statuses_List",
+        "tags": [
+          "Statuses"
+        ],
+        "description": "List StatusResource resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StatusResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.DependencyMap/statuses/default": {
+      "get": {
+        "operationId": "Statuses_Get",
+        "tags": [
+          "Statuses"
+        ],
+        "description": "Get a StatusResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StatusResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Statuses_CreateOrUpdate",
+        "tags": [
+          "Statuses"
+        ],
+        "description": "Create a StatusResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StatusResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'StatusResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/StatusResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'StatusResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/StatusResource"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Statuses_Update",
+        "tags": [
+          "Statuses"
+        ],
+        "description": "Update a StatusResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StatusResourceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StatusResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Statuses_Delete",
+        "tags": [
+          "Statuses"
+        ],
+        "description": "Delete a StatusResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/providers/Private.DependencyMap/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -132,7 +322,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           }
@@ -213,7 +403,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           }
@@ -252,7 +442,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -317,7 +507,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -383,7 +573,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           }
@@ -442,7 +632,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           }
@@ -486,7 +676,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -532,7 +722,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -604,7 +794,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -677,7 +867,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -743,7 +933,7 @@
           {
             "name": "mapName",
             "in": "path",
-            "description": "maps resource",
+            "description": "Maps resource name",
             "required": true,
             "type": "string"
           },
@@ -1249,7 +1439,85 @@
           }
         ]
       }
+    },
+    "StatusResource": {
+      "type": "object",
+      "description": "A Status resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/StatusResourceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "StatusResourceListResult": {
+      "type": "object",
+      "description": "The response of a StatusResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The StatusResource items on this page",
+          "items": {
+            "$ref": "#/definitions/StatusResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "StatusResourceProperties": {
+      "type": "object",
+      "description": "The properties of Status resource",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of Status resource.",
+          "readOnly": true
+        },
+        "parentProjectId": {
+          "type": "string",
+          "description": "Partner project resource arm id",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "parentProjectId"
+      ]
+    },
+    "StatusResourceUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the StatusResource.",
+      "properties": {}
     }
   },
-  "parameters": {}
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
 }
