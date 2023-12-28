@@ -497,7 +497,7 @@
       "type": "object",
       "description": "Capacity properties",
       "properties": {
-        "noOfUnits": {
+        "numberOfUnits": {
           "type": "integer",
           "format": "int64",
           "description": "No of Units",
@@ -509,14 +509,14 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "isAllowCrossRegionCompute": {
-          "type": "boolean",
-          "description": "Is corss region compute allowed"
+        "crossRegionCompute": {
+          "$ref": "#/definitions/IsAllowed",
+          "description": "Is cross region compute allowed"
         }
       },
       "required": [
-        "noOfUnits",
-        "isAllowCrossRegionCompute"
+        "numberOfUnits",
+        "crossRegionCompute"
       ]
     },
     "CapacityUpdate": {
@@ -540,17 +540,41 @@
       "type": "object",
       "description": "The updatable properties of the Capacity.",
       "properties": {
-        "noOfUnits": {
+        "numberOfUnits": {
           "type": "integer",
           "format": "int64",
           "description": "No of Units",
           "minimum": 1,
           "maximum": 999
         },
-        "isAllowCrossRegionCompute": {
-          "type": "boolean",
-          "description": "Is corss region compute allowed"
+        "crossRegionCompute": {
+          "$ref": "#/definitions/IsAllowed",
+          "description": "Is cross region compute allowed"
         }
+      }
+    },
+    "IsAllowed": {
+      "type": "string",
+      "description": "Enum to represent Allowed or NotAllowed",
+      "enum": [
+        "Allowed",
+        "NotAllowed"
+      ],
+      "x-ms-enum": {
+        "name": "IsAllowed",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Allowed",
+            "value": "Allowed",
+            "description": "Allowed to do"
+          },
+          {
+            "name": "NotAllowed",
+            "value": "NotAllowed",
+            "description": "Not allowed to do"
+          }
+        ]
       }
     },
     "ProvisioningState": {
