@@ -56,6 +56,9 @@
     },
     {
       "name": "DstsServiceClientIdentity"
+    },
+    {
+      "name": "JitPolicySet"
     }
   ],
   "paths": {
@@ -1101,6 +1104,124 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/jitPolicySets/{resourceName}": {
+      "get": {
+        "operationId": "JitPolicySet_Get",
+        "tags": [
+          "JitPolicySet"
+        ],
+        "description": "Get a JitPolicySet",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "JitPolicySet_CreateOrUpdate",
+        "tags": [
+          "JitPolicySet"
+        ],
+        "description": "Create a JitPolicySetResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'JitPolicySetResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'JitPolicySetResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResource"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create DstsApplication": {
+            "$ref": "./examples/DstsApplication_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
     }
   },
   "definitions": {
@@ -2083,6 +2204,154 @@
       },
       "required": [
         "subjectNames"
+      ]
+    },
+    "PolicyCondition": {
+      "type": "object",
+      "description": "PolicyCondition properties",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "description": "Operator for the policy to be evluated."
+        },
+        "entityName": {
+          "type": "string",
+          "description": "The name of entity."
+        },
+        "entityValue": {
+          "type": "string",
+          "description": "The value of entity."
+        },
+        "property": {
+          "type": "string",
+          "description": "The value of property."
+        }
+      },
+      "required": [
+        "operator",
+        "entityName"
+      ]
+    },
+    "PolicyAction": {
+      "type": "object",
+      "description": "PolicyAction properties",
+      "properties": {
+        "propertyType": {
+          "type": "string",
+          "description": "The type of property action."
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "The type of property name."
+        },
+        "propertyValue": {
+          "type": "string",
+          "description": "The type of property value."
+        }
+      },
+      "required": [
+        "propertyType"
+      ]
+    },
+    "Policy": {
+      "type": "object",
+      "description": "jitPolicySet properties",
+      "properties": {
+        "policyInvariableId": {
+          "type": "integer",
+          "description": "The unique identifier for the policy (unique per cloud per service)"
+        },
+        "policyId": {
+          "type": "string",
+          "description": "The unique identifier for the policy"
+        },
+        "executionSequence": {
+          "type": "integer",
+          "description": "The execution sequence for the policy"
+        },
+        "extendedFlags": {
+          "type": "integer",
+          "description": "The extended flags for the policy"
+        },
+        "cloud": {
+          "type": "string",
+          "description": "The cloud for the policy request."
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type for the policy"
+        },
+        "policyType": {
+          "type": "string",
+          "description": "The type of policy."
+        },
+        "policyConditions": {
+          "type": "array",
+          "description": "List of condition objects that must be validated",
+          "items": {
+            "$ref": "#/definitions/PolicyCondition"
+          },
+          "x-ms-identifiers": []
+        },
+        "policyActions": {
+          "type": "array",
+          "description": "List of action objects that can be performed after validation",
+          "items": {
+            "$ref": "#/definitions/PolicyAction"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "policyType",
+        "resourceType"
+      ]
+    },
+    "JitPolicySetReourceProperties": {
+      "type": "object",
+      "description": "jitPolicySet resource properties",
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type for the policyset request"
+        },
+        "cloud": {
+          "type": "string",
+          "description": "The cloud ID for the request"
+        },
+        "policies": {
+          "type": "array",
+          "description": "List of policies",
+          "items": {
+            "$ref": "#/definitions/Policy"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "policies",
+        "resourceType",
+        "cloud"
+      ]
+    },
+    "JitPolicySetResource": {
+      "type": "object",
+      "description": "jit policyset Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/JitPolicySetReourceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
       ]
     }
   },
