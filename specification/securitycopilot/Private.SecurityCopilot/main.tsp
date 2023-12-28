@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -36,14 +35,23 @@ model CapacityProperties {
   @doc("No of Units")
   @minValue(1)
   @maxValue(999)
-  noOfUnits: int64;
+  numberOfUnits: int64;
 
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("Is corss region compute allowed")
-  isAllowCrossRegionCompute: boolean;
+  @doc("Is cross region compute allowed")
+  crossRegionCompute: IsAllowed;
+}
+
+@doc("Enum to represent Allowed or NotAllowed")
+enum IsAllowed {
+  @doc("Allowed")
+  Allowed,
+
+  @doc("Not allowed")
+  NotAllowed,
 }
 
 @doc("The provisioning state of a resource.")
