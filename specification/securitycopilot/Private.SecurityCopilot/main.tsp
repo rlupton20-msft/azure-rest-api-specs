@@ -47,10 +47,10 @@ model CapacityProperties {
 
 @doc("Enum to represent Allowed or NotAllowed")
 enum IsAllowed {
-  @doc("Allowed")
+  @doc("Allowed to do")
   Allowed,
 
-  @doc("Not allowed")
+  @doc("Not allowed to do")
   NotAllowed,
 }
 
