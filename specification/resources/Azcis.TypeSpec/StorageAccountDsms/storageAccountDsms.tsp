@@ -13,27 +13,27 @@ namespace Microsoft.AzureCIS;
 
 @doc("storageAccountDsms properties.")
 model StorageAccountDsmsResourceProperties {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
-  @doc("Gets or sets the root path of the certificate.")
-  name?: string;
-
   @doc("Gets or sets the root path of the certificate.")
   rootPath?: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
+  @doc("Gets or sets name.")
+  name?: string;
 
   @doc("Description to this xstore account.")
   description?: string;
 
-  @doc("Alias to find existing subscription.")
-  subscriptionAlias?: string;
-
   @doc("Subscription ID to use this xstore account.")
   subscriptionId?: string;
 
-  @doc("Resource providet type.")
+  @doc("Storage account resource provider. Valid values are \"Classic\", \"ARM\".")
   resourceProvider?: string;
 
   @doc("Label of this xstore account.")
   label?: string;
+
+  @doc("Account type on data replicateion.")
+  accountReplicationType?: string;
 
   @doc("Location of this storage account.")
   location?: string;
@@ -41,8 +41,9 @@ model StorageAccountDsmsResourceProperties {
   @doc("Storage account resource group name.")
   resourceGroupName?: string;
 
-  @doc("Properties list")
-  propertiesList?: Properties;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
+  @doc("Properties")
+  properties?: Property[];
 
   @doc("Provisioning state")
   @visibility("read")
@@ -53,12 +54,6 @@ model StorageAccountDsmsResourceProperties {
 model Whitelists {
   @doc("Gets or sets the whitelist elements.")
   elements?: Whitelist[];
-}
-
-@doc("Defines the array of properties.")
-model Properties {
-  @doc("Gets or sets the whitelist elements.")
-  elements?: Property[];
 }
 
 @doc("Defines the property element.")
