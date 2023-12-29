@@ -913,7 +913,69 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DependencyMap/maps/{mapName}/generateCoarseMap": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DependencyMap/maps/{mapName}/getEdgeDetails": {
+      "post": {
+        "operationId": "Maps_GetEdgeDetails",
+        "tags": [
+          "Maps"
+        ],
+        "description": "Get edge details",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "mapName",
+            "in": "path",
+            "description": "Maps resource name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetEdgeDetailsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DependencyMap/maps/{mapName}/getMachineDependencyMap": {
       "post": {
         "operationId": "Maps_GetMachineDependencyMap",
         "tags": [
@@ -944,6 +1006,68 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/GetMachineDependencyMapRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DependencyMap/maps/{mapName}/getServerDetails": {
+      "post": {
+        "operationId": "Maps_GetServerDetails",
+        "tags": [
+          "Maps"
+        ],
+        "description": "Get server details",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "mapName",
+            "in": "path",
+            "description": "Maps resource name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetServerDetailsRequest"
             }
           }
         ],
@@ -1243,6 +1367,24 @@
         ]
       }
     },
+    "GetEdgeDetailsRequest": {
+      "type": "object",
+      "description": "getEdgeDetails request model",
+      "properties": {
+        "srcMachineId": {
+          "type": "string",
+          "description": "Source machine arm id"
+        },
+        "destMachineId": {
+          "type": "string",
+          "description": "Destination machine arm id"
+        }
+      },
+      "required": [
+        "srcMachineId",
+        "destMachineId"
+      ]
+    },
     "GetMachineDependencyMapRequest": {
       "type": "object",
       "description": "getMachineDependencyMap request model",
@@ -1256,17 +1398,22 @@
         "machineId"
       ]
     },
-    "GetMachineDependencyMapResponse": {
+    "GetServerDetailsRequest": {
       "type": "object",
-      "description": "Get machine response model",
+      "description": "getServerDetails request model",
       "properties": {
-        "machineDetails": {
+        "machineId": {
           "type": "string",
-          "description": "machine details"
+          "description": "Machine arm id"
+        },
+        "connectedMachineId": {
+          "type": "string",
+          "description": "Connected machine arm id"
         }
       },
       "required": [
-        "machineDetails"
+        "machineId",
+        "connectedMachineId"
       ]
     },
     "MapsResource": {
