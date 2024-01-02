@@ -40,6 +40,10 @@ model ObservabilityServiceResourceProperties {
   @extension("x-ms-identifiers", ["type"])
   componentParameters: QualifiedComponentDeploymentParameters[];
 
+  @doc("Reference to cluster where the observability components are deployed")
+  @visibility("create", "read")
+  clusterService: ClusterServiceIdProperty;
+
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")
   releaseVersion?: ReleaseVersion;
