@@ -15,10 +15,10 @@ namespace Microsoft.AzureCIS;
 model RnmVipResourceProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Unique name of a RnmVip resource item.")
-  name: string;
+  resourceName: string;
 
   @doc("Gets or sets the value of rnm subscription Guid. Every vip allocated by rnm needs to be associated with a subscription. Rnm team created subscriptions for different teams.")
-  rnmSubscriptionId: string;
+  subscriptionId: string;
 
   @doc("Gets or sets the value of vip reservation Id. Every vip allocated by rnm has a reservation Id. This is an optional field for Static IP reservation. In this case, if the reservation is already present then the system will mark reservation as successful without any duplicate reservation. E.g. FF03EB76-BA3D-4892-BD40-E42EFEE3DF67")
   reservationId?: string;
