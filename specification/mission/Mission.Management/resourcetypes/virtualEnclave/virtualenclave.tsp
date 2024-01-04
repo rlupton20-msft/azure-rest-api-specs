@@ -15,6 +15,18 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
+@doc("Specifies the destination of where to store diagnostic logs.")
+enum DiagnosticDestination {
+  @doc("DiagnosticDestination Type CommunityOnly")
+  CommunityOnly,
+
+  @doc("DiagnosticDestination Type EnclaveOnly")
+  EnclaveOnly,
+ 
+  @doc("DiagnosticDestination Type Both")
+  Both,
+}
+
 @doc("Enclave Virtual Network Properties")
 model EnclaveVirtualNetwork {
   @doc("Network Size.")
@@ -29,11 +41,19 @@ model EnclaveDefaultSettings {
   @doc("Key Vault Resource Id.")
   keyVaultResourceId?: KeyVaultResourceId;
 
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @removed(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Log Analytics Resource Id.")
   logAnalyticsResourceId?: LogAnalyticsResourceId;
 
   @doc("Storage Account Resource Id.")
   storageAccountResourceId?: StorageAccountResourceId;
+
+  @doc("Log Analytics Resource Ids.")
+  logAnalyticsResourceIdCollection?: LogAnalyticsResourceId[];
+
+  @doc("Diagnostic Destination.")
+  diagnosticDestination?: DiagnosticDestination;
 }
 
 @doc("Enclave Address Spaces")
