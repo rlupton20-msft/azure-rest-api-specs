@@ -21,21 +21,25 @@ model JitPolicySetProperties {
 
   @doc("List of policy objects associated with the resource to be updated or added")
   policies?: Array<Policy>;
+
+  @doc("Provisioning state")
+  @visibility("read")
+  provisioningState?: DscmProvisioningState;
 }
 
 @doc("Policy.")
 model Policy {
   @doc("The unique identifier for the policy (unique per cloud per service)")
-  policyInvariableId: integer;
+  policyInvariableId: int64;
 
   @doc("The unique identifier for the policy")
   policyId: string;
 
   @doc("The execution sequence for the policy.")
-  executionSequence: integer;
+  executionSequence: int64;
 
   @doc("The extended flags for the policy.")
-  extendedFlags: integer;
+  extendedFlags: int64;
 
   @doc("The cloud for the policy request.")
   cloud: string;
@@ -55,7 +59,7 @@ model Policy {
 
 @doc("Policy condition for evaluation.")
 model PolicyCondition {
-  @doc("Operator for the policy to be evluated.")
+  @doc("Operator for the policy to be evaluated.")
   operator: string;
 
   @doc("The name of entity.")

@@ -305,6 +305,40 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCIS/jitPolicySets": {
+      "get": {
+        "operationId": "JitPolicySet_ListBySubscription",
+        "tags": [
+          "JitPolicySet"
+        ],
+        "description": "List JitPolicySetResource resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/dsmsAllowlists": {
       "get": {
         "operationId": "DsmsAllowlist_ListByResourceGroup",
@@ -1105,13 +1139,50 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/jitPolicySets": {
+      "get": {
+        "operationId": "JitPolicySet_ListByResourceGroup",
+        "tags": [
+          "JitPolicySet"
+        ],
+        "description": "List JitPolicySetResource resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/JitPolicySetResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/jitPolicySets/{resourceName}": {
       "get": {
         "operationId": "JitPolicySet_Get",
         "tags": [
           "JitPolicySet"
         ],
-        "description": "Get a JitPolicySet",
+        "description": "Get a JitPolicySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -2172,6 +2243,191 @@
         "toIpAddress"
       ]
     },
+    "JitPolicySetProperties": {
+      "type": "object",
+      "description": "JitPolicySet properties",
+      "properties": {
+        "cloud": {
+          "type": "string",
+          "description": "The cloud ID for the request"
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type for the policyset request"
+        },
+        "policies": {
+          "type": "array",
+          "description": "List of policy objects associated with the resource to be updated or added",
+          "items": {
+            "$ref": "#/definitions/Policy"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/DscmProvisioningState",
+          "description": "Provisioning state",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "cloud",
+        "resourceType"
+      ]
+    },
+    "JitPolicySetResource": {
+      "type": "object",
+      "description": "JitPolicySet Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/JitPolicySetProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "JitPolicySetResourceListResult": {
+      "type": "object",
+      "description": "The response of a JitPolicySetResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The JitPolicySetResource items on this page",
+          "items": {
+            "$ref": "#/definitions/JitPolicySetResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "Policy": {
+      "type": "object",
+      "description": "Policy.",
+      "properties": {
+        "policyInvariableId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier for the policy (unique per cloud per service)"
+        },
+        "policyId": {
+          "type": "string",
+          "description": "The unique identifier for the policy"
+        },
+        "executionSequence": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The execution sequence for the policy."
+        },
+        "extendedFlags": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The extended flags for the policy."
+        },
+        "cloud": {
+          "type": "string",
+          "description": "The cloud for the policy request."
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type for the policy."
+        },
+        "policyType": {
+          "type": "string",
+          "description": "The type of policy."
+        },
+        "policyConditions": {
+          "type": "array",
+          "description": "List of condition objects that must be validated.",
+          "items": {
+            "$ref": "#/definitions/PolicyCondition"
+          },
+          "x-ms-identifiers": []
+        },
+        "policyActions": {
+          "type": "array",
+          "description": "List of action objects that can be performed after validation.",
+          "items": {
+            "$ref": "#/definitions/PolicyAction"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "policyInvariableId",
+        "policyId",
+        "executionSequence",
+        "extendedFlags",
+        "cloud",
+        "resourceType",
+        "policyType"
+      ]
+    },
+    "PolicyAction": {
+      "type": "object",
+      "description": "Policy action performed after condition is met.",
+      "properties": {
+        "propertyType": {
+          "type": "string",
+          "description": "The type of property action."
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "The name of property."
+        },
+        "propertyValue": {
+          "type": "string",
+          "description": "The value of property."
+        }
+      },
+      "required": [
+        "propertyType",
+        "propertyName",
+        "propertyValue"
+      ]
+    },
+    "PolicyCondition": {
+      "type": "object",
+      "description": "Policy condition for evaluation.",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "description": "Operator for the policy to be evaluated."
+        },
+        "entityName": {
+          "type": "string",
+          "description": "The name of entity."
+        },
+        "entityValue": {
+          "type": "string",
+          "description": "The value of entity."
+        },
+        "property": {
+          "type": "string",
+          "description": "The value of property."
+        }
+      },
+      "required": [
+        "operator",
+        "entityName",
+        "entityValue",
+        "property"
+      ]
+    },
     "RequiredIpRange": {
       "type": "object",
       "description": "This class represents an IP range in SCI.",
@@ -2204,154 +2460,6 @@
       },
       "required": [
         "subjectNames"
-      ]
-    },
-    "PolicyCondition": {
-      "type": "object",
-      "description": "PolicyCondition properties",
-      "properties": {
-        "operator": {
-          "type": "string",
-          "description": "Operator for the policy to be evluated."
-        },
-        "entityName": {
-          "type": "string",
-          "description": "The name of entity."
-        },
-        "entityValue": {
-          "type": "string",
-          "description": "The value of entity."
-        },
-        "property": {
-          "type": "string",
-          "description": "The value of property."
-        }
-      },
-      "required": [
-        "operator",
-        "entityName"
-      ]
-    },
-    "PolicyAction": {
-      "type": "object",
-      "description": "PolicyAction properties",
-      "properties": {
-        "propertyType": {
-          "type": "string",
-          "description": "The type of property action."
-        },
-        "propertyName": {
-          "type": "string",
-          "description": "The type of property name."
-        },
-        "propertyValue": {
-          "type": "string",
-          "description": "The type of property value."
-        }
-      },
-      "required": [
-        "propertyType"
-      ]
-    },
-    "Policy": {
-      "type": "object",
-      "description": "jitPolicySet properties",
-      "properties": {
-        "policyInvariableId": {
-          "type": "integer",
-          "description": "The unique identifier for the policy (unique per cloud per service)"
-        },
-        "policyId": {
-          "type": "string",
-          "description": "The unique identifier for the policy"
-        },
-        "executionSequence": {
-          "type": "integer",
-          "description": "The execution sequence for the policy"
-        },
-        "extendedFlags": {
-          "type": "integer",
-          "description": "The extended flags for the policy"
-        },
-        "cloud": {
-          "type": "string",
-          "description": "The cloud for the policy request."
-        },
-        "resourceType": {
-          "type": "string",
-          "description": "The resource type for the policy"
-        },
-        "policyType": {
-          "type": "string",
-          "description": "The type of policy."
-        },
-        "policyConditions": {
-          "type": "array",
-          "description": "List of condition objects that must be validated",
-          "items": {
-            "$ref": "#/definitions/PolicyCondition"
-          },
-          "x-ms-identifiers": []
-        },
-        "policyActions": {
-          "type": "array",
-          "description": "List of action objects that can be performed after validation",
-          "items": {
-            "$ref": "#/definitions/PolicyAction"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "policyType",
-        "resourceType"
-      ]
-    },
-    "JitPolicySetReourceProperties": {
-      "type": "object",
-      "description": "jitPolicySet resource properties",
-      "properties": {
-        "resourceType": {
-          "type": "string",
-          "description": "The resource type for the policyset request"
-        },
-        "cloud": {
-          "type": "string",
-          "description": "The cloud ID for the request"
-        },
-        "policies": {
-          "type": "array",
-          "description": "List of policies",
-          "items": {
-            "$ref": "#/definitions/Policy"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "policies",
-        "resourceType",
-        "cloud"
-      ]
-    },
-    "JitPolicySetResource": {
-      "type": "object",
-      "description": "jit policyset Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/JitPolicySetReourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
-        }
       ]
     }
   },
