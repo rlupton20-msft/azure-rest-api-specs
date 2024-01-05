@@ -470,6 +470,46 @@
         }
       }
     },
+    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/AttestationStatus/default": {
+      "get": {
+        "tags": [
+          "AttestationStatus"
+        ],
+        "operationId": "AttestationStatus_Get",
+        "summary": "Gets AttestationStatus.",
+        "description": "Implements AttestationStatus GET method.",
+        "x-ms-examples": {
+          "GetAttestationStatus": {
+            "$ref": "./examples/GetAttestationStatus.json"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AttestationStatus"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default": {
       "put": {
         "tags": [
@@ -1461,6 +1501,88 @@
         }
       },
       "x-ms-azure-resource": true
+    },
+    "AttestationStatus": {
+      "type": "object",
+      "description": "The attestation status of the virtual machine",
+      "properties": {
+        "attestSecureBootEnabled": {
+          "type": "string",
+          "description": "The status of whether secure boot is enabled.",
+          "enum": [
+            "Enabled",
+            "Disabled",
+            "Unknown"
+          ],
+          "default": "Unknown",
+          "x-ms-enum": {
+            "name": "AttestPropertyEnum",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "attestationCertValidated": {
+          "type": "string",
+          "description": "The status of whether attestation certificate is validated.",
+          "enum": [
+            "Valid",
+            "Invalid",
+            "Unknown"
+          ],
+          "default": "Unknown",
+          "x-ms-enum": {
+            "name": "AttestPropertyEnum2",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "bootIntegrityValidated": {
+          "type": "string",
+          "description": "The status of whether the list of boot integrity properties is validated.",
+          "enum": [
+            "Valid",
+            "Invalid",
+            "Unknown"
+          ],
+          "default": "Unknown",
+          "x-ms-enum": {
+            "name": "AttestPropertyEnum2",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "linuxKernelVersion": {
+          "type": "string",
+          "description": "kernel version string for Linux VM.",
+          "readOnly": true
+        },
+        "healthStatus": {
+          "type": "string",
+          "description": "The health status of attestation validation and parsing",
+          "enum": [
+            "Pending",
+            "Healthy",
+            "Unhealthy",
+            "Unknown"
+          ],
+          "default": "Unknown",
+          "x-ms-enum": {
+            "name": "AttestHealthStatusEnum",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "timestamp": {
+          "type": "string",
+          "description" : "The time stamp of the last time attestation token is validated by relying party service.",
+          "readOnly": true
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "The error message of attestation validation and parsing",
+          "readOnly": true
+        }
+      }
     },
     "ProvisioningAction": {
       "description": "Defines the different types of operations for guest agent.",
