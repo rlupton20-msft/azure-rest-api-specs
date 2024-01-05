@@ -63,7 +63,7 @@ model PolicyCondition {
 
   @doc("The value of entity.")
   entityValue: string;
-  
+
   @doc("The value of property.")
   property: string;
 }
