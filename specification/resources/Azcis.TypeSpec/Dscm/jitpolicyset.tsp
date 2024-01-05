@@ -55,7 +55,6 @@ model Policy {
 
 @doc("Policy condition for evaluation.")
 model PolicyCondition {
-
   @doc("Operator for the policy to be evluated.")
   operator: string;
 
@@ -71,7 +70,6 @@ model PolicyCondition {
 
 @doc("Policy action performed after condition is met.")
 model PolicyAction {
-
   @doc("The type of property action.")
   propertyType: string;
 
