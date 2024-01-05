@@ -61,7 +61,7 @@ interface SmfDeployments {
   get is ArmResourceRead<SmfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<SmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<SmfDeploymentResource>;
-  delete is ArmResourceDeleteAsync<SmfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<SmfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<SmfDeploymentResource>;
   listBySubscription is ArmListBySubscription<SmfDeploymentResource>;
 }

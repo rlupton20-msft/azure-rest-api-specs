@@ -67,7 +67,7 @@ interface VnfAgentDeployments {
   get is ArmResourceRead<VnfAgentDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<VnfAgentDeploymentResource>;
   updateTags is ArmTagsPatchSync<VnfAgentDeploymentResource>;
-  delete is ArmResourceDeleteAsync<VnfAgentDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<VnfAgentDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<VnfAgentDeploymentResource>;
   listBySubscription is ArmListBySubscription<VnfAgentDeploymentResource>;
 }

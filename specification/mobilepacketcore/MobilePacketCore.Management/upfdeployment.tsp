@@ -61,7 +61,7 @@ interface UpfDeployments {
   get is ArmResourceRead<UpfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<UpfDeploymentResource>;
   updateTags is ArmTagsPatchSync<UpfDeploymentResource>;
-  delete is ArmResourceDeleteAsync<UpfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<UpfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<UpfDeploymentResource>;
   listBySubscription is ArmListBySubscription<UpfDeploymentResource>;
 }

@@ -61,7 +61,7 @@ interface AmfDeployments {
   get is ArmResourceRead<AmfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<AmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<AmfDeploymentResource>;
-  delete is ArmResourceDeleteAsync<AmfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<AmfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<AmfDeploymentResource>;
   listBySubscription is ArmListBySubscription<AmfDeploymentResource>;
 }

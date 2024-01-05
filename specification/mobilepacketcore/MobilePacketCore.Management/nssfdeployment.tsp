@@ -61,7 +61,7 @@ interface NssfDeployments {
   get is ArmResourceRead<NssfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NssfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NssfDeploymentResource>;
-  delete is ArmResourceDeleteAsync<NssfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<NssfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<NssfDeploymentResource>;
   listBySubscription is ArmListBySubscription<NssfDeploymentResource>;
 }

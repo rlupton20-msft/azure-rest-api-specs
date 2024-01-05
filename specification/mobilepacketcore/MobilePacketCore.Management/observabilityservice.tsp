@@ -58,7 +58,7 @@ interface ObservabilityServices {
   get is ArmResourceRead<ObservabilityServiceResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<ObservabilityServiceResource>;
   updateTags is ArmTagsPatchSync<ObservabilityServiceResource>;
-  delete is ArmResourceDeleteAsync<ObservabilityServiceResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<ObservabilityServiceResource>;
   listByResourceGroup is ArmResourceListByParent<ObservabilityServiceResource>;
   listBySubscription is ArmListBySubscription<ObservabilityServiceResource>;
 }

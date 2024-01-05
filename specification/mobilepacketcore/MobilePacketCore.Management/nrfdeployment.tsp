@@ -61,7 +61,7 @@ interface NrfDeployments {
   get is ArmResourceRead<NrfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NrfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NrfDeploymentResource>;
-  delete is ArmResourceDeleteAsync<NrfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<NrfDeploymentResource>;
   listByResourceGroup is ArmResourceListByParent<NrfDeploymentResource>;
   listBySubscription is ArmListBySubscription<NrfDeploymentResource>;
 }

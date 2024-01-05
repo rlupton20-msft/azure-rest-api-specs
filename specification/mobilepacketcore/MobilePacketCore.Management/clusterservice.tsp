@@ -60,7 +60,7 @@ interface ClusterServices {
   get is ArmResourceRead<ClusterServiceResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<ClusterServiceResource>;
   updateTags is ArmTagsPatchSync<ClusterServiceResource>;
-  delete is ArmResourceDeleteAsync<ClusterServiceResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<ClusterServiceResource>;
   listByResourceGroup is ArmResourceListByParent<ClusterServiceResource>;
   listBySubscription is ArmListBySubscription<ClusterServiceResource>;
 }
