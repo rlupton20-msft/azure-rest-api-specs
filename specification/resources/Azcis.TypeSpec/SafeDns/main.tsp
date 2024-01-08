@@ -2,6 +2,10 @@ import "./create/arecordset.tsp";
 import "./update/updatearecordset.tsp";
 import "./append/appendarecordset.tsp";
 
+import "./create/aaaarecordset.tsp";
+import "./update/updateaaaarecordset.tsp";
+import "./append/appendaaaarecordset.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
@@ -23,6 +27,13 @@ interface Operations extends Azure.ResourceManager.Operations {}
 model ARecord {
   @doc("Gets or sets the IPv4 Address in String format")
   ipV4Address: string;
+}
+
+// AAAA Record Common Models
+@doc("AAAA Record type model")
+model AaaaRecord {
+    @doc("Gets or sets the IPv6 Address in String format")
+    ipV6Address: string;
 }
 
 // Common Models
