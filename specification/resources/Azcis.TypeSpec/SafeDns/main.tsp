@@ -9,6 +9,9 @@ import "./append/appendaaaarecordset.tsp";
 import "./create/childzonedelegation.tsp";
 import "./update/updatechildzonedelegation.tsp";
 
+import "./create/cnamerecordset.tsp";
+import "./update/updatecnamerecordset.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
@@ -37,6 +40,13 @@ model ARecord {
 model AaaaRecord {
   @doc("Gets or sets the IPv6 Address in String format")
   ipV6Address: string;
+}
+
+// CName Record Common Models
+@doc("Represents an CNAME Record")
+model CnameRecord {
+    @doc("Gets or sets the Canonical Name")
+    cName: string;
 }
 
 // Common Models
