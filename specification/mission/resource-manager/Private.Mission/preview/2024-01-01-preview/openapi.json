@@ -4089,16 +4089,15 @@
       "type": "object",
       "description": "Blob Catalog type.",
       "properties": {
+        "catalogStorageType": {
+          "$ref": "#/definitions/CatalogStorageType",
+          "description": "Catalog's storage type."
+        },
         "uri": {
           "type": "string",
           "description": "Catalog Storage's URI."
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/CatalogBase"
-        }
-      ]
+      }
     },
     "Catalog": {
       "type": "object",
@@ -4108,16 +4107,6 @@
           "$ref": "#/definitions/BlobCatalog"
         }
       ]
-    },
-    "CatalogBase": {
-      "type": "object",
-      "description": "Base type for catalog.",
-      "properties": {
-        "catalogStorageType": {
-          "$ref": "#/definitions/CatalogStorageType",
-          "description": "Catalog's storage type."
-        }
-      }
     },
     "CatalogProperties": {
       "type": "object",
@@ -4293,13 +4282,25 @@
       "type": "object",
       "description": "Base type for destination rules.",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Endpoint Rule Name."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
+        },
+        "port": {
+          "type": "string",
+          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
+        },
         "destinationType": {
           "$ref": "#/definitions/DestinationType",
           "description": "Destination Type."
         },
-        "protocol": {
+        "protocols": {
           "type": "array",
-          "description": "Protocol. Options specified by Endpoint Protocol Enum.",
+          "description": "Protocols. Options specified by Endpoint Protocol Enum.",
           "items": {
             "$ref": "#/definitions/CommunityEndpointProtocol"
           }
@@ -4308,12 +4309,7 @@
           "$ref": "#/definitions/TransitHubResourceId",
           "description": "Transit Hub Resource Id."
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/EndpointRuleBase"
-        }
-      ]
+      }
     },
     "CommunityEndpointProperties": {
       "type": "object",
@@ -4651,6 +4647,36 @@
         ]
       }
     },
+    "DiagnosticDestination": {
+      "type": "string",
+      "description": "Specifies the destination of where to store diagnostic logs.",
+      "enum": [
+        "CommunityOnly",
+        "EnclaveOnly",
+        "Both"
+      ],
+      "x-ms-enum": {
+        "name": "DiagnosticDestination",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "CommunityOnly",
+            "value": "CommunityOnly",
+            "description": "DiagnosticDestination Type CommunityOnly"
+          },
+          {
+            "name": "EnclaveOnly",
+            "value": "EnclaveOnly",
+            "description": "DiagnosticDestination Type EnclaveOnly"
+          },
+          {
+            "name": "Both",
+            "value": "Both",
+            "description": "DiagnosticDestination Type Both"
+          }
+        ]
+      }
+    },
     "EnclaveAddressSpaces": {
       "type": "object",
       "description": "Enclave Address Spaces",
@@ -4834,7 +4860,9 @@
         "PendingUpdate",
         "Approved",
         "Active",
-        "Failed"
+        "Failed",
+        "Connected",
+        "Disconnected"
       ],
       "x-ms-enum": {
         "name": "EnclaveConnectionState",
@@ -4864,6 +4892,16 @@
             "name": "Failed",
             "value": "Failed",
             "description": "EnclaveConnectionState Type Failed"
+          },
+          {
+            "name": "Connected",
+            "value": "Connected",
+            "description": "EnclaveConnectionState Type Connected"
+          },
+          {
+            "name": "Disconnected",
+            "value": "Disconnected",
+            "description": "EnclaveConnectionState Type Disconnected"
           }
         ]
       }
@@ -4876,13 +4914,20 @@
           "$ref": "#/definitions/KeyVaultResourceId",
           "description": "Key Vault Resource Id."
         },
-        "logAnalyticsResourceId": {
-          "$ref": "#/definitions/LogAnalyticsResourceId",
-          "description": "Log Analytics Resource Id."
-        },
         "storageAccountResourceId": {
           "$ref": "#/definitions/StorageAccountResourceId",
           "description": "Storage Account Resource Id."
+        },
+        "logAnalyticsResourceIdCollection": {
+          "type": "array",
+          "description": "Log Analytics Resource Ids.",
+          "items": {
+            "$ref": "#/definitions/LogAnalyticsResourceId"
+          }
+        },
+        "diagnosticDestination": {
+          "$ref": "#/definitions/DiagnosticDestination",
+          "description": "Diagnostic Destination."
         }
       }
     },
@@ -4890,19 +4935,26 @@
       "type": "object",
       "description": "Enclave Endpoint Rule Properties",
       "properties": {
-        "protocol": {
+        "name": {
+          "type": "string",
+          "description": "Endpoint Rule Name."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
+        },
+        "port": {
+          "type": "string",
+          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
+        },
+        "protocols": {
           "type": "array",
-          "description": "Protocol. Options specified by Endpoint Protocol Enum.",
+          "description": "Protocols. Options specified by Endpoint Protocol Enum.",
           "items": {
             "$ref": "#/definitions/EnclaveEndpointProtocol"
           }
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/EndpointRuleBase"
-        }
-      ]
+      }
     },
     "EnclaveEndpointProperties": {
       "type": "object",
@@ -5137,6 +5189,11 @@
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Virtual Network Name.",
+          "readOnly": true
+        },
         "networkSize": {
           "type": "string",
           "description": "Network Size."
@@ -5144,10 +5201,33 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Subnet Count."
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configuration.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          },
+          "readOnly": true
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Boolean to state if the communication is allowed between endpoints and subnet."
+        },
+        "enclaveAddressSpaces": {
+          "$ref": "#/definitions/EnclaveAddressSpaces",
+          "description": "Enclave Address Spaces",
+          "readOnly": true
         }
       },
       "required": [
-        "networkSize"
+        "networkSize",
+        "allowSubnetCommunication"
       ]
     },
     "EnclaveVirtualNetworkUpdate": {
@@ -5161,6 +5241,15 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Subnet Count."
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Boolean to state if the communication is allowed between endpoints and subnet."
         }
       }
     },
@@ -5338,24 +5427,6 @@
         "protocol": {
           "$ref": "#/definitions/EndpointProtocol",
           "description": "Protocol. Options specified by Endpoint Protocol Enum."
-        }
-      }
-    },
-    "EndpointRuleBase": {
-      "type": "object",
-      "description": "Base Endpoint Rule Properties",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Endpoint Rule Name."
-        },
-        "destination": {
-          "type": "string",
-          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
-        },
-        "port": {
-          "type": "string",
-          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
         }
       }
     },
@@ -5919,6 +5990,31 @@
         ]
       }
     },
+    "SubnetConfiguration": {
+      "type": "object",
+      "description": "Subnet Configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Subnet Name."
+        },
+        "id": {
+          "type": "string",
+          "description": "Subnet Id."
+        },
+        "addressPrefix": {
+          "type": "string",
+          "description": "The address prefix for the subnet."
+        },
+        "networkSecurityGroupId": {
+          "type": "string",
+          "description": "The Network Security Group Id."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
     "TransitHubProperties": {
       "type": "object",
       "description": "Describes the properties of an Transit Hub.",
@@ -6143,7 +6239,8 @@
       "enum": [
         "2023-02-01-preview",
         "2023-08-01-preview",
-        "2023-11-01-preview"
+        "2023-11-01-preview",
+        "2024-01-01-preview"
       ],
       "x-ms-enum": {
         "name": "Versions",
@@ -6163,6 +6260,11 @@
             "name": "v2023_11_01_preview",
             "value": "2023-11-01-preview",
             "description": "The 2023-11-01-preview version."
+          },
+          {
+            "name": "v2024_01_01_preview",
+            "value": "2024-01-01-preview",
+            "description": "The 2024-01-01-preview version."
           }
         ]
       }
@@ -6179,11 +6281,6 @@
         "enclaveVirtualNetwork": {
           "$ref": "#/definitions/EnclaveVirtualNetwork",
           "description": "Virtual Network."
-        },
-        "enclaveAddressSpaces": {
-          "$ref": "#/definitions/EnclaveAddressSpaces",
-          "description": "Enclave Address Spaces",
-          "readOnly": true
         },
         "communityResourceId": {
           "$ref": "#/definitions/CommunityResourceId",
