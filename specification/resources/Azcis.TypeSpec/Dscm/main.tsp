@@ -3,6 +3,7 @@ import "./dstsserviceaccount.tsp";
 import "./dstsapplication.tsp";
 import "./dsmsrootfolder.tsp";
 import "./dstsserviceclientidentity.tsp";
+import "./jitpolicyset.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
