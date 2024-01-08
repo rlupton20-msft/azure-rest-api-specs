@@ -232,6 +232,7 @@
           {
             "in": "body",
             "name": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update workbench operation.",
             "schema": {
               "$ref": "#/definitions/Workbench"
@@ -297,7 +298,8 @@
           },
           {
             "in": "body",
-            "name": "parameters",
+            "name": "body",
+            "required": true,
             "description": "Parameters supplied to the update workbench operation.",
             "schema": {
               "$ref": "#/definitions/WorkbenchPatch"
@@ -424,6 +426,7 @@
       }
     },
     "WorkbenchPropertiesFormat": {
+      "description": "Workbench properties.",
       "type": "object",
       "properties": {
         "appOidc": {
@@ -440,8 +443,20 @@
       },
       "required": [
         "appOidc"
-      ],
-      "description": "Workbench properties."
+      ]
+    },
+    "WorkbenchPatchProperties": {
+      "description": "Workbench patch properties.",
+      "type": "object",
+      "properties": {
+        "appOidc": {
+          "$ref": "#/definitions/AppOidc"
+        },
+        "sku": {
+          "type": "string",
+          "description": "Name of SKU."
+        }
+      }
     },
     "Workbench": {
       "type": "object",
@@ -464,7 +479,7 @@
       "type": "object",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/WorkbenchPropertiesFormat"
+          "$ref": "#/definitions/WorkbenchPatchProperties"
         }
       },
       "allOf": [

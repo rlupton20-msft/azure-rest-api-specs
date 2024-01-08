@@ -60,6 +60,7 @@
           {
             "in": "body",
             "name": "body",
+            "required": true,
             "description": "the file upload parameters.",
             "schema": {
               "$ref": "#/definitions/FileUploadParameters"
@@ -279,6 +280,7 @@
           {
             "in": "body",
             "name": "body",
+            "required": true,
             "description": "the update license services parameters.",
             "schema": {
               "$ref": "#/definitions/UpdateLicenseParameters"
@@ -342,6 +344,7 @@
           {
             "in": "body",
             "name": "body",
+            "required": true,
             "description": "Restart License body",
             "schema": {
               "$ref": "#/definitions/RestartLicenseParameters"
@@ -403,8 +406,9 @@
             "$ref": "./common-types.json#/parameters/ChamberNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update chamber operation.",
             "schema": {
               "$ref": "#/definitions/Chamber"
@@ -697,22 +701,21 @@
       }
     },
     "ChamberPageableList": {
-      "description": "Microsoft.Sdw.Core.ResourceMetadata.PageableList implementation specific to pageable lists of Microsoft.Sdw.Core.ResourceMetadata.AzureResource`1.",
+      "description": "Pageable chamber list.",
       "type": "object",
       "properties": {
         "nextLink": {
-          "description": "Gets or sets the URL (link) to the next result set.",
-          "type": "string"
+          "type": "string",
+          "description": "Request URL that can be used to list next page of queues",
+          "readOnly": true
         },
         "value": {
-          "description": "Gets or sets the values to emit from this list.",
+          "description": "Chamber list values.",
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Chamber"
-          },
-          "x-ms-identifiers": [
-            "id"
-          ]
+          }
         }
       }
     },
@@ -854,7 +857,7 @@
         }
       ]
     },
-    "ChamberPropertiesPatch": {
+    "ChamberPatchProperties": {
       "type": "object",
       "properties": {
         "sku": {
@@ -869,7 +872,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ChamberPropertiesPatch"
+          "$ref": "#/definitions/ChamberPatchProperties"
         },
         {
           "$ref": "./common-types.json#/definitions/RestartAt"
@@ -880,9 +883,11 @@
       ],
       "properties": {
         "licenseServices": {
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "x-ms-client-flatten": true,
-          "readOnly": true,
-          "description": "Gets or sets the license services for each vendor.",
           "type": "object",
           "properties": {
             "cadence": {
@@ -913,12 +918,18 @@
         },
         "dataPipelineInboundPath": {
           "description": "Directory for the chamber data pipeline inbound. E.g. /mount/datapipeline/datain",
-          "readOnly": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "type": "string"
         },
         "dataPipelineOutboundPath": {
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "description": "Directory for the chamber data pipeline outbound. E.g. /mount/datapipeline/dataout",
-          "readOnly": true,
           "type": "string"
         }
       },
@@ -955,7 +966,7 @@
       "description": "The chamber properties to update.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/ChamberPropertiesPatch"
+          "$ref": "#/definitions/ChamberPatchProperties"
         }
       },
       "allOf": [

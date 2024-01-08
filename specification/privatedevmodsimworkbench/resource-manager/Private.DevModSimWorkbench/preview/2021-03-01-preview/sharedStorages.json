@@ -44,6 +44,7 @@
       }
     },
     "SharedStoragePropertiesFormat": {
+      "description": "Shared storage properties.",
       "type": "object",
       "allOf": [
         {
@@ -54,6 +55,40 @@
         },
         {
           "$ref": "./common-types.json#/definitions/CapacityUsedProperty"
+        }
+      ],
+      "properties": {
+        "performanceTier": {
+          "description": "Specifies performance tier of the shared storage.",
+          "type": "string",
+          "enum": [
+            "Standard",
+            "Ultra"
+          ],
+          "default": "Standard",
+          "x-ms-enum": {
+            "name": "performanceTier",
+            "modelAsString": true
+          }
+        },
+        "chambers": {
+          "description": "List of Chambers that are connected to the shared storage.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectedChamber"
+          },
+          "x-ms-identifiers": [
+            "id"
+          ]
+        }
+      }
+    },
+    "SharedStoragePatchProperties": {
+      "description": "Shared storage patch properties.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/CapacityAllocatedProperty"
         }
       ],
       "properties": {
@@ -103,7 +138,7 @@
       "type": "object",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SharedStoragePropertiesFormat"
+          "$ref": "#/definitions/SharedStoragePatchProperties"
         }
       },
       "allOf": [
@@ -158,8 +193,9 @@
             "$ref": "./common-types.json#/parameters/StorageNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update shared storage resource.",
             "schema": {
               "$ref": "#/definitions/SharedStorage"
@@ -226,8 +262,9 @@
             "$ref": "./common-types.json#/parameters/StorageNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to update shared storage resource.",
             "schema": {
               "$ref": "#/definitions/SharedStoragePatch"

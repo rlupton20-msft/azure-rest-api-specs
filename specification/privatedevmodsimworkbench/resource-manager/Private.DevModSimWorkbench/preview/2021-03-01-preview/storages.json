@@ -64,8 +64,9 @@
             "$ref": "./common-types.json#/parameters/StorageNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update a chamber storage resource.",
             "schema": {
               "$ref": "#/definitions/Storage"
@@ -135,8 +136,9 @@
             "$ref": "./common-types.json#/parameters/StorageNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to update chamber storage resource.",
             "schema": {
               "$ref": "#/definitions/StoragePatch"
@@ -368,13 +370,32 @@
       "type": "object",
       "allOf": [
         {
+          "$ref": "#/definitions/StoragePatchProperties"
+        },
+        {
           "$ref": "./common-types.json#/definitions/ProvisioningStateProperty"
         },
         {
-          "$ref": "./common-types.json#/definitions/CapacityAllocatedProperty"
-        },
-        {
           "$ref": "./common-types.json#/definitions/CapacityUsedProperty"
+        }
+      ],
+      "properties": {
+        "localMountPath": {
+          "description": "Directory where the chamber storage volume mounted.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "StoragePatchProperties": {
+      "description": "Storage patch properties.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "./common-types.json#/definitions/CapacityAllocatedProperty"
         }
       ],
       "properties": {
@@ -391,11 +412,6 @@
             "name": "performanceTier",
             "modelAsString": true
           }
-        },
-        "localMountPath": {
-          "description": "Directory where the chamber storage volume mounted.",
-          "readOnly": true,
-          "type": "string"
         }
       }
     },
@@ -421,7 +437,7 @@
       "x-ms-azure-resource": true,
       "properties": {
         "properties": {
-          "$ref": "#/definitions/StoragePropertiesFormat"
+          "$ref": "#/definitions/StoragePatchProperties"
         }
       },
       "allOf": [

@@ -243,6 +243,7 @@
           {
             "in": "body",
             "name": "body",
+            "required": true,
             "description": "License key parameters",
             "schema": {
               "$ref": "#/definitions/LicenseKeyParameters"
@@ -314,8 +315,9 @@
             "$ref": "./common-types.json#/parameters/ConnectorNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the create or update connector operation.",
             "schema": {
               "$ref": "#/definitions/Connector"
@@ -379,8 +381,9 @@
             "$ref": "./common-types.json#/parameters/ConnectorNameParameter"
           },
           {
-            "name": "parameters",
+            "name": "body",
             "in": "body",
+            "required": true,
             "description": "Parameters supplied to the update connector operation.",
             "schema": {
               "$ref": "#/definitions/ConnectorPatch"
@@ -596,14 +599,20 @@
       "properties": {
         "connectionNodeCount": {
           "type": "integer",
-          "readOnly": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "format": "int32",
           "description": "The connection node count."
         },
         "licenseActivated": {
           "description": "The license activated.",
           "type": "string",
-          "readOnly": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "enum": [
             "True",
             "False"
@@ -637,7 +646,10 @@
         "accessType": {
           "description": "Gets or sets the AccessType.",
           "type": "string",
-          "readOnly": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "enum": [
             "GUI"
           ],
@@ -666,7 +678,10 @@
         },
         "ipAddress": {
           "type": "string",
-          "readOnly": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
           "description": "Gets or sets the IpAddress."
         },
         "connectorSubnetId": {
@@ -739,6 +754,24 @@
       },
       "description": "Connector properties."
     },
+    "ConnectorPatchProperties": {
+      "type": "object",
+      "properties": {
+        "accessConfigurations": {
+          "$ref": "#/definitions/AccessConfiguration",
+          "description": "Gets or sets the Access Configuration."
+        },
+        "remoteDesktop": {
+          "$ref": "#/definitions/RemoteDesktop",
+          "description": "Gets or sets the Remote Desktop."
+        },
+        "networkAcls": {
+          "$ref": "#/definitions/NetworkAcls",
+          "description": "Specifies set of source IP address ranges to allow access the workbench."
+        }
+      },
+      "description": "Connector properties."
+    },
     "Connector": {
       "description": "Connector resource",
       "type": "object",
@@ -761,7 +794,7 @@
       "type": "object",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/ConnectorPropertiesFormat"
+          "$ref": "#/definitions/ConnectorPatchProperties"
         }
       },
       "allOf": [
