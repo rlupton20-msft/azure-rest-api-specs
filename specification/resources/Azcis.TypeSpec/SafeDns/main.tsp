@@ -32,8 +32,8 @@ model ARecord {
 // AAAA Record Common Models
 @doc("AAAA Record type model")
 model AaaaRecord {
-    @doc("Gets or sets the IPv6 Address in String format")
-    ipV6Address: string;
+  @doc("Gets or sets the IPv6 Address in String format")
+  ipV6Address: string;
 }
 
 // Common Models
