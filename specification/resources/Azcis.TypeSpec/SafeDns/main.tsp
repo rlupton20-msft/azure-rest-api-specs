@@ -45,8 +45,8 @@ model AaaaRecord {
 // CName Record Common Models
 @doc("Represents an CNAME Record")
 model CnameRecord {
-    @doc("Gets or sets the Canonical Name")
-    cName: string;
+  @doc("Gets or sets the Canonical Name")
+  cName: string;
 }
 
 // Common Models
