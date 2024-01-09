@@ -16,6 +16,7 @@ using Azure.ResourceManager;
   version: "2023-06-01-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.HealthDataAIServices;
 
 interface Operations extends Azure.ResourceManager.Operations {}
