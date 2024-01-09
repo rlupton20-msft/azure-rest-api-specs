@@ -110,7 +110,7 @@ interface GenerateAwsTemplate {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Need to remove autoroute"
-@route("/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnectorId}")
+@route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnectorId}")
 interface TestPermissions {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "Need to remove autoroute"
   @route("testPermissions")
@@ -121,6 +121,7 @@ interface TestPermissions {
   post(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,
+    ...ResourceGroupParameter,
 
     @doc("ConnectorId to check permissions of.")
     publicCloudConnectorId: string,
