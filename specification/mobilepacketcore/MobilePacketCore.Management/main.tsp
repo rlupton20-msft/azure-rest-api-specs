@@ -14,6 +14,7 @@ import "./nssfdeployment.tsp";
 import "./clusterservice.tsp";
 import "./vnfagentdeployment.tsp";
 import "./observabilityservice.tsp";
+import "./sdmdeployment.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -36,4 +37,7 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @doc("October 15, 2023 Preview API Version")
   v2023_10_15_preview: "2023-10-15-preview",
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @doc("January 15, 2024 Preview API Version")
+  v2024_01_15_preview: "2024-01-15-preview",
 }
