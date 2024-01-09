@@ -76,8 +76,8 @@ model SrvRecord {
 // TXT Record Models
 @doc("Represents an TXT Record")
 model TxtRecord {
-    @doc("Gets or sets the TXT record in String format.")
-    txt: Array<string>;
+  @doc("Gets or sets the TXT record in String format.")
+  txt: Array<string>;
 }
 
 // Common Models
