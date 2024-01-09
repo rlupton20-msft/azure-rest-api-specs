@@ -52,6 +52,7 @@ model DeidServiceProperties {
   @visibility("read")
   @doc("Deid service url.")
   serviceUrl?: string;
+  ...ManagedSystemAssignedIdentity;
 }
 
 @armResourceOperations
