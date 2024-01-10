@@ -141,8 +141,12 @@
               "$ref": "#/definitions/CodeSigningAccount"
             },
             "headers": {
+              "Location": {
+                "description": "URL to query the status of the operation",
+                "type": "string"
+              },
               "Azure-AsyncOperation": {
-                "description": "The URI to poll for completion status",
+                "description": "URL to query the status of the operation",
                 "type": "string"
               }
             }
@@ -223,7 +227,17 @@
         ],
         "responses": {
           "202": {
-            "description": "Resource deletion is in progress"
+            "description": "Resource deletion is in progress",
+            "headers": {
+              "Location": {
+                "description": "URL to query the status of the operation",
+                "type": "string"
+              },
+              "Azure-AsyncOperation": {
+                "description": "URL to query the status of the operation",
+                "type": "string"
+              }
+            }
           },
           "204": {
             "description": "The resource was not found or already deleted"
@@ -419,7 +433,17 @@
         ],
         "responses": {
           "202": {
-            "description": "Resource deletion is in progress"
+            "description": "Resource deletion is in progress",
+            "headers": {
+              "Location": {
+                "description": "URL to query the status of the operation",
+                "type": "string"
+              },
+              "Azure-AsyncOperation": {
+                "description": "URL to query the status of the operation",
+                "type": "string"
+              }
+            }
           },
           "204": {
             "description": "The resource was not found or already deleted"
@@ -700,7 +724,6 @@
           "$ref": "#/definitions/AccountSku"
         },
         "provisioningState": {
-          "readOnly": true,
           "$ref": "#/definitions/ProvisioningState"
         }
       }
@@ -872,7 +895,6 @@
           "readOnly": true
         },
         "provisioningState": {
-          "readOnly": true,
           "$ref": "#/definitions/ProvisioningState"
         },
         "status": {
@@ -916,12 +938,9 @@
         "status": {
           "$ref": "#/definitions/CertificateStatus"
         },
-        "revocations": {
-          "type": "array",
+        "revocation": {
           "x-ms-client-flatten": true,
-          "items": {
-            "$ref": "#/definitions/Revocation"
-          }
+          "$ref": "#/definitions/Revocation"
         }
       }
     },
@@ -930,12 +949,12 @@
       "type": "object",
       "properties": {
         "requestedAt": {
-          "description": "The date time at which the revocation is requested",
+          "description": "The timestamp at which the revocation is requested",
           "type": "string",
           "format": "date-time"
         },
-        "revokedFrom": {
-          "description": "The date time from when the revocation should be revoked",
+        "effectiveAt": {
+          "description": "The timestamp at when the revocation is effective",
           "type": "string",
           "format": "date-time"
         },
@@ -1029,7 +1048,7 @@
       "required": [
         "serialNumber",
         "thumbprint",
-        "revokedFrom",
+        "effectiveAt",
         "reason"
       ],
       "properties": {
@@ -1041,8 +1060,8 @@
           "description": "Thumbprint of the certificate",
           "type": "string"
         },
-        "revokedFrom": {
-          "description": "The datetime from when the certificate should be revoked",
+        "effectiveAt": {
+          "description": "The timestamp when the revocation is effective",
           "type": "string",
           "format": "date-time"
         },
