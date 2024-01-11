@@ -23,6 +23,9 @@ model StorageAccountDsmsResourceProperties {
   @doc("Description to this xstore account.")
   description?: string;
 
+  @doc("Subscription alias.")
+  subscriptionAlias?: string;
+
   @doc("Subscription ID to use this xstore account.")
   subscriptionId?: string;
 
@@ -31,9 +34,6 @@ model StorageAccountDsmsResourceProperties {
 
   @doc("Label of this xstore account.")
   label?: string;
-
-  @doc("Account type on data replicateion.")
-  accountReplicationType?: string;
 
   @doc("Location of this storage account.")
   location?: string;
