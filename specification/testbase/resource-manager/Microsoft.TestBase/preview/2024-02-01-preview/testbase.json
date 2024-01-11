@@ -3015,6 +3015,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/getUsage": {
       "post": {
         "operationId": "BillingHubService_GetUsage",
+        "description": "Get test usage for package resource under a Test Base account.",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -3056,6 +3057,55 @@
         "x-ms-examples": {
           "BillingHubGetUsage": {
             "$ref": "./examples/BillingHubGetUsage.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/getAggregateUsage": {
+      "post": {
+        "operationId": "BillingHubService_GetAggregateUsage",
+        "description": "Get test usage including all resources under a Test Base account.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BillingHubGetAggregateUsageResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/TestBaseAccountNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "getAggregateUsageRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/BillingHubGetUsageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BillingHubService"
+        ],
+        "x-ms-examples": {
+          "BillingHubGetAggregateUsage": {
+            "$ref": "./examples/BillingHubGetAggregateUsage.json"
           }
         }
       }
@@ -4170,6 +4220,13 @@
       "description": "The properties of the Test Base Package.",
       "type": "object",
       "properties": {
+        "testConfigurationIds": {
+          "type": "array",
+          "description": "An array of test configuration ids assigned to the package.",
+          "items": {
+            "type": "string"
+          }
+        },
         "provisioningState": {
           "description": "The provisioning state of the resource.",
           "$ref": "#/definitions/ProvisioningState"
@@ -4537,6 +4594,13 @@
       "description": "Parameters supplied to update a Test Base Package.",
       "type": "object",
       "properties": {
+        "testConfigurationIds": {
+          "type": "array",
+          "description": "An array of test configuration ids assigned to the package.",
+          "items": {
+            "type": "string"
+          }
+        },
         "draftPackageId": {
           "type": "string",
           "description": "The id of draft package. Used to create or update this package from a draft package."
@@ -6129,6 +6193,217 @@
         "endTimeStamp"
       ]
     },
+    "BillingHubGetAggregateUsageResponse": {
+      "type": "object",
+      "description": "Aggregate usage result response.",
+      "properties": {
+        "value": {
+          "type": "object",
+          "$ref": "#/definitions/BillingHubGetAggregateUsage",
+          "description": "The result set of usage."
+        },
+        "nextRequest": {
+          "type": "object",
+          "$ref": "#/definitions/BillingHubGetUsageRequest"
+        }
+      }
+    },
+    "BillingHubGetAggregateUsage": {
+      "type": "object",
+      "description": "The result set of usage.",
+      "properties": {
+        "totalUsedFreeHours": {
+          "type": "number",
+          "format": "double",
+          "description": "Free usage of all tests."
+        },
+        "totalUsedBillableHours": {
+          "type": "number",
+          "format": "double",
+          "description": "Billable usage of all tests."
+        },
+        "totalCharges": {
+          "type": "number",
+          "format": "double",
+          "description": "Charing usage of all tests."
+        },
+        "usageEntries": {
+          "type": "array",
+          "x-ms-identifiers": [],
+          "items": {
+            "$ref": "#/definitions/BillingHubAggregateUsage"
+          },
+          "description": "The result set of usage entries."
+        }
+      }
+    },
+    "BillingHubAggregateUsage": {
+      "type": "object",
+      "discriminator": "usageType",
+      "properties": {
+        "usageType": {
+          "type": "string",
+          "description": "Usage type for charging purpose.",
+          "enum": [
+            "PackageUsage",
+            "ImageValidationUsage"
+          ],
+          "x-ms-enum": {
+            "name": "UsageType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "PackageUsage",
+                "description": "Test usage counting for a package."
+              },
+              {
+                "value": "ImageValidationUsage",
+                "description": "Image validation usage counting for an image."
+              }
+            ]
+          }
+        },
+        "azureResourceUri": {
+          "type": "string"
+        },
+        "totalUsedFreeHours": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalUsedBillableHours": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalCharges": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "usageType"
+      ]
+    },
+    "BillingHubAggregatePackageUsage": {
+      "description": "Test usage counting for a package.",
+      "type": "object",
+      "x-ms-discriminator-value": "PackageUsage",
+      "properties": {
+        "applicationName": {
+          "type": "string"
+        },
+        "applicationVersion": {
+          "type": "string"
+        },
+        "usageEntriesGroupedByUpdateType": {
+          "type": "array",
+          "x-ms-identifiers": [],
+          "items": {
+            "$ref": "#/definitions/BillingHubUsageGroupedByUpdateType"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BillingHubAggregateUsage"
+        }
+      ]
+    },
+    "BillingHubAggregateImageValidationUsage": {
+      "description": "Image validation usage counting for an image.",
+      "type": "object",
+      "x-ms-discriminator-value": "ImageValidationUsage",
+      "properties": {
+        "definitionName": {
+          "type": "string",
+          "description": "Definition name of the custom image."
+        },
+        "versionName": {
+          "type": "string",
+          "description": "Version name of the custom image."
+        },
+        "osBuild": {
+          "type": "string",
+          "description": "OS build of the custom image."
+        },
+        "release": {
+          "type": "string",
+          "description": "Release of the custom image."
+        },
+        "architecture": {
+          "$ref": "#/definitions/ImageArchitecture",
+          "description": "Architecture of the custom image."
+        },
+        "osState": {
+          "$ref": "#/definitions/ImageOSState",
+          "description": "Os state of the custom image."
+        },
+        "hyperVGeneration": {
+          "type": "string",
+          "description": "Hyper V generation of the custom image."
+        },
+        "imageSizeInGB": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The size of the VHD."
+        },
+        "vhdFileName": {
+          "type": "string",
+          "description": "The file name of the associated VHD resource, VHD sourced image specific property."
+        },
+        "executionUsageDetails": {
+          "type": "array",
+          "description": "Detail information of each test execution.",
+          "x-ms-identifiers": [],
+          "items": {
+            "$ref": "#/definitions/BillingHubExecutionUsageDetail"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BillingHubAggregateUsage"
+        }
+      ]
+    },
+    "ImageOSState": {
+      "description": "Custom image OS state.",
+      "type": "string",
+      "enum": [
+        "Generalized",
+        "Specialized"
+      ],
+      "x-ms-enum": {
+        "name": "ImageOSState",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Generalized",
+            "description": "Sysprep generalization processed."
+          },
+          {
+            "value": "Specialized",
+            "description": "Fully kept with user specified settings."
+          }
+        ]
+      }
+    },
+    "ImageArchitecture": {
+      "description": "Custom image architecture.",
+      "type": "string",
+      "enum": [
+        "x64"
+      ],
+      "x-ms-enum": {
+        "name": "ImageArchitecture",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "x64",
+            "description": "64-bit architecture."
+          }
+        ]
+      }
+    },
     "AvailableInplaceUpgradeOSListResult": {
       "description": "A list of available In-place Upgrade OSs.",
       "type": "object",
@@ -6377,8 +6652,7 @@
       },
       "required": [
         "appName",
-        "appId",
-        "expectedInstallationPath"
+        "appId"
       ]
     }
   },
