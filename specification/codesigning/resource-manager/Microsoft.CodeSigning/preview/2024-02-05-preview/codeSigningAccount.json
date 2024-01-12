@@ -36,7 +36,7 @@
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}": {
       "put": {
-        "operationId": "CodeSigningAccount_Create",
+        "operationId": "CodeSigningAccounts_Create",
         "description": "Create a Code Signing Account",
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
@@ -94,7 +94,7 @@
         ]
       },
       "patch": {
-        "operationId": "CodeSigningAccount_Update",
+        "operationId": "CodeSigningAccounts_Update",
         "description": "Update a code signing account",
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
@@ -137,9 +137,6 @@
           },
           "202": {
             "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/CodeSigningAccount"
-            },
             "headers": {
               "Location": {
                 "description": "URL to query the status of the operation",
@@ -163,7 +160,7 @@
         ]
       },
       "get": {
-        "operationId": "CodeSigningAccount_Get",
+        "operationId": "CodeSigningAccounts_Get",
         "description": "Get a Code Signing Account",
         "x-ms-examples": {
           "Get Code Signing Account": {
@@ -203,7 +200,7 @@
         ]
       },
       "delete": {
-        "operationId": "CodeSigningAccount_Delete",
+        "operationId": "CodeSigningAccounts_Delete",
         "description": "Delete Code Signing Account",
         "x-ms-long-running-operation": true,
         "x-ms-examples": {
@@ -256,7 +253,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles": {
       "get": {
-        "operationId": "CertificateProfile_ListByCodeSigningAccount",
+        "operationId": "CertificateProfiles_ListByCodeSigningAccount",
         "description": "List certificate profiles within a code signing account",
         "parameters": [
           {
@@ -298,7 +295,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}": {
       "put": {
-        "operationId": "CertificateProfile_Create",
+        "operationId": "CertificateProfiles_Create",
         "description": "Create a certificate profile",
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
@@ -360,7 +357,7 @@
         ]
       },
       "get": {
-        "operationId": "CertificateProfile_Get",
+        "operationId": "CertificateProfiles_Get",
         "description": "Get details of a certificate profile",
         "x-ms-examples": {
           "Get Certificate Profile": {
@@ -403,7 +400,7 @@
         ]
       },
       "delete": {
-        "operationId": "CertificateProfile_Delete",
+        "operationId": "CertificateProfiles_Delete",
         "description": "Delete a Certificate Profile",
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
@@ -462,7 +459,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}/revokeCertificate": {
       "post": {
-        "operationId": "CertificateProfile_RevokeCertificate",
+        "operationId": "CertificateProfiles_RevokeCertificate",
         "description": "Revoke certificate",
         "x-ms-examples": {
           "Revoke Certificate": {
@@ -516,7 +513,7 @@
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/codeSigningAccounts": {
       "get": {
-        "operationId": "CodeSigningAccount_ListBySubscription",
+        "operationId": "CodeSigningAccounts_ListBySubscription",
         "description": "Lists Code Signing Accounts within a subscription",
         "x-ms-examples": {
           "List Code Signing Accounts by Subscription": {
@@ -555,7 +552,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts": {
       "get": {
-        "operationId": "CodeSigningAccount_ListByResourceGroup",
+        "operationId": "CodeSigningAccounts_ListByResourceGroup",
         "description": "List Code Signing Accounts within a resource group",
         "x-ms-examples": {
           "List Code Signing Accounts by Resource Group": {
@@ -597,7 +594,7 @@
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/checkNameAvailability": {
       "post": {
-        "operationId": "CodeSigningAccount_CheckNameAvailability",
+        "operationId": "CodeSigningAccounts_CheckNameAvailability",
         "description": "Checks that the code signing account name is valid and is not already in use.",
         "parameters": [
           {
@@ -817,16 +814,12 @@
       "type": "object",
       "required": [
         "profileType",
-        "rotationPolicy",
         "commonName",
         "organization"
       ],
       "properties": {
         "profileType": {
           "$ref": "#/definitions/ProfileType"
-        },
-        "rotationPolicy": {
-          "$ref": "#/definitions/RotationPolicy"
         },
         "commonName": {
           "type": "string",
@@ -949,12 +942,12 @@
       "type": "object",
       "properties": {
         "requestedAt": {
-          "description": "The timestamp at which the revocation is requested",
+          "description": "The timestamp which the revocation is requested",
           "type": "string",
           "format": "date-time"
         },
         "effectiveAt": {
-          "description": "The timestamp at when the revocation is effective",
+          "description": "The timestamp when the revocation is effective",
           "type": "string",
           "format": "date-time"
         },
@@ -976,14 +969,45 @@
         "Succeeded",
         "Failed",
         "Canceled",
-        "Provisioning",
         "Updating",
         "Deleting",
         "Accepted"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
-        "modelAsString": true
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Updating in progress"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "Deletion in progress"
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "Change accepted for processing"
+          }
+        ]
       }
     },
     "ProfileType": {
@@ -998,19 +1022,6 @@
       ],
       "x-ms-enum": {
         "name": "ProfileType",
-        "modelAsString": true
-      }
-    },
-    "RotationPolicy": {
-      "description": "Rotation policy of the certificate",
-      "type": "string",
-      "enum": [
-        "3 Days",
-        "30 Days"
-      ],
-      "default": "3 Days",
-      "x-ms-enum": {
-        "name": "RotationPolicy",
         "modelAsString": true
       }
     },
