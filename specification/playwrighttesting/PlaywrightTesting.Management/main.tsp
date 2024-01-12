@@ -13,7 +13,7 @@ using Azure.Core;
 @armProviderNamespace("Microsoft.AzurePlaywrightService")
 @service({
   title: "Microsoft AzurePlaywrightService Management API",
-  version: "2024-01-01-preview",
+  version: "2024-02-01",
 })
 @doc("Microsoft.AzurePlaywrightService Resource Provider Management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
