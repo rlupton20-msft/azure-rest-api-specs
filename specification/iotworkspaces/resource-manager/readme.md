@@ -45,6 +45,7 @@ input-file:
   - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nestedmembers.json
   - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/scaletest.json
   - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/workspace.json
+  - Private.DeviceRegistry/preview/2021-10-10-alpha/discoveredAssets.json
 ```
 ### Tag: package-preview-2023-10
 
