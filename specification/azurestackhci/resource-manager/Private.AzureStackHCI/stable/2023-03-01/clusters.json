@@ -457,6 +457,97 @@
           "final-state-via": "location"
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/getLogCollectionHistory": {
+      "get": {
+        "tags": [
+          "Cluster"
+        ],
+        "operationId": "Clusters_GetLogCollectionHistory",
+        "description": "Get Log Collection History on the cluster",
+        "x-ms-examples": {
+          "Get Log Collection History": {
+            "$ref": "./examples/GetLogCollectionHistory.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DiagnosticLogCollectionHistoryCommandResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/triggerLogCollection": {
+      "put": {
+        "tags": [
+          "Cluster"
+        ],
+        "operationId": "Clusters_TriggerLogCollection",
+        "description": "Triggers Log Collection on the cluster",
+        "x-ms-examples": {
+          "Trigger Log Collection": {
+            "$ref": "./examples/TriggerLogCollection.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "DiagnosticCommandRequest",
+            "in": "body",
+            "description": "Log Collection Request Payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiagnosticCommandRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully triggered log collection on the device."
+          },
+          "202": {
+            "description": "Accepted the request to trigger log collection on the device."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      }
     }
   },
   "definitions": {
@@ -965,6 +1056,43 @@
         }
       },
       "additionalProperties": false
+    },
+    "DiagnosticCommandRequest": {
+      "type": "object",
+      "properties": {
+        "FromDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "ToDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DiagnosticLogCollectionHistoryCommandResponse": {
+      "description": "Response of Log Collection History",
+      "type": "object",
+      "properties": {
+        "TimeCollected": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "CollectionFromDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "CollectionToDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "LogUploadSizeMb": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "readOnly": true
     },
     "ClusterIdentityResponse": {
       "description": "Cluster Identity details.",
