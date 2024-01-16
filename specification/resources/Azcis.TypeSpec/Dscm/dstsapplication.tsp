@@ -84,10 +84,10 @@ model ApplicationGroup {
   @doc("Group id.")
   id?: string;
 
-  @doc("Group name.")
-  name: string;
+  @doc("Name of the Application Group.")
+  applicationGroupName: string;
 
-  @doc("Group application name.")
+  @doc("Common Name for all Applications inside the group.")
   applicationName?: string;
 
   @doc("The Service Principal Names of the application. Optional.")
