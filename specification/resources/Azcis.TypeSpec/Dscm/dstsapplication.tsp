@@ -43,7 +43,7 @@ model ApplicationAccount {
   dstsInstance: string;
 
   @doc("The name of the Application.")
-  name: string;
+  applicationAccountName: string;
 
   @doc("The realms of the application. Optional.")
   realms?: Array<string>;
