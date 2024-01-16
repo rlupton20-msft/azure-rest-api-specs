@@ -483,12 +483,12 @@
             "required": true,
             "description": "Which key to regenerate:  primary or secondary.",
             "schema": {
-              "$ref": "#/definitions/ApiKeySpecification"
+              "$ref": "#/definitions/APIKeys"
             }
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "The request was successful."
           },
           "default": {
@@ -584,11 +584,13 @@
       ]
     },
     "ApiKey": {
-      "description": "Result of Api key.",
+      "description": "Azure quantum workspace Api key details.",
       "type": "object",
       "properties": {
-        "createTime": {
-          "type": "string"
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the api key."
         },
         "key": {
           "x-ms-secret": true,
@@ -607,26 +609,28 @@
           "description": "Indicator of enablement of the Quantum workspace Api keys."
         },
         "primaryKey": {
-          "$ref": "#/definitions/ApiKey"
+          "$ref": "#/definitions/ApiKey",
+          "description": "The quantum workspace primary api key."
         },
         "secondaryKey": {
-          "$ref": "#/definitions/ApiKey"
+          "$ref": "#/definitions/ApiKey",
+          "description": "The quantum workspace secondary api key."
         },
         "primaryConnectionString": {
           "x-ms-secret": true,
           "readOnly": true,
           "type": "string",
-          "description": "The connection string of the primary key."
+          "description": "The connection string of the primary api key."
         },
         "secondaryConnectionString": {
           "x-ms-secret": true,
           "readOnly": true,
           "type": "string",
-          "description": "The connection string of the secondary key."
+          "description": "The connection string of the secondary api key."
         }
       }
     },
-    "ApiKeySpecification": {
+    "APIKeys": {
       "type": "object",
       "properties": {
         "keys": {
@@ -636,7 +640,7 @@
             "type": "string",
             "enum": [
               "Primary",
-              "secondary"
+              "Secondary"
             ],
             "default": "Primary",
             "x-ms-enum": {
