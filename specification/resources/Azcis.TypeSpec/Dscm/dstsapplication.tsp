@@ -45,9 +45,6 @@ model ApplicationAccount {
   @doc("The name of the Application.")
   name: string;
 
-  @doc("Service Tree GUID of the service who owns the Application.")
-  serviceTreeId: string;
-
   @doc("The realms of the application. Optional.")
   realms?: Array<string>;
 
@@ -86,9 +83,6 @@ model ApplicationAccount {
 model ApplicationGroup {
   @doc("Group id.")
   id?: string;
-
-  @doc("Group service tree id.")
-  serviceTreeId: string;
 
   @doc("Group name.")
   name: string;
