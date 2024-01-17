@@ -304,6 +304,17 @@
     }
   },
   "definitions": {
+    "AccessLevel": {
+      "type": "string",
+      "enum": [
+        "Diagnostics",
+        "DiagnosticsAndRepair"
+      ],
+      "x-ms-enum": {
+        "name": "AccessLevel",
+        "modelAsString": true
+      }
+    },
     "DesiredDeviceConfiguration": {
       "type": "object",
       "description": "Desired Device Configuration",
@@ -330,11 +341,15 @@
             "$ref": "#/definitions/NicDetail"
           },
           "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "nicDetails"
-      ]
+        },
+        "diagnosticsSettings": {
+          "$ref": "#/definitions/DiagnosticsSettings",
+          "description": "Diagnostics Settings of the device"
+        },
+        "required": [
+          "nicDetails"
+        ]
+      }
     },
     "DeviceValidationStatus": {
       "type": "object",
@@ -359,6 +374,24 @@
         "status",
         "validationResult",
         "extensionStatus"
+      ]
+    },
+    "DiagnosticsSettings": {
+      "type": "object",
+      "description": "Diagnostics Settings of a device",
+      "properties": {
+        "remoteSupportSettings": {
+          "$ref": "#/definitions/RemoteSupportSettings",
+          "description": "Remote Support Settings of a device"
+        },
+        "logCollectionSettings": {
+          "$ref": "#/definitions/LogCollectionSettings",
+          "description": "Log Collection Settings of a device"
+        }
+      },
+      "required": [
+        "remoteSupportSettings",
+        "logCollectionSettings"
       ]
     },
     "EdgeDevice": {
@@ -480,6 +513,71 @@
       },
       "required": [
         "enabled"
+      ]
+    },
+    "LogCollectionSettings": {
+      "type": "object",
+      "description": "Log Collection Settings of a device",
+      "properties": {
+        "fromdate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "From Date Time Stamp"
+        },
+        "toDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "To Date Time Stamp"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category"
+        },
+        "logSessionDetails": {
+          "type": "array",
+          "description": "LogCollection Session details",
+          "items": {
+            "$ref": "#/definitions/LogSessionDetails"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "fromdate",
+        "toDate",
+        "category",
+        "logSessionDetails"
+      ]
+    },
+    "LogSessionDetails": {
+      "type": "object",
+      "description": "Log Session Details of a device",
+      "properties": {
+        "logStartTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "logStartTime"
+        },
+        "logEndTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "logEndTime"
+        },
+        "location": {
+          "type": "string",
+          "description": "location"
+        },
+        "timeCollected": {
+          "type": "string",
+          "format": "date-time",
+          "description": "time collected"
+        }
+      },
+      "required": [
+        "logStartTime",
+        "logEndTime",
+        "location",
+        "timeCollected"
       ]
     },
     "NicDetail": {
@@ -607,6 +705,64 @@
       "required": [
         "enabled",
         "port"
+      ]
+    },
+    "RemoteSupportSessionDetails": {
+      "type": "object",
+      "description": "Remote Support Session Details",
+      "properties": {
+        "sessionStartTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Session Start Time"
+        },
+        "sessionEndTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Session End Time"
+        },
+        "sessionDuration": {
+          "type": "string",
+          "description": "Session Duration"
+        },
+        "accesslevel": {
+          "$ref": "#/definitions/AccessLevel",
+          "description": "Access Level"
+        }
+      },
+      "required": [
+        "sessionStartTime",
+        "sessionEndTime",
+        "sessionDuration",
+        "accesslevel"
+      ]
+    },
+    "RemoteSupportSettings": {
+      "type": "object",
+      "description": "Remote Support Settings of a device",
+      "properties": {
+        "accesslevel": {
+          "$ref": "#/definitions/AccessLevel",
+          "description": "AccessLevel of the Remote Session"
+        },
+        "expirationTimeStampInUTC": {
+          "type": "string",
+          "format": "date-time",
+          "description": "expiration time"
+        },
+        "remoteSupportSessionDetails": {
+          "type": "array",
+          "description": "RemoteSupportSession details",
+          "items": {
+            "$ref": "#/definitions/RemoteSupportSessionDetails"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "accesslevel",
+        "expirationTimeStampInUTC",
+        "remoteSupportSessionDetails"
       ]
     },
     "ValidateRequest": {
