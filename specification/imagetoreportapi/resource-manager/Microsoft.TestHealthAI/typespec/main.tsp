@@ -10,20 +10,20 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.HealthAI")
+@armProviderNamespace("Microsoft.TestHealthAI")
 @service({
-  title: "Microsoft.HealthAI",
+  title: "Microsoft.TestHealthAI",
   version: "2024-01-12-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Microsoft.HealthAI;
+namespace Microsoft.TestHealthAI;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A HealthAIProviderHub resource")
+@doc("A TestHealthAIProviderHub resource")
 model ImageToReportAPI is TrackedResource<ImageToReportAPIProperties> {
   @doc("The name of the employee")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -51,7 +51,7 @@ enum ProvisioningState {
   Accepted,
 }
 
-@doc("Details of the HealthAI ImageToReportAPI.")
+@doc("Details of the TestHealthAI ImageToReportAPI.")
 model ImageToReportAPIProperties {
   @visibility("read")
   @doc("The status of the last operation.")
