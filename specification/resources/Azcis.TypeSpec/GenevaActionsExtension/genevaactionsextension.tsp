@@ -15,7 +15,7 @@ namespace Microsoft.AzureCIS;
 model GenevaActionsExtensionResourceProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("User given name for GenevaActionExtension.")
-  name: string; // camel case for the parameter names
+  extensionName: string; // camel case for the parameter names
 
   @doc("User provided package source branch.")
   packageSourceBranch: string;
