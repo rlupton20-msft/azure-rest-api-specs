@@ -36,16 +36,21 @@ enum ProfileType {
 enum CertificateProfileStatus {
   Active,
   Disabled,
-  Suspended,
+  Suspended
 }
 
 @doc("Status of the certificate")
 enum CertificateStatus {
   Active,
   Expired,
-  Revoked,
-  RevocationInProgress,
-  RevocationFailed,
+  Revoked
+}
+
+@doc("Revocation status of the certificate")
+enum RevocationStatus {
+  Succeeded,
+  InProgress,
+  Failed 
 }
 
 @doc("Name of this SKU")
@@ -57,7 +62,7 @@ enum SkuName {
 
 @doc("The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.")
 @fixed
-enum Reason {
+enum NameUnavailabilityReason {
   AccountNameInvalid,
   AlreadyExists,
 }
@@ -199,6 +204,12 @@ model Revocation {
 
   @doc("Remarks for the revocation")
   remarks?: string;
+
+  @doc("Status of the revocation")
+  status?: RevocationStatus;
+
+  @doc("Reason for the revocation failure")
+  failureReason?: string;
 }
 
 @doc("Defines the certificate revoke properties.")
@@ -234,7 +245,7 @@ model CheckNameAvailabilityResult {
 
   @doc("The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.")
   @visibility("read")
-  reason?: Reason;
+  reason?: NameUnavailabilityReason;
 
   @doc("An error message explaining the Reason value in more detail.")
   @visibility("read")

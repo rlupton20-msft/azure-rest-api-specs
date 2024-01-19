@@ -111,11 +111,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/CheckNameAvailabilityResult"
-            }
+          "204": {
+            "description": "The revocation operation completed."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -1028,7 +1025,7 @@
           "readOnly": true
         },
         "reason": {
-          "$ref": "#/definitions/Reason",
+          "$ref": "#/definitions/NameUnavailabilityReason",
           "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
           "readOnly": true
         },
@@ -1191,7 +1188,7 @@
       },
       "readOnly": true
     },
-    "Reason": {
+    "NameUnavailabilityReason": {
       "type": "string",
       "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
       "enum": [
@@ -1224,7 +1221,28 @@
         "remarks": {
           "type": "string",
           "description": "Remarks for the revocation"
+        },
+        "status": {
+          "$ref": "#/definitions/RevocationStatus",
+          "description": "Status of the revocation"
+        },
+        "failureReason": {
+          "type": "string",
+          "description": "Reason for the revocation failure"
         }
+      }
+    },
+    "RevocationStatus": {
+      "type": "string",
+      "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
+      "enum": [
+        "Succeeded",
+        "InProgress",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "RevocationStatus",
+        "modelAsString": false
       }
     },
     "RevokeCertificate": {
