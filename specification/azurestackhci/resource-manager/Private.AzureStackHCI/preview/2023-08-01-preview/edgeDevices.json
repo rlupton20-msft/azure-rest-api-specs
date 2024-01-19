@@ -262,7 +262,7 @@
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "name": "ValidateRequest",
+            "name": "body",
             "in": "body",
             "description": "The content of the action request",
             "required": true,
@@ -304,31 +304,17 @@
     }
   },
   "definitions": {
-    "AccessLevel": {
-      "type": "string",
-      "enum": [
-        "Diagnostics",
-        "DiagnosticsAndRepair"
-      ],
-      "x-ms-enum": {
-        "name": "AccessLevel",
-        "modelAsString": true
-      }
-    },
     "DesiredDeviceConfiguration": {
       "type": "object",
-      "description": "Desired Device Configuration",
       "properties": {
-        "Hyperv": {
-          "$ref": "#/definitions/HyperVConfiguration"
-        },
-        "WinRM": {
-          "$ref": "#/definitions/WinRMConfiguration"
-        },
-        "RDP": {
-          "$ref": "#/definitions/RDPConfiguration"
+        "hostName": {
+          "type": "string",
+          "description": "hostName"
         }
-      }
+      },
+      "required": [
+        "hostName"
+      ]
     },
     "DeviceConfiguration": {
       "type": "object",
@@ -341,14 +327,22 @@
             "$ref": "#/definitions/NicDetail"
           },
           "x-ms-identifiers": []
-        },
-        "diagnosticsSettings": {
-          "$ref": "#/definitions/DiagnosticsSettings",
-          "description": "Diagnostics Settings of the device"
-        },
-        "required": [
-          "nicDetails"
-        ]
+        }
+      },
+      "required": [
+        "nicDetails"
+      ]
+    },
+    "DeviceType": {
+      "type": "string",
+      "enum": [
+        "Linux",
+        "WinServer",
+        "HCI"
+      ],
+      "x-ms-enum": {
+        "name": "DeviceType",
+        "modelAsString": true
       }
     },
     "DeviceValidationStatus": {
@@ -376,24 +370,6 @@
         "extensionStatus"
       ]
     },
-    "DiagnosticsSettings": {
-      "type": "object",
-      "description": "Diagnostics Settings of a device",
-      "properties": {
-        "remoteSupportSettings": {
-          "$ref": "#/definitions/RemoteSupportSettings",
-          "description": "Remote Support Settings of a device"
-        },
-        "logCollectionSettings": {
-          "$ref": "#/definitions/LogCollectionSettings",
-          "description": "Log Collection Settings of a device"
-        }
-      },
-      "required": [
-        "remoteSupportSettings",
-        "logCollectionSettings"
-      ]
-    },
     "EdgeDevice": {
       "type": "object",
       "description": "Edge device resource",
@@ -406,8 +382,15 @@
             "read",
             "create"
           ]
+        },
+        "kind": {
+          "$ref": "#/definitions/DeviceType"
         }
       },
+      "discriminator": "kind",
+      "required": [
+        "kind"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
@@ -452,10 +435,6 @@
           "description": "Provisioning state of edgeDevice resource",
           "readOnly": true
         },
-        "desiredDeviceConfiguration": {
-          "$ref": "#/definitions/DesiredDeviceConfiguration",
-          "description": "desiredConfiguration"
-        },
         "validationStatus": {
           "$ref": "#/definitions/DeviceValidationStatus",
           "description": "Validation status",
@@ -463,8 +442,7 @@
         }
       },
       "required": [
-        "deviceConfiguration",
-        "desiredDeviceConfiguration"
+        "deviceConfiguration"
       ]
     },
     "ExtensionStatuses": {
@@ -502,6 +480,53 @@
         "errorDetails"
       ]
     },
+    "HciDesiredDeviceConfiguration": {
+      "type": "object",
+      "properties": {
+        "hyperV": {
+          "$ref": "#/definitions/HyperVConfiguration"
+        },
+        "winRM": {
+          "$ref": "#/definitions/WinRMConfiguration"
+        },
+        "rdp": {
+          "$ref": "#/definitions/RDPConfiguration"
+        }
+      }
+    },
+    "HciEdgeDevice": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/HciEdgeDeviceProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "HCI"
+    },
+    "HciEdgeDeviceProperties": {
+      "type": "object",
+      "properties": {
+        "desiredDeviceConfiguration": {
+          "$ref": "#/definitions/HciDesiredDeviceConfiguration"
+        }
+      },
+      "required": [
+        "desiredDeviceConfiguration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
+      ]
+    },
     "HyperVConfiguration": {
       "type": "object",
       "description": "hyper-v properties",
@@ -515,69 +540,45 @@
         "enabled"
       ]
     },
-    "LogCollectionSettings": {
+    "LinuxDesiredDeviceConfiguration": {
       "type": "object",
-      "description": "Log Collection Settings of a device",
       "properties": {
-        "fromdate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "From Date Time Stamp"
-        },
-        "toDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "To Date Time Stamp"
-        },
-        "category": {
-          "type": "string",
-          "description": "Category"
-        },
-        "logSessionDetails": {
-          "type": "array",
-          "description": "LogCollection Session details",
-          "items": {
-            "$ref": "#/definitions/LogSessionDetails"
-          },
-          "x-ms-identifiers": []
+        "ssh": {
+          "$ref": "#/definitions/SshConfiguration"
         }
-      },
-      "required": [
-        "fromdate",
-        "toDate",
-        "category",
-        "logSessionDetails"
-      ]
+      }
     },
-    "LogSessionDetails": {
+    "LinuxEdgeDevice": {
       "type": "object",
-      "description": "Log Session Details of a device",
       "properties": {
-        "logStartTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "logStartTime"
-        },
-        "logEndTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "logEndTime"
-        },
-        "location": {
-          "type": "string",
-          "description": "location"
-        },
-        "timeCollected": {
-          "type": "string",
-          "format": "date-time",
-          "description": "time collected"
+        "properties": {
+          "$ref": "#/definitions/LinuxEdgeDeviceProperties"
         }
       },
       "required": [
-        "logStartTime",
-        "logEndTime",
-        "location",
-        "timeCollected"
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "Linux"
+    },
+    "LinuxEdgeDeviceProperties": {
+      "type": "object",
+      "properties": {
+        "desiredDeviceConfiguration": {
+          "$ref": "#/definitions/LinuxDesiredDeviceConfiguration"
+        }
+      },
+      "required": [
+        "desiredDeviceConfiguration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
       ]
     },
     "NicDetail": {
@@ -707,62 +708,17 @@
         "port"
       ]
     },
-    "RemoteSupportSessionDetails": {
+    "SshConfiguration": {
       "type": "object",
-      "description": "Remote Support Session Details",
+      "description": "hyper-v properties",
       "properties": {
-        "sessionStartTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Session Start Time"
-        },
-        "sessionEndTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Session End Time"
-        },
-        "sessionDuration": {
-          "type": "string",
-          "description": "Session Duration"
-        },
-        "accesslevel": {
-          "$ref": "#/definitions/AccessLevel",
-          "description": "Access Level"
+        "enabled": {
+          "type": "boolean",
+          "description": "desiredConfiguration"
         }
       },
       "required": [
-        "sessionStartTime",
-        "sessionEndTime",
-        "sessionDuration",
-        "accesslevel"
-      ]
-    },
-    "RemoteSupportSettings": {
-      "type": "object",
-      "description": "Remote Support Settings of a device",
-      "properties": {
-        "accesslevel": {
-          "$ref": "#/definitions/AccessLevel",
-          "description": "AccessLevel of the Remote Session"
-        },
-        "expirationTimeStampInUTC": {
-          "type": "string",
-          "format": "date-time",
-          "description": "expiration time"
-        },
-        "remoteSupportSessionDetails": {
-          "type": "array",
-          "description": "RemoteSupportSession details",
-          "items": {
-            "$ref": "#/definitions/RemoteSupportSessionDetails"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "accesslevel",
-        "expirationTimeStampInUTC",
-        "remoteSupportSessionDetails"
+        "enabled"
       ]
     },
     "ValidateRequest": {
@@ -812,7 +768,7 @@
       "type": "object",
       "description": "Validation Result corresponding to each desired configuration state",
       "properties": {
-        "ValidationName": {
+        "validationName": {
           "type": "string"
         },
         "status": {
@@ -823,7 +779,7 @@
         }
       },
       "required": [
-        "ValidationName",
+        "validationName",
         "status",
         "details"
       ]
@@ -839,6 +795,50 @@
       },
       "required": [
         "enabled"
+      ]
+    },
+    "WinServerDesiredDeviceConfiguration": {
+      "type": "object",
+      "properties": {
+        "winRM": {
+          "$ref": "#/definitions/WinRMConfiguration"
+        },
+        "rdp": {
+          "$ref": "#/definitions/RDPConfiguration"
+        }
+      }
+    },
+    "WinServerEdgeDevice": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WinServerEdgeDeviceProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "WinServer"
+    },
+    "WinServerEdgeDeviceProperties": {
+      "type": "object",
+      "properties": {
+        "desiredDeviceConfiguration": {
+          "$ref": "#/definitions/WinServerDesiredDeviceConfiguration"
+        }
+      },
+      "required": [
+        "desiredDeviceConfiguration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
       ]
     }
   },
