@@ -374,15 +374,8 @@
             "read",
             "create"
           ]
-        },
-        "kind": {
-          "$ref": "#/definitions/DeviceType"
         }
       },
-      "discriminator": "kind",
-      "required": [
-        "kind"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
@@ -431,10 +424,15 @@
           "$ref": "#/definitions/DeviceValidationStatus",
           "description": "Validation status",
           "readOnly": true
+        },
+        "kind": {
+          "$ref": "#/definitions/DeviceType"
         }
       },
+      "discriminator": "kind",
       "required": [
-        "deviceConfiguration"
+        "deviceConfiguration",
+        "kind"
       ]
     },
     "ExtensionStatuses": {
@@ -486,23 +484,6 @@
         }
       }
     },
-    "HciEdgeDevice": {
-      "type": "object",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/HciEdgeDeviceProperties"
-        }
-      },
-      "required": [
-        "properties"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/EdgeDevice"
-        }
-      ],
-      "x-ms-discriminator-value": "HCI"
-    },
     "HciEdgeDeviceProperties": {
       "type": "object",
       "properties": {
@@ -514,7 +495,8 @@
         {
           "$ref": "#/definitions/EdgeDeviceProperties"
         }
-      ]
+      ],
+      "x-ms-discriminator-value": "HCI"
     },
     "HyperVConfiguration": {
       "type": "object",
@@ -534,20 +516,6 @@
         }
       }
     },
-    "LinuxEdgeDevice": {
-      "type": "object",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LinuxEdgeDeviceProperties"
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/EdgeDevice"
-        }
-      ],
-      "x-ms-discriminator-value": "Linux"
-    },
     "LinuxEdgeDeviceProperties": {
       "type": "object",
       "properties": {
@@ -559,7 +527,8 @@
         {
           "$ref": "#/definitions/EdgeDeviceProperties"
         }
-      ]
+      ],
+      "x-ms-discriminator-value": "Linux"
     },
     "NicDetail": {
       "type": "object",
@@ -788,20 +757,6 @@
         }
       }
     },
-    "WinServerEdgeDevice": {
-      "type": "object",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/WinServerEdgeDeviceProperties"
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/EdgeDevice"
-        }
-      ],
-      "x-ms-discriminator-value": "WinServer"
-    },
     "WinServerEdgeDeviceProperties": {
       "type": "object",
       "properties": {
@@ -813,7 +768,8 @@
         {
           "$ref": "#/definitions/EdgeDeviceProperties"
         }
-      ]
+      ],
+      "x-ms-discriminator-value": "WinServer"
     }
   },
   "parameters": {
