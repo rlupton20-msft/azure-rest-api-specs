@@ -38,10 +38,9 @@ interface CertificateProfiles {
   listByCodeSigningAccount is ArmResourceListByParent<CertificateProfile>;
 
   @doc("Revoke certificate")
-  revokeCertificate is ArmResourceActionSync<
+  revokeCertificate is ArmResourceActionNoContentSync<
     CertificateProfile,
-    RevokeCertificate,
-    CertificateProfile
+    RevokeCertificate
   >;
 }
 

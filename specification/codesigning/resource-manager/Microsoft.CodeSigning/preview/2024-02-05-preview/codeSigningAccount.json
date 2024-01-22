@@ -120,13 +120,13 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "Validate a code signing account name": {
-            "$ref": "./examples/CodeSigningAccounts_CheckNameAvailability.json"
+         },
+          "x-ms-examples": {
+            "Validate a code signing account name": {
+              "$ref": "./examples/CodeSigningAccounts_CheckNameAvailability.json"
+            }
           }
         }
-      }
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/codeSigningAccounts": {
       "get": {
@@ -755,11 +755,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CertificateProfile"
-            }
+          "204": {
+            "description": "Action completed successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -767,14 +764,14 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "Revoke Certificate": {
-            "$ref": "./examples/CertificateProfiles_RevokeCertificate.json"
+         },
+          "x-ms-examples": {
+            "Revoke Certificate": {
+              "$ref": "./examples/CertificateProfiles_RevokeCertificate.json"
+            }
           }
         }
       }
-    }
   },
   "definitions": {
     "AccountSku": {
@@ -993,9 +990,7 @@
       "enum": [
         "Active",
         "Expired",
-        "Revoked",
-        "RevocationInProgress",
-        "RevocationFailed"
+        "Revoked"
       ],
       "x-ms-enum": {
         "name": "CertificateStatus",
@@ -1124,6 +1119,18 @@
         }
       }
     },
+    "NameUnavailabilityReason": {
+      "type": "string",
+      "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
+      "enum": [
+        "AccountNameInvalid",
+        "AlreadyExists"
+      ],
+      "x-ms-enum": {
+        "name": "NameUnavailabilityReason",
+        "modelAsString": false
+      }
+    },
     "ProfileType": {
       "type": "string",
       "description": "Profile type of the certificate",
@@ -1188,18 +1195,6 @@
       },
       "readOnly": true
     },
-    "NameUnavailabilityReason": {
-      "type": "string",
-      "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
-      "enum": [
-        "AccountNameInvalid",
-        "AlreadyExists"
-      ],
-      "x-ms-enum": {
-        "name": "Reason",
-        "modelAsString": false
-      }
-    },
     "Revocation": {
       "type": "object",
       "description": "Revocations history of a certificate",
@@ -1234,7 +1229,7 @@
     },
     "RevocationStatus": {
       "type": "string",
-      "description": "The reason that a code signing account name could not be used. The Reason element is only returned if nameAvailable is false.",
+      "description": "Revocation status of the certificate",
       "enum": [
         "Succeeded",
         "InProgress",
@@ -1242,7 +1237,7 @@
       ],
       "x-ms-enum": {
         "name": "RevocationStatus",
-        "modelAsString": false
+        "modelAsString": true
       }
     },
     "RevokeCertificate": {
