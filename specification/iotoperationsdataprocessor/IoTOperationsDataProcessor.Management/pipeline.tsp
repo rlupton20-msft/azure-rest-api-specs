@@ -10,6 +10,7 @@ import "./instance.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Autorest;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -87,5 +88,3 @@ interface Pipelines {
   delete is ArmResourceDeleteWithoutOkAsync<Pipeline>;
   listByInstance is ArmResourceListByParent<Pipeline>;
 }
-
-// PipelineStages should not use 'is Record<unknown>'. Use 'is Record<string>' instead.TypeSpec(@azure-tools/typespec-azure-core/bad-record-type)
