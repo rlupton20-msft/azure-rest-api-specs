@@ -24,7 +24,7 @@ using Azure.ResourceManager;
 @versioned(Versions)
 @doc("Exposure Control Resource Provider Service API.")
 @armCommonTypesVersion(CommonTypes.Versions.v5)
-namespace Microsoft.Edge;
+namespace Private.EdgeInternal;
 
 @doc("The available API versions.")
 enum Versions {
@@ -65,6 +65,6 @@ interface ExposureWorkflows  extends Azure.ResourceManager.ProxyResourceOperatio
 }
 
   @patch
-  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/exposureWorkflows/{exposureWorkflowName}/updateStatus")
+  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/exposureWorkflows/{exposureWorkflowName}/updateStatus")
   @doc("update ring status in Rollout")
   op updateRolloutCurrentRingStatusAsync(subscriptionId : string, resourceGroupName: string, exposureWorkflowName: string, @body status: ExposureWorkflowStatus):ExposureWorkflow;
