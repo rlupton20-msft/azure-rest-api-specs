@@ -49,7 +49,7 @@ model DstsServiceAccountResourceProperties {
 
   @doc("Provisioning state")
   @visibility("read")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: DscmProvisioningState;
 }
 
 @doc("dstsServiceAccount Resource")
