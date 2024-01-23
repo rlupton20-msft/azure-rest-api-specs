@@ -204,6 +204,9 @@ model SubjectNameBasedIdentity {
 
 @doc("Class for a contiguous range of IP Addresses.")
 model IpRange {
+  @doc("From IP address.")
+  fromIpAddress: string;
+
   @doc("To IP address.")
   toIpAddress: string;
 }
