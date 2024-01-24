@@ -41,8 +41,8 @@ Please also specify `--azure-libraries-for-java=<path to the root directory of y
 
 ```yaml $(tag) == 'package-2024-01' && $(java) && $(multiapi)
 java:
-  namespace: com.microsoft.azure.management.edgemarketplace.v2024_01_01_preview
-  output-folder: $(azure-libraries-for-java-folder)/sdk/exposurecontrol/mgmt-v2024_01_01_preview
+  namespace: com.microsoft.azure.management.exposurecontrol.v2024_01_01_privatepreview
+  output-folder: $(azure-libraries-for-java-folder)/sdk/exposurecontrol/mgmt-v2024_01_01_privatepreview
 regenerate-manager: true
 generate-interface: true
 ```

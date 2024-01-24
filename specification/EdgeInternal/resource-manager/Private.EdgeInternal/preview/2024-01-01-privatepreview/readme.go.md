@@ -10,10 +10,10 @@ go:
 
 ### Tag: package-2024-01-01-preview and go
 
-These settings apply only when `--tag=package-2024-01-01-preview --go` is specified on the command line.
+These settings apply only when `--tag=package-2024-01-01-privatepreview --go` is specified on the command line.
 Please also specify `--go-sdks-folder=<path to the root directory of your azure-sdk-for-go clone>`.
 
 ```yaml $(tag) == 'package-2024-01-01-preview' && $(go)
 namespace: Private.EdgeInternal
-output-folder: $(go-sdk-folder)/Private.EdgeInternal/preview/2024-01-01-preview/$(namespace)
+output-folder: $(go-sdk-folder)/Private.EdgeInternal/preview/2024-01-01-privatepreview/$(namespace)
 ```

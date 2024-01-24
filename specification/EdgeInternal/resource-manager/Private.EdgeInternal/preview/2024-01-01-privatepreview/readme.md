@@ -1,8 +1,8 @@
-# exposurecontrol
+# ExposureControl
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for exposurecontrol.
+This is the AutoRest configuration file for ExposureControl.
 
 ## Getting Started
 
@@ -22,23 +22,21 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the exposurecontrol.
+These are the global settings for the ExposureControl.
 
 ```yaml
-title: ExposureControlClient
-description: Exposure Control Extension
 openapi-type: arm
-openapi-subtype: rpaas
-tag: package-2024-01
+openapi-subtype: providerHub
+tag: package-2024-01-01-privatepreview
 ```
 
-### Tag: package-2024-01
+### Tag: package-2024-01-01-privatepreview
 
-These settings apply only when `--tag=package-2024-01` is specified on the command line.
+These settings apply only when `--tag=package-2024-01-01-privatepreview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-01'
+```yaml $(tag) == 'package-2024-01-01-privatepreview'
 input-file:
-  - Private.EdgeInternal/preview/2024-01-01-preview/ExposureControlSwagger.json
+   - preview/2024-01-01-privatepreview/ExposureControlSwagger.json
 ```
 
 ---
@@ -60,7 +58,6 @@ swagger-to-sdk:
   - repo: azure-cli-extensions
   - repo: azure-powershell
 ```
-
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)

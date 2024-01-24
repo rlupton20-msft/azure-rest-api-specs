@@ -20,16 +20,16 @@ Generate all API versions currently shipped for this package
 
 ```yaml $(python) && $(multiapi)
 batch:
-  - tag: package-2024-01-01-preview
+  - tag: package-2024-01-01-privatepreview
 ```
 
 ### Tag: package-2024-01-01-preview and python
 
-These settings apply only when `--tag=package-2024-01-01-preview --python` is specified on the command line.
+These settings apply only when `--tag=package-2024-01-01-privatepreview --python` is specified on the command line.
 Please also specify `--python-sdks-folder=<path to the root directory of your azure-sdk-for-python clone>`.
 
 ```yaml $(tag) == 'package-2024-01-01-preview' && $(python)
 python:
-  namespace: azure.mgmt.exposurecontrol.v2024_01_01_preview
-  output-folder: $(python-sdks-folder)/exposurecontrol/azure-mgmt-exposurecontrol/azure/mgmt/exposurecontrol/v2024_01_01_preview
+  namespace: azure.mgmt.exposurecontrol.v2024_01_01_privatepreview
+  output-folder: $(python-sdks-folder)/exposurecontrol/azure-mgmt-exposurecontrol/azure/mgmt/exposurecontrol/v2024_01_01_privatepreview
 ```
