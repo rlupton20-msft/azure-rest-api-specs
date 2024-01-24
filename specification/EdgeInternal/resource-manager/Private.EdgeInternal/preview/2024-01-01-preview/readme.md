@@ -24,7 +24,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 These are the global settings for the exposurecontrol.
 
-``` yaml
+```yaml
 title: ExposureControlClient
 description: Exposure Control Extension
 openapi-type: arm
@@ -60,6 +60,7 @@ swagger-to-sdk:
   - repo: azure-cli-extensions
   - repo: azure-powershell
 ```
+
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)

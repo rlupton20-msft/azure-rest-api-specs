@@ -28,7 +28,7 @@ batch:
 These settings apply only when `--tag=package-2024-01-01-preview --python` is specified on the command line.
 Please also specify `--python-sdks-folder=<path to the root directory of your azure-sdk-for-python clone>`.
 
-``` yaml $(tag) == 'package-2024-01-01-preview' && $(python)
+```yaml $(tag) == 'package-2024-01-01-preview' && $(python)
 python:
   namespace: azure.mgmt.exposurecontrol.v2024_01_01_preview
   output-folder: $(python-sdks-folder)/exposurecontrol/azure-mgmt-exposurecontrol/azure/mgmt/exposurecontrol/v2024_01_01_preview
