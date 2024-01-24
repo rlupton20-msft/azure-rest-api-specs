@@ -29,55 +29,11 @@ enum DiagnosticDestination {
 
 @doc("Enclave Virtual Network Properties")
 model EnclaveVirtualNetwork {
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @visibility("read")
-  @doc("Virtual Network Name.")
-  name?: string;
-
   @doc("Network Size.")
   networkSize: string;
 
   @doc("Custom CIDR Range.")
   customCidrRange?: string;
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @doc("Subnet Count.")
-  subnetCount?: int64;
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @visibility("read")
-  @doc("Subnet Configuration.")
-  subnetConfigurations?: SubnetConfiguration[];
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @doc("Boolean to state if the communication is allowed between endpoints and subnet.")
-  allowSubnetCommunication: boolean;
-
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @visibility("read")
-  @doc("Enclave Address Spaces")
-  enclaveAddressSpaces?: EnclaveAddressSpaces;
-}
-
-#suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-@doc("Subnet Configuration")
-@added(Microsoft.Mission.Versions.v2024_01_01_preview)
-model SubnetConfiguration {
-  @doc("Subnet Name.")
-  name?: string;
-
-  @doc("Subnet Id.")
-  id: string;
-
-  @doc("The address prefix for the subnet.")
-  addressPrefix?: string;
-
-  @doc("The Network Security Group Id.")
-  networkSecurityGroupId?: string;
 }
 
 @doc("Virtual Enclave Default Settings")
@@ -107,10 +63,10 @@ model EnclaveDefaultSettings {
 @doc("Enclave Address Spaces")
 model EnclaveAddressSpaces {
   @doc("Enclave Address Space")
-  enclaveAddressSpace: string;
+  enclaveAddressSpace?: string;
 
   @doc("Managed Address Space")
-  managedAddressSpace: string;
+  managedAddressSpace?: string;
 }
 
 @doc("Virtual Enclave Resource properties")
@@ -127,8 +83,6 @@ model VirtualEnclaveProperties {
   @doc("Virtual Network.")
   enclaveVirtualNetwork: EnclaveVirtualNetwork;
 
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  @removed(Microsoft.Mission.Versions.v2024_01_01_preview)
   @added(Microsoft.Mission.Versions.v2023_08_01_preview)
   @visibility("read")
   @doc("Enclave Address Spaces")
