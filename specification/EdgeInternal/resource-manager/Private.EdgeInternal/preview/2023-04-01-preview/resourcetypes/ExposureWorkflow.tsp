@@ -16,12 +16,12 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @doc("Exposure Control Resource Provider Service API.")
-namespace Microsoft.Edge;
+namespace Private.EdgeInternal;
 
 @doc("A exposure workflow resource")
 model ExposureWorkflow is ProxyResource<ExposureWorkflowProperties> {
   @doc("Name of Exposure Workflow")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[-\\w\\._]+$")
   @key("exposureWorkflowName")
   @path
   @segment("exposureWorkflows")
@@ -42,13 +42,13 @@ model ExposureWorkflowProperties {
   @visibility("read")
   exposureWorkflowManifestId: string;
 
-  @doc("Ring configuration names.")
+  @doc("Ring configuration details.")
   @visibility("read")
   rings: Array<ExposureWorkflowRingConfigurationProperties>;
 
-  @doc("Default Ring.")
+  @doc("Default start Ring.")
   @visibility("read")
-  defaultRing: string;
+  overrideDefaultStartRing: string;
 
   @doc("Exposure workflow status.")
   @visibility("read")

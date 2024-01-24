@@ -15,10 +15,10 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @doc("Exposure Control Resource Provider Service API.")
-namespace Microsoft.Edge;
+namespace Private.EdgeInternal;
 
 
-@doc("Rollout definition Properties")
+@doc("Exposure workflow manifest definition Properties")
 model ExposureWorkflowManifestProperties {
 
   @doc("Feature Name.")
@@ -28,7 +28,7 @@ model ExposureWorkflowManifestProperties {
   discriminator: string;
 
   @doc("default ring.")
-  defaultRing?: string;
+  overrideDefaultStartRing?: string;
 
   @doc("ring configuration properties.")
   ringConfigurations: Array<RingConfigurationProperties>;
@@ -38,10 +38,10 @@ model ExposureWorkflowManifestProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("A exposure control rollout definition resource")
+@doc("A exposure control manifest resource")
 model ExposureWorkflowManifest is ProxyResource<ExposureWorkflowManifestProperties> {
-  @doc("Name of Rollout Definition")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("Name of exposure control manifest")
+  @pattern("^[-\\w\\._]+$")
   @key("exposureWorkflowManifestName")
   @path
   @segment("exposureWorkflowManifests")
@@ -77,10 +77,10 @@ model ProgressionMethod {
 
 @doc("Progression type enum.")
 enum ProgressionType {
-  @doc("Periodic.")
-  Periodic,
-  @doc("Manual.")
-  Manual,
+  @doc("Fixed time based progression.")
+  TimeBased,
+  @doc("Custom defined progression.")
+  Custom,
 }
 
 @doc("GateStatus enum.")
@@ -105,10 +105,6 @@ model RingConfigurationProperties {
 
   @doc("Progression settings.")
   progressionSetting: ProgressionSetting;
-
-  @visibility("read")
-  @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
 }
 
 

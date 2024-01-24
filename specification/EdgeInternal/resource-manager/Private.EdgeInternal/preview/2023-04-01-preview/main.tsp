@@ -66,5 +66,5 @@ interface ExposureWorkflows  extends Azure.ResourceManager.ProxyResourceOperatio
 
   @patch
   @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/exposureWorkflows/{exposureWorkflowName}/updateStatus")
-  @doc("update ring status in Rollout")
-  op updateRolloutCurrentRingStatusAsync(subscriptionId : string, resourceGroupName: string, exposureWorkflowName: string, @body status: ExposureWorkflowStatus):ExposureWorkflow;
+  @doc("update ring status in Exposure workflow")
+  op updateWorkflowCurrentRingStatusAsync(subscriptionId : string, resourceGroupName: string, exposureWorkflowName: string, @body status: ExposureWorkflowStatus):ExposureWorkflow;

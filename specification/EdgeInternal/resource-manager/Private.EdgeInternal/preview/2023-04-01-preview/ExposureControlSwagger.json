@@ -157,10 +157,10 @@
           {
             "name": "exposureWorkflowManifestName",
             "in": "path",
-            "description": "Name of Rollout Definition",
+            "description": "Name of Exposure workflow manifest",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -202,10 +202,10 @@
           {
             "name": "exposureWorkflowManifestName",
             "in": "path",
-            "description": "Name of Rollout Definition",
+            "description": "Name of Exposure workflow manifest",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           },
           {
             "name": "resource",
@@ -273,10 +273,10 @@
           {
             "name": "exposureWorkflowManifestName",
             "in": "path",
-            "description": "Name of Rollout Definition",
+            "description": "Name of Exposure workflow manifest",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -386,7 +386,7 @@
             "description": "Name of Exposure Workflow",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -431,7 +431,7 @@
             "description": "Name of Exposure Workflow",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           },
           {
             "name": "resource",
@@ -502,7 +502,7 @@
             "description": "Name of Exposure Workflow",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -549,8 +549,8 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/exposureWorkflows/{exposureWorkflowName}/updateStatus": {
       "patch": {
-        "operationId": "UpdateRolloutCurrentRingStatusAsync",
-        "description": "update ring status in Rollout",
+        "operationId": "UpdateWorkflowCurrentRingStatusAsync",
+        "description": "update ring status in Exposure Workflow",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -588,8 +588,8 @@
           }
         },
         "x-ms-examples": {
-          "UpdateRolloutCurrentRingStatusAsync_MaximumSet_Gen": {
-            "$ref": "./examples/UpdateRolloutCurrentRingStatusAsync_MaximumSet_Gen.json"
+          "UpdateWorkflowCurrentRingStatusAsync_MaximumSet_Gen": {
+            "$ref": "./examples/UpdateWorkflowCurrentRingStatusAsync_MaximumSet_Gen.json"
           }
         }
       }
@@ -659,7 +659,7 @@
             "description": "Name of Feature",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -704,7 +704,7 @@
             "description": "Name of Feature",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           },
           {
             "name": "resource",
@@ -775,7 +775,7 @@
             "description": "Name of Feature",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -885,7 +885,7 @@
             "description": "Name of Group",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -930,7 +930,7 @@
             "description": "Name of Group",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           },
           {
             "name": "resource",
@@ -1001,7 +1001,7 @@
             "description": "Name of Group",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[-\\w\\._]+$"
           }
         ],
         "responses": {
@@ -1210,7 +1210,7 @@
     },
     "ExposureWorkflowManifest": {
       "type": "object",
-      "description": "A exposure control rollout definition resource",
+      "description": "A exposure control manifest resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ExposureWorkflowManifestProperties",
@@ -1251,7 +1251,7 @@
     },
     "ExposureWorkflowManifestProperties": {
       "type": "object",
-      "description": "Rollout definition Properties",
+      "description": "Exposure manifest Properties",
       "properties": {
         "exposureFeatureId": {
           "type": "string",
@@ -1261,13 +1261,13 @@
           "type": "string",
           "description": "Ring description."
         },
-        "defaultRing": {
+        "overrideDefaultStartRing": {
           "type": "string",
-          "description": "default ring."
+          "description": "default start ring."
         },
         "ringConfigurations": {
           "type": "array",
-          "description": "ring configuration properties.",
+          "description": "ring configuration details.",
           "items": {
             "$ref": "#/definitions/RingConfigurationProperties"
           },
@@ -1312,9 +1312,9 @@
           "readOnly": true,
           "x-ms-identifiers": []
         },
-        "defaultRing": {
+        "overrideDefaultStartRing": {
           "type": "string",
-          "description": "Default Ring.",
+          "description": "Default start Ring.",
           "readOnly": true
         },
         "workflowStatus": {
@@ -1523,22 +1523,22 @@
       "type": "string",
       "description": "Progression type enum.",
       "enum": [
-        "Periodic",
-        "Manual"
+        "TimeBased",
+        "Custom"
       ],
       "x-ms-enum": {
         "name": "ProgressionType",
         "modelAsString": true,
         "values": [
           {
-            "name": "Periodic",
-            "value": "Periodic",
-            "description": "Periodic."
+            "name": "TimeBased",
+            "value": "TimeBased",
+            "description": "Fixed time based progression."
           },
           {
-            "name": "Manual",
-            "value": "Manual",
-            "description": "Manual."
+            "name": "Custom",
+            "value": "Custom",
+            "description": "Custom defined progression."
           }
         ]
       }
@@ -1599,7 +1599,7 @@
     },
     "RingConfigurationProperties": {
       "type": "object",
-      "description": "Ring configuration Properties",
+      "description": "Ring configuration Details",
       "properties": {
         "name": {
           "type": "string",

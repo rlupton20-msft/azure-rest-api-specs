@@ -13,7 +13,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @doc("Exposure Control Resource Provider Service API.")
-namespace Microsoft.Edge;
+namespace Private.EdgeInternal;
 
 @doc("The provisioning state of a resource.")
 enum ProvisioningState {

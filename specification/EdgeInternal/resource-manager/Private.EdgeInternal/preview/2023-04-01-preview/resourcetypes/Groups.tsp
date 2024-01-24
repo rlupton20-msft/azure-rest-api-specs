@@ -15,12 +15,12 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @doc("Exposure Control Resource Provider Service API.")
-namespace Microsoft.Edge;
+namespace Private.EdgeInternal;
 
 @doc("A exposure control group resource")
 model ExposureGroup is ProxyResource<ExposureGroupProperties> {
   @doc("Name of Group")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[-\\w\\._]+$")
   @key("groupName")
   @path
   @segment("groups")
