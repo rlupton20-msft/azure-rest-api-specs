@@ -173,10 +173,6 @@ model SolutionConfigurationProperties {
   @visibility("read")
   statusDetails?: string;
 
-  @doc("The last execution time of solution configuration")
-  @visibility("read")
-  lastExecutionTime?: utcDateTime;
-
   @doc("The last time resources were inventoried")
   @visibility("read")
   lastSyncTime?: utcDateTime;
@@ -237,8 +233,8 @@ model SolutionTypeProperties {
 @parentResource(SolutionConfiguration)
 model InventoryResource is ProxyResource<InventoryProperties> {
   @doc("Inventory resource")
-  @segment("inventoryId")
-  @key("inventory")
+  @segment("inventory")
+  @key("inventoryId")
   @visibility("read")
   @path
   name: string;
