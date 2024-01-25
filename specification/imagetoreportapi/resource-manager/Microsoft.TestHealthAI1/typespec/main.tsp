@@ -57,8 +57,9 @@ model ImageToReportAPIProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
+  @visibility("read")
   @doc("Service endpoint URL")
-  endpointUrl: string;
+  endpointUrl?: string;
 }
 
 @armResourceOperations(ImageToReportAPI)
