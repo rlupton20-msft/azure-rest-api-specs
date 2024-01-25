@@ -25,7 +25,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A TestHealthAI1ProviderHub resource")
 model ImageToReportAPI is TrackedResource<ImageToReportAPIProperties> {
-  @doc("The name of the employee")
+  @doc("The name of the imageToReportAPI")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("ImageToReportAPIName")
   @segment("ImageToReportAPIs")
@@ -56,6 +56,9 @@ model ImageToReportAPIProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
+
+  @doc("Service endpoint URL")
+  endpointUrl: string;
 }
 
 @armResourceOperations(ImageToReportAPI)
