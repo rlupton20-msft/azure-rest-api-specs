@@ -1,14 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "AzureStackHCI",
+    "title": "AzureStackHCI Common",
     "version": "2023-12-01-preview",
-    "description": "Azure Stack HCI management service.",
-    "x-typespec-generated": [
-      {
-        "emitter": "@azure-tools/typespec-autorest"
-      }
-    ]
+    "description": "Azure Stack HCI common."
   },
   "schemes": [
     "https"
@@ -112,6 +107,7 @@
         "Deleting",
         "Accepted"
       ],
+      "readOnly": true,
       "x-ms-enum": {
         "name": "ProvisioningState",
         "modelAsString": true,
@@ -159,20 +155,59 @@
         ]
       }
     },
-    "Secrets": {
+    "EceDeploymentSecrets": {
       "type": "object",
       "description": "Protected parameters list stored in keyvault.",
       "properties": {
+        "secretName": {
+          "type": "string",
+          "description": "Secret name stored in keyvault."
+        },
+        "eceSecretName": {
+          "$ref": "#/definitions/EceSecrets",
+          "description": "Secret name expected for Enterprise Cloud Engine (ECE) deployment."
+        },
         "secretLocation": {
           "type": "string",
           "format": "uri",
-          "description": "Secret URI to store protected secrets."
-        },
-        "secretName": {
-          "type": "string",
-          "description": "Secret name stored in keyvault.",
-          "x-ms-identifiers": []
+          "description": "Secret URI stored in keyvault."
         }
+      }
+    },
+    "EceSecrets": {
+      "type": "string",
+      "description": "Secret names allowed for Enterprise Cloud Engine (ECE) deployment.",
+      "enum": [
+        "AzureStackLCMUserCredential",
+        "DefaultARBApplication",
+        "LocalAdminCredential",
+        "WitnessStorageKey"
+      ],
+      "x-ms-enum": {
+        "name": "EceSecrets",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureStackLCMUserCredential",
+            "value": "AzureStackLCMUserCredential",
+            "description": "AzureStackLCMUserCredential used for LCM operations for AzureStackHCI cluster."
+          },
+          {
+            "name": "DefaultARBApplication",
+            "value": "DefaultARBApplication",
+            "description": "DefaultARBApplication used to manage Azure Arc resource bridge (ARB) for AzureStackHCI cluster."
+          },
+          {
+            "name": "LocalAdminCredential",
+            "value": "LocalAdminCredential",
+            "description": "LocalAdminCredential used for admin operations for AzureStackHCI cluster."
+          },
+          {
+            "name": "WitnessStorageKey",
+            "value": "WitnessStorageKey",
+            "description": "WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster."
+          }
+        ]
       }
     },
     "Step": {
