@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2023-10-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-10-01-preview'
 input-file:
-  - Private.AszLabHardware/preview/2023-10-01-preview/openapi.json
+  - Common.AszLabHardware/preview/2023-10-01-preview/openapi.json
 ```
 
 ### Tag: package-2023-09-01-preview
@@ -45,7 +45,7 @@ These settings apply only when `--tag=package-2023-09-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-09-01-preview'
 input-file:
-  - Private.AszLabHardware/preview/2023-09-01-preview/openapi.json
+  - Common.AszLabHardware/preview/2023-09-01-preview/openapi.json
 ```
 
 ---

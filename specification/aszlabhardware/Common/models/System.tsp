@@ -5,9 +5,6 @@ import "./NetworkCollection.tsp";
 
 @doc("Details of the physical properties of the AszLabHw Server System")
 model System {
-    @doc("The IP Address of the server to be used as unique identifier. Typespec requires this per https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#modeling-arrays-of-complex-types")
-    id?: string;
-
     @doc("The IP Address of the server")
     // Add IP address regex validation?
     bmcIpAddress?: string;

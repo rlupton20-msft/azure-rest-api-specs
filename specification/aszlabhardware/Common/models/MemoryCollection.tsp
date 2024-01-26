@@ -1,5 +1,7 @@
 import "./MemoryModule.tsp";
 
+using OpenAPI;
+
 @doc("Information regarding the RAM of the server")
 model MemoryCollection {
     @doc("Number of memory modules")
@@ -9,5 +11,6 @@ model MemoryCollection {
     totalSystemMemoryGiB: int64;
 
     @doc("Information of individual memory modules")
+    @extension("x-ms-identifiers", ["name"])
     memoryModules: MemoryModule[];
 }

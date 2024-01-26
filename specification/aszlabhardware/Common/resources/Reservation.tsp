@@ -1,4 +1,3 @@
-import "../main.tsp";
 import "../models/ReservationConstraints.tsp";
 import "../models/ResourceManager.tsp";
 
@@ -7,7 +6,9 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Private.AszLabHardware;
+// This is a local TypeSpec namespace.
+// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
+namespace Common.AszLabHardware;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
@@ -36,5 +37,12 @@ model ReservationProperties {
     reservationConstraints: ReservationConstraints;
 }
 
-@armResourceOperations(Reservation)
-interface Reservations extends TrackedResourceOperations<Reservation, ReservationProperties>{}
+@armResourceOperations
+interface Reservations {
+  get is ArmResourceRead<Reservation>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Reservation>;
+  update is ArmResourcePatchSync<Reservation, ReservationProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Reservation>;
+  listByResourceGroup is ArmResourceListByParent<Reservation>;
+  listBySubscription is ArmListBySubscription<Reservation>;
+}

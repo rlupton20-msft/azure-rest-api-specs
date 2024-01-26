@@ -1,8 +1,5 @@
 @doc("Information regarding the processor of the server")
 model Processor {
-    @doc("id of processor")
-    id?: string;
-
     @doc("The processor name")
     name?: string;
     
@@ -19,10 +16,10 @@ model Processor {
     microCodeInfo?: string;
 
     @doc("The max clock speed")
-    maxSpeedMHz?: int64;
+    maxSpeedMhz?: int64;
 
     @doc("The operating clock speed")
-    operatingSpeedMHz?: int64;
+    operatingSpeedMhz?: int64;
 
     @doc("The number of cores")
     totalCores?: int64;
