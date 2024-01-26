@@ -27,7 +27,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 model Authority is TrackedResource<AuthorityProperties> {
   @doc("The ID of the authority")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("AuthorityId")
+  @key("name")
   @segment("Authorities")
   @path
   name: string;
