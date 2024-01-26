@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 @armProviderNamespace("Microsoft.VerifiedId")
 @service({
   title: "Microsoft.VerifiedId",
-  version: "2024-01-26-preview",
+  version: "2024-01-26-privatepreview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
