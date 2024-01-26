@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 @armProviderNamespace("Microsoft.VerifiedId")
 @service({
   title: "Microsoft.VerifiedId",
-  version: "2024-01-26-privatepreview",
+  version: "2024-01-26-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -21,14 +21,12 @@ namespace Microsoft.VerifiedId;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A VerifiedIdProviderHub resource")
 model Authority is TrackedResource<AuthorityProperties> {
   @doc("The ID of the authority")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("name")
-  @segment("Authorities")
+  @segment("authorities")
   @path
   name: string;
 }
