@@ -40,6 +40,9 @@ model LoadBalancerProperties {
   @doc("Advertise Mode")
   advertiseMode: AdvertiseMode;
 
+  @doc("The list of BGP peers it should advertise to. Null or empty means to advertise to all peers.")
+  bgpPeers?: string[];
+
   @visibility("read")
   @doc("Resource provision state")
   provisioningState?: ProvisioningState;
