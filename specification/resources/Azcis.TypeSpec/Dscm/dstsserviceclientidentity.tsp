@@ -13,9 +13,6 @@ namespace Microsoft.AzureCIS;
 
 @doc("dstsServiceClientidentity properties")
 model DstsServiceClientidentityResourceProperties {
-  @doc("Gets or sets the ServiceTree ID. This is case-insensitive. E.g. \"ae53b53f-9347-4198-b9b7-ff4b8228d6a7\".")
-  serviceTreeId: string;
-
   @doc("Gets or sets the account name. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
   accountName: string;
 
