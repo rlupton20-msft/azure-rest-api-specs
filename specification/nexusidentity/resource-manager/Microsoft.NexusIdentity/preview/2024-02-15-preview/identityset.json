@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.NexusIdentity management service",
-    "version": "2023-06-15",
+    "version": "2024-02-15-preview",
     "description": "Microsoft.NexusIdentity Resource Provider management API.",
     "x-typespec-generated": [
       {
@@ -43,7 +43,7 @@
       "name": "Operations"
     },
     {
-      "name": "IdentityControllers"
+      "name": "IdentitySet"
     }
   ],
   "paths": {
@@ -73,26 +73,18 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Operations_List_Maximum": {
-            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
-          },
-          "Operations_List_Minimum": {
-            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
-          }
-        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NexusIdentity/identityControllers": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NexusIdentity/identitySets": {
       "get": {
-        "operationId": "IdentityControllers_ListBySubscription",
+        "operationId": "IdentitySet_ListBySubscription",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "List IdentityController resources by subscription ID",
+        "description": "List IdentitySetResource resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -105,7 +97,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/IdentityControllerListResult"
+              "$ref": "#/definitions/IdentitySetResourceListResult"
             }
           },
           "default": {
@@ -115,23 +107,18 @@
             }
           }
         },
-        "x-ms-examples": {
-          "IdentityControllers_ListBySubscription": {
-            "$ref": "./examples/IdentityControllers_ListBySubscription_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NexusIdentity/identityControllers": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NexusIdentity/identitySets": {
       "get": {
-        "operationId": "IdentityControllers_ListByResourceGroup",
+        "operationId": "IdentitySet_ListByResourceGroup",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "List IdentityController resources by resource group",
+        "description": "List IdentitySetResource resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -147,7 +134,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/IdentityControllerListResult"
+              "$ref": "#/definitions/IdentitySetResourceListResult"
             }
           },
           "default": {
@@ -157,23 +144,18 @@
             }
           }
         },
-        "x-ms-examples": {
-          "IdentityControllers_ListByResourceGroup": {
-            "$ref": "./examples/IdentityControllers_ListByResourceGroup_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NexusIdentity/identityControllers/{name}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NexusIdentity/identitySets/{name}": {
       "get": {
-        "operationId": "IdentityControllers_Get",
+        "operationId": "IdentitySet_Get",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "Get a IdentityController",
+        "description": "Get a IdentitySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -187,17 +169,16 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Name of IdentityController",
+            "description": "The name of the Identity Set resource.",
             "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/IdentityController"
+              "$ref": "#/definitions/IdentitySetResource"
             }
           },
           "default": {
@@ -205,20 +186,15 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "IdentityControllers_Get": {
-            "$ref": "./examples/IdentityControllers_Get_MaximumSet_Gen.json"
           }
         }
       },
       "put": {
-        "operationId": "IdentityControllers_CreateOrUpdate",
+        "operationId": "IdentitySet_Create",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "Create a IdentityController",
+        "description": "Create a IdentitySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -232,10 +208,9 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Name of IdentityController",
+            "description": "The name of the Identity Set resource.",
             "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "type": "string"
           },
           {
             "name": "resource",
@@ -243,21 +218,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdentityController"
+              "$ref": "#/definitions/IdentitySetResource"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'IdentityController' update operation succeeded",
+            "description": "Resource 'IdentitySetResource' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/IdentityController"
+              "$ref": "#/definitions/IdentitySetResource"
             }
           },
           "201": {
-            "description": "Resource 'IdentityController' create operation succeeded",
+            "description": "Resource 'IdentitySetResource' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/IdentityController"
+              "$ref": "#/definitions/IdentitySetResource"
             },
             "headers": {
               "Retry-After": {
@@ -274,22 +249,17 @@
             }
           }
         },
-        "x-ms-examples": {
-          "IdentityControllers_CreateOrUpdate": {
-            "$ref": "./examples/IdentityControllers_CreateOrUpdate_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       },
       "patch": {
-        "operationId": "IdentityControllers_Update",
+        "operationId": "IdentitySet_Update",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "Update a IdentityController",
+        "description": "Update a IdentitySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -303,10 +273,9 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Name of IdentityController",
+            "description": "The name of the Identity Set resource.",
             "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "type": "string"
           },
           {
             "name": "properties",
@@ -314,7 +283,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdentityControllerUpdate"
+              "$ref": "#/definitions/IdentitySetResourceUpdate"
             }
           }
         ],
@@ -322,7 +291,21 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/IdentityController"
+              "$ref": "#/definitions/IdentitySetResource"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
             }
           },
           "default": {
@@ -332,18 +315,17 @@
             }
           }
         },
-        "x-ms-examples": {
-          "IdentityControllers_Update": {
-            "$ref": "./examples/IdentityControllers_Update_MaximumSet_Gen.json"
-          }
-        }
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
-        "operationId": "IdentityControllers_Delete",
+        "operationId": "IdentitySet_Delete",
         "tags": [
-          "IdentityControllers"
+          "IdentitySet"
         ],
-        "description": "Delete a IdentityController",
+        "description": "Delete a IdentitySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -357,10 +339,9 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Name of IdentityController",
+            "description": "The name of the Identity Set resource.",
             "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "type": "string"
           }
         ],
         "responses": {
@@ -388,14 +369,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "IdentityControllers_Delete_Max": {
-            "$ref": "./examples/IdentityControllers_Delete_MaximumSet_Gen.json"
-          },
-          "IdentityControllers_Delete_Min": {
-            "$ref": "./examples/IdentityControllers_Delete_MinimumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -404,12 +377,76 @@
     }
   },
   "definitions": {
-    "IdentityController": {
+    "AccessType": {
+      "type": "string",
+      "description": "Access Type defines the type of access needed for the Roles.",
+      "enum": [
+        "Ssh",
+        "Web"
+      ],
+      "x-ms-enum": {
+        "name": "AccessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Ssh",
+            "value": "Ssh",
+            "description": "SSH access"
+          },
+          {
+            "name": "Web",
+            "value": "Web",
+            "description": "Web access"
+          }
+        ]
+      }
+    },
+    "EventSubscription": {
       "type": "object",
-      "description": "IdentityController resource",
+      "description": "Event Subscriptions defines the properties needed to create an event subscription. \nUsers should create EventSubscription for each distinct combination of Roles to be watched",
+      "properties": {
+        "eventSubscriptionId": {
+          "type": "string",
+          "description": "The name of the event subscription. Event subscription names must be unique in a Identity Set."
+        },
+        "scopes": {
+          "type": "array",
+          "description": "Scopes on which roles are to be watched. Valid scope are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'",
+          "items": {
+            "type": "string"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "description": "Roles to be watched.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accessTypes": {
+          "type": "array",
+          "description": "The type of access needed for the Roles. Only the specified access types data will be sent.",
+          "items": {
+            "$ref": "#/definitions/AccessType"
+          }
+        },
+        "notificationUrl": {
+          "type": "string",
+          "description": "The URL to which the Nexus Identity Service will send notifications for this Event subscription."
+        }
+      },
+      "required": [
+        "scopes",
+        "roles",
+        "accessTypes"
+      ]
+    },
+    "IdentitySetResource": {
+      "type": "object",
+      "description": "Identity Set resource definition",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/IdentityControllerProperties",
+          "$ref": "#/definitions/IdentitySetResourceProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true,
           "x-ms-mutability": [
@@ -424,15 +461,15 @@
         }
       ]
     },
-    "IdentityControllerListResult": {
+    "IdentitySetResourceListResult": {
       "type": "object",
-      "description": "The response of a IdentityController list operation.",
+      "description": "The response of a IdentitySetResource list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The IdentityController items on this page",
+          "description": "The IdentitySetResource items on this page",
           "items": {
-            "$ref": "#/definitions/IdentityController"
+            "$ref": "#/definitions/IdentitySetResource"
           }
         },
         "nextLink": {
@@ -445,17 +482,35 @@
         "value"
       ]
     },
-    "IdentityControllerProperties": {
+    "IdentitySetResourceProperties": {
       "type": "object",
-      "description": "IdentityController properties",
+      "description": "Identity Set Properties defines the properties of the Identity Set.",
       "properties": {
-        "onboardedApps": {
+        "scopesTenantId": {
+          "type": "string",
+          "description": "Tenant id in which scopes are present. Identity service should have the User.Read.All permission on this tenant."
+        },
+        "eventSubscriptions": {
           "type": "array",
-          "description": "List of onboarded apps for Nexus Identity",
+          "description": "List of scopes to be watched",
           "items": {
-            "$ref": "#/definitions/OnboardedApp"
+            "$ref": "#/definitions/EventSubscription"
           },
           "x-ms-identifiers": []
+        },
+        "defaultNotificationUrl": {
+          "type": "string",
+          "description": "The URL to which the Nexus Identity Service will send notifications."
+        },
+        "appId": {
+          "type": "string",
+          "description": "The application Id of Identity Set resource",
+          "readOnly": true
+        },
+        "appName": {
+          "type": "string",
+          "description": "The application name of Identity Set resource",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -464,12 +519,14 @@
         }
       },
       "required": [
-        "onboardedApps"
+        "scopesTenantId",
+        "eventSubscriptions",
+        "defaultNotificationUrl"
       ]
     },
-    "IdentityControllerUpdate": {
+    "IdentitySetResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the IdentityController.",
+      "description": "The type used for update operations of the IdentitySetResource.",
       "properties": {
         "tags": {
           "type": "object",
@@ -479,59 +536,36 @@
           }
         },
         "properties": {
-          "$ref": "#/definitions/IdentityControllerUpdateProperties",
+          "$ref": "#/definitions/IdentitySetResourceUpdateProperties",
           "x-ms-client-flatten": true
         }
       }
     },
-    "IdentityControllerUpdateProperties": {
+    "IdentitySetResourceUpdateProperties": {
       "type": "object",
-      "description": "The updatable properties of the IdentityController.",
+      "description": "The updatable properties of the IdentitySetResource.",
       "properties": {
-        "onboardedApps": {
+        "scopesTenantId": {
+          "type": "string",
+          "description": "Tenant id in which scopes are present. Identity service should have the User.Read.All permission on this tenant."
+        },
+        "eventSubscriptions": {
           "type": "array",
-          "description": "List of onboarded apps for Nexus Identity",
+          "description": "List of scopes to be watched",
           "items": {
-            "$ref": "#/definitions/OnboardedApp"
+            "$ref": "#/definitions/EventSubscription"
           },
           "x-ms-identifiers": []
+        },
+        "defaultNotificationUrl": {
+          "type": "string",
+          "description": "The URL to which the Nexus Identity Service will send notifications."
         }
       }
     },
-    "OnboardedApp": {
-      "type": "object",
-      "description": "Onboarded app properties for Nexus Identity",
-      "properties": {
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant Id in which roles are to be watched"
-        },
-        "appId": {
-          "type": "string",
-          "description": "App Id which will create identity sets"
-        },
-        "appName": {
-          "type": "string",
-          "description": "App Name which will create identity sets"
-        },
-        "roles": {
-          "type": "array",
-          "description": "Roles to be watched for identity sets",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "tenantId",
-        "appId",
-        "appName",
-        "roles"
-      ]
-    },
     "ProvisioningState": {
       "type": "string",
-      "description": "The resource provisioning state.",
+      "description": "The provisioning state of Identity Set resource.",
       "enum": [
         "Succeeded",
         "Failed",
@@ -562,7 +596,7 @@
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "The resource is being updated."
+            "description": "The operation is accepted and in progress."
           },
           {
             "name": "Deleting",
@@ -572,7 +606,7 @@
           {
             "name": "Accepted",
             "value": "Accepted",
-            "description": "The resource provisioning request has been accepted."
+            "description": "The operation is accepted."
           }
         ]
       },
@@ -582,16 +616,16 @@
       "type": "string",
       "description": "API Versions",
       "enum": [
-        "2023-06-15"
+        "2024-02-15-preview"
       ],
       "x-ms-enum": {
         "name": "Versions",
         "modelAsString": true,
         "values": [
           {
-            "name": "v2023_06_15",
-            "value": "2023-06-15",
-            "description": "2023-06-15"
+            "name": "v2024_02_15_preview",
+            "value": "2024-02-15-preview",
+            "description": "2024-02-15-preview version"
           }
         ]
       }
