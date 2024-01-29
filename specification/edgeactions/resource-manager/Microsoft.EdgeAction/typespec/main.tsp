@@ -15,11 +15,11 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.EdgeAction")
 @service({
-  title: "Microsoft.Cdn/EdgeAction",
+  title: "Microsoft.EdgeAction/EdgeAction",
   version: "2021-08-01-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-namespace Microsoft.Cdn;
+namespace Microsoft.EdgeAction;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 

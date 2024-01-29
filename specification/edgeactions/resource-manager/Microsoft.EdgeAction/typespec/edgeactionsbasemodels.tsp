@@ -54,14 +54,14 @@ enum HookType {
 scalar AttachedResourceId
   extends ResourceIdentifier<[
     {
-      type: "Microsoft.Cdn/Profiles/rulesets",
+      type: "Microsoft.EdgeAction/Profiles/rulesets",
     }
   ]>;
 
 scalar EdgeActionVersionId
   extends ResourceIdentifier<[
     {
-      type: "Microsoft.Cdn/edgeactions/versions",
+      type: "Microsoft.EdgeAction/edgeactions/versions",
     }
   ]>;
 
