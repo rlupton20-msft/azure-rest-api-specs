@@ -13,7 +13,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.Cdn")
+@armProviderNamespace("Microsoft.EdgeAction")
 @service({
   title: "Microsoft.Cdn/EdgeAction",
   version: "2021-08-01-preview",

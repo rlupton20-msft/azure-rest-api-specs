@@ -12,7 +12,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Microsoft.Cdn;
+namespace Microsoft.EdgeAction;
 
 @pattern("[a-z0-9]+")
 @maxLength(50)
