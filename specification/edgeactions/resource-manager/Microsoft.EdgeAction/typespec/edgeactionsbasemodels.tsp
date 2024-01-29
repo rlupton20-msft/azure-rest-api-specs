@@ -14,10 +14,26 @@ using Azure.ResourceManager;
 
 namespace Microsoft.EdgeAction;
 
+@pattern("[a-z0-9]+")
 @maxLength(50)
 scalar smallString extends string;
 
-enum ValidationStatus {
+enum SkuType {
+  Basic,
+  Standard
+}
+
+enum WasmRuntimeVersion {
+  v1,
+  v2
+}
+
+enum EdgeActionVersionDeploymentType {
+  zip,
+  others
+}
+
+enum EdgeActionVersionValidationStatus {
   Success,
   Failed,
 }
@@ -38,11 +54,11 @@ enum HookType {
 scalar AttachedResourceId
   extends ResourceIdentifier<[
     {
-      type: "Microsoft.Cdn/Profiles/afdEndpoints/routes",
+      type: "Microsoft.EdgeAction/Profiles/rulesets",
     }
   ]>;
 
-scalar UserEdgeActionVersionId
+scalar EdgeActionVersionId
   extends ResourceIdentifier<[
     {
       type: "Microsoft.EdgeAction/edgeactions/versions",
@@ -67,41 +83,47 @@ enum ProvisioningState {
   Accepted,
 }
 
-@doc("Represents a user create edge action")
-model UserEdgeActionProperties {
-  @doc("The current default edgeaction version to execute")
-  prodSlotVersion: UserEdgeActionVersionId;
+@doc("Represents an edge action properties")
+model EdgeActionProperties {
+  @doc("The sku type of the edge action")
+  sku: SkuType;
 
-  @doc("The staging version array to execute")
-  @minItems(0)
-  @maxItems(2)
-  stagingSlotsVersions: Array<UserEdgeActionVersionId>;
-
-  @doc("The sku type")
-  skuType: string;
-
-  @doc("The provisioning state")
+  @doc("The provisioning state of the edge action")
+  @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-model UserEdgeActionVersionProperties {
+@doc("Represents an edge action version")
+model EdgeActionVersionProperties {
   @doc("The wasm runtime version")
-  wasmRuntimeVersion: smallString;
+  wasmRuntimeVersion: WasmRuntimeVersion;
+
+  @doc("The deployment type")
+  @visibility("read", "create", "update")
+  deploymentType: EdgeActionVersionDeploymentType;
 
   @doc("The package url")
+  @visibility("read", "create", "update")
   packageUrl: url;
 
   @doc("The validation status")
-  validationStatus: ValidationStatus;
+  @visibility("read")
+  validationStatus: EdgeActionVersionValidationStatus;
 
   @doc("The provisioning state")
+  @visibility("read")
   provisioningState?: ProvisioningState;
 
   @doc("The active state")
+  @visibility("read", "create", "update")
   isActive: boolean;
+
+  @doc("The last update time in UTC for package update")
+  @visibility("read")
+  lastPackageUpdateTime: utcDateTime;
 }
 
-model UserEdgeActionAttachmentProperties {
+model EdgeActionAttachmentProperties {
   @doc("The hook location")
   hookType: HookType;
 
@@ -112,5 +134,24 @@ model UserEdgeActionAttachmentProperties {
   attachmentStatus: AttachmentStatus;
 
   @doc("The provisioning state")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
+model EdgeActionDeploymentSlotProperties {
+  @doc("The referenced versionId of the slot")
+  versionId: EdgeActionVersionId;
+
+  @doc("The last update time in UTC for the deployment slot")
+  lastUpdateTime: utcDateTime;
+
+  @doc("Whether the deployment slot belongs to prod")
+  isProdSlot: boolean;
+
+  @doc("Custom Header Value associated with the deployment slot")  
+  customHeaderValue: smallString;
+
+  @doc("The provisioning state")
+  @visibility("read")
   provisioningState?: ProvisioningState;
 }

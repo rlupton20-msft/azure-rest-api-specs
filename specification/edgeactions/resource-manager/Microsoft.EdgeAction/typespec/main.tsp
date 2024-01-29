@@ -26,48 +26,71 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 
-model UserEdgeAction is TrackedResource<UserEdgeActionProperties> {
+model EdgeAction is TrackedResource<EdgeActionProperties> {
   @doc("The name of the Edge Action")
   @segment("edgeactions")
   @key("edgeactionName")
+  @visibility("read")
   name: smallString;
 }
 
-@parentResource(UserEdgeAction)
-model UserEdgeActionVersion is ProxyResource<UserEdgeActionVersionProperties> {
+@parentResource(EdgeAction)
+model EdgeActionVersion is TrackedResource<EdgeActionVersionProperties> {
   @doc("The name of the User Edge Action version")
   @segment("versions")
   @key("version")
+  @visibility("read")
   name: smallString;
 }
 
-@parentResource(UserEdgeAction)
-model UserEdgeActionAttachment is ProxyResource<UserEdgeActionAttachmentProperties> {
+@parentResource(EdgeAction)
+model EdgeActionAttachment is TrackedResource<EdgeActionAttachmentProperties> {
   @doc("The name of attachment")
   @segment("attachments")
   @key("attachment")
-  @path
+  @visibility("read")
   name: smallString;
 }
 
-@armResourceOperations(UserEdgeAction)
-interface UserEdgeActions {
-    get is ArmResourceRead<UserEdgeAction>;
-    create is ArmResourceCreateOrUpdateAsync<UserEdgeAction>;
-    update is ArmResourcePatchSync<UserEdgeAction, UserEdgeActionProperties>;
-    delete is ArmResourceDeleteSync<UserEdgeAction>;
-    listByResourceGroup is ArmResourceListByParent<UserEdgeAction>;
-    listBySubscription is ArmListBySubscription<UserEdgeAction>;
+@parentResource(EdgeAction)
+model EdgeActionDeploymentSlot is TrackedResource<EdgeActionDeploymentSlotProperties> {
+  @doc("The name of the deployment slot")
+  @segment("slots")
+  @key("slot")
+  @visibility("read")
+  name: smallString;
 }
 
 @armResourceOperations
-interface UserEdgeActionVersions
-  extends ProxyResourceOperations<
-    UserEdgeActionVersion> {
+interface EdgeActions {
+    get is ArmResourceRead<EdgeAction>;
+    create is ArmResourceCreateOrUpdateAsync<EdgeAction>;
+    update is ArmResourcePatchAsync<EdgeAction, EdgeActionProperties>;
+    delete is ArmResourceDeleteAsync<EdgeAction>;
+    listByResourceGroup is ArmResourceListByParent<EdgeAction>;
+    listBySubscription is ArmListBySubscription<EdgeAction>;
 }
 
 @armResourceOperations
-interface UserEdgeActionAttachments 
-    extends ProxyResourceOperations<
-        UserEdgeActionAttachment> {
+interface EdgeActionVersions {
+    get is ArmResourceRead<EdgeActionVersion>;
+    create is ArmResourceCreateOrUpdateAsync<EdgeActionVersion>;
+    update is ArmResourcePatchAsync<EdgeActionVersion, EdgeActionVersionProperties>;
+    delete is ArmResourceDeleteAsync<EdgeActionVersion>;
+}
+
+@armResourceOperations
+interface EdgeActionAttachments {
+    get is ArmResourceRead<EdgeActionAttachment>;
+    create is ArmResourceCreateOrUpdateAsync<EdgeActionAttachment>;
+    update is ArmResourcePatchAsync<EdgeActionAttachment, EdgeActionAttachmentProperties>;
+    delete is ArmResourceDeleteAsync<EdgeActionAttachment>; 
+}
+
+@armResourceOperations
+interface EdgeActionDeploymentSlots {
+    get is ArmResourceRead<EdgeActionDeploymentSlot>;
+    create is ArmResourceCreateOrUpdateAsync<EdgeActionDeploymentSlot>;
+    update is ArmResourcePatchAsync<EdgeActionDeploymentSlot, EdgeActionDeploymentSlotProperties>;
+    delete is ArmResourceDeleteAsync<EdgeActionDeploymentSlot>;
 }
