@@ -15,7 +15,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.EdgeAction")
 @service({
-  title: "Microsoft.EdgeAction/EdgeAction",
+  title: "Microsoft.EdgeAction",
   version: "2021-08-01-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
