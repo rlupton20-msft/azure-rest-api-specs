@@ -14,26 +14,26 @@ namespace Microsoft.AzureCIS;
 @doc("storageAccountDsms properties.")
 model StorageAccountDsmsResourceProperties {
   @doc("Gets or sets the root path of the certificate.")
-  rootPath?: string;
+  rootPath: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Gets or sets name.")
-  name?: string;
+  name: string;
 
   @doc("Description to this xstore account.")
-  description?: string;
+  description: string;
 
   @doc("Subscription alias.")
-  subscriptionAlias?: string;
+  subscriptionAlias: string;
 
   @doc("Subscription ID to use this xstore account.")
   subscriptionId?: string;
 
   @doc("Storage account resource provider. Valid values are \"Classic\", \"ARM\".")
-  resourceProvider?: string;
+  resourceProvider: string;
 
   @doc("Label of this xstore account.")
-  label?: string;
+  label: string;
 
   @doc("Location of this storage account.")
   location?: string;

@@ -1,0 +1,17 @@
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-resource-manager";
+import "./assetEndpointProfile.tsp";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint"
+@armProviderNamespace
+@service({
+  title: "Microsoft.DeviceRegistry management service",
+  version: "2023-11-01-preview",
+})
+@doc("Microsoft.DeviceRegistry Resource Provider management API.")
+@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+// Suppress missing operations endpoint because Operations apis are generated separately
+namespace Microsoft.DeviceRegistry;

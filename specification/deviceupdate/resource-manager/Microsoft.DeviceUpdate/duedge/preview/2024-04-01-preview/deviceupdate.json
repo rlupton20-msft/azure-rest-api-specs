@@ -1812,7 +1812,7 @@
               }
             },
             "sku": {
-              "description": "Device Update Acount Sku",
+              "description": "Device Update Account Sku",
               "type": "string",
               "enum": [
                 "Free",
@@ -1838,11 +1838,12 @@
                 "$ref": "#/definitions/Location"
               }
             },
-            "mqttBrokerEndpoints": {
-              "description": "MQTT Broker endpoints used for device communication.",
+            "mqttBrokers": {
+              "description": "MQTT Brokers used for device communication.",
+              "x-ms-identifiers": [],
               "type": "array",
               "items": {
-                "type": "string"
+                "$ref": "#/definitions/MqttBroker"
               }
             },
             "deviceEnrollmentScope": {
@@ -1853,15 +1854,15 @@
                 "read"
               ]
             },
-            "deviceEnrollmentManagedIdentityResourceId": {
-              "description": "User assigned managed identity used for device enrollment.",
+            "serviceManagedIdentityResourceId": {
+              "description": "User assigned managed identity used for device enrollment and broker communication.",
               "type": "string"
             }
           },
           "required": [
-            "mqttBrokerEndpoints",
+            "mqttBrokers",
             "deviceEnrollmentScope",
-            "deviceEnrollmentManagedIdentityResourceId"
+            "serviceManagedIdentityResourceId"
           ]
         },
         "identity": {
@@ -1883,6 +1884,36 @@
         }
       },
       "description": "The CMK encryption settings on the Device Update account."
+    },
+    "MqttBroker": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "description": "The full resourceId of the Event Grid Namespace. Required if using Azure EventGrid broker",
+          "type": "string"
+        },
+        "mqttHostName": {
+          "description": "MQTT Broker endpoint. Required if not using Azure EventGrid broker",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of a MQTT Broker",
+          "type": "string",
+          "enum": [
+            "EventGrid",
+            "Generic"
+          ],
+          "default": "EventGrid",
+          "x-ms-enum": {
+            "name": "Type",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "description": "The MQTT Broker"
     },
     "Location": {
       "type": "object",
@@ -2521,7 +2552,7 @@
           "description": "The compat properties of the device class. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property and no more than 5"
         }
       },
-      "description": "The compatiblity info for the device class that indicates what updates it is compatible with."
+      "description": "The compatibility info for the device class that indicates what updates it is compatible with."
     },
     "DeviceClass": {
       "description": "Device Update Device Class details.",
@@ -3341,14 +3372,16 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The Azure subscription ID."
+      "description": "The Azure subscription ID.",
+      "x-ms-parameter-location": "client"
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "ADU schema API version."
+      "description": "ADU schema API version.",
+      "x-ms-parameter-location": "client"
     },
     "ResourceGroupNameParameter": {
       "name": "resourceGroupName",

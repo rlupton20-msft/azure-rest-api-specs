@@ -17,9 +17,6 @@ model DstsServiceAccountResourceProperties {
   @doc("Unique ID of the service account. Its value can be a GUID for a new account, or for an existing account created by CIS resource template or by other method. Or its value can be null or empty string for a new account, or for an existing account created by CIS resource template (but not by other method). In the latter case, CIS generates a GUID to be the new account's ID, and remembers the ID for future provisioning of the same service account. This is case-insensitive.")
   id?: string;
 
-  @doc("ServiceTree ID, which indicates the owner of the account. This is case-insensitive.")
-  serviceTreeId?: string;
-
   @doc("Service Account name, which must be unique for a given dsts endpoint. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
   accountName: string;
 

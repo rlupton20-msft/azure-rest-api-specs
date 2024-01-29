@@ -18,6 +18,25 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ---
 
+## Suppression
+
+```yaml $(suppression)
+directive:
+  - suppress: ResourceNameRestriction
+    from:
+      - playwrighttesting.json
+    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
+  - suppress: ProvisioningStateMustBeReadOnly
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as the visibility is set to read in the TypeSpec already.
+  - suppress: DeleteResponseCode
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as default operations are generated from the TrackedResourceOperations in the TypeSpec.
+```
+---
+
 ## Configuration
 
 ### Basic Information

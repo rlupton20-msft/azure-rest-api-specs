@@ -32,7 +32,9 @@ model DeidService is TrackedResource<DeidServiceProperties> {
   @key("DeidServiceName")
   @segment("DeidServices")
   @path
-  name: string;
+  name: string;  
+
+  ...ManagedSystemAssignedIdentity;
 }
 
 @Azure.Core.lroStatus
@@ -62,8 +64,6 @@ model DeidServiceProperties {
   @visibility("read")
   @doc("Deid service url.")
   serviceUrl?: string;
-
-  ...ManagedSystemAssignedIdentity;
 }
 
 @armResourceOperations
