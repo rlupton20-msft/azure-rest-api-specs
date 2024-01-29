@@ -26,27 +26,59 @@ These are the global settings for the deviceregistry.
 
 ``` yaml
 openapi-type: arm
-tag: package-preview-2021-10
+tag: package-preview-2023-11
 ```
 
+### Tag: package-preview-2023-11
 
-### Tag: package-preview-2021-10
+These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
 
-These settings apply only when `--tag=package-preview-2021-10` is specified on the command line.
-
-```yaml $(tag) == 'package-preview-2021-10'
+``` yaml $(tag) == 'package-preview-2023-11'
 input-file:
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/asset.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetEndpointProfiles.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetTypes.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetnestedrelationship.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/deviceGroup.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nested.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nestedmembers.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/scaletest.json
-  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/workspace.json
-  - Private.DeviceRegistry/preview/2021-10-10-alpha/discoveredAssets.json
+  - Private.DeviceRegistry/preview/2023-11-01-preview/assets.json
+  - Private.DeviceRegistry/preview/2023-11-01-preview/assetendpointprofiles.json
+  - Private.DeviceRegistry/preview/2023-11-01-preview/devices.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    from:
+      - assets.json
+      - devices.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+  - code: PropertiesTypeObjectNoDefinition
+    from:
+      - assets.json
+      - devices.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+  - code: OperationsAPIImplementation
+    from:
+      - assets.json
+      - assetendpointprofiles.json
+      - devices.json
+    reason: OperationsAPI are defined in a separate files - operations.json
 ```
+
 ### Tag: package-preview-2023-10
 
 These settings apply only when `--tag=package-preview-2023-10` is specified on the command line.
@@ -79,6 +111,23 @@ These settings apply only when `--tag=package-2022-04-04-preview` is specified o
 ``` yaml $(tag) == 'package-2022-04-04-preview'
 input-file:
   - Private.Devices/preview/2022-04-04-preview/deviceregistry.json
+```
+
+### Tag: package-preview-2021-10
+
+These settings apply only when `--tag=package-preview-2021-10` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2021-10'
+input-file:
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/asset.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetEndpointProfiles.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetTypes.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/assetnestedrelationship.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/deviceGroup.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nested.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/nestedmembers.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/scaletest.json
+  - Microsoft.IoTWorkspaces/preview/2021-10-10-alpha/workspace.json
 ```
 
 ---
