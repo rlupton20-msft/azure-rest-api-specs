@@ -12,16 +12,17 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.VerifiedId")
 @service({
-  title: "Microsoft.VerifiedId",
+  title: "VerifiedIdMgmtClient",
   version: "2024-01-26-preview",
 })
+@doc("VerifiedId Resource Provider management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.VerifiedId;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("A VerifiedIdProviderHub resource")
+@doc("A VerifiedId authority resource")
 model Authority is TrackedResource<AuthorityProperties> {
   @doc("The ID of the authority")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
