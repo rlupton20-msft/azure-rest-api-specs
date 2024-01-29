@@ -62,8 +62,8 @@ model DstsClaimProvisioning {
   @doc("Gets or sets the service account group name of the target service name.")
   scopedServiceAccountGroupName: string;
 
-  @doc("Gets or sets the service account group name of the target service name.")
-  serviceTreeId: string;
+  @doc("Gets or sets the service tree id of the scoped service account")
+  scopedServiceTreeId: string;
 
   @doc("Dstsinstance for the claim. This is case-insensitive. E.g. \"co2agg04-dsts.dsts.core.azure-test.net\" for dogfood.")
   dstsInstance: string;
