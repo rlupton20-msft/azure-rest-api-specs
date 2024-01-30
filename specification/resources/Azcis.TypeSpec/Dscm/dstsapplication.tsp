@@ -43,10 +43,7 @@ model ApplicationAccount {
   dstsInstance: string;
 
   @doc("The name of the Application.")
-  name: string;
-
-  @doc("Service Tree GUID of the service who owns the Application.")
-  serviceTreeId: string;
+  applicationAccountName: string;
 
   @doc("The realms of the application. Optional.")
   realms?: Array<string>;
@@ -87,13 +84,10 @@ model ApplicationGroup {
   @doc("Group id.")
   id?: string;
 
-  @doc("Group service tree id.")
-  serviceTreeId: string;
+  @doc("Name of the Application Group.")
+  applicationGroupName: string;
 
-  @doc("Group name.")
-  name: string;
-
-  @doc("Group application name.")
+  @doc("Common Name for all Applications inside the group.")
   applicationName?: string;
 
   @doc("The Service Principal Names of the application. Optional.")
@@ -210,6 +204,9 @@ model SubjectNameBasedIdentity {
 
 @doc("Class for a contiguous range of IP Addresses.")
 model IpRange {
+  @doc("From IP address.")
+  fromIpAddress: string;
+
   @doc("To IP address.")
   toIpAddress: string;
 }
