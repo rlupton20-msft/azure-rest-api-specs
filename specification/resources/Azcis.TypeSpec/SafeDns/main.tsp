@@ -6,6 +6,9 @@ import "./create/aaaarecordset.tsp";
 import "./update/updateaaaarecordset.tsp";
 import "./append/appendaaaarecordset.tsp";
 
+import "./create/childzonedelegation.tsp";
+import "./update/updatechildzonedelegation.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
