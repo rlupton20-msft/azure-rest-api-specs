@@ -457,46 +457,6 @@
         ]
       }
     },
-    "EventSubscription": {
-      "type": "object",
-      "description": "Event Subscriptions defines the properties needed to create an event subscription. \nUsers should create EventSubscription for each distinct combination of Roles to be watched",
-      "properties": {
-        "eventSubscriptionId": {
-          "type": "string",
-          "description": "The name of the event subscription. Event subscription names must be unique in a Identity Set."
-        },
-        "scopes": {
-          "type": "array",
-          "description": "Scopes on which roles are to be watched. Valid scope are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'",
-          "items": {
-            "type": "string"
-          }
-        },
-        "roles": {
-          "type": "array",
-          "description": "Roles to be watched.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "accessTypes": {
-          "type": "array",
-          "description": "The type of access needed for the Roles. Only the specified access types data will be sent.",
-          "items": {
-            "$ref": "#/definitions/AccessType"
-          }
-        },
-        "notificationUrl": {
-          "type": "string",
-          "description": "The URL to which the Nexus Identity Service will send notifications for this Event subscription."
-        }
-      },
-      "required": [
-        "scopes",
-        "roles",
-        "accessTypes"
-      ]
-    },
     "IdentitySetResource": {
       "type": "object",
       "description": "Identity Set resource definition",
@@ -546,15 +506,28 @@
           "type": "string",
           "description": "Tenant id in which scopes are present. Identity service should have the User.Read.All permission on this tenant."
         },
-        "eventSubscriptions": {
+        "scopes": {
           "type": "array",
-          "description": "List of scopes to be watched",
+          "description": "Scopes on which roles are to be watched. Valid scope are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'",
           "items": {
-            "$ref": "#/definitions/EventSubscription"
-          },
-          "x-ms-identifiers": []
+            "type": "string"
+          }
         },
-        "defaultNotificationUrl": {
+        "roles": {
+          "type": "array",
+          "description": "Roles to be watched.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accessTypes": {
+          "type": "array",
+          "description": "The type of access needed for the Roles. Only the specified access types data will be sent.",
+          "items": {
+            "$ref": "#/definitions/AccessType"
+          }
+        },
+        "notificationUrl": {
           "type": "string",
           "description": "The URL to which the Nexus Identity Service will send notifications."
         },
@@ -576,8 +549,10 @@
       },
       "required": [
         "scopesTenantId",
-        "eventSubscriptions",
-        "defaultNotificationUrl"
+        "scopes",
+        "roles",
+        "accessTypes",
+        "notificationUrl"
       ]
     },
     "IdentitySetResourceUpdate": {
@@ -605,15 +580,28 @@
           "type": "string",
           "description": "Tenant id in which scopes are present. Identity service should have the User.Read.All permission on this tenant."
         },
-        "eventSubscriptions": {
+        "scopes": {
           "type": "array",
-          "description": "List of scopes to be watched",
+          "description": "Scopes on which roles are to be watched. Valid scope are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'",
           "items": {
-            "$ref": "#/definitions/EventSubscription"
-          },
-          "x-ms-identifiers": []
+            "type": "string"
+          }
         },
-        "defaultNotificationUrl": {
+        "roles": {
+          "type": "array",
+          "description": "Roles to be watched.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accessTypes": {
+          "type": "array",
+          "description": "The type of access needed for the Roles. Only the specified access types data will be sent.",
+          "items": {
+            "$ref": "#/definitions/AccessType"
+          }
+        },
+        "notificationUrl": {
           "type": "string",
           "description": "The URL to which the Nexus Identity Service will send notifications."
         }
