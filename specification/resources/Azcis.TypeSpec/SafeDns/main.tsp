@@ -16,6 +16,10 @@ import "./create/srvrecordset.tsp";
 import "./update/updatesrvrecordset.tsp";
 import "./append/appendsrvrecordset.tsp";
 
+import "./create/txtrecordset.tsp";
+import "./update/updatetxtrecordset.tsp";
+import "./append/appendtxtrecordset.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
@@ -67,6 +71,13 @@ model SrvRecord {
 
   @doc("Gets or sets the SRV record Target in String format.")
   target: string;
+}
+
+// TXT Record Models
+@doc("Represents an TXT Record")
+model TxtRecord {
+  @doc("Gets or sets the TXT record in String format.")
+  txt: Array<string>;
 }
 
 // Common Models
