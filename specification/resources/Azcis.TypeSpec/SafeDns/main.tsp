@@ -12,6 +12,10 @@ import "./update/updatechildzonedelegation.tsp";
 import "./create/cnamerecordset.tsp";
 import "./update/updatecnamerecordset.tsp";
 
+import "./create/srvrecordset.tsp";
+import "./update/updatesrvrecordset.tsp";
+import "./append/appendsrvrecordset.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
@@ -47,6 +51,22 @@ model AaaaRecord {
 model CnameRecord {
   @doc("Gets or sets the Canonical Name")
   cName: string;
+}
+
+// Srv Record Models
+@doc("Represents a SRV Record")
+model SrvRecord {
+  @doc("Gets or sets the SRV record Priority in Integer format.")
+  priority: int32;
+
+  @doc("Gets or sets the SRV record Weight in Integer format.")
+  weight: int32;
+
+  @doc("Gets or sets the SRV record Port in Integer format.")
+  port: int32;
+
+  @doc("Gets or sets the SRV record Target in String format.")
+  target: string;
 }
 
 // Common Models
