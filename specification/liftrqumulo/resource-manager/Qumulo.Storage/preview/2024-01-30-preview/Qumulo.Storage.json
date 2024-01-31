@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Qumulo.Storage",
-    "version": "2022-10-12-preview"
+    "version": "2024-01-30-preview"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -477,9 +477,18 @@
           "format": "int32",
           "description": "Storage capacity in TB"
         },
+        "fsGBpsProvisioned": {
+          "type": "integer",
+          "format": "int32",
+          "description": "GBs per second provisioned"
+        },
         "availabilityZone": {
           "type": "string",
           "description": "Availability zone"
+        },
+        "highAvailability": {
+          "$ref": "#/definitions/HighAvailability",
+          "description": "High availability"
         }
       },
       "description": "Properties specific to the Qumulo File System resource",
@@ -538,6 +547,11 @@
           },
           "x-cadl-name": "string[]",
           "description": "Private IPs of the resource"
+        },
+        "fsGBpsProvisioned": {
+          "type": "integer",
+          "format": "int32",
+          "description": "GBs per second provisioned"
         }
       },
       "description": "The updatable properties of the FileSystemResource."
@@ -552,6 +566,10 @@
         "planId": {
           "type": "string",
           "description": "Plan Id"
+        },
+        "termUnit": {
+          "type": "string",
+          "description": "Term Unit"
         },
         "offerId": {
           "type": "string",
@@ -695,7 +713,10 @@
       "description": "Storage Sku",
       "enum": [
         "Standard",
-        "Performance"
+        "Performance",
+        "Active",
+        "Hot",
+        "Cold"
       ],
       "x-ms-enum": {
         "name": "StorageSku",
@@ -710,6 +731,39 @@
             "name": "Performance",
             "value": "Performance",
             "description": "Performance Storage Sku"
+          },
+          {
+            "name": "Active",
+            "value": "Active",
+            "description": "Active Storage Sku"
+          },
+          {
+            "name": "Hot",
+            "value": "Hot",
+            "description": "Hot Storage Sku"
+          },
+          {
+            "name": "Cold",
+            "value": "Cold",
+            "description": "Cold Storage Sku"
+          }
+        ]
+      }
+    },
+    "HighAvailability": {
+      "type": "string",
+      "description": "High availability",
+      "enum": [
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "HighAvailability",
+        "modelAsString": false,
+        "values": [
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "HighAvailability is Disabled"
           }
         ]
       }
