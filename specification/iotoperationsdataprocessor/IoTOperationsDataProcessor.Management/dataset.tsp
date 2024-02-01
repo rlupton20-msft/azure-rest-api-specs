@@ -10,7 +10,6 @@ import "./instance.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Autorest;
 using Azure.Core;
 using Azure.ResourceManager;
 

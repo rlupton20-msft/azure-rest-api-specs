@@ -22,7 +22,7 @@ namespace Microsoft.IoTOperationsDataProcessor;
 model TestRunRequest {
   #suppress "@azure-tools/typespec-azure-core/bad-record-type"
   @doc("Configure where test run messages are sourced from.")
-  dataSource: DataSource;
+  dataSource: DataSourceBase;
 
   #suppress "@azure-tools/typespec-azure-core/bad-record-type"
   @doc("Map of stage IDs to stage configurations for all pipeline processing and output stages.")
@@ -36,7 +36,7 @@ model TestRunResponse {
   @extension("x-ms-identifiers", [])
   messages?: Message[];
 
-  @doc("Unordered list of the results from an invididual stage processing a message.")
+  @doc("Unordered list of the results from an individual stage processing a message.")
   @extension("x-ms-identifiers", ["stage"])
   executions?: ExecutionResult[];
 }
@@ -78,9 +78,38 @@ model ExecutionResult {
 #suppress "@azure-tools/typespec-azure-core/bad-record-type"
 @doc("The data source properties.")
 @added(Versions.Preview20240201)
-model DataSource is Record<unknown> {
-  @doc("The name of the data source type to be used.")
-  type: DataSourceType;
+@discriminator("type")
+model DataSourceBase {}
+
+@added(Versions.Preview20240201)
+@doc("Data source input sampling is used to retrieve messages from the specified input stage.")
+model DataSourceInputSampling extends DataSourceBase {
+  @doc("InputSampling type.")
+  type: DataSourceType.inputSampling;
+
+  @doc("Sampling duration specifies the duration to wait before timing out he test run.")
+  @pattern("[-+]?([0-9]*(\\.[0-9]*)?(h|m|s|ms|us|ns))+")
+  samplingDuration: string;
+
+  @doc("Sampling count specifies the number of messages to acquire for sampling.")
+  @minValue(1)
+  @maxValue(10)
+  samplingCount: int64;
+
+  #suppress "@azure-tools/typespec-azure-core/bad-record-type"
+  @doc("The input stage specifying where to retrieve messages from.")
+  input: PipelineInput;
+}
+
+@added(Versions.Preview20240201)
+@doc("Data source messages will be used directly to execute the test run.")
+model DataSourceMessages extends DataSourceBase {
+  @doc("Messages sampling type.")
+  type: DataSourceType.messages;
+
+  @doc("Messages retrieved from a previous test run.")
+  @extension("x-ms-identifiers", [])
+  messages: Message[];
 }
 
 @doc("The data source type that should be used to execute a test run.")

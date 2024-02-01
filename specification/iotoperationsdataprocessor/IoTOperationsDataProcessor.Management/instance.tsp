@@ -6,12 +6,11 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common.tsp";
 import "./pipeline.tsp";
-import "./testruns.tsp";
+import "./testRun.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Autorest;
 using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
@@ -53,9 +52,12 @@ interface Instances {
   listByResourceGroup is ArmResourceListByParent<Instance>;
   listBySubscription is ArmListBySubscription<Instance>;
 
-  @action("testRuns")
-  @doc("Execute a test run.")
+  @doc("Execute a pipeline test run.")
   @added(Versions.Preview20240201)
   @armResourceAction(Instance)
-  testRuns is ArmResourceActionAsync<Instance, TestRunRequest, TestRunResponse>;
+  executeTestRun is ArmResourceActionAsync<
+    Instance,
+    TestRunRequest,
+    TestRunResponse
+  >;
 }
