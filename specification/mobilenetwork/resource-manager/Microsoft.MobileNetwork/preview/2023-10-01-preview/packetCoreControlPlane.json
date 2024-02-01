@@ -891,9 +891,9 @@
           "type": "object",
           "description": "Settings to allow interoperability with third party components e.g. RANs and UEs."
         },
-        "managedResourceGroupConfiguration": {
-          "$ref": "./common.json#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group for the packet core."
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner."
         }
       },
       "required": [
@@ -1139,18 +1139,6 @@
           "$ref": "./common.json#/definitions/AzureStackHCIClusterResourceId",
           "description": "The Azure Stack HCI cluster where the packet core is deployed."
         },
-        "edgeCluster": {
-          "$ref": "./common.json#/definitions/EdgeClusterResourceId",
-          "description": "The Edge Cluster where the packet core is deployed. If the device is part of a fault tolerant pair, either device in the pair can be specified."
-        },
-        "edgeClusters": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "./common.json#/definitions/EdgeClusterResourceId"
-          },
-          "description": "The Edge Cluster where the packet core is deployed. If the packet core is deployed across multiple devices, all devices will appear in this list."
-        },
         "connectedCluster": {
           "$ref": "./common.json#/definitions/ConnectedClusterResourceId",
           "description": "Azure Arc connected cluster where the packet core is deployed."
@@ -1169,8 +1157,7 @@
       "description": "The platform type where packet core is deployed. The contents of this enum can change.",
       "enum": [
         "AKS-HCI",
-        "3P-AZURE-STACK-HCI",
-        "Nexus"
+        "3P-AZURE-STACK-HCI"
       ],
       "x-ms-enum": {
         "name": "PlatformType",
@@ -1183,10 +1170,6 @@
           {
             "value": "3P-AZURE-STACK-HCI",
             "description": "If this option is chosen, you must set one of \"azureStackHciCluster\", \"connectedCluster\" or \"customLocation\". If multiple are set, they must be consistent with each other."
-          },
-          {
-            "value": "Nexus",
-            "description": "If this option is chosen, you must set one of \"edgeCluster\", \"connectedCluster\" or \"customLocation\". If multiple are set, they must be consistent with each other."
           }
         ]
       }
