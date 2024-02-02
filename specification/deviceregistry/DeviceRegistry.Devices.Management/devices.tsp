@@ -67,10 +67,10 @@ model DeviceProperties {
   @doc("operating system version.")
   operatingSystemVersion?: string;
 
-  @doc("Identity for the resource")
+  @doc("Identity for the resource.")
   identity?: DeviceIdentity;
 
-  @doc("Property bag containing the device's unassigned and assigned endpoints")
+  @doc("Property bag containing the device's unassigned and assigned endpoints.")
   endpoints?: DeviceEndpoints;
 
   #suppress "@azure-tools/typespec-azure-core/bad-record-type"
@@ -93,7 +93,7 @@ model DeviceIdentity {
   tenantId?: string;
 }
 
-@doc("Property bag containing the device's unassigned and assigned endpoints")
+@doc("Property bag containing the device's unassigned and assigned endpoints.")
 model DeviceEndpoints {
   @doc("Actively used endpoints a device can use to connect to several services.")
   @extension("x-ms-identifiers", ["type", "address"])
@@ -116,46 +116,46 @@ model Endpoint {
 
 @armResourceOperations
 interface Devices {
-  @Autorest.example("./examples/devices/Get_Device.json", "Get a device")
+  @Autorest.example("./examples/devices/Get_Device.json", "Get a device.")
   get is ArmResourceRead<Device>;
 
   @Autorest.example(
     "./examples/devices/Create_Device_With_Attributes.json",
-    "Create a device with attributes"
+    "Create a device with attributes."
   )
   @Autorest.example(
     "./examples/devices/Create_Device_With_Endpoints.json",
-    "Create a device with endpoints"
+    "Create a device with endpoints."
   )
   @Autorest.example(
     "./examples/devices/Create_Device_With_ExternalDeviceId.json",
-    "Create a device with external device ID"
+    "Create a device with external device ID."
   )
   @Autorest.example(
     "./examples/devices/Create_Device_Without_ExternalDeviceId.json",
-    "Create a device without external device ID"
+    "Create a device without external device ID."
   )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
 
-  @Autorest.example("./examples/devices/Update_Device.json", "Update a device")
+  @Autorest.example("./examples/devices/Update_Device.json", "Update a device.")
   @Autorest.example(
     "./examples/devices/Update_Device_With_New_Endpoints.json",
-    "Update a device with new endpoints"
+    "Update a device with new endpoints."
   )
   update is ArmResourcePatchAsync<Device, DeviceProperties>;
 
-  @Autorest.example("./examples/devices/Delete_Device.json", "Delete a device")
+  @Autorest.example("./examples/devices/Delete_Device.json", "Delete a device.")
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
 
   @Autorest.example(
     "./examples/devices/List_Devices_ResourceGroup.json",
-    "List devices in a resource group"
+    "List devices in a resource group."
   )
   listByResourceGroup is ArmResourceListByParent<Device>;
 
   @Autorest.example(
     "./examples/devices/List_Devices_Subscription.json",
-    "List devices in a subscription"
+    "List devices in a subscription."
   )
   listBySubscription is ArmListBySubscription<Device>;
 }

@@ -132,21 +132,21 @@ model DataPoint {
   dataPointConfiguration?: string;
 }
 
-@doc("Defines the data point observability mode")
+@doc("Defines the data point observability mode.")
 enum DataPointsObservabilityMode {
-  @doc("No mapping to OpenTelemetry")
+  @doc("No mapping to OpenTelemetry.")
   None: "none",
 
-  @doc("Map as counter to OpenTelemetry")
+  @doc("Map as counter to OpenTelemetry.")
   Counter: "counter",
 
-  @doc("Map as gauge to OpenTelemetry")
+  @doc("Map as gauge to OpenTelemetry.")
   Gauge: "gauge",
 
-  @doc("Map as histogram to OpenTelemetry")
+  @doc("Map as histogram to OpenTelemetry.")
   Histogram: "histogram",
 
-  @doc("Map as log to OpenTelemetry")
+  @doc("Map as log to OpenTelemetry.")
   Log: "log",
 }
 
@@ -163,14 +163,17 @@ model Event {
 
   @doc("An indication of how the event should be mapped to OpenTelemetry.")
   observabilityMode?: EventObservabilityMode = EventObservabilityMode.None;
+
+  @doc("Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
+  eventConfiguration?: string;
 }
 
-@doc("Defines the event observability mode")
+@doc("Defines the event observability mode.")
 enum EventObservabilityMode {
-  @doc("No mapping to OpenTelemetry")
+  @doc("No mapping to OpenTelemetry.")
   None: "none",
 
-  @doc("Map as log to OpenTelemetry")
+  @doc("Map as log to OpenTelemetry.")
   Log: "log",
 }
 
@@ -198,39 +201,39 @@ interface Assets {
   @Autorest.example("./examples/assets/Get_Asset.json", "Get an Asset")
   @Autorest.example(
     "./examples/assets/Get_Asset_With_SyncStatus.json",
-    "Get an Asset with Sync Status"
+    "Get an Asset with Sync Status."
   )
   get is ArmResourceRead<Asset>;
 
   @Autorest.example(
     "./examples/assets/Create_Asset_With_ExternalAssetId.json",
-    "Create an Asset With External Asset Id"
+    "Create an Asset With External Asset Id."
   )
   @Autorest.example(
     "./examples/assets/Create_Asset_Without_ExternalAssetId.json",
-    "Create an Asset Without External Asset Id"
+    "Create an Asset Without External Asset Id."
   )
   @Autorest.example(
     "./examples/assets/Create_Asset_Without_DisplayName.json",
-    "Create an Asset Without Display Name"
+    "Create an Asset Without Display Name."
   )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Asset>;
 
-  @Autorest.example("./examples/assets/Update_Asset.json", "Patch an Asset")
+  @Autorest.example("./examples/assets/Update_Asset.json", "Patch an Asset.")
   update is ArmResourcePatchAsync<Asset, AssetProperties>;
 
-  @Autorest.example("./examples/assets/Delete_Asset.json", "Delete an Asset")
+  @Autorest.example("./examples/assets/Delete_Asset.json", "Delete an Asset.")
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;
 
   @Autorest.example(
     "./examples/assets/List_Assets_ResourceGroup.json",
-    "List Assets in a Resource Group"
+    "List Assets in a Resource Group."
   )
   listByResourceGroup is ArmResourceListByParent<Asset>;
 
   @Autorest.example(
     "./examples/assets/List_Assets_Subscription.json",
-    "List Assets in a Subscription"
+    "List Assets in a Subscription."
   )
   listBySubscription is ArmListBySubscription<Asset>;
 }
