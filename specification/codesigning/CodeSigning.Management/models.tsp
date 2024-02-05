@@ -201,7 +201,7 @@ model CertificateProfileProperties {
   enhancedKeyUsage?: string;
 
   @doc("Identity validation id used for the certificate subject name.")
-  identityValidationId: string;
+  identityValidationId?: string;
 
   @doc("Status of the current operation on certificate profile.")
   @visibility("read")
