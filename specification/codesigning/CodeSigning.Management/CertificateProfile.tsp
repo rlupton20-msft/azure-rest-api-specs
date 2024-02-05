@@ -12,10 +12,10 @@ using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.CodeSigning;
-@doc("Certificate profile resource")
+@doc("Certificate profile resource.")
 @parentResource(CodeSigningAccount)
 model CertificateProfile is ProxyResource<CertificateProfileProperties> {
-  @doc("Certificate profile name")
+  @doc("Certificate profile name.")
   @pattern("^(?=.{5,100}$)[^0-9][A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$")
   @path
   @key("profileName")
@@ -25,19 +25,19 @@ model CertificateProfile is ProxyResource<CertificateProfileProperties> {
 
 @armResourceOperations
 interface CertificateProfiles {
-  @doc("Get details of a certificate profile")
+  @doc("Get details of a certificate profile.")
   get is ArmResourceRead<CertificateProfile>;
 
-  @doc("Create a certificate profile")
+  @doc("Create a certificate profile.")
   create is ArmResourceCreateOrReplaceAsync<CertificateProfile>;
 
-  @doc("Delete a Certificate Profile")
+  @doc("Delete a certificate profile.")
   delete is ArmResourceDeleteWithoutOkAsync<CertificateProfile>;
 
-  @doc("List certificate profiles within a code signing account")
+  @doc("List certificate profiles within a code signing account.")
   listByCodeSigningAccount is ArmResourceListByParent<CertificateProfile>;
 
-  @doc("Revoke certificate")
+  @doc("Revoke certificate.")
   revokeCertificate is ArmResourceActionNoContentSync<
     CertificateProfile,
     RevokeCertificate

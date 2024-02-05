@@ -12,19 +12,20 @@ using Azure.ResourceManager.Foundations;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-@armProviderNamespace
+
+@doc("Code Signing resource provider api.")
+@armProviderNamespace("Microsoft.CodeSigning")
 @service({
   title: "CodeSigningManagementClient",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-@doc("Code Signing Resource Provider Account and Certificate Profile management API.")
 namespace Microsoft.CodeSigning;
 
 @doc("The available API versions.")
 enum Versions {
+  @doc("The 2024-02-05-preview API version.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  @doc("The 2024-02-05-preview API version.")
   v2024_02_05_preview: "2024-02-05-preview",
 }

@@ -11,9 +11,9 @@ using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.CodeSigning;
-@doc("Code signing account resource")
+@doc("Code signing account resource.")
 model CodeSigningAccount is TrackedResource<CodeSigningAccountProperties> {
-  @doc("Code Signing account name")
+  @doc("Code Signing account name.")
   @pattern("^(?=.{3,24}$)[^0-9][A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$")
   @path
   @key("accountName")
@@ -23,29 +23,23 @@ model CodeSigningAccount is TrackedResource<CodeSigningAccountProperties> {
 
 @armResourceOperations
 interface CodeSigningAccounts {
-  @doc("Get a Code Signing Account")
+  @doc("Get a Code Signing Account.")
   get is ArmResourceRead<CodeSigningAccount>;
 
-  @doc("Create a Code Signing Account")
-  create is ArmResourceCreateOrReplaceAsync<
-    CodeSigningAccount,
-    BaseParameters<CodeSigningAccount>
-  >;
+  @doc("Create a Code Signing Account.")
+  create is ArmResourceCreateOrReplaceAsync<CodeSigningAccount>;
 
-  @doc("Update a code signing account")
-  update is ArmCustomPatchAsync<
-    CodeSigningAccount,
-    CodeSigningAccountPatch,
-    BaseParameters<CodeSigningAccount>
-  >;
+  @doc("Update a code signing account.")
+  @parameterVisibility("read")
+  update is ArmCustomPatchAsync<CodeSigningAccount, CodeSigningAccountPatch>;
 
-  @doc("Delete Code Signing Account")
+  @doc("Delete a code signing account.")
   delete is ArmResourceDeleteWithoutOkAsync<CodeSigningAccount>;
 
-  @doc("List Code Signing Accounts within a resource group")
+  @doc("Lists code signing accounts within a resource group.")
   listByResourceGroup is ArmResourceListByParent<CodeSigningAccount>;
 
-  @doc("Lists Code Signing Accounts within a subscription")
+  @doc("Lists code signing accounts within a subscription.")
   listBySubscription is ArmListBySubscription<CodeSigningAccount>;
 
   @doc("Checks that the code signing account name is valid and is not already in use.")
