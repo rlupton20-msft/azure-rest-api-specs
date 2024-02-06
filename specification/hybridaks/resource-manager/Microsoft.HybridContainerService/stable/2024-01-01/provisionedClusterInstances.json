@@ -588,7 +588,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CredentialResults"
+              "$ref": "#/definitions/ListCredentialResponse"
             }
           },
           "202": {
@@ -609,7 +609,7 @@
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation",
-          "final-state-schema": "#/definitions/CredentialResults"
+          "final-state-schema": "#/definitions/ListCredentialResponse"
         },
         "x-ms-examples": {
           "ListClusterUserCredentials": {
@@ -638,7 +638,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CredentialResults"
+              "$ref": "#/definitions/ListCredentialResponse"
             }
           },
           "202": {
@@ -659,7 +659,7 @@
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation",
-          "final-state-schema": "#/definitions/CredentialResults"
+          "final-state-schema": "#/definitions/ListCredentialResponse"
         },
         "x-ms-examples": {
           "ListClusterAdminCredentials": {
@@ -1030,7 +1030,7 @@
     }
   },
   "definitions": {
-    "CredentialResults": {
+    "ListCredentialResponse": {
       "type": "object",
       "properties": {
         "id": {
@@ -1045,13 +1045,19 @@
         },
         "resourceId": {
           "type": "string",
+          "format": "arm-id",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.HybridContainerService/provisionedClusterInstances"
+              }
+            ]
+          },
           "readOnly": true,
-          "description": "Resource Id"
+          "description": "ARM Resource Id of the provisioned cluster instance"
         },
         "status": {
-          "type": "string",
-          "readOnly": true,
-          "description": "Operation Status"
+          "$ref": "#/definitions/ProvisioningState"
         },
         "error": {
           "type": "object",
@@ -2193,7 +2199,7 @@
       "type": "string",
       "pattern": "^[a-z][a-z0-9]{2,11}$",
       "x-ms-parameter-location": "method",
-      "maxLength": 64,
+      "maxLength": 12,
       "minLength": 3
     },
     "customLocationResourceUriParameter": {
