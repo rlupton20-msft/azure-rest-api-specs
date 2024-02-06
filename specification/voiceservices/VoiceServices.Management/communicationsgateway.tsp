@@ -241,6 +241,7 @@ model ZoomTestLine {
 @added(Versions.v2023_09_21)
 model ZoomConfig {
   @doc("Zoom platform test lines.")
+  @extension("x-ms-identifiers",[])
   @visibility("read", "update", "create")
   testLines: ZoomTestLine[];
 
