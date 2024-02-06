@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./landingZoneConfigurationModels.tsp";
 import "./landingZoneRegistrationModels.tsp";
+import "./transparencyLogModels.tsp";
 import "./common.tsp";
 
 using TypeSpec.Http;
@@ -96,4 +97,25 @@ interface LandingZoneRegistrations
   extends TenantResourceOperations<
       LandingZoneRegistration,
       LandingZoneRegistrationProperties
+    > {}
+
+// Transparency Logs setting Resource Type
+@tenantResource
+@added(Versions.Preview20240331)
+@doc("The Transparency Log resource type.")
+model TransparencyLog is ProxyResource<TransparencyLogProperties> {
+  @doc("The name of the Transparency Log resource.")
+  @pattern("^[a-zA-Z0-9-]{1,64}$")
+  @key("name")
+  @segment("transparencyLogs")
+  @path
+  name: string;
+}
+
+@armResourceOperations(TransparencyLog)
+@added(Versions.Preview20240331)
+interface TransparencyLogs
+  extends TenantResourceOperations<
+      TransparencyLog,
+      TransparencyLogProperties
     > {}
