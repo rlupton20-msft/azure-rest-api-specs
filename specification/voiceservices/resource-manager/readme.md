@@ -75,8 +75,6 @@ input-file:
   - Microsoft.VoiceServices/preview/2023-07-13-preview/voiceservices.json
 ```
 
----
-
 ### Tag: package-2023-09-01
 
 These settings apply only when `--tag=package-2023-09-01` is specified on the command line.
