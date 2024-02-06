@@ -126,6 +126,7 @@ model CheckNameAvailabilityResponse {
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation-missing-decorator" "CheckNameAvailability is not supported by typespec-azure-resource-manager."
 interface NameAvailability {
   @doc("Check whether the resource name is available in the given region.")
+  @armResourceAction(CheckNameAvailabilityRequest)
   @post
   @route("/subscriptions/{subscriptionId}/providers/Microsoft.VoiceServices/locations/{location}/checkNameAvailability")
   checkLocal(
