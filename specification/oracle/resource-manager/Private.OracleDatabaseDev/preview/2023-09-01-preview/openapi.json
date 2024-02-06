@@ -2421,6 +2421,88 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/dbNodes/{dbnodeocid}/action": {
+      "post": {
+        "operationId": "DbNodes_Action",
+        "tags": [
+          "DbNodes"
+        ],
+        "description": "VM actions on DbNode of VM Cluster by the provided filter",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudvmclustername",
+            "in": "path",
+            "description": "CloudVmCluster name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "dbnodeocid",
+            "in": "path",
+            "description": "DbNode OCID.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DbNodeAction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DbNode"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VM actions on DbNodes of VM Cluster": {
+            "$ref": "./examples/dbNodes_action.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/listPrivateIpAddresses": {
       "post": {
         "operationId": "CloudVmClusters_ListPrivateIpAddresses",
@@ -3094,19 +3176,6 @@
           "$ref": "#/definitions/AutonomousDatabaseLifecycleState",
           "description": "Views lifecycleState",
           "readOnly": true
-        },
-        "nsgIds": {
-          "type": "array",
-          "description": "The list of OCIDs for the network security groups (NSGs) to which this resource belongs.",
-          "maxItems": 5,
-          "items": {
-            "$ref": "#/definitions/Ocid"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         },
         "scheduledOperations": {
           "$ref": "#/definitions/ScheduledOperationsType",
@@ -3909,19 +3978,6 @@
             "create"
           ]
         },
-        "nsgIds": {
-          "type": "array",
-          "description": "The list of OCIDs for the network security groups (NSGs) to which this resource belongs.",
-          "maxItems": 5,
-          "items": {
-            "$ref": "#/definitions/Ocid"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
         "scheduledOperations": {
           "$ref": "#/definitions/ScheduledOperationsTypeUpdate",
           "description": "The list of scheduled operations.",
@@ -4083,6 +4139,37 @@
         ]
       }
     },
+    "Azure.ResourceManager.ResourceProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of a resource type.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "ResourceProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          }
+        ]
+      },
+      "readOnly": true
+    },
     "AzureResourceProvisioningState": {
       "type": "string",
       "description": "Azure Resource Provisioning State enum",
@@ -4232,6 +4319,60 @@
         ]
       }
     },
+    "CloudExadataInfrastructureLifecycleState": {
+      "type": "string",
+      "description": "CloudExadataInfrastructureLifecycleState enum",
+      "enum": [
+        "Provisioning",
+        "Available",
+        "Updating",
+        "Terminating",
+        "Terminated",
+        "MaintenanceInProgress",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "CloudExadataInfrastructureLifecycleState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "PROVISIONING value"
+          },
+          {
+            "name": "Available",
+            "value": "Available",
+            "description": "AVAILABLE value"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "UPDATING value"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "TERMINATING value"
+          },
+          {
+            "name": "Terminated",
+            "value": "Terminated",
+            "description": "TERMINATED value"
+          },
+          {
+            "name": "MaintenanceInProgress",
+            "value": "MaintenanceInProgress",
+            "description": "MAINTENANCE_IN_PROGRESS value"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "FAILED value"
+          }
+        ]
+      }
+    },
     "CloudExadataInfrastructureListResult": {
       "type": "object",
       "description": "The response of a CloudExadataInfrastructure list operation.",
@@ -4328,8 +4469,13 @@
           ]
         },
         "provisioningState": {
-          "$ref": "#/definitions/CloudExadataInfrastructureProvisioningState",
+          "$ref": "#/definitions/AzureResourceProvisioningState",
           "description": "CloudExadataInfrastructure provisioning state",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/CloudExadataInfrastructureLifecycleState",
+          "description": "CloudExadataInfrastructure lifecycle state",
           "readOnly": true
         },
         "shape": {
@@ -4451,73 +4597,6 @@
         "displayName"
       ]
     },
-    "CloudExadataInfrastructureProvisioningState": {
-      "type": "string",
-      "description": "CloudExadataInfrastructureProvisioningState enum",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Provisioning",
-        "Available",
-        "Updating",
-        "Terminating",
-        "Terminated",
-        "MaintenanceInProgress"
-      ],
-      "x-ms-enum": {
-        "name": "CloudExadataInfrastructureProvisioningState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "Provisioning value"
-          },
-          {
-            "name": "Available",
-            "value": "Available",
-            "description": "Available value"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Updating value"
-          },
-          {
-            "name": "Terminating",
-            "value": "Terminating",
-            "description": "Terminating value"
-          },
-          {
-            "name": "Terminated",
-            "value": "Terminated",
-            "description": "Terminated value"
-          },
-          {
-            "name": "MaintenanceInProgress",
-            "value": "MaintenanceInProgress",
-            "description": "MaintenanceInProgress value"
-          }
-        ]
-      },
-      "readOnly": true
-    },
     "CloudExadataInfrastructureUpdate": {
       "type": "object",
       "description": "The type used for update operations of the CloudExadataInfrastructure.",
@@ -4557,6 +4636,60 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
+    },
+    "CloudVmClusterLifecycleState": {
+      "type": "string",
+      "description": "CloudVmClusterLifecycleState enum",
+      "enum": [
+        "Provisioning",
+        "Available",
+        "Updating",
+        "Terminating",
+        "Terminated",
+        "MaintenanceInProgress",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "CloudVmClusterLifecycleState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "PROVISIONING value"
+          },
+          {
+            "name": "Available",
+            "value": "Available",
+            "description": "AVAILABLE value"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "UPDATING value"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "TERMINATING value"
+          },
+          {
+            "name": "Terminated",
+            "value": "Terminated",
+            "description": "TERMINATED value"
+          },
+          {
+            "name": "MaintenanceInProgress",
+            "value": "MaintenanceInProgress",
+            "description": "MAINTENANCE_IN_PROGRESS value"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "FAILED value"
+          }
+        ]
+      }
     },
     "CloudVmClusterListResult": {
       "type": "object",
@@ -4656,6 +4789,8 @@
         "hostname": {
           "type": "string",
           "description": "The hostname for the cloud VM cluster.",
+          "minLength": 1,
+          "maxLength": 23,
           "x-ms-mutability": [
             "read",
             "create"
@@ -4749,17 +4884,17 @@
         },
         "scanIpIds": {
           "type": "array",
-          "description": "The Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.  **Note:** For a single-node DB system, this list is empty. ",
+          "description": "The Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. **Note:** For a single-node DB system, this list is empty.",
           "items": {
-            "$ref": "#/definitions/Ocid"
+            "type": "string"
           },
           "readOnly": true
         },
         "vipIds": {
           "type": "array",
-          "description": "The virtual IP (VIP) addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.  **Note:** For a single-node DB system, this list is empty. ",
+          "description": "The virtual IP (VIP) addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty.",
           "items": {
-            "$ref": "#/definitions/Ocid"
+            "type": "string"
           },
           "readOnly": true
         },
@@ -4801,8 +4936,13 @@
           "readOnly": true
         },
         "provisioningState": {
-          "$ref": "#/definitions/CloudVmClusterProvisioningState",
+          "$ref": "#/definitions/AzureResourceProvisioningState",
           "description": "CloudVmCluster provisioning state",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/CloudVmClusterLifecycleState",
+          "description": "CloudVmCluster lifecycle state",
           "readOnly": true
         },
         "vnetId": {
@@ -4840,6 +4980,7 @@
           "minLength": 1,
           "maxLength": 32,
           "x-ms-mutability": [
+            "read",
             "create"
           ]
         },
@@ -4905,73 +5046,6 @@
         "subnetId",
         "displayName"
       ]
-    },
-    "CloudVmClusterProvisioningState": {
-      "type": "string",
-      "description": "CloudVmClusterProvisioningState enum",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Provisioning",
-        "Available",
-        "Updating",
-        "Terminating",
-        "Terminated",
-        "MaintenanceInProgress"
-      ],
-      "x-ms-enum": {
-        "name": "CloudVmClusterProvisioningState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "Provisioning value"
-          },
-          {
-            "name": "Available",
-            "value": "Available",
-            "description": "Available value"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Updating value"
-          },
-          {
-            "name": "Terminating",
-            "value": "Terminating",
-            "description": "Terminating value"
-          },
-          {
-            "name": "Terminated",
-            "value": "Terminated",
-            "description": "Terminated value"
-          },
-          {
-            "name": "MaintenanceInProgress",
-            "value": "MaintenanceInProgress",
-            "description": "MaintenanceInProgress value"
-          }
-        ]
-      },
-      "readOnly": true
     },
     "CloudVmClusterUpdate": {
       "type": "object",
@@ -5461,6 +5535,19 @@
         }
       ]
     },
+    "DbNodeAction": {
+      "type": "object",
+      "description": "DbNode action object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/DbNodeActionEnum",
+          "description": "Db action"
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
     "DbNodeActionEnum": {
       "type": "string",
       "description": "DbNode action enum",
@@ -5604,7 +5691,7 @@
           "description": "The host name for the database node.",
           "readOnly": true
         },
-        "provisioningState": {
+        "lifecycleState": {
           "$ref": "#/definitions/DbNodeProvisioningState",
           "description": "The current state of the database node.",
           "readOnly": true
@@ -5658,6 +5745,11 @@
           "$ref": "#/definitions/Ocid",
           "description": "The OCID of the VNIC.",
           "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
         }
       },
       "required": [
@@ -5669,9 +5761,6 @@
       "type": "string",
       "description": "DnNode provisioning state enum",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Provisioning",
         "Available",
         "Updating",
@@ -5679,70 +5768,60 @@
         "Stopped",
         "Starting",
         "Terminating",
-        "Terminated"
+        "Terminated",
+        "Failed"
       ],
       "x-ms-enum": {
         "name": "DbNodeProvisioningState",
         "modelAsString": true,
         "values": [
           {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "PROVISIONING value"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Available value"
+            "description": "AVAILABLE value"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "Updating value"
+            "description": "UPDATING value"
           },
           {
             "name": "Stopping",
             "value": "Stopping",
-            "description": "Stopping value"
+            "description": "STOPPING value"
           },
           {
             "name": "Stopped",
             "value": "Stopped",
-            "description": "Stopped value"
+            "description": "STOPPED value"
           },
           {
             "name": "Starting",
             "value": "Starting",
-            "description": "Starting value"
+            "description": "STARTING value"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "Terminating value"
+            "description": "TERMINATING value"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "Terminated value"
+            "description": "TERMINATED value"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "FAILED value"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "DbServer": {
       "type": "object",
@@ -5878,11 +5957,6 @@
           "description": "The OCID of the Exadata infrastructure.",
           "readOnly": true
         },
-        "lifecycleDetails": {
-          "type": "string",
-          "description": "Lifecycle details of dbServer.",
-          "readOnly": true
-        },
         "cpuCoreCount": {
           "type": "integer",
           "format": "int32",
@@ -5922,7 +5996,12 @@
           },
           "readOnly": true
         },
-        "provisioningState": {
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Lifecycle details of dbServer.",
+          "readOnly": true
+        },
+        "lifecycleState": {
           "$ref": "#/definitions/DbServerProvisioningState",
           "description": "DbServer provisioning state.",
           "readOnly": true
@@ -5973,6 +6052,11 @@
           "format": "date-time",
           "description": "The date and time that the Db Server was created.",
           "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
         }
       }
     },
@@ -5980,14 +6064,11 @@
       "type": "string",
       "description": "DbServerProvisioningState enum",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Provisioning",
+        "Creating",
         "Available",
-        "Updating",
-        "Terminating",
-        "Terminated",
+        "Unavailable",
+        "Deleting",
+        "Deleted",
         "MaintenanceInProgress"
       ],
       "x-ms-enum": {
@@ -5995,53 +6076,37 @@
         "modelAsString": true,
         "values": [
           {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "Provisioning value"
+            "name": "Creating",
+            "value": "Creating",
+            "description": "CREATING value"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Available value"
+            "description": "AVAILABLE value"
           },
           {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Updating value"
+            "name": "Unavailable",
+            "value": "Unavailable",
+            "description": "UNAVAILABLE value"
           },
           {
-            "name": "Terminating",
-            "value": "Terminating",
-            "description": "Terminating value"
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "DELETING value"
           },
           {
-            "name": "Terminated",
-            "value": "Terminated",
-            "description": "Terminated value"
+            "name": "Deleted",
+            "value": "Deleted",
+            "description": "DELETED value"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MaintenanceInProgress value"
+            "description": "MAINTENANCE_IN_PROGRESS value"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "DbSystemShape": {
       "type": "object",
@@ -6298,8 +6363,8 @@
           "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.",
           "readOnly": true
         },
-        "provisioningState": {
-          "$ref": "#/definitions/DnsPrivateViewsProvisioningState",
+        "lifecycleState": {
+          "$ref": "#/definitions/DnsPrivateViewsLifecycleState",
           "description": "Views lifecycleState",
           "readOnly": true
         },
@@ -6319,6 +6384,11 @@
           "format": "date-time",
           "description": "views timeCreated",
           "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6329,37 +6399,19 @@
         "timeUpdated"
       ]
     },
-    "DnsPrivateViewsProvisioningState": {
+    "DnsPrivateViewsLifecycleState": {
       "type": "string",
-      "description": "DnsPrivateViews provisioning state enum",
+      "description": "DnsPrivateViews lifecycle state enum",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Active",
         "Deleted",
         "Deleting",
         "Updating"
       ],
       "x-ms-enum": {
-        "name": "DnsPrivateViewsProvisioningState",
+        "name": "DnsPrivateViewsLifecycleState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Active",
             "value": "Active",
@@ -6381,8 +6433,7 @@
             "description": "Updating value"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "DnsPrivateZone": {
       "type": "object",
@@ -6439,8 +6490,8 @@
           "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.",
           "readOnly": true
         },
-        "provisioningState": {
-          "$ref": "#/definitions/DnsPrivateZonesProvisioningState",
+        "lifecycleState": {
+          "$ref": "#/definitions/DnsPrivateZonesLifecycleState",
           "description": "Zones lifecycleState",
           "readOnly": true
         },
@@ -6475,6 +6526,11 @@
           "format": "date-time",
           "description": "Zones timeCreated",
           "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6487,13 +6543,10 @@
         "timeCreated"
       ]
     },
-    "DnsPrivateZonesProvisioningState": {
+    "DnsPrivateZonesLifecycleState": {
       "type": "string",
-      "description": "DnsPrivateZones provisioning state enum",
+      "description": "DnsPrivateZones lifecycle state enum",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Active",
         "Creating",
         "Deleted",
@@ -6501,24 +6554,9 @@
         "Updating"
       ],
       "x-ms-enum": {
-        "name": "DnsPrivateZonesProvisioningState",
+        "name": "DnsPrivateZonesLifecycleState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Active",
             "value": "Active",
@@ -6545,8 +6583,7 @@
             "description": "Updating value"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "EstimatedPatchingTime": {
       "type": "object",
@@ -6602,7 +6639,7 @@
           "type": "string",
           "description": "Additional information about the current lifecycleState."
         },
-        "provisioningState": {
+        "lifecycleState": {
           "$ref": "#/definitions/IormLifecycleState",
           "description": "The current state of IORM configuration for the Exadata DB system."
         },
@@ -6778,94 +6815,6 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
-    },
-    "MaintenanceRun": {
-      "type": "object",
-      "description": "MaintenanceRun resource model",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/MaintenanceRunProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "MaintenanceRunProperties": {
-      "type": "object",
-      "description": "MaintenanceRun resource properties",
-      "properties": {
-        "timeScheduled": {
-          "type": "string",
-          "description": "The date and time the maintenance run is scheduled to occur.",
-          "readOnly": true
-        },
-        "patchingStatus": {
-          "$ref": "#/definitions/PatchingStatus",
-          "description": "The status of the patching operation.",
-          "readOnly": true
-        },
-        "maintenanceType": {
-          "$ref": "#/definitions/MaintenanceType",
-          "description": "Maintenance type.",
-          "readOnly": true
-        },
-        "targetDbServerVersion": {
-          "type": "string",
-          "description": "The target software version for the database server patching operation.",
-          "readOnly": true
-        },
-        "targetStorageServerVersion": {
-          "type": "string",
-          "description": "The target Cell version that is to be patched to.",
-          "readOnly": true
-        },
-        "patchingMode": {
-          "$ref": "#/definitions/PatchingMode",
-          "description": "Cloud Exadata infrastructure node patching method.",
-          "readOnly": true
-        },
-        "estimatedPatchingTime": {
-          "$ref": "#/definitions/EstimatedPatchingTime",
-          "description": "The estimated total time required in minutes for all patching operations.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "timeScheduled"
-      ]
-    },
-    "MaintenanceType": {
-      "type": "string",
-      "description": "MaintenanceType enum",
-      "enum": [
-        "Planned",
-        "Unplanned"
-      ],
-      "x-ms-enum": {
-        "name": "MaintenanceType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Planned",
-            "value": "Planned",
-            "description": "Planned value"
-          },
-          {
-            "name": "Unplanned",
-            "value": "Unplanned",
-            "description": "Unplanned value"
-          }
-        ]
-      }
     },
     "MaintenanceWindow": {
       "type": "object",
@@ -7313,36 +7262,6 @@
         ]
       }
     },
-    "PatchingStatus": {
-      "type": "string",
-      "description": "PatchingStatus enum for Maintenance Run",
-      "enum": [
-        "Patching",
-        "Waiting",
-        "Scheduled"
-      ],
-      "x-ms-enum": {
-        "name": "PatchingStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Patching",
-            "value": "Patching",
-            "description": "Patching value"
-          },
-          {
-            "name": "Waiting",
-            "value": "Waiting",
-            "description": "Waiting value"
-          },
-          {
-            "name": "Scheduled",
-            "value": "Scheduled",
-            "description": "Scheduled value"
-          }
-        ]
-      }
-    },
     "PermissionLevelType": {
       "type": "string",
       "description": "PermissionLevelType enum.",
@@ -7429,10 +7348,12 @@
       "description": "Private Ip Addresses filter",
       "properties": {
         "subnetId": {
-          "$ref": "#/definitions/Ocid"
+          "$ref": "#/definitions/Ocid",
+          "description": "Subnet OCID"
         },
         "vnicId": {
-          "$ref": "#/definitions/Ocid"
+          "$ref": "#/definitions/Ocid",
+          "description": "VCN OCID"
         }
       },
       "required": [
@@ -7965,7 +7886,6 @@
       "type": "string",
       "description": "Versions for API",
       "enum": [
-        "2023-07-01-preview",
         "2023-09-01-preview",
         "internal"
       ],
@@ -7973,11 +7893,6 @@
         "name": "Versions",
         "modelAsString": true,
         "values": [
-          {
-            "name": "v20230701",
-            "value": "2023-07-01-preview",
-            "description": "2023-07-01-preview"
-          },
           {
             "name": "v20230901",
             "value": "2023-09-01-preview",
@@ -8010,6 +7925,48 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "VirtualNetworkAddressLifecycleState": {
+      "type": "string",
+      "description": "VirtualNetworkAddressLifecycleState enum",
+      "enum": [
+        "Provisioning",
+        "Available",
+        "Terminating",
+        "Terminated",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "VirtualNetworkAddressLifecycleState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "Provisioning value"
+          },
+          {
+            "name": "Available",
+            "value": "Available",
+            "description": "Available value"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "Terminating value"
+          },
+          {
+            "name": "Terminated",
+            "value": "Terminated",
+            "description": "Terminated value"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Failed value"
+          }
+        ]
+      }
     },
     "VirtualNetworkAddressListResult": {
       "type": "object",
@@ -8068,8 +8025,13 @@
           "readOnly": true
         },
         "provisioningState": {
-          "$ref": "#/definitions/VirtualNetworkAddressProvisioningState",
-          "description": "virtual network address provisioning state.",
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/VirtualNetworkAddressLifecycleState",
+          "description": "virtual network address lifecycle state.",
           "readOnly": true
         },
         "timeAssigned": {
@@ -8079,61 +8041,6 @@
           "readOnly": true
         }
       }
-    },
-    "VirtualNetworkAddressProvisioningState": {
-      "type": "string",
-      "description": "VirtualNetworkAddressProvisioningState enum",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Provisioning",
-        "Available",
-        "Terminating",
-        "Terminated"
-      ],
-      "x-ms-enum": {
-        "name": "VirtualNetworkAddressProvisioningState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "Provisioning value"
-          },
-          {
-            "name": "Available",
-            "value": "Available",
-            "description": "Available value"
-          },
-          {
-            "name": "Terminating",
-            "value": "Terminating",
-            "description": "Terminating value"
-          },
-          {
-            "name": "Terminated",
-            "value": "Terminated",
-            "description": "Terminated value"
-          }
-        ]
-      },
-      "readOnly": true
     },
     "VnetId": {
       "type": "string",
