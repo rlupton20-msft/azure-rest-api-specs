@@ -186,7 +186,7 @@ enum CommunicationsPlatform {
   @added(Versions.v2023_09_01)
   TeamsDirectRouting,
 
-  @doc("Zoom")
+  @doc("Zoom Platform")
   @added(Versions.v2023_09_21)
   Zoom,
 
@@ -241,7 +241,7 @@ model ZoomTestLine {
 @added(Versions.v2023_09_21)
 model ZoomConfig {
   @doc("Zoom platform test lines.")
-  @extension("x-ms-identifiers",[])
+  @OpenAPI.extension("x-ms-identifiers", ["phoneNumber"])
   @visibility("read", "update", "create")
   testLines: ZoomTestLine[];
 
