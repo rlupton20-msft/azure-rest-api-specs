@@ -165,36 +165,36 @@ model CertificateProfileProperties {
   @visibility("read")
   streetAddress?: string;
 
-  @doc("Whether to include STREET in the certificate subject name. Applicable for public trust, vbs enclave, public trust test profile types")
-  includeStreetAddress?: boolean = false;
-
-  @doc("Used as S in the certificate subject name.")
-  @visibility("read")
-  state?: string;
-
-  @doc("Whether to include S in the certificate subject name.")
-  includeState?: boolean = false;
+  @doc("Whether to include STREET in the certificate subject name.")
+  includeStreetAddress?: boolean;
 
   @doc("Used as L in the certificate subject name.")
   @visibility("read")
   city?: string;
 
-  @doc("Whether to include L in the certificate subject name.")
-  includeCity?: boolean = false;
+  @doc("Whether to include L in the certificate subject name. Applicable only for private trust, private trust ci profile types")
+  includeCity?: boolean;
 
-  @doc("Used as PC in the certificate subject name.")
+  @doc("Used as S in the certificate subject name.")
   @visibility("read")
-  postalCode?: string;
+  state?: string;
 
-  @doc("Whether to include PC in the certificate subject name. Applicable for public trust, vbs enclave, public trust test profile types")
-  includePostalCode?: boolean = false;
+  @doc("Whether to include S in the certificate subject name. Applicable only for private trust, private trust ci profile types")
+  includeState?: boolean;
 
   @doc("Used as C in the certificate subject name.")
   @visibility("read")
   country?: string;
 
-  @doc("Whether to include C in the certificate subject name.")
-  includeCountry?: boolean = false;
+  @doc("Whether to include C in the certificate subject name. Applicable only for private trust, private trust ci profile types")
+  includeCountry?: boolean;
+
+  @doc("Used as PC in the certificate subject name.")
+  @visibility("read")
+  postalCode?: string;
+
+  @doc("Whether to include PC in the certificate subject name.")
+  includePostalCode?: boolean;
 
   @doc("Enhanced key usage of the certificate.")
   @visibility("read")
