@@ -48,16 +48,16 @@ title: PlaywrightTestingClient
 description: Azure Playwright testing management service
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-02-01
+tag: package-2024-02-01-preview
 ```
 
-### Tag: package-2024-02-01
+### Tag: package-2024-02-01-preview
 
-These settings apply only when `--tag=package-2024-02-01` is specified on the command line.
+These settings apply only when `--tag=package-2024-02-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-02-01'
+```yaml $(tag) == 'package-2024-02-01-preview'
 input-file:
-  - Microsoft.AzurePlaywrightService/stable/2024-02-01/playwrighttesting.json
+  - Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/playwrighttesting.json
 ```
 
 ### Tag: package-2024-01-01-preview
