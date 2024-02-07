@@ -19,7 +19,7 @@ namespace Microsoft.MobilePacketCore;
 @resource("nssfDeployments")
 model NssfDeploymentResource
   is TrackedResource<NssfDeploymentResourceProperties> {
-  @doc("The name of the NssfDeployment")
+  @doc("The name of the NSSF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -62,6 +62,8 @@ interface NssfDeployments {
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NssfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NssfDeploymentResource>;
   delete is ArmResourceDeleteWithoutOkAsync<NssfDeploymentResource>;
+  @doc("List all Network Slice Selection Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<NssfDeploymentResource>;
+  @doc("List all Network Slice Selection Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<NssfDeploymentResource>;
 }

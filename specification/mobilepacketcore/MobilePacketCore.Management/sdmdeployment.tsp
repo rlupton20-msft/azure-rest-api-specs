@@ -20,7 +20,7 @@ namespace Microsoft.MobilePacketCore;
 @resource("sdmDeployments")
 model SdmDeploymentResource
   is TrackedResource<SdmDeploymentResourceProperties> {
-  @doc("The name of the SdmDeployment")
+  @doc("The name of the SDM Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -38,7 +38,7 @@ model SdmDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure for Operators 5G Core SDM component parameters.  One set per component type")
+  @doc("Azure for Operators 5G Core Subscriber Data Management component parameters.  One set per component type")
   @extension("x-ms-identifiers", ["type"])
   componentParameters: QualifiedComponentDeploymentParameters[];
   
@@ -62,6 +62,8 @@ interface SdmDeployments {
   createOrUpdate is ArmResourceCreateOrUpdate2Async<SdmDeploymentResource>;
   updateTags is ArmTagsPatchSync<SdmDeploymentResource>;
   delete is ArmResourceDeleteWithoutOkAsync<SdmDeploymentResource>;
+  @doc("List all Subscriber Data Management Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<SdmDeploymentResource>;
+  @doc("List all Subscriber Data Management Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<SdmDeploymentResource>;
 }

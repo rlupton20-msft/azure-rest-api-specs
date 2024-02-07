@@ -19,7 +19,7 @@ namespace Microsoft.MobilePacketCore;
 @resource("nrfDeployments")
 model NrfDeploymentResource
   is TrackedResource<NrfDeploymentResourceProperties> {
-  @doc("The name of the NrfDeployment")
+  @doc("The name of the NRF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -62,6 +62,8 @@ interface NrfDeployments {
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NrfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NrfDeploymentResource>;
   delete is ArmResourceDeleteWithoutOkAsync<NrfDeploymentResource>;
+  @doc("List all Network Repository Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<NrfDeploymentResource>;
+  @doc("List all Network Repository Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<NrfDeploymentResource>;
 }

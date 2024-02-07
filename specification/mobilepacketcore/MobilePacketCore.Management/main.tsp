@@ -6,13 +6,11 @@ import "@azure-tools/typespec-providerhub";
 
 import "./common.tsp";
 import "./amfdeployment.tsp";
-import "./mmedeployment.tsp";
 import "./smfdeployment.tsp";
 import "./upfdeployment.tsp";
 import "./nrfdeployment.tsp";
 import "./nssfdeployment.tsp";
 import "./clusterservice.tsp";
-import "./vnfagentdeployment.tsp";
 import "./observabilityservice.tsp";
 import "./sdmdeployment.tsp";
 

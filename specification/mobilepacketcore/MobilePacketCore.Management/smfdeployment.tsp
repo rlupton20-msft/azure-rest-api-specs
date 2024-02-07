@@ -19,7 +19,7 @@ namespace Microsoft.MobilePacketCore;
 @resource("smfDeployments")
 model SmfDeploymentResource
   is TrackedResource<SmfDeploymentResourceProperties> {
-  @doc("The name of the SmfDeployment")
+  @doc("The name of the SMF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -62,6 +62,8 @@ interface SmfDeployments {
   createOrUpdate is ArmResourceCreateOrUpdate2Async<SmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<SmfDeploymentResource>;
   delete is ArmResourceDeleteWithoutOkAsync<SmfDeploymentResource>;
+  @doc("List all Session Management Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<SmfDeploymentResource>;
+  @doc("List all Session Management Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<SmfDeploymentResource>;
 }

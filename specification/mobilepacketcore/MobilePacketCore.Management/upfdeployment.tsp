@@ -19,7 +19,7 @@ namespace Microsoft.MobilePacketCore;
 @resource("upfDeployments")
 model UpfDeploymentResource
   is TrackedResource<UpfDeploymentResourceProperties> {
-  @doc("The name of the UpfDeployment")
+  @doc("The name of the UPF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -62,6 +62,8 @@ interface UpfDeployments {
   createOrUpdate is ArmResourceCreateOrUpdate2Async<UpfDeploymentResource>;
   updateTags is ArmTagsPatchSync<UpfDeploymentResource>;
   delete is ArmResourceDeleteWithoutOkAsync<UpfDeploymentResource>;
+  @doc("List all User Plane Function Deployments by Resource ID.")
   listByResourceGroup is ArmResourceListByParent<UpfDeploymentResource>;
+  @doc("List all User Plane Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<UpfDeploymentResource>;
 }
