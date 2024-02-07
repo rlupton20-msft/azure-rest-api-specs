@@ -33,17 +33,29 @@ tag: package-2024-01
 ``` yaml
 modelerfour:
   flatten-models: false
+tag: package-preview-2024-03
 ```
 
+
+### Tag: package-preview-2024-03
+
+These settings apply only when `--tag=package-preview-2024-03` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2024-03'
+input-file:
+  - Private.HybridContainerService/preview/2024-03-01-preview/provisionedClusterInstances.json
+  - Private.HybridContainerService/preview/2024-03-01-preview/virtualNetworks.json
+```
 ### Tag: package-2024-01
 
 These settings apply only when `--tag=package-2024-01` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-01'
+``` yaml $(tag) == 'package-2024-01'
 input-file:
   - Microsoft.HybridContainerService/stable/2024-01-01/provisionedClusterInstances.json
   - Microsoft.HybridContainerService/stable/2024-01-01/virtualNetworks.json
 ```
+
 ### Tag: package-preview-2023-11
 
 These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
