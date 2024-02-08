@@ -41,6 +41,7 @@ model NrfDeploymentResourceProperties {
 
   @doc("Azure for Operators 5G Core NRF secrets parameters")
   @secret
+  @visibility("create", "update")
   secretsParameters?: ComponentDeploymentSecrets;
 
   @doc("Reference to cluster where the Network Function is deployed")
