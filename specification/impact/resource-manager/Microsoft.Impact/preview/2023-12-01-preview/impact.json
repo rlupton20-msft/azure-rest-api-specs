@@ -634,6 +634,284 @@
           }
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/Connectors": {
+      "get": {
+        "operationId": "Connectors_ListBySubscription",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "List Connector resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConnectorListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Impact/Connectors": {
+      "get": {
+        "operationId": "Connectors_ListByResourceGroup",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "List Connector resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConnectorListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Impact/Connectors/{ConnectorName}": {
+      "get": {
+        "operationId": "Connectors_Get",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "Get a Connector",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "ConnectorName",
+            "in": "path",
+            "description": "The name of the connector",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetConnector": {
+            "$ref": "./examples/Connectors_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "Connectors_CreateOrUpdate",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "Create a Connector",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "ConnectorName",
+            "in": "path",
+            "description": "The name of the connector",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Connector' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "201": {
+            "description": "Resource 'Connector' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CreateConnector": {
+            "$ref": "./examples/Connectors_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Connectors_Update",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "Update a Connector",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "ConnectorName",
+            "in": "path",
+            "description": "The name of the connector",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConnectorUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Connectors_Delete",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "Delete a Connector",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "ConnectorName",
+            "in": "path",
+            "description": "The name of the connector",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1614,6 +1892,130 @@
         "impactedResourceId",
         "impactCategory"
       ]
+    } "Connector": {
+      "type": "object",
+      "description": "A ImpactProviderHub resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConnectorProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ConnectorListResult": {
+      "type": "object",
+      "description": "The response of a Connector list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Connector items on this page",
+          "items": {
+            "$ref": "#/definitions/Connector"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ConnectorProperties": {
+      "type": "object",
+      "description": "Details of the Impact Connector.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "connectorId": {
+          "type": "string",
+          "description": "unique id of the connector.",
+          "readOnly": true
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "tenant id of this connector",
+          "readOnly": true
+        },
+        "type": {
+          "$ref": "#/definitions/ConnectorType",
+          "description": "connector type"
+        },
+        "filters": {
+          "type": "string",
+          "description": "filters associated with this connector"
+        },
+        "lastRunTimeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "last run time stamp of this connector in UTC time zone",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "connectorId",
+        "tenantId",
+        "type",
+        "filters",
+        "lastRunTimeStamp"
+      ]
+    },
+    "ConnectorType": {
+      "type": "string",
+      "description": "Enum for connector types",
+      "enum": [
+        "Azure Monitor Connector"
+      ],
+      "x-ms-enum": {
+        "name": "ConnectorType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureMonitorConnector",
+            "value": "Azure Monitor Connector",
+            "description": "Azure Monitor Connector"
+          }
+        ]
+      }
+    },
+    "ConnectorUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the Connector.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConnectorUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ConnectorUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the Connector.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ConnectorType",
+          "description": "connector type"
+        },
+        "filters": {
+          "type": "string",
+          "description": "filters associated with this connector"
+        }
+      }
     }
   },
   "parameters": {
