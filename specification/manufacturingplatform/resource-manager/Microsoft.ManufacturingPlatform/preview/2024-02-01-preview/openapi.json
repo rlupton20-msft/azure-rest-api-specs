@@ -596,7 +596,7 @@
       "properties": {
         "keyUri": {
           "type": "string",
-          "description": "URI of Key in AKV",
+          "description": "Azure Key Vault Uri",
           "x-ms-mutability": [
             "read",
             "update",
@@ -634,7 +634,7 @@
       "properties": {
         "keyUri": {
           "type": "string",
-          "description": "URI of Key in AKV",
+          "description": "Azure Key Vault Uri",
           "x-ms-mutability": [
             "read",
             "update",
@@ -671,6 +671,23 @@
           "readOnly": true
         }
       }
+    },
+    "ManagedOnBehalfOfConfiguration": {
+      "type": "object",
+      "description": "Configuration of the managed on behalf of resource.",
+      "properties": {
+        "moboBrokerResources": {
+          "type": "array",
+          "description": "Associated MoboBrokerResources.",
+          "items": {
+            "$ref": "#/definitions/MoboBrokerResource"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "moboBrokerResources"
+      ]
     },
     "ManagedResourceGroupConfiguration": {
       "type": "object",
@@ -858,6 +875,11 @@
           "description": "Configuration of the managed resource group associated with the resource.",
           "readOnly": true
         },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed On Behalf Of Configuration.",
+          "readOnly": true
+        },
         "amlProfile": {
           "$ref": "#/definitions/AmlProfile",
           "description": "Profile of Azure Machine Learning Resource.",
@@ -981,6 +1003,19 @@
           ]
         }
       }
+    },
+    "MoboBrokerResource": {
+      "type": "object",
+      "description": "MoboBroker resource.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "MonitoringProfile": {
       "type": "object",
