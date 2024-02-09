@@ -37,6 +37,13 @@ These settings apply only when `--tag=package-2021-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2021-03-01-preview'
 input-file:
   - Private.DevModSimWorkbench/preview/2021-03-01-preview/privatedevmodsimworkbench.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/connectors.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/chambers.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/workloads.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/files.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/fileRequests.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/storages.json
+  - Private.DevModSimWorkbench/preview/2021-03-01-preview/sharedStorages.json
 ```
 
 ---
