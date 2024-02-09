@@ -19,8 +19,6 @@ using Azure.ResourceManager;
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Impact;
 
-interface Operations extends Azure.ResourceManager.Operations {}
-
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A ImpactProviderHub resource")
