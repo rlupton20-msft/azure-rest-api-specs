@@ -12,7 +12,7 @@ using Azure.Core;
 @armProviderNamespace("Private.ContosoWorkbench")
 @service({
   title: "ContosoWorkbench Control Plane API",
-  version: "2024-02-08-preview",
+  version: "2021-03-01-preview",
 })
 @doc("Provides operations for working with ContosoWorkbench")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -22,9 +22,9 @@ namespace Private.ContosoWorkbench;
 
 @doc("ContosoWorkbench service version.")
 enum Versions {
-  @doc("Version 024-02-08")
+  @doc("Version 2021-03-01 preview")
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  `2024-02-08-preview`,
+  `2021-03-01-preview`,
 }
 
 @doc("The provisioning state of a resource.")
