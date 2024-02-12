@@ -4,15 +4,12 @@ import "./Reservation.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 // This is a local TypeSpec namespace.
 // It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
 namespace Common.AszLabHardware;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @parentResource(Reservation)
 model Server is TrackedResource<ServerProperties> {
   @doc("server name")
@@ -49,6 +46,14 @@ model ServerProperties {
     @visibility("read")
     @doc("Server maintenance status.")
     maintenanceStatus?: UserLabResourceMaintenanceStatus;
+
+    @visibility("read", "update")
+    @doc("User name of the account credential to authenticate to the server.")
+    userName?: string;
+
+    @visibility("read", "update")
+    @doc("Keyvault Uri for the password of the account credential to authenticate to the server.")
+    userPasswordKeyVaultUri?: string;
   }
 
 @armResourceOperations
@@ -60,5 +65,5 @@ interface Servers {
   listByResourceGroup is ArmResourceListByParent<Server>;
   listBySubscription is ArmListBySubscription<Server>;
   @doc("Allows any requested maintenance on this Server")
-  allowMaintenance is ArmResourceActionNoContentSync<Server, {}>
+  allowMaintenance is ArmResourceActionSync<Server, void, void>;
 }

@@ -4,15 +4,12 @@ import "../models/System.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 // This is a local TypeSpec namespace.
 // It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
 namespace Common.AszLabHardware;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A physical computer which can be reserved for use by a user")
 model LabServer is TrackedResource<LabServerProperties> {
     @doc("The name of the server")
@@ -87,5 +84,5 @@ interface LabServers {
   listByResourceGroup is ArmResourceListByParent<LabServer>;
   listBySubscription is ArmListBySubscription<LabServer>;
   @doc("Collects the inventory of the server")
-  collectInventory is ArmResourceActionNoContentSync<LabServer, {}>;
+  collectInventory is ArmResourceActionSync<LabServer, void, void>;
 }

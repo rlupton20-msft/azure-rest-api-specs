@@ -66,7 +66,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
@@ -100,7 +100,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LabServerListResult"
             }
@@ -134,7 +134,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ReservationListResult"
             }
@@ -176,7 +176,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ServerListResult"
             }
@@ -213,7 +213,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LabServerListResult"
             }
@@ -258,7 +258,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LabServer"
             }
@@ -373,7 +373,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LabServer"
             }
@@ -427,7 +427,7 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -466,20 +466,11 @@
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
           }
         ],
         "responses": {
           "204": {
-            "description": "Action completed successfully."
+            "description": "Azure operation completed successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -510,7 +501,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ReservationListResult"
             }
@@ -555,7 +546,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Reservation"
             }
@@ -670,7 +661,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Reservation"
             }
@@ -724,7 +715,7 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -767,7 +758,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ServerListResult"
             }
@@ -820,7 +811,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Server"
             }
@@ -951,7 +942,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Server"
             }
@@ -1013,7 +1004,7 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -1060,20 +1051,11 @@
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
           }
         ],
         "responses": {
           "204": {
-            "description": "Action completed successfully."
+            "description": "Azure operation completed successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -1747,7 +1729,9 @@
         "Failed",
         "Canceled",
         "Provisioning",
-        "Deleting"
+        "Updating",
+        "Deleting",
+        "Accepted"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
@@ -1773,8 +1757,16 @@
             "value": "Provisioning"
           },
           {
+            "name": "Updating",
+            "value": "Updating"
+          },
+          {
             "name": "Deleting",
             "value": "Deleting"
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted"
           }
         ]
       },
@@ -2065,6 +2057,22 @@
           "$ref": "#/definitions/UserLabResourceMaintenanceStatus",
           "description": "Server maintenance status.",
           "readOnly": true
+        },
+        "userName": {
+          "type": "string",
+          "description": "User name of the account credential to authenticate to the server.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "userPasswordKeyVaultUri": {
+          "type": "string",
+          "description": "Keyvault Uri for the password of the account credential to authenticate to the server.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         }
       },
       "required": [
@@ -2082,6 +2090,32 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "properties": {
+          "$ref": "#/definitions/ServerUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ServerUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the Server.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "User name of the account credential to authenticate to the server.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "userPasswordKeyVaultUri": {
+          "type": "string",
+          "description": "Keyvault Uri for the password of the account credential to authenticate to the server.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         }
       }
     },
@@ -2227,6 +2261,16 @@
             "description": "The Resource is in exclusive access mode (not available for reservation)."
           }
         ]
+      }
+    },
+    "Versions": {
+      "type": "string",
+      "enum": [
+        "2023-10-01-preview"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true
       }
     }
   },
