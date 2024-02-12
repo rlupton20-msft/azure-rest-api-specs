@@ -191,8 +191,8 @@ model Tax{
   @doc("Tax on Shipping or Unit")
   type: TaxType;
 
-  @doc("Tax Type")
-  taxType?: string;
+  @doc("Tax Class")
+  taxClass?: string;
   
   @doc("Tax Name")
   name?: string;
