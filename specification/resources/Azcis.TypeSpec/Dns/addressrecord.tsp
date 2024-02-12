@@ -22,8 +22,14 @@ namespace Microsoft.AzureCIS;
 
 @doc("AddressRecord properties")
 model AddressRecordResourceProperties {
+  @doc("Gets or sets the dns name")
+  dnsName: string;
+
   @doc("Gets or sets the IP Address in String format")
-  valueString: string;
+  ipAddress: string;
+
+  @doc("Gets or sets the ttl")
+  ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")

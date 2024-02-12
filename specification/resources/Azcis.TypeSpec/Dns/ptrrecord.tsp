@@ -22,8 +22,14 @@ namespace Microsoft.AzureCIS;
 
 @doc("PtrRecord properties")
 model PtrRecordResourceProperties {
+  @doc("Gets or sets the dns name")
+  dnsName: string;
+
   @doc("Gets or sets the IP Address in String format")
   pointsTo: string;
+
+  @doc("Gets or sets the ttl")
+  ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")

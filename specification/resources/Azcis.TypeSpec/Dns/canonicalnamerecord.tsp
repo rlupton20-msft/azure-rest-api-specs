@@ -22,8 +22,14 @@ namespace Microsoft.AzureCIS;
 
 @doc("CanonicalNameRecord properties")
 model CanonicalNameRecordResourceProperties {
-  @doc("Gets the CNAME")
-  cName: string;
+  @doc("Gets or sets the dns name")
+  dnsName: string;
+
+  @doc("Gets or sets the canonical name")
+  canonicalName: string;
+
+  @doc("Gets or sets the ttl")
+  ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")
