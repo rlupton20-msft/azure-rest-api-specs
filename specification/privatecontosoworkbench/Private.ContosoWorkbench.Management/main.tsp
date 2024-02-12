@@ -130,7 +130,7 @@ interface ContosoWorkbenches {
   get is ArmResourceRead<ContosoWorkbench>;
   @doc("Creates ContosoWorkbench and associated MSWB workload")
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ContosoWorkbench>;
-  // update is ArmResourcePatchAsync<ContosoWorkbench, ContosoWorkbenchProperties>;
+  update is ArmResourcePatchAsync<ContosoWorkbench, ContosoWorkbenchProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<ContosoWorkbench>;
 
   listByResourceGroup is ArmResourceListByParent<ContosoWorkbench>;
