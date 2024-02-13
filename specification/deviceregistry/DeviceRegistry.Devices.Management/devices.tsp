@@ -137,7 +137,10 @@ interface Devices {
   )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
 
-  @Autorest.example("./examples/devices/Update_Device.json", "Update a device.")
+  @Autorest.example(
+    "./examples/devices/Update_Device.json",
+    "Update a device to disable it."
+  )
   @Autorest.example(
     "./examples/devices/Update_Device_With_New_Endpoints.json",
     "Update a device with new endpoints."
