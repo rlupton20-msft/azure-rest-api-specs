@@ -1,0 +1,310 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "microsoft.dinwaRP",
+    "version": "canonical",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-canonicalswagger"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [],
+  "paths": {
+    "/{id}": {
+      "get": {
+        "operationId": "WidgetService_Get",
+        "description": "Gets an instance of the resource.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/WidgetKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/Widget"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "WidgetService_Update",
+        "description": "Updates an existing instance of the resource.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/WidgetKey"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WidgetUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/Widget"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "WidgetService_Delete",
+        "description": "Deletes an existing instance of the resource.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/WidgetKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "operationId": "WidgetService_List",
+        "description": "Lists all instances of the resource.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/WidgetCollectionWithNextLink"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "WidgetService_Create",
+        "description": "Creates a new instance of the resource.",
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WidgetCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/Widget"
+            }
+          },
+          "201": {
+            "description": "Resource create operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Widget"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/customGet": {
+      "get": {
+        "operationId": "WidgetService_CustomGet",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/Widget"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "Versions": {
+      "type": "string",
+      "enum": [
+        "v1",
+        "v2"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true
+      }
+    },
+    "Widget": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "string",
+          "enum": [
+            "red",
+            "blue"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "weight",
+        "color",
+        "name"
+      ]
+    },
+    "WidgetCollectionWithNextLink": {
+      "type": "object",
+      "description": "Paged response of Widget items",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The items on this page",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "WidgetCreate": {
+      "type": "object",
+      "description": "Resource create operation model.",
+      "properties": {
+        "weight": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "string",
+          "enum": [
+            "red",
+            "blue"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "weight",
+        "color",
+        "name"
+      ]
+    },
+    "WidgetUpdate": {
+      "type": "object",
+      "description": "Resource create or update operation model.",
+      "properties": {
+        "weight": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "color": {
+          "type": "string",
+          "enum": [
+            "red",
+            "blue"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "WidgetKey": {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}
