@@ -12,3 +12,4 @@ csharp:
   client-side-validation: false
   namespace: Private.DevModSimWorkbench
   output-folder: $(csharp-sdks-folder)/privatedevmodsimworkbench/management/Private.DevModSimWorkbench/GeneratedProtocol
+```
