@@ -27,15 +27,43 @@ These are the global settings for the Managed Network Fabric.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-06-15
+tag: package-preview-2024-02
 ```
 
 
+### Tag: package-preview-2024-02
+
+These settings apply only when `--tag=package-preview-2024-02` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2024-02'
+input-file:
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/AccessControlLists.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/InternetGatewayRules.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/InternetGateways.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/IpCommunities.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/IpExtendedCommunities.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/IpPrefixes.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/L2IsolationDomains.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/L3IsolationDomains.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NeighborGroups.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkDeviceSkus.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkDevices.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkFabricControllers.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkFabricSkus.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkFabrics.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkPacketBrokers.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkRacks.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkTapRules.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/NetworkTaps.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/Operations.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/RoutePolicies.json
+  - Microsoft.ManagedNetworkFabric/preview/2024-02-15-preview/common.json
+```
 ### Tag: package-2023-06-15
 
 These settings apply only when `--tag=package-2023-06-15` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-06-15'
+``` yaml $(tag) == 'package-2023-06-15'
 input-file:
   - Microsoft.ManagedNetworkFabric/stable/2023-06-15/AccessControlLists.json
   - Microsoft.ManagedNetworkFabric/stable/2023-06-15/InternetGateways.json
@@ -59,6 +87,7 @@ input-file:
   - Microsoft.ManagedNetworkFabric/stable/2023-06-15/RoutePolicies.json
   - Microsoft.ManagedNetworkFabric/stable/2023-06-15/common.json
 ```
+
 ### Tag: package-2023-02-01-preview
 
 These settings apply only when `--tag=package-2023-02-01-preview` is specified on the command line.
