@@ -13,32 +13,39 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using OpenAPI;
 
 @doc("Endpoint Protocol Enum")
 enum EndpointProtocol {
-  @doc("Protocol of Type ANY")
+  @doc("EndpointProtocol Type ANY")
   ANY,
 
-  @doc("Protocol of Type TCP")
+  @doc("EndpointProtocol Type TCP")
   TCP,
 
-  @doc("Protocol of Type UDP")
+  @doc("EndpointProtocol Type UDP")
   UDP,
 
-  @doc("Protocol of Type ICMP")
+  @doc("EndpointProtocol Type ICMP")
   ICMP,
 
-  @doc("Protocol of Type ESP")
+  @doc("EndpointProtocol Type ESP")
   ESP,
 
-  @doc("Protocol of Type AH")
+  @doc("EndpointProtocol Type AH")
   AH,
 }
 
 @doc("EndpointRule Properties")
 model EndpointRule {
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Endpoint Rule Id.")
   id?: string;
+
+  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
+  @doc("Endpoint Rule Name.")
+  name?: string;
 
   @doc("IP Address. Can include multiple CIDR/IP Addresses separated by commas.")
   address?: string;
@@ -52,9 +59,12 @@ model EndpointRule {
 
 @doc("Endpoint Resource properties")
 model EndpointProperties {
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Endpoint Description.")
   description?: string;
 
+  @extension("x-ms-identifiers", ["name"])
   @doc("Endpoint Rule Collection.")
   endpointRuleCollection?: EndpointRule[];
 

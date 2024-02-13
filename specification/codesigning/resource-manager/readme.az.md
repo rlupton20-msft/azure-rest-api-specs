@@ -10,7 +10,7 @@ az:
     randomize-names: true
 az-output-folder: $(azure-cli-extension-folder)/src/codesigning
 python-sdk-output-folder: "$(az-output-folder)/azext_codesigning/vendored_sdks/codesigning"
-# add additinal configuration here specific for Azure CLI
+# add additional configuration here specific for Azure CLI
 # refer to the faq.md for more details
 
 directive:
@@ -38,10 +38,6 @@ cli:
       alias:
         - name
         - n
-    - where:
-        group: CertificateProfile
-        op: Update  
-      hidden: true
       
 
 ```

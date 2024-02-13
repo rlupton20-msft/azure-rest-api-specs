@@ -26,7 +26,7 @@ These are the global settings for the privatedevmodsimworkbench.
 
 ```yaml
 openapi-type: arm
-openapi-subtype: providerHub
+openapi-subtype: rpaas
 tag: package-2021-03-01-preview
 ```
 
@@ -37,12 +37,6 @@ These settings apply only when `--tag=package-2021-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2021-03-01-preview'
 input-file:
   - Private.DevModSimWorkbench/preview/2021-03-01-preview/privatedevmodsimworkbench.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/connector.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/chambers.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/workload.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/files.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/fileRequests.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/storage.json
 ```
 
 ---

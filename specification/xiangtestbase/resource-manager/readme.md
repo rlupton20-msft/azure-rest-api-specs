@@ -27,43 +27,7 @@ These are the global settings for the testbase.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-06-15-preview
-```
-
-### Tag: package-2023-06-15-preview
-
-These settings apply only when `--tag=package-2023-06-15-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-06-15-preview'
-input-file:
-  - Microsoft.XiangTestBase/preview/2023-06-15-preview/actionrequest.json
-  - Microsoft.XiangTestBase/preview/2023-06-15-preview/customimage.json
-  - Microsoft.XiangTestBase/preview/2023-06-15-preview/draftpackage.json
-  - Microsoft.XiangTestBase/preview/2023-06-15-preview/testbase.json
-  - Microsoft.XiangTestBase/preview/2023-06-15-preview/testconfiguration.json
-```
-
-### Tag: package-2023-05-15-preview
-
-These settings apply only when `--tag=package-2023-05-15-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-05-15-preview'
-input-file:
-  - Microsoft.XiangTestBase/preview/2023-05-15-preview/actionrequest.json
-  - Microsoft.XiangTestBase/preview/2023-05-15-preview/customimage.json
-  - Microsoft.XiangTestBase/preview/2023-05-15-preview/draftpackage.json
-  - Microsoft.XiangTestBase/preview/2023-05-15-preview/testbase.json
-  - Microsoft.XiangTestBase/preview/2023-05-15-preview/testconfiguration.json
-```
-### Tag: package-2023-01-16-preview
-
-These settings apply only when `--tag=package-2023-01-16-preview` is specified on the command line.
-
-``` yaml $(tag) == 'package-2023-01-16-preview'
-input-file:
-  - Microsoft.XiangTestBase/preview/2023-01-16-preview/actionrequest.json
-  - Microsoft.XiangTestBase/preview/2023-01-16-preview/draftpackage.json
-  - Microsoft.XiangTestBase/preview/2023-01-16-preview/testbase.json
+tag: package-2024-02-01-preview
 ```
 
 ### Tag: package-2020-12-16-preview
@@ -227,6 +191,152 @@ input-file:
   - Microsoft.XiangTestBase/preview/2023-01-15-preview/testconfiguration.json
   - Microsoft.XiangTestBase/preview/2023-01-15-preview/actionrequest.json
   - Microsoft.XiangTestBase/preview/2023-01-15-preview/customimage.json
+```
+
+### Tag: package-2023-01-16-preview
+
+These settings apply only when `--tag=package-2023-01-16-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-01-16-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-01-16-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-01-16-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-01-16-preview/testbase.json
+```
+
+### Tag: package-2023-05-15-preview
+
+These settings apply only when `--tag=package-2023-05-15-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-05-15-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-05-15-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-05-15-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-05-15-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-05-15-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-05-15-preview/testconfiguration.json
+```
+
+### Tag: package-2023-06-01-preview
+
+These settings apply only when `--tag=package-2023-06-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-06-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-06-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-06-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-06-01-preview/testbase.json
+```
+
+### Tag: package-2023-06-15-preview
+
+These settings apply only when `--tag=package-2023-06-15-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-06-15-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-06-15-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-06-15-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-06-15-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-06-15-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-06-15-preview/testconfiguration.json
+```
+
+### Tag: package-2023-08-01-preview
+
+These settings apply only when `--tag=package-2023-08-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-08-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-08-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-08-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-08-01-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-08-01-preview/customimage.json
+```
+
+### Tag: package-2023-08-15-preview
+
+These settings apply only when `--tag=package-2023-08-15-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-08-15-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/chat.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/testconfiguration.json
+  - Microsoft.XiangTestBase/preview/2023-08-15-preview/credential.json
+```
+
+### Tag: package-2023-09-01-preview
+
+These settings apply only when `--tag=package-2023-09-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-09-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-09-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-09-01-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-09-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-09-01-preview/testbase.json
+```
+
+### Tag: package-2023-11-01-preview
+
+These settings apply only when `--tag=package-2023-11-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-11-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/chat.json
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-11-01-preview/credential.json
+```
+
+### Tag: package-2023-12-01-preview
+
+These settings apply only when `--tag=package-2023-12-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2023-12-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/chat.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/credential.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2023-12-01-preview/testconfiguration.json
+```
+
+### Tag: package-2024-02-01-preview
+
+These settings apply only when `--tag=package-2024-02-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-02-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/chat.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/credential.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2024-02-01-preview/testconfiguration.json
+```
+
+### Tag: package-2024-01-01-preview
+
+These settings apply only when `--tag=package-2024-01-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-01-01-preview'
+input-file:
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/actionrequest.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/chat.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/credential.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/customimage.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/draftpackage.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/testbase.json
+  - Microsoft.XiangTestBase/preview/2024-01-01-preview/testconfiguration.json
 ```
 
 ## Suppression

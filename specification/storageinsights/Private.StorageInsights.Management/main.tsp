@@ -68,7 +68,7 @@ model StorageCollectionRuleFilters {
   excludeFilter?: StorageCollectionRuleFilter;
 }
 
-@doc("The filter definition of the storage collection rule. All of the filters are combined using a logical AND. Empty or null fields are ignored. For arrays and dictionaries, a match to ANY of the provided array members/key-value pairs will satisfy the condition.")
+@doc("The filter definition of the storage collection rule. The filters are applied in a logical AND manner, such that only storage accounts that meet all the filters will be included in the collection. Filters that are empty or null have no effect on the selection. For filters that are arrays or dictionaries, any storage account that matches at least one of the array elements or key-value pairs will satisfy the filter condition.")
 model StorageCollectionRuleFilter {
   @doc("The Azure Resource Manager scopes to filter. This can be the resource IDs of management groups, subscriptions, resource groups or specific storage accounts.")
   scopes: ResourceIdentifier<[
@@ -91,15 +91,15 @@ model StorageCollectionRuleFilter {
   skus?: StorageSku[];
 
   @doc("The storage account namespace structures to filter.")
-  namespaceStructure?: NamespaceStructure;
+  namespaceStructures?: NamespaceStructure[];
 }
 
 @doc("Destinations for storage collection rule data.")
 model StorageCollectionRuleDestinations {
   @doc("The resource ID of the log analytics workspace.")
-  workspaceResourceId: ResourceIdentifier<[
+  dataCollectionRuleResourceId: ResourceIdentifier<[
     {
-      type: "Microsoft.OperationalInsights/workspaces";
+      type: "Microsoft.Insights/dataCollectionRules";
     }
   ]>;
 }
@@ -154,18 +154,15 @@ enum StorageSku {
 
 @doc("Storage account namespace structure")
 enum NamespaceStructure {
-  @doc("Hierarchical namespace Only")
-  HierarchicalOnly,
+  @doc("Hierarchical namespace")
+  Hierarchical,
 
-  @doc("Flat namespace Only")
-  FlatOnly,
-
-  @doc("Both hierarchical and flat namespaces")
-  All,
+  @doc("Flat namespace")
+  Flat,
 }
 
 #suppress "@azure-tools/typespec-azure-core/documentation-required" "https://github.com/Azure/typespec-azure/issues/3107"
 enum ApiVersion {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  v2023_08_01_privatepreview: "2023-08-01-privatepreview",
+  v2023_08_01_preview: "2023-08-01-preview",
 }

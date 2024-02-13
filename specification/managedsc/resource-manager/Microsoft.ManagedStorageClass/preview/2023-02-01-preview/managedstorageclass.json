@@ -373,12 +373,12 @@
       "properties": {
         "azureStorageAccountName": {
           "type": "string",
-          "description": "[Blob] Azure Storage Account Name"
+          "description": "Azure Storage Account Name"
         },
         "azureStorageAccountKey": {
           "type": "string",
           "format": "password",
-          "description": "[Blob] Azure Storage Account Key",
+          "description": "Azure Storage Account Key",
           "x-ms-secret": true
         }
       },
@@ -392,22 +392,6 @@
         }
       ],
       "x-ms-discriminator-value": "Blob"
-    },
-    "BlobStorageClassPropertiesUpdate": {
-      "type": "object",
-      "description": "The model for updating a blob storage class properties",
-      "properties": {
-        "azureStorageAccountName": {
-          "type": "string",
-          "description": "[Blob] Azure Storage Account Name"
-        },
-        "azureStorageAccountKey": {
-          "type": "string",
-          "format": "password",
-          "description": "[Blob] Azure Storage Account Key",
-          "x-ms-secret": true
-        }
-      }
     },
     "DataResilienceTier": {
       "type": "string",
@@ -475,25 +459,32 @@
       "properties": {
         "allowVolumeExpansion": {
           "$ref": "#/definitions/VolumeExpansion",
-          "description": "[Native] Volume can be expanded or not"
+          "description": "Volume can be expanded or not"
         },
         "mountOptions": {
           "type": "array",
-          "description": "[Native] Additional mount options",
+          "description": "Additional mount options",
           "items": {
             "type": "string"
           }
         },
         "provisioner": {
           "type": "string",
-          "description": "[Native] Provisioner name",
-          "readOnly": true
+          "description": "Provisioner name",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "volumeBindingMode": {
           "$ref": "#/definitions/VolumeBindingMode",
-          "description": "[Native] Binding mode of volumes: Immediate, WaitForFirstConsumer"
+          "description": "Binding mode of volumes: Immediate, WaitForFirstConsumer",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
-        "accessMode": {
+        "accessModes": {
           "type": "array",
           "description": "The access mode: [ReadWriteOnce, ReadWriteMany] or [ReadWriteOnce]",
           "items": {
@@ -548,20 +539,16 @@
       "properties": {
         "allowVolumeExpansion": {
           "$ref": "#/definitions/VolumeExpansion",
-          "description": "[Native] Volume can be expanded or not"
+          "description": "Volume can be expanded or not"
         },
         "mountOptions": {
           "type": "array",
-          "description": "[Native] Additional mount options",
+          "description": "Additional mount options",
           "items": {
             "type": "string"
           }
         },
-        "volumeBindingMode": {
-          "$ref": "#/definitions/VolumeBindingMode",
-          "description": "[Native] Binding mode of volumes: Immediate, WaitForFirstConsumer"
-        },
-        "accessMode": {
+        "accessModes": {
           "type": "array",
           "description": "The access mode: [ReadWriteOnce, ReadWriteMany] or [ReadWriteOnce]",
           "items": {
@@ -658,6 +645,66 @@
         }
       ],
       "x-ms-discriminator-value": "Native"
+    },
+    "NfsDirectoryActionOnVolumeDeletion": {
+      "type": "string",
+      "description": "The action to take when a NFS volume is deleted",
+      "enum": [
+        "Delete",
+        "Retain"
+      ],
+      "x-ms-enum": {
+        "name": "NfsDirectoryActionOnVolumeDeletion",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Delete",
+            "value": "Delete",
+            "description": "When the volume is deleted, delete the directory"
+          },
+          {
+            "name": "Retain",
+            "value": "Retain",
+            "description": "When the volume is deleted, retain the directory"
+          }
+        ]
+      }
+    },
+    "NfsStorageClassProperties": {
+      "type": "object",
+      "description": "The properties of NFS ManagedStorageClass",
+      "properties": {
+        "server": {
+          "type": "string",
+          "description": "NFS Server"
+        },
+        "share": {
+          "type": "string",
+          "description": "NFS share"
+        },
+        "subDir": {
+          "type": "string",
+          "description": "Sub directory under share. If the sub directory doesn't exist, driver will create it"
+        },
+        "mountPermissions": {
+          "type": "string",
+          "description": "Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount"
+        },
+        "onDelete": {
+          "$ref": "#/definitions/NfsDirectoryActionOnVolumeDeletion",
+          "description": "The action to take when a NFS volume is deleted. Default is Delete"
+        }
+      },
+      "required": [
+        "server",
+        "share"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/StorageClassProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "NFS"
     },
     "PerformanceTier": {
       "type": "string",
@@ -774,23 +821,15 @@
       ],
       "x-ms-discriminator-value": "RWX"
     },
-    "RwxStorageClassPropertiesUpdate": {
-      "type": "object",
-      "description": "The model for updating a rwx storage class properties",
-      "properties": {
-        "backingStorageClassName": {
-          "type": "string",
-          "description": "The backing storageclass used to create new storageclass"
-        }
-      }
-    },
     "SCType": {
       "type": "string",
       "description": "Type of a managed storage class",
       "enum": [
         "Native",
         "RWX",
-        "Blob"
+        "Blob",
+        "NFS",
+        "SMB"
       ],
       "x-ms-enum": {
         "name": "SCType",
@@ -810,9 +849,56 @@
             "name": "Blob",
             "value": "Blob",
             "description": "Blob storage class"
+          },
+          {
+            "name": "NFS",
+            "value": "NFS",
+            "description": "NFS storage class"
+          },
+          {
+            "name": "SMB",
+            "value": "SMB",
+            "description": "SMB storage class"
           }
         ]
       }
+    },
+    "SmbStorageClassProperties": {
+      "type": "object",
+      "description": "The properties of SMB ManagedStorageClass",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "SMB Source"
+        },
+        "subDir": {
+          "type": "string",
+          "description": "Sub directory under share. If the sub directory doesn't exist, driver will create it"
+        },
+        "username": {
+          "type": "string",
+          "description": "Server username"
+        },
+        "password": {
+          "type": "string",
+          "format": "password",
+          "description": "Server password",
+          "x-ms-secret": true
+        },
+        "domain": {
+          "type": "string",
+          "description": "Server domain"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/StorageClassProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "SMB"
     },
     "StorageClassProperties": {
       "type": "object",
@@ -838,13 +924,51 @@
         },
         "azureStorageAccountName": {
           "type": "string",
-          "description": "[Blob] Azure Storage Account Name"
+          "description": "Azure Storage Account Name"
         },
         "azureStorageAccountKey": {
           "type": "string",
           "format": "password",
-          "description": "[Blob] Azure Storage Account Key",
+          "description": "Azure Storage Account Key",
           "x-ms-secret": true
+        },
+        "server": {
+          "type": "string",
+          "description": "NFS Server"
+        },
+        "share": {
+          "type": "string",
+          "description": "NFS share"
+        },
+        "subDir": {
+          "type": "string",
+          "description": "Sub directory under share. If the sub directory doesn't exist, driver will create it"
+        },
+        "mountPermissions": {
+          "type": "string",
+          "description": "Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount"
+        },
+        "onDelete": {
+          "$ref": "#/definitions/NfsDirectoryActionOnVolumeDeletion",
+          "description": "The action to take when a NFS volume is deleted. Default is Delete"
+        },
+        "source": {
+          "type": "string",
+          "description": "SMB Source"
+        },
+        "username": {
+          "type": "string",
+          "description": "Server username"
+        },
+        "password": {
+          "type": "string",
+          "format": "password",
+          "description": "Server password",
+          "x-ms-secret": true
+        },
+        "domain": {
+          "type": "string",
+          "description": "Server domain"
         }
       }
     },

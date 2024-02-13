@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core AMF Deployment Resource")
+@doc("Azure for Operators 5G Core Access and Mobility Function (AMF) Deployment Resource")
 @resource("amfDeployments")
 model AmfDeploymentResource
   is TrackedResource<AmfDeploymentResourceProperties> {
@@ -28,8 +28,6 @@ model AmfDeploymentResource
   @segment("amfDeployments")
   @visibility("create", "read")
   name: string;
-
-  ...ManagedServiceIdentity;
 }
 
 @doc("AMF Deployment Properties.")
@@ -38,20 +36,25 @@ model AmfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Usage SKU")
+  @doc("Azure for Operators 5G Core AMF component parameters")
+  componentParameters?: ComponentDeploymentParameters;
+
+  @doc("Azure for Operators 5G Core AMF secrets parameters")
+  @secret
+  @visibility("create", "update")
+  secretsParameters?: ComponentDeploymentSecrets;
+
+  @doc("Reference to cluster where the Network Function is deployed")
   @visibility("create", "read")
-  usageSku: UsageSku;
+  clusterService: ClusterServiceIdProperty;
 
-  @doc("Simultaneously Attached Users (SAU)")
+  @doc("Release version. This is inherited from the cluster")
   @visibility("read")
-  simultaneouslyAttachedUsersCount?: int32;
+  releaseVersion?: ReleaseVersion;
 
-  @doc("Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/")
-  keyVault: url;
-
-  @doc("Deployment status")
+  @doc("Operational status")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(AmfDeploymentResource)
@@ -59,7 +62,9 @@ interface AmfDeployments {
   get is ArmResourceRead<AmfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<AmfDeploymentResource>;
   updateTags is ArmTagsPatchSync<AmfDeploymentResource>;
-  delete is ArmResourceDeleteSync<AmfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<AmfDeploymentResource>;
+  @doc("List all Access and Mobility Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<AmfDeploymentResource>;
+  @doc("List all Access and Mobility Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<AmfDeploymentResource>;
 }

@@ -5,25 +5,21 @@ import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "./resources/Server.tsp";
+import "../../Common/resources/LabServer.tsp";
+import "../../Common/resources/Reservation.tsp";
+import "../../Common/resources/Server.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
+import "../../Common/common.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Private.AszLabHardware")
 @service({
   title: "Private.AszLabHardware",
-  version: "2023-09-01-preview",
 })
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-namespace Private.AszLabHardware;
+@versioned(Versions)
 
-interface Operations extends Azure.ResourceManager.Operations {}
-
-@doc("The status of the current operation.")
-@Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-}
+// This is a local TypeSpec namespace.
+// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
+namespace Common.AszLabHardware;

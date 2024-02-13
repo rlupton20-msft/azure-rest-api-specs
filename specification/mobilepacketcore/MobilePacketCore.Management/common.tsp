@@ -48,84 +48,6 @@ op ArmResourceCreateOrUpdate2Async<
 model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.ArmResource>
   is ArmResponse<TResource>;
 
-@pattern("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$")
-scalar IPv4Address extends string;
-
-@pattern("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})/[0-9]{1,2}$")
-scalar IPv4Cidr extends string;
-
-@pattern("^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
-scalar Ipv6Address extends string;
-
-@doc("Type of Network Function")
-enum MobilePacketCoreType {
-  @doc("Access and Mobility Function")
-  AMF,
-
-  @doc("Session Management Function")
-  SMF,
-
-  @doc("User Plane Function")
-  UPF,
-
-  @doc("Network Repository Function")
-  NRF,
-
-  @doc("Network Slice Selection Function")
-  NSSF,
-
-  @doc("Mobility Management Entity")
-  MME,
-
-  @doc("System Architecture Evolution Gateway Control Plane, control and user plane separation (CUPS) architecture")
-  SaegwControlPlane,
-
-  @doc("System Architecture Evolution Gateway User Plane, control and user plane separation (CUPS) architecture")
-  SaegwUserPlane,
-
-  @doc("System Architecture Evolution Gateway.  This combines the Serving Gateway (SGW) and the Packet Data Network Gateway (PGW) functionality")
-  Saegw,
-
-  @doc("Evolved Packet Data Gateway")
-  ePDG,
-
-  @doc("Non-3GPP Interworking Function")
-  N3IWF,
-
-  @doc("Remote Platform As A Service Components")
-  RemotePaaS,
-
-  @doc("Element Management System")
-  EMS,
-
-  @doc("Operations and Policy Manager")
-  OperationsPolicyManager,
-}
-
-@doc("Network Function Administrative State enumerations")
-enum MobilePacketCoreAdministrativeState {
-  @doc("Resource has been commissioned")
-  Commissioned,
-
-  @doc("Resource has been decommissioned")
-  Decommissioned,
-}
-
-@doc("Network Function Operational Status enumerations")
-enum MobilePacketCoreOperationalStatus {
-  @doc("Resource is inactive")
-  Inactive,
-
-  @doc("Resource has been deployed, awaiting provisioning")
-  InstantiatedNotProvisioned,
-
-  @doc("Resource has been deployed and provisioned, awaiting testing")
-  InstantiatedProvisioned,
-
-  @doc("Resource is fully deployed and operational")
-  Active,
-}
-
 @doc("Provisioning state of the resource")
 @Azure.Core.lroStatus
 enum ProvisioningState {
@@ -144,114 +66,39 @@ enum ProvisioningState {
   Accepted,
 }
 
-@doc("ARM resource ID of the vnet subnet.")
-scalar VnetSubnetIdProperty
+@doc("ARM resource ID of a cluster.")
+scalar ClusterServiceIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.Network/virtualNetworks/subnets",
+      type: "Microsoft.MobilePacketCore/clusterServices",
     }
   ]>;
 
-@doc("ARM resource ID of the security group.")
-scalar SecurityGroupIdProperty
+@doc("ARM resource ID of a VNF Agent deployment.")
+scalar VnfAgentDeploymentIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.Network/virtualNetworks/networkSecurityGroups",
+      type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
     }
   ]>;
 
-@doc("ARM resource ID of the Cloud Service Network.")
-scalar CloudServiceNetworkIdProperty
+@doc("ARM resource ID of a custom location.")
+scalar CustomLocationIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
     {
-      type: "Microsoft.NetworkCloud/cloudServicesNetworks",
+      type: "Microsoft.ExtendedLocation/customLocations",
     }
   ]>;
 
-@doc("ARM resource ID of the Network Fabric.")
-scalar NetworkFabricIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedNetworkFabric/networkFabrics",
-    }
-  ]>;
+@doc("Operational Status of the resource")
+model OperationalStatus {
+  @doc("Status of the deployed workload")
+  @visibility("read")
+  workload?: string;
 
-@doc("ARM resource ID of the L3 Isolation Domain.")
-scalar L3IsolationDomainIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedNetworkFabric/l3IsolationDomains",
-    }
-  ]>;
-
-@doc("Azure Availability Zones.")
-enum AvailabilityZone {
-  @doc("No availability zone")
-  None,
-
-  @doc("Zone 1")
-  `1`,
-
-  @doc("Zone 2")
-  `2`,
-
-  @doc("Zone 3")
-  `3`,
-}
-
-@doc("Common attributes for L2 networks for cloud workload network on Nexus")
-model NexusL2NetworkProperties {
-  @doc("Vlan Identifier. Example: 501.")
-  @minValue(100)
-  @maxValue(4094)
-  vlanId: int32;
-
-  @doc("Maximum transmission unit. Default value is 1500.")
-  @minValue(64)
-  @maxValue(9200)
-  mtu: int32 = 1500;
-}
-
-@doc("Common attributes for L3 networks for both fabric internal network and cloud workload network on Nexus")
-model NexusL3NetworkProperties {
-  @doc("ip prefix of the connected IPv4 Subnet. The first three usable IP addresses for internal use")
-  subnetPrefix: IPv4Cidr;
-
-  @doc("Vlan Identifier. Example: 501.")
-  @minValue(100)
-  @maxValue(4094)
-  vlanId: int32;
-
-  @doc("Maximum transmission unit. Default value is 1500.")
-  @minValue(64)
-  @maxValue(9200)
-  mtu: int32 = 1500;
-
-  @doc("BGP Peer ASN. Example: 65047.")
-  @minValue(1)
-  @maxValue(65535)
-  bgpPeerAsn?: int32;
-
-  @doc("BGP Ipv4 Listen Range.")
-  bgpListenRangePrefixes?: IPv4Cidr[];
-
-  @doc("List of static routes for network fabric L3 internal networks.")
-  staticRouteConfiguration?: Ipv4StaticRouteConfiguration[];
-}
-
-@doc("IPv4 Static Route Configuration")
-model Ipv4StaticRouteConfiguration {
-  @doc("ip prefix of the static route")
-  prefix: IPv4Cidr;
-
-  @doc("List of next hop ipv4 addresses.")
-  nextHop: IPv4Address[];
-}
-
-@doc("Deployment Status of Network Functions")
-model DeploymentStatus {
-  @doc("Placeholder")
-  placeHolder: string;
+  @doc("Health check results")
+  @visibility("read")
+  healthCheck?: string;
 }
 
 @doc("Infrastructure Type Definitions")
@@ -265,47 +112,62 @@ enum InfrastructureType {
 
 @doc("Deployment Type Definitions")
 enum SkuDeploymentType {
-  @doc("Producton SKU")
+  @doc("Production Deployment")
   Production,
 
-  @doc("Lab SKU")
+  @doc("Lab Deployment")
   Lab,
 }
 
-@doc("Usage Definitions")
-enum SkuUsageDefinitions {
-  @doc("10K Sessions or Simultaneously Attached Users")
-  `10K`,
-}
+@doc("Cluster Type Definitions")
+enum ClusterType {
+  @doc("Azure Kubernetes Service")
+  Aks,
 
-@doc("Mobile Core Scaling Unit Definitions")
-enum SkuMobileCoreScalingUnitDefinitions {
-  @doc("Unit of 4 vCPUs")
-  `4`,
+  @doc("Azure Operator Nexus Kubernetes Service")
+  NexusAks,
 }
 
 @doc("Usage SKU Definition")
-model UsageSku {
-  @doc("Deployment Type")
-  deploymentType: SkuDeploymentType;
-
-  @doc("Usage Definition")
-  usageUnits: SkuUsageDefinitions;
-
-  @doc("Full SKU for the Resource")
-  @visibility("read")
-  sku?: string;
-}
+scalar UsageSku extends string;
 
 @doc("Mobile Core Scaling Unit SKU Definition")
-model MobileCoreScalingUnitSku {
-  @doc("Deployment Type")
-  deploymentType: SkuDeploymentType;
+scalar MobileCoreScalingUnitSku extends string;
 
-  @doc("Usage Definition")
-  mobileCoreScalingUnits: SkuMobileCoreScalingUnitDefinitions;
+@doc("Azure for Operators 5G Core Release Version.")
+scalar ReleaseVersion extends string;
 
-  @doc("Full SKU for the Resource")
-  @visibility("read")
-  sku?: string;
+@doc("Containerized Network Function (CNF) Component Deployment Parameters")
+scalar ComponentDeploymentParameters extends string;
+
+@doc("Containerized Network Function (CNF) Component Secrets")
+scalar ComponentDeploymentSecrets extends string;
+
+@doc("Containerized Network Function (CNF) Component Deployment Type")
+scalar ComponentDeploymentType extends string;
+
+@doc("Containerized Network Function (CNF) Qualified Deployment Parameters")
+model QualifiedComponentDeploymentParameters {
+  @doc("Componenent Type")
+  type: ComponentDeploymentType;
+
+  @doc("Deployment Parameters")
+  parameters?: ComponentDeploymentParameters;
+
+  @doc("Deployment secrets")
+  @secret
+  @visibility("create", "update")
+  secrets?: ComponentDeploymentSecrets;
+}
+
+@doc("ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure.")
+model ManagedResourceGroupConfiguration {
+  @doc("The name for the managed resource group. If not specified, the unique name is automatically generated.")
+  @visibility("create", "read")
+  @maxLength(75)
+  name?: string;
+
+  @doc("The location of the managed resource group. If not specified, the location of the parent resource is chosen.")
+  @visibility("create", "read")
+  location?: string;
 }

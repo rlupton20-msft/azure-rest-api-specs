@@ -1,8 +1,8 @@
-# [[Provisioning Policy Provider]]
+# FairfieldGardens
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for [[Edge Test Provider]].
+This is the AutoRest configuration file for FairfieldGardens.
 
 ## Getting Started
 
@@ -22,20 +22,21 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the [[Edge Test Provider]].
+These are the global settings for the FairfieldGardens.
 
 ```yaml
-openapi-type: [[OpenApiType]]
-tag: package-[[Version]]
+openapi-type: arm
+openapi-subtype: rpaas
+tag: package-2023-12-01-preview
 ```
 
-### Tag: package-[[Version]]
+### Tag: package-2023-12-01-preview
 
-These settings apply only when `--tag=package-[[Version]]` is specified on the command line.
+These settings apply only when `--tag=package-2023-12-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-[[Version]]'
+```yaml $(tag) == 'package-2023-12-01-preview'
 input-file:
-  - [[ResourceProviderName]]/[[ReleaseState]]/[[Version]]/[[provisioningpolicy]].json
+  - Private.BBeeInt1/preview/2023-12-01-preview/FairfieldGardens.json
 ```
 
 ---
@@ -61,6 +62,10 @@ swagger-to-sdk:
 
 See configuration in [readme.az.md](./readme.az.md)
 
+## CSharp
+
+See configuration in [readme.csharp.md](./readme.csharp.md)
+
 ## Go
 
 See configuration in [readme.go.md](./readme.go.md)
@@ -72,7 +77,3 @@ See configuration in [readme.python.md](./readme.python.md)
 ## TypeScript
 
 See configuration in [readme.typescript.md](./readme.typescript.md)
-
-## CSharp
-
-See configuration in [readme.csharp.md](./readme.csharp.md)

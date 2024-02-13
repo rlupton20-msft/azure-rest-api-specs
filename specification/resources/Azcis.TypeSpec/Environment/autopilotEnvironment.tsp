@@ -23,10 +23,11 @@ model EnvironmentResourceProperties {
   clusterName?: string;
 
   @doc("Basic or All Mode indicate clone customer config file or just basic file")
-  mode?: "All" | "Basic";
+  @visibility("read")
+  mode?: environmentMode;
 
   @doc("Indicate APGold or PFGold.")
-  enlistmentType?: "APGold" | "PFGold";
+  enlistmentType?: string;
 
   @doc("Provisioning state")
   @visibility("read")
@@ -51,6 +52,7 @@ interface Environment {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EnvironmentResource>;
   listBySubscription is ArmListBySubscription<EnvironmentResource>;
   listByResourceGroup is ArmResourceListByParent<EnvironmentResource>;
+  get is ArmResourceRead<EnvironmentResource>;
 }
 
 @doc("Provisioning status of the resource.")
@@ -59,4 +61,13 @@ enum environmentProvisioningState {
 
   @doc("Accepted State")
   Accepted,
+}
+
+@doc("Basic or All Mode indicate clone customer config file or just basic file")
+enum environmentMode {
+  @doc("Clone basic file")
+  Basic,
+
+  @doc("Clone customer config file")
+  All,
 }

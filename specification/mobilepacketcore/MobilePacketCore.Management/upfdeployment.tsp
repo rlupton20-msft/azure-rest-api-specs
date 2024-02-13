@@ -15,11 +15,11 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core UPF Deployment Resource")
+@doc("Azure for Operators 5G Core User Plane Function (UPF) Deployment Resource")
 @resource("upfDeployments")
 model UpfDeploymentResource
   is TrackedResource<UpfDeploymentResourceProperties> {
-  @doc("The name of the UpfDeployment")
+  @doc("The name of the UPF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -28,8 +28,6 @@ model UpfDeploymentResource
   @segment("upfDeployments")
   @visibility("create", "read")
   name: string;
-
-  ...ManagedServiceIdentity;
 }
 
 @doc("UPF Deployment Properties.")
@@ -38,8 +36,25 @@ model UpfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/")
-  keyVault: url;
+  @doc("Azure for Operators 5G Core UPF component parameters")
+  componentParameters: ComponentDeploymentParameters;
+
+  @doc("Azure for Operators 5G Core F secrets parameters")
+  @secret
+  @visibility("create", "update")
+  secretsParameters?: ComponentDeploymentSecrets;
+
+  @doc("Reference to cluster where the Network Function is deployed")
+  @visibility("create", "read")
+  clusterService: ClusterServiceIdProperty;
+
+  @doc("Release version. This is inherited from the cluster")
+  @visibility("read")
+  releaseVersion?: ReleaseVersion;
+
+  @doc("Operational status")
+  @visibility("read")
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(UpfDeploymentResource)
@@ -47,7 +62,9 @@ interface UpfDeployments {
   get is ArmResourceRead<UpfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<UpfDeploymentResource>;
   updateTags is ArmTagsPatchSync<UpfDeploymentResource>;
-  delete is ArmResourceDeleteSync<UpfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<UpfDeploymentResource>;
+  @doc("List all User Plane Function Deployments by Resource ID.")
   listByResourceGroup is ArmResourceListByParent<UpfDeploymentResource>;
+  @doc("List all User Plane Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<UpfDeploymentResource>;
 }

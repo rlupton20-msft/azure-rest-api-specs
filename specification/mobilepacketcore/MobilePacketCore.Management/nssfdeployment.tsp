@@ -15,11 +15,11 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core NSSF Deployment Resource")
+@doc("Azure for Operators 5G Core Network Slice Selection Function (NSSF) Deployment Resource")
 @resource("nssfDeployments")
 model NssfDeploymentResource
   is TrackedResource<NssfDeploymentResourceProperties> {
-  @doc("The name of the NssfDeployment")
+  @doc("The name of the NSSF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -28,8 +28,6 @@ model NssfDeploymentResource
   @segment("nssfDeployments")
   @visibility("create", "read")
   name: string;
-
-  ...ManagedServiceIdentity;
 }
 
 @doc("NSSF Deployment Properties.")
@@ -38,12 +36,25 @@ model NssfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/")
-  keyVault: url;
+  @doc("Azure for Operators 5G Core NSSF component parameters")
+  componentParameters?: ComponentDeploymentParameters;
 
-  @doc("Deployment status")
+  @doc("Azure for Operators 5G Core NSSF secrets parameters")
+  @secret
+  @visibility("create", "update")
+  secretsParameters?: ComponentDeploymentSecrets;
+
+  @doc("Reference to cluster where the Network Function is deployed")
+  @visibility("create", "read")
+  clusterService: ClusterServiceIdProperty;
+
+  @doc("Release version. This is inherited from the cluster")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  releaseVersion?: ReleaseVersion;
+
+  @doc("Operational status")
+  @visibility("read")
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(NssfDeploymentResource)
@@ -51,7 +62,9 @@ interface NssfDeployments {
   get is ArmResourceRead<NssfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NssfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NssfDeploymentResource>;
-  delete is ArmResourceDeleteSync<NssfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<NssfDeploymentResource>;
+  @doc("List all Network Slice Selection Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<NssfDeploymentResource>;
+  @doc("List all Network Slice Selection Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<NssfDeploymentResource>;
 }

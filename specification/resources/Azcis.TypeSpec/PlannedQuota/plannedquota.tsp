@@ -15,19 +15,16 @@ namespace Microsoft.AzureCIS;
 model PlannedQuotaResourceProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Name of the resource template")
-  name: string;
+  plannedQuotaName: string;
 
   @doc("Contact email for manual approval")
   contactEmail: string;
 
-  @doc("Subscription GUID")
-  subscriptionId: string;
-
-  @doc("Service tree id")
-  serviceTreeId: string;
-
   @doc("Subscription Name in plan")
   subscriptionNameInPlan: string;
+
+  @doc("Plan version")
+  planVersion?: string;
 
   @doc("Stage name")
   stage?: string;

@@ -346,11 +346,14 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted."
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource already deleted."
           },
           "default": {
             "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
@@ -387,13 +390,13 @@
           ],
           "x-ms-client-flatten": true
         },
-        "systemData": {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/systemData",
-          "description": "System metadata for this resource.",
+        "name": {
+          "type": "string",
+          "description": "Name of the File System resource",
           "readOnly": true
         },
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v3/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         }
       },
@@ -416,7 +419,7 @@
             "$ref": "#/definitions/FileSystemResource"
           },
           "x-cadl-name": "FileSystemResource[]",
-          "description": "The items on this page"
+          "description": "The FileSystemResource items on this page"
         },
         "nextLink": {
           "type": "string",
@@ -446,9 +449,6 @@
         },
         "userDetails": {
           "$ref": "#/definitions/UserDetails",
-          "x-ms-mutability": [
-            "create"
-          ],
           "description": "User Details"
         },
         "delegatedSubnetId": {
@@ -470,8 +470,7 @@
         "adminPassword": {
           "type": "string",
           "x-ms-secret": true,
-          "description": "Initial administrator password of the resource",
-          "pattern": "^(?=(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])|(?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])|(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])).{8,}$"
+          "description": "Initial administrator password of the resource"
         },
         "initialCapacity": {
           "type": "integer",
@@ -497,7 +496,7 @@
       "type": "object",
       "properties": {
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v3/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         },
         "tags": {
@@ -682,8 +681,8 @@
       "properties": {
         "email": {
           "type": "string",
-          "description": "User Email",
-          "pattern": "^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
+          "x-ms-secret": true,
+          "description": "User Email"
         }
       },
       "description": "User Details of Qumulo FileSystem resource",
@@ -723,10 +722,7 @@
       "required": true,
       "description": "Name of the File System resource",
       "type": "string",
-      "x-ms-parameter-location": "method",
-      "pattern": "^[A-Za-z0-9]([A-Za-z0-9\\-])*[A-Za-z0-9]$",
-      "minLength":2,
-      "maxLength": 14
+      "x-ms-parameter-location": "method"
     }
   }
 }

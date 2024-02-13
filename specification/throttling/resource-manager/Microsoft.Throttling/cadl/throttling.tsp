@@ -7,14 +7,18 @@ import "@azure-tools/typespec-providerhub";
 
 @doc("Azure Throttling Solutions (ATS)")
 @service({
-  title: "Azure Throttling"
+  title: "Azure Throttling",
 })
 @versioned(Versions)
 @armProviderNamespace
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Throttling;
 
 enum Versions {
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2, Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(
+    Azure.Core.Versions.v1_0_Preview_2,
+    Azure.ResourceManager.Versions.v1_0_Preview_1
+  )
   v2022_06_01_preview: "2022-06-01-preview",
 }
 
@@ -41,7 +45,7 @@ enum ProvisioningState {
   @doc("Resource being updated")
   Updating,
   @doc("Resource being deleted")
-  Deleting
+  Deleting,
 }
 
 @doc("Throttling account")
@@ -54,8 +58,15 @@ model Account is TrackedResource<AccountProperties> {
   name: string;
 }
 
-@armResourceOperations(Account)
-interface Accounts extends TrackedResourceOperations<Account, AccountProperties> {}
+@armResourceOperations
+interface Accounts {
+  get is ArmResourceRead<Account>;
+  create is ArmResourceCreateOrReplaceSync<Account>;
+  update is ArmResourcePatchSync<Account, AccountProperties>;
+  delete is ArmResourceDeleteSync<Account>;
+  listByResourceGroup is ArmResourceListByParent<Account>;
+  listBySubscription is ArmListBySubscription<Account>;
+}
 
 @doc("Account properties")
 model AccountProperties {
@@ -95,9 +106,10 @@ model AzureActiveDirectoryProperties {
 }
 
 @doc("User-assigned managed identity ARM resource id")
-scalar UserAssignedManagedIdentityReference extends ResourceIdentifier<[
+scalar UserAssignedManagedIdentityReference
+  extends ResourceIdentifier<[
     {
-      type: "Microsoft.ManagedIdentity/userAssignedIdentities"
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities",
     }
   ]>;
 
@@ -112,8 +124,14 @@ model Category is TrackedResource<CategoryProperties> {
   name: string;
 }
 
-@armResourceOperations(Category)
-interface Categories extends TrackedResourceOperations<Category, CategoryProperties> {}
+@armResourceOperations
+interface Categories {
+  get is ArmResourceRead<Category>;
+  create is ArmResourceCreateOrReplaceSync<Category>;
+  update is ArmResourcePatchSync<Category, CategoryProperties>;
+  delete is ArmResourceDeleteSync<Category>;
+  listByParent is ArmResourceListByParent<Category>;
+}
 
 @doc("Category properties")
 model CategoryProperties {

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2023-01-01",
+    "version": "2023-09-01-preview",
     "title": "Edge Copilot",
     "description": "The Azure Edge Copilot API."
   },
@@ -18,7 +18,7 @@
   "paths": {
     "/providers/Private.Copilot/operations": {
       "get": {
-        "operationId": "Operations",
+        "operationId": "Operations_List",
         "x-ms-examples": {
           "ListOperations": {
             "$ref": "./examples/Operations.json"
@@ -26,39 +26,43 @@
         },
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Describe the result of a successful operation.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/Operation"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
         }
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.Copilot/locations/{location}/chat": {
       "post": {
         "tags": [
+          "PostChat"
         ],
-        "operationId": "Chat",
+        "operationId": "Edge_Chat",
         "x-ms-examples": {
-          "TableServicesList": {
+          "PostChat": {
             "$ref": "./examples/PostChat.json"
           }
         },
         "description": "Post a message to chatbot",
         "parameters": [
           {
-            "name": "chatrequest",
+            "name": "chatRequest",
             "in": "body",
             "required": true,
             "schema": {
@@ -66,13 +70,13 @@
             }
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/LocationParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -85,7 +89,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -95,6 +99,9 @@
   "definitions": {
     "ChatRequest": {
       "type": "object",
+      "required": [
+        "userMessage"
+      ],
       "properties": {
         "context": {
           "$ref": "#/definitions/ChatContext"
@@ -111,7 +118,14 @@
     },
     "ChatResponse": {
       "type": "object",
+      "required": [
+        "replyMessages"
+      ],
       "properties": {
+        "sessionId": {
+          "type": "string",
+          "description": "Session Id of current chat."
+        },
         "replyMessages": {
           "type": "array",
           "items": {
@@ -121,23 +135,66 @@
           "x-ms-identifiers": []
         }
       },
-      "description":  "Chat response schema. Contains reply messages from chatbot"
+      "description": "Chat response schema. Contains reply messages from chatbot."
     },
     "ChatMessage": {
       "type": "object",
+      "required": [
+        "content"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "description": "Type of message. Can be either 'text' or 'image'."
+          "x-ms-client-name": "messageType",
+          "default": "text",
+          "enum": [
+            "text",
+            "action"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "type"
+          },
+          "description": "Type of message. Can only be 'text' or 'action'."
+        },
+        "subType": {
+          "type": "string",
+          "default": "default",
+          "enum": [
+            "artifact",
+            "default"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "subtype"
+          },
+          "description": "Sub-type of message."
+        },
+        "role": {
+          "type": "string",
+          "default": "user",
+          "enum": [
+            "system",
+            "assistant",
+            "user"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "role"
+          },
+          "description": "Role of message. Can be 'system', 'assistant', or 'user'."
         },
         "content": {
           "type": "string",
-          "description": "List of stored access policies specified on the table."
+          "description": "Message content from user or assistant."
         }
       }
     },
     "ChatContext": {
       "type": "object",
+      "required": [
+        "bladeId"
+      ],
       "properties": {
         "bladeId": {
           "type": "string",
@@ -146,36 +203,27 @@
         "resourceIds": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "format": "arm-id"
           },
           "description": "Resource Ids of the chat is referring to.",
           "x-ms-identifiers": []
         }
       }
-    },
-    "ChatMessageType": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of message."
-        },
-        "subtype": {
-          "type": "string",
-          "description": "Sub-type of message."
-        },
-        "role": {
-          "type": "string",
-          "description": "Role of message. Can be 'system', 'assistant', or 'user'."
-        },
-        "content": {
-          "type": "string",
-          "description": "Content of message."
-        }
-      }
     }
   },
   "parameters": {},
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
   "security": [
     {
       "azure_auth": [

@@ -27,32 +27,54 @@ These are the global settings for the fist.
 ``` yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-09-01-preview
+tag: package-2024-01-10
 ```
 
+
+### Tag: package-2024-01-10
+
+These settings apply only when `--tag=package-2024-01-10` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-01-10'
+input-file:
+  - Private.IoTFirmwareDefense/stable/2024-01-10/binaryHardeningResults.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/common.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/cryptoCertificates.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/cryptoKeys.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/cves.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/firmwares.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/operations.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/passwordHashes.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/sbomComponents.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/summaries.json
+  - Private.IoTFirmwareDefense/stable/2024-01-10/workspaces.json
+```
 
 ### Tag: package-2023-09-01-preview
 
 These settings apply only when `--tag=package-2023-09-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-09-01-preview'
+``` yaml $(tag) == 'package-2023-09-01-preview'
 input-file:
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/common.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/firmwares.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/workspaces.json
+  - Private.IoTFirmwareDefense/preview/2023-09-01-preview/sbomResults.json
   - Private.IoTFirmwareDefense/preview/2023-09-01-preview/operations.json
 ```
+
 ### Tag: package-2023-02-08-preview
 
 These settings apply only when `--tag=package-2023-02-08-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-02-08-preview'
+``` yaml $(tag) == 'package-2023-02-08-preview'
 input-file:
   - Microsoft.IoTFirmwareDefense/preview/2023-02-08-preview/common.json
   - Microsoft.IoTFirmwareDefense/preview/2023-02-08-preview/firmwares.json
   - Microsoft.IoTFirmwareDefense/preview/2023-02-08-preview/workspaces.json
   - Microsoft.IoTFirmwareDefense/preview/2023-02-08-preview/operations.json
 ```
+
 ### Tag: package-2022-09-15-privatepreview
 
 These settings apply only when `--tag=package-2022-09-15-privatepreview` is specified on the command line.

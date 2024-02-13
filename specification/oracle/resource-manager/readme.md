@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2023-09-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-09-01-preview'
 input-file:
-  - Oracle.Database/preview/2023-09-01-preview/Oracle.Database.json
+  - Oracle.Database/preview/2023-09-01-preview/openapi.json
 ```
 
 ---

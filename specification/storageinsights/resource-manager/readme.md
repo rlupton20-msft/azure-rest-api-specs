@@ -27,16 +27,16 @@ These are the global settings for the storageinsights.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-08-01-privatepreview
+tag: package-2023-08-01-preview
 ```
 
-### Tag: package-2023-08-01-privatepreview
+### Tag: package-2023-08-01-preview
 
-These settings apply only when `--tag=package-2023-08-01-privatepreview` is specified on the command line.
+These settings apply only when `--tag=package-2023-08-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-08-01-privatepreview'
+```yaml $(tag) == 'package-2023-08-01-preview'
 input-file:
-  - Microsoft.StorageInsights/preview/2023-08-01-privatepreview/openapi.json
+  - Microsoft.StorageInsights/preview/2023-08-01-preview/openapi.json
 ```
 
 ---

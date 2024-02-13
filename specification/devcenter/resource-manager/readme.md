@@ -26,21 +26,43 @@ These are the global settings for the devcenter.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-preview-2023-09
+tag: package-2024-02
 eol: crlf
 ```
 
+
+### Tag: package-2024-02
+
+These settings apply only when `--tag=package-2024-02` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-02'
+input-file:
+  - Microsoft.DevCenter/stable/2024-02-01/commonDefinitions.json
+  - Microsoft.DevCenter/stable/2024-02-01/devcenter.json
+  - Microsoft.DevCenter/stable/2024-02-01/vdi.json
+```
+### Tag: package-preview-2023-11
+
+These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2023-11'
+input-file:
+  - Microsoft.DevCenter/preview/2023-11-01-preview/commonDefinitions.json
+  - Microsoft.DevCenter/preview/2023-11-01-preview/devcenter.json
+  - Microsoft.DevCenter/preview/2023-11-01-preview/vdi.json
+```
 
 ### Tag: package-preview-2023-09
 
 These settings apply only when `--tag=package-preview-2023-09` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-09'
+``` yaml $(tag) == 'package-preview-2023-09'
 input-file:
   - Microsoft.DevCenter/preview/2023-09-01-preview/commonDefinitions.json
   - Microsoft.DevCenter/preview/2023-09-01-preview/devcenter.json
   - Microsoft.DevCenter/preview/2023-09-01-preview/vdi.json
 ```
+
 ### Tag: package-preview-2023-01
 
 These settings apply only when `--tag=package-preview-2023-01` is specified on the command line.

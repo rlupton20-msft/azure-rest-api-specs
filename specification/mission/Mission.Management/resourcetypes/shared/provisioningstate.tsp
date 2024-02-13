@@ -14,30 +14,30 @@ using Azure.ResourceManager;
 enum ProvisioningState {
   ...ResourceProvisioningState,
 
-  @doc("ProvisioningState of Type Accepted")
+  @doc("Provisioning State Type Accepted")
   Accepted,
 
-  @doc("ProvisioningState of Type Created")
+  @doc("Provisioning State Type Created")
   Created,
 
-  @doc("ProvisioningState of Type Creating")
+  @doc("Provisioning State Type Creating")
   Creating,
 
-  @doc("ProvisioningState of Type Deleted")
+  @doc("Provisioning State Type Deleted")
   Deleted,
 
-  @doc("ProvisioningState of Type Deleting")
+  @doc("Provisioning State Type Deleting")
   Deleting,
 
-  @doc("ProvisioningState of Type NotSpecified")
+  @doc("Provisioning State Type NotSpecified")
   NotSpecified,
 
-  @doc("ProvisioningState of Type Ready")
+  @doc("Provisioning State Type Ready")
   Ready,
 
-  @doc("ProvisioningState of Type Running")
+  @doc("Provisioning State Type Running")
   Running,
 
-  @doc("ProvisioningState of Type Updating")
+  @doc("Provisioning State Type Updating")
   Updating,
 }

@@ -61,7 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
             }
@@ -71,6 +71,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "List Operations Environment": {
+            "$ref": "./examples/Environment_Operations.json"
           }
         },
         "x-ms-pageable": {
@@ -95,7 +100,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/EnvironmentResourceListResult"
             }
@@ -105,6 +110,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get Environment": {
+            "$ref": "./examples/Environment_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -132,7 +142,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/EnvironmentResourceListResult"
             }
@@ -144,12 +154,62 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Get Environment": {
+            "$ref": "./examples/Environment_ListByResourceGroup.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCIS/autopilotEnvironments/{resourceName}": {
+      "get": {
+        "operationId": "Environment_Get",
+        "tags": [
+          "Environment"
+        ],
+        "description": "Get a EnvironmentResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EnvironmentResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get Environment": {
+            "$ref": "./examples/Environment_Get.json"
+          }
+        }
+      },
       "put": {
         "operationId": "Environment_CreateOrUpdate",
         "tags": [
@@ -282,26 +342,43 @@
           "description": "Cluster name"
         },
         "mode": {
-          "type": "string",
+          "$ref": "#/definitions/environmentMode",
           "description": "Basic or All Mode indicate clone customer config file or just basic file",
-          "enum": [
-            "All",
-            "Basic"
-          ]
+          "readOnly": true
         },
         "enlistmentType": {
           "type": "string",
-          "description": "Indicate APGold or PFGold.",
-          "enum": [
-            "APGold",
-            "PFGold"
-          ]
+          "description": "Indicate APGold or PFGold."
         },
         "provisioningState": {
           "$ref": "#/definitions/environmentProvisioningState",
           "description": "Provisioning state",
           "readOnly": true
         }
+      }
+    },
+    "environmentMode": {
+      "type": "string",
+      "description": "Basic or All Mode indicate clone customer config file or just basic file",
+      "enum": [
+        "Basic",
+        "All"
+      ],
+      "x-ms-enum": {
+        "name": "environmentMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Basic",
+            "value": "Basic",
+            "description": "Clone basic file"
+          },
+          {
+            "name": "All",
+            "value": "All",
+            "description": "Clone customer config file"
+          }
+        ]
       }
     },
     "environmentProvisioningState": {
@@ -338,7 +415,8 @@
             "description": "Accepted State"
           }
         ]
-      }
+      },
+      "readOnly": true
     }
   },
   "parameters": {}

@@ -15,11 +15,11 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@doc("Azure for Operators 5G Core NRF Deployment Resource")
+@doc("Azure for Operators 5G Core Network Repository Function (NRF) Deployment Resource")
 @resource("nrfDeployments")
 model NrfDeploymentResource
   is TrackedResource<NrfDeploymentResourceProperties> {
-  @doc("The name of the NrfDeployment")
+  @doc("The name of the NRF Deployment")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$")
   @minLength(1)
   @maxLength(63)
@@ -28,8 +28,6 @@ model NrfDeploymentResource
   @segment("nrfDeployments")
   @visibility("create", "read")
   name: string;
-
-  ...ManagedServiceIdentity;
 }
 
 @doc("NRF Deployment Properties.")
@@ -38,12 +36,25 @@ model NrfDeploymentResourceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Azure keyvault used for provisioning the network function. For example: https://contosovault.vault.azure.net/")
-  keyVault: url;
+  @doc("Azure for Operators 5G Core NRF component parameters")
+  componentParameters?: ComponentDeploymentParameters;
 
-  @doc("Deployment status")
+  @doc("Azure for Operators 5G Core NRF secrets parameters")
+  @secret
+  @visibility("create", "update")
+  secretsParameters?: ComponentDeploymentSecrets;
+
+  @doc("Reference to cluster where the Network Function is deployed")
+  @visibility("create", "read")
+  clusterService: ClusterServiceIdProperty;
+
+  @doc("Release version. This is inherited from the cluster")
   @visibility("read")
-  deploymentStatus?: DeploymentStatus;
+  releaseVersion?: ReleaseVersion;
+
+  @doc("Operational status")
+  @visibility("read")
+  operationalStatus?: OperationalStatus;
 }
 
 @armResourceOperations(NrfDeploymentResource)
@@ -51,7 +62,9 @@ interface NrfDeployments {
   get is ArmResourceRead<NrfDeploymentResource>;
   createOrUpdate is ArmResourceCreateOrUpdate2Async<NrfDeploymentResource>;
   updateTags is ArmTagsPatchSync<NrfDeploymentResource>;
-  delete is ArmResourceDeleteSync<NrfDeploymentResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<NrfDeploymentResource>;
+  @doc("List all Network Repository Function Deployments by Resource Group.")
   listByResourceGroup is ArmResourceListByParent<NrfDeploymentResource>;
+  @doc("List all Network Repository Function Deployments by Subscription ID.")
   listBySubscription is ArmListBySubscription<NrfDeploymentResource>;
 }

@@ -125,52 +125,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Throttling/accounts/{accountName}/categories": {
-      "get": {
-        "operationId": "Categories_ListBySubscription",
-        "tags": [
-          "Categories"
-        ],
-        "description": "List Category resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "accountName",
-            "in": "path",
-            "description": "Account name",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CategoryListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Categories_ListBySubscription": {
-            "$ref": "./examples/Categories_ListBySubscription.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.Throttling/checkNameAvailability": {
       "post": {
         "operationId": "Operations_CheckNameAvailability",
@@ -216,7 +170,7 @@
     "/subscriptions/{subscriptionId}/providers/Microsoft.Throttling/locations/{location}/checkNameAvailability": {
       "post": {
         "operationId": "Operations_CheckNameAvailabilityLocal",
-        "description": "Implements global CheckNameAvailability operations",
+        "description": "Implements local CheckNameAvailability operations",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -346,7 +300,7 @@
         }
       },
       "put": {
-        "operationId": "Accounts_CreateOrUpdate",
+        "operationId": "Accounts_Create",
         "tags": [
           "Accounts"
         ],
@@ -389,13 +343,6 @@
             "description": "Resource 'Account' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Account"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -406,14 +353,10 @@
           }
         },
         "x-ms-examples": {
-          "Accounts_CreateOrUpdate": {
-            "$ref": "./examples/Accounts_CreateOrUpdate.json"
+          "Accounts_Create": {
+            "$ref": "./examples/Accounts_Create.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "patch": {
         "operationId": "Accounts_Update",
@@ -496,20 +439,6 @@
           "200": {
             "description": "Resource deleted successfully."
           },
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              }
-            }
-          },
           "204": {
             "description": "Resource deleted successfully."
           },
@@ -524,11 +453,7 @@
           "Accounts_Delete": {
             "$ref": "./examples/Accounts_Delete.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Throttling/accounts/{accountName}/categories": {
@@ -633,7 +558,7 @@
         }
       },
       "put": {
-        "operationId": "Categories_CreateOrUpdate",
+        "operationId": "Categories_Create",
         "tags": [
           "Categories"
         ],
@@ -683,13 +608,6 @@
             "description": "Resource 'Category' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Category"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -700,14 +618,10 @@
           }
         },
         "x-ms-examples": {
-          "Categories_CreateOrUpdate": {
-            "$ref": "./examples/Categories_CreateOrUpdate.json"
+          "Categories_Create": {
+            "$ref": "./examples/Categories_Create.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "patch": {
         "operationId": "Categories_Update",
@@ -804,20 +718,6 @@
           "200": {
             "description": "Resource deleted successfully."
           },
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              }
-            }
-          },
           "204": {
             "description": "Resource deleted successfully."
           },
@@ -832,11 +732,7 @@
           "Categories_Delete": {
             "$ref": "./examples/Categories_Delete.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     }
   },
@@ -1205,7 +1101,8 @@
             "description": "Resource being deleted"
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "UserAssignedManagedIdentityReference": {
       "type": "string",

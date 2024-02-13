@@ -1,0 +1,99 @@
+import "./create/arecordset.tsp";
+import "./update/updatearecordset.tsp";
+import "./append/appendarecordset.tsp";
+
+import "./create/aaaarecordset.tsp";
+import "./update/updateaaaarecordset.tsp";
+import "./append/appendaaaarecordset.tsp";
+
+import "./create/childzonedelegation.tsp";
+import "./update/updatechildzonedelegation.tsp";
+
+import "./create/cnamerecordset.tsp";
+import "./update/updatecnamerecordset.tsp";
+
+import "./create/srvrecordset.tsp";
+import "./update/updatesrvrecordset.tsp";
+import "./append/appendsrvrecordset.tsp";
+
+import "./create/txtrecordset.tsp";
+import "./update/updatetxtrecordset.tsp";
+import "./append/appendtxtrecordset.tsp";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
+@armProviderNamespace
+@service({
+  title: "Foundational ARM Client",
+  version: "2023-08-22-preview",
+})
+@doc("SafeDns Service")
+@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+namespace Microsoft.AzureCIS;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+// A Record Common Models
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
+@doc("A Record type model")
+model ARecord {
+  @doc("Gets or sets the IPv4 Address in String format")
+  ipV4Address: string;
+}
+
+// AAAA Record Common Models
+@doc("AAAA Record type model")
+model AaaaRecord {
+  @doc("Gets or sets the IPv6 Address in String format")
+  ipV6Address: string;
+}
+
+// CName Record Common Models
+@doc("Represents an CNAME Record")
+model CnameRecord {
+  @doc("Gets or sets the Canonical Name")
+  cName: string;
+}
+
+// Srv Record Models
+@doc("Represents a SRV Record")
+model SrvRecord {
+  @doc("Gets or sets the SRV record Priority in Integer format.")
+  priority: int32;
+
+  @doc("Gets or sets the SRV record Weight in Integer format.")
+  weight: int32;
+
+  @doc("Gets or sets the SRV record Port in Integer format.")
+  port: int32;
+
+  @doc("Gets or sets the SRV record Target in String format.")
+  target: string;
+}
+
+// TXT Record Models
+@doc("Represents an TXT Record")
+model TxtRecord {
+  @doc("Gets or sets the TXT record in String format.")
+  txt: Array<string>;
+}
+
+// Common Models
+@doc("RecordSetOwner type model")
+model RecordSetOwner {
+  @doc("Gets or sets ServiceTreeId")
+  serviceTreeId: string;
+
+  @doc("Gets or sets ContactEmail")
+  contactEmail: string;
+}
+
+@doc("Provisioning status of the resource.")
+enum DnsNamespaceManagerProvisioningState {
+  ...ResourceProvisioningState,
+
+  @doc("Accepted State")
+  Accepted,
+}

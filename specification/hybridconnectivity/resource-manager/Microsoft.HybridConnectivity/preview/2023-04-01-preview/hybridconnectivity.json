@@ -1199,62 +1199,14 @@
         "deprecated": false
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/GenerateAWSTemplate": {
-      "post": {
-        "tags": [
-          "GenerateTemplate"
-        ],
-        "description": "Retrieve AWS Cloud Formation template for given connector.",
-        "operationId": "GenerateAWSTemplatePublicCloudConnector_GET",
-        "produces": [
-          "application/octet-stream",
-          "application/json"
-        ],
-        "x-ms-examples": {
-          "Generated AWS CFT Template": {
-            "$ref": "./examples/GenerateAWSTemplatePublicCloudConnector_GET.json"
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/PublicCloudConnectorParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Cloud formation template for specified solution types.",
-            "schema": {
-              "type": "file"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "deprecated": false
-      }
-    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/GenerateAWSTemplate": {
       "post": {
         "tags": [
-          "GenerateTemplate"
+          "GenerateAWSTemplate"
         ],
         "description": "Retrieve AWS Cloud Formation template",
         "operationId": "GenerateAWSTemplateRP_GET",
         "produces": [
-          "application/octet-stream",
           "application/json"
         ],
         "x-ms-examples": {
@@ -1283,7 +1235,7 @@
           "200": {
             "description": "Cloud formation template for specified solution types.",
             "schema": {
-              "type": "file"
+              "type": "object"
             }
           },
           "default": {
@@ -2789,14 +2741,7 @@
           "type": "array",
           "description": "The list of solution types and their settings.",
           "items": {
-            "properties": {
-              "solutionType": {
-                "type": "string"
-              },
-              "solutionSettings": {
-                "type": "object"
-              }
-            }
+            "$ref": "#/definitions/SolutionConfigurationProperties"
           }
         }
       }
