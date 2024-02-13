@@ -11,11 +11,8 @@ using Autorest;
 
 namespace Microsoft.AzureCIS;
 
-@doc("dstsServiceClientidentity properties")
-model DstsServiceClientidentityResourceProperties {
-  @doc("Gets or sets the ServiceTree ID. This is case-insensitive. E.g. \"ae53b53f-9347-4198-b9b7-ff4b8228d6a7\".")
-  serviceTreeId: string;
-
+@doc("dstsServiceClientIdentity properties")
+model DstsServiceClientIdentityResourceProperties {
   @doc("Gets or sets the account name. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
   accountName: string;
 
@@ -40,7 +37,7 @@ model DstsServiceClientidentityResourceProperties {
   @doc("Gets or sets the subscriptions for the SCI. This is optional. E.g. \"5d711910-92ea-4ff9-b70d-1e61307faaac,a524674c-7024-40f1-afe9-127ab5a2e1b0\".")
   subscriptions?: string;
 
-  @doc("SubjectNames.")
+  @doc("Subject names.")
   subjectNames: Array<string>;
 
   @doc("Provisioning state")
@@ -48,12 +45,12 @@ model DstsServiceClientidentityResourceProperties {
   provisioningState?: DscmProvisioningState;
 }
 
-@doc("Parameterless constructor for xml serialization.")
+@doc("This model represents a claim provisioning in SCI.")
 model DstsClaimProvisioning {
-  @doc("Gets or sets the type of identity in the target sevice. This is case-insensitive. E.g. \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\".")
+  @doc("Gets or sets the type of identity in the target service. This is case-insensitive. E.g. \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\".")
   claimType: string;
 
-  @doc("Gets or sets the name or ID in the target sevice. This is case-insensitive. E.g. \"PlatformServiceViewer\" or \"PlatformServiceOperator\".")
+  @doc("Gets or sets the name or ID in the target service. This is case-insensitive. E.g. \"PlatformServiceViewer\" or \"PlatformServiceOperator\".")
   claimValue: string;
 
   @doc("Gets or sets the service account name of the target service. This is case-insensitive. E.g. \"target-service-%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
@@ -65,14 +62,14 @@ model DstsClaimProvisioning {
   @doc("Gets or sets the service account group name of the target service name.")
   scopedServiceAccountGroupName: string;
 
-  @doc("Gets or sets the service account group name of the target service name.")
-  serviceTreeId: string;
+  @doc("Gets or sets the service tree id of the scoped service account.")
+  scopedServiceTreeId: string;
 
   @doc("Dstsinstance for the claim. This is case-insensitive. E.g. \"co2agg04-dsts.dsts.core.azure-test.net\" for dogfood.")
   dstsInstance: string;
 }
 
-@doc("This class represents an IP range in SCI.")
+@doc("This model represents an IP range in SCI.")
 model RequiredIpRange {
   @doc("Gets or sets the start of IP range. E.g. \"172.1.1.1\".")
   fromIpAddress: string;
@@ -84,7 +81,7 @@ model RequiredIpRange {
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
 @doc("dstsServiceClientIdentityResource Resource")
 model DstsServiceClientIdentityResource
-  is ProxyResource<DstsServiceClientidentityResourceProperties> {
+  is ProxyResource<DstsServiceClientIdentityResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
