@@ -314,6 +314,7 @@
             "description": "Diagnostic Type"
           }
         },
+        "discriminator": "diagnosticsType",
         "required": [
           "diagnosticsType"
         ]
@@ -337,26 +338,31 @@
           "logStartTime": {
             "type": "string",
             "format": "date-time",
-            "description": "Log Start Time of the session"
+            "description": "Log Start Time of the session",
+            "readOnly": true
           },
           "logEndTime": {
             "type": "string",
             "format": "date-time",
-            "description": "Log End Time of the session"
+            "description": "Log End Time of the session",
+            "readOnly": true
           },
           "timeCollected": {
             "type": "string",
             "format": "date-time",
-            "description": "Time Collected for the session"
+            "description": "Time Collected for the session",
+            "readOnly": true
           },
           "logSize": {
             "type": "integer",
             "format": "int64",
-            "description": "Log Size"
+            "description": "Log Size",
+            "readOnly": true
           },
           "status": {
             "$ref": "#/definitions/Status",
-            "description": "Status of the collection"
+            "description": "Status of the collection",
+            "readOnly": true
           }
         },
         "required": [
@@ -389,12 +395,6 @@
         "type": "object",
         "description": "Log Collection Settings Properties",
         "properties": {
-          "diagnosticsType": {
-            "type": "string",
-            "enum": [
-              "LogCollection"
-            ]
-          },
           "FromDate": {
             "type": "string",
             "format": "date-time",
@@ -408,7 +408,8 @@
           "LastLogGenerated": {
             "type": "string",
             "format": "date-time",
-            "description": "Last Generated Log Time"
+            "description": "Last Generated Log Time",
+            "readOnly": true
           },
           "logCollectionSessionDetails": {
             "type": "array",
@@ -416,6 +417,7 @@
             "items": {
               "$ref": "#/definitions/LogCollectionSession"
             },
+            "readOnly": true,
             "x-ms-identifiers": []
           }
         },
@@ -431,7 +433,8 @@
           {
             "$ref": "#/definitions/DiagnosticsSettingsProperties"
           }
-        ]
+        ],
+        "x-ms-discriminator-value": "LogCollection"
       },
       "RemoteSupportAccess": {
         "type": "string",
@@ -451,33 +454,40 @@
         "properties": {
           "arcResourceId": {
             "type": "string",
-            "description": "Arc Resource Id"
+            "description": "Arc Resource Id",
+            "readOnly": true
           },
           "state": {
             "$ref": "#/definitions/State",
-            "description": "State of the RemoteSupport Enablement"
+            "description": "State of the RemoteSupport Enablement",
+            "readOnly": true
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Created Time"
+            "description": "Created Time",
+            "readOnly": true
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Updated Time"
+            "description": "Updated Time",
+            "readOnly": true
           },
           "connectionStatus": {
             "$ref": "#/definitions/ConnectionStatus",
-            "description": "Connection Status"
+            "description": "Connection Status",
+            "readOnly": true
           },
           "connectionErrorMessage": {
             "type": "string",
-            "description": "Comnnection Error Message"
+            "description": "Comnnection Error Message",
+            "readOnly": true
           },
           "transcriptLocation": {
             "type": "string",
-            "description": "Transcript Location"
+            "description": "Transcript Location",
+            "readOnly": true
           }
         },
         "required": [
@@ -497,24 +507,29 @@
           "sessionStartTime": {
             "type": "string",
             "format": "date-time",
-            "description": "Session Start Time of Remote Support"
+            "description": "Session Start Time of Remote Support",
+            "readOnly": true
           },
           "sessionEndTime": {
             "type": "string",
             "format": "date-time",
-            "description": "Session End Time of Remote Support"
+            "description": "Session End Time of Remote Support",
+            "readOnly": true
           },
           "nodeName": {
             "type": "string",
-            "description": "Node Name"
+            "description": "Node Name",
+            "readOnly": true
           },
           "duration": {
             "type": "string",
-            "description": "duration of session"
+            "description": "duration of session",
+            "readOnly": true
           },
           "accessLevel": {
             "$ref": "#/definitions/AccessLevel",
-            "description": "AccessLevel of the RemoteSupport Session"
+            "description": "AccessLevel of the RemoteSupport Session",
+            "readOnly": true
           }
         },
         "required": [
@@ -547,12 +562,6 @@
         "type": "object",
         "description": "properties for Arc-enabled edge device with HCI OS.",
         "properties": {
-          "diagnosticsType": {
-            "type": "string",
-            "enum": [
-              "RemoteSupport"
-            ]
-          },
           "accessLevel": {
             "$ref": "#/definitions/AccessLevel",
             "description": "Access Level of Remote Support"
@@ -572,6 +581,7 @@
             "items": {
               "$ref": "#/definitions/RemoteSupportNodeSettings"
             },
+            "readOnly": true,
             "x-ms-identifiers": []
           },
           "perNodeRemoteSupportSessionDetails": {
@@ -580,6 +590,7 @@
             "items": {
               "$ref": "#/definitions/RemoteSupportSessionDetails"
             },
+            "readOnly": true,
             "x-ms-identifiers": []
           }
         },
@@ -595,7 +606,8 @@
           {
             "$ref": "#/definitions/DiagnosticsSettingsProperties"
           }
-        ]
+        ],
+        "x-ms-discriminator-value": "RemoteSupport"
       },
       "RemoteSupportType": {
         "type": "string",
