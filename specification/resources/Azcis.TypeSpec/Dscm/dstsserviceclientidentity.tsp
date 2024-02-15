@@ -13,7 +13,6 @@ namespace Microsoft.AzureCIS;
 
 @doc("dstsServiceClientIdentity properties")
 model DstsServiceClientIdentityResourceProperties {
-
   @doc("Gets or sets the account name. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
   accountName: string;
 
