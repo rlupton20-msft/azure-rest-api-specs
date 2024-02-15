@@ -102,9 +102,12 @@ model DeviceEndpoints {
   @doc("List of most recently removed endpoints.")
   @extension("x-ms-identifiers", ["type", "address"])
   unassigned?: Endpoint[];
+
+  @doc("Endpoints for receiving or sending messages to the device.")
+  connectivity?: Connectivity;
 }
 
-@doc("Connection endpoint url a device can use to connect to a service.")
+@doc("Endpoints related to the device")
 model Endpoint {
   @doc("Type of connection endpoint.")
   // `type` is a reserved keyname. Wrap in double quotes
@@ -112,6 +115,13 @@ model Endpoint {
 
   @doc("Fully qualified domain name.")
   address?: string;
+}
+
+@doc("Endpoints for sending or receiving messages to the device.")
+model Connectivity {
+  @doc("Endpoint for sending and receiving messages from the device.")
+  // `type` is a reserved keyname. Wrap in double quotes
+  messaging?: Endpoint;
 }
 
 @armResourceOperations
@@ -137,7 +147,10 @@ interface Devices {
   )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
 
-  @Autorest.example("./examples/devices/Update_Device.json", "Update a device.")
+  @Autorest.example(
+    "./examples/devices/Update_Device.json",
+    "Update a device to disable it."
+  )
   @Autorest.example(
     "./examples/devices/Update_Device_With_New_Endpoints.json",
     "Update a device with new endpoints."
