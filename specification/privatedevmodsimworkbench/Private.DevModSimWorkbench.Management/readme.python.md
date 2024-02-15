@@ -16,3 +16,7 @@ clear-output-folder: true
 no-namespace-folders: true
 output-folder: $(python-sdks-folder)/privatedevmodsimworkbench/azure-mgmt-privatedevmodsimworkbench/azure/mgmt/privatedevmodsimworkbench
 ```
+
+``` yaml $(python)
+modelerfour:
+  flatten-models: false
