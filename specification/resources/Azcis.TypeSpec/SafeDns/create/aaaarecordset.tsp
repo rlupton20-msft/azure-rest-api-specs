@@ -43,7 +43,7 @@ model DnsNamespaceManagerAaaaRecordSetResourceProperties {
 model DnsNamespaceManagerAaaaRecordSetResource
   is ProxyResource<DnsNamespaceManagerAaaaRecordSetResourceProperties> {
   @doc("The name of resource.")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerAaaaRecordSets") // start with lower case
   @visibility("read")
