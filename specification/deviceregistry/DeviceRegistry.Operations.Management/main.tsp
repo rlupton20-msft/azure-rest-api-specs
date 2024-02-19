@@ -14,7 +14,7 @@ using Azure.ResourceManager.Foundations;
 @armProviderNamespace
 @service({
   title: "Microsoft.DeviceRegistry management service",
-  version: "2023-11-01-preview",
+  version: "2024-03-01-preview",
 })
 @doc("Microsoft.DeviceRegistry Resource Provider management API.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)

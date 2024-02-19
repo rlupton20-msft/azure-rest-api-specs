@@ -65,9 +65,11 @@ model DeviceProperties {
   operatingSystem?: string;
 
   @doc("operating system version.")
+  @visibility("read", "create")
   operatingSystemVersion?: string;
 
   @doc("Identity for the resource.")
+  @visibility("read", "create")
   identity?: DeviceIdentity;
 
   @doc("Property bag containing the device's unassigned and assigned endpoints.")
@@ -101,6 +103,7 @@ model DeviceEndpoints {
 
   @doc("List of most recently removed endpoints.")
   @extension("x-ms-identifiers", ["type", "address"])
+  @visibility("read", "create")
   unassigned?: Endpoint[];
 }
 
@@ -137,7 +140,10 @@ interface Devices {
   )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
 
-  @Autorest.example("./examples/devices/Update_Device.json", "Update a device.")
+  @Autorest.example(
+    "./examples/devices/Update_Device.json",
+    "Update a device to disable it."
+  )
   @Autorest.example(
     "./examples/devices/Update_Device_With_New_Endpoints.json",
     "Update a device with new endpoints."

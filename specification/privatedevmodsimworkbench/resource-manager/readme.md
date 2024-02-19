@@ -37,13 +37,6 @@ These settings apply only when `--tag=package-2021-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2021-03-01-preview'
 input-file:
   - Private.DevModSimWorkbench/preview/2021-03-01-preview/privatedevmodsimworkbench.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/connectors.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/chambers.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/workloads.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/files.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/fileRequests.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/storages.json
-  - Private.DevModSimWorkbench/preview/2021-03-01-preview/sharedStorages.json
 ```
 
 ---
@@ -59,10 +52,11 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
+  - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
-    after_scripts:
-      - node sdkauto_afterscript.js privatedevmodsimworkbench/resource-manager
+  - repo: azure-cli-extensions
+  - repo: azure-powershell
 ```
 ## Az
 
@@ -83,7 +77,3 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
-
-## AzureResourceSchema
-
-See configuration in [readme.azureresourceschema.md](./readme.azureresourceschema.md)

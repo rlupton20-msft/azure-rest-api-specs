@@ -22,6 +22,9 @@ namespace Microsoft.AzureCIS;
 
 @doc("ServiceRecord properties")
 model ServiceRecordResourceProperties {
+  @doc("Gets or sets the dns name")
+  dnsName: string;
+
   @doc("Gets or sets the priority field of a service record")
   priority: string;
 
@@ -32,7 +35,10 @@ model ServiceRecordResourceProperties {
   port: string;
 
   @doc("Gets or sets the canonical hostname of the target machine providing the service")
-  cName: string;
+  canonicalName: string;
+
+  @doc("Gets or sets the ttl")
+  ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")
