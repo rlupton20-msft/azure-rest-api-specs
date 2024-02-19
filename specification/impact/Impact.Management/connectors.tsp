@@ -11,10 +11,6 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.Impact")
-@service({
-  title: "Microsoft.Impact",
-  version: "2021-08-01-preview",
-})
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Impact;
@@ -22,6 +18,7 @@ namespace Microsoft.Impact;
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A ImpactProviderHub resource")
+@subscriptionResource
 model Connector is ProxyResource<ConnectorProperties> {
   @doc("The name of the connector")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -65,6 +62,5 @@ interface Connectors {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Connector>;
   update is ArmResourcePatchSync<Connector, ConnectorProperties>;
   delete is ArmResourceDeleteSync<Connector>;
-  listByResourceGroup is ArmResourceListByParent<Connector>;
   listBySubscription is ArmListBySubscription<Connector>;
 }
