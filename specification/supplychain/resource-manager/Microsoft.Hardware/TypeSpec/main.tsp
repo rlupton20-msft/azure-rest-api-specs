@@ -188,17 +188,17 @@ model Tax{
   @doc("Tax charged")
   amount: float64;
   
-  @doc("Tax on Shipping or Unit")
+  @doc("Tax Type")
   type: TaxType;
 
   @doc("Tax Class")
-  taxClass?: string;
+  class?: string;
   
   @doc("Tax Name")
   name?: string;
 
-  @doc("Jurisdiction")
-  jurisdiction?: string;
+  @doc("Jurisdiction Entity")
+  jurisdictionEntity?: string;
 
   @doc("Jurisdiction Name")
   jurisdictionName?: string;
