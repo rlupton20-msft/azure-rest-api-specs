@@ -45,7 +45,6 @@ model RelationshipOriginInformation<TOrigin = string> {
 
 @doc("Provides information about the relationship properties.")
 model RelationshipMetadata {
-
   @doc("The type of the relationship source resource.")
   @visibility("read")
   sourceType: string;
@@ -94,13 +93,14 @@ model BaseRelationshipProperties<TOrigin> {
 union ComponentOfOrigins {
   @doc("The relationship was explicitly created by a system.")
   serviceExplicitlyCreated: ServiceExplicitlyCreated,
+
   @doc("The relationship was explicitly created by a user.")
   userExplicitlyCreated: UserExplicitlyCreated,
 }
 
 @doc("componentOf relationship properties.")
 model ComponentOfRelationshipProperties
-  is BaseRelationshipProperties<ComponentOfOrigins> {}
+  is BaseRelationshipProperties<ComponentOfOrigins>;
 
 @doc("Defines a componentOf relationship resource.")
 model ComponentOfRelationship
@@ -122,13 +122,14 @@ model ComponentOfRelationship
 union DependencyOfOrigins {
   @doc("The relationship was explicitly created by a system.")
   serviceExplicitlyCreated: ServiceExplicitlyCreated,
+
   @doc("The relationship was explicitly created by a user.")
   userExplicitlyCreated: UserExplicitlyCreated,
 }
 
 @doc("dependencyOf relationship properties.")
 model DependencyOfRelationshipProperties
-  is BaseRelationshipProperties<DependencyOfOrigins> {}
+  is BaseRelationshipProperties<DependencyOfOrigins>;
 
 @doc("Defines a dependencyOf relationship resource.")
 model DependencyOfRelationship
@@ -150,17 +151,18 @@ model DependencyOfRelationship
 union serviceGroupMemberOfOrigins {
   @doc("The relationship was explicitly created by a system.")
   serviceExplicitlyCreated: ServiceExplicitlyCreated,
+
   @doc("The relationship was explicitly created by a user.")
   userExplicitlyCreated: UserExplicitlyCreated,
 }
 
 @doc("serviceGroupMemberOf relationship properties.")
 model ServiceGroupMemberOfRelationshipProperties
-  is BaseRelationshipProperties<serviceGroupMemberOfOrigins> {}
+  is BaseRelationshipProperties<serviceGroupMemberOfOrigins>;
 
 @doc("Defines a serviceGroupMemberOf relationship resource.")
-model ServiceGroupMemberOfRelationship 
-    is ExtensionResource<ServiceGroupMemberOfRelationshipProperties> {
+model ServiceGroupMemberOfRelationship
+  is ExtensionResource<ServiceGroupMemberOfRelationshipProperties> {
   @doc("Name of serviceGroupMemberOf relationship.")
   @visibility("read")
   @key
@@ -177,21 +179,18 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 interface Relationships<TRelationship extends ArmResource> {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<TRelationship>;
-  get is ArmResourceRead<TRelationship>;  
+  get is ArmResourceRead<TRelationship>;
   delete is ArmResourceDeleteSync<TRelationship>;
 }
 
 @armResourceOperations
 interface ComponentOfRelationships
-  extends Relationships<ComponentOfRelationship> 
-{}
+  extends Relationships<ComponentOfRelationship> {}
 
 @armResourceOperations
 interface DependencyOfRelationships
-  extends Relationships<DependencyOfRelationship> 
-{}
+  extends Relationships<DependencyOfRelationship> {}
 
 @armResourceOperations
 interface ServiceGroupMemberOfRelationships
-  extends Relationships<ServiceGroupMemberOfRelationship> 
-{}
+  extends Relationships<ServiceGroupMemberOfRelationship> {}
