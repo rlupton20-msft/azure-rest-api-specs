@@ -100,7 +100,7 @@ union ComponentOfOrigins {
 
 @doc("componentOf relationship properties.")
 model ComponentOfRelationshipProperties
-  extends BaseRelationshipProperties<ComponentOfOrigins> {}
+  is BaseRelationshipProperties<ComponentOfOrigins> {}
 
 @doc("Defines a componentOf relationship resource.")
 model ComponentOfRelationship
@@ -128,7 +128,7 @@ union DependencyOfOrigins {
 
 @doc("dependencyOf relationship properties.")
 model DependencyOfRelationshipProperties
-  extends BaseRelationshipProperties<DependencyOfOrigins> {}
+  is BaseRelationshipProperties<DependencyOfOrigins> {}
 
 @doc("Defines a dependencyOf relationship resource.")
 model DependencyOfRelationship
@@ -156,7 +156,7 @@ union serviceGroupMemberOfOrigins {
 
 @doc("serviceGroupMemberOf relationship properties.")
 model ServiceGroupMemberOfRelationshipProperties
-  extends BaseRelationshipProperties<serviceGroupMemberOfOrigins> {}
+  is BaseRelationshipProperties<serviceGroupMemberOfOrigins> {}
 
 @doc("Defines a serviceGroupMemberOf relationship resource.")
 model ServiceGroupMemberOfRelationship 
