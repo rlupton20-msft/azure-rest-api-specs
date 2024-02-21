@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./common.tsp";
+import "./managedRuleSetManifest/managedRuleSetManifest.tsp";
 import "./policy/customRules/customRule.tsp";
 import "./policy/customRules/matchCondition.tsp";
 import "./policy/logScrubbing.tsp";

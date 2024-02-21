@@ -43,6 +43,9 @@
       "name": "Operations"
     },
     {
+      "name": "AppProtectManagedRuleSetManifests"
+    },
+    {
       "name": "Policies"
     }
   ],
@@ -80,6 +83,81 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AppSecurity/appProtectManagedRuleSetManifests": {
+      "get": {
+        "operationId": "AppProtectManagedRuleSetManifests_ListBySubscription",
+        "tags": [
+          "AppProtectManagedRuleSetManifests"
+        ],
+        "description": "List AppProtectManagedRuleSetManifest resources by subscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AppProtectManagedRuleSetManifestListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AppProtectManagedRuleSetManifests_ListBySubscription1": {
+            "$ref": "./examples/ManagedRuleSetManifests_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AppSecurity/appProtectManagedRuleSetManifests/default": {
+      "get": {
+        "operationId": "AppProtectManagedRuleSetManifests_Get",
+        "tags": [
+          "AppProtectManagedRuleSetManifests"
+        ],
+        "description": "Get a AppProtectManagedRuleSetManifest",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AppProtectManagedRuleSetManifest"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AppProtectManagedRuleSetManifests_Get1": {
+            "$ref": "./examples/ManagedRuleSetManifests_Get_200.json"
+          }
         }
       }
     },
@@ -406,6 +484,85 @@
     }
   },
   "definitions": {
+    "AppProtectManagedRuleSetManifest": {
+      "type": "object",
+      "description": "The managed rule set manifest resource definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AppProtectManagedRuleSetManifestProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AppProtectManagedRuleSetManifestListResult": {
+      "type": "object",
+      "description": "The response of a AppProtectManagedRuleSetManifest list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AppProtectManagedRuleSetManifest items on this page",
+          "items": {
+            "$ref": "#/definitions/AppProtectManagedRuleSetManifest"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AppProtectManagedRuleSetManifestProperties": {
+      "type": "object",
+      "description": "Manifest containing the available managed rule sets.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation",
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the manifest.",
+          "readOnly": true
+        },
+        "defaultRuleSet": {
+          "$ref": "#/definitions/ManagedRuleSetId",
+          "description": "Default managed rule set ID.",
+          "readOnly": true
+        },
+        "availableRuleSets": {
+          "type": "array",
+          "description": "List of available managed rule set definitions.",
+          "items": {
+            "$ref": "#/definitions/ManagedRuleSetDefinition"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "ruleSetType",
+            "ruleSetVersion"
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "defaultRuleSet",
+        "availableRuleSets"
+      ]
+    },
     "ApplicationGatewayProtectedEndpoint": {
       "type": "object",
       "description": "Defines a custom rule condition of type Ip",
@@ -1109,6 +1266,70 @@
         ]
       }
     },
+    "ManagedRuleDefinition": {
+      "type": "object",
+      "description": "Definition of a managed rule definition.",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "description": "The managed rule ID",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Describes the functionality of the managed rule.",
+          "readOnly": true
+        },
+        "defaultState": {
+          "$ref": "#/definitions/EnabledState",
+          "description": "Describes the default state for the managed rule.",
+          "readOnly": true
+        },
+        "defaultAction": {
+          "$ref": "#/definitions/ManagedRuleActionType",
+          "description": "Describes the default action to be applied when the managed rule matches.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "ruleId",
+        "description",
+        "defaultState",
+        "defaultAction"
+      ]
+    },
+    "ManagedRuleGroupDefinition": {
+      "type": "object",
+      "description": "Definition of a managed rule group.",
+      "properties": {
+        "ruleGroupName": {
+          "type": "string",
+          "description": "The managed rule group name.",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the managed rule group.",
+          "readOnly": true
+        },
+        "rules": {
+          "type": "array",
+          "description": "List of rules within the managed rule group.",
+          "items": {
+            "$ref": "#/definitions/ManagedRuleDefinition"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "ruleId"
+          ]
+        }
+      },
+      "required": [
+        "ruleGroupName",
+        "description",
+        "rules"
+      ]
+    },
     "ManagedRuleSet": {
       "type": "object",
       "description": "Managed rule set definition",
@@ -1154,6 +1375,40 @@
       "required": [
         "ruleSetType",
         "ruleSetVersion"
+      ]
+    },
+    "ManagedRuleSetDefinition": {
+      "type": "object",
+      "description": "Definition of managed rule set.",
+      "properties": {
+        "ruleSetType": {
+          "type": "string",
+          "description": "Defines the type of the rule set",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "ruleSetVersion": {
+          "type": "string",
+          "description": "Defines the version of the rule set",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "ruleGroups": {
+          "type": "array",
+          "description": "List of managed rule groups in the rule set.",
+          "items": {
+            "$ref": "#/definitions/ManagedRuleGroupDefinition"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "ruleGroupName"
+          ]
+        }
+      },
+      "required": [
+        "ruleSetType",
+        "ruleSetVersion",
+        "ruleGroups"
       ]
     },
     "ManagedRuleSetId": {
