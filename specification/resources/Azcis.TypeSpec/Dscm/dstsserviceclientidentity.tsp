@@ -11,8 +11,8 @@ using Autorest;
 
 namespace Microsoft.AzureCIS;
 
-@doc("dstsServiceClientidentity properties")
-model DstsServiceClientidentityResourceProperties {
+@doc("dstsServiceClientIdentity properties")
+model DstsServiceClientIdentityResourceProperties {
   @doc("Gets or sets the account name. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
   accountName: string;
 
@@ -20,13 +20,13 @@ model DstsServiceClientidentityResourceProperties {
   dstsInstance: string;
 
   @doc("Gets or sets a list of claim provisionings.")
-  claimProvisionings: Array<DstsClaimProvisioning>;
+  claimProvisionings?: Array<DstsClaimProvisioning>;
 
   @doc("Gets or sets a list of required IP ranges. Optional.")
   requiredIpRanges?: Array<RequiredIpRange>;
 
   @doc("Gets or sets the GroupId of the account. This is case-insensitive. This is optional, and the account is placed into default group when this is not specified. This can be the GroupId of an existing group, which can be found at dSCM web portal. E.g. \"76c46cf8-a5b4-40e6-a561-b0eb1c303cd9\".")
-  groupId: string;
+  groupId?: string;
 
   @doc("Gets or sets the GroupName of the account. This is case-insensitive. This is optional, and the service client identity is placed into default group when this is not specified. This can be the GroupName of an existing group, which can be found at dSCM web portal.")
   groupName?: string;
@@ -37,7 +37,7 @@ model DstsServiceClientidentityResourceProperties {
   @doc("Gets or sets the subscriptions for the SCI. This is optional. E.g. \"5d711910-92ea-4ff9-b70d-1e61307faaac,a524674c-7024-40f1-afe9-127ab5a2e1b0\".")
   subscriptions?: string;
 
-  @doc("SubjectNames.")
+  @doc("Subject names.")
   subjectNames: Array<string>;
 
   @doc("Provisioning state")
@@ -81,7 +81,7 @@ model RequiredIpRange {
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
 @doc("dstsServiceClientIdentityResource Resource")
 model DstsServiceClientIdentityResource
-  is ProxyResource<DstsServiceClientidentityResourceProperties> {
+  is ProxyResource<DstsServiceClientIdentityResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
