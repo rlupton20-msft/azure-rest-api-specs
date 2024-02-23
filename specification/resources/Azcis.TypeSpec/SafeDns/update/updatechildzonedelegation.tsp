@@ -39,13 +39,13 @@ model DnsNamespaceManagerUpdateDelegationResourceProperties {
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
-@doc("DnsNamespaceManagerAaaaRecordSet Resource")
+@doc("DnsNamespaceManagerUpdateDelegation Resource")
 model DnsNamespaceManagerUpdateDelegationResource
   is ProxyResource<DnsNamespaceManagerUpdateDelegationResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerUpdateDelegationResources") // start with lower case
+  @segment("dnsNamespaceManagerUpdateDelegation") // start with lower case
   @visibility("read")
   @path
   name: string;

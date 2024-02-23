@@ -23,7 +23,7 @@ namespace Microsoft.AzureCIS;
 @doc("DnsNamespaceManagerAppendTxtRecordSet properties")
 model DnsNamespaceManagerAppendTxtRecordSetResourceProperties {
   @doc("Gets or sets the TXT Records")
-  txtRecord: TxtRecord[];
+  txtRecords: TxtRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;
