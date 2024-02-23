@@ -94,7 +94,11 @@ model ContosoWorkbenchProperties {
 
   @visibility("read", "create")
   @doc("ModsimWorkbench id.")
-  modsimWorkbenchId: string;
+  modsimWorkbenchId: ResourceIdentifier<[
+    {
+      type: "Private.DevModSimWorkbench/workbenches";
+    }
+  ]>;
 
   @visibility("read", "create")
   @doc("Application set to be installed on workload")
