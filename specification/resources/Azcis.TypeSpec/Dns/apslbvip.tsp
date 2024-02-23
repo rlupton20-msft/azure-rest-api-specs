@@ -33,7 +33,7 @@ model ApSlbVipResourceProperties {
 @doc("ApSlbVip Resource")
 model ApSlbVipResource is ProxyResource<ApSlbVipResourceProperties> {
   @doc("The name of resource.")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("apSlbVips") // start with lower case
   @visibility("read")

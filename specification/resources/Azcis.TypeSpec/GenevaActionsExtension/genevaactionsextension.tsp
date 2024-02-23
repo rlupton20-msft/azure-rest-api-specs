@@ -32,7 +32,7 @@ model GenevaActionsExtensionResourceProperties {
 model GenevaActionsExtensionResource
   is ProxyResource<GenevaActionsExtensionResourceProperties> { // This can be TrackedResource based on resourcetype
   @doc("The name of resource.")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("genevaActionsExtensions") // Start with lower case. Should be plural
   @visibility("read")
