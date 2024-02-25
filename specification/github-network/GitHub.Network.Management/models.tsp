@@ -13,9 +13,7 @@ namespace GitHub.Network;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-/**
- * Provisioning status of the managed application.
- */
+@doc("Provisioning status of the managed application.")
 enum ProvisioningState {
   @doc("The provisioning of the resource failed.")
   Failed,
@@ -30,25 +28,15 @@ enum ProvisioningState {
   Accepted,
 }
 
-/**
- * NetworkSettings resource-specific properties.
- */
+@doc("NetworkSettings resource-specific properties.")
 model NetworkSettingsResourceProperties {
-  /**
-   * Specifies a subnet ID for vnet-injection.
-   */
-  @visibility("read")
+  @doc("Specifies a subnet ID for vnet-injection.")
   subnetId?: string;
 
-  /**
-   * Specifies the GitHub organization (enterprise) ID associated to the Azure subscription.
-   */
-  @visibility("read")
+  @doc("Specifies the GitHub organization (enterprise) ID associated to the Azure subscription.")
   organizationId?: string;
 
-  /**
-   * The managed application provisioning state.
-   */
+  @doc("The managed application provisioning state.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }

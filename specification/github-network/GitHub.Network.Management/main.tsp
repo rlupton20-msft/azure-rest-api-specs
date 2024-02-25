@@ -11,9 +11,8 @@ using Azure.ResourceManager.Foundations;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-/**
- * GitHub.Network Resource Provider REST API version 2024-03-01-preview
- */
+
+@doc("GitHub.Network Resource Provider REST API version 2024-03-01-preview")
 @armProviderNamespace
 @useAuth(AadOauth2Auth<["user_impersonation"]>)
 @service({
@@ -23,13 +22,9 @@ using TypeSpec.Versioning;
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace GitHub.Network;
 
-/**
- * The available API versions.
- */
+@doc("The available API versions.")
 enum Versions {
-  /**
-   * The 2024-03-01-preview API version.
-   */
+  @doc("The 2024-03-01-preview API version.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
   v2024_03_01_preview: "2024-03-01-preview",
