@@ -297,7 +297,7 @@
             "description": "Parameters for updating the GitHub.Network resource.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/NetworkSettingsResourcePatch"
+              "$ref": "#/definitions/NetworkSettingsResourceTagsUpdate"
             },
             "x-ms-client-name": "networkSettings"
           }
@@ -370,32 +370,6 @@
     }
   },
   "definitions": {
-    "Identity": {
-      "type": "object",
-      "description": "Identity for the resource.",
-      "properties": {
-        "principalId": {
-          "type": "string",
-          "description": "The principal ID of resource identity. The value must be an UUID.",
-          "readOnly": true
-        },
-        "tenantId": {
-          "type": "string",
-          "description": "The tenant ID of resource. The value must be an UUID.",
-          "readOnly": true
-        },
-        "type": {
-          "type": "string",
-          "description": "The identity type.",
-          "enum": [
-            "SystemAssigned"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
-        }
-      }
-    },
     "NetworkSettingsResource": {
       "type": "object",
       "description": "GitHub.Network networkSettings resource. Represents the network settings needed for vnet injection.",
@@ -437,42 +411,37 @@
         "value"
       ]
     },
-    "NetworkSettingsResourcePatch": {
-      "type": "object",
-      "description": "GitHub.Network networkSettings patch resource. Represents a patch version of the networkSettings resource.",
-      "properties": {
-        "identity": {
-          "$ref": "#/definitions/Identity",
-          "description": "The managed identity associated with the resource."
-        },
-        "properties": {
-          "$ref": "#/definitions/NetworkSettingsResourceProperties",
-          "description": "NetworkSettings resource-specific properties.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ]
-    },
     "NetworkSettingsResourceProperties": {
       "type": "object",
       "description": "NetworkSettings resource-specific properties.",
       "properties": {
         "subnetId": {
           "type": "string",
-          "description": "Specifies a subnet ID for vnet-injection."
+          "description": "Specifies a subnet ID for vnet-injection.",
+          "readOnly": true
         },
         "organizationId": {
           "type": "string",
-          "description": "Specifies the GitHub organization (enterprise) ID associated to the Azure subscription."
+          "description": "Specifies the GitHub organization (enterprise) ID associated to the Azure subscription.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The managed application provisioning state.",
           "readOnly": true
+        }
+      }
+    },
+    "NetworkSettingsResourceTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in NetworkSettingsResource resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -487,39 +456,31 @@
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
-        "modelAsString": true
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The provisioning of the resource failed."
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The resource was provisioned successfully."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "The provisioning of the resource was cancelled."
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource provisioning is in progress."
+          }
+        ]
       },
       "readOnly": true
-    },
-    "Resource": {
-      "type": "object",
-      "description": "Common fields that are returned in the response for all Azure Resource Manager resources",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\"",
-          "readOnly": true,
-          "x-ms-arm-id-details": {
-            "allowedResources": []
-          }
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the resource",
-          "readOnly": true
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\"",
-          "readOnly": true
-        },
-        "systemData": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData",
-          "description": "Azure Resource Manager metadata containing createdBy and modifiedBy information.",
-          "readOnly": true
-        }
-      }
     },
     "Versions": {
       "type": "string",

@@ -62,10 +62,7 @@ interface NetworkSettingsResources {
   #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
   @parameterVisibility("read")
   @operationId("networkSettings_Update")
-  update is ArmCustomPatchSync<
-    NetworkSettingsResource,
-    NetworkSettingsResourcePatch
-  >;
+  update is ArmCustomPatchSync<NetworkSettingsResource>;
 
   /**
    * Deletes an existing GitHub.Network networkSettings resource.
