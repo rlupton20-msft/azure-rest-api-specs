@@ -39,6 +39,7 @@ model ElasticLoadBalancingV2LoadBalancer
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of ElasticLoadBalancingV2LoadBalancer")
 model ElasticLoadBalancingV2LoadBalancerProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -48,6 +49,7 @@ model ElasticLoadBalancingV2LoadBalancerProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of awsElasticLoadBalancingV2LoadBalancer")
 model AwsElasticLoadBalancingV2LoadBalancerProperties {
   @doc("Gets and sets the property canonicalHostedZoneID. The ID of the Amazon Route 53 hosted zone associated with the load balancer.")
@@ -55,6 +57,9 @@ model AwsElasticLoadBalancingV2LoadBalancerProperties {
 
   @doc("Gets and sets the property dNSName. The public DNS name of the load balancer.")
   dNSName?: string;
+
+  @doc("Gets and sets the property enforceSecurityGroupInboundRulesOnPrivateLinkTraffic. Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through PrivateLink")
+  enforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string;
 
   @doc("Gets and sets the property ipAddressType. The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).")
   ipAddressType?: string;
@@ -99,6 +104,7 @@ model AwsElasticLoadBalancingV2LoadBalancerProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of LoadBalancerAttribute")
 model LoadBalancerAttribute {
   @doc("Gets and sets the property key.")
@@ -109,6 +115,7 @@ model LoadBalancerAttribute {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of SubnetMapping")
 model SubnetMapping {
   @doc("Gets and sets the property allocationId.")
@@ -125,6 +132,7 @@ model SubnetMapping {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Tag")
 model Tag {
   @doc("Gets and sets the property key.")

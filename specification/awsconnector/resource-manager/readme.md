@@ -36,10 +36,10 @@ These settings apply only when `--tag=package-2023-12-01-preview` is specified o
 
 ``` yaml $(tag) == 'package-2023-12-01-preview'
 input-file:
-  - Microsoft.AwsConnector/preview/2023-12-01-preview/s3Bucket.json
-  - Microsoft.AwsConnector/preview/2023-12-01-preview/operations.json
   - Microsoft.AwsConnector/preview/2023-12-01-preview/ec2Instance.json
   - Microsoft.AwsConnector/preview/2023-12-01-preview/lambdaFunctionConfiguration.json
+  - Microsoft.AwsConnector/preview/2023-12-01-preview/operations.json
+  - Microsoft.AwsConnector/preview/2023-12-01-preview/s3Bucket.json
 ```
 
 ### Tag: package-2024-08-01-preview
@@ -48,13 +48,13 @@ These settings apply only when `--tag=package-2024-08-01-preview` is specified o
 
 ``` yaml $(tag) == 'package-2024-08-01-preview'
 input-file:
+  - Microsoft.AwsConnector/preview/2024-08-01-preview/dynamoDBTable.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2Instance.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2InstanceStatus.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2KeyPair.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2NetworkAcl.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2NetworkInterface.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2RouteTable.json
-  - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2SecurityGroup.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2Subnet.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2Volume.json
   - Microsoft.AwsConnector/preview/2024-08-01-preview/ec2Vpc.json
@@ -94,11 +94,20 @@ directive:
   - suppress: DefinitionsPropertiesNamesCamelCase
     reason: Property is CamelCase in aws
   - suppress: AvoidAdditionalProperties
-    reason: Property represents user defined awsTags
+    reason: 1. Property represents user defined awsTags. 2. All swagger has awsTags.So, we cannot add from clause.
   - suppress: PatchPropertiesCorrespondToPutProperties
-    reason: Issue in LintDiff tool
-  - suppress: RequestBodyMustExistForPutPatch
-    reason: Issue in LintDiff tool
+    reason: 1. Issue in LintDiff tool. 2. In patch we allow tags update only and in our TypeSpec we use ArmCustomPatchAsync{Azure.ResourceManager.Foundations.TagsUpdateModel<Resource>}. So, tags property in patch body and the same is not present in the corresponding put body and causing the issue. In case of the put we are using TrackedResource type and same has tags. 3. All typespec has TagsUpdateModel.So, we cannot add from clause.
+  - suppress: EvenSegmentedPathForPutOperation
+    reason: 1. Issue in LintDiff tool. 2. In TypeSpec we use @singleton (OpenAPI path ends with /default), we believe this is a false positive.  Related issue:https://github.com/Azure/azure-openapi-validator/issues/646
+    from:
+      - ec2Instance.json
+      - eksCluster.json
+  - suppress: XmsPageableForListCalls
+    reason: 1. Issue in LintDiff tool. 2. In TypeSpec we use @singleton (OpenAPI path ends with /default), we believe this is a false positive.  Related issue:https://github.com/Azure/azure-openapi-validator/issues/646
+    from:
+      - ec2Instance.json
+      - eksCluster.json
+     
 ```
 
 ---

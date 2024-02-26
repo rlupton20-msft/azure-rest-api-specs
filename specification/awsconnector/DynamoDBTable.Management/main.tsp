@@ -38,6 +38,7 @@ model DynamoDBTable is TrackedResource<DynamoDBTableProperties> {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of DynamoDBTable")
 model DynamoDBTableProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -47,6 +48,7 @@ model DynamoDBTableProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of awsDynamoDBTable")
 model AwsDynamoDBTableProperties {
   @doc("Gets and sets the property arn.")
@@ -73,7 +75,8 @@ model AwsDynamoDBTableProperties {
   importSourceSpecification?: ImportSourceSpecification;
 
   @doc("Gets and sets the property keySchema.")
-  keySchema?: undefined;
+  @extension("x-ms-identifiers", [])
+  keySchema?: KeySchema[];
 
   @doc("Gets and sets the property kinesisStreamSpecification.")
   kinesisStreamSpecification?: KinesisStreamSpecification;
@@ -112,6 +115,7 @@ model AwsDynamoDBTableProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of AttributeDefinition")
 model AttributeDefinition {
   @doc("Gets and sets the property attributeName.")
@@ -122,6 +126,7 @@ model AttributeDefinition {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of ContributorInsightsSpecification")
 model ContributorInsightsSpecification {
   @doc("Gets and sets the property enabled.")
@@ -129,6 +134,7 @@ model ContributorInsightsSpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of GlobalSecondaryIndex")
 model GlobalSecondaryIndex {
   @doc("Gets and sets the property contributorInsightsSpecification.")
@@ -149,6 +155,7 @@ model GlobalSecondaryIndex {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of ImportSourceSpecification")
 model ImportSourceSpecification {
   @doc("Gets and sets the property inputCompressionType.")
@@ -165,13 +172,38 @@ model ImportSourceSpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+@doc("Definition of KeySchema")
+model KeySchema {
+  @doc("Gets and sets the property attributeName.")
+  attributeName?: string;
+
+  @doc("Gets and sets the property keyType.")
+  keyType?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of KinesisStreamSpecification")
 model KinesisStreamSpecification {
+  @doc("Gets and sets the property approximateCreationDateTimePrecision.")
+  approximateCreationDateTimePrecision?: KinesisStreamSpecificationApproximateCreationDateTimePrecision;
+
   @doc("Gets and sets the property streamArn.")
   streamArn?: string;
 }
 
+@doc("KinesisStreamSpecificationApproximateCreationDateTimePrecision enum")
+enum KinesisStreamSpecificationApproximateCreationDateTimePrecision {
+  @doc("KinesisStreamSpecificationApproximateCreationDateTimePrecision enum MICROSECOND")
+  MICROSECOND: "MICROSECOND",
+
+  @doc("KinesisStreamSpecificationApproximateCreationDateTimePrecision enum MILLISECOND")
+  MILLISECOND: "MILLISECOND",
+}
+
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of LocalSecondaryIndex")
 model LocalSecondaryIndex {
   @doc("Gets and sets the property indexName.")
@@ -186,6 +218,7 @@ model LocalSecondaryIndex {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of PointInTimeRecoverySpecification")
 model PointInTimeRecoverySpecification {
   @doc("Gets and sets the property pointInTimeRecoveryEnabled.")
@@ -193,6 +226,7 @@ model PointInTimeRecoverySpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of ProvisionedThroughput")
 model ProvisionedThroughput {
   @doc("Gets and sets the property readCapacityUnits.")
@@ -203,6 +237,7 @@ model ProvisionedThroughput {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of SSESpecification")
 model SSESpecification {
   @doc("Gets and sets the property kMSMasterKeyId.")
@@ -216,6 +251,7 @@ model SSESpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of StreamSpecification")
 model StreamSpecification {
   @doc("Gets and sets the property streamViewType.")
@@ -223,6 +259,7 @@ model StreamSpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Tag")
 model Tag {
   @doc("Gets and sets the property key.")
@@ -233,6 +270,7 @@ model Tag {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of TimeToLiveSpecification")
 model TimeToLiveSpecification {
   @doc("Gets and sets the property attributeName.")
@@ -243,16 +281,7 @@ model TimeToLiveSpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
-@doc("Definition of KeySchema")
-model KeySchema {
-  @doc("Gets and sets the property attributeName.")
-  attributeName?: string;
-
-  @doc("Gets and sets the property keyType.")
-  keyType?: string;
-}
-
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Projection")
 model Projection {
   @doc("Gets and sets the property nonKeyAttributes.")
@@ -264,6 +293,7 @@ model Projection {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of InputFormatOptions")
 model InputFormatOptions {
   @doc("Gets and sets the property csv.")
@@ -271,6 +301,7 @@ model InputFormatOptions {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of S3BucketSource")
 model S3BucketSource {
   @doc("Gets and sets the property s3Bucket.")
@@ -284,6 +315,7 @@ model S3BucketSource {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Csv")
 model Csv {
   @doc("Gets and sets the property delimiter.")

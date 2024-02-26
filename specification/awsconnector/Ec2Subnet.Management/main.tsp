@@ -38,6 +38,7 @@ model Ec2Subnet is TrackedResource<Ec2SubnetProperties> {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Ec2Subnet")
 model Ec2SubnetProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -47,6 +48,7 @@ model Ec2SubnetProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of awsEc2Subnet")
 model AwsEc2SubnetProperties {
   @doc("Gets and sets the property assignIpv6AddressOnCreation.")
@@ -96,7 +98,7 @@ model AwsEc2SubnetProperties {
   outpostArn?: string;
 
   @doc("Gets and sets the property privateDnsNameOptionsOnLaunch.")
-  privateDnsNameOptionsOnLaunch?: object;
+  privateDnsNameOptionsOnLaunch?: PrivateDnsNameOptionsOnLaunchModelProperties;
 
   @doc("Gets and sets the property subnetId.")
   subnetId?: string;
@@ -110,6 +112,21 @@ model AwsEc2SubnetProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+@doc("Definition of PrivateDnsNameOptionsOnLaunchModelProperties")
+model PrivateDnsNameOptionsOnLaunchModelProperties {
+  @doc("Gets and sets the property enableResourceNameDnsAAAARecord.")
+  enableResourceNameDnsAAAARecord?: boolean;
+
+  @doc("Gets and sets the property enableResourceNameDnsARecord.")
+  enableResourceNameDnsARecord?: boolean;
+
+  @doc("Gets and sets the property hostnameType.")
+  hostnameType?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Tag")
 model Tag {
   @doc("Gets and sets the property key.")

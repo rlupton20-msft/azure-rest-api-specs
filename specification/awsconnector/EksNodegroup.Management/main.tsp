@@ -38,6 +38,7 @@ model EksNodegroup is TrackedResource<EksNodegroupProperties> {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of EksNodegroup")
 model EksNodegroupProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -47,6 +48,7 @@ model EksNodegroupProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of awsEksNodegroup")
 model AwsEksNodegroupProperties {
   @doc("Gets and sets the property amiType. The AMI type for your node group.")
@@ -75,7 +77,7 @@ model AwsEksNodegroupProperties {
   instanceTypes?: string[];
 
   @doc("Gets and sets the property labels. The Kubernetes labels to be applied to the nodes in the node group when they are created.")
-  labels?: object;
+  labels?: Record<string>;
 
   @doc("Gets and sets the property launchTemplate. An object representing a node group's launch template specification. An object representing a launch template specification for AWS EKS Nodegroup.")
   launchTemplate?: LaunchTemplateSpecification;
@@ -100,7 +102,7 @@ model AwsEksNodegroupProperties {
   subnets?: string[];
 
   @doc("Gets and sets the property tags. The metadata, as key-value pairs, to apply to the node group to assist with categorization and organization. Follows same schema as Labels for consistency.")
-  tags?: object;
+  tags?: Record<string>;
 
   @doc("Gets and sets the property taints. The Kubernetes taints to be applied to the nodes in the node group when they are created.")
   @extension("x-ms-identifiers", [])
@@ -114,6 +116,7 @@ model AwsEksNodegroupProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of LaunchTemplateSpecification")
 model LaunchTemplateSpecification {
   @doc("Gets and sets the property id.")
@@ -127,6 +130,7 @@ model LaunchTemplateSpecification {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of RemoteAccess")
 model RemoteAccess {
   @doc("Gets and sets the property ec2SshKey.")
@@ -138,6 +142,7 @@ model RemoteAccess {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of ScalingConfig")
 model ScalingConfig {
   @doc("Gets and sets the property desiredSize.")
@@ -151,6 +156,7 @@ model ScalingConfig {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Taint")
 model Taint {
   @doc("Gets and sets the property effect.")
@@ -164,6 +170,7 @@ model Taint {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of UpdateConfig")
 model UpdateConfig {
   @doc("Gets and sets the property maxUnavailable. The maximum number of nodes unavailable at once during a version update. Nodes will be updated in parallel. This value or maxUnavailablePercentage is required to have a value.The maximum number is 100. ")

@@ -3,9 +3,7 @@ using Azure.ResourceManager;
 
 namespace Microsoft.AwsConnector;
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
-@doc("Definition of AwsCommon")
-model AwsCommonProperties {
+alias AwsCommonProperties = {
   @doc("Gets and sets the property publicCloudConnectorsResourceId.")
   publicCloudConnectorsResourceId?: string;
 
@@ -14,6 +12,9 @@ model AwsCommonProperties {
 
   @doc("Gets and sets the property awsResourceName.")
   awsResourceName?: string;
+
+  @doc("Gets and sets the property awsSourceSchema.")
+  awsSourceSchema?: string;
 
   @doc("Gets and sets the property awsSdkVersion.")
   awsSdkVersion?: string;
@@ -27,7 +28,7 @@ model AwsCommonProperties {
   @visibility("read")
   @doc("Gets and sets the property provisioningState.The status of the last operation.")
   provisioningState?: ProvisioningState;
-}
+};
 
 @doc("The provisioning state of a resource.")
 @lroStatus

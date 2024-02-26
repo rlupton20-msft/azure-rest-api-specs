@@ -39,6 +39,7 @@ model Wafv2WebACLAssociation
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of Wafv2WebACLAssociation")
 model Wafv2WebACLAssociationProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -48,6 +49,7 @@ model Wafv2WebACLAssociationProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 @doc("Definition of awsWafv2WebACLAssociation")
 model AwsWafv2WebACLAssociationProperties {
   @doc("Gets and sets the property resourceArn.")

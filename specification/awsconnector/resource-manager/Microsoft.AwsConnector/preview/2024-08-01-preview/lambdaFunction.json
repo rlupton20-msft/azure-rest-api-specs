@@ -61,7 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LambdaFunctionListResult"
             }
@@ -103,7 +103,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LambdaFunctionListResult"
             }
@@ -153,7 +153,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LambdaFunction"
             }
@@ -278,7 +278,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LambdaFunction"
             }
@@ -355,7 +355,7 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -399,44 +399,6 @@
             "description": "Architectures enum x86_64"
           }
         ]
-      }
-    },
-    "AwsCommonProperties": {
-      "type": "object",
-      "description": "Definition of AwsCommon",
-      "properties": {
-        "publicCloudConnectorsResourceId": {
-          "type": "string",
-          "description": "Gets and sets the property publicCloudConnectorsResourceId."
-        },
-        "awsAccountId": {
-          "type": "string",
-          "description": "Gets and sets the property awsAccountId."
-        },
-        "awsResourceName": {
-          "type": "string",
-          "description": "Gets and sets the property awsResourceName."
-        },
-        "awsSdkVersion": {
-          "type": "string",
-          "description": "Gets and sets the property awsSdkVersion."
-        },
-        "awsRegion": {
-          "type": "string",
-          "description": "Gets and sets the property awsRegion."
-        },
-        "awsTags": {
-          "type": "object",
-          "description": "Gets and sets the property awsTags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Gets and sets the property provisioningState.The status of the last operation.",
-          "readOnly": true
-        }
       }
     },
     "AwsLambdaFunctionProperties": {
@@ -613,8 +575,11 @@
       "description": "Definition of Environment",
       "properties": {
         "variables": {
-          "$ref": "#/definitions/object",
-          "description": "Gets and sets the property variables. Environment variable key-value pairs."
+          "type": "object",
+          "description": "Gets and sets the property variables. Environment variable key-value pairs.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -729,6 +694,10 @@
         "awsResourceName": {
           "type": "string",
           "description": "Gets and sets the property awsResourceName."
+        },
+        "awsSourceSchema": {
+          "type": "string",
+          "description": "Gets and sets the property awsSourceSchema."
         },
         "awsSdkVersion": {
           "type": "string",
@@ -1181,10 +1150,6 @@
           "x-ms-identifiers": []
         }
       }
-    },
-    "object": {
-      "type": "object",
-      "description": "Represent a model"
     }
   },
   "parameters": {}
