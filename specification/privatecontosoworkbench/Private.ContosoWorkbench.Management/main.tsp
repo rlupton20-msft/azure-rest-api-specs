@@ -94,7 +94,7 @@ model ContosoWorkbenchProperties {
 
   @visibility("read", "create")
   @doc("ModsimWorkbench id.")
-  modsimWorkbenchId: ResourceIdentifier<[
+  modSimWorkbenchId?: ResourceIdentifier<[
     {
       type: "Private.DevModSimWorkbench/workbenches";
     }
@@ -102,19 +102,19 @@ model ContosoWorkbenchProperties {
 
   @visibility("read", "create")
   @doc("Application set to be installed on workload")
-  applications: Applications;
+  applications?: Applications;
 
   @visibility("read", "create")
   @doc("Toolbox for workload")
-  toolbox: Toolbox;
+  toolbox?: Toolbox;
 
   @visibility("read", "create")
   @doc("Parameter set for workload")
-  parameterSet: ParameterSet;
+  parameterSet?: ParameterSet;
 
   @visibility("read", "create")
   @doc("Text of user license to be uploaded from local file")
-  userLicenseText: string;
+  userLicenseText?: string;
 }
 
 @doc("ContosoWorkbench tracked resource.")
