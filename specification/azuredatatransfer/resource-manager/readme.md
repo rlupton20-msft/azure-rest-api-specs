@@ -37,7 +37,7 @@ These settings apply only when `--tag=package-preview-2024-01` is specified on t
 
 ```yaml $(tag) == 'package-preview-2024-01'
 input-file:
-  - Microsoft.AzureDataTransfer/preview/2024-01-25-preview/azuredatatransfer.json
+  - Microsoft.AzureDataTransfer/stable/2024-01-25/azuredatatransfer.json
 ```
 ### Tag: package-2023-10-11-preview
 
