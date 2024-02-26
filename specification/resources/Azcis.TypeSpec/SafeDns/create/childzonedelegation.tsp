@@ -48,7 +48,7 @@ model DnsNamespaceManagerChildZoneDelegationResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("dnsNamespaceManagerChildZoneDelegation") // start with lower case
+  @segment("dnsNamespaceManagerChildZoneDelegations") // start with lower case
   @visibility("read")
   @path
   name: string;
