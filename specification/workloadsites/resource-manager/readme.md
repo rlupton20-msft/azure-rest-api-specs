@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2024-02-20-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-02-20-preview'
 input-file:
-  - Private.MigrateWorkload/preview/2024-02-20-preview/openapi.json
+  - Private.MigrateWorkload/preview/2024-02-20-preview/workloadsites.json
 ```
 
 ---
