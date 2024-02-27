@@ -295,6 +295,12 @@ enum OrderStatus{
   PartiallyConfirmed,
   @doc("Order is pending cancellation")
   PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
   @doc("Order is Ready to Ship cannot be cancelled")
   PendingShipment,
   @doc("Order is PartiallyShipped")
@@ -315,6 +321,12 @@ enum OrderLineStatus{
   PartiallyConfirmed,
   @doc("Order is pending cancellation")
   PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
   @doc("Order is Ready to Ship cannot be cancelled")
   PendingShipment,
   @doc("Order is PartiallyShipped")
