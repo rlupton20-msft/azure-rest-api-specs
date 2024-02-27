@@ -104,6 +104,9 @@ model OrderLine {
   @doc("order line Product")
   product: Product;
   
+  @doc("order line fulfillment instructions")
+  lineFulfillmentInstructions?: LineFulfillmentInstructions;
+
   @doc("line level Price")
   price:Price;
 
@@ -156,6 +159,15 @@ model Product {
 
   @doc("ProductId Type")
   type:ProductIdType;
+}
+
+@doc("Order line fulfillment instructions")
+model LineFulfillmentInstructions {
+  @doc("Device line referred to by the warranty line.")
+  referenceDeviceLine?: int64;
+
+  @doc("Serial Numbers")
+  serialNumbers?: int64[];
 }
 
 @doc("Order line Price")
@@ -283,6 +295,12 @@ enum OrderStatus{
   PartiallyConfirmed,
   @doc("Order is pending cancellation")
   PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
   @doc("Order is Ready to Ship cannot be cancelled")
   PendingShipment,
   @doc("Order is PartiallyShipped")
@@ -303,6 +321,12 @@ enum OrderLineStatus{
   PartiallyConfirmed,
   @doc("Order is pending cancellation")
   PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
   @doc("Order is Ready to Ship cannot be cancelled")
   PendingShipment,
   @doc("Order is PartiallyShipped")
