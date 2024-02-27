@@ -23,7 +23,6 @@ namespace Private.MigrateWorkload;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-
 @doc("Workload Site")
 model WorkLoadSite is TrackedResource<WorkLoadSiteProperties> {
   @doc("The name of the workload site")

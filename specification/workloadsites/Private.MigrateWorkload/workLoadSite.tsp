@@ -17,4 +17,3 @@ model WorkLoadSiteProperties {
   @doc("The provisioning state of the workload site")
   provisioningState?: ProvisioningState;
 }
-
