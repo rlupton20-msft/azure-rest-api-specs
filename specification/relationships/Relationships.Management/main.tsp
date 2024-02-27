@@ -86,35 +86,6 @@ model BaseRelationshipProperties<TOrigin> {
 }
 
 /*
- * componentOf relationship type definitions
- */
-
-@doc("The possible origins of a componentOf relationship.")
-union ComponentOfOrigins {
-  @doc("The relationship was explicitly created by a system.")
-  serviceExplicitlyCreated: ServiceExplicitlyCreated,
-
-  @doc("The relationship was explicitly created by a user.")
-  userExplicitlyCreated: UserExplicitlyCreated,
-}
-
-@doc("componentOf relationship properties.")
-model ComponentOfRelationshipProperties
-  is BaseRelationshipProperties<ComponentOfOrigins>;
-
-@doc("Defines a componentOf relationship resource.")
-model ComponentOfRelationship
-  is ExtensionResource<ComponentOfRelationshipProperties> {
-  @doc("Name of componentOf relationship.")
-  @pattern("^[a-zA-Z0-9]{3,24}$")
-  @visibility("read")
-  @key
-  @path
-  @segment("componentOf")
-  name: string;
-}
-
-/*
  * dependencyOf relationship type definition
  */
 
@@ -144,11 +115,11 @@ model DependencyOfRelationship
 }
 
 /*
- * serviceGroupMemberOf relationship type definition
+ * ServiceGroupMember relationship type definition
  */
 
-@doc("The possible origins of a serviceGroupMemberOf relationship.")
-union serviceGroupMemberOfOrigins {
+@doc("The possible origins of a ServiceGroupMember relationship.")
+union ServiceGroupMemberOrigins {
   @doc("The relationship was explicitly created by a system.")
   serviceExplicitlyCreated: ServiceExplicitlyCreated,
 
@@ -156,18 +127,18 @@ union serviceGroupMemberOfOrigins {
   userExplicitlyCreated: UserExplicitlyCreated,
 }
 
-@doc("serviceGroupMemberOf relationship properties.")
-model ServiceGroupMemberOfRelationshipProperties
-  is BaseRelationshipProperties<serviceGroupMemberOfOrigins>;
+@doc("ServiceGroupMember relationship properties.")
+model ServiceGroupMemberRelationshipProperties
+  is BaseRelationshipProperties<ServiceGroupMemberOrigins>;
 
-@doc("Defines a serviceGroupMemberOf relationship resource.")
-model ServiceGroupMemberOfRelationship
-  is ExtensionResource<ServiceGroupMemberOfRelationshipProperties> {
-  @doc("Name of serviceGroupMemberOf relationship.")
+@doc("Defines a ServiceGroupMember relationship resource.")
+model ServiceGroupMemberRelationship
+  is ExtensionResource<ServiceGroupMemberRelationshipProperties> {
+  @doc("Name of ServiceGroupMember relationship.")
   @visibility("read")
   @key
   @path
-  @segment("serviceGroupMemberOf")
+  @segment("serviceGroupMember")
   name: "default";
 }
 
@@ -184,13 +155,9 @@ interface Relationships<TRelationship extends ArmResource> {
 }
 
 @armResourceOperations
-interface ComponentOfRelationships
-  extends Relationships<ComponentOfRelationship> {}
-
-@armResourceOperations
 interface DependencyOfRelationships
   extends Relationships<DependencyOfRelationship> {}
 
 @armResourceOperations
-interface ServiceGroupMemberOfRelationships
-  extends Relationships<ServiceGroupMemberOfRelationship> {}
+interface ServiceGroupMemberRelationships
+  extends Relationships<ServiceGroupMemberRelationship> {}
