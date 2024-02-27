@@ -80,7 +80,7 @@ model BaseRelationshipProperties<TOrigin> {
   @visibility("read")
   originInformation: RelationshipOriginInformation<TOrigin>;
 
-  /** The status of the last operation. */
+  @doc("The provisioning state of the relationship.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
@@ -139,7 +139,7 @@ model ServiceGroupMemberRelationship
   @key
   @path
   @segment("serviceGroupMember")
-  name: "default";
+  name: string;
 }
 
 /*
