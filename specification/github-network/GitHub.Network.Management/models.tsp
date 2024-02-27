@@ -1,13 +1,17 @@
 import "@typespec/rest";
 import "@typespec/http";
 import "@typespec/openapi";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using Azure.Core;
+using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
+using TypeSpec.Versioning;
 
 namespace GitHub.Network;
 
@@ -34,7 +38,12 @@ model NetworkSettingsResourceProperties {
   subnetId?: string;
 
   @doc("Specifies the GitHub organization (enterprise) ID associated to the Azure subscription.")
+  @removed(Versions.`2024-03-01-preview`)
   organizationId?: string;
+
+  @doc("Specifies the GitHub business (enerprise/organization) ID associated to the Azure subscription.")
+  @added(Versions.`2024-03-01-preview`)
+  businessId?: string;
 
   @doc("The managed application provisioning state.")
   @visibility("read")

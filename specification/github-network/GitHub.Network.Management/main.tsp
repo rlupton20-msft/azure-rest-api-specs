@@ -5,11 +5,12 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./models.tsp";
 import "./NetworkSettingsResource.tsp";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.ResourceManager.Foundations;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
+using TypeSpec.Rest;
+using TypeSpec.Http;
+using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
 
 @doc("GitHub.Network Resource Provider REST API version 2024-03-01-preview")
@@ -27,5 +28,6 @@ enum Versions {
   @doc("The 2024-03-01-preview API version.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_03_01_preview: "2024-03-01-preview",
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  `2024-03-01-preview`,
 }
