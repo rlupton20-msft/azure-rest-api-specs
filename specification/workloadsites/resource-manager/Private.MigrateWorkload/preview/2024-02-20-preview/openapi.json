@@ -284,6 +284,78 @@
           }
         }
       },
+      "patch": {
+        "operationId": "WorkloadSiteControllers_Update",
+        "tags": [
+          "WorkloadSiteControllers"
+        ],
+        "description": "Update a WorkLoadSite",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "siteName",
+            "in": "path",
+            "description": "The name of the workload site",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,30}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkLoadSiteUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/WorkLoadSite"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "WorkloadSiteControllers_Update_MaximumSet_Gen": {
+            "$ref": "./examples/WorkloadSiteControllers_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
       "delete": {
         "operationId": "WorkloadSiteControllers_Delete",
         "tags": [
@@ -424,24 +496,6 @@
       },
       "readOnly": true
     },
-    "Versions": {
-      "type": "string",
-      "description": "The available API versions.",
-      "enum": [
-        "2024-02-20"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2024_02_20",
-            "value": "2024-02-20",
-            "description": "2024-02-20 version."
-          }
-        ]
-      }
-    },
     "WorkLoadSite": {
       "type": "object",
       "description": "Workload Site",
@@ -495,6 +549,23 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "The provisioning state of the workload site",
           "readOnly": true
+        }
+      }
+    },
+    "WorkLoadSiteUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the WorkLoadSite.",
+      "properties": {
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "The extended location."
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     }
