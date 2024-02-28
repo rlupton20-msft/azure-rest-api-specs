@@ -22,14 +22,14 @@ namespace Microsoft.Impact;
 model Connector is ProxyResource<ConnectorProperties> {
   @doc("The name of the connector")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("ConnectorName")
+  @key("connectorName")
   @segment("Connectors")
   @path
   name: string;
 }
 
 @doc("Details of the Impact Connector.")
-model ConnectorProperties {
+model ConnectorProperties is ResourceProperties{
 
   @visibility("read")
   @doc("unique id of the connector.")
@@ -40,7 +40,7 @@ model ConnectorProperties {
   tenantId: string;
 
   @doc("connector type")
-  type: ConnectorType;
+  connectorType: ConnectorType;
 
   @doc("filters associated with this connector")
   filters?: string;

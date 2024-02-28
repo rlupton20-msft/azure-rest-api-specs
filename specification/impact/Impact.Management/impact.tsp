@@ -12,8 +12,9 @@ using Azure.ResourceManager;
 @armProviderNamespace
 @service({
   title: "Microsoft.Impact",
+  version:"2023-12-01-preview"
 })
-@versioned(Versions)
+@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.Impact;
 
 @doc("API Versions")

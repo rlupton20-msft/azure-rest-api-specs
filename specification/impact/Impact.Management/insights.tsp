@@ -156,16 +156,4 @@ interface Insights {
   @doc("Delete Insight resource")
   delete is ArmResourceDeleteSync<Insight>;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "Using subscription level action"
-  @get
-  @doc("get all insights under subscription")
-  @segment("getAllInsights")
-  getAll(
-    ...InsightCustomResourceCommonParameters,
-  ): ArmResponse<ResourceListResult<Insight>> | ErrorResponse;
-
-  /* @doc("get all insights under subscription")
-  @segment("getAllInsights")
-  getAll2 is ResourceAct<InsightUnderSubscription,insightDetails,ResourceListResult<Insight>>;
-  */
 }
