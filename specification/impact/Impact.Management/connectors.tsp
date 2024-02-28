@@ -43,7 +43,7 @@ model ConnectorProperties {
   type: ConnectorType;
 
   @doc("filters associated with this connector")
-  filters: string;
+  filters?: string;
 
   @visibility("read")
   @doc("last run time stamp of this connector in UTC time zone")
@@ -52,8 +52,8 @@ model ConnectorProperties {
 
 @doc("Enum for connector types")
 enum ConnectorType {
-  @doc("Azure Monitor Connector")
-  AzureMonitorConnector: "Azure Monitor Connector"
+  @doc("AzureMonitorConnector")
+  AzureMonitorConnector: "AzureMonitorConnector"
 }
 
 @armResourceOperations(Connector)
