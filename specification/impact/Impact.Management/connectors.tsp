@@ -52,7 +52,7 @@ model ConnectorProperties {
 
 @doc("Enum for connector types")
 enum ConnectorType {
-  @doc("AzureMonitorConnector")
+  @doc("Type of Azure Monitor")
   AzureMonitorConnector: "AzureMonitorConnector"
 }
 
