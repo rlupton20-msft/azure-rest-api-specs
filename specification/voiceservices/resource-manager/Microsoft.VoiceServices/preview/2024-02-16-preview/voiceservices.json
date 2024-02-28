@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.VoiceServices",
-    "version": "2023-09-21",
+    "version": "2024-02-16-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -769,6 +769,156 @@
     }
   },
   "definitions": {
+    "AcgAddressRanges": {
+      "type": "object",
+      "description": "ACG IP addresses or address ranges for sending traffic to Operator Network/ Communication Services which would be used for ACL firewall rules",
+      "properties": {
+        "signalingForBackendServices": {
+          "type": "array",
+          "description": "ACG IP addresses or address ranges for sending signalling traffic to Communication Services",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signalingForOperatorPeerGroups": {
+          "type": "array",
+          "description": "ACG IP addresses or address ranges for sending signalling traffic to Operator Network",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "mediaForBackendServices": {
+          "type": "array",
+          "description": "ACG IP address/FQDN for receiving signalling traffic from communications services",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "mediaForOperatorPeerGroups": {
+          "type": "array",
+          "description": "ACG IP addresses or address ranges for media traffic between operator network and ACG ",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "AcgContactBackendServicesDetails": {
+      "type": "object",
+      "description": "Allocated ACG details used by communication services",
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "Name of the communication services opted by the customer",
+          "readOnly": true
+        },
+        "ipAddresses": {
+          "type": "array",
+          "description": "Allocated ip addresses used by communication services",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "srvRecord": {
+          "type": "string",
+          "description": "SRV record created on basis of backendServices name and dns hash",
+          "readOnly": true
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Port number to be used by communication services to connect with ACG",
+          "readOnly": true
+        }
+      }
+    },
+    "AcgContactInfo": {
+      "type": "object",
+      "description": "ACG Contact information allocated at runtime and used by operator/BackendServices to connect to ACG",
+      "properties": {
+        "peerGroups": {
+          "type": "array",
+          "description": "ACG contact Peer details",
+          "items": {
+            "$ref": "#/definitions/AcgContactPeerGroupDetails"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "peerGroupName"
+          ]
+        },
+        "backendServices": {
+          "type": "array",
+          "description": "ACG contact BackendServices details",
+          "items": {
+            "$ref": "#/definitions/AcgContactBackendServicesDetails"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "AcgContactPeerGroupDetails": {
+      "type": "object",
+      "description": "Allocated ACG Contact information to be used by peer",
+      "properties": {
+        "peerGroupName": {
+          "type": "string",
+          "description": "Name of the PeerGroup defined in the peerGroups property",
+          "readOnly": true
+        },
+        "ipAddresses": {
+          "type": "array",
+          "description": "Ip addresses allocated for peerGroup",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "srvRecord": {
+          "type": "string",
+          "description": "SRV record created on basis of peerGroupName and dns hash",
+          "readOnly": true
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Port number to be used by peerGroup to connect with ACG",
+          "readOnly": true
+        }
+      }
+    },
+    "AiVoiceServices": {
+      "type": "object",
+      "description": "Configuration for voice services which use AI",
+      "properties": {
+        "callProtection": {
+          "$ref": "#/definitions/CallProtectionDetails",
+          "description": "Azure Operator Call Protection details",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
     "ApiBridgeProperties": {
       "type": "object",
       "description": "Configuration of the API Bridge.",
@@ -817,6 +967,85 @@
           "items": {
             "type": "string"
           },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "ArecordAndPortDetails": {
+      "type": "object",
+      "description": "Connection details containing the combination of A records and port number  to uniquely identify the peer of operator Network",
+      "properties": {
+        "aRecord": {
+          "type": "string",
+          "description": "Address record identifying the peer of operator Network",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Port identifying the peer of operator Network",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "CallPolicy": {
+      "type": "object",
+      "description": "Peer Group Routings containing peerGroup and their routing details(priority, peer, serviceLocation)",
+      "properties": {
+        "defaultMappings": {
+          "$ref": "#/definitions/DefaultMappings",
+          "description": "The default mapping between Services and PeerGroups",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "peerGroupRoutings": {
+          "type": "array",
+          "description": "Routing priorities on a per-PeerGroup and per-serviceLocation basis",
+          "items": {
+            "$ref": "#/definitions/PeerGroupRouting"
+          },
+          "x-ms-identifiers": [
+            "peerGroupName"
+          ],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "CallProtectionDetails": {
+      "type": "object",
+      "description": "Configuration for Azure Operator Call Protection",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether Azure Operator Call Protection is enabled or not. Defaults to false.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "logStorageAccountId": {
+          "type": "string",
+          "description": "Resource ID of the storage account to write Azure Operator Call Protection logs to.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -995,9 +1224,62 @@
             "create"
           ]
         },
+        "peerGroups": {
+          "type": "array",
+          "description": "Logical SIP connection with specific properties connecting ACG to an Operator’s Network, used to connect sessions for a specified service ",
+          "items": {
+            "$ref": "#/definitions/PeerGroupProperties"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "callPolicy": {
+          "$ref": "#/definitions/CallPolicy",
+          "description": "Define the mapping between communication services and Peer as well as routing priorities",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "connectivity": {
           "$ref": "#/definitions/Connectivity",
           "description": "How to connect back to the operator network, e.g. MAPS",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatorPeerGroupConfigScheme": {
+          "type": "string",
+          "description": "Indicate whether peer group and routing configuration would be used or not",
+          "default": "Static",
+          "enum": [
+            "Static",
+            "Custom"
+          ],
+          "x-ms-enum": {
+            "name": "OperatorPeerGroupConfigSchemeValue",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Static",
+                "value": "Static",
+                "description": "If the operator PeerGroup and routing properties would not be used"
+              },
+              {
+                "name": "Custom",
+                "value": "Custom",
+                "description": "If the operator PeerGroup and routing properties would be used"
+              }
+            ]
+          },
           "x-ms-mutability": [
             "read",
             "create"
@@ -1121,6 +1403,15 @@
             "create"
           ]
         },
+        "preferredProtocolForMcp": {
+          "$ref": "#/definitions/MCPProtocolList",
+          "description": "Preferred protocol for MCP if integrated MCP is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "emergencyDialStrings": {
           "type": "array",
           "description": "A list of dial strings used for emergency calling.",
@@ -1179,6 +1470,15 @@
             "update",
             "create"
           ]
+        },
+        "aiVoiceServices": {
+          "$ref": "#/definitions/AiVoiceServices",
+          "description": "Configuration for AI Voice services",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "required": [
@@ -1217,7 +1517,8 @@
         "OperatorConnect",
         "TeamsPhoneMobile",
         "TeamsDirectRouting",
-        "Zoom"
+        "Zoom",
+        "AiVoiceServices"
       ],
       "x-ms-enum": {
         "name": "CommunicationsPlatform",
@@ -1242,6 +1543,11 @@
             "name": "Zoom",
             "value": "Zoom",
             "description": "Zoom Platform"
+          },
+          {
+            "name": "AiVoiceServices",
+            "value": "AiVoiceServices",
+            "description": "AI Voice Services"
           }
         ]
       }
@@ -1291,6 +1597,42 @@
           },
           "x-ms-identifiers": [
             "name"
+          ],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "DefaultMappings": {
+      "type": "object",
+      "description": "Details of the default mappings between services and PeerGroup",
+      "properties": {
+        "serviceToPeerGroup": {
+          "type": "array",
+          "description": "Service to peer group mappings which tells what would be the default peer group for particular service",
+          "items": {
+            "$ref": "#/definitions/ServiceToPeerGroup"
+          },
+          "x-ms-identifiers": [
+            "service"
+          ],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "peerGroupToService": {
+          "type": "array",
+          "description": "peerGroup to Service mappings which tells what would be the default service for particular peerGroup",
+          "items": {
+            "$ref": "#/definitions/PeerGroupToService"
+          },
+          "x-ms-identifiers": [
+            "peerGroup"
           ],
           "x-ms-mutability": [
             "read",
@@ -1364,6 +1706,305 @@
             "name": "DirectToEsrp",
             "value": "DirectToEsrp",
             "description": "Emergency calls are routed directly to the ESRP"
+          }
+        ]
+      }
+    },
+    "IpAndPortDetails": {
+      "type": "object",
+      "description": "Connection details containing the combination of IP address and port number",
+      "properties": {
+        "ipAddress": {
+          "type": "string",
+          "description": "Ip address identifying the peer of operator Network",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Port identifying the peer of operator Network",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "MCPProtocolList": {
+      "type": "string",
+      "description": "Protocol to use for signalling traffic on an MCP",
+      "enum": [
+        "TLS",
+        "TCP"
+      ],
+      "x-ms-enum": {
+        "name": "MCPProtocolList",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "TLS",
+            "value": "TLS",
+            "description": "Transport Layer Security protocol to provide secure communication"
+          },
+          {
+            "name": "TCP",
+            "value": "TCP",
+            "description": "Transmission Control Protocol for maintaining reliable connection"
+          }
+        ]
+      }
+    },
+    "MediaProtocolList": {
+      "type": "string",
+      "description": "ACG utilizes the following media protocols for handling media traffic",
+      "enum": [
+        "SRTP",
+        "RTP"
+      ],
+      "x-ms-enum": {
+        "name": "MediaProtocolList",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SRTP",
+            "value": "SRTP",
+            "description": "Secure Real-time Transport Protocol"
+          },
+          {
+            "name": "RTP",
+            "value": "RTP",
+            "description": "Real-time Transport Protocol"
+          }
+        ]
+      }
+    },
+    "Peer": {
+      "type": "object",
+      "description": "Details of Peer - the point at the edge of an Operator network, where ACG will connect SIP Peers",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique name of peer",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "type": {
+          "$ref": "#/definitions/PeerType",
+          "description": "Type of the Peer",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "ipsAndPorts": {
+          "type": "array",
+          "description": "Connection details containing the IP address and port number",
+          "items": {
+            "$ref": "#/definitions/IpAndPortDetails"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "aRecordsAndPorts": {
+          "type": "array",
+          "description": "Connection details containing the address records and port number",
+          "items": {
+            "$ref": "#/definitions/ArecordAndPortDetails"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "srvRecord": {
+          "type": "string",
+          "description": "The DNS SRV record of Operator network, where ACG will connect SIP Peers",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "PeerGroupProperties": {
+      "type": "object",
+      "description": "The Peer Group Properties used to connect to operator",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the Peer Group",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "peers": {
+          "type": "array",
+          "description": "The point at the edge of an Operator network, where ACG will connect SIP Peers",
+          "items": {
+            "$ref": "#/definitions/Peer"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "signalingProtocol": {
+          "$ref": "#/definitions/SignalingProtocolList",
+          "description": "Supported Signaling Protocol",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "mediaProtocol": {
+          "$ref": "#/definitions/MediaProtocolList",
+          "description": "Supported Media Protocol",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "codecs": {
+          "type": "array",
+          "description": "Voice codecs to support per Communication Services",
+          "items": {
+            "$ref": "#/definitions/Codecs"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedSignalingSourceAddressPrefixes": {
+          "type": "array",
+          "description": "The allowed source IP addresses or CIDR ranges for signaling",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedMediaSourceAddressPrefixes": {
+          "type": "array",
+          "description": "The allowed source IP addresses or CIDR ranges for media",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "PeerGroupRouting": {
+      "type": "object",
+      "description": "Peer Group Routings containing peerGroup and their routing details(priority, peer, serviceLocation)",
+      "properties": {
+        "peerGroupName": {
+          "type": "string",
+          "description": "The name of the peer Group defined earlier in the peerGroup",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "routings": {
+          "type": "array",
+          "description": "Routing Details about which service location would use which peer and at what priority",
+          "items": {
+            "$ref": "#/definitions/RoutingDetails"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "PeerGroupToService": {
+      "type": "object",
+      "description": "Details of the default mapping for PeerGroup to Service",
+      "properties": {
+        "peerGroup": {
+          "type": "string",
+          "description": "Name of the PeerGroup which would be amongst the peerGroups defined in the peerGroups property",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "defaultService": {
+          "$ref": "#/definitions/CommunicationsPlatform",
+          "description": "Name of the default Service for PeerGroup",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "PeerType": {
+      "type": "string",
+      "description": "Type of DNS amongst SRV record/A records/Ips and ports to connect to peer",
+      "enum": [
+        "IP",
+        "ARecord",
+        "SRV"
+      ],
+      "x-ms-enum": {
+        "name": "PeerType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "IP",
+            "value": "IP",
+            "description": "Ip address and port combination"
+          },
+          {
+            "name": "ARecord",
+            "value": "ARecord",
+            "description": "Address record and port combination"
+          },
+          {
+            "name": "SRV",
+            "value": "SRV",
+            "description": "SRV record"
           }
         ]
       }
@@ -1457,6 +2098,40 @@
         ]
       }
     },
+    "RoutingDetails": {
+      "type": "object",
+      "description": "Details of the properties required for Routing",
+      "properties": {
+        "peer": {
+          "type": "string",
+          "description": "The name of peer defined earlier in peerGroup-->peers properties",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "serviceLocation": {
+          "type": "string",
+          "description": "The service location name where resources are deployed for communication services",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Priority defined where 0 being the highest priority",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
     "ServiceRegionProperties": {
       "type": "object",
       "description": "The service region configuration needed for Teams Callings.",
@@ -1477,12 +2152,76 @@
             "update",
             "create"
           ]
+        },
+        "acgAddressRanges": {
+          "$ref": "#/definitions/AcgAddressRanges",
+          "description": "ACG IP addresses or address ranges for sending signalling traffic to communication services/Operator",
+          "readOnly": true
+        },
+        "acgContactInfo": {
+          "$ref": "#/definitions/AcgContactInfo",
+          "description": "ACG contact information used by operator/communication services to connect to ACG",
+          "readOnly": true
         }
       },
       "required": [
         "name",
         "primaryRegionProperties"
       ]
+    },
+    "ServiceToPeerGroup": {
+      "type": "object",
+      "description": "Details of the default mapping for Communications Services to PeerGroup",
+      "properties": {
+        "service": {
+          "$ref": "#/definitions/CommunicationsPlatform",
+          "description": "Name of the communication service",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "defaultPeerGroup": {
+          "type": "string",
+          "description": "Name of the default PeerGroup for service",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "SignalingProtocolList": {
+      "type": "string",
+      "description": "Signaling Protocol List",
+      "enum": [
+        "TLS",
+        "TCP",
+        "UDP"
+      ],
+      "x-ms-enum": {
+        "name": "SignalingProtocolList",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "TLS",
+            "value": "TLS",
+            "description": "Transport Layer Security protocol to provide secure communication"
+          },
+          {
+            "name": "TCP",
+            "value": "TCP",
+            "description": "Transmission Control Protocol"
+          },
+          {
+            "name": "UDP",
+            "value": "UDP",
+            "description": "User Datagram Protocol"
+          }
+        ]
+      }
     },
     "Status": {
       "type": "string",

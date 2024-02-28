@@ -94,8 +94,8 @@ enum E911Type {
   DirectToEsrp,
 }
 
-@doc("The voice codecs expected for communication with Teams.")
-enum TeamsCodecs {
+@doc("The voice codecs expected for communication with Communication services.")
+enum Codecs {
   @doc("Pulse code modulation(PCM) U-law narrowband audio codec(G.711u)")
   PCMA,
 
@@ -144,6 +144,313 @@ model CallProtectionDetails {
   logStorageAccountId?: string;
 }
 
+@doc("Indicate whether 'Static' or 'Custom' PeerGroup configuration is in use")
+@added(Versions.v2024_02_16_preview)
+enum OperatorPeerGroupConfigSchemeValue {
+  @doc("If the operator PeerGroup and routing properties would not be used")
+  @added(Versions.v2024_02_16_preview)
+  Static,
+
+  @doc("If the operator PeerGroup and routing properties would be used")
+  @added(Versions.v2024_02_16_preview)
+  Custom,
+}
+
+@doc("Type of DNS amongst SRV record/A records/Ips and ports to connect to peer")
+@added(Versions.v2024_02_16_preview)
+enum PeerType {
+  @doc("Ip address and port combination")
+  @added(Versions.v2024_02_16_preview)
+  IP,
+
+  @doc("Address record and port combination")
+  @added(Versions.v2024_02_16_preview)
+  ARecord,
+
+  @doc("SRV record")
+  @added(Versions.v2024_02_16_preview)
+  SRV,
+}
+
+@doc("Signaling Protocol List")
+@added(Versions.v2024_02_16_preview)
+enum SignalingProtocolList {
+  @doc("Transport Layer Security protocol to provide secure communication")
+  @added(Versions.v2024_02_16_preview)
+  TLS,
+
+  @doc("Transmission Control Protocol")
+  @added(Versions.v2024_02_16_preview)
+  TCP,
+
+  @doc("User Datagram Protocol")
+  @added(Versions.v2024_02_16_preview)
+  UDP,
+}
+
+@doc("ACG utilizes the following media protocols for handling media traffic")
+@added(Versions.v2024_02_16_preview)
+enum MediaProtocolList {
+  @doc("Secure Real-time Transport Protocol")
+  @added(Versions.v2024_02_16_preview)
+  SRTP,
+
+  @doc("Real-time Transport Protocol")
+  @added(Versions.v2024_02_16_preview)
+  RTP,
+}
+
+@doc("Protocol to use for signalling traffic on an MCP")
+@added(Versions.v2024_02_16_preview)
+enum MCPProtocolList {
+  @doc("Transport Layer Security protocol to provide secure communication")
+  @added(Versions.v2024_02_16_preview)
+  TLS,
+
+  @doc("Transmission Control Protocol for maintaining reliable connection")
+  @added(Versions.v2024_02_16_preview)
+  TCP,
+}
+
+@doc("Details of Peer - the point at the edge of an Operator network, where ACG will connect SIP Peers")
+@added(Versions.v2024_02_16_preview)
+model Peer {
+  @doc("Unique name of peer")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  name?: string;
+
+  @doc("Type of the Peer")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  type?: PeerType;
+
+  @doc("Connection details containing the IP address and port number")
+  @added(Versions.v2024_02_16_preview)
+  @OpenAPI.extension("x-ms-identifiers", [])
+  @visibility("read", "update", "create")
+  ipsAndPorts?: IpAndPortDetails[];
+
+  @doc("Connection details containing the address records and port number")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  aRecordsAndPorts?: ArecordAndPortDetails[];
+
+  @doc("The DNS SRV record of Operator network, where ACG will connect SIP Peers")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  srvRecord?: string;
+}
+
+@doc("Peer Group Routings containing peerGroup and their routing details(priority, peer, serviceLocation)")
+@added(Versions.v2024_02_16_preview)
+model CallPolicy {
+  @doc("The default mapping between Services and PeerGroups")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  defaultMappings?: DefaultMappings;
+
+  @doc("Routing priorities on a per-PeerGroup and per-serviceLocation basis")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["peerGroupName"])
+  peerGroupRoutings?: PeerGroupRouting[];
+}
+
+@doc("Peer Group Routings containing peerGroup and their routing details(priority, peer, serviceLocation)")
+@added(Versions.v2024_02_16_preview)
+model PeerGroupRouting {
+  @doc("The name of the peer Group defined earlier in the peerGroup")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  peerGroupName?: string;
+
+  @doc("Routing Details about which service location would use which peer and at what priority")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  routings?: RoutingDetails[];
+}
+
+@doc("Details of the properties required for Routing")
+@added(Versions.v2024_02_16_preview)
+model RoutingDetails {
+  @doc("The name of peer defined earlier in peerGroup-->peers properties")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  peer?: string;
+
+  @doc("The service location name where resources are deployed for communication services")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  serviceLocation?: string;
+
+  @doc("Priority defined where 0 being the highest priority")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  priority?: int64;
+}
+
+@doc("Details of the default mappings between services and PeerGroup")
+@added(Versions.v2024_02_16_preview)
+model DefaultMappings {
+  @doc("Service to peer group mappings which tells what would be the default peer group for particular service")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  @OpenAPI.extension("x-ms-identifiers", ["service"])
+  serviceToPeerGroup?: ServiceToPeerGroup[];
+
+  @doc("peerGroup to Service mappings which tells what would be the default service for particular peerGroup")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  @OpenAPI.extension("x-ms-identifiers", ["peerGroup"])
+  peerGroupToService?: PeerGroupToService[];
+}
+
+@doc("Details of the default mapping for Communications Services to PeerGroup")
+@added(Versions.v2024_02_16_preview)
+model ServiceToPeerGroup {
+  @doc("Name of the communication service")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  service?: CommunicationsPlatform;
+
+  @doc("Name of the default PeerGroup for service")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  defaultPeerGroup?: string;
+}
+
+@doc("Details of the default mapping for PeerGroup to Service")
+@added(Versions.v2024_02_16_preview)
+model PeerGroupToService {
+  @doc("Name of the PeerGroup which would be amongst the peerGroups defined in the peerGroups property")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  peerGroup?: string;
+
+  @doc("Name of the default Service for PeerGroup")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  defaultService?: CommunicationsPlatform;
+}
+
+@doc("Connection details containing the combination of IP address and port number")
+@added(Versions.v2024_02_16_preview)
+model IpAndPortDetails {
+  @doc("Ip address identifying the peer of operator Network")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  ipAddress?: string;
+
+  @doc("Port identifying the peer of operator Network")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  port?: int64;
+}
+
+@doc("Connection details containing the combination of A records and port number  to uniquely identify the peer of operator Network")
+@added(Versions.v2024_02_16_preview)
+model ArecordAndPortDetails {
+  @doc("Address record identifying the peer of operator Network")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  aRecord?: string;
+
+  @doc("Port identifying the peer of operator Network")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  port?: int64;
+}
+
+@doc("ACG IP addresses or address ranges for sending traffic to Operator Network/ Communication Services which would be used for ACL firewall rules")
+@added(Versions.v2024_02_16_preview)
+model AcgAddressRanges {
+  @doc("ACG IP addresses or address ranges for sending signalling traffic to Communication Services")
+  @added(Versions.v2024_02_16_preview)
+  signalingForBackendServices?: string[];
+
+  @doc("ACG IP addresses or address ranges for sending signalling traffic to Operator Network")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  signalingForOperatorPeerGroups?: string[];
+
+  @doc("ACG IP address/FQDN for receiving signalling traffic from communications services")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  mediaForBackendServices?: string[];
+
+  @doc("ACG IP addresses or address ranges for media traffic between operator network and ACG ")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  mediaForOperatorPeerGroups?: string[];
+}
+
+@doc("ACG Contact information allocated at runtime and used by operator/BackendServices to connect to ACG")
+@added(Versions.v2024_02_16_preview)
+model AcgContactInfo {
+  @doc("ACG contact Peer details")
+  @added(Versions.v2024_02_16_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["peerGroupName"])
+  @visibility("read")
+  peerGroups?: AcgContactPeerGroupDetails[];
+
+  @doc("ACG contact BackendServices details")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  backendServices?: AcgContactBackendServicesDetails[];
+}
+
+@doc("Allocated ACG Contact information to be used by peer")
+@added(Versions.v2024_02_16_preview)
+model AcgContactPeerGroupDetails {
+  @doc("Name of the PeerGroup defined in the peerGroups property")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  peerGroupName?: string;
+
+  @doc("Ip addresses allocated for peerGroup")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  ipAddresses?: string[];
+
+  @doc("SRV record created on basis of peerGroupName and dns hash")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  srvRecord?: string;
+
+  @doc("Port number to be used by peerGroup to connect with ACG")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  port?: int64;
+}
+
+@doc("Allocated ACG details used by communication services")
+@added(Versions.v2024_02_16_preview)
+model AcgContactBackendServicesDetails {
+  @doc("Name of the communication services opted by the customer")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  serviceName?: string;
+
+  @doc("Allocated ip addresses used by communication services")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  ipAddresses?: string[];
+
+  @doc("SRV record created on basis of backendServices name and dns hash")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  srvRecord?: string;
+
+  @doc("Port number to be used by communication services to connect with ACG")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  port?: int64;
+}
+
 @doc("The service region configuration needed for Teams Callings.")
 model ServiceRegionProperties {
   @doc("The name of the region in which the resources needed for Teams Calling will be deployed.")
@@ -153,6 +460,56 @@ model ServiceRegionProperties {
   @doc("The configuration used in this region as primary, and other regions as backup.")
   @visibility("read", "update", "create")
   primaryRegionProperties: PrimaryRegionProperties;
+
+  @doc("ACG IP addresses or address ranges for sending signalling traffic to communication services/Operator")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  acgAddressRanges?: AcgAddressRanges;
+
+  @doc("ACG contact information used by operator/communication services to connect to ACG")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read")
+  acgContactInfo?: AcgContactInfo;
+}
+
+@doc("The Peer Group Properties used to connect to operator")
+@added(Versions.v2024_02_16_preview)
+model PeerGroupProperties {
+  @doc("The name of the Peer Group")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "create")
+  name?: string;
+
+  @doc("The point at the edge of an Operator network, where ACG will connect SIP Peers")
+  @visibility("read", "update", "create")
+  @added(Versions.v2024_02_16_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["name"])
+  peers?: Peer[];
+
+  @doc("Supported Signaling Protocol")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  signalingProtocol?: SignalingProtocolList;
+
+  @doc("Supported Media Protocol")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  mediaProtocol?: MediaProtocolList;
+
+  @doc("Voice codecs to support per Communication Services")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  codecs?: Codecs[];
+
+  @doc("The allowed source IP addresses or CIDR ranges for signaling")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  allowedSignalingSourceAddressPrefixes?: string[] = [];
+
+  @doc("The allowed source IP addresses or CIDR ranges for media")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  allowedMediaSourceAddressPrefixes?: string[] = [];
 }
 
 @doc("The configuration used in this region as primary, and other regions as backup.")
@@ -332,18 +689,34 @@ model CommunicationsGatewayProperties is ResourceProperties {
   @visibility("read")
   status?: Status;
 
-  @doc("The regions in which to deploy the resources needed for Teams Calling")
+  @doc("The regions in which to deploy the resources needed for Communication Services")
   @OpenAPI.extension("x-ms-identifiers", ["name"])
   @visibility("read", "update", "create")
   serviceLocations: ServiceRegionProperties[];
+
+  @doc("Logical SIP connection with specific properties connecting ACG to an Operator’s Network, used to connect sessions for a specified service ")
+  @added(Versions.v2024_02_16_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["name"])
+  @visibility("read", "update", "create")
+  peerGroups?: PeerGroupProperties[];
+
+  @doc("Define the mapping between communication services and Peer as well as routing priorities")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "update", "create")
+  callPolicy?: CallPolicy;
 
   @doc("How to connect back to the operator network, e.g. MAPS")
   @visibility("read", "create")
   connectivity: Connectivity;
 
+  @doc("Indicate whether peer group and routing configuration would be used or not")
+  @added(Versions.v2024_02_16_preview)
+  @visibility("read", "create")
+  operatorPeerGroupConfigScheme?: OperatorPeerGroupConfigSchemeValue = OperatorPeerGroupConfigSchemeValue.Static;
+
   @doc("Voice codecs to support")
   @visibility("read", "update", "create")
-  codecs: TeamsCodecs[];
+  codecs: Codecs[];
 
   @doc("How to handle 911 calls")
   @visibility("read", "update", "create")
@@ -378,6 +751,11 @@ model CommunicationsGatewayProperties is ResourceProperties {
   @doc("Whether an integrated Mobile Control Point is in use.")
   @visibility("read", "update", "create")
   integratedMcpEnabled?: boolean = false;
+
+  @added(Versions.v2024_02_16_preview)
+  @doc("Preferred protocol for MCP if integrated MCP is enabled.")
+  @visibility("read", "update", "create")
+  preferredProtocolForMcp?: MCPProtocolList;
 
   @doc("A list of dial strings used for emergency calling.")
   @visibility("read", "update", "create")
