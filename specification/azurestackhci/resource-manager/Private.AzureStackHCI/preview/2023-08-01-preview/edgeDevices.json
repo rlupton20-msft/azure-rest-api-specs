@@ -3,12 +3,7 @@
   "info": {
     "title": "Edge Devices",
     "version": "2023-08-01-preview",
-    "description": "Azure Arc-enabled Edge Device.",
-    "x-typespec-generated": [
-      {
-        "emitter": "@azure-tools/typespec-autorest"
-      }
-    ]
+    "description": "Azure Arc-enabled Edge Device."
   },
   "schemes": [
     "https"
@@ -304,32 +299,6 @@
     }
   },
   "definitions": {
-    "AccessLevel": {
-      "type": "string",
-      "enum": [
-        "Diagnostics",
-        "DiagnosticsAndRepair"
-      ],
-      "x-ms-enum": {
-        "name": "AccessLevel",
-        "modelAsString": true
-      }
-    },
-    "DesiredDeviceConfiguration": {
-      "type": "object",
-      "description": "Desired Device Configuration",
-      "properties": {
-        "Hyperv": {
-          "$ref": "#/definitions/HyperVConfiguration"
-        },
-        "WinRM": {
-          "$ref": "#/definitions/WinRMConfiguration"
-        },
-        "RDP": {
-          "$ref": "#/definitions/RDPConfiguration"
-        }
-      }
-    },
     "DeviceConfiguration": {
       "type": "object",
       "description": "The device Configuration of a device.",
@@ -341,57 +310,10 @@
             "$ref": "#/definitions/NicDetail"
           },
           "x-ms-identifiers": []
-        },
-        "diagnosticsSettings": {
-          "$ref": "#/definitions/DiagnosticsSettings",
-          "description": "Diagnostics Settings of the device"
-        },
-        "required": [
-          "nicDetails"
-        ]
-      }
-    },
-    "DeviceValidationStatus": {
-      "type": "object",
-      "description": "validation report",
-      "properties": {
-        "status": {
-          "type": "string",
-          "description": "Over all validation status of the device"
-        },
-        "validationResult": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ValidationResult"
-          },
-          "x-ms-identifiers": []
-        },
-        "extensionStatus": {
-          "$ref": "#/definitions/ExtensionStatuses"
         }
       },
       "required": [
-        "status",
-        "validationResult",
-        "extensionStatus"
-      ]
-    },
-    "DiagnosticsSettings": {
-      "type": "object",
-      "description": "Diagnostics Settings of a device",
-      "properties": {
-        "remoteSupportSettings": {
-          "$ref": "#/definitions/RemoteSupportSettings",
-          "description": "Remote Support Settings of a device"
-        },
-        "logCollectionSettings": {
-          "$ref": "#/definitions/LogCollectionSettings",
-          "description": "Log Collection Settings of a device"
-        }
-      },
-      "required": [
-        "remoteSupportSettings",
-        "logCollectionSettings"
+        "nicDetails"
       ]
     },
     "EdgeDevice": {
@@ -443,141 +365,14 @@
           "$ref": "#/definitions/DeviceConfiguration",
           "description": "Device Configuration"
         },
-        "deviceMetadata": {
-          "type": "string",
-          "description": "Device metadata"
-        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of edgeDevice resource",
           "readOnly": true
-        },
-        "desiredDeviceConfiguration": {
-          "$ref": "#/definitions/DesiredDeviceConfiguration",
-          "description": "desiredConfiguration"
-        },
-        "validationStatus": {
-          "$ref": "#/definitions/DeviceValidationStatus",
-          "description": "Validation status",
-          "readOnly": true
         }
       },
       "required": [
-        "deviceConfiguration",
-        "desiredDeviceConfiguration"
-      ]
-    },
-    "ExtensionStatuses": {
-      "type": "object",
-      "description": "Extension installation status",
-      "properties": {
-        "extensionValidationResult": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ExtensionValidationResult"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "extensionValidationResult"
-      ]
-    },
-    "ExtensionValidationResult": {
-      "type": "object",
-      "properties": {
-        "extensionName": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "errorDetails": {
-          "$ref": "#/definitions/ValidationDetails"
-        }
-      },
-      "required": [
-        "extensionName",
-        "status",
-        "errorDetails"
-      ]
-    },
-    "HyperVConfiguration": {
-      "type": "object",
-      "description": "hyper-v properties",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "desiredConfiguration"
-        }
-      },
-      "required": [
-        "enabled"
-      ]
-    },
-    "LogCollectionSettings": {
-      "type": "object",
-      "description": "Log Collection Settings of a device",
-      "properties": {
-        "fromdate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "From Date Time Stamp"
-        },
-        "toDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "To Date Time Stamp"
-        },
-        "category": {
-          "type": "string",
-          "description": "Category"
-        },
-        "logSessionDetails": {
-          "type": "array",
-          "description": "LogCollection Session details",
-          "items": {
-            "$ref": "#/definitions/LogSessionDetails"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "fromdate",
-        "toDate",
-        "category",
-        "logSessionDetails"
-      ]
-    },
-    "LogSessionDetails": {
-      "type": "object",
-      "description": "Log Session Details of a device",
-      "properties": {
-        "logStartTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "logStartTime"
-        },
-        "logEndTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "logEndTime"
-        },
-        "location": {
-          "type": "string",
-          "description": "location"
-        },
-        "timeCollected": {
-          "type": "string",
-          "format": "date-time",
-          "description": "time collected"
-        }
-      },
-      "required": [
-        "logStartTime",
-        "logEndTime",
-        "location",
-        "timeCollected"
+        "deviceConfiguration"
       ]
     },
     "NicDetail": {
@@ -689,82 +484,6 @@
         ]
       }
     },
-    "RDPConfiguration": {
-      "type": "object",
-      "description": "RDP properties",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "RDP Configuration"
-        },
-        "port": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "required": [
-        "enabled",
-        "port"
-      ]
-    },
-    "RemoteSupportSessionDetails": {
-      "type": "object",
-      "description": "Remote Support Session Details",
-      "properties": {
-        "sessionStartTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Session Start Time"
-        },
-        "sessionEndTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Session End Time"
-        },
-        "sessionDuration": {
-          "type": "string",
-          "description": "Session Duration"
-        },
-        "accesslevel": {
-          "$ref": "#/definitions/AccessLevel",
-          "description": "Access Level"
-        }
-      },
-      "required": [
-        "sessionStartTime",
-        "sessionEndTime",
-        "sessionDuration",
-        "accesslevel"
-      ]
-    },
-    "RemoteSupportSettings": {
-      "type": "object",
-      "description": "Remote Support Settings of a device",
-      "properties": {
-        "accesslevel": {
-          "$ref": "#/definitions/AccessLevel",
-          "description": "AccessLevel of the Remote Session"
-        },
-        "expirationTimeStampInUTC": {
-          "type": "string",
-          "format": "date-time",
-          "description": "expiration time"
-        },
-        "remoteSupportSessionDetails": {
-          "type": "array",
-          "description": "RemoteSupportSession details",
-          "items": {
-            "$ref": "#/definitions/RemoteSupportSessionDetails"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "accesslevel",
-        "expirationTimeStampInUTC",
-        "remoteSupportSessionDetails"
-      ]
-    },
     "ValidateRequest": {
       "type": "object",
       "description": "The validate request for Edge Device.",
@@ -795,51 +514,6 @@
           "readOnly": true
         }
       }
-    },
-    "ValidationDetails": {
-      "type": "object",
-      "description": "details of validation failure",
-      "properties": {
-        "exception": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "exception"
-      ]
-    },
-    "ValidationResult": {
-      "type": "object",
-      "description": "Validation Result corresponding to each desired configuration state",
-      "properties": {
-        "ValidationName": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "details": {
-          "$ref": "#/definitions/ValidationDetails"
-        }
-      },
-      "required": [
-        "ValidationName",
-        "status",
-        "details"
-      ]
-    },
-    "WinRMConfiguration": {
-      "type": "object",
-      "description": "win-rm properties",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "desiredConfiguration"
-        }
-      },
-      "required": [
-        "enabled"
-      ]
     }
   },
   "parameters": {
