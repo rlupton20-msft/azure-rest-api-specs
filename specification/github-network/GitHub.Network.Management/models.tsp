@@ -38,11 +38,11 @@ model NetworkSettingsResourceProperties {
   subnetId?: string;
 
   @doc("Specifies the GitHub organization (enterprise) ID associated to the Azure subscription.")
-  @removed(Versions.`2024-03-01-preview`)
+  @removed(Versions.`2024-04-01-preview`)
   organizationId?: string;
 
   @doc("Specifies the GitHub business (enerprise/organization) ID associated to the Azure subscription.")
-  @added(Versions.`2024-03-01-preview`)
+  @added(Versions.`2024-04-01-preview`)
   businessId?: string;
 
   @doc("The managed application provisioning state.")
