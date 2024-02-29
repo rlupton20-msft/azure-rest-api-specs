@@ -6,12 +6,6 @@ import "./create/aaaarecordset.tsp";
 import "./update/updateaaaarecordset.tsp";
 import "./append/appendaaaarecordset.tsp";
 
-import "./create/childzonedelegation.tsp";
-import "./update/updatechildzonedelegation.tsp";
-
-import "./create/cnamerecordset.tsp";
-import "./update/updatecnamerecordset.tsp";
-
 import "./create/srvrecordset.tsp";
 import "./update/updatesrvrecordset.tsp";
 import "./append/appendsrvrecordset.tsp";
@@ -35,7 +29,7 @@ namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-// A Record Common Models
+// A Record Set Models
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("A Record type model")
 model ARecord {
@@ -43,21 +37,21 @@ model ARecord {
   ipV4Address: string;
 }
 
-// AAAA Record Common Models
+// AAAA Record Set Models
 @doc("AAAA Record type model")
 model AaaaRecord {
   @doc("Gets or sets the IPv6 Address in String format")
   ipV6Address: string;
 }
 
-// CName Record Common Models
+// CName Record Set Models
 @doc("Represents an CNAME Record")
 model CnameRecord {
   @doc("Gets or sets the Canonical Name")
   cName: string;
 }
 
-// Srv Record Models
+// Srv Record Set Models
 @doc("Represents a SRV Record")
 model SrvRecord {
   @doc("Gets or sets the SRV record Priority in Integer format.")
@@ -73,7 +67,7 @@ model SrvRecord {
   target: string;
 }
 
-// TXT Record Models
+// Txt Record Set Models
 @doc("Represents an TXT Record")
 model TxtRecord {
   @doc("Gets or sets the TXT record in String format.")
