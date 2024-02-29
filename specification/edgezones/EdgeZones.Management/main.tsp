@@ -72,7 +72,7 @@ model AzureExtendedZoneProperties {
   regionalDisplayName: string;
 
   @doc("AzureExtendedZone regionType")
-  regionalType: string;
+  regionType: string;
 
   @doc("AzureExtendedZone regionCategory")
   regionCategory: string;
