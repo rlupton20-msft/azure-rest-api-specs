@@ -372,12 +372,17 @@
         }
       }
     },
-    "EdgeDevice": {
+    "Device": {
       "type": "object",
-      "description": "Edge device resource",
+      "description": "Basic device resource.",
       "properties": {
         "kind": {
-          "$ref": "#/definitions/DeviceType"
+          "$ref": "#/definitions/DeviceKind",
+          "description": "Job kind to support polymorphic resource.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         }
       },
       "discriminator": "kind",
@@ -387,6 +392,26 @@
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeDevice": {
+      "type": "object",
+      "description": "Edge device resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeDeviceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "required": [
+        "kind",
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Device"
         }
       ]
     },
