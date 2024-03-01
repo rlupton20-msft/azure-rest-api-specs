@@ -23,7 +23,7 @@ namespace Microsoft.AzureCIS;
 @doc("DnsNamespaceManagerCnameRecordSet properties")
 model DnsNamespaceManagerCnameRecordSetResourceProperties {
   @doc("Gets or sets the canonical name in String format")
-  cName: CnameRecord;
+  cNameRecord: CNameRecord;
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
   relativeRecordSetName: string;

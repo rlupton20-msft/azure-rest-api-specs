@@ -45,8 +45,9 @@ model AaaaRecord {
 }
 
 // CName Record Set Models
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("Represents an CNAME Record")
-model CnameRecord {
+model CNameRecord {
   @doc("Gets or sets the Canonical Name")
   cName: string;
 }
