@@ -694,6 +694,44 @@
       },
       "x-ms-identifiers": []
     },
+    "SqlServerInstanceTelemetryResponse": {
+      "description": "A section of the telemetry response for the SQL Server instance.",
+      "type": "object",
+      "properties": {
+        "columns": {
+          "description": "The columns of the result telemetry table for the SQL Server instance.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SqlServerInstanceTelemetryColumn"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
+        "rows": {
+          "description": "A list of rows from the result telemetry table for the SQL Server instance.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SqlServerInstanceTelemetryRow"
+          },
+          "x-ms-identifiers": []
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next section of rows of the telemetry response for the SQL Server instance. Null if no more sections are available.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ]
+    },
+    "SqlServerInstanceRunMigrationAssessmentResponse": {
+      "description": "The response for running migration assessment on the SQL Server instance.",
+      "type": "object",
+      "$ref": "#/definitions/SqlServerInstanceJobStatus"
+    },
     "SqlServerInstanceJobsStatusRequest": {
       "description": "The request for the status of the jobs running on the SQL Server instance.",
       "type": "object",
@@ -841,7 +879,7 @@
           "type": "string",
           "description": "The unique identifier of the sequencer action."
         },
-        "state": {
+        "sequencerState": {
           "type": "string",
           "description": "The state of the sequencer action.",
           "enum": [
@@ -852,7 +890,7 @@
             "Completed"
           ],
           "x-ms-enum": {
-            "name": "state",
+            "name": "sequencerState",
             "modelAsString": true
           }
         },
@@ -872,39 +910,6 @@
           }
         }
       }
-    },
-    "SqlServerInstanceTelemetryResponse": {
-      "description": "A section of the telemetry response for the SQL Server instance.",
-      "type": "object",
-      "properties": {
-        "columns": {
-          "description": "The columns of the result telemetry table for the SQL Server instance.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SqlServerInstanceTelemetryColumn"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
-        },
-        "rows": {
-          "description": "A list of rows from the result telemetry table for the SQL Server instance.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SqlServerInstanceTelemetryRow"
-          },
-          "x-ms-identifiers": []
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "The link to the next section of rows of the telemetry response for the SQL Server instance. Null if no more sections are available.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "columns",
-        "rows"
-      ]
     }
   },
   "parameters": {
