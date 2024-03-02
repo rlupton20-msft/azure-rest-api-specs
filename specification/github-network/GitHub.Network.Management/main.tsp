@@ -15,7 +15,6 @@ using TypeSpec.Versioning;
 
 @doc("GitHub.Network Resource Provider REST API version 2024-04-01-preview")
 @armProviderNamespace
-@useAuth(AadOauth2Auth<["user_impersonation"]>)
 @service({
   title: "GitHub.Network client",
 })
