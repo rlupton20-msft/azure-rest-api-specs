@@ -19,7 +19,8 @@ namespace GitHub.Network;
 @Azure.ResourceManager.Private.armResourceInternal(
   NetworkSettingsResourceProperties
 )
-model NetworkSettingsResource extends TrackedResource<NetworkSettingsResourceProperties> {
+model NetworkSettingsResource
+  extends TrackedResource<NetworkSettingsResourceProperties> {
   @doc("Name of the GitHub.Network resource")
   @pattern("^[a-zA-Z0-9]")
   @path
@@ -47,7 +48,10 @@ interface NetworkSettingsResources {
   @doc("Updates the properties of an existing GitHub.Network networkSettings resource with the specified update parameters.")
   @parameterVisibility("read")
   @operationId("networkSettings_Update")
-  update is ArmResourcePatchSync<NetworkSettingsResource, NetworkSettingsResourceProperties>;
+  update is ArmResourcePatchSync<
+    NetworkSettingsResource,
+    NetworkSettingsResourceProperties
+  >;
 
   #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
   @doc("Deletes an existing GitHub.Network networkSettings resource.")
@@ -72,7 +76,6 @@ interface NetworkSettingsResources {
   "json",
   "networkSettings"
 );
-
 @@doc(NetworkSettingsResources.update::parameters.properties,
   "Parameters for updating the properties of the GitHub.Network resource."
 );

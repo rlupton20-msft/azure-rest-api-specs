@@ -13,7 +13,7 @@ using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
 
-@doc("GitHub.Network Resource Provider REST API version 2024-04-01-preview")
+@doc("GitHub.Network Resource Provider REST API")
 @armProviderNamespace
 @service({
   title: "GitHub.Network client",
@@ -24,7 +24,7 @@ namespace GitHub.Network;
 
 @doc("The available API versions.")
 enum Versions {
-  @doc("The 2024-04-01-preview API version.")
+  @doc("The 2024-04-01-preview API version for staging environment.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
