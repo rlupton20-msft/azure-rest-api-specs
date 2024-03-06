@@ -839,7 +839,7 @@
       "description": "The updatable properties of the Account.",
       "properties": {
         "authentication": {
-          "$ref": "#/definitions/AuthenticationPropertiesUpdate",
+          "$ref": "#/definitions/AuthenticationProperties",
           "description": "Account authentication properties"
         }
       }
@@ -851,6 +851,7 @@
         "certificates": {
           "type": "array",
           "description": "Certificate-based authentication properties",
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/CertificateProperties"
           },
@@ -860,29 +861,16 @@
           "x-typespec-name": "CertificateProperties[]"
         },
         "azureActiveDirectory": {
-          "$ref": "#/definitions/AzureActiveDirectoryProperties",
-          "description": "AzureAD-based authentication properties"
-        }
-      }
-    },
-    "AuthenticationPropertiesUpdate": {
-      "type": "object",
-      "description": "Account authentication properties",
-      "properties": {
-        "certificates": {
           "type": "array",
-          "description": "Certificate-based authentication properties",
+          "description": "AzureAD-based authentication properties",
+          "minItems": 1,
           "items": {
-            "$ref": "#/definitions/CertificateProperties"
+            "$ref": "#/definitions/AzureActiveDirectoryProperties"
           },
           "x-ms-identifiers": [
-            "subjectName"
+            "objectId"
           ],
-          "x-typespec-name": "CertificateProperties[]"
-        },
-        "azureActiveDirectory": {
-          "$ref": "#/definitions/AzureActiveDirectoryPropertiesUpdate",
-          "description": "AzureAD-based authentication properties"
+          "x-typespec-name": "AzureActiveDirectoryProperties[]"
         }
       }
     },
@@ -890,34 +878,21 @@
       "type": "object",
       "description": "AzureAD-based authentication properties",
       "properties": {
-        "userAssignedIdentities": {
-          "type": "array",
-          "description": "List of permitted user-assigned managed identities",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/UserAssignedManagedIdentityReference"
-          },
-          "x-typespec-name": "UserAssignedManagedIdentityReference[]"
+        "tenantId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "AzureAD Tenant ID"
+        },
+        "objectId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "AzureAD Object ID"
         }
       },
       "required": [
-        "userAssignedIdentities"
+        "tenantId",
+        "objectId"
       ]
-    },
-    "AzureActiveDirectoryPropertiesUpdate": {
-      "type": "object",
-      "description": "AzureAD-based authentication properties",
-      "properties": {
-        "userAssignedIdentities": {
-          "type": "array",
-          "description": "List of permitted user-assigned managed identities",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/UserAssignedManagedIdentityReference"
-          },
-          "x-typespec-name": "UserAssignedManagedIdentityReference[]"
-        }
-      }
     },
     "Category": {
       "type": "object",
@@ -1117,18 +1092,6 @@
         ]
       },
       "readOnly": true
-    },
-    "UserAssignedManagedIdentityReference": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "User-assigned managed identity ARM resource id",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-          }
-        ]
-      }
     },
     "Versions": {
       "type": "string",

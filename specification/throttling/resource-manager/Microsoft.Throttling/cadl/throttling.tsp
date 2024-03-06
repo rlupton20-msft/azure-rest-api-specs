@@ -87,10 +87,13 @@ model AccountProperties {
 model AuthenticationProperties {
   @doc("Certificate-based authentication properties")
   @extension("x-ms-identifiers", [ "subjectName" ])
+  @minItems(1)
   certificates?: CertificateProperties[];
 
   @doc("AzureAD-based authentication properties")
-  azureActiveDirectory?: AzureActiveDirectoryProperties;
+  @extension("x-ms-identifiers", [ "objectId" ])
+  @minItems(1)
+  azureActiveDirectory?: AzureActiveDirectoryProperties[];
 }
 
 @doc("Certificate-based authentication properties")
@@ -102,18 +105,14 @@ model CertificateProperties {
 
 @doc("AzureAD-based authentication properties")
 model AzureActiveDirectoryProperties {
-  @doc("List of permitted user-assigned managed identities")
-  @minItems(1)
-  userAssignedIdentities: UserAssignedManagedIdentityReference[];
-}
+  @doc("AzureAD Tenant ID")
+  @format("uuid")
+  tenantId: string;
 
-@doc("User-assigned managed identity ARM resource id")
-scalar UserAssignedManagedIdentityReference
-  extends ResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedIdentity/userAssignedIdentities",
-    }
-  ]>;
+  @doc("AzureAD Object ID")
+  @format("uuid")
+  objectId: string;
+}
 
 @doc("Throttling category")
 @parentResource(Account)
