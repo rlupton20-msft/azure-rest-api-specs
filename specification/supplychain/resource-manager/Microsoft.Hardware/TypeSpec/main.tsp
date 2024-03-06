@@ -191,16 +191,16 @@ model Tax{
   @doc("Tax Type")
   type: TaxType;
 
-  @doc("Tax Class")
+  @doc("Categorization of the taxation system")
   class?: string;
   
-  @doc("Tax Name")
+  @doc("Specific title assigned to the tax entity")
   name?: string;
 
-  @doc("Jurisdiction Entity")
+  @doc("Level of governing authority")
   jurisdictionEntity?: string;
 
-  @doc("Jurisdiction Name")
+  @doc("Name of the jurisdiction")
   jurisdictionName?: string;
 
   @doc("Tax Rate")
