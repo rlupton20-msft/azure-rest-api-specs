@@ -53,8 +53,9 @@ model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
   @key("accountName")
   @segment("accounts")
-  @visibility("read")
   @path
+  @visibility("read")
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]{3,128}$")
   name: string;
 }
 
@@ -95,6 +96,7 @@ model AuthenticationProperties {
 @doc("Certificate-based authentication properties")
 model CertificateProperties {
   @doc("Certificate subject name")
+  @pattern("^[a-z0-9]{3,128}$")
   subjectName: string;
 }
 
@@ -119,8 +121,9 @@ model Category is TrackedResource<CategoryProperties> {
   @doc("Category name")
   @key("categoryName")
   @segment("categories")
-  @visibility("read")
   @path
+  @visibility("read")
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]{3,128}$")
   name: string;
 }
 
