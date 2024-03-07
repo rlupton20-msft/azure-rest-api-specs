@@ -15,7 +15,7 @@ using OpenAPI;
 
 namespace Microsoft.MobilePacketCore;
 
-@added(Versions.v2024_01_15_preview)
+@added(Versions.v2024_03_15_preview)
 @doc("Azure for Operators 5G Core Subscriber Data Management Function (SDM) Deployment Resource")
 @resource("sdmDeployments")
 model SdmDeploymentResource
@@ -31,7 +31,7 @@ model SdmDeploymentResource
   name: string;
 }
 
-@added(Versions.v2024_01_15_preview)
+@added(Versions.v2024_03_15_preview)
 @doc("SDM Deployment Properties.")
 model SdmDeploymentResourceProperties {
   @doc("The status of the last operation.")
@@ -41,7 +41,7 @@ model SdmDeploymentResourceProperties {
   @doc("Azure for Operators 5G Core Subscriber Data Management component parameters.  One set per component type")
   @extension("x-ms-identifiers", ["type"])
   componentParameters: QualifiedComponentDeploymentParameters[];
-  
+
   @doc("Reference to cluster service in which the Network Functions are deployed")
   @visibility("create", "read")
   clusterService: ClusterServiceIdProperty;
@@ -55,7 +55,7 @@ model SdmDeploymentResourceProperties {
   operationalStatus?: OperationalStatus;
 }
 
-@added(Versions.v2024_01_15_preview)
+@added(Versions.v2024_03_15_preview)
 @armResourceOperations(SdmDeploymentResource)
 interface SdmDeployments {
   get is ArmResourceRead<SdmDeploymentResource>;

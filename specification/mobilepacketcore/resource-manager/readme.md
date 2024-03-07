@@ -27,7 +27,7 @@ These are the global settings for the mobileCore.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-01-15-preview
+tag: package-2024-03-15-preview
 ```
 ### Tag: package-2023-10-15-preview
 
@@ -38,13 +38,13 @@ input-file:
   - Microsoft.MobilePacketCore/preview/2023-10-15-preview/mobilepacketcore.json
 ```
 
-### Tag: package-2024-01-15-preview
+### Tag: package-2024-03-15-preview
 
-These settings apply only when `--tag=package-2024-01-15-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-03-15-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-01-15-preview'
+```yaml $(tag) == 'package-2024-03-15-preview'
 input-file:
-  - Microsoft.MobilePacketCore/preview/2024-01-15-preview/mobilepacketcore.json
+  - Microsoft.MobilePacketCore/preview/2024-03-15-preview/mobilepacketcore.json
 ```
 
 

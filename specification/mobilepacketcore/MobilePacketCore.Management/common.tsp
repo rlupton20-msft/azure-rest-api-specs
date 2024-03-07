@@ -74,14 +74,6 @@ scalar ClusterServiceIdProperty
     }
   ]>;
 
-@doc("ARM resource ID of a VNF Agent deployment.")
-scalar VnfAgentDeploymentIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
-    {
-      type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
-    }
-  ]>;
-
 @doc("ARM resource ID of a custom location.")
 scalar CustomLocationIdProperty
   extends Azure.ResourceManager.ResourceIdentifier<[
