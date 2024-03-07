@@ -43,9 +43,8 @@ model WorkloadProperties {
 
   @visibility("read", "create")
   @doc("The chamber workload zone.")
-  workloadZone?: Array<string>; // TODO: Change to workloadZones
+  zones?: Array<string>;
 }
-
 @doc("Workload tracked resource.")
 @parentResource(Chamber)
 model Workload is TrackedResource<WorkloadProperties> {
