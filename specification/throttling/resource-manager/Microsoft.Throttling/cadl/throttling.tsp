@@ -99,7 +99,7 @@ model AuthenticationProperties {
 @doc("Certificate-based authentication properties")
 model CertificateProperties {
   @doc("Certificate subject name")
-  @pattern("^[a-z0-9]{3,128}$")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{3,128}|[A-Z0-9]{,40}$")
   subjectName: string;
 }
 
