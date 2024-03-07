@@ -24,11 +24,11 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A TinoTestProviderHub resource")
-model Database is TrackedResource<DatabaseProperties> {
-  @doc("The name of the database")
+model SmartImpressionAPI is TrackedResource<SmartImpressionAPIProperties> {
+  @doc("The name of the SmartImpressionAPI")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("DatabaseName")
-  @segment("Databases")
+  @key("SmartImpressionAPIName")
+  @segment("SmartImpressionAPIs")
   @path
   name: string;
 }
@@ -51,19 +51,23 @@ enum ProvisioningState {
   Accepted,
 }
 
-@doc("Details of the TinoTest Database.")
-model DatabaseProperties {
+@doc("Details of the TinoTest SmartImpressionAPI.")
+model SmartImpressionAPIProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
+
+  @visibility("read")
+  @doc("Service endpoint URL")
+  endpointUrl?: string;
 }
 
-@armResourceOperations(Database)
-interface Databases {
-  get is ArmResourceRead<Database>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Database>;
-  update is ArmResourcePatchSync<Database, DatabaseProperties>;
-  delete is ArmResourceDeleteSync<Database>;
-  listByResourceGroup is ArmResourceListByParent<Database>;
-  listBySubscription is ArmListBySubscription<Database>;
+@armResourceOperations(SmartImpressionAPI)
+interface SmartImpressionAPIs {
+  get is ArmResourceRead<SmartImpressionAPI>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<SmartImpressionAPI>;
+  update is ArmResourcePatchSync<SmartImpressionAPI, SmartImpressionAPIProperties>;
+  delete is ArmResourceDeleteSync<SmartImpressionAPI>;
+  listByResourceGroup is ArmResourceListByParent<SmartImpressionAPI>;
+  listBySubscription is ArmListBySubscription<SmartImpressionAPI>;
 }
