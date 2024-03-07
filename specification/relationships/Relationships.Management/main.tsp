@@ -20,7 +20,7 @@ using Azure.ResourceManager.Foundations;
 @versioned(Versions)
 namespace Microsoft.Relationships;
 
-/** Rel RP API Versions */
+/** Relationships RP API Versions */
 enum Versions {
   /** 2023-09-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
