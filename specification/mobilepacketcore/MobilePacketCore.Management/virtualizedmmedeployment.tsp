@@ -46,7 +46,7 @@ model VirtualizedMmeDeploymentResourceProperties {
   @visibility("read", "create")
   vnfAgent: VnfAgentDeploymentIdProperty;
 
-  @doc("Azure for Operators 5G Core Virtualized MME Release Version.")
+  @doc("Azure for Operators 5G Core Release Version for Virtualized MME.")
   releaseVersion: ReleaseVersion;
 
   @doc("Virtualized MME parameters for the non-secret part of its ARM template input")
@@ -79,10 +79,6 @@ scalar VnfAgentDeploymentIdProperty
       type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
     }
   ]>;
-
-@added(Versions.v2024_03_15_preview)
-@doc("Virtualized MME Release definition.")
-scalar VirtualMmeRelease extends string;
 
 @added(Versions.v2024_03_15_preview)
 @doc("Virtualized MME Parameters")
