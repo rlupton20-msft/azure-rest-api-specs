@@ -55,7 +55,9 @@ model Account is TrackedResource<AccountProperties> {
   @segment("accounts")
   @path
   @visibility("read")
-  @pattern("^[a-zA-Z][a-zA-Z0-9-]{3,128}$")
+  @minLength(3)
+  @maxLength(128)
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
   name: string;
 }
 
@@ -99,7 +101,9 @@ model AuthenticationProperties {
 @doc("Certificate-based authentication properties")
 model CertificateProperties {
   @doc("Certificate subject name")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{3,128}|[A-Z0-9]{,40}$")
+  @minLength(3)
+  @maxLength(128)
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9.-]+")
   subjectName: string;
 }
 
@@ -122,7 +126,9 @@ model Category is TrackedResource<CategoryProperties> {
   @segment("categories")
   @path
   @visibility("read")
-  @pattern("^[a-zA-Z][a-zA-Z0-9-]{3,128}$")
+  @minLength(3)
+  @maxLength(128)
+  @pattern("^[a-zA-Z0-9-]+$")
   name: string;
 }
 
