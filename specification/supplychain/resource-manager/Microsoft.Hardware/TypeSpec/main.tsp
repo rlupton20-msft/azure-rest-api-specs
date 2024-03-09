@@ -202,6 +202,21 @@ model Tax{
   
   @doc("Tax Type")
   type: TaxType;
+
+  @doc("Categorization of the taxation system")
+  class?: string;
+  
+  @doc("Specific title assigned to the tax entity")
+  name?: string;
+
+  @doc("Level of governing authority")
+  jurisdictionEntity?: string;
+
+  @doc("Name of the jurisdiction")
+  jurisdictionName?: string;
+
+  @doc("Tax Rate")
+  rate?: float64;
 }
 
 @doc("ShipTo Id")
