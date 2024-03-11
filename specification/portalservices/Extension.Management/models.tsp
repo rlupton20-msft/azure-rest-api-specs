@@ -216,7 +216,7 @@ model DeploymentConfig {
   /**
    * Defines the deployment stages, regions to deploy to for each stage and sequence to rollout to individual stages.
    */
-  stageDefinition?: Record<string[]>;
+  stageDefinition?: Record<Array<string>>;
 }
 
 /**
@@ -318,7 +318,7 @@ model PortalExtensionAlter {
   /**
    * The list of alterations to perform on the source code.
    */
-  alterations?: PortalExtensionAlterAlterationsItem[];
+  alterations?: Array<PortalExtensionAlterAlterationsItem>;
 }
 
 // TODO: content?: Record<unknwon>
@@ -654,6 +654,7 @@ model PortalTenantCompileFileProperties {
    * The current registration or provisioning state which only appears in the response.
    */
   // TODO: Add provisioning state here.
+  @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
