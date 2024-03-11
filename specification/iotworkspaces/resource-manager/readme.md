@@ -26,23 +26,20 @@ These are the global settings for the deviceregistry.
 
 ``` yaml
 openapi-type: arm
-tag: package-preview-2023-11
+tag: package-preview-2024-03
 ```
 
-### Tag: package-preview-2023-11
+### Tag: package-preview-2024-03
 
-These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+These settings apply only when `--tag=package-preview-2024-03` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2023-11'
+``` yaml $(tag) == 'package-preview-2024-03'
 input-file:
-  - Private.DeviceRegistry/preview/2023-11-01-preview/assets.json
-  - Private.DeviceRegistry/preview/2023-11-01-preview/assetendpointprofiles.json
-  - Private.DeviceRegistry/preview/2023-11-01-preview/devices.json
+  - Private.DeviceRegistry/preview/2024-03-01-preview/deviceregistry.json
 suppressions:
   - code: AvoidAdditionalProperties
     from:
-      - assets.json
-      - devices.json
+      - deviceregistry.json
     where:
       - $.definitions.Asset.properties.properties.properties.attributes
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
@@ -57,8 +54,7 @@ suppressions:
     reason: attributes is a customer-defined property of any shape
   - code: PropertiesTypeObjectNoDefinition
     from:
-      - assets.json
-      - devices.json
+      - deviceregistry.json
     where:
       - $.definitions.Asset.properties.properties.properties.attributes
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
@@ -71,12 +67,46 @@ suppressions:
       - $.definitions.DeviceUpdate.properties.properties.properties.attributes
       - $.definitions.DeviceUpdateProperties.properties.attributes
     reason: attributes is a customer-defined property of any shape
-  - code: OperationsAPIImplementation
+```
+
+### Tag: package-preview-2023-11
+
+These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2023-11'
+input-file:
+  - Private.DeviceRegistry/preview/2023-11-01-preview/deviceregistry.json
+suppressions:
+  - code: AvoidAdditionalProperties
     from:
-      - assets.json
-      - assetendpointprofiles.json
-      - devices.json
-    reason: OperationsAPI are defined in a separate files - operations.json
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+  - code: PropertiesTypeObjectNoDefinition
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
 ```
 
 ### Tag: package-preview-2023-10
