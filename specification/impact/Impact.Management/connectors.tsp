@@ -39,8 +39,12 @@ model ConnectorProperties is ResourceProperties{
   @doc("tenant id of this connector")
   tenantId: string;
 
+  @visibility("read")
+  @doc("subscription id of this connector")
+  subscriptionId: string;
+
   @doc("connector type")
-  connectorType: ConnectorType;
+  connectorType: Platform;
 
   @doc("filters associated with this connector")
   filters?: string;
@@ -51,9 +55,9 @@ model ConnectorProperties is ResourceProperties{
 }
 
 @doc("Enum for connector types")
-enum ConnectorType {
+enum Platform {
   @doc("Type of Azure Monitor")
-  AzureMonitorConnector: "AzureMonitorConnector"
+  AzureMonitor: "AzureMonitor"
 }
 
 @armResourceOperations(Connector)
