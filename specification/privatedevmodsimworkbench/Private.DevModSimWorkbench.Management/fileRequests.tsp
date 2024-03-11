@@ -60,10 +60,10 @@ model FileRequestInternalMetadata {
 @doc("File request approval.")
 enum FileRequestAction {
   @doc("Approve request.")
-  Approve, // TODO: This should be lowercase
+  Approve,
 
   @doc("Reject request.")
-  Reject, // TODO: This should be lowercase
+  Reject,
 }
 
 @doc("Parameters for managing file request.")
@@ -82,7 +82,11 @@ model FileRequestProperties {
 
   @visibility("read")
   @doc("The unique identifier if the file associated with this request.")
-  fileId: string;
+  fileId: ResourceIdentifier<[
+    {
+      type: "Private.DevModSimWorkbench/files";
+    }
+  ]>;
 
   @visibility("read")
   @doc("Principal ID of Azure Active Directory User who approved to download.")
