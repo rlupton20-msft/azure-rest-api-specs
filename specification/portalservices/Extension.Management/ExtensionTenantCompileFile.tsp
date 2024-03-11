@@ -26,10 +26,22 @@ model PortalTenantCompileFile is TrackedResource<PortalTenantCompileFileProperti
   @visibility("read")
   name: string;
 }
+alias ProviderAction<
+  Request extends {} | void,
+  Response extends {} | void,
+  Parameters extends {} = {}
+> = ArmResourceActionSync<
+  {
+    ...Azure.ResourceManager.Foundations.ArmResource;
+  },
+  Request,
+  Response,
+  Parameters = Parameters,
+  BaseParameters = ApiVersionParameter
+>;
 
-@armResourceOperations  
+@armResourceOperations
 interface PortalTenantCompileFiles {
-  @doc("Compile a file under the tenant")
-  @route("/providers/Microsoft.PortalServices/compilefile")
-  compileFile is ArmResourceActionSync<PortalTenantCompileFile, PortalTenantCompileFile, PortalTenantCompileFileResult>;
+  @doc("compiles a file using inline content.")
+  compileFile is ProviderAction<PortalTenantCompileFile, PortalTenantCompileFileResult>;
 }

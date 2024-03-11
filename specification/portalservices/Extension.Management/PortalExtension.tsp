@@ -48,7 +48,7 @@ interface PortalExtensions {
   /**
    * Deletes the portal extension.
    */
-  delete is ArmResourceDeleteSync<PortalExtension>;
+  delete is ArmResourceDeleteWithoutOkAsync<PortalExtension>;
 
   /**
    * Gets all the portal extensions within a resource group.
