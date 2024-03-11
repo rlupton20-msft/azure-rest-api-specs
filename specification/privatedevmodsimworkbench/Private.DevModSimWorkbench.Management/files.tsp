@@ -19,28 +19,28 @@ namespace Private.DevModSimWorkbench;
 @doc("The chamber data pipeline direction.")
 enum DataPipelineDirection {
   @doc("File coming in to chamber.")
-  Inbound, // TODO: This should be lowercase
+  Inbound,
 
   @doc("File going out from chamber.")
-  Outbound, // TODO: This should be lowercase
+  Outbound,
 }
 
 @doc("Action to be performed on data pipeline file.")
 enum FileAction {
   @doc("Delete file.")
-  Delete, // TODO: This should be lowercase
+  Delete,
 
   @doc("Archive file.")
-  Archive, // TODO: This should be lowercase
+  Archive,
 }
 
 @doc("Options for whether to force a file manage operation.")
 enum FileActionForce {
   @doc("Force the operation.")
-  True, // TODO: This should be lowercase
+  True,
 
   @doc("Do not force the operation.")
-  False, // TODO: This should be lowercase
+  False,
 }
 
 @doc("Parameters for managing a file.")

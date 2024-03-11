@@ -60,10 +60,10 @@ model FileRequestInternalMetadata {
 @doc("File request approval.")
 enum FileRequestAction {
   @doc("Approve request.")
-  Approve, // TODO: This should be lowercase
+  Approve,
 
   @doc("Reject request.")
-  Reject, // TODO: This should be lowercase
+  Reject,
 }
 
 @doc("Parameters for managing file request.")
