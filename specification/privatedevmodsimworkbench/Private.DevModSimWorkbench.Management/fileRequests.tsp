@@ -82,7 +82,11 @@ model FileRequestProperties {
 
   @visibility("read")
   @doc("The unique identifier if the file associated with this request.")
-  fileId: string;
+  fileId: ResourceIdentifier<[
+    {
+      type: "Private.DevModSimWorkbench/files";
+    }
+  ]>;
 
   @visibility("read")
   @doc("Principal ID of Azure Active Directory User who approved to download.")

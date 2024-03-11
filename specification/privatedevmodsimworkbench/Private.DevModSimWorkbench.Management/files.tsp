@@ -72,7 +72,11 @@ model FileProperties {
 
   @visibility("read")
   @doc("The resource ID of the chamber data pipeline request. Populated only if requested.")
-  requestId?: string;
+  requestId?: ResourceIdentifier<[
+    {
+      type: "Private.DevModSimWorkbench/fileRequests";
+    }
+  ]>;
 
   @visibility("read")
   @doc("The Linux File System path for the chamber data pipeline file.")
