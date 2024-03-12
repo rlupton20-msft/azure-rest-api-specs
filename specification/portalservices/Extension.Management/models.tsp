@@ -1,11 +1,15 @@
-import "@typespec/rest";
 import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Rest;
 using TypeSpec.Http;
-using Azure.Core;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using OpenAPI;
+using Autorest;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -212,6 +216,7 @@ model PortalExtensionPropertiesSource {
 /**
  * Deployment config for the extension.
  */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Model properties or operation parameters should not be of type Record. ARM requires Resource provider teams to define types explicitly."
 model DeploymentConfig {
   /**
    * Defines the deployment stages, regions to deploy to for each stage and sequence to rollout to individual stages.
@@ -318,11 +323,13 @@ model PortalExtensionAlter {
   /**
    * The list of alterations to perform on the source code.
    */
+  @extension("x-ms-identifiers", [])
   alterations?: Array<PortalExtensionAlterAlterationsItem>;
 }
 
-// TODO: content?: Record<unknwon>
-@doc("The alter alteration item.")
+/**
+ * The alterations item to perform on the source code.
+ */
 model PortalExtensionAlterAlterationsItem {
   /**
    * The kind of alteration.
@@ -337,7 +344,7 @@ model PortalExtensionAlterAlterationsItem {
   /**
    * The content of the file.
    */
-  content?: Record<string>;
+  content?: Record<unknown>;
 
   /**
    * The base 64 encoded content of the file.
@@ -348,7 +355,6 @@ model PortalExtensionAlterAlterationsItem {
 /**
  * The contents of the file to compile.
  */
-// TODO: content?: Record<unknwon>
 model PortalExtensionCompileFile {
   /**
    * The file path.
@@ -358,18 +364,17 @@ model PortalExtensionCompileFile {
   /**
    * The contents of the file.
    */
-  contents?: Record<string>;
+  contents?: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
-  stringSource?: Record<string>;
+  stringSource?: Record<unknown>;
 }
 
 /**
  * The result of contents of the file to compile.
  */
-// TODO: content?: Record<unknwon>
 model PortalExtensionCompileFileResult {
   /**
    * The file path.
@@ -379,12 +384,12 @@ model PortalExtensionCompileFileResult {
   /**
    * The contents of the file.
    */
-  contents?: Record<string>;
+  contents?: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
-  stringSource?: Record<string>;
+  stringSource?: Record<unknown>;
 }
 
 /**
@@ -415,8 +420,7 @@ model PortalExtensionExportResult {
 /**
  * The list of sources in the extension
  */
-model PortalExtensionListSourcesResult
-  is PortalExtensionListSourcesFolder {}
+model PortalExtensionListSourcesResult is PortalExtensionListSourcesFolder;
 
 /**
  * The content metadata of a folder
@@ -633,27 +637,26 @@ model PatchableExtensionSlot {
 /**
  * The contents of the file to compile.
  */
-// TODO: content?: Record<unknwon>
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Model properties or operation parameters should not be of type Record. ARM requires Resource provider teams to define types explicitly."
 model PortalTenantCompileFileProperties {
   /**
    * The contents of the file.
    */
-  contents: Record<string>;
+  contents: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
-  stringSource?: Record<string>;
+  stringSource?: Record<unknown>;
 
   /**
    * The contents of referenced files. The property name is the relative file path and the value is its contents.
    */
-  files?: Record<string>;
+  files?: Record<unknown>;
 
   /**
    * The current registration or provisioning state which only appears in the response.
    */
-  // TODO: Add provisioning state here.
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
@@ -661,22 +664,21 @@ model PortalTenantCompileFileProperties {
 /**
  * The contents of the file to compile.
  */
-// TODO: content?: Record<unknwon>
 model PortalTenantCompileFileResult {
   /**
    * The contents of the file.
    */
-  contents: Record<string>;
+  contents: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
-  stringSource?: Record<string>;
+  stringSource?: Record<unknown>;
 
   /**
    * The contents of referenced files. The property name is the relative file path and the value is its contents.
    */
-  files?: Record<string>;
+  files?: Record<unknown>;
 }
 
 /**

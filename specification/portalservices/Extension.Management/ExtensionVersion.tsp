@@ -28,7 +28,7 @@ model ExtensionVersion is TrackedResource<ExtensionVersionProperties> {
 }
 
 @armResourceOperations
-interface ExtensionVersions {
+interface PortalExtensionVersions {
   /**
    * Gets the portal extension.
    */
@@ -48,6 +48,12 @@ interface ExtensionVersions {
   /**
    * Deletes the portal extension.
    */
+  @OpenAPI.extension(
+    "x-ms-long-running-operation-options",
+    {
+      `final-state-via`: "azure-async-operation",
+    }
+  )
   delete is ArmResourceDeleteWithoutOkAsync<ExtensionVersion>;
 
   /**
@@ -56,9 +62,9 @@ interface ExtensionVersions {
   listByExtensions is ArmResourceListByParent<ExtensionVersion>;
 }
 
-@@doc(ExtensionVersions.create::parameters.resource,
+@@doc(PortalExtensionVersions.create::parameters.resource,
   "extension version definition."
 );
-@@doc(ExtensionVersions.update::parameters.properties,
+@@doc(PortalExtensionVersions.update::parameters.properties,
   "The updatable fields of a portal extension version."
 );

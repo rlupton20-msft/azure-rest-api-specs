@@ -28,7 +28,7 @@ model ExtensionSlot is TrackedResource<ExtensionSlotProperties> {
 }
 
 @armResourceOperations
-interface ExtensionSlots {
+interface PortalExtensionSlots {
   /**
    * Gets the portal extension slot.
    */
@@ -42,6 +42,7 @@ interface ExtensionSlots {
   /**
    * Updates an existing portal extension slot.
    */
+  // TODO: parameterVisibility
   @parameterVisibility("read")
   update is ArmCustomPatchSync<ExtensionSlot, PatchableExtensionSlot>;
 
@@ -56,9 +57,9 @@ interface ExtensionSlots {
   listByExtensions is ArmResourceListByParent<ExtensionSlot>;
 }
 
-@@doc(ExtensionSlots.createOrUpdate::parameters.resource,
+@@doc(PortalExtensionSlots.createOrUpdate::parameters.resource,
   "The slot deployment definition"
 );
-@@doc(ExtensionSlots.update::parameters.properties,
+@@doc(PortalExtensionSlots.update::parameters.properties,
   "The updatable fields of a portal extension slot."
 );

@@ -43,11 +43,23 @@ interface PortalExtensions {
    * Updates an existing portal extension.
    */
   @parameterVisibility("read")
+  @OpenAPI.extension(
+    "x-ms-long-running-operation-options",
+    {
+      `final-state-via`: "azure-async-operation",
+    }
+  )
   update is ArmCustomPatchAsync<PortalExtension, PatchablePortalExtension>;
 
   /**
    * Deletes the portal extension.
    */
+  @OpenAPI.extension(
+    "x-ms-long-running-operation-options",
+    {
+      `final-state-via`: "azure-async-operation",
+    }
+  )
   delete is ArmResourceDeleteWithoutOkAsync<PortalExtension>;
 
   /**
@@ -63,6 +75,12 @@ interface PortalExtensions {
   /**
    * Alters portal extension source files.
    */
+  @OpenAPI.extension(
+    "x-ms-long-running-operation-options",
+    {
+      `final-state-via`: "azure-async-operation",
+    }
+  )
   alter is ArmResourceActionAsync<PortalExtension, PortalExtensionAlter, void>;
 
   /**
@@ -77,6 +95,12 @@ interface PortalExtensions {
   /**
    * Exports the extension.
    */
+  @OpenAPI.extension(
+    "x-ms-long-running-operation-options",
+    {
+      `final-state-via`: "azure-async-operation",
+    }
+  )
   export is ArmResourceActionAsync<
     PortalExtension,
     PortalExtensionExport,

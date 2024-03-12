@@ -14,12 +14,13 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.PortalServices;
 /**
- * The portal extension resource definition.
+ * The portal tenant provider action.
  */
-model PortalTenantCompileFile is TrackedResource<PortalTenantCompileFileProperties> {
-/**
- * The name of the portal tenant compile file.
- */
+model PortalTenantCompileFile
+  is TrackedResource<PortalTenantCompileFileProperties> {
+  /**
+   * The name of the portal tenant compile file.
+   */
   @path
   @key("compilefile")
   @segment("compilefile")
@@ -41,7 +42,10 @@ alias ProviderAction<
 >;
 
 @armResourceOperations
-interface PortalTenantCompileFiles {
+interface PortalTenant {
   @doc("compiles a file using inline content.")
-  compileFile is ProviderAction<PortalTenantCompileFile, PortalTenantCompileFileResult>;
+  compileFile is ProviderAction<
+    PortalTenantCompileFile,
+    PortalTenantCompileFileResult
+  >;
 }

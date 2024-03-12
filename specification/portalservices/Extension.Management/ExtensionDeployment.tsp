@@ -28,7 +28,7 @@ model ExtensionDeployment is TrackedResource<ExtensionDeploymentProperties> {
 }
 
 @armResourceOperations
-interface ExtensionDeployments {
+interface PortalExtensionDeployments {
   /**
    * Gets the portal extension deployment.
    */
@@ -42,7 +42,7 @@ interface ExtensionDeployments {
   /**
    * Updates an existing portal extension deployment.
    */
-  @parameterVisibility("read")
+  // @parameterVisibility("read")
   update is ArmCustomPatchSync<
     ExtensionDeployment,
     PatchableExtensionDeployment
@@ -64,9 +64,9 @@ interface ExtensionDeployments {
   stop is ArmResourceActionSync<ExtensionDeployment, void, void>;
 }
 
-@@doc(ExtensionDeployments.create::parameters.resource,
+@@doc(PortalExtensionDeployments.create::parameters.resource,
   "deployment definition"
 );
-@@doc(ExtensionDeployments.update::parameters.properties,
+@@doc(PortalExtensionDeployments.update::parameters.properties,
   "The updatable fields of a portal extension deployment."
 );
