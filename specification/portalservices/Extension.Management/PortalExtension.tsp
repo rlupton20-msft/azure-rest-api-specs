@@ -82,11 +82,7 @@ interface PortalExtensions {
       `final-state-via`: "azure-async-operation",
     }
   )
-  alter is ArmResourceActionAsync<
-    PortalExtension,
-    PortalExtensionAlter,
-    never
-  >;
+  alter is ArmResourceActionAsync<PortalExtension, PortalExtensionAlter, never>;
 
   /**
    * compiles a file in the context of the extension.
