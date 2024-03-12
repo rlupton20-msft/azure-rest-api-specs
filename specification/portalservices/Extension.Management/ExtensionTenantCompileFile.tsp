@@ -21,6 +21,9 @@ model PortalTenantCompileFile
   /**
    * The name of the portal tenant compile file.
    */
+  @maxLength(64)
+  @minLength(3)
+  @pattern("^[a-z][a-z0-9]*$")
   @path
   @key("compilefile")
   @segment("compilefile")

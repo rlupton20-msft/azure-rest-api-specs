@@ -20,6 +20,7 @@ model PortalExtension is TrackedResource<PortalExtensionProperties> {
    */
   @maxLength(64)
   @minLength(3)
+  @pattern("^[a-z][a-z0-9]*$")
   @path
   @key("portalExtensionName")
   @segment("extensions")
@@ -81,7 +82,7 @@ interface PortalExtensions {
       `final-state-via`: "azure-async-operation",
     }
   )
-  alter is ArmResourceActionAsync<PortalExtension, PortalExtensionAlter, void>;
+  alter is ArmResourceActionAsync<PortalExtension, PortalExtensionAlter, OkResponse>;
 
   /**
    * compiles a file in the context of the extension.

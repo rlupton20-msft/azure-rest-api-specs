@@ -20,6 +20,9 @@ model ExtensionVersion is TrackedResource<ExtensionVersionProperties> {
   /**
    * The name of the version
    */
+  @maxLength(64)
+  @minLength(3)
+  @pattern("^[a-z][a-z0-9]*$")
   @path
   @key("versionName")
   @segment("versions")

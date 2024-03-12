@@ -20,6 +20,9 @@ model ExtensionSlot is TrackedResource<ExtensionSlotProperties> {
   /**
    * The name of the slot
    */
+  @maxLength(64)
+  @minLength(3)
+  @pattern("^[a-z][a-z0-9]*$")
   @path
   @key("slotName")
   @segment("slots")
