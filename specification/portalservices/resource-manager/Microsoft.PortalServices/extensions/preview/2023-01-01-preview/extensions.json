@@ -2113,28 +2113,31 @@
       "description": "The build output artifact zip to create a version from",
       "properties": {
         "kind": {
-          "type": "string",
-          "description": "The kind of source content for the version. If omitted uses latest exported version from extension.",
-          "default": "BuildArtifactZipUri",
-          "enum": [
-            "BuildArtifactZipUri"
-          ],
-          "x-ms-enum": {
-            "name": "ExtensionVersionSourceKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "BuildArtifactZipUri",
-                "value": "BuildArtifactZipUri",
-                "description": "The build artifcat zip uri of the extension version."
-              }
-            ]
-          }
+          "$ref": "#/definitions/ExtensionVersionSourceKind",
+          "description": "The kind of source content for the version. If omitted uses latest exported version from extension."
         },
         "value": {
           "type": "string",
           "description": "The instance id of the source kind."
         }
+      }
+    },
+    "ExtensionVersionSourceKind": {
+      "type": "string",
+      "description": "The extension version source kind.",
+      "enum": [
+        "BuildArtifactZipUri"
+      ],
+      "x-ms-enum": {
+        "name": "ExtensionVersionSourceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "BuildArtifactZipUri",
+            "value": "BuildArtifactZipUri",
+            "description": "The build artifcat zip uri of the extension version."
+          }
+        ]
       }
     },
     "PatchableExtensionDeployment": {
@@ -2538,41 +2541,8 @@
           "readOnly": true
         },
         "publicStatus": {
-          "type": "string",
+          "$ref": "#/definitions/PublicStatusKind",
           "description": "The visibility of the extension. By default status will be NotOnboarded. Microsoft owned extensions can promote using service tree. External extensions can promote your application use partner center.",
-          "default": "NotOnboarded",
-          "enum": [
-            "NotOnboarded",
-            "PrivatePreview",
-            "PublicPreview",
-            "GA"
-          ],
-          "x-ms-enum": {
-            "name": "PublicStatusKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "NotOnboarded",
-                "value": "NotOnboarded",
-                "description": "The extension is not onboarded."
-              },
-              {
-                "name": "PrivatePreview",
-                "value": "PrivatePreview",
-                "description": "The extension is in private preview."
-              },
-              {
-                "name": "PublicPreview",
-                "value": "PublicPreview",
-                "description": "The extension is in public preview."
-              },
-              {
-                "name": "GA",
-                "value": "GA",
-                "description": "The extension is in GA."
-              }
-            ]
-          },
           "readOnly": true
         },
         "runtimeUri": {
@@ -2790,6 +2760,42 @@
         ]
       },
       "readOnly": true
+    },
+    "PublicStatusKind": {
+      "type": "string",
+      "description": "The extension public status state.",
+      "enum": [
+        "NotOnboarded",
+        "PrivatePreview",
+        "PublicPreview",
+        "GA"
+      ],
+      "x-ms-enum": {
+        "name": "PublicStatusKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NotOnboarded",
+            "value": "NotOnboarded",
+            "description": "The extension is not onboarded."
+          },
+          {
+            "name": "PrivatePreview",
+            "value": "PrivatePreview",
+            "description": "The extension is in private preview."
+          },
+          {
+            "name": "PublicPreview",
+            "value": "PublicPreview",
+            "description": "The extension is in public preview."
+          },
+          {
+            "name": "GA",
+            "value": "GA",
+            "description": "The extension is in GA."
+          }
+        ]
+      }
     }
   },
   "parameters": {}
