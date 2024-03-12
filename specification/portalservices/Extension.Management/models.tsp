@@ -205,7 +205,7 @@ model PortalExtensionPropertiesSource {
   /**
    * The kind of the source package.
    */
-  kind?: PortalExtensionSourceKind = PortalExtensionSourceKind.SourceCodeZipUri;
+  kind?: PortalExtensionSourceKind;
 
   /**
    * The uri of the source package.
@@ -611,7 +611,7 @@ model ExtensionSlotPropertiesSource {
   /**
    * The source content kind for deployment to the slot.
    */
-  kind?: DeploymentSourceKind = DeploymentSourceKind.Version;
+  kind?: DeploymentSourceKind;
 
   /**
    * The instance id of the source kind.

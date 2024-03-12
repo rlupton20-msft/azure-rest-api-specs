@@ -85,7 +85,7 @@ interface PortalExtensions {
   alter is ArmResourceActionAsync<
     PortalExtension,
     PortalExtensionAlter,
-    OkResponse
+    never
   >;
 
   /**

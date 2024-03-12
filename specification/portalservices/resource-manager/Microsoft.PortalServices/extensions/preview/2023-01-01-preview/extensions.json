@@ -517,9 +517,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The request has succeeded."
-          },
           "202": {
             "description": "Resource operation accepted.",
             "headers": {
@@ -1793,6 +1790,30 @@
         }
       }
     },
+    "DeploymentSourceKind": {
+      "type": "string",
+      "description": "The deployment source kind",
+      "enum": [
+        "Version",
+        "CopySlot"
+      ],
+      "x-ms-enum": {
+        "name": "DeploymentSourceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Version",
+            "value": "Version",
+            "description": "The deployment source is from extension version."
+          },
+          {
+            "name": "CopySlot",
+            "value": "CopySlot",
+            "description": "The deployment source is from copying extension slot."
+          }
+        ]
+      }
+    },
     "ExportKind": {
       "type": "string",
       "description": "The kind of the source package.",
@@ -2004,29 +2025,8 @@
       "description": "The source content for deployment to the slot.",
       "properties": {
         "kind": {
-          "type": "string",
-          "description": "The source content kind for deployment to the slot.",
-          "default": "Version",
-          "enum": [
-            "Version",
-            "CopySlot"
-          ],
-          "x-ms-enum": {
-            "name": "DeploymentSourceKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Version",
-                "value": "Version",
-                "description": "The deployment source is from extension version."
-              },
-              {
-                "name": "CopySlot",
-                "value": "CopySlot",
-                "description": "The deployment source is from copying extension slot."
-              }
-            ]
-          }
+          "$ref": "#/definitions/DeploymentSourceKind",
+          "description": "The source content kind for deployment to the slot."
         },
         "value": {
           "type": "string",
@@ -2579,28 +2579,31 @@
       "description": "The new source code of the extension.",
       "properties": {
         "kind": {
-          "type": "string",
-          "description": "The kind of the source package.",
-          "default": "SourceCodeZipUri",
-          "enum": [
-            "SourceCodeZipUri"
-          ],
-          "x-ms-enum": {
-            "name": "PortalExtensionSourceKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "SourceCodeZipUri",
-                "value": "SourceCodeZipUri",
-                "description": "The source code zip uri of the extension."
-              }
-            ]
-          }
+          "$ref": "#/definitions/PortalExtensionSourceKind",
+          "description": "The kind of the source package."
         },
         "uri": {
           "type": "string",
           "description": "The uri of the source package."
         }
+      }
+    },
+    "PortalExtensionSourceKind": {
+      "type": "string",
+      "description": "The extension source kind",
+      "enum": [
+        "SourceCodeZipUri"
+      ],
+      "x-ms-enum": {
+        "name": "PortalExtensionSourceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SourceCodeZipUri",
+            "value": "SourceCodeZipUri",
+            "description": "The source code zip uri of the extension."
+          }
+        ]
       }
     },
     "PortalTenantCompileFile": {
