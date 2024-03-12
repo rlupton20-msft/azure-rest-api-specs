@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 @armProviderNamespace
 @service({
-  title: "Microsoft.PortalServices",
+  title: "portal",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
