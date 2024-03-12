@@ -19,7 +19,6 @@ using TypeSpec.Versioning;
  * Allows creation and deletion of Azure portal extensions.
  */
 @armProviderNamespace
-@useAuth(AadOauth2Auth<["user_impersonation"]>)
 @service({
   title: "Microsoft.PortalServices",
 })
