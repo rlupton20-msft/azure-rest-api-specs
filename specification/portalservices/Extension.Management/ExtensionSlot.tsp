@@ -42,7 +42,6 @@ interface PortalExtensionSlots {
   /**
    * Updates an existing portal extension slot.
    */
-  // TODO: parameterVisibility
   @parameterVisibility("read")
   update is ArmCustomPatchSync<ExtensionSlot, PatchableExtensionSlot>;
 

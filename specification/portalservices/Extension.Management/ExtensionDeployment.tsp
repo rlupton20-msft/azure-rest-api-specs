@@ -42,7 +42,7 @@ interface PortalExtensionDeployments {
   /**
    * Updates an existing portal extension deployment.
    */
-  // @parameterVisibility("read")
+  @parameterVisibility("read")
   update is ArmCustomPatchSync<
     ExtensionDeployment,
     PatchableExtensionDeployment
