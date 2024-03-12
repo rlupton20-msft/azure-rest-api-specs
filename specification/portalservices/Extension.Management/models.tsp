@@ -189,7 +189,7 @@ model PortalExtensionProperties {
    * The visibility of the extension. By default status will be NotOnboarded. Microsoft owned extensions can promote using service tree. External extensions can promote your application use partner center.
    */
   @visibility("read")
-  publicStatus?: PublicStatusKind = PublicStatusKind.NotOnboarded;
+  publicStatus?: PublicStatusKind;
 
   /**
    * Once provisioningState is in the terminal state of Succeeded this is the portal runtime uri for portal extensions with status of private
@@ -492,7 +492,7 @@ model ExtensionVersionPropertiesSource {
   /**
    * The kind of source content for the version. If omitted uses latest exported version from extension.
    */
-  kind?: ExtensionVersionSourceKind = ExtensionVersionSourceKind.BuildArtifactZipUri;
+  kind?: ExtensionVersionSourceKind;
 
   /**
    * The instance id of the source kind.
