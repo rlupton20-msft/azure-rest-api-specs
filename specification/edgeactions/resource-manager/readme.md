@@ -36,6 +36,10 @@ These settings apply only when `--tag=package-2024-03-06-preview` is specified o
 ```yaml $(tag) == 'package-2024-03-06-preview'
 input-file:
   - Microsoft.Cdn/preview/2024-03-06-preview/edgeaction.json
+
+suppressions:
+  - code: OperationsAPIImplementation
+    reason: Operation APIs for Microsoft.Cdn are to be defined in cdn swagger
 ```
 
 ---
