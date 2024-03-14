@@ -13,12 +13,13 @@ using Azure.ResourceManager;
 using Azure.Core.Traits;
 using TypeSpec.OpenAPI;
 
+@armProviderNamespace("Microsoft.ModSimWorkbench")
 @service({
   title: "ModSimWorkbench Control Plane API",
-  version: "2021-03-01-preview",
 })
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-namespace Private.DevModSimWorkbench;
+@armProviderNamespace
+@versioned(Microsoft.ModSimWorkbench.Versions)
+namespace Microsoft.ModSimWorkbench;
 
 @doc("Property to enable or disable")
 model EnableProperty {
