@@ -20,7 +20,7 @@ using TypeSpec.Versioning;
  */
 @armProviderNamespace
 @service({
-  title: "portal",
+  title: "Microsoft.PortalServices",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -31,9 +31,9 @@ namespace Microsoft.PortalServices;
  */
 enum Versions {
   /**
-   * The 2023-01-01-preview API version.
+   * The 2024-03-01-preview API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2023_01_01_preview: "2024-03-01-preview",
+  v2024_03_01_preview: "2024-03-01-preview",
 }
