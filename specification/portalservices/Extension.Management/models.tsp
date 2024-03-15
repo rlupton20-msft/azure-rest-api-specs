@@ -376,21 +376,7 @@ model PortalExtensionCompileFile {
 /**
  * The result of contents of the file to compile.
  */
-model PortalExtensionCompileFileResult {
-  /**
-   * The file path.
-   */
-  path?: string;
-
-  /**
-   * The contents of the file.
-   */
-  contents?: Record<unknown>;
-
-  /**
-   * The contents of the string source.
-   */
-  stringSource?: Record<unknown>;
+model PortalExtensionCompileFileResult is Record<unknown> {
 }
 
 /**
@@ -401,21 +387,6 @@ model PortalExtensionExport {
    * The kind of the source package.
    */
   kind?: ExportKind;
-}
-
-/**
- * The result of exporting the extension
- */
-model PortalExtensionExportResult {
-  /**
-   * The kind of the source package.
-   */
-  kind?: ExportKind;
-
-  /**
-   * The uri of the exported extension.
-   */
-  uri?: string;
 }
 
 /**
@@ -665,21 +636,7 @@ model PortalTenantCompileFileProperties {
 /**
  * The contents of the file to compile.
  */
-model PortalTenantCompileFileResult {
-  /**
-   * The contents of the file.
-   */
-  contents: Record<unknown>;
-
-  /**
-   * The contents of the string source.
-   */
-  stringSource?: Record<unknown>;
-
-  /**
-   * The contents of referenced files. The property name is the relative file path and the value is its contents.
-   */
-  files?: Record<unknown>;
+model PortalTenantCompileFileResult is Record<unknown> {
 }
 
 /**

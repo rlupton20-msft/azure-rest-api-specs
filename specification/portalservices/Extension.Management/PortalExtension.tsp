@@ -105,7 +105,7 @@ interface PortalExtensions {
   export is ArmResourceActionAsync<
     PortalExtension,
     PortalExtensionExport,
-    PortalExtensionExportResult
+    never
   >;
 
   /**
