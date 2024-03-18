@@ -133,6 +133,7 @@ scalar ReleaseVersion extends string;
 scalar ComponentDeploymentParameters extends string;
 
 @doc("Containerized Network Function (CNF) Component Secrets")
+@secret
 scalar ComponentDeploymentSecrets extends string;
 
 @doc("Containerized Network Function (CNF) Component Deployment Type")
@@ -147,7 +148,6 @@ model QualifiedComponentDeploymentParameters {
   parameters?: ComponentDeploymentParameters;
 
   @doc("Deployment secrets")
-  @secret
   @visibility("create", "update")
   secrets?: ComponentDeploymentSecrets;
 }

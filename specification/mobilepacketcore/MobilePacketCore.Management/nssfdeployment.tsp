@@ -40,7 +40,6 @@ model NssfDeploymentResourceProperties {
   componentParameters?: ComponentDeploymentParameters;
 
   @doc("Azure for Operators 5G Core NSSF secrets parameters")
-  @secret
   @visibility("create", "update")
   secretsParameters?: ComponentDeploymentSecrets;
 

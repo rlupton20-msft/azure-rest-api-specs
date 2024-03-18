@@ -40,7 +40,6 @@ model NrfDeploymentResourceProperties {
   componentParameters?: ComponentDeploymentParameters;
 
   @doc("Azure for Operators 5G Core NRF secrets parameters")
-  @secret
   @visibility("create", "update")
   secretsParameters?: ComponentDeploymentSecrets;
 
