@@ -46,17 +46,11 @@ model PushAgentV2AccountResourceProperties {
   @doc("Error Reporting Table name.")
   errorReportingTable: string;
 
-  @doc("The name of the Resource Group")
-  resourceGroup: string;
-
   @doc("The ARM location of the Storage Account. ARM location is different from PAv2/CIS location, e.g. eastus VS. useast.")
   armLocation: string;
 
   @doc("Tenant ID of the Subscription.")
   tenantId: string;
-
-  @doc("Subscription ID. We have made your tenant aad app service principal a contributor to this subscription when creating it so it should have permissions.")
-  subscriptionId: string;
 
   @doc("Provisioning state")
   @visibility("read")
