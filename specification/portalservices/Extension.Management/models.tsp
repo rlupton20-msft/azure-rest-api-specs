@@ -376,8 +376,7 @@ model PortalExtensionCompileFile {
 /**
  * The result of contents of the file to compile.
  */
-model PortalExtensionCompileFileResult is Record<unknown> {
-}
+model PortalExtensionCompileFileResult is Record<unknown>;
 
 /**
  * The export extension request
@@ -636,8 +635,7 @@ model PortalTenantCompileFileProperties {
 /**
  * The contents of the file to compile.
  */
-model PortalTenantCompileFileResult is Record<unknown> {
-}
+model PortalTenantCompileFileResult is Record<unknown>;
 
 /**
  * The extenson list source SVG.
