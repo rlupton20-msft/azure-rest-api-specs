@@ -107,8 +107,17 @@ model DeviceEndpoints {
   @visibility("read", "create")
   unassigned?: Endpoint[];
 
+  @added(DeviceRegistry.Versions.v2024_03_01_preview)
   @doc("Endpoints for receiving or sending messages to the device.")
   connectivity?: Connectivity;
+}
+
+@added(DeviceRegistry.Versions.v2024_03_01_preview)
+@doc("Endpoints for sending or receiving messages to the device.")
+model Connectivity {
+  @doc("Endpoint for sending and receiving messages from the device.")
+  // `type` is a reserved keyname. Wrap in double quotes
+  messaging?: Endpoint;
 }
 
 @doc("Endpoints related to the device")
@@ -119,13 +128,6 @@ model Endpoint {
 
   @doc("Fully qualified domain name.")
   address?: string;
-}
-
-@doc("Endpoints for sending or receiving messages to the device.")
-model Connectivity {
-  @doc("Endpoint for sending and receiving messages from the device.")
-  // `type` is a reserved keyname. Wrap in double quotes
-  messaging?: Endpoint;
 }
 
 @armResourceOperations
