@@ -46,6 +46,11 @@ model TestLineProperties is ResourceProperties {
   purpose: TestLinePurpose;
 }
 
+// The 200 response support in Delete api is deprecated,
+// ArmResourceDeleteWithoutOKAsync method adheres to the updated pattern,
+// returning only 202 and 204 responses. Since we give 200 OK response on successful deletion
+// hence suppressing it in terms of backward compatibility
+#suppress "deprecated" "For backward compatibility"
 @armResourceOperations
 interface TestLines
   extends ResourceRead<TestLine>,
@@ -144,15 +149,13 @@ model CallProtectionDetails {
   logStorageAccountId?: string;
 }
 
-@doc("Indicate whether 'Static' or 'Custom' peer group configuration is in use")
+@doc("Indicate whether 'UseOperatorPeerGroupConfig' or 'UseStaticDefaultConfig' peer group configuration is in use")
 @added(Versions.v2024_02_16_preview)
 enum OperatorPeerGroupConfigSchemeValue {
   @doc("If the operator peer group and routing properties would not be used")
-  @added(Versions.v2024_02_16_preview)
   UseOperatorPeerGroupConfig,
 
   @doc("If the operator peer group and routing properties would be used")
-  @added(Versions.v2024_02_16_preview)
   UseStaticDefaultConfig,
 }
 
@@ -160,15 +163,12 @@ enum OperatorPeerGroupConfigSchemeValue {
 @added(Versions.v2024_02_16_preview)
 enum PeerType {
   @doc("IP address and port combination")
-  @added(Versions.v2024_02_16_preview)
   IP,
 
   @doc("Address record and port combination")
-  @added(Versions.v2024_02_16_preview)
   ARecord,
 
   @doc("SRV record")
-  @added(Versions.v2024_02_16_preview)
   SRV,
 }
 
@@ -176,15 +176,12 @@ enum PeerType {
 @added(Versions.v2024_02_16_preview)
 enum SignalingProtocols {
   @doc("Transport Layer Security protocol to provide secure communication")
-  @added(Versions.v2024_02_16_preview)
   TLS,
 
   @doc("Transmission Control Protocol")
-  @added(Versions.v2024_02_16_preview)
   TCP,
 
   @doc("User Datagram Protocol")
-  @added(Versions.v2024_02_16_preview)
   UDP,
 }
 
@@ -192,11 +189,9 @@ enum SignalingProtocols {
 @added(Versions.v2024_02_16_preview)
 enum MediaProtocols {
   @doc("Secure Real-time Transport Protocol")
-  @added(Versions.v2024_02_16_preview)
   SRTP,
 
   @doc("Real-time Transport Protocol")
-  @added(Versions.v2024_02_16_preview)
   RTP,
 }
 
@@ -204,11 +199,9 @@ enum MediaProtocols {
 @added(Versions.v2024_02_16_preview)
 enum MCPProtocols {
   @doc("Transport Layer Security protocol to provide secure communication")
-  @added(Versions.v2024_02_16_preview)
   TLS,
 
   @doc("Transmission Control Protocol for maintaining reliable connection")
-  @added(Versions.v2024_02_16_preview)
   TCP,
 }
 
@@ -217,40 +210,33 @@ enum MCPProtocols {
 model Peer {
   @doc("Unique name of peer")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @minLength(1)
   @maxLength(10)
   peerName?: string;
 
   @doc("Type of the Peer")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   peerType?: PeerType;
 
   @doc("Connection details containing the IP address and port number")
-  @added(Versions.v2024_02_16_preview)
   @OpenAPI.extension("x-ms-identifiers", [])
   @visibility("read", "update", "create")
   ipsAndPorts?: IpAndPortDetails[];
 
   @doc("Connection details containing the address records and port number")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   @OpenAPI.extension("x-ms-identifiers", [])
   aRecordsAndPorts?: ArecordAndPortDetails[];
 
   @doc("The DNS SRV record of Operator Network, where Azure Communication Gateway will connect SIP Peers")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   srvRecord?: string;
 
   @doc("The allowed source IP addresses or CIDR ranges for signaling")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   allowedSignalingSourceAddressPrefixes?: string[] = [];
 
   @doc("The allowed source IP addresses or CIDR ranges for media")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   allowedMediaSourceAddressPrefixes?: string[] = [];
 }
@@ -260,12 +246,10 @@ model Peer {
 model CallPolicy {
   @doc("The default mapping between Services and peer groups")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   defaultMappings?: DefaultMappings;
 
   @doc("Routing priorities on a per-peer group and per-serviceLocation basis")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @OpenAPI.extension("x-ms-identifiers", ["peerGroupName"])
   peerGroupRoutings?: PeerGroupRouting[];
 }
@@ -275,13 +259,12 @@ model CallPolicy {
 model PeerGroupRouting {
   @doc("The name of the peer group used for mapping")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @minLength(1)
   @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerGroupName?: string;
 
   @doc("Routing Details about which service location would use which peer and at what priority")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   @OpenAPI.extension("x-ms-identifiers", [])
   routings?: RoutingDetails[];
@@ -292,19 +275,17 @@ model PeerGroupRouting {
 model RoutingDetails {
   @doc("The name of peer defined earlier in peer group-->peers properties")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @minLength(1)
   @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerName?: string;
 
   @doc("The service location name where resources are deployed for communication services")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   serviceLocation?: string;
 
   @doc("Priority defined, where 0 being the highest priority")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @minValue(0)
   @maxValue(100)
   priority?: int64;
@@ -314,13 +295,11 @@ model RoutingDetails {
 @added(Versions.v2024_02_16_preview)
 model DefaultMappings {
   @doc("Service to peer group mappings which tells what would be the default peer group for particular service")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   @OpenAPI.extension("x-ms-identifiers", ["service"])
   serviceToPeerGroup?: ServiceToPeerGroup[];
 
   @doc("peer group to Service mappings which tells what would be the default service for particular peer group")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   @OpenAPI.extension("x-ms-identifiers", ["peerGroup"])
   peerGroupToService?: PeerGroupToService[];
@@ -330,12 +309,10 @@ model DefaultMappings {
 @added(Versions.v2024_02_16_preview)
 model ServiceToPeerGroup {
   @doc("Name of the backend service")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   service?: CommunicationsPlatform;
 
   @doc("Name of the default peer group for service")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   defaultPeerGroup?: string;
 }
@@ -344,12 +321,10 @@ model ServiceToPeerGroup {
 @added(Versions.v2024_02_16_preview)
 model PeerGroupToService {
   @doc("Name of the peer group")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   peerGroup?: string;
 
   @doc("Name of the default Communication Platform for peer group")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   defaultService?: CommunicationsPlatform;
 }
@@ -359,12 +334,10 @@ model PeerGroupToService {
 model IpAndPortDetails {
   @doc("IP address identifying the peer of Operator Network")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   ipAddress?: string;
 
   @doc("Port identifying the peer of Operator Network")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @minValue(1)
   @maxValue(65535)
   port?: int64;
@@ -375,11 +348,9 @@ model IpAndPortDetails {
 model ArecordAndPortDetails {
   @doc("Address record identifying the peer of Operator Network")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   aRecord?: string;
 
   @doc("Port identifying the peer of Operator Network")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   @minValue(1)
   @maxValue(65535)
@@ -390,21 +361,17 @@ model ArecordAndPortDetails {
 @added(Versions.v2024_02_16_preview)
 model AcgAddressRanges {
   @doc("Azure Communication Gateway IP addresses or address ranges for sending signalling traffic to Communication Services")
-  @added(Versions.v2024_02_16_preview)
   signalingForBackendServices?: string[];
 
   @doc("Azure Communication Gateway IP addresses or address ranges for sending signalling traffic to Operator Network")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   signalingForOperator?: string[];
 
   @doc("Azure Communication Gateway IP address/FQDN for receiving signalling traffic from communications services")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   mediaForBackendServices?: string[];
 
   @doc("Azure Communication Gateway IP addresses or address ranges for media traffic between Operator Network and Azure Communication Gateway ")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   mediaForOperator?: string[];
 }
@@ -413,13 +380,11 @@ model AcgAddressRanges {
 @added(Versions.v2024_02_16_preview)
 model AcgContactInfo {
   @doc("Azure Communication Gateway contact Peer details")
-  @added(Versions.v2024_02_16_preview)
   @OpenAPI.extension("x-ms-identifiers", ["peerGroupName"])
   @visibility("read")
   peerGroups?: AcgContactPeerGroupDetails[];
 
   @doc("Azure Communication Gateway contact BackendServices details")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   @OpenAPI.extension("x-ms-identifiers", [])
   backendServices?: AcgContactBackendServiceDetails[];
@@ -429,24 +394,20 @@ model AcgContactInfo {
 @added(Versions.v2024_02_16_preview)
 model AcgContactPeerGroupDetails {
   @doc("Name of the peer group defined in the peer groups property")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   @minLength(1)
   @maxLength(10)
   peerGroupName?: string;
 
   @doc("IP addresses allocated for peer group")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   ipAddresses?: string[];
 
   @doc("SRV record (created on basis of the peer group's peerGroupName and DNS hash)")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   srvRecord?: string;
 
   @doc("Port number to be used by customer to connect with Azure Communication Gateway")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   @minValue(1)
   @maxValue(65535)
@@ -457,22 +418,18 @@ model AcgContactPeerGroupDetails {
 @added(Versions.v2024_02_16_preview)
 model AcgContactBackendServiceDetails {
   @doc("Operator's chosen communication service/platform")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   serviceName?: string;
 
   @doc("Allocated IP addresses used by communication services")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   ipAddresses?: string[];
 
   @doc("SRV record (created on basis of the backend service's serviceName and DNS hash)")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   srvRecord?: string;
 
   @doc("Port number to be used by communication services to connect with Azure Communication Gateway")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read")
   @minValue(1)
   @maxValue(65535)
@@ -504,7 +461,6 @@ model ServiceRegionProperties {
 @added(Versions.v2024_02_16_preview)
 model PeerGroupProperties {
   @doc("The name of the Peer Group")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "create")
   @minLength(1)
   @maxLength(10)
@@ -512,22 +468,18 @@ model PeerGroupProperties {
 
   @doc("The point at the edge of an Operator Network, where Azure Communication Gateway will connect SIP Peers")
   @visibility("read", "update", "create")
-  @added(Versions.v2024_02_16_preview)
   @OpenAPI.extension("x-ms-identifiers", ["peerName"])
   peers?: Peer[];
 
   @doc("Supported signaling protocol")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   signalingProtocol?: SignalingProtocols = SignalingProtocols.TLS;
 
   @doc("Supported media protocol")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   mediaProtocol?: MediaProtocols = MediaProtocols.SRTP;
 
   @doc("Voice codecs to support per Communication Services")
-  @added(Versions.v2024_02_16_preview)
   @visibility("read", "update", "create")
   codecs?: TeamsCodecs[];
 }
@@ -816,6 +768,11 @@ model CommunicationsGatewayProperties is ResourceProperties {
   aiVoiceServices?: AiVoiceServices;
 }
 
+// The 200 response support in Delete api is deprecated,
+// ArmResourceDeleteWithoutOKAsync method adheres to the updated pattern,
+// returning only 202 and 204 responses. Since we give 200 OK response on successful deletion
+// hence suppressing it in terms of backward compatibility
+#suppress "deprecated" "For backward compatibility"
 @armResourceOperations
 interface CommunicationsGateways
   extends ResourceRead<CommunicationsGateway>,
