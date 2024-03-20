@@ -212,6 +212,7 @@ model Peer {
   @visibility("read", "update", "create")
   @minLength(1)
   @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerName?: string;
 
   @doc("Type of the Peer")
@@ -397,6 +398,7 @@ model AcgContactPeerGroupDetails {
   @visibility("read")
   @minLength(1)
   @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerGroupName?: string;
 
   @doc("IP addresses allocated for peer group")
@@ -464,6 +466,7 @@ model PeerGroupProperties {
   @visibility("read", "create")
   @minLength(1)
   @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerGroupName?: string;
 
   @doc("The point at the edge of an Operator Network, where Azure Communication Gateway will connect SIP Peers")
