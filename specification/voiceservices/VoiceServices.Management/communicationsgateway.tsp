@@ -323,6 +323,9 @@ model ServiceToPeerGroup {
 model PeerGroupToService {
   @doc("Name of the peer group")
   @visibility("read", "update", "create")
+  @minLength(1)
+  @maxLength(10)
+  @pattern("^[a-zA-Z0-9-]+$")
   peerGroup?: string;
 
   @doc("Name of the default Communication Platform for peer group")
