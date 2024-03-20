@@ -78,6 +78,57 @@ interface LandingZonesConfigurations
   >;
 }
 
+// Landing zone configuration Resource Type V2
+@added(Versions.Preview20240831)
+@doc("The Landing Zone configuration resource type V2.")
+model LandingZoneConfigurationV2
+  is TrackedResource<LandingZoneConfigurationPropertiesV2> {
+  @doc("The name of the landing zone configuration resource.")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("name")
+  @segment("landingZoneConfigurations")
+  @path
+  name: string;
+}
+
+@added(Versions.Preview20240831)
+@armResourceOperations(LandingZoneConfigurationV2)
+interface LandingZonesConfigurationsV2
+  extends TrackedResourceOperations<
+      LandingZoneConfigurationV2,
+      LandingZoneConfigurationPropertiesV2
+    > {
+  @action("generateLandingZone")
+  @doc("Generate the landing zone.")
+  @added(Versions.Preview20240831)
+  @armResourceAction(LandingZoneConfigurationV2)
+  generateLandingZone is ArmResourceActionAsync<
+    LandingZoneConfigurationV2,
+    GenerateLandingZoneRequest,
+    GenerateLandingZoneResponse
+  >;
+
+  @action("updateAuthoringStatus")
+  @doc("Provides a mechanism to update the authoring status.")
+  @added(Versions.Preview20240831)
+  @armResourceAction(LandingZoneConfigurationV2)
+  updateAuthoringStatus is ArmResourceActionSync<
+    LandingZoneConfigurationV2,
+    UpdateAuthoringStatusRequest,
+    UpdateAuthoringStatusResponse
+  >;
+
+  @action("createCopy")
+  @doc("Provides a mechanism to create a copy of the landing zone configuration.")
+  @added(Versions.Preview20240831)
+  @armResourceAction(LandingZoneConfigurationV2)
+  createCopy is ArmResourceActionSync<
+    LandingZoneConfigurationV2,
+    CreateCopyRequest,
+    CreateCopyResponse
+  >;
+}
+
 // Landing zone registration Resource Type
 @tenantResource
 @added(Versions.Preview20230928)
@@ -96,6 +147,27 @@ model LandingZoneRegistration
 interface LandingZoneRegistrations
   extends TenantResourceOperations<
       LandingZoneRegistration,
+      LandingZoneRegistrationProperties
+    > {}
+
+// Landing zone registration Resource Type V2
+@added(Versions.Preview20240831)
+@doc("The Landing Zone registration resource type V2.")
+model LandingZoneRegistrationV2
+  is TrackedResource<LandingZoneRegistrationProperties> {
+  @doc("The name of the Landing Zone registration resource.")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("name")
+  @segment("landingZoneRegistrations")
+  @path
+  name: string;
+}
+
+@added(Versions.Preview20240831)
+@armResourceOperations(LandingZoneRegistrationV2)
+interface LandingZoneRegistrationsV2
+  extends TrackedResourceOperations<
+      LandingZoneRegistrationV2,
       LandingZoneRegistrationProperties
     > {}
 
