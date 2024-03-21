@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./landingZoneConfigurationModels.tsp";
@@ -86,7 +85,7 @@ model LandingZoneConfigurationV2
   @doc("The name of the landing zone configuration resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("name")
-  @segment("landingZoneConfigurations")
+  @segment("landingZoneConfigurationsV2")
   @path
   name: string;
 }
@@ -158,7 +157,7 @@ model LandingZoneRegistrationV2
   @doc("The name of the Landing Zone registration resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("name")
-  @segment("landingZoneRegistrations")
+  @segment("landingZoneRegistrationsV2")
   @path
   name: string;
 }

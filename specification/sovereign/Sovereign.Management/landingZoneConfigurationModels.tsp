@@ -16,9 +16,7 @@ model LandingZoneConfigurationPropertiesV2 {
   ...LandingZoneConfigurationCommonProperties;
 }
 
-@added(Versions.Preview20240831)
-@doc("The common properties of landing zone configuration resource type.")
-model LandingZoneConfigurationCommonProperties {
+alias LandingZoneConfigurationCommonProperties = {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
   provisioningState?: ResourceProvisioningState;
@@ -105,7 +103,7 @@ model LandingZoneConfigurationCommonProperties {
 
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
-}
+};
 
 @doc("Landing zone management group properties.")
 model LandingZoneManagementGroupProperties {
@@ -311,10 +309,8 @@ model CreateCopyResponse {
   ]>;
 }
 
-@added(Versions.Preview20240831)
-@doc("The extended properties of landing zone configuration resource type.")
-model LandingZoneConfigurationExtendedProperties {
+alias LandingZoneConfigurationExtendedProperties = {
   @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
   @OpenAPI.extension("x-ms-identifiers", [])
   tags?: Tags[];
-}
+};
