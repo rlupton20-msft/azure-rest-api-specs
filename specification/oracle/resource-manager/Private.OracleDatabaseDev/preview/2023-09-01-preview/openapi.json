@@ -1545,19 +1545,14 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
           "202": {
             "description": "Resource operation accepted.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
-                }
-              },
-              "required": [
-                "properties"
-              ]
-            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -1586,67 +1581,6 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/generateWallet": {
-      "post": {
-        "operationId": "AutonomousDatabases_GenerateWallet",
-        "tags": [
-          "AutonomousDatabases"
-        ],
-        "description": "Generate wallet action on Autonomous Database",
-        "produces": [
-          "application/octet-stream",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "autonomousdatabasename",
-            "in": "path",
-            "description": "The database name.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 30
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/GenerateAutonomousDatabaseWalletDetails"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Autonomous Database Wallet File resource model.",
-            "schema": {
-              "type": "file"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Generate wallet action on Autonomous Database": {
-            "$ref": "./examples/autonomousDatabase_generateWallet.json"
-          }
-        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/switchover": {
@@ -1686,19 +1620,14 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
           "202": {
             "description": "Resource operation accepted.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
-                }
-              },
-              "required": [
-                "properties"
-              ]
-            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -3597,7 +3526,6 @@
         },
         "timeDataGuardRoleChanged": {
           "type": "string",
-          "format": "date-time",
           "description": "The date and time the Autonomous Data Guard role was switched for the Autonomous Database.",
           "readOnly": true
         },
@@ -3608,13 +3536,11 @@
         },
         "timeLocalDataGuardEnabled": {
           "type": "string",
-          "format": "date-time",
           "description": "The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.",
           "readOnly": true
         },
         "timeOfLastFailover": {
           "type": "string",
-          "format": "date-time",
           "description": "The timestamp of the last failover operation.",
           "readOnly": true
         },
@@ -3630,7 +3556,6 @@
         },
         "timeOfLastSwitchover": {
           "type": "string",
-          "format": "date-time",
           "description": "The timestamp of the last switchover operation for the Autonomous Database.",
           "readOnly": true
         },
@@ -4054,12 +3979,10 @@
         },
         "timeDataGuardRoleChanged": {
           "type": "string",
-          "format": "date-time",
           "description": "The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database."
         },
         "timeDisasterRecoveryRoleChanged": {
           "type": "string",
-          "format": "date-time",
           "description": "The date and time the Disaster Recovery role was switched for the standby Autonomous Database."
         }
       }
@@ -4294,19 +4217,6 @@
           ]
         }
       }
-    },
-    "AutonomousDatabaseWalletFile": {
-      "type": "object",
-      "description": "Autonomous Database Wallet File resource model.",
-      "properties": {
-        "file": {
-          "type": "string",
-          "format": "byte"
-        }
-      },
-      "required": [
-        "file"
-      ]
     },
     "AutonomousDbVersion": {
       "type": "object",
@@ -7014,52 +6924,6 @@
           "$ref": "#/definitions/Objective",
           "description": "The current value for the IORM objective. The default is AUTO."
         }
-      }
-    },
-    "GenerateAutonomousDatabaseWalletDetails": {
-      "type": "object",
-      "description": "Autonomous Database Generate Wallet resource model.",
-      "properties": {
-        "generateType": {
-          "$ref": "#/definitions/GenerateType",
-          "description": "The type of wallet to generate."
-        },
-        "isRegional": {
-          "type": "boolean",
-          "description": "True when requesting regional connection strings in PDB connect info, applicable to cross-region DG only."
-        },
-        "password": {
-          "$ref": "#/definitions/Password",
-          "description": "The password to encrypt the keys inside the wallet",
-          "minLength": 8
-        }
-      },
-      "required": [
-        "password"
-      ]
-    },
-    "GenerateType": {
-      "type": "string",
-      "description": "GenerateType enum",
-      "enum": [
-        "Single",
-        "All"
-      ],
-      "x-ms-enum": {
-        "name": "GenerateType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Single",
-            "value": "Single",
-            "description": "SINGLE value"
-          },
-          {
-            "name": "All",
-            "value": "All",
-            "description": "ALL value"
-          }
-        ]
       }
     },
     "GiVersion": {
