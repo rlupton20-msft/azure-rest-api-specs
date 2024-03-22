@@ -1,3 +1,4 @@
+import "./namespace-prp.tsp";
 import "./common-types.tsp";
 import "./workbenches.tsp";
 import "./chambers.tsp";

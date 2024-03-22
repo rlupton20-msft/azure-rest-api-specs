@@ -24,25 +24,22 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 These are the global settings for the deviceregistry.
 
-``` yaml
+```yaml
 openapi-type: arm
-tag: package-preview-2023-11
+tag: package-preview-2024-05
 ```
 
-### Tag: package-preview-2023-11
+### Tag: package-preview-2024-05
 
-These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+These settings apply only when `--tag=package-preview-2024-05` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-11'
+```yaml $(tag) == 'package-preview-2024-05'
 input-file:
-  - Microsoft.DeviceRegistry/preview/2023-11-01-preview/asset.json
-  - Microsoft.DeviceRegistry/preview/2023-11-01-preview/assetEndpointProfiles.json
-  - Microsoft.DeviceRegistry/preview/2023-11-01-preview/devices.json
+  - Microsoft.DeviceRegistry/preview/2024-05-01-preview/deviceregistry.json
 suppressions:
   - code: AvoidAdditionalProperties
     from:
-      - asset.json
-      - devices.json
+      - deviceregistry.json
     where:
       - $.definitions.Asset.properties.properties.properties.attributes
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
@@ -57,8 +54,87 @@ suppressions:
     reason: attributes is a customer-defined property of any shape
   - code: PropertiesTypeObjectNoDefinition
     from:
-      - asset.json
-      - devices.json
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+```
+
+### Tag: package-preview-2024-03
+
+These settings apply only when `--tag=package-preview-2024-03` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2024-03'
+input-file:
+  - Microsoft.DeviceRegistry/preview/2024-03-01-preview/deviceregistry.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+  - code: PropertiesTypeObjectNoDefinition
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+```
+
+### Tag: package-preview-2023-11
+
+These settings apply only when `--tag=package-preview-2023-11` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2023-11'
+input-file:
+  - Microsoft.DeviceRegistry/preview/2023-11-01-preview/deviceregistry.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.Asset.properties.properties.properties.attributes
+      - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.Device.properties.properties.properties.attributes
+      - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
+      - $.definitions.DeviceProperties.properties.attributes
+      - $.definitions.DeviceUpdate.properties.properties.properties.attributes
+      - $.definitions.DeviceUpdateProperties.properties.attributes
+    reason: attributes is a customer-defined property of any shape
+  - code: PropertiesTypeObjectNoDefinition
+    from:
+      - deviceregistry.json
     where:
       - $.definitions.Asset.properties.properties.properties.attributes
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
@@ -83,11 +159,12 @@ input-file:
   - Microsoft.DeviceRegistry/preview/2023-10-01-preview/assetEndpointProfiles.json
   - Microsoft.DeviceRegistry/preview/2023-10-01-preview/devices.json
 ```
+
 ### Tag: package-preview-2023-09
 
 These settings apply only when `--tag=package-preview-2023-09` is specified on the command line.
 
-``` yaml $(tag) == 'package-preview-2023-09'
+```yaml $(tag) == 'package-preview-2023-09'
 input-file:
   - Microsoft.DeviceRegistry/preview/2023-09-01-preview/asset.json
   - Microsoft.DeviceRegistry/preview/2023-09-01-preview/devices.json
@@ -97,7 +174,7 @@ input-file:
 
 These settings apply only when `--tag=package-2022-04-04-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-04-04-preview'
+```yaml $(tag) == 'package-2022-04-04-preview'
 input-file:
   - Private.Devices/preview/2022-04-04-preview/deviceregistry.json
 ```
@@ -111,7 +188,7 @@ input-file:
 This section describes what SDK should be generated by the automatic system.
 This is not used by Autorest itself.
 
-``` yaml $(swagger-to-sdk)
+```yaml $(swagger-to-sdk)
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java

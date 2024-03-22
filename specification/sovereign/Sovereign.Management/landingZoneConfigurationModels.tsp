@@ -6,6 +6,17 @@ namespace Microsoft.Sovereign;
 
 @doc("The properties of landing zone configuration resource type.")
 model LandingZoneConfigurationProperties {
+  ...LandingZoneConfigurationCommonProperties;
+  ...LandingZoneConfigurationExtendedProperties;
+}
+
+@added(Versions.Preview20240831)
+@doc("The properties of landing zone configuration resource type.")
+model LandingZoneConfigurationPropertiesV2 {
+  ...LandingZoneConfigurationCommonProperties;
+}
+
+alias LandingZoneConfigurationCommonProperties = {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
   provisioningState?: ResourceProvisioningState;
@@ -34,10 +45,6 @@ model LandingZoneConfigurationProperties {
       type: "Microsoft.OperationalInsights/workspaces";
     }
   ]>;
-
-  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  tags?: Tags[];
 
   @doc("To deploy firewall, choose the Standard/Premium based on the desired SKU. Choose None for no firewall and UseExisting for a pre existing one.")
   firewallCreationOption: FirewallCreationOptions;
@@ -96,7 +103,7 @@ model LandingZoneConfigurationProperties {
 
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
-}
+};
 
 @doc("Landing zone management group properties.")
 model LandingZoneManagementGroupProperties {
@@ -301,3 +308,9 @@ model CreateCopyResponse {
     }
   ]>;
 }
+
+alias LandingZoneConfigurationExtendedProperties = {
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+};

@@ -13,17 +13,14 @@
         "name": "standard"
       },
       "properties": {
-        "operatorPeerGroupConfigScheme": "Custom",
+        "operatorPeerGroupConfigScheme": "UseOperatorPeerGroupConfig",
         "connectivity": "PublicAddress",
         "serviceLocations": [
           {
             "name": "eastUs",
             "primaryRegionProperties": {
               "operatorAddresses": [
-                "null"
-              ],
-              "esrpAddresses": [
-                "12.34.54.23"
+                "10.1.1.1"
               ]
             }
           },
@@ -31,36 +28,39 @@
             "name": "westtUs",
             "primaryRegionProperties": {
               "operatorAddresses": [
-                "null"
-              ],
-              "esrpAddresses": [
-                "12.34.54.23"
+                "10.1.1.2"
               ]
             }
           }
         ],
         "peerGroups": [
           {
-            "name": "TPMProduction",
+            "peerGroupName": "TPMPrd",
             "peers": [
               {
-                "name": "TPMProductionSite1",
-                "type": "IP",
+                "peerName": "TPMPrd1",
+                "peerType": "IP",
                 "ipsAndPorts": [
                   {
                     "ipAddress": "23.3.56.7",
                     "port": 5060
                   }
+                ],
+                "allowedSignalingSourceAddressPrefixes": [
+                  "23.3.56.0/29"
                 ]
               },
               {
-                "name": "TPMProductionSite2",
-                "type": "IP",
+                "peerName": "TPMPrd2",
+                "peerType": "IP",
                 "ipsAndPorts": [
                   {
                     "ipAddress": "23.3.57.7",
                     "port": 5060
                   }
+                ],
+                "allowedSignalingSourceAddressPrefixes": [
+                  "24.3.58.0/29"
                 ]
               }
             ],
@@ -70,33 +70,31 @@
               "PCMA",
               "PCMU",
               "G722"
-            ],
-            "allowedSignalingSourceAddressPrefixes": [
-              "23.3.56.0/29",
-              "23.3.57.0/29"
-            ],
-            "allowedMediaSourceAddressPrefixes": [
-              "23.3.56.0/29",
-              "23.3.57.0/29"
             ]
           },
           {
-            "name": "OCProduction",
+            "peerGroupName": "OCProd",
             "peers": [
               {
-                "name": "OCProductionSite1",
-                "type": "ARecord",
+                "peerName": "OCPrd1",
+                "peerType": "ARecord",
                 "aRecordsAndPorts": [
                   {
                     "aRecord": "xx.yy.com",
                     "port": 5060
                   }
+                ],
+                "allowedSignalingSourceAddressPrefixes": [
+                  "23.3.56.0/29"
                 ]
               },
               {
-                "name": "OCProductionSite2",
-                "type": "SRV",
-                "srvRecord": "_sip._tls.someimsnetwork.fqdn.com"
+                "peerName": "OCPrd2",
+                "peerType": "SRV",
+                "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
+                "allowedSignalingSourceAddressPrefixes": [
+                  "24.3.56.0/29"
+                ]
               }
             ],
             "signalingProtocol": "TLS",
@@ -105,14 +103,6 @@
               "PCMA",
               "PCMU",
               "G722"
-            ],
-            "allowedSignalingSourceAddressPrefixes": [
-              "23.3.56.0/29",
-              "23.3.57.0/29"
-            ],
-            "allowedMediaSourceAddressPrefixes": [
-              "23.3.56.0/29",
-              "23.3.57.0/29"
             ]
           }
         ],
@@ -120,46 +110,46 @@
           "defaultMappings": {
             "peerGroupToService": [
               {
-                "peerGroup": "TPMProduction",
+                "peerGroup": "TPMPrd",
                 "defaultService": "TeamsPhoneMobile"
               },
               {
-                "peerGroup": "OCProduction",
+                "peerGroup": "OCProd",
                 "defaultService": "OperatorConnect"
               }
             ],
             "serviceToPeerGroup": [
               {
                 "service": "TeamsPhoneMobile",
-                "defaultPeerGroup": "TPMProduction"
+                "defaultPeerGroup": "TPMPrd"
               },
               {
                 "service": "OperatorConnect",
-                "defaultPeerGroup": "OCProduction"
+                "defaultPeerGroup": "OCProd"
               }
             ]
           },
           "peerGroupRoutings": [
             {
-              "peerGroupName": "TPMProduction",
+              "peerGroupName": "TPMPrd",
               "routings": [
                 {
-                  "peer": "TPMProductionSite1",
+                  "peerName": "TPMPrd1",
                   "serviceLocation": "westUS",
                   "priority": 0
                 },
                 {
-                  "peer": "TPMProductionSite1",
+                  "peerName": "TPMPrd1",
                   "serviceLocation": "eastUS",
                   "priority": 1
                 },
                 {
-                  "peer": "TPMProductionSite2",
+                  "peerName": "TPMPrd2",
                   "serviceLocation": "westUS",
                   "priority": 1
                 },
                 {
-                  "peer": "TPMProductionSite2",
+                  "peerName": "TPMPrd2",
                   "serviceLocation": "eastUS",
                   "priority": 0
                 }
@@ -198,13 +188,11 @@
           "999"
         ],
         "teamsVoicemailPilotNumber": "11231231234",
-        "zoomConfig": {
-          "testLines": [
-            {
-              "phoneNumber": "1231231234"
-            }
-          ],
-          "region": "NorthAmerica"
+        "apiBridge": {
+          "configureApiBridge": "enabled",
+          "allowedAddressPrefixes": [
+            "198.51.100.192/26"
+          ]
         }
       }
     }
@@ -220,37 +208,34 @@
           "name": "standard"
         },
         "properties": {
-          "operatorPeerGroupConfigScheme": "Custom",
+          "operatorPeerGroupConfigScheme": "UseOperatorPeerGroupConfig",
           "connectivity": "PublicAddress",
           "serviceLocations": [
             {
               "name": "eastUs",
               "primaryRegionProperties": {
                 "operatorAddresses": [
-                  "null"
-                ],
-                "esrpAddresses": [
-                  "12.34.54.23"
+                  "10.1.1.1"
                 ]
               },
               "acgAddressRanges": {
                 "signalingForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "signalingForOperatorPeerGroups": [
+                "signalingForOperator": [
                   "12.34.12.1/30"
                 ],
                 "mediaForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "mediaForOperatorPeerGroups": [
+                "mediaForOperator": [
                   "12.34.12.1/30"
                 ]
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
-                    "peerGroupName": "TPMProductionSite1",
+                    "peerGroupName": "TPMPrd",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.1",
@@ -259,7 +244,7 @@
                     "port": 1234
                   },
                   {
-                    "peerGroupName": "TPMProductionSite2",
+                    "peerGroupName": "TPMPrd2",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.3",
@@ -294,30 +279,27 @@
               "name": "westUs",
               "primaryRegionProperties": {
                 "operatorAddresses": [
-                  "null"
-                ],
-                "esrpAddresses": [
-                  "12.34.54.23"
+                  "10.1.1.2"
                 ]
               },
               "acgAddressRanges": {
                 "signalingForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "signalingForOperatorPeerGroups": [
+                "signalingForOperator": [
                   "12.34.12.1/30"
                 ],
                 "mediaForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "mediaForOperatorPeerGroups": [
+                "mediaForOperator": [
                   "12.34.12.1/30"
                 ]
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
-                    "peerGroupName": "TPMProductionSite1",
+                    "peerGroupName": "TPMPrd",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.1",
@@ -326,7 +308,7 @@
                     "port": 1234
                   },
                   {
-                    "peerGroupName": "TPMProductionSite2",
+                    "peerGroupName": "OCProd",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.3",
@@ -337,7 +319,7 @@
                 ],
                 "backendServices": [
                   {
-                    "serviceName": "Zoom",
+                    "serviceName": "OC",
                     "ipAddresses": [
                       "192.0.2.1",
                       "192.0.2.2"
@@ -360,26 +342,32 @@
           ],
           "peerGroups": [
             {
-              "name": "TPMProduction",
+              "peerGroupName": "TPMPrd",
               "peers": [
                 {
-                  "name": "TPMProductionSite1",
-                  "type": "IP",
+                  "peerName": "TPMPrd1",
+                  "peerType": "IP",
                   "ipsAndPorts": [
                     {
                       "ipAddress": "23.3.56.7",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0/29"
                   ]
                 },
                 {
-                  "name": "TPMProductionSite2",
-                  "type": "IP",
+                  "peerName": "TPMPrd2",
+                  "peerType": "IP",
                   "ipsAndPorts": [
                     {
                       "ipAddress": "23.3.57.7",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "24.3.56.0/29"
                   ]
                 }
               ],
@@ -389,33 +377,39 @@
                 "PCMA",
                 "PCMU",
                 "G722"
-              ],
-              "allowedSignalingSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
-              ],
-              "allowedMediaSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
               ]
             },
             {
-              "name": "OCProduction",
+              "peerGroupName": "OCProd",
               "peers": [
                 {
-                  "name": "OCProductionSite1",
-                  "type": "ARecord",
+                  "peerName": "OCPrd1",
+                  "peerType": "ARecord",
                   "aRecordsAndPorts": [
                     {
                       "aRecord": "xx.yy.com",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
                   ]
                 },
                 {
-                  "name": "OCProductionSite2",
-                  "type": "SRV",
-                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com"
+                  "peerName": "OCPrd2",
+                  "peerType": "SRV",
+                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "24.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
+                  ]
                 }
               ],
               "signalingProtocol": "TLS",
@@ -424,14 +418,6 @@
                 "PCMA",
                 "PCMU",
                 "G722"
-              ],
-              "allowedSignalingSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
-              ],
-              "allowedMediaSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
               ]
             }
           ],
@@ -439,46 +425,46 @@
             "defaultMappings": {
               "peerGroupToService": [
                 {
-                  "peerGroup": "TPMProduction",
+                  "peerGroup": "TPMPrd",
                   "defaultService": "TeamsPhoneMobile"
                 },
                 {
-                  "peerGroup": "OCProduction",
+                  "peerGroup": "OCProd",
                   "defaultService": "TeamsPhoneMobile"
                 }
               ],
               "serviceToPeerGroup": [
                 {
                   "service": "TeamsPhoneMobile",
-                  "defaultPeerGroup": "TPMProduction"
+                  "defaultPeerGroup": "TPMPrd"
                 },
                 {
                   "service": "OperatorConnect",
-                  "defaultPeerGroup": "OCProduction"
+                  "defaultPeerGroup": "OCProd"
                 }
               ]
             },
             "peerGroupRoutings": [
               {
-                "peerGroupName": "TPMProduction",
+                "peerGroupName": "TPMPrd",
                 "routings": [
                   {
-                    "peer": "TPMProductionSite1",
+                    "peerName": "TPMPrd1",
                     "serviceLocation": "westUS",
                     "priority": 0
                   },
                   {
-                    "peer": "TPMProductionSite1",
+                    "peerName": "TPMPrd1",
                     "serviceLocation": "eastUS",
                     "priority": 1
                   },
                   {
-                    "peer": "TPMProductionSite2",
+                    "peerName": "TPMPrd2",
                     "serviceLocation": "westUS",
                     "priority": 1
                   },
                   {
-                    "peer": "TPMProductionSite2",
+                    "peerName": "TPMPrd2",
                     "serviceLocation": "eastUS",
                     "priority": 0
                   }
@@ -517,15 +503,7 @@
             "933",
             "999"
           ],
-          "teamsVoicemailPilotNumber": "11231231234",
-          "zoomConfig": {
-            "testLines": [
-              {
-                "phoneNumber": "1231231234"
-              }
-            ],
-            "region": "NorthAmerica"
-          }
+          "teamsVoicemailPilotNumber": "11231231234"
         }
       }
     },
@@ -540,37 +518,34 @@
         },
         "properties": {
           "status": "ChangePending",
-          "operatorPeerGroupConfigScheme": "Custom",
+          "operatorPeerGroupConfigScheme": "UseOperatorPeerGroupConfig",
           "connectivity": "PublicAddress",
           "serviceLocations": [
             {
               "name": "eastUs",
               "primaryRegionProperties": {
                 "operatorAddresses": [
-                  "null"
-                ],
-                "esrpAddresses": [
-                  "12.34.54.23"
+                  "10.1.1.1"
                 ]
               },
               "acgAddressRanges": {
                 "signalingForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "signalingForOperatorPeerGroups": [
+                "signalingForOperator": [
                   "12.34.12.1/30"
                 ],
                 "mediaForBackendServices": [
                   "12.34.12.1/30"
                 ],
-                "mediaForOperatorPeerGroups": [
+                "mediaForOperator": [
                   "12.34.12.1/30"
                 ]
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
-                    "peerGroupName": "TPMProductionSite1",
+                    "peerGroupName": "TPMPrd",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.1",
@@ -579,7 +554,7 @@
                     "port": 1234
                   },
                   {
-                    "peerGroupName": "TPMProductionSite2",
+                    "peerGroupName": "OCProd",
                     "srvRecord": "xx.yy.com",
                     "ipAddresses": [
                       "192.0.2.3",
@@ -613,26 +588,40 @@
           ],
           "peerGroups": [
             {
-              "name": "TPMProduction",
+              "peerGroupName": "TPMPrd",
               "peers": [
                 {
-                  "name": "TPMProductionSite1",
-                  "type": "IP",
+                  "peerName": "TPMPrd1",
+                  "peerType": "IP",
                   "ipsAndPorts": [
                     {
                       "ipAddress": "23.3.56.7",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
                   ]
                 },
                 {
-                  "name": "TPMProductionSite2",
-                  "type": "IP",
+                  "peerName": "TPMPrd2",
+                  "peerType": "IP",
                   "ipsAndPorts": [
                     {
                       "ipAddress": "23.3.57.7",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "25.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
                   ]
                 }
               ],
@@ -642,33 +631,39 @@
                 "PCMA",
                 "PCMU",
                 "G722"
-              ],
-              "allowedSignalingSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
-              ],
-              "allowedMediaSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
               ]
             },
             {
-              "name": "OCProduction",
+              "peerGroupName": "OCProd",
               "peers": [
                 {
-                  "name": "OCProductionSite1",
-                  "type": "ARecord",
+                  "peerName": "OCPrd1",
+                  "peerType": "ARecord",
                   "aRecordsAndPorts": [
                     {
                       "aRecord": "xx.yy.com",
                       "port": 5060
                     }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
                   ]
                 },
                 {
-                  "name": "OCProductionSite2",
-                  "type": "SRV",
-                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com"
+                  "peerName": "OCPrd2",
+                  "peerType": "SRV",
+                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "24.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29",
+                    "23.3.57.0/29"
+                  ]
                 }
               ],
               "signalingProtocol": "TLS",
@@ -677,14 +672,6 @@
                 "PCMA",
                 "PCMU",
                 "G722"
-              ],
-              "allowedSignalingSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
-              ],
-              "allowedMediaSourceAddressPrefixes": [
-                "23.3.56.0/29",
-                "23.3.57.0/29"
               ]
             }
           ],
@@ -692,46 +679,46 @@
             "defaultMappings": {
               "peerGroupToService": [
                 {
-                  "peerGroup": "TPMProduction",
+                  "peerGroup": "TPMPrd",
                   "defaultService": "TeamsPhoneMobile"
                 },
                 {
-                  "peerGroup": "OCProduction",
+                  "peerGroup": "OCProd",
                   "defaultService": "OperatorConnect"
                 }
               ],
               "serviceToPeerGroup": [
                 {
                   "service": "TeamsPhoneMobile",
-                  "defaultPeerGroup": "TPMProduction"
+                  "defaultPeerGroup": "TPMPrd"
                 },
                 {
                   "service": "OperatorConnect",
-                  "defaultPeerGroup": "OCProduction"
+                  "defaultPeerGroup": "OCProd"
                 }
               ]
             },
             "peerGroupRoutings": [
               {
-                "peerGroupName": "TPMProduction",
+                "peerGroupName": "TPMPrd",
                 "routings": [
                   {
-                    "peer": "TPMProductionSite1",
+                    "peerName": "TPMPrd1",
                     "serviceLocation": "westUS",
                     "priority": 0
                   },
                   {
-                    "peer": "TPMProductionSite1",
+                    "peerName": "TPMPrd1",
                     "serviceLocation": "eastUS",
                     "priority": 1
                   },
                   {
-                    "peer": "TPMProductionSite2",
+                    "peerName": "TPMPrd2",
                     "serviceLocation": "westUS",
                     "priority": 1
                   },
                   {
-                    "peer": "TPMProductionSite2",
+                    "peerName": "TPMPrd2",
                     "serviceLocation": "eastUS",
                     "priority": 0
                   }
@@ -770,15 +757,7 @@
             "933",
             "999"
           ],
-          "teamsVoicemailPilotNumber": "11231231234",
-          "zoomConfig": {
-            "testLines": [
-              {
-                "phoneNumber": "1231231234"
-              }
-            ],
-            "region": "NorthAmerica"
-          }
+          "teamsVoicemailPilotNumber": "11231231234"
         }
       }
     }
