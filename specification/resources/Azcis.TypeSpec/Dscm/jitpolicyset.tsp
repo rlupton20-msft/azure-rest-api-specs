@@ -4,6 +4,7 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -20,6 +21,7 @@ model JitPolicySetProperties {
   resourceType: string;
 
   @doc("List of policy objects associated with the resource to be updated or added")
+  @extension("x-ms-identifiers", [])
   policies?: Array<Policy>;
 
   @doc("Provisioning state")
@@ -51,9 +53,11 @@ model Policy {
   policyType: string;
 
   @doc("List of condition objects that must be validated.")
+  @extension("x-ms-identifiers", [])
   policyConditions?: Array<PolicyCondition>;
 
   @doc("List of action objects that can be performed after validation.")
+  @extension("x-ms-identifiers", [])
   policyActions?: Array<PolicyAction>;
 }
 

@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using OpenAPI;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -43,17 +44,12 @@ model StorageAccountDsmsResourceProperties {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Properties")
+  @extension("x-ms-identifiers", [])
   properties?: Property[];
 
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
-}
-
-@doc("Defines the array of whitelists for a secret.")
-model Whitelists {
-  @doc("Gets or sets the whitelist elements.")
-  elements?: Whitelist[];
 }
 
 @doc("Defines the property element.")
@@ -63,15 +59,6 @@ model Property {
 
   @doc("Gets or sets the value of the property.")
   value?: string;
-}
-
-@doc("Defines the whitelist element for a secret.")
-model Whitelist {
-  @doc("Gets or sets the type of the whitelist.")
-  type?: string;
-
-  @doc("Gets or sets the values of the whitelist. A list of values are separated by semicolon.")
-  values?: string;
 }
 
 @doc("Defines where the secret should be replicated to.")
