@@ -49,15 +49,9 @@ model VirtualizedMmeDeploymentResourceProperties {
   @doc("Azure for Operators 5G Core Release Version for Virtualized MME.")
   releaseVersion: ReleaseVersion;
 
-  @doc("Virtualized MME parameters for the non-secret part of the input")
+  @doc("Virtualized MME parameters")
   @visibility("read", "create")
   parameters: VirtualizedMmeParameters;
-
-  /*
-  @doc("Virtualized MME parameters for the secret part of the input")
-  @visibility("create")
-  secretParameters: VirtualizedMmeSecretParameters;
-  */
 }
 
 @added(Versions.v2024_03_15_preview)
@@ -84,10 +78,3 @@ scalar VnfAgentDeploymentIdProperty
 @added(Versions.v2024_03_15_preview)
 @doc("Virtualized MME Parameters")
 scalar VirtualizedMmeParameters extends string;
-
-/*
-@added(Versions.v2024_03_15_preview)
-@doc("Virtualized MME Secrets")
-@secret
-scalar VirtualizedMmeSecretParameters extends string;
-*/

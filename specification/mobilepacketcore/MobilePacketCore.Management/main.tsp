@@ -2,7 +2,6 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "@azure-tools/typespec-providerhub";
 
 import "./common.tsp";
 import "./amfdeployment.tsp";
@@ -41,4 +40,8 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @doc("March 15, 2024 Preview API Version")
   v2024_03_15_preview: "2024-03-15-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @doc("June 1, 2024 Preview API Version")
+  v2024_06_01_preview: "2024-06-01-preview",
 }
