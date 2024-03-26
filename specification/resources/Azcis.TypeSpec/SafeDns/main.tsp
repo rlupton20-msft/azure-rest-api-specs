@@ -15,6 +15,12 @@ import "./create/txtrecordset.tsp";
 import "./update/updatetxtrecordset.tsp";
 import "./append/appendtxtrecordset.tsp";
 
+import "./create/childzonedelegation.tsp";
+import "./update/updatechildzonedelegation.tsp";
+
+import "./create/cnamerecordset.tsp";
+import "./update/updatecnamerecordset.tsp";
+
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
