@@ -45,3 +45,5 @@ enum Versions {
   @doc("June 1, 2024 Preview API Version")
   v2024_06_01_preview: "2024-06-01-preview",
 }
+
+@@visibility(Azure.Core.Page.nextLink);

@@ -141,7 +141,7 @@ scalar ComponentDeploymentType extends string;
 
 @doc("Containerized Network Function (CNF) Qualified Deployment Parameters")
 model QualifiedComponentDeploymentParameters {
-  @doc("Componenent Type")
+  @doc("Component Type")
   type: ComponentDeploymentType;
 
   @doc("Deployment Parameters")
