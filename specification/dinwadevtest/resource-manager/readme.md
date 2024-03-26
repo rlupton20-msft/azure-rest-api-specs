@@ -27,16 +27,16 @@ These are the global settings for the Microsoft.Contoso.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2021-08-01-preview
+tag: package-2021-10-01-preview
 ```
 
-### Tag: canonical
+### Tag: package-package-2021-08-01-preview
 
-These settings apply only when `--tag=canonical` is specified on the command line.
+These settings apply only when `--tag=package-2021-10-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'canonical'
+```yaml $(tag) == 'package-2021-10-01-preview'
 input-file:
-  - Microsoft.Contoso/canonical/openapi.json
+  - Microsoft.Contoso/preview/package-2021-10-01-preview/openapi.json
 ```
 
 ---
