@@ -30,13 +30,13 @@ openapi-subtype: rpaas
 tag: package-2021-08-01-preview
 ```
 
-### Tag: package-package-2021-08-01-preview
+### Tag: canonical
 
-These settings apply only when `--tag=package-package-2021-08-01-preview` is specified on the command line.
+These settings apply only when `--tag=canonical` is specified on the command line.
 
-```yaml $(tag) == 'package-package-2024-03-01-preview'
+```yaml $(tag) == 'canonical'
 input-file:
-  - Microsoft.Contoso/preview/package-2021-08-01-preview/openapi.json
+  - Microsoft.Contoso/canonical/openapi.json
 ```
 
 ---
