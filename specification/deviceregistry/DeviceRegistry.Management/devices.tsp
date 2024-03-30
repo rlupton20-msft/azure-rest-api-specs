@@ -105,18 +105,6 @@ model DeviceEndpoints {
   @extension("x-ms-identifiers", ["type", "address"])
   @visibility("read", "create")
   unassigned?: Endpoint[];
-
-  @added(Microsoft.DeviceRegistry.Versions.v2024_03_01_preview)
-  @doc("Endpoints for receiving or sending messages to the device.")
-  connectivity?: Connectivity;
-}
-
-@added(Microsoft.DeviceRegistry.Versions.v2024_03_01_preview)
-@doc("Endpoints for sending or receiving messages to the device.")
-model Connectivity {
-  @doc("Endpoint for sending and receiving messages from the device.")
-  // `type` is a reserved keyname. Wrap in double quotes
-  messaging?: Endpoint;
 }
 
 @doc("Connection endpoint url a device can use to connect to a service.")
