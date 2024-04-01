@@ -21,11 +21,20 @@ enum ResourceProvisioningState {
   @doc("Resource was Accepted.") Accepted,
 }
 
+@doc("The resource connection intend model enum")
+enum ConnectionIntend {
+  @doc("Directly connected to the cloud.") DirectlyConnected,
+  @doc("Indirectly connected to the cloud.") IndirectlyConnected
+}
+
 @doc("The winfield properties")
 model WinfieldProperties {
   @visibility("read")
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
+  
+  @doc("The connection intend")
+  connectionIntend: ConnectionIntend;
 }
 
 @doc("The winfield manifest")

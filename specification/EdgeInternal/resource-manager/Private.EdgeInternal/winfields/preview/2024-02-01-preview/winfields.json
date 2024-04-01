@@ -61,7 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WinfieldListResult"
             }
@@ -103,7 +103,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WinfieldListResult"
             }
@@ -152,7 +152,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Winfield"
             }
@@ -275,7 +275,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Winfield"
             }
@@ -333,7 +333,7 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -380,7 +380,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WinfieldDeploymentManifest"
             }
@@ -401,6 +401,30 @@
     }
   },
   "definitions": {
+    "ConnectionIntend": {
+      "type": "string",
+      "description": "The resource connection intend model enum",
+      "enum": [
+        "DirectlyConnected",
+        "IndirectlyConnected"
+      ],
+      "x-ms-enum": {
+        "name": "ConnectionIntend",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "DirectlyConnected",
+            "value": "DirectlyConnected",
+            "description": "Directly connected to the cloud."
+          },
+          {
+            "name": "IndirectlyConnected",
+            "value": "IndirectlyConnected",
+            "description": "Indirectly connected to the cloud."
+          }
+        ]
+      }
+    },
     "ResourceProvisioningState": {
       "type": "string",
       "description": "ResourceProvisioningState Enum",
@@ -540,7 +564,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -555,8 +580,15 @@
           "$ref": "#/definitions/ResourceProvisioningState",
           "description": "The resource provisioning state",
           "readOnly": true
+        },
+        "connectionIntend": {
+          "$ref": "#/definitions/ConnectionIntend",
+          "description": "The connection intend"
         }
-      }
+      },
+      "required": [
+        "connectionIntend"
+      ]
     },
     "WinfieldUpdate": {
       "type": "object",
@@ -568,6 +600,20 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "properties": {
+          "$ref": "#/definitions/WinfieldUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "WinfieldUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the Winfield.",
+      "properties": {
+        "connectionIntend": {
+          "$ref": "#/definitions/ConnectionIntend",
+          "description": "The connection intend"
         }
       }
     }
