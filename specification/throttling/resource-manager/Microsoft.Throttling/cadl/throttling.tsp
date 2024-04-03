@@ -25,6 +25,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Autorest;
+using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
 
@@ -109,12 +110,10 @@ model CertificateProperties {
 @doc("AzureAD-based authentication properties")
 model AzureActiveDirectoryProperties {
   @doc("AzureAD Tenant ID")
-  @format("uuid")
-  tenantId: string;
+  tenantId: uuid;
 
   @doc("AzureAD Object ID")
-  @format("uuid")
-  objectId: string;
+  objectId: uuid;
 }
 
 @doc("Throttling category")
