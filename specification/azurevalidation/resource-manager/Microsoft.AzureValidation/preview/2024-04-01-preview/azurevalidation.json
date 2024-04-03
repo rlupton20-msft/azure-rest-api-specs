@@ -624,6 +624,37 @@
         ]
       }
     },
+    "Outcome": {
+      "type": "string",
+      "description": "The validation outcome.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Pending"
+      ],
+      "x-ms-enum": {
+        "name": "Outcome",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The resource is being provisioned."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The resource is being updated."
+          },
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "The resource is being deleted."
+          }
+        ]
+      },
+      "readOnly": true
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The resource provisioning state.",
@@ -753,6 +784,10 @@
           "type": "boolean",
           "description": "The allowed claim."
         },
+        "outcome": {
+          "$ref": "#/definitions/Outcome",
+          "description": "The outcome of the validation."
+        },
         "message": {
           "type": "string",
           "description": "The message."
@@ -783,6 +818,7 @@
         "resourceId",
         "operation",
         "allowed",
+        "outcome",
         "message"
       ]
     },
@@ -834,6 +870,10 @@
         "allowed": {
           "type": "boolean",
           "description": "The allowed claim."
+        },
+        "outcome": {
+          "$ref": "#/definitions/Outcome",
+          "description": "The outcome of the validation."
         },
         "message": {
           "type": "string",
