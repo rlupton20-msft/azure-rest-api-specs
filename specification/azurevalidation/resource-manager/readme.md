@@ -38,16 +38,3 @@ These settings apply only when `--tag=package-package-2024-04-01-preview` is spe
 input-file:
   - Microsoft.AzureValidation/preview/2024-04-01-preview/azurevalidation.json
 ```
-
-## Suppression
-
-``` yaml
-directive:
-  - suppress: RequiredReadOnlySystemData
-    from: cnab.json
-    reason: This is an RPaaS Bridge type
-```
-
-## AzureResourceSchema
-
-See configuration in [readme.azureresourceschema.md](./readme.azureresourceschema.md)
