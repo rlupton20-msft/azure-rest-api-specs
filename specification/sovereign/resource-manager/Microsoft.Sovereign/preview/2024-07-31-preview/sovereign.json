@@ -52,6 +52,15 @@
     },
     {
       "name": "lzcProxys"
+    },
+    {
+      "name": "LzcLocationBasedProxys"
+    },
+    {
+      "name": "sovereignAccounts"
+    },
+    {
+      "name": "LzcChildProxys"
     }
   ],
   "paths": {
@@ -876,26 +885,29 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sovereign/LzcProxys": {
+    "/subscriptions/{subscriptionId}/locations/{location}/providers/Microsoft.Sovereign/lzcLocationBasedProxys": {
       "get": {
-        "operationId": "LzcProxys_ListBySubscription",
+        "operationId": "LzcLocationBasedProxys_ListByLocation",
         "tags": [
-          "lzcProxys"
+          "LzcLocationBasedProxys"
         ],
-        "description": "List lzcProxy resources by subscription",
+        "description": "List LzcLocationBasedProxy resources by location",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/lzcProxyListResult"
+              "$ref": "#/definitions/LzcLocationBasedProxyListResult"
             }
           },
           "default": {
@@ -910,13 +922,240 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sovereign/LzcProxys/{name}": {
+    "/subscriptions/{subscriptionId}/locations/{location}/providers/Microsoft.Sovereign/lzcLocationBasedProxys/{name}": {
+      "get": {
+        "operationId": "LzcLocationBasedProxys_Get",
+        "tags": [
+          "LzcLocationBasedProxys"
+        ],
+        "description": "Get a LzcLocationBasedProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The location based proxy.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "LzcLocationBasedProxys_Create",
+        "tags": [
+          "LzcLocationBasedProxys"
+        ],
+        "description": "Create a LzcLocationBasedProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The location based proxy.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'LzcLocationBasedProxy' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxy"
+            }
+          },
+          "201": {
+            "description": "Resource 'LzcLocationBasedProxy' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxy"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "LzcLocationBasedProxys_Update",
+        "tags": [
+          "LzcLocationBasedProxys"
+        ],
+        "description": "Update a LzcLocationBasedProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The location based proxy.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcLocationBasedProxy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "LzcLocationBasedProxys_Delete",
+        "tags": [
+          "LzcLocationBasedProxys"
+        ],
+        "description": "Delete a LzcLocationBasedProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The location based proxy.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sovereign/lzcProxys": {
+      "get": {
+        "operationId": "LzcProxys_ListBySubscription",
+        "tags": [
+          "lzcProxys"
+        ],
+        "description": "List LzcProxy resources by subscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcProxyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sovereign/lzcProxys/{name}": {
       "get": {
         "operationId": "LzcProxys_Get",
         "tags": [
           "lzcProxys"
         ],
-        "description": "Get a lzcProxy",
+        "description": "Get a LzcProxy",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -927,7 +1166,7 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The job name",
+            "description": "The proxy resource.",
             "required": true,
             "type": "string"
           }
@@ -936,7 +1175,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/lzcProxy"
+              "$ref": "#/definitions/LzcProxy"
             }
           },
           "default": {
@@ -952,7 +1191,7 @@
         "tags": [
           "lzcProxys"
         ],
-        "description": "Create a lzcProxy",
+        "description": "Create a LzcProxy",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -963,7 +1202,7 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The job name",
+            "description": "The proxy resource.",
             "required": true,
             "type": "string"
           },
@@ -973,21 +1212,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/lzcProxy"
+              "$ref": "#/definitions/LzcProxy"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'lzcProxy' update operation succeeded",
+            "description": "Resource 'LzcProxy' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/lzcProxy"
+              "$ref": "#/definitions/LzcProxy"
             }
           },
           "201": {
-            "description": "Resource 'lzcProxy' create operation succeeded",
+            "description": "Resource 'LzcProxy' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/lzcProxy"
+              "$ref": "#/definitions/LzcProxy"
             },
             "headers": {
               "Retry-After": {
@@ -1014,7 +1253,7 @@
         "tags": [
           "lzcProxys"
         ],
-        "description": "Update a lzcProxy",
+        "description": "Update a LzcProxy",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1025,7 +1264,7 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The job name",
+            "description": "The proxy resource.",
             "required": true,
             "type": "string"
           },
@@ -1035,7 +1274,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/lzcProxyUpdate"
+              "$ref": "#/definitions/LzcProxyUpdate"
             }
           }
         ],
@@ -1043,7 +1282,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/lzcProxy"
+              "$ref": "#/definitions/LzcProxy"
             }
           },
           "default": {
@@ -1059,7 +1298,7 @@
         "tags": [
           "lzcProxys"
         ],
-        "description": "Delete a lzcProxy",
+        "description": "Delete a LzcProxy",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1069,6 +1308,553 @@
           },
           {
             "name": "name",
+            "in": "path",
+            "description": "The proxy resource.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sovereign/sovereignaccount": {
+      "get": {
+        "operationId": "SovereignAccounts_ListBySubscription",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "List SovereignAccount resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccountListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/sovereignaccount": {
+      "get": {
+        "operationId": "SovereignAccounts_ListByResourceGroup",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "List SovereignAccount resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccountListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/sovereignaccount/{name}": {
+      "get": {
+        "operationId": "SovereignAccounts_Get",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "Get a SovereignAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccount"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "SovereignAccounts_CreateOrUpdate",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "Create a SovereignAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SovereignAccount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SovereignAccount' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccount"
+            }
+          },
+          "201": {
+            "description": "Resource 'SovereignAccount' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccount"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "SovereignAccounts_Update",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "Update a SovereignAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SovereignAccountUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SovereignAccount"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "SovereignAccounts_Delete",
+        "tags": [
+          "sovereignAccounts"
+        ],
+        "description": "Delete a SovereignAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/sovereignaccount/{name}/LzcChildProxys": {
+      "get": {
+        "operationId": "LzcChildProxys_ListBySovereignAccount",
+        "tags": [
+          "LzcChildProxys"
+        ],
+        "description": "List LzcChildProxy resources by SovereignAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/sovereignaccount/{name}/LzcChildProxys/{childname}": {
+      "get": {
+        "operationId": "LzcChildProxys_Get",
+        "tags": [
+          "LzcChildProxys"
+        ],
+        "description": "Get a LzcChildProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "childname",
+            "in": "path",
+            "description": "The job name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "LzcChildProxys_Create",
+        "tags": [
+          "LzcChildProxys"
+        ],
+        "description": "Create a LzcChildProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "childname",
+            "in": "path",
+            "description": "The job name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'LzcChildProxy' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxy"
+            }
+          },
+          "201": {
+            "description": "Resource 'LzcChildProxy' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxy"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "LzcChildProxys_Update",
+        "tags": [
+          "LzcChildProxys"
+        ],
+        "description": "Update a LzcChildProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "childname",
+            "in": "path",
+            "description": "The job name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/LzcChildProxy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "LzcChildProxys_Delete",
+        "tags": [
+          "LzcChildProxys"
+        ],
+        "description": "Delete a LzcChildProxy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The parent sovereign account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "childname",
             "in": "path",
             "description": "The job name",
             "required": true,
@@ -2030,6 +2816,189 @@
         }
       }
     },
+    "LzcChildProxy": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/lzcProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "LzcChildProxyListResult": {
+      "type": "object",
+      "description": "The response of a LzcChildProxy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The LzcChildProxy items on this page",
+          "items": {
+            "$ref": "#/definitions/LzcChildProxy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "LzcChildProxyUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the LzcChildProxy.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LzcChildProxyUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LzcChildProxyUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the LzcChildProxy.",
+      "properties": {
+        "testProxyProperty": {
+          "type": "string",
+          "description": "Test property."
+        }
+      }
+    },
+    "LzcLocationBasedProxy": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/lzcProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "LzcLocationBasedProxyListResult": {
+      "type": "object",
+      "description": "The response of a LzcLocationBasedProxy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The LzcLocationBasedProxy items on this page",
+          "items": {
+            "$ref": "#/definitions/LzcLocationBasedProxy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "LzcLocationBasedProxyUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the LzcLocationBasedProxy.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LzcLocationBasedProxyUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LzcLocationBasedProxyUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the LzcLocationBasedProxy.",
+      "properties": {
+        "testProxyProperty": {
+          "type": "string",
+          "description": "Test property."
+        }
+      }
+    },
+    "LzcProxy": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/lzcProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "LzcProxyListResult": {
+      "type": "object",
+      "description": "The response of a LzcProxy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The LzcProxy items on this page",
+          "items": {
+            "$ref": "#/definitions/LzcProxy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "LzcProxyUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the LzcProxy.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LzcProxyUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LzcProxyUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the LzcProxy.",
+      "properties": {
+        "testProxyProperty": {
+          "type": "string",
+          "description": "Test property."
+        }
+      }
+    },
     "ManagementGroupProperties": {
       "type": "object",
       "description": "Details of the policy and initiatives associated with the management group.",
@@ -2149,6 +3118,74 @@
         "create": {
           "type": "boolean",
           "description": "When set to false this management group will not be created. The default value is false."
+        }
+      }
+    },
+    "SovereignAccount": {
+      "type": "object",
+      "description": "Concrete tracked resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/sovereignAccountProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "SovereignAccountListResult": {
+      "type": "object",
+      "description": "The response of a SovereignAccount list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SovereignAccount items on this page",
+          "items": {
+            "$ref": "#/definitions/SovereignAccount"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SovereignAccountUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the SovereignAccount.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/SovereignAccountUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SovereignAccountUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the SovereignAccount.",
+      "properties": {
+        "testProperty": {
+          "type": "string",
+          "description": "Test property."
         }
       }
     },
@@ -2326,50 +3363,9 @@
         ]
       }
     },
-    "lzcProxy": {
+    "lzcProperties": {
       "type": "object",
-      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/lzcProxyProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "lzcProxyListResult": {
-      "type": "object",
-      "description": "The response of a lzcProxy list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The lzcProxy items on this page",
-          "items": {
-            "$ref": "#/definitions/lzcProxy"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "lzcProxyProperties": {
-      "type": "object",
-      "description": "Properties for LZC proxy",
+      "description": "Properties for LZC",
       "properties": {
         "testProxyProperty": {
           "type": "string",
@@ -2380,25 +3376,18 @@
         "testProxyProperty"
       ]
     },
-    "lzcProxyUpdate": {
+    "sovereignAccountProperties": {
       "type": "object",
-      "description": "The type used for update operations of the lzcProxy.",
+      "description": "Properties for sovereignt parent account",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/lzcProxyUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "lzcProxyUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the lzcProxy.",
-      "properties": {
-        "testProxyProperty": {
+        "testProperty": {
           "type": "string",
           "description": "Test property."
         }
-      }
+      },
+      "required": [
+        "testProperty"
+      ]
     }
   },
   "parameters": {}
