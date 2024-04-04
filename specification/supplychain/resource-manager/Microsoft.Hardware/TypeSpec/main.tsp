@@ -105,7 +105,7 @@ model OrderLine {
   product: Product;
   
   @doc("order line fulfillment instructions")
-  lineFulfillmentInstructions?: LineFulfillmentInstructions;
+  lineFulfillmentInstruction?: LineFulfillmentInstruction;
 
   @doc("line level Price")
   price:Price;
@@ -162,7 +162,7 @@ model Product {
 }
 
 @doc("Order line fulfillment instructions")
-model LineFulfillmentInstructions {
+model LineFulfillmentInstruction {
   @doc("Device line referred to by the warranty line.")
   referenceDeviceLine?: int64;
 
