@@ -4,7 +4,7 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-@doc("Azure Throttling Solutions (ATS)")
+@doc("Azure Throttling Service (ATS)")
 @service({
   title: "Azure Throttling",
 })
@@ -13,11 +13,13 @@ import "@azure-tools/typespec-azure-resource-manager";
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Throttling;
 
+@doc("Service versions")
 enum Versions {
   @useDependency(
     Azure.Core.Versions.v1_0_Preview_2,
     Azure.ResourceManager.Versions.v1_0_Preview_1
   )
+  @doc("Version 2022-06-01-preview")
   v2022_06_01_preview: "2022-06-01-preview",
 }
 
@@ -25,6 +27,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Autorest;
+using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
 
@@ -34,17 +37,22 @@ interface Operations extends Azure.ResourceManager.Operations {
 }
 
 @doc("Provisioning state")
-@Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+@lroStatus
+union ProvisioningState {
   @doc("Resource being accepted")
-  Accepted,
+  Accepted: "Accepted",
+
   @doc("Resource being created")
-  Creating,
+  Creating: "Creating",
+
   @doc("Resource being updated")
-  Updating,
+  Updating: "Updating",
+
   @doc("Resource being deleted")
-  Deleting,
+  Deleting: "Deleting",
+
+  string,
+  ResourceProvisioningState,
 }
 
 @doc("Throttling account")
@@ -87,12 +95,12 @@ model AccountProperties {
 @doc("Account authentication properties")
 model AuthenticationProperties {
   @doc("Certificate-based authentication properties")
-  @extension("x-ms-identifiers", [ "subjectName" ])
+  @extension("x-ms-identifiers", ["subjectName"])
   @minItems(1)
   certificates?: CertificateProperties[];
 
   @doc("AzureAD-based authentication properties")
-  @extension("x-ms-identifiers", [ "objectId" ])
+  @extension("x-ms-identifiers", ["objectId"])
   @minItems(1)
   azureActiveDirectory?: AzureActiveDirectoryProperties[];
 }
@@ -109,12 +117,10 @@ model CertificateProperties {
 @doc("AzureAD-based authentication properties")
 model AzureActiveDirectoryProperties {
   @doc("AzureAD Tenant ID")
-  @format("uuid")
-  tenantId: string;
+  tenantId?: uuid;
 
   @doc("AzureAD Object ID")
-  @format("uuid")
-  objectId: string;
+  objectId?: uuid;
 }
 
 @doc("Throttling category")
