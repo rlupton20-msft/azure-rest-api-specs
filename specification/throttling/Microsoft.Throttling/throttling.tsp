@@ -19,7 +19,7 @@ enum Versions {
     Azure.Core.Versions.v1_0_Preview_2,
     Azure.ResourceManager.Versions.v1_0_Preview_1
   )
-  @doc("Version 2022-06-01-preview version")
+  @doc("Version 2022-06-01-preview")
   v2022_06_01_preview: "2022-06-01-preview",
 }
 
@@ -112,10 +112,10 @@ model CertificateProperties {
 @doc("AzureAD-based authentication properties")
 model AzureActiveDirectoryProperties {
   @doc("AzureAD Tenant ID")
-  tenantId?: uuid;
+  tenantId: uuid;
 
   @doc("AzureAD Object ID")
-  objectId?: uuid;
+  objectId: uuid;
 }
 
 @doc("Throttling category")
