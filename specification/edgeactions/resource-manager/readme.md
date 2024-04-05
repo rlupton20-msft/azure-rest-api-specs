@@ -26,16 +26,20 @@ These are the global settings for the edgeactions.
 
 ```yaml
 openapi-type: openapi
-tag: package-2021-08-01-preview
+tag: package-2024-03-06-preview
 ```
 
-### Tag: package-2021-08-01-preview
+### Tag: package-2024-03-06-preview
 
-These settings apply only when `--tag=package-2021-08-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-03-06-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2021-08-01-preview'
+```yaml $(tag) == 'package-2024-03-06-preview'
 input-file:
-  - Microsoft.EdgeAction/preview/2021-08-01-preview/edgeaction.json
+  - Microsoft.Cdn/preview/2024-03-06-preview/edgeaction.json
+
+suppressions:
+  - code: OperationsAPIImplementation
+    reason: Operation APIs for Microsoft.Cdn are to be defined in cdn swagger
 ```
 
 ---

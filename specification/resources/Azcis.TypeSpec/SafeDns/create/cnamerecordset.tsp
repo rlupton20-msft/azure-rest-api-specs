@@ -10,14 +10,6 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
-@armProviderNamespace
-@service({
-  title: "Foundational ARM Client",
-  version: "2023-08-22-preview",
-})
-@doc("DnsNamespaceManagerCnameRecordSet Provider")
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.AzureCIS;
 
 @doc("DnsNamespaceManagerCnameRecordSet properties")

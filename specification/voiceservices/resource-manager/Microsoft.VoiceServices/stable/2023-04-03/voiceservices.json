@@ -817,54 +817,6 @@
         }
       }
     },
-    "Codecs": {
-      "type": "string",
-      "description": "The voice codecs expected for communication with Communication services.",
-      "enum": [
-        "PCMA",
-        "PCMU",
-        "G722",
-        "G722_2",
-        "SILK_8",
-        "SILK_16"
-      ],
-      "x-ms-enum": {
-        "name": "Codecs",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "PCMA",
-            "value": "PCMA",
-            "description": "Pulse code modulation(PCM) U-law narrowband audio codec(G.711u)"
-          },
-          {
-            "name": "PCMU",
-            "value": "PCMU",
-            "description": "Pulse code modulation(PCM) U-law narrowband audio codec(G.711u)"
-          },
-          {
-            "name": "G722",
-            "value": "G722",
-            "description": "G.722 wideband audio codec"
-          },
-          {
-            "name": "G722_2",
-            "value": "G722_2",
-            "description": "G.722.2 wideband audio codec"
-          },
-          {
-            "name": "SILK_8",
-            "value": "SILK_8",
-            "description": "SILK/8000 narrowband audio codec"
-          },
-          {
-            "name": "SILK_16",
-            "value": "SILK_16",
-            "description": "SILK/16000 wideband audio codec"
-          }
-        ]
-      }
-    },
     "CommunicationsGateway": {
       "type": "object",
       "description": "A CommunicationsGateway resource",
@@ -903,7 +855,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -926,7 +879,7 @@
         },
         "serviceLocations": {
           "type": "array",
-          "description": "The regions in which to deploy the resources needed for Communication Services",
+          "description": "The regions in which to deploy the resources needed for Teams Calling",
           "items": {
             "$ref": "#/definitions/ServiceRegionProperties"
           },
@@ -941,7 +894,7 @@
         },
         "connectivity": {
           "$ref": "#/definitions/Connectivity",
-          "description": "How to connect back to the operator network, e.g. MAPS",
+          "description": "How to connect back to the Operator Network, e.g. MAPS",
           "x-ms-mutability": [
             "read",
             "create"
@@ -951,7 +904,7 @@
           "type": "array",
           "description": "Voice codecs to support",
           "items": {
-            "$ref": "#/definitions/Codecs"
+            "$ref": "#/definitions/TeamsCodecs"
           },
           "x-ms-mutability": [
             "read",
@@ -1133,7 +1086,7 @@
     },
     "Connectivity": {
       "type": "string",
-      "description": "How this deployment connects back to the operator network",
+      "description": "How this deployment connects back to the Operator Network",
       "enum": [
         "PublicAddress"
       ],
@@ -1144,7 +1097,7 @@
           {
             "name": "PublicAddress",
             "value": "PublicAddress",
-            "description": "This deployment connects to the operator network using a Public IP address, e.g. when using MAPS"
+            "description": "This deployment connects to the Operator Network using a Public IP address, e.g. when using MAPS"
           }
         ]
       }
@@ -1179,7 +1132,7 @@
       "properties": {
         "operatorAddresses": {
           "type": "array",
-          "description": "IP address to use to contact the operator network from this region",
+          "description": "IP address to use to contact the Operator Network from this region",
           "items": {
             "type": "string"
           },
@@ -1313,6 +1266,54 @@
         ]
       }
     },
+    "TeamsCodecs": {
+      "type": "string",
+      "description": "The voice codecs expected for communication with Teams.",
+      "enum": [
+        "PCMA",
+        "PCMU",
+        "G722",
+        "G722_2",
+        "SILK_8",
+        "SILK_16"
+      ],
+      "x-ms-enum": {
+        "name": "TeamsCodecs",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PCMA",
+            "value": "PCMA",
+            "description": "Pulse code modulation(PCM) U-law narrowband audio codec(G.711u)"
+          },
+          {
+            "name": "PCMU",
+            "value": "PCMU",
+            "description": "Pulse code modulation(PCM) U-law narrowband audio codec(G.711u)"
+          },
+          {
+            "name": "G722",
+            "value": "G722",
+            "description": "G.722 wideband audio codec"
+          },
+          {
+            "name": "G722_2",
+            "value": "G722_2",
+            "description": "G.722.2 wideband audio codec"
+          },
+          {
+            "name": "SILK_8",
+            "value": "SILK_8",
+            "description": "SILK/8000 narrowband audio codec"
+          },
+          {
+            "name": "SILK_16",
+            "value": "SILK_16",
+            "description": "SILK/16000 wideband audio codec"
+          }
+        ]
+      }
+    },
     "TestLine": {
       "type": "object",
       "description": "A TestLine resource",
@@ -1347,7 +1348,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [

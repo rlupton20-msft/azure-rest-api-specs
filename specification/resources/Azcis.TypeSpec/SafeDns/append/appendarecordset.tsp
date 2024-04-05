@@ -4,26 +4,20 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
-@armProviderNamespace
-@service({
-  title: "Foundational ARM Client",
-  version: "2023-08-22-preview",
-})
-@doc("DnsNamespaceManagerAppendARecordSet Provider")
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 namespace Microsoft.AzureCIS;
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("DnsNamespaceManagerAppendARecordSet properties")
 model DnsNamespaceManagerAppendARecordSetResourceProperties {
   @doc("Gets or sets the array of A Records")
+  @extension("x-ms-identifiers", [])
   aRecords: ARecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")

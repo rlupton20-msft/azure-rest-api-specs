@@ -4,6 +4,7 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -54,6 +55,7 @@ model RnmVipResourceProperties {
   vipMetaData?: VipMetaData;
 
   @doc("Gets or sets the IP address to be reserved.")
+  @extension("x-ms-identifiers", [])
   vipTags?: Array<RnmVipTag>;
 
   @doc("Provisioning state")
@@ -87,7 +89,7 @@ model RnmVipTag {
 
 @doc("rnmVips Resource")
 model RnmVipResource
-  is ProxyResource<RnmVipResourceProperties> { // This can be TrackedResource based on resourcetype
+  is TrackedResource<RnmVipResourceProperties> { // This can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")

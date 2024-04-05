@@ -4,6 +4,7 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -20,9 +21,11 @@ model DstsServiceClientIdentityResourceProperties {
   dstsInstance: string;
 
   @doc("Gets or sets a list of claim provisionings.")
+  @extension("x-ms-identifiers", [])
   claimProvisionings?: Array<DstsClaimProvisioning>;
 
   @doc("Gets or sets a list of required IP ranges. Optional.")
+  @extension("x-ms-identifiers", [])
   requiredIpRanges?: Array<RequiredIpRange>;
 
   @doc("Gets or sets the GroupId of the account. This is case-insensitive. This is optional, and the account is placed into default group when this is not specified. This can be the GroupId of an existing group, which can be found at dSCM web portal. E.g. \"76c46cf8-a5b4-40e6-a561-b0eb1c303cd9\".")
@@ -54,19 +57,19 @@ model DstsClaimProvisioning {
   claimValue: string;
 
   @doc("Gets or sets the service account name of the target service. This is case-insensitive. E.g. \"target-service-%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
-  scopedToServiceAccount: string;
+  scopedToServiceAccount?: string;
 
   @doc("Gets or sets the service account group id of the target service name.")
-  scopedServiceAccountGroupId: string;
+  scopedServiceAccountGroupId?: string;
 
   @doc("Gets or sets the service account group name of the target service name.")
-  scopedServiceAccountGroupName: string;
+  scopedServiceAccountGroupName?: string;
 
   @doc("Gets or sets the service tree id of the scoped service account.")
-  scopedServiceTreeId: string;
+  scopedServiceTreeId?: string;
 
   @doc("Dstsinstance for the claim. This is case-insensitive. E.g. \"co2agg04-dsts.dsts.core.azure-test.net\" for dogfood.")
-  dstsInstance: string;
+  dstsInstance?: string;
 }
 
 @doc("This model represents an IP range in SCI.")
