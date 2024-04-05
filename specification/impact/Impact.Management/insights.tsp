@@ -155,5 +155,4 @@ interface Insights {
 
   @doc("Delete Insight resource")
   delete is ArmResourceDeleteSync<Insight>;
-
 }
