@@ -38,16 +38,21 @@ interface Operations extends Azure.ResourceManager.Operations {
 
 @doc("Provisioning state")
 @lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
   @doc("Resource being accepted")
-  Accepted,
+  Accepted: "Accepted",
+
   @doc("Resource being created")
-  Creating,
+  Creating: "Creating",
+
   @doc("Resource being updated")
-  Updating,
+  Updating: "Updating",
+
   @doc("Resource being deleted")
-  Deleting,
+  Deleting: "Deleting",
+
+  string,
+  ResourceProvisioningState,
 }
 
 @doc("Throttling account")
