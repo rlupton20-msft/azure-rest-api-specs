@@ -126,8 +126,10 @@ model InsightDetails {
   azureResourceId?: string;
 }
 
-@doc("Enum for insight level")
-enum InsightLevel {
+@doc("values for insight level")
+union InsightLevel {
+  string,
+
   @doc("Informational insight")
   Informational: "Informational",
 
