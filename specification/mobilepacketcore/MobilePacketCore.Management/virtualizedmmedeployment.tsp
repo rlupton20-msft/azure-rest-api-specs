@@ -52,6 +52,9 @@ model VirtualizedMmeDeploymentResourceProperties {
   @doc("Virtualized MME parameters")
   @visibility("read", "create")
   parameters: VirtualizedMmeParameters;
+
+  @doc("Managed On Behalf Of Configuration.")
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 
 @added(Versions.v2024_03_15_preview)
@@ -69,7 +72,7 @@ interface VirtualizedMmeDeployments {
 @added(Versions.v2024_03_15_preview)
 @doc("ARM resource ID of a VNF Agent deployment.")
 scalar VnfAgentDeploymentIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
+  extends Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
     }
