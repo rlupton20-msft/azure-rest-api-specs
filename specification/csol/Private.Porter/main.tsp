@@ -240,32 +240,6 @@ model BundleProfile {
 
 }
 
-/** TDOO: Remove for now since change to Record<string
-* @doc("Parameter Value")
-* model ParameterValue {
-* 
-*   @doc("Parameter Value")
-*   @visibility("read", "create", "update")
-*   value: string;
-* }
-* 
-* @doc("Output Value")
-* model OutputValue {
-* 
-*   @doc("Output Value")
-*   @visibility("read")
-*   value: string;
-* }
-* 
-* @doc("Secret Parameter Value")
-* model SecretParameterValue {
-*   @doc("Secret Value")
-*   @visibility("create", "update")
-*   @secret
-*   value: string;
-*  }
-*/
-
 @armResourceOperations(CompositeSolution)
 interface CompositeSolutions  {
   get is ArmResourceRead<CompositeSolution>;
