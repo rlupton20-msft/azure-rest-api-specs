@@ -279,7 +279,7 @@ interface CompositeSolutions  {
 @armResourceOperations(CompositeSolutionDefinition)
 interface CompositeSolutionDefinitions  {
   get is ArmResourceRead<CompositeSolutionDefinition>;
-  createOrUpdate is ArmResourceCreateOrUpdateSync<CompositeSolutionDefinition>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<CompositeSolutionDefinition>;
   update is ArmResourcePatchSync<CompositeSolutionDefinition, CompositeSolutionDefinitionProperties>;
   delete is ArmResourceDeleteSync<CompositeSolutionDefinition>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolutionDefinition>;
