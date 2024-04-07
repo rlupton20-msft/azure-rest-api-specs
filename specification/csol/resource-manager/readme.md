@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the devtunnels.
+These are the global settings for the Composite Solutions.
 
 ``` yaml
 openapi-type: arm
