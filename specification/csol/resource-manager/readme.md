@@ -2,7 +2,7 @@
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for devtunnels.
+This is the AutoRest configuration file for Composite Solutions.
 
 ## Getting Started
 
@@ -37,7 +37,7 @@ These settings apply only when `--tag=package-preview-2024-03` is specified on t
 
 ```yaml $(tag) == 'package-preview-2024-03'
 input-file:
-  - Microsoft.CompositeSolutions/preview/2024-03-01-preview/csol.json
+  - Private.Porter/preview/2024-03-01-preview/openapi.json
 ```
 ```
 

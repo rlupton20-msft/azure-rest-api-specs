@@ -10,14 +10,16 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Private.Porter")
+// @armProviderNamespace("Private.Porter")
+@armProviderNamespace
 @service({
   title: "Microsoft.CompositeSolutions",
 })
 
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-@versioned(Microsoft.CompositeSolutions.Versions)
-namespace Microsoft.CompositeSolutions;
+// @versioned(Microsoft.CompositeSolutions.Versions)
+@versioned(Versions)
+namespace Private.Porter;
 
 @doc("Supported API versions for the Microsoft.CompositeSolutions resource provider.")
 enum Versions {
