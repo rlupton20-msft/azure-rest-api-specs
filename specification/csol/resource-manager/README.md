@@ -37,7 +37,7 @@ These settings apply only when `--tag=package-preview-2023-11` is specified on t
 
 ```yaml $(tag) == 'package-preview-2023-11'
 input-file:
-  - Microsoft.CompositeSolutions/preview/2024-03-1-preview/csoe.json
+  - Microsoft.CompositeSolutions/preview/2024-03-01-preview/csol.json
 ```
 ```
 
