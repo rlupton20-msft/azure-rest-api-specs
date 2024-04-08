@@ -39,6 +39,15 @@ input-file:
   - Microsoft.Contoso/preview/2021-10-01-preview/openapi.json
 ```
 
+### Tag: package-package-canonical
+
+These settings apply only when `--tag=package-canonical` is specified on the command line.
+
+```yaml $(tag) == 'package-canonical'
+input-file:
+  - Microsoft.Contoso/canonical/openapi.json
+```
+
 ---
 
 # Code Generation
