@@ -56,6 +56,7 @@ model ChangeControlProperties {
     validityPeriod: TimeWindow;
 
     @doc("Linked change control targets")
+    @OpenAPI.extension("x-ms-identifiers", [])
     targets?: TargetLink[];
 
     @doc("The change control description")
@@ -64,20 +65,29 @@ model ChangeControlProperties {
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-    ...ResourceProvisioningState,
-
+union ProvisioningState {
     @doc("Initial provisioning in progress")
-    Provisioning,
+    Provisioning: "Provisioning",
 
     @doc("Update in progress")
-    Updating,
+    Updating: "Updating",
 
     @doc("Deletion in progress")
-    Deleting,
+    Deleting: "Deleting",
 
     @doc("Change accepted for processing")
-    Accepted,
+    Accepted: "Accepted",
+
+    @doc("Provisioning succeeded")
+    Succeeded: "Succeeded",
+
+    @doc("Provisioning failed")
+    Failed: "Failed",
+
+    @doc("Provisioning canceled")
+    Canceled: "Canceled",
+
+    string
 }
 
 @doc("The validation result.")
