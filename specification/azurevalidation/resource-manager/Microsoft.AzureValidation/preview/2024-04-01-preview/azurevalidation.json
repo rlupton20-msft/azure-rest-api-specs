@@ -277,6 +277,13 @@
             "description": "Resource 'ValidationResult' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/ValidationResult"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -285,7 +292,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
       },
       "patch": {
         "operationId": "ValidationResults_Update",
@@ -414,7 +425,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorId}": {
       "get": {
         "operationId": "Validators_Get",
         "tags": [
@@ -432,7 +443,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -472,7 +483,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -538,7 +549,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -587,7 +598,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -643,7 +654,7 @@
           {
             "name": "Create",
             "value": "Create",
-            "description": "The resource is being provisioned."
+            "description": "The resource is being created."
           },
           {
             "name": "Update",
@@ -673,17 +684,17 @@
           {
             "name": "Succeeded",
             "value": "Succeeded",
-            "description": "The resource is being provisioned."
+            "description": "The validation succeeded."
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "The resource is being updated."
+            "description": "The validation failed."
           },
           {
             "name": "Pending",
             "value": "Pending",
-            "description": "The resource is being deleted."
+            "description": "The validation is pending."
           }
         ]
       },
@@ -746,15 +757,8 @@
     },
     "ValidationResult": {
       "type": "object",
-      "description": "An ValidationResult resource belonging to a ResourceValidator resource.",
+      "description": "An ValidationResult resource.",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
           "$ref": "#/definitions/ValidationResultProperties",
           "description": "The resource-specific properties for this resource.",
@@ -797,7 +801,7 @@
       "type": "object",
       "description": "The properties of ValidationResult",
       "properties": {
-        "validatorName": {
+        "validatorId": {
           "type": "string",
           "description": "The validator name."
         },
@@ -848,7 +852,7 @@
         }
       },
       "required": [
-        "validatorName",
+        "validatorId",
         "changeControlId",
         "tokenId",
         "resourceId",
@@ -879,7 +883,7 @@
       "type": "object",
       "description": "The updatable properties of the ValidationResult.",
       "properties": {
-        "validatorName": {
+        "validatorId": {
           "type": "string",
           "description": "The validator name."
         },
@@ -929,13 +933,6 @@
       "type": "object",
       "description": "Validator resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
           "$ref": "#/definitions/ValidatorProperties",
           "description": "The resource-specific properties for this resource.",
