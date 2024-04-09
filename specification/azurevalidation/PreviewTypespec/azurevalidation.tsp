@@ -29,6 +29,7 @@ model ValidatorProperties {
 }
 
 /** The resource provisioning state. */
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Suppress the warning for using enum keyword."
 @lroStatus
 enum ProvisioningState {
   ...ResourceProvisioningState,
@@ -69,6 +70,7 @@ model ValidationResult is TrackedResource<ValidationResultProperties> {
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Suppress the warning for using enum keyword."
 @doc("The operation type that can be performed on a resource.")
 enum Operation {
   /** The resource is being created. */
@@ -81,6 +83,7 @@ enum Operation {
   Delete,
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Suppress the warning for using enum keyword."
 @doc("The validation outcome.")
 enum Outcome {
   /** The validation succeeded. */
