@@ -153,9 +153,15 @@ model CategoryProperties {
   provisioningState?: ProvisioningState;
 
   @doc("Window duration")
+  // TODO: define, see task #27581502
+  //@minValue("?)
+  //@maxValue("?")
   windowDuration: duration;
 
   @doc("Minimal decision duration")
+  // TODO: define, see task #27581502
+  //@minValue("?)
+  //@maxValue("?")
   minDecisionDuration: duration;
 
   @doc("Threshold value")
@@ -163,7 +169,7 @@ model CategoryProperties {
   threshold: int32;
 
   @doc("Depth of the bucket")
-  @minValue(0)
-  @maxValue(16)
+  @minValue(-16)
+  @maxValue(-1)
   depth: int32;
 }
