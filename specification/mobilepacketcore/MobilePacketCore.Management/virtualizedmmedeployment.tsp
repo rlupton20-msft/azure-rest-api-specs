@@ -54,6 +54,7 @@ model VirtualizedMmeDeploymentResourceProperties {
   parameters: VirtualizedMmeParameters;
 
   @doc("Managed On Behalf Of Configuration.")
+  @visibility("read")
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 

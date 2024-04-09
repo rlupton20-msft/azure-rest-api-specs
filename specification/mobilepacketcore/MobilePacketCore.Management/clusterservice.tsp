@@ -53,6 +53,10 @@ model ClusterServiceResourceProperties {
   @doc("Operational status")
   @visibility("read")
   operationalStatus?: OperationalStatus;
+
+  @doc("Associated cluster workload resource identifiers")
+  @visibility("read")
+  associatedWorkloadResources?: AssociatedClusterWorkloadIdProperty[];
 }
 
 @armResourceOperations(ClusterServiceResource)
