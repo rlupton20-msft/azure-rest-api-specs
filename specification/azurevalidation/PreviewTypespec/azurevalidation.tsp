@@ -28,8 +28,8 @@ model ValidatorProperties {
   provisioningState?: ProvisioningState;
 }
 
-/** The resource provisioning state. */
 #suppress "@azure-tools/typespec-azure-core/no-enum" "Suppress the warning for using enum keyword."
+@doc("The resource provisioning state.")
 @lroStatus
 enum ProvisioningState {
   ...ResourceProvisioningState,
