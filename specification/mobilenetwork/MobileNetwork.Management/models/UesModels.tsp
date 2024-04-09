@@ -6,24 +6,7 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.MobileNetwork;
 
-@doc("State of the UE.")
-enum UeState {
-  @doc("UE has been connected.")
-  Connected,
-
-  @doc("UE is idle.")
-  Idle,
-
-  @doc("UE has been detached.")
-  Detached,
-
-  @doc("UE has been deregistered.")
-  Deregistered,
-
-  @doc("UE state is unknown.")
-  Unknown,
-}
-
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "For backward compatibility. The resource Ues is for retrieving the information of the resources only."
 @doc("Basic UE Information Properties.")
 model UeInfoPropertiesFormat {
   @doc("RAT Type")
@@ -34,6 +17,7 @@ model UeInfoPropertiesFormat {
 
   @doc("List of DNN and UE IP addresses.")
   @minItems(1)
+  @extension("x-ms-identifiers", [])
   ueIpAddresses?: DnnIpPair[];
 
   @doc("The timestamp of last list UEs call to the packet core (UTC).")
@@ -46,6 +30,5 @@ model DnnIpPair {
   dnn?: Dnn;
 
   @doc("UE IP address")
-  @extension("x-ms-client-flatten", true)
   ueIpAddress?: UeIpAddress;
 }

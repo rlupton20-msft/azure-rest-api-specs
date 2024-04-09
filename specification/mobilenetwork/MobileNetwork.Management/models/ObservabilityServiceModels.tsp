@@ -18,7 +18,7 @@ model ObservabilityServiceResourceProperties {
 
   @doc("Reference to cluster where the observability components are deployed")
   @visibility("create", "read")
-  clusterService: ClusterServiceResourceId;
+  clusterService: ClusterServiceIdProperty;
 
   @doc("Release version. This is inherited from the cluster")
   @visibility("read")

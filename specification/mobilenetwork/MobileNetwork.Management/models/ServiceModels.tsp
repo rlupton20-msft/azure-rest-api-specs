@@ -91,6 +91,7 @@ model PccRuleConfiguration {
   serviceDataFlowTemplates: ServiceDataFlowTemplate[];
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 @doc("Data flow policy rule QoS policy")
 model PccRuleQosPolicy extends QosPolicy {
   @doc("The guaranteed bit rate (GBR) for all service data flows that use this data flow policy rule. This is an optional setting. If you do not provide a value, there will be no GBR set for the data flow policy rule that uses this QoS definition.")

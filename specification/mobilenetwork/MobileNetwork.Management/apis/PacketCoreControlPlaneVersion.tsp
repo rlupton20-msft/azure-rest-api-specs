@@ -39,9 +39,16 @@ interface PacketCoreControlPlaneVersions {
 @armResourceOperations
 interface PacketCoreControlPlaneVersionsTenantResource {
   @doc("Gets information about the specified packet core control plane version.")
-  get is ArmResourceRead<PacketCoreControlPlaneVersion, BaseParameters = ApiVersionParameter>;
+  get is ArmResourceRead<
+    PacketCoreControlPlaneVersion,
+    BaseParameters = ApiVersionParameter
+  >;
 
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "TypeSpec generated an Operation ID called PacketCoreControlPlaneVersionsTenantResource_ListBySubscription. Changed it to PacketCoreControlPlaneVersionsTenantResource_ListByTenant because this operation is for the tenant level only."
   @doc("Lists all supported packet core control planes versions.")
   @operationId("PacketCoreControlPlaneVersionsTenantResource_ListByTenant")
-  listByTenant is ArmResourceListByParent<PacketCoreControlPlaneVersion, BaseParameters = ApiVersionParameter>;
+  listByTenant is ArmResourceListByParent<
+    PacketCoreControlPlaneVersion,
+    BaseParameters = ApiVersionParameter
+  >;
 }

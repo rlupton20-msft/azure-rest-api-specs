@@ -47,7 +47,11 @@ interface Sites {
   listByMobileNetwork is ArmResourceListByParent<Site>;
 
   @doc("Deletes a packet core under the specified mobile network site.")
-  deletePacketCore is ArmResourceActionAsync<Site, SiteDeletePacketCore, AsyncOperationStatus>;
+  deletePacketCore is ArmResourceActionAsync<
+    Site,
+    SiteDeletePacketCore,
+    AsyncOperationStatus
+  >;
 }
 
 @@doc(Sites.createOrUpdate::parameters.resource,
