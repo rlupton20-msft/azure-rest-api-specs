@@ -48,6 +48,7 @@ op ArmResourceCreateOrUpdate2Async<
 model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.ArmResource>
   is ArmResponse<TResource>;
 
+#suppress "@azure-tools/typespec-azure-core/no-enum"
 @doc("Provisioning state of the resource")
 @Azure.Core.lroStatus
 enum ProvisioningState {
@@ -68,7 +69,7 @@ enum ProvisioningState {
 
 @doc("ARM resource ID of a cluster.")
 scalar ClusterServiceIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
+  extends Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.MobilePacketCore/clusterServices",
     }
@@ -76,7 +77,7 @@ scalar ClusterServiceIdProperty
 
 @doc("ARM resource ID of a custom location.")
 scalar CustomLocationIdProperty
-  extends Azure.ResourceManager.ResourceIdentifier<[
+  extends Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ExtendedLocation/customLocations",
     }
@@ -93,6 +94,7 @@ model OperationalStatus {
   healthCheck?: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum"
 @doc("Infrastructure Type Definitions")
 enum InfrastructureType {
   @doc("Azure Core")
@@ -102,6 +104,7 @@ enum InfrastructureType {
   AzureOperatorNexus,
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum"
 @doc("Deployment Type Definitions")
 enum SkuDeploymentType {
   @doc("Production Deployment")
@@ -111,6 +114,7 @@ enum SkuDeploymentType {
   Lab,
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum"
 @doc("Cluster Type Definitions")
 enum ClusterType {
   @doc("Azure Kubernetes Service")
@@ -152,14 +156,18 @@ model QualifiedComponentDeploymentParameters {
   secrets?: ComponentDeploymentSecrets;
 }
 
-@doc("ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure.")
-model ManagedResourceGroupConfiguration {
-  @doc("The name for the managed resource group. If not specified, the unique name is automatically generated.")
-  @visibility("create", "read")
-  @maxLength(75)
-  name?: string;
+@added(Versions.v2024_03_15_preview)
+@doc("Configuration of the managed on behalf of resource")
+model ManagedOnBehalfOfConfiguration {
+  @visibility("read")
+  @doc("Associated MoboBrokerResources.")
+  moboBrokerResources: MoboBrokerResource[];
+}
 
-  @doc("The location of the managed resource group. If not specified, the location of the parent resource is chosen.")
-  @visibility("create", "read")
-  location?: string;
+@added(Versions.v2024_03_15_preview)
+@doc("MoboBroker resource")
+model MoboBrokerResource {
+  @visibility("read")
+  @doc("Resource identifier of a Managed-On-Behalf-Of broker resource")
+  id: string;
 }
