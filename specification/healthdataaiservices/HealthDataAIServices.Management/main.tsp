@@ -32,7 +32,7 @@ model DeidService is TrackedResource<DeidServiceProperties> {
   @key("DeidServiceName")
   @segment("DeidServices")
   @path
-  name: string;  
+  name: string;
 
   ...ManagedServiceIdentity;
 }
