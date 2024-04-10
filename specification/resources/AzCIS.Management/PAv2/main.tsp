@@ -16,9 +16,10 @@ namespace Microsoft.AzureCIS;
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-enum PushAgentV2AccountProvisioningState {
-  ...ResourceProvisioningState,
+union PushAgentV2AccountProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }
