@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -14,6 +13,7 @@ using Azure.ResourceManager;
 @armProviderNamespace("Microsoft.HealthDataAIServices")
 @service({
   title: "Microsoft.HealthDataAIServices",
+  #suppress "deprecated" ""
   version: "2024-01-01-preview",
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -34,9 +34,10 @@ model DeidService is TrackedResource<DeidServiceProperties> {
   @path
   name: string;  
 
-  ...ManagedSystemAssignedIdentity;
+  ...ManagedServiceIdentity;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" ""
 @Azure.Core.lroStatus
 @doc("The status of the current operation.")
 enum ProvisioningState {
@@ -69,7 +70,7 @@ model DeidServiceProperties {
 @armResourceOperations
 interface DeidServices {
   get is ArmResourceRead<DeidService>;
-  create is ArmResourceCreateOrUpdateSync<DeidService>;
+  create is ArmResourceCreateOrReplaceSync<DeidService>;
   update is ArmResourcePatchSync<DeidService, DeidServiceProperties>;
   delete is ArmResourceDeleteSync<DeidService>;
   listByResourceGroup is ArmResourceListByParent<DeidService>;
