@@ -1929,14 +1929,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AutonomousDatabase"
-            }
-          },
           "202": {
             "description": "Resource operation accepted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "properties": {
+                  "$ref": "#/definitions/PostActionResponseProperties"
+            }
+          },
+              "required": [
+                "properties"
+              ]
+            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -1965,6 +1970,63 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/generateWallet": {
+      "post": {
+        "operationId": "AutonomousDatabases_GenerateWallet",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "Generate wallet action on Autonomous Database",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateAutonomousDatabaseWalletDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseWalletFile"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Generate wallet action on Autonomous Database": {
+            "$ref": "./examples/autonomousDatabase_generateWallet.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/switchover": {
@@ -2004,14 +2066,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AutonomousDatabase"
-            }
-          },
           "202": {
             "description": "Resource operation accepted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "properties": {
+                  "$ref": "#/definitions/PostActionResponseProperties"
+            }
+          },
+              "required": [
+                "properties"
+              ]
+            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -4816,6 +4883,19 @@
         }
       }
     },
+    "AutonomousDatabaseWalletFile": {
+      "type": "object",
+      "description": "Autonomous Database Wallet File resource model.",
+      "properties": {
+        "walletFiles": {
+          "type": "string",
+          "description": "The base64 encoded wallet files"
+        }
+      },
+      "required": [
+        "walletFiles"
+      ]
+    },
     "AutonomousDbVersion": {
       "type": "object",
       "description": "AutonomousDbVersion resource definition",
@@ -7549,6 +7629,52 @@
         }
       }
     },
+    "GenerateAutonomousDatabaseWalletDetails": {
+      "type": "object",
+      "description": "Autonomous Database Generate Wallet resource model.",
+      "properties": {
+        "generateType": {
+          "$ref": "#/definitions/GenerateType",
+          "description": "The type of wallet to generate."
+        },
+        "isRegional": {
+          "type": "boolean",
+          "description": "True when requesting regional connection strings in PDB connect info, applicable to cross-region DG only."
+        },
+        "password": {
+          "$ref": "#/definitions/Password",
+          "description": "The password to encrypt the keys inside the wallet",
+          "minLength": 8
+        }
+      },
+      "required": [
+        "password"
+      ]
+    },
+    "GenerateType": {
+      "type": "string",
+      "description": "GenerateType enum",
+      "enum": [
+        "Single",
+        "All"
+      ],
+      "x-ms-enum": {
+        "name": "GenerateType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Single",
+            "value": "Single",
+            "description": "SINGLE value"
+          },
+          {
+            "name": "All",
+            "value": "All",
+            "description": "ALL value"
+          }
+        ]
+      }
+    },
     "GiVersion": {
       "type": "object",
       "description": "GiVersion resource definition",
@@ -8251,28 +8377,17 @@
         ]
       }
     },
-    "PortRange": {
+    "PostActionResponseProperties": {
       "type": "object",
-      "description": "Port Range to specify particular destination ports for TCP rules.",
       "properties": {
-        "min": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The minimum port number, which must not be greater than the maximum port number.",
-          "minimum": 1,
-          "maximum": 65535
-        },
-        "max": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.",
-          "minimum": 1,
-          "maximum": 65535
+        "provisioningState": {
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "Post action provisioning state",
+          "readOnly": true
         }
       },
       "required": [
-        "min",
-        "max"
+        "provisioningState"
       ]
     },
     "Preference": {
