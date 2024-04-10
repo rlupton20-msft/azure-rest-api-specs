@@ -18,12 +18,14 @@ using Azure.ResourceManager;
 namespace Microsoft.ModSimWorkbench;
 
 @doc("Performance tier of shared storage.")
-enum SharedStoragePerformanceTier {
+union SharedStoragePerformanceTier {
+  string,
+
   @doc("Standard tier.")
-  Standard,
+  Standard: "Standard",
 
   @doc("Ultra tier.")
-  Ultra,
+  Ultra: "Ultra",
 }
 
 @doc("List of chambers connected to a shared storage.")
