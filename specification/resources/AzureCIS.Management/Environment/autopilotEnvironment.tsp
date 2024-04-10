@@ -56,18 +56,21 @@ interface Environment {
 }
 
 @doc("Provisioning status of the resource.")
-enum environmentProvisioningState {
-  ...ResourceProvisioningState,
+union environmentProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }
 
 @doc("Basic or All Mode indicate clone customer config file or just basic file")
-enum environmentMode {
+union environmentMode {
+  string,
+
   @doc("Clone basic file")
-  Basic,
+  Basic: "Basic",
 
   @doc("Clone customer config file")
-  All,
+  All: "All",
 }

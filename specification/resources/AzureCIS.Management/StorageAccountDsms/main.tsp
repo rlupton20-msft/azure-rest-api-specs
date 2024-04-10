@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./aadapplication.tsp";
+import "./storageAccountDsms.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,16 +9,17 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/aad-application")
+@doc("storageAccount Provider.")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-enum AadApplicationProvisioningState {
-  ...ResourceProvisioningState,
+union StorageAccountDsmsProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }

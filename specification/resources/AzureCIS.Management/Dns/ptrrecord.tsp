@@ -12,47 +12,47 @@ using Autorest;
 
 namespace Microsoft.AzureCIS;
 
-@doc("CanonicalNameRecord properties")
-model CanonicalNameRecordResourceProperties {
+@doc("PtrRecord properties")
+model PtrRecordResourceProperties {
   @doc("Gets or sets the dns name")
   dnsName: string;
 
-  @doc("Gets or sets the canonical name")
-  canonicalName: string;
+  @doc("Gets or sets the IP Address in String format")
+  pointsTo: string;
 
   @doc("Gets or sets the ttl")
   ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")
-  provisioningState?: CanonicalNameRecordProvisioningState;
+  provisioningState?: PtrRecordProvisioningState;
 }
 
-@doc("CanonicalNameRecord Resource")
-model CanonicalNameRecordResource
-  is ProxyResource<CanonicalNameRecordResourceProperties> {
+@doc("PtrRecord Resource")
+model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("canonicalNameRecords") // start with lower case
+  @segment("ptrRecords") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
 @doc("Provisioning status of the resource.")
-enum CanonicalNameRecordProvisioningState {
-  ...ResourceProvisioningState,
+union PtrRecordProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface CanonicalNameRecord {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<CanonicalNameRecordResource>;
-  listBySubscription is ArmListBySubscription<CanonicalNameRecordResource>;
-  listByResourceGroup is ArmResourceListByParent<CanonicalNameRecordResource>;
-  get is ArmResourceRead<CanonicalNameRecordResource>;
+interface PtrRecord {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<PtrRecordResource>;
+  listBySubscription is ArmListBySubscription<PtrRecordResource>;
+  listByResourceGroup is ArmResourceListByParent<PtrRecordResource>;
+  get is ArmResourceRead<PtrRecordResource>;
 }
