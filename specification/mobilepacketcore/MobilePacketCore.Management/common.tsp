@@ -202,7 +202,7 @@ model QualifiedComponentDeploymentParameters {
 model ManagedOnBehalfOfConfiguration {
   @visibility("read")
   @doc("Associated MoboBrokerResources.")
-  moboBrokerResources: MoboBrokerResource[];
+  moboBrokerResources?: MoboBrokerResource[];
 }
 
 @added(Versions.v2024_03_15_preview)
@@ -210,5 +210,5 @@ model ManagedOnBehalfOfConfiguration {
 model MoboBrokerResource {
   @visibility("read")
   @doc("Resource identifier of a Managed-On-Behalf-Of broker resource")
-  id: string;
+  id?: string;
 }
