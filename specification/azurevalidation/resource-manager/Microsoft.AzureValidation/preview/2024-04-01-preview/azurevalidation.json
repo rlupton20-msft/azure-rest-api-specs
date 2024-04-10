@@ -86,6 +86,40 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureValidation/validationResults": {
+      "get": {
+        "operationId": "ValidationResults_ListBySubscription",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "List ValidationResult resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ValidationResultListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.AzureValidation/validators": {
       "get": {
         "operationId": "Validators_ListBySubscription",
@@ -117,6 +151,240 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validationResults": {
+      "get": {
+        "operationId": "ValidationResults_ListByResourceGroup",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "List ValidationResult resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ValidationResultListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validationResults/{validationResultName}": {
+      "get": {
+        "operationId": "ValidationResults_Get",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "Get a ValidationResult",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "validationResultName",
+            "in": "path",
+            "description": "The name of the validation result.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ValidationResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ValidationResults_Create",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "Create a ValidationResult",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "validationResultName",
+            "in": "path",
+            "description": "The name of the validation result.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidationResult"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ValidationResult' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ValidationResult"
+            }
+          },
+          "201": {
+            "description": "Resource 'ValidationResult' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ValidationResult"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ValidationResults_Update",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "Update a ValidationResult",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "validationResultName",
+            "in": "path",
+            "description": "The name of the validation result.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidationResultUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ValidationResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ValidationResults_Delete",
+        "tags": [
+          "ValidationResults"
+        ],
+        "description": "Delete a ValidationResult",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "validationResultName",
+            "in": "path",
+            "description": "The name of the validation result.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
         }
       }
     },
@@ -157,7 +425,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorId}": {
       "get": {
         "operationId": "Validators_Get",
         "tags": [
@@ -175,7 +443,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -215,7 +483,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -281,7 +549,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -330,7 +598,7 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "validatorName",
+            "name": "validatorId",
             "in": "path",
             "description": "The name of the resource validator.",
             "required": true,
@@ -368,280 +636,6 @@
         },
         "x-ms-long-running-operation": true
       }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorName}/validationResult": {
-      "get": {
-        "operationId": "ValidationResults_ListByValidator",
-        "tags": [
-          "ValidationResults"
-        ],
-        "description": "List ValidationResult resources by Validator",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "validatorName",
-            "in": "path",
-            "description": "The name of the resource validator.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ValidationResultListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureValidation/validators/{validatorName}/validationResult/{validationResultName}": {
-      "get": {
-        "operationId": "ValidationResults_Get",
-        "tags": [
-          "ValidationResults"
-        ],
-        "description": "Get a ValidationResult",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "validatorName",
-            "in": "path",
-            "description": "The name of the resource validator.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "validationResultName",
-            "in": "path",
-            "description": "The name of the validation result.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ValidationResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Operations_List": {
-            "$ref": "./examples/ValidationResults_Get.json"
-          }
-        }
-      },
-      "put": {
-        "operationId": "ValidationResults_Create",
-        "tags": [
-          "ValidationResults"
-        ],
-        "description": "Create a ValidationResult",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "validatorName",
-            "in": "path",
-            "description": "The name of the resource validator.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "validationResultName",
-            "in": "path",
-            "description": "The name of the validation result.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ValidationResult"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'ValidationResult' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ValidationResult"
-            }
-          },
-          "201": {
-            "description": "Resource 'ValidationResult' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ValidationResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Operations_List": {
-            "$ref": "./examples/ValidationResults_CreateOrUpdate.json"
-          }
-        }
-      },
-      "patch": {
-        "operationId": "ValidationResults_Update",
-        "tags": [
-          "ValidationResults"
-        ],
-        "description": "Update a ValidationResult",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "validatorName",
-            "in": "path",
-            "description": "The name of the resource validator.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "validationResultName",
-            "in": "path",
-            "description": "The name of the validation result.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ValidationResultUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ValidationResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "ValidationResults_Delete",
-        "tags": [
-          "ValidationResults"
-        ],
-        "description": "Delete a ValidationResult",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "validatorName",
-            "in": "path",
-            "description": "The name of the resource validator.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "validationResultName",
-            "in": "path",
-            "description": "The name of the validation result.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Operations_List": {
-            "$ref": "./examples/ValidationResults_Delete.json"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -660,7 +654,7 @@
           {
             "name": "Create",
             "value": "Create",
-            "description": "The resource is being provisioned."
+            "description": "The resource is being created."
           },
           {
             "name": "Update",
@@ -674,6 +668,37 @@
           }
         ]
       }
+    },
+    "Outcome": {
+      "type": "string",
+      "description": "The validation outcome.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Pending"
+      ],
+      "x-ms-enum": {
+        "name": "Outcome",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The validation succeeded."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The validation failed."
+          },
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "The validation is pending."
+          }
+        ]
+      },
+      "readOnly": true
     },
     "ProvisioningState": {
       "type": "string",
@@ -732,8 +757,15 @@
     },
     "ValidationResult": {
       "type": "object",
-      "description": "An ValidationResult resource belonging to a ResourceValidator resource.",
+      "description": "An ValidationResult resource.",
       "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "properties": {
           "$ref": "#/definitions/ValidationResultProperties",
           "description": "The resource-specific properties for this resource.",
@@ -776,9 +808,9 @@
       "type": "object",
       "description": "The properties of ValidationResult",
       "properties": {
-        "validationResultName": {
+        "validatorId": {
           "type": "string",
-          "description": "The validation result name."
+          "description": "The validator id."
         },
         "changeControlId": {
           "type": "string",
@@ -800,13 +832,17 @@
           "type": "boolean",
           "description": "The allowed claim."
         },
+        "outcome": {
+          "$ref": "#/definitions/Outcome",
+          "description": "The outcome of the validation."
+        },
         "message": {
           "type": "string",
           "description": "The message."
         },
         "error": {
           "type": "object",
-          "description": "The zip code of the address.",
+          "description": "The error details.",
           "properties": {
             "code": {
               "type": "string"
@@ -823,12 +859,13 @@
         }
       },
       "required": [
-        "validationResultName",
+        "validatorId",
         "changeControlId",
         "tokenId",
         "resourceId",
         "operation",
         "allowed",
+        "outcome",
         "message"
       ]
     },
@@ -853,9 +890,9 @@
       "type": "object",
       "description": "The updatable properties of the ValidationResult.",
       "properties": {
-        "validationResultName": {
+        "validatorId": {
           "type": "string",
-          "description": "The validation result name."
+          "description": "The validator id."
         },
         "changeControlId": {
           "type": "string",
@@ -877,13 +914,17 @@
           "type": "boolean",
           "description": "The allowed claim."
         },
+        "outcome": {
+          "$ref": "#/definitions/Outcome",
+          "description": "The outcome of the validation."
+        },
         "message": {
           "type": "string",
           "description": "The message."
         },
         "error": {
           "type": "object",
-          "description": "The zip code of the address.",
+          "description": "The error details.",
           "properties": {
             "code": {
               "type": "string"
@@ -899,6 +940,13 @@
       "type": "object",
       "description": "Validator resource",
       "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "properties": {
           "$ref": "#/definitions/ValidatorProperties",
           "description": "The resource-specific properties for this resource.",
@@ -941,10 +989,6 @@
       "type": "object",
       "description": "Validator properties",
       "properties": {
-        "validatorName": {
-          "type": "string",
-          "description": "Name of the resource validator"
-        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
@@ -962,20 +1006,6 @@
           "additionalProperties": {
             "type": "string"
           }
-        },
-        "properties": {
-          "$ref": "#/definitions/ValidatorUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "ValidatorUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Validator.",
-      "properties": {
-        "validatorName": {
-          "type": "string",
-          "description": "Name of the resource validator"
         }
       }
     },

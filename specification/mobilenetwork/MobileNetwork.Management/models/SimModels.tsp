@@ -30,7 +30,7 @@ model CommonSimPropertiesFormat {
 
   @doc("A dictionary of sites to the provisioning state of this SIM on that site.")
   @visibility("read")
-  siteProvisioningState?: Record<SiteProvisioningState>;
+  siteProvisioningState?: SiteProvisioning;
 
   @doc("The international mobile subscriber identity (IMSI) for the SIM.")
   @visibility("read", "create")
@@ -79,6 +79,7 @@ model SimStaticIpPropertiesStaticIp {
   ipv4Address?: Ipv4Addr;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 @doc("SIM properties.")
 model SimPropertiesFormat extends CommonSimPropertiesFormat {
   @doc("The Ki value for the SIM.")
@@ -150,6 +151,7 @@ model SimNameAndEncryptedProperties {
   properties: EncryptedSimPropertiesFormat;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 @doc("Encrypted SIM properties.")
 model EncryptedSimPropertiesFormat extends CommonSimPropertiesFormat {
   @doc("The encrypted SIM credentials.")

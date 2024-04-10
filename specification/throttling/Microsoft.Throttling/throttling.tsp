@@ -19,8 +19,8 @@ enum Versions {
     Azure.Core.Versions.v1_0_Preview_2,
     Azure.ResourceManager.Versions.v1_0_Preview_1
   )
-  @doc("Version 2022-06-01-preview")
-  v2022_06_01_preview: "2022-06-01-preview",
+  @doc("Version 2024-01-01-preview")
+  v2024_01_01_preview: "2024-01-01-preview",
 }
 
 using TypeSpec.Http;
@@ -38,16 +38,21 @@ interface Operations extends Azure.ResourceManager.Operations {
 
 @doc("Provisioning state")
 @lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
   @doc("Resource being accepted")
-  Accepted,
+  Accepted: "Accepted",
+
   @doc("Resource being created")
-  Creating,
+  Creating: "Creating",
+
   @doc("Resource being updated")
-  Updating,
+  Updating: "Updating",
+
   @doc("Resource being deleted")
-  Deleting,
+  Deleting: "Deleting",
+
+  string,
+  ResourceProvisioningState,
 }
 
 @doc("Throttling account")
@@ -148,9 +153,15 @@ model CategoryProperties {
   provisioningState?: ProvisioningState;
 
   @doc("Window duration")
+  // TODO: define, see task #27581502
+  //@minValue("?)
+  //@maxValue("?")
   windowDuration: duration;
 
   @doc("Minimal decision duration")
+  // TODO: define, see task #27581502
+  //@minValue("?)
+  //@maxValue("?")
   minDecisionDuration: duration;
 
   @doc("Threshold value")
@@ -158,7 +169,7 @@ model CategoryProperties {
   threshold: int32;
 
   @doc("Depth of the bucket")
-  @minValue(0)
-  @maxValue(16)
+  @minValue(-16)
+  @maxValue(-1)
   depth: int32;
 }

@@ -47,6 +47,7 @@ model AsyncOperationStatus {
   endTime?: utcDateTime;
 
   @doc("Percentage of the operation that is complete.")
+  @minValue(0)
   @maxValue(100)
   percentComplete?: float64;
 
@@ -109,10 +110,42 @@ model TagsObject {
 
 @doc("Identity and Tags object for patch operations.")
 model IdentityAndTagsObject {
-  ...ManagedServiceIdentity;
+  @doc("The managed service identity associated with this resource.")
+  identity?: ManagedServiceIdentity;
 
   @doc("Resource tags.")
   tags?: Record<string>;
+}
+
+@doc("Managed service identity (User assigned identity).")
+model ManagedServiceIdentity {
+  @doc("Type of managed service identity (currently only UserAssigned allowed).")
+  type: ManagedServiceIdentityType;
+
+  @doc("The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests.")
+  userAssignedIdentities?: UserAssignedIdentities;
+}
+
+@doc("The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests.")
+@extension("x-nullable", true)
+model UserAssignedIdentities {
+  ...Record<UserAssignedIdentity>;
+}
+
+@doc("User assigned identity properties.")
+model UserAssignedIdentity {
+  @doc("The principal ID of the assigned identity.")
+  @visibility("read")
+  principalId?: uuid;
+
+  @doc("The client ID of the assigned identity.")
+  @visibility("read")
+  clientId?: uuid;
+}
+
+@doc("The provisioning state of a resource e.g. SIM/SIM policy on a site. The dictionary keys will ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}. The dictionary values will be from the \"SiteProvisioningState\" enum.")
+model SiteProvisioning {
+  ...Record<SiteProvisioningState>;
 }
 
 @doc("Edge Network Interface properties")
@@ -125,16 +158,6 @@ model EdgeNetworkInterface {
 
   @doc("Edge Network Security Group applying to traffic on this interface.")
   edgeNetworkSecurityGroup?: EdgeNetworkSecurityGroupResourceId;
-}
-
-@doc("Extended UE Information Properties.")
-@discriminator("ratType")
-model ExtendedUeInfoProperties {
-  @doc("RAT Type")
-  ratType: RatType;
-
-  @doc("The timestamp of last UE info read from the packet core (UTC).")
-  lastReadAt?: utcDateTime;
 }
 
 @doc("Public land mobile network (PLMN) ID. This is made up of the mobile country code and mobile network code, as defined in https://www.itu.int/rec/T-REC-E.212. The values 001-01 and 001-001 can be used for testing and the values 999-99 and 999-999 can be used on internal private networks.")
@@ -225,6 +248,18 @@ model QualifiedComponentDeploymentParameters {
   secrets?: ComponentDeploymentSecrets;
 }
 
+@doc("ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure.")
+model ManagedResourceGroupConfiguration {
+  @doc("The name for the managed resource group. If not specified, the unique name is automatically generated.")
+  @visibility("create", "read")
+  @maxLength(75)
+  name?: string;
+
+  @doc("The location of the managed resource group. If not specified, the location of the parent resource is chosen.")
+  @visibility("create", "read")
+  location?: string;
+}
+
 // Scalar
 
 @doc("5G QoS Identifier.")
@@ -289,6 +324,12 @@ scalar Port extends string;
 @doc("Remote IP address.")
 @pattern("^(any|(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2])))$")
 scalar RemoteIp extends string;
+
+@doc("Usage SKU Definition")
+scalar UsageSku extends string;
+
+@doc("Mobile Core Scaling Unit SKU Definition")
+scalar MobileCoreScalingUnitSku extends string;
 
 @doc("Azure for Operators 5G Core Release Version.")
 scalar ReleaseVersion extends string;

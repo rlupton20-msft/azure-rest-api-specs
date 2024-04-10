@@ -13,6 +13,7 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.MobileNetwork;
 
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a valid template"
 @autoRoute
 @doc("Create a {name}", Resource)
 @extension("x-ms-long-running-operation", true)
