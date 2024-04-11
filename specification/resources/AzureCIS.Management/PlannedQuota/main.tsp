@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./genericgenevaactions.tsp";
+import "./plannedquota.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,16 +9,17 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("GenericGenevaActions Provider")
+@doc("Planned Quota Provider")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-enum GenericGenevaActionsProvisioningState {
-  ...ResourceProvisioningState,
+union PlannedQuotaProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }

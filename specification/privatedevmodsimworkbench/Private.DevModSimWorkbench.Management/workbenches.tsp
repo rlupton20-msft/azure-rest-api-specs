@@ -41,7 +41,7 @@ model WorkbenchProperties {
 
   @visibility("read", "create", "update")
   @doc("White label workbench id.")
-  whiteLabelWorkbenchId?: ResourceIdentifier<[
+  whiteLabelWorkbenchId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Private.ContosoWorkbench/contosoWorkbenches";
     }
