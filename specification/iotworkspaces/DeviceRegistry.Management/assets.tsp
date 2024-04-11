@@ -133,7 +133,7 @@ model DataPoint {
 }
 
 @doc("Defines the data point observability mode.")
-enum DataPointsObservabilityMode {
+union DataPointsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "none",
 
@@ -148,6 +148,8 @@ enum DataPointsObservabilityMode {
 
   @doc("Map as log to OpenTelemetry.")
   Log: "log",
+
+  string,
 }
 
 @doc("Defines the event properties.")
@@ -169,12 +171,14 @@ model Event {
 }
 
 @doc("Defines the event observability mode.")
-enum EventsObservabilityMode {
+union EventsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "none",
 
   @doc("Map as log to OpenTelemetry.")
   Log: "log",
+
+  string,
 }
 
 @doc("Defines the asset status properties.")

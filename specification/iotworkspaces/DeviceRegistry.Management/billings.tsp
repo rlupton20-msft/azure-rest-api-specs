@@ -20,7 +20,7 @@ model AdrBilling is TrackedResource<AdrBillingProperties> {
   @key("adrBillingName")
   @segment("adrBillings")
   @pattern("^[0-9a-z][a-z0-9-]*$")
-  @path 
+  @path
   @minLength(3)
   @maxLength(64)
   name: string;
@@ -34,7 +34,7 @@ model AdrBilling is TrackedResource<AdrBillingProperties> {
 
 @added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
 @doc("Defines the adrBilling properties.")
-model AdrBillingProperties { 
+model AdrBillingProperties {
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
