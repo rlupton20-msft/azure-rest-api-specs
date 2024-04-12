@@ -1352,9 +1352,6 @@
         "x-ms-examples": {
           "Get Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_get.json"
-          },
-          "Get Autonomous Database Backup.": {
-            "$ref": "./examples/autonomousDatabaseBackup_get.json"
           }
         }
       },
@@ -1423,9 +1420,6 @@
         "x-ms-examples": {
           "Create Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_create.json"
-          },
-          "Create Autonomous Database Backup.": {
-            "$ref": "./examples/autonomousDatabaseBackup_create.json"
           },
           "Create clone Autonomous Database": {
             "$ref": "./examples/autonomousDatabaseClone_create.json"
@@ -1563,9 +1557,6 @@
         "x-ms-examples": {
           "Delete Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_delete.json"
-          },
-          "Delete Autonomous Database Backup.": {
-            "$ref": "./examples/autonomousDatabaseBackup_delete.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1672,6 +1663,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_get.json"
+          }
         }
       },
       "put": {
@@ -1741,6 +1737,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Create Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_create.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1886,6 +1887,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Delete Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_delete.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1929,19 +1935,14 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Resource operation accepted.",
+          "200": {
+            "description": "Azure operation completed successfully.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
+              "$ref": "#/definitions/AutonomousDatabase"
             }
           },
-              "required": [
-                "properties"
-              ]
-            },
+          "202": {
+            "description": "Resource operation accepted.",
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -2066,19 +2067,14 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Resource operation accepted.",
+          "200": {
+            "description": "Azure operation completed successfully.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
+              "$ref": "#/definitions/AutonomousDatabase"
             }
           },
-              "required": [
-                "properties"
-              ]
-            },
+          "202": {
+            "description": "Resource operation accepted.",
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -4252,6 +4248,18 @@
             "update",
             "create"
           ]
+        },
+        "whitelistedIps": {
+          "type": "array",
+          "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
+          "items": {
+            "$ref": "#/definitions/aclString"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "discriminator": "dataBaseType",
@@ -4875,6 +4883,18 @@
           "type": "integer",
           "format": "int32",
           "description": "Retention period, in days, for long-term backups",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "whitelistedIps": {
+          "type": "array",
+          "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
+          "items": {
+            "$ref": "#/definitions/aclString"
+          },
           "x-ms-mutability": [
             "read",
             "update",
@@ -8401,19 +8421,6 @@
         "max"
       ]
     },
-    "PostActionResponseProperties": {
-      "type": "object",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/AzureResourceProvisioningState",
-          "description": "Post action provisioning state",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "provisioningState"
-      ]
-    },
     "Preference": {
       "type": "string",
       "description": "Preference enum",
@@ -9267,6 +9274,11 @@
           }
         ]
       }
+    },
+    "aclString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
     }
   },
   "parameters": {}
