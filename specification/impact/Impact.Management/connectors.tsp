@@ -35,9 +35,6 @@ model ConnectorProperties is ResourceProperties {
   @doc("connector type")
   connectorType: Platform;
 
-  @doc("filters associated with this connector")
-  filters?: string;
-
   @visibility("read")
   @doc("last run time stamp of this connector in UTC time zone")
   lastRunTimeStamp: utcDateTime;
