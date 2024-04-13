@@ -14,13 +14,14 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
-@doc("AdrBilling Model as ARM resource")
-model AdrBilling is TrackedResource<AdrBillingProperties> {
-  @doc("Name of the adrBilling.")
-  @key("adrBillingName")
-  @segment("adrBillings")
+@doc("billingContainer Model as ARM resource")
+@subscriptionResource
+model BillingContainer is ProxyResource<BillingContainerProperties> {
+  @doc("Name of the billingContainer.")
+  @key("billingContainerName")
+  @segment("billingContainers")
   @pattern("^[0-9a-z][a-z0-9-]*$")
-  @path
+  @path 
   @minLength(3)
   @maxLength(64)
   name: string;
@@ -33,8 +34,8 @@ model AdrBilling is TrackedResource<AdrBillingProperties> {
 }
 
 @added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
-@doc("Defines the adrBilling properties.")
-model AdrBillingProperties {
+@doc("Defines the billingContainer properties.")
+model BillingContainerProperties { 
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -42,16 +43,15 @@ model AdrBillingProperties {
 
 @added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
 @armResourceOperations
-interface AdrBillings {
-  get is ArmResourceRead<AdrBilling>;
+interface BillingContainers {
+  get is ArmResourceRead<BillingContainer>;
 
-  createOrReplace is ArmResourceCreateOrReplaceAsync<AdrBilling>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
 
-  update is ArmResourcePatchAsync<AdrBilling, AdrBillingProperties>;
+  // we don't have updatable property today, when we have it uncomment the below run tsp compile .
+  // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
 
-  delete is ArmResourceDeleteWithoutOkAsync<AdrBilling>;
+  delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
 
-  listByResourceGroup is ArmResourceListByParent<AdrBilling>;
-
-  listBySubscription is ArmListBySubscription<AdrBilling>;
+  listByResourceGroup is ArmResourceListByParent<BillingContainer>;
 }
