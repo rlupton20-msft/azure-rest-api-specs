@@ -57,20 +57,16 @@ model CompositeSolution is TrackedResource<CompositeSolutionProperties> {
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning,
-
-  @doc("Update in progress")
-  Updating,
-
-  @doc("Deletion in progress")
-  Deleting,
-
-  @doc("Change accepted for processing")
-  Accepted,
+union ProvisioningState {
+  | Succeeded: "Succeeded",
+  | Failed: "Failed",
+  | Canceled: "Canceled",
+  // Add more values from ResourceProvisioningState as needed
+  | Provisioning: "Provisioning",
+  | Updating: "Updating",
+  | Deleting: "Deleting",
+  | Accepted: "Accepted",
+  | string
 }
 
 @doc("Details of the CompositeSolutionDefinition.")
