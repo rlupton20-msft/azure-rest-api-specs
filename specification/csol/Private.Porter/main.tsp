@@ -100,12 +100,12 @@ model CompositeSolutionDefinitionProperties {
   @visibility("read")
   @doc("List of metadata objects")
   @OpenAPI.extension("x-ms-identifiers", [])
-  metadata?: Array<CRPMetadata>;
+  metadata?: Array<CrpMetadata>;
 
 }
 
 @doc("Metadata associated with the bundle")
-model CRPMetadata {
+model CrpMetadata {
 
   @doc("Schema version of the metadata")
   schema: string;
@@ -136,10 +136,10 @@ model CompositeSolutionProperties {
   @OpenAPI.extension("x-ms-identifiers", ["credentialName"])
   credentials?: Array<KeyVaultSecretReference>;
 
-  //Do we need this?
+  // TODO: Do we need this?
   @visibility("read")
   @doc("Bundle Outputs.")
-  outputs?: Record<string>;
+  outputs?: Array<string>;
 
   @visibility("read", "create", "update")
   @doc("Bundle Friendly Name.")
@@ -147,9 +147,10 @@ model CompositeSolutionProperties {
 
   @visibility("read","create", "update")
   @doc("Solution Center Offer ID.")
-  saasOfferID?: string;
+  saasOfferId?: string;
 }
 
+@doc("KeyVault Secret Reference")
 model KeyVaultSecretReference {
 
  @doc("The secret name")
@@ -159,17 +160,17 @@ model KeyVaultSecretReference {
   secretName: string;
 }
 
+@doc("Paramter Value")
 model ParameterValue {
 
   @doc("The parameter name")
   name: string;
 
   //Object types cannot be built correctly. The value will be added in .NET code directly.
-
  
 }
 
-
+@doc("Parameter")
 model Parameter {
  
   @doc("Parameter name")
@@ -210,9 +211,13 @@ model Parameter {
 
 }
 
+@doc("Credential")
 model Credential {
+  @doc("Name")
   name: string;
+  @doc("Is Required")
   isRequired: boolean;
+  @doc("Applicable Operations")
   applicableOperations: Array<string>;
 }
 
@@ -236,32 +241,6 @@ model BundleProfile {
   tag?: string;
 
 }
-
-/** TDOO: Remove for now since change to Record<string
-* @doc("Parameter Value")
-* model ParameterValue {
-* 
-*   @doc("Parameter Value")
-*   @visibility("read", "create", "update")
-*   value: string;
-* }
-* 
-* @doc("Output Value")
-* model OutputValue {
-* 
-*   @doc("Output Value")
-*   @visibility("read")
-*   value: string;
-* }
-* 
-* @doc("Secret Parameter Value")
-* model SecretParameterValue {
-*   @doc("Secret Value")
-*   @visibility("create", "update")
-*   @secret
-*   value: string;
-*  }
-*/
 
 @armResourceOperations(CompositeSolution)
 interface CompositeSolutions  {

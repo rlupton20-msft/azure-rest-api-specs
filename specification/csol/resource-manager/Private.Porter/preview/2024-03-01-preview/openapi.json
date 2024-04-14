@@ -63,7 +63,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
@@ -105,7 +105,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionDefinitionListResult"
             }
@@ -144,7 +144,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionListResult"
             }
@@ -186,7 +186,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionDefinitionListResult"
             }
@@ -236,7 +236,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionDefinition"
             }
@@ -350,7 +350,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionDefinition"
             }
@@ -398,7 +398,7 @@
             "description": "Resource deleted successfully."
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -434,7 +434,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolutionListResult"
             }
@@ -484,7 +484,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolution"
             }
@@ -609,7 +609,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CompositeSolution"
             }
@@ -617,14 +617,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -674,19 +674,19 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -785,24 +785,6 @@
           ]
         }
       }
-    },
-    "CRPMetadata": {
-      "type": "object",
-      "description": "Metadata associated with the bundle",
-      "properties": {
-        "schema": {
-          "type": "string",
-          "description": "Schema version of the metadata"
-        },
-        "mixin": {
-          "type": "string",
-          "description": "Name of the metadata"
-        }
-      },
-      "required": [
-        "schema",
-        "mixin"
-      ]
     },
     "CompositeSolution": {
       "type": "object",
@@ -925,7 +907,7 @@
           "type": "array",
           "description": "List of metadata objects",
           "items": {
-            "$ref": "#/definitions/CRPMetadata"
+            "$ref": "#/definitions/CrpMetadata"
           },
           "readOnly": true,
           "x-ms-identifiers": []
@@ -1041,9 +1023,9 @@
           ]
         },
         "outputs": {
-          "type": "object",
+          "type": "array",
           "description": "Bundle Outputs.",
-          "additionalProperties": {
+          "items": {
             "type": "string"
           },
           "readOnly": true
@@ -1057,7 +1039,7 @@
             "create"
           ]
         },
-        "saasOfferID": {
+        "saasOfferId": {
           "type": "string",
           "description": "Solution Center Offer ID.",
           "x-ms-mutability": [
@@ -1145,7 +1127,7 @@
             "create"
           ]
         },
-        "saasOfferID": {
+        "saasOfferId": {
           "type": "string",
           "description": "Solution Center Offer ID.",
           "x-ms-mutability": [
@@ -1158,15 +1140,19 @@
     },
     "Credential": {
       "type": "object",
+      "description": "Credential",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "Name"
         },
         "isRequired": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Is Required"
         },
         "applicableOperations": {
           "type": "array",
+          "description": "Applicable Operations",
           "items": {
             "type": "string"
           }
@@ -1178,8 +1164,27 @@
         "applicableOperations"
       ]
     },
+    "CrpMetadata": {
+      "type": "object",
+      "description": "Metadata associated with the bundle",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "description": "Schema version of the metadata"
+        },
+        "mixin": {
+          "type": "string",
+          "description": "Name of the metadata"
+        }
+      },
+      "required": [
+        "schema",
+        "mixin"
+      ]
+    },
     "KeyVaultSecretReference": {
       "type": "object",
+      "description": "KeyVault Secret Reference",
       "properties": {
         "credentialName": {
           "type": "string",
@@ -1197,6 +1202,7 @@
     },
     "Parameter": {
       "type": "object",
+      "description": "Parameter",
       "properties": {
         "name": {
           "type": "string",
@@ -1268,6 +1274,7 @@
     },
     "ParameterValue": {
       "type": "object",
+      "description": "Paramter Value",
       "properties": {
         "name": {
           "type": "string",
