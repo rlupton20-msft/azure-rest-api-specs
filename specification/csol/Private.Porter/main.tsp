@@ -176,28 +176,28 @@ model Parameter {
   type?: string;
 
   @doc("Minimum value allowed (> than value specified).  Only applies to numerics.")
-  exclusiveMinimum?: integer;
+  exclusiveMinimum?: int64;
 
   @doc("Maximum value allowed (< than value specified). Only applies to numerics.")
-  exclusiveMaximum?: integer;
+  exclusiveMaximum?: int64;
 
   @doc("Whether the parameter is required or not")
   isRequired: boolean;
 
   @doc("Maximum value allowed (>= value specified). Only applies to numerics.")
-  maximum?: integer;
+  maximum?: int64;
 
   @doc("Minimum value allowed (<= value specified). Only applies to numerics.")
-  minimum?: integer;
+  minimum?: int64;
 
   @doc("Description of the parameter")
   description?: string;
 
   @doc("The maximum length of the parameter. Only applies to strings.")
-  maxLength?: integer;
+  maxLength?: int64;
 
   @doc("The minimum length of the parameter. Only applies to strings.")
-  minLength?: integer;
+  minLength?: int64;
 
   @doc("Which operations this parameter applies to. If not specified, this parameter applies to all operations.")
   applicableOperations: Array<string>;
