@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -12,8 +11,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.Elements")
 @service({
-  title: "Microsoft.Elements",
-  version: "2021-08-01-preview",
+  title: "Microsoft.Elements"
 })
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -35,20 +33,29 @@ model Workspace is TrackedResource<WorkspaceProperties> {
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  string,
 
   @doc("Initial provisioning in progress")
-  Provisioning,
+  Provisioning: "Provisioning",
 
   @doc("Update in progress")
-  Updating,
+  Updating: "Updating",
 
   @doc("Deletion in progress")
-  Deleting,
+  Deleting: "Deleting",
 
   @doc("Change accepted for processing")
-  Accepted,
+  Accepted: "Accepted",
+
+  @doc("Succeeded")
+  Succeeded: "Succeeded",
+
+  @doc("Failed")
+  Failed: "Failed",
+
+  @doc("Canceled")
+  Canceled: "Canceled"
 }
 
 @doc("Details of the Elements Workspace.")
