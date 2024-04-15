@@ -55,22 +55,21 @@ interface Environment {
   get is ArmResourceRead<EnvironmentResource>;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union environmentProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum environmentProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Basic or All Mode indicate clone customer config file or just basic file")
-union environmentMode {
-  string,
-
+enum environmentMode {
   @doc("Clone basic file")
-  Basic: "Basic",
+  Basic,
 
   @doc("Clone customer config file")
-  All: "All",
+  All,
 }

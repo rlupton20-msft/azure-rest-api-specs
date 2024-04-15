@@ -48,13 +48,13 @@ model ServiceRecordResource is ProxyResource<ServiceRecordResourceProperties> {
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union ServiceRecordProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum ServiceRecordProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"

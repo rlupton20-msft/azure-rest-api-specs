@@ -12,47 +12,47 @@ using Autorest;
 
 namespace Microsoft.AzureCIS;
 
-@doc("PtrRecord properties")
-model PtrRecordResourceProperties {
+@doc("AddressRecord properties")
+model AddressRecordResourceProperties {
   @doc("Gets or sets the dns name")
   dnsName: string;
 
   @doc("Gets or sets the IP Address in String format")
-  pointsTo: string;
+  ipAddress: string;
 
   @doc("Gets or sets the ttl")
   ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")
-  provisioningState?: PtrRecordProvisioningState;
+  provisioningState?: AddressRecordProvisioningState;
 }
 
-@doc("PtrRecord Resource")
-model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
+@doc("AddressRecord Resource")
+model AddressRecordResource is ProxyResource<AddressRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("ptrRecords") // start with lower case
+  @segment("addressRecords") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union PtrRecordProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum AddressRecordProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface PtrRecord {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<PtrRecordResource>;
-  listBySubscription is ArmListBySubscription<PtrRecordResource>;
-  listByResourceGroup is ArmResourceListByParent<PtrRecordResource>;
-  get is ArmResourceRead<PtrRecordResource>;
+interface AddressRecord {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AddressRecordResource>;
+  listBySubscription is ArmListBySubscription<AddressRecordResource>;
+  listByResourceGroup is ArmResourceListByParent<AddressRecordResource>;
+  get is ArmResourceRead<AddressRecordResource>;
 }

@@ -91,11 +91,11 @@ model RecordSetOwner {
   contactEmail: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union DnsNamespaceManagerProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum DnsNamespaceManagerProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

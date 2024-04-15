@@ -1,5 +1,10 @@
 import "../versions.tsp";
-import "./genevaactionsextension.tsp";
+import "./dsmsallowlist.tsp";
+import "./dstsserviceaccount.tsp";
+import "./dstsapplication.tsp";
+import "./dsmsrootfolder.tsp";
+import "./dstsserviceclientidentity.tsp";
+import "./jitpolicyset.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,17 +14,17 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/geneva/geneva-actions-extension-resource-template")
+@doc("dscm Service")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union GenevaActionsExtensionProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum DscmProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

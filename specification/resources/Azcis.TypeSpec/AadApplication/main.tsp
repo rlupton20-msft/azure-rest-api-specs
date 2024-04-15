@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./storageAccountDsms.tsp";
+import "./aadapplication.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,17 +9,17 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("storageAccount Provider.")
+@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/aad-application")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-union StorageAccountDsmsProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum AadApplicationProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
