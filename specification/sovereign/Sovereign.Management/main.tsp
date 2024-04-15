@@ -81,7 +81,7 @@ interface LandingZonesConfigurations
 }
 
 // Landing zone template resource type
-@added(Versions.Preview20240831)
+@added(Versions.Preview20241031)
 @doc("The Landing Zone template resource type.")
 model LandingZoneTemplate is TrackedResource<LandingZoneTemplateProperties> {
   @doc("The name of the landing zone template resource.")
@@ -92,7 +92,7 @@ model LandingZoneTemplate is TrackedResource<LandingZoneTemplateProperties> {
   name: string;
 }
 
-@added(Versions.Preview20240831)
+@added(Versions.Preview20241031)
 @armResourceOperations(LandingZoneTemplate)
 interface LandingZoneTemplates
   extends TrackedResourceOperations<
@@ -101,7 +101,7 @@ interface LandingZoneTemplates
     > {
   @action("generateLandingZone")
   @doc("Generate the landing zone.")
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneTemplate)
   generateLandingZone is ArmResourceActionAsync<
     LandingZoneTemplate,
@@ -111,7 +111,7 @@ interface LandingZoneTemplates
 
   @action("updateAuthoringStatus")
   @doc("Provides a mechanism to update the authoring status.")
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneTemplate)
   updateAuthoringStatus is ArmResourceActionSync<
     LandingZoneTemplate,
@@ -121,7 +121,7 @@ interface LandingZoneTemplates
 
   @action("createCopy")
   @doc("Provides a mechanism to create a copy of the landing zone template.")
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneTemplate)
   createCopy is ArmResourceActionSync<
     LandingZoneTemplate,
@@ -152,7 +152,7 @@ interface LandingZoneRegistrations
     > {}
 
 // Landing zone association Resource Type
-@added(Versions.Preview20240831)
+@added(Versions.Preview20241031)
 @doc("The Landing Zone association resource type")
 model LandingZoneAssociation
   is TrackedResource<LandingZoneAssociationProperties> {
@@ -164,7 +164,7 @@ model LandingZoneAssociation
   name: string;
 }
 
-@added(Versions.Preview20240831)
+@added(Versions.Preview20241031)
 @armResourceOperations(LandingZoneAssociation)
 interface LandingZoneAssociations
   extends TrackedResourceOperations<

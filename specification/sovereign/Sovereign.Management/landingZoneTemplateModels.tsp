@@ -4,7 +4,7 @@ using Azure.Core;
 
 namespace Microsoft.Sovereign;
 
-@added(Versions.Preview20240831)
+@added(Versions.Preview20241031)
 @doc("The properties of landing zone template resource type.")
 model LandingZoneTemplateProperties {
   @visibility("read")
@@ -201,11 +201,11 @@ model GenerateLandingZoneResponse {
   @doc("The top level Management Group display name.")
   topLevelMgDisplayName: string;
 
-  @removed(Versions.Preview20240831)
+  @removed(Versions.Preview20241031)
   @doc("The name of the Landing Zone configuration resource.")
   landingZoneConfigurationName: string;
 
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @doc("The name of the Landing Zone template resource.")
   landingZoneTemplateName: string;
 
@@ -222,11 +222,11 @@ model UpdateAuthoringStatusRequest {
 
 @doc("The response for the request to update authoring status.")
 model UpdateAuthoringStatusResponse {
-  @removed(Versions.Preview20240831)
+  @removed(Versions.Preview20241031)
   @doc("The name of the landing zone configuration resource.")
   landingZoneConfigurationName: string;
 
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @doc("The name of the landing zone template resource.")
   landingZoneTemplateName: string;
 
@@ -299,7 +299,7 @@ model CreateCopyRequest {
 
 @doc("The response of the create copy action of landing zone configuration.")
 model CreateCopyResponse {
-  @removed(Versions.Preview20240831)
+  @removed(Versions.Preview20241031)
   @doc("The id of the copied landing zone configuration resource.")
   copiedLandingZoneConfigurationId: armResourceIdentifier<[
     {
@@ -307,7 +307,7 @@ model CreateCopyResponse {
     }
   ]>;
 
-  @added(Versions.Preview20240831)
+  @added(Versions.Preview20241031)
   @doc("The id of the copied landing zone template resource.")
   copiedLandingZoneTemplateId: armResourceIdentifier<[
     {
