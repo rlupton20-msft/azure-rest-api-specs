@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./genericgenevaactions.tsp";
+import "./storageAccountDsms.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,17 +9,16 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("GenericGenevaActions Provider")
+@doc("storageAccount Provider.")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-union GenericGenevaActionsProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum StorageAccountDsmsProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

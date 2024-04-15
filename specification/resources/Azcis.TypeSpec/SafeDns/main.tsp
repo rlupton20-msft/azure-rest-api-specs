@@ -92,10 +92,9 @@ model RecordSetOwner {
 }
 
 @doc("Provisioning status of the resource.")
-union DnsNamespaceManagerProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum DnsNamespaceManagerProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

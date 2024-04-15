@@ -12,47 +12,47 @@ using Autorest;
 
 namespace Microsoft.AzureCIS;
 
-@doc("PtrRecord properties")
-model PtrRecordResourceProperties {
+@doc("CanonicalNameRecord properties")
+model CanonicalNameRecordResourceProperties {
   @doc("Gets or sets the dns name")
   dnsName: string;
 
-  @doc("Gets or sets the IP Address in String format")
-  pointsTo: string;
+  @doc("Gets or sets the canonical name")
+  canonicalName: string;
 
   @doc("Gets or sets the ttl")
   ttl: string;
 
   @doc("Provisioning state")
   @visibility("read")
-  provisioningState?: PtrRecordProvisioningState;
+  provisioningState?: CanonicalNameRecordProvisioningState;
 }
 
-@doc("PtrRecord Resource")
-model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
+@doc("CanonicalNameRecord Resource")
+model CanonicalNameRecordResource
+  is ProxyResource<CanonicalNameRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("ptrRecords") // start with lower case
+  @segment("canonicalNameRecords") // start with lower case
   @visibility("read")
   @path
   name: string;
 }
 
 @doc("Provisioning status of the resource.")
-union PtrRecordProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum CanonicalNameRecordProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface PtrRecord {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<PtrRecordResource>;
-  listBySubscription is ArmListBySubscription<PtrRecordResource>;
-  listByResourceGroup is ArmResourceListByParent<PtrRecordResource>;
-  get is ArmResourceRead<PtrRecordResource>;
+interface CanonicalNameRecord {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<CanonicalNameRecordResource>;
+  listBySubscription is ArmListBySubscription<CanonicalNameRecordResource>;
+  listByResourceGroup is ArmResourceListByParent<CanonicalNameRecordResource>;
+  get is ArmResourceRead<CanonicalNameRecordResource>;
 }

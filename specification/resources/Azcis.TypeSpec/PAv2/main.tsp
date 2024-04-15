@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./aadapplication.tsp";
+import "./pushagentv2account.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,17 +9,16 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/aad-application")
+@doc("PushAgentV2Account Provider")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-union AadApplicationProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum PushAgentV2AccountProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

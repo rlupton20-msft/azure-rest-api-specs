@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./pushagentv2account.tsp";
+import "./genevaactionsextension.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -9,17 +9,16 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("PushAgentV2Account Provider")
+@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/geneva/geneva-actions-extension-resource-template")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-union PushAgentV2AccountProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum GenevaActionsExtensionProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }

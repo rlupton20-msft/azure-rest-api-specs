@@ -34,12 +34,11 @@ model ApSlbVipResource is ProxyResource<ApSlbVipResourceProperties> {
 }
 
 @doc("Provisioning status of the resource.")
-union ApSlbVipProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum ApSlbVipProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"

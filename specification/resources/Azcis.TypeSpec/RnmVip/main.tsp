@@ -1,10 +1,5 @@
 import "../versions.tsp";
-import "./dsmsallowlist.tsp";
-import "./dstsserviceaccount.tsp";
-import "./dstsapplication.tsp";
-import "./dsmsrootfolder.tsp";
-import "./dstsserviceclientidentity.tsp";
-import "./jitpolicyset.tsp";
+import "./rnmvip.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
@@ -14,17 +9,16 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("dscm Service")
+@doc("rnmVip Provider")
 @versioned(Microsoft.AzureCIS.Versions)
 namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
-union DscmProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum RnmVipProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted: "Accepted",
+  Accepted,
 }
