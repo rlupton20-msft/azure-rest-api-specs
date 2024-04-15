@@ -15,6 +15,7 @@ namespace Microsoft.AzureCIS;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
 enum StorageAccountDsmsProvisioningState {
   ...ResourceProvisioningState,

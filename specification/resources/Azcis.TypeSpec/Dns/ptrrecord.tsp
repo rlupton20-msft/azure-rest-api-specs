@@ -39,6 +39,7 @@ model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
   name: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
 enum PtrRecordProvisioningState {
   ...ResourceProvisioningState,
