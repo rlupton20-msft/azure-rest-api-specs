@@ -1,0 +1,20 @@
+import "../versions.tsp";
+import "./addressrecord.tsp";
+import "./apslbvip.tsp";
+import "./canonicalnamerecord.tsp";
+import "./ptrrecord.tsp";
+import "./servicerecord.tsp";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
+@armProviderNamespace
+@service({
+  title: "Foundational ARM Client",
+})
+@doc("Dns Service")
+@versioned(Microsoft.AzureCIS.Versions)
+namespace Microsoft.AzureCIS;
+
+interface Operations extends Azure.ResourceManager.Operations {}
