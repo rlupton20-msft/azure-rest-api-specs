@@ -10,7 +10,7 @@ using OpenAPI;
 using Azure.ResourceManager;
 using Autorest;
 
-namespace Microsoft.AzureCIS;
+namespace Microsoft.AzureCis;
 
 @doc("storageAccountDsms properties.")
 model StorageAccountDsmsResourceProperties {

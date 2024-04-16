@@ -11,7 +11,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-namespace Microsoft.AzureCIS;
+namespace Microsoft.AzureCis;
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Model types must use PascalCase"
 @doc("DnsNamespaceManagerARecordSet properties")
