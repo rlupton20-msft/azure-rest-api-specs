@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
 @armProviderNamespace
 @service({
-  title: "Azure CIS - DNS",
+  title: "Azure CIS - Dns",
 })
 @doc("Dns Service")
 @versioned(Microsoft.AzureCis.Versions)

@@ -7,7 +7,7 @@ using Azure.ResourceManager;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
 @armProviderNamespace
 @service({
-  title: "Azure CIS - Storage Account",
+  title: "Azure CIS - StorageAccount",
 })
 @doc("storageAccount Provider.")
 @versioned(Microsoft.AzureCis.Versions)

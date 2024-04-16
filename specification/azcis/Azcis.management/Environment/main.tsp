@@ -7,7 +7,7 @@ using Azure.ResourceManager;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
 @armProviderNamespace
 @service({
-  title: "Azure CIS - Autopilot Environment",
+  title: "Azure CIS - AutopilotEnvironment",
 })
 @doc("Autopilot Environment Provider")
 @versioned(Microsoft.AzureCis.Versions)

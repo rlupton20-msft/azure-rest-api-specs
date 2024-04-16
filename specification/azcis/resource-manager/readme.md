@@ -98,10 +98,6 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/storageAccountDsms.json
 ```
 
-``` yaml
-suppressions:
-  - code: PathResourceProviderNamePascalCase
-```
 ---
 <!-- # Code Generation
 ## Swagger to SDK

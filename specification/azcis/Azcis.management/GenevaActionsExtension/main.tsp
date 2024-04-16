@@ -7,7 +7,7 @@ using Azure.ResourceManager;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
 @armProviderNamespace
 @service({
-  title: "Azure CIS - Geneva Actions Extension",
+  title: "Azure CIS - GenevaActionsExtension",
 })
 @doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/geneva/geneva-actions-extension-resource-template")
 @versioned(Microsoft.AzureCis.Versions)
