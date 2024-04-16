@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - RnmVip",
+  title: "Foundational ARM Client",
 })
 @doc("rnmVip Provider")
 @versioned(Microsoft.AzureCis.Versions)

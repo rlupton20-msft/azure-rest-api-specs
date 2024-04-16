@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - Dscm",
+  title: "Foundational ARM Client",
 })
 @doc("dscm Service")
 @versioned(Microsoft.AzureCis.Versions)

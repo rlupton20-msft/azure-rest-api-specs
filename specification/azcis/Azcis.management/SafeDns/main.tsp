@@ -26,7 +26,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - SafeDns",
+  title: "Foundational ARM Client",
 })
 @doc("SafeDns Service")
 @versioned(Microsoft.AzureCis.Versions)

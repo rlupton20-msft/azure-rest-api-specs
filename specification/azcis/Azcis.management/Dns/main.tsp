@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - Dns",
+  title: "Foundational ARM Client",
 })
 @doc("Dns Service")
 @versioned(Microsoft.AzureCis.Versions)

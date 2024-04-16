@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - AutopilotEnvironment",
+  title: "Foundational ARM Client",
 })
 @doc("Autopilot Environment Provider")
 @versioned(Microsoft.AzureCis.Versions)

@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - PlannedQuota",
+  title: "Foundational ARM Client",
 })
 @doc("Planned Quota Provider")
 @versioned(Microsoft.AzureCis.Versions)
