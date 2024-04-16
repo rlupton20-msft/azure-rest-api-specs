@@ -19,14 +19,12 @@ namespace Microsoft.Elements;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A ElementsProviderHub resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
   @doc("The name of the workspace")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("WorkspaceName")
-  @segment("Workspaces")
+  @key("workspaceName")
+  @segment("workspaces")
   @path
   name: string;
 }
