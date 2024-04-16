@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Foundational ARM Client",
+  title: "Azure CIS - Push Agent V2",
 })
 @doc("PushAgentV2Account Provider")
 @versioned(Microsoft.AzureCis.Versions)

@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Foundational ARM Client",
+  title: "Azure CIS - Generic Geneva Actions",
 })
 @doc("GenericGenevaActions Provider")
 @versioned(Microsoft.AzureCis.Versions)
