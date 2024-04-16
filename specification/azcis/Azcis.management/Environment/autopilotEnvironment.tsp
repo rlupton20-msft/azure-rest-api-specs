@@ -22,16 +22,16 @@ model EnvironmentResourceProperties {
   @doc("Cluster name")
   clusterName?: string;
 
-  @doc("Basic or All Mode indicate clone customer config file or just basic file")
+  @doc("The mode property indicates which files will be cloned to the new environment. There are two options. All: Will clone all the files including customer files to the new environment. Basic: Will clone only the environment basic files which is deployment.ini, allocation.ini, environment.ini, VirtualEnvironment.ini, UserProperty.ini, Machines.csv, owners.txt, access.txt.")
   @visibility("read")
-  mode?: environmentMode;
+  mode?: EnvironmentMode;
 
   @doc("Indicate APGold or PFGold.")
   enlistmentType?: string;
 
   @doc("Provisioning state")
   @visibility("read")
-  provisioningState?: environmentProvisioningState;
+  provisioningState?: EnvironmentProvisioningState;
 }
 
 @doc("Environment Resource")
@@ -55,21 +55,22 @@ interface Environment {
   get is ArmResourceRead<EnvironmentResource>;
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-enum environmentProvisioningState {
-  ...ResourceProvisioningState,
+union EnvironmentProvisioningState {
+  string,
+  ResourceProvisioningState,
 
-  @doc("Accepted State")
-  Accepted,
+  @doc("The resource create request has been accepted")
+  Accepted: "Accepted",
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
-@doc("Basic or All Mode indicate clone customer config file or just basic file")
-enum environmentMode {
-  @doc("Clone basic file")
-  Basic,
+@doc("The EnvironmentMode indicates which files will be cloned to the new environment.")
+union EnvironmentMode {
+  string,
 
-  @doc("Clone customer config file")
-  All,
+  @doc("On the Basic mode only the environment basic files will be cloned to the new environment. The environment basic files are deployment.ini, allocation.ini, environment.ini, VirtualEnvironment.ini, UserProperty.ini, Machines.csv, owners.txt, access.txt.")
+  Basic: "Basic",
+
+  @doc("On the All mode all the files including customer files will be copied to the new environment.")
+  All: "All",
 }
