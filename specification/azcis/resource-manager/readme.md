@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-2022-08-22-privatepreview` is spec
 
 ```yaml $(tag) == 'package-2022-08-22-privatepreview'
 input-file:
-  - Microsoft.AzureCIS/preview/2022-08-22-privatepreview/plannedQuota.json
+  - Microsoft.AzureCis/preview/2022-08-22-privatepreview/plannedQuota.json
 ```
 
 ### Tag: package-2021-08-21-privatepreview
@@ -44,14 +44,14 @@ These settings apply only when `--tag=package-2021-08-21-privatepreview` is spec
 
 ```yaml $(tag) == 'package-2021-08-21-privatepreview'
 input-file:
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/dsmsAllowlist.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/dsmsRootFolder.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/dstsApplication.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/dstsServiceAccount.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/dstsServiceClientIdentity.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/environment.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/serviceTypeEnablement.json
-  - Microsoft.AzureCIS/preview/2021-08-21-privatepreview/sSLAdminCertificateDsms.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dsmsAllowlist.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dsmsRootFolder.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsApplication.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsServiceAccount.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsServiceClientIdentity.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/environment.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/serviceTypeEnablement.json
+  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/sSLAdminCertificateDsms.json
 ```
 
 ### Tag: package-2021-8-21-privatepreview
@@ -60,7 +60,7 @@ These settings apply only when `--tag=package-2021-8-21-privatepreview` is speci
 
 ```yaml $(tag) == 'package-2021-8-21-privatepreview'
 input-file:
-  - Microsoft.AzureCIS/preview/2021-8-21-privatepreview/environment.json
+  - Microsoft.AzureCis/preview/2021-8-21-privatepreview/environment.json
 ```
 
 ### Tag: package-2021-08-10-privatepreview
@@ -69,14 +69,14 @@ These settings apply only when `--tag=package-2021-08-10-privatepreview` is spec
 
 ```yaml $(tag) == 'package-2021-08-10-privatepreview'
 input-file:
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/dsmsAllowlist.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/dsmsRootFolder.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/dstsApplication.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/dstsServiceAccount.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/dstsServiceClientIdentity.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/environment.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/serviceTypeEnablement.json
-  - Microsoft.AzureCIS/preview/2021-08-10-privatepreview/sSLAdminCertificateDsms.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dsmsAllowlist.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dsmsRootFolder.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsApplication.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsServiceAccount.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsServiceClientIdentity.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/environment.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/serviceTypeEnablement.json
+  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/sSLAdminCertificateDsms.json
 ```
 
 ### Tag: package-2023-08-22-preview
@@ -85,17 +85,17 @@ These settings apply only when `--tag=package-2023-08-22-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-08-22-preview'
 input-file:
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/aad.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/dns.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/dscm.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/environment.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/genevaActions.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/genevaActionsExtension.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/pav2.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/plannedQuota.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/rnmVip.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/safedns.json
-  - Microsoft.AzureCIS/preview/2023-08-22-preview/storageAccountDsms.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/aad.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/dns.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/dscm.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/environment.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/genevaActions.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/genevaActionsExtension.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/pav2.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/plannedQuota.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/rnmVip.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/safedns.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/storageAccountDsms.json
 ```
 
 ``` yaml

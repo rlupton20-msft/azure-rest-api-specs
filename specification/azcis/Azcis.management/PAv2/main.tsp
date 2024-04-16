@@ -10,8 +10,8 @@ using Azure.ResourceManager;
   title: "Foundational ARM Client",
 })
 @doc("PushAgentV2Account Provider")
-@versioned(Microsoft.AzureCIS.Versions)
-namespace Microsoft.AzureCIS;
+@versioned(Microsoft.AzureCis.Versions)
+namespace Microsoft.AzureCis;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 

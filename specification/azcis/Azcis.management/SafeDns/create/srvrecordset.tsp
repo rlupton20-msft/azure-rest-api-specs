@@ -11,7 +11,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-namespace Microsoft.AzureCIS;
+namespace Microsoft.AzureCis;
 
 @doc("DnsNamespaceManagerSrvRecordSet properties")
 model DnsNamespaceManagerSrvRecordSetResourceProperties {
