@@ -296,6 +296,27 @@
       },
       "readOnly": true
     },
+    "CertificateType": {
+      "type": "string",
+      "enum": [
+        "Chained",
+        "SelfSigned"
+      ],
+      "x-ms-enum": {
+        "name": "CertificateType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Chained",
+            "value": "Chained"
+          },
+          {
+            "name": "SelfSigned",
+            "value": "SelfSigned"
+          }
+        ]
+      }
+    },
     "DsmsCertificateProperties": {
       "type": "object",
       "description": "sslAdminCertificateDsms properties",
@@ -305,15 +326,8 @@
           "description": "Name of the certificate"
         },
         "certificateType": {
-          "type": "string",
-          "description": "Certificate type, Chained or SelfSigned",
-          "enum": [
-            "Chained",
-            "SelfSigned"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
+          "$ref": "#/definitions/CertificateType",
+          "description": "Certificate type, Chained or SelfSigned"
         },
         "rootPath": {
           "type": "string",
@@ -419,8 +433,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
