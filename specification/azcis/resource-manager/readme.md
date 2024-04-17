@@ -29,56 +29,6 @@ openapi-type: arm
 
 ```
 
-### Tag: package-2022-08-22-privatepreview
-
-These settings apply only when `--tag=package-2022-08-22-privatepreview` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-08-22-privatepreview'
-input-file:
-  - Microsoft.AzureCis/preview/2022-08-22-privatepreview/plannedQuota.json
-```
-
-### Tag: package-2021-08-21-privatepreview
-
-These settings apply only when `--tag=package-2021-08-21-privatepreview` is specified on the command line.
-
-```yaml $(tag) == 'package-2021-08-21-privatepreview'
-input-file:
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dsmsAllowlist.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dsmsRootFolder.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsApplication.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsServiceAccount.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/dstsServiceClientIdentity.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/environment.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/serviceTypeEnablement.json
-  - Microsoft.AzureCis/preview/2021-08-21-privatepreview/sSLAdminCertificateDsms.json
-```
-
-### Tag: package-2021-8-21-privatepreview
-
-These settings apply only when `--tag=package-2021-8-21-privatepreview` is specified on the command line.
-
-```yaml $(tag) == 'package-2021-8-21-privatepreview'
-input-file:
-  - Microsoft.AzureCis/preview/2021-8-21-privatepreview/environment.json
-```
-
-### Tag: package-2021-08-10-privatepreview
-
-These settings apply only when `--tag=package-2021-08-10-privatepreview` is specified on the command line.
-
-```yaml $(tag) == 'package-2021-08-10-privatepreview'
-input-file:
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dsmsAllowlist.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dsmsRootFolder.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsApplication.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsServiceAccount.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/dstsServiceClientIdentity.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/environment.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/serviceTypeEnablement.json
-  - Microsoft.AzureCis/preview/2021-08-10-privatepreview/sSLAdminCertificateDsms.json
-```
-
 ### Tag: package-2023-08-22-preview
 
 These settings apply only when `--tag=package-2023-08-22-preview` is specified on the command line.
