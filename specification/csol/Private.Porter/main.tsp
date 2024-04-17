@@ -1,4 +1,3 @@
-// Update
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -146,6 +145,38 @@ model CompositeSolutionProperties {
   saasOfferId?: string;
 }
 
+/** Path request body for CompositeSolutionProperties */
+model CompositeSolutionPatch
+{  
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
+
+  /** Updatable managed service identity */
+  identity?: ManagedServiceIdentityUpdate;
+
+  /** RP-specific properties */
+  properties?: CompositeSolutionPropertiesUpdate;
+}
+
+model CompositeSolutionPropertiesUpdate
+  is OptionalProperties<UpdateableProperties<CompositeSolutionProperties>>;
+
+/** Path request body for CompositeSolutionDefinitionProperties */
+model CompositeSolutionDefinitionPatch
+{  
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
+
+  /** Updatable managed service identity */
+  identity?: ManagedServiceIdentityUpdate;
+
+  /** RP-specific properties */
+  properties?: CompositeSolutionDefinitionPropertiesUpdate;
+}
+
+model CompositeSolutionDefinitionPropertiesUpdate
+  is OptionalProperties<UpdateableProperties<CompositeSolutionDefinitionProperties>>;
+model ManagedServiceIdentityUpdate
+  is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedIdentityProperties>>;
+
 @doc("KeyVault Secret Reference")
 model KeyVaultSecretReference {
   @doc("The secret name")
@@ -239,7 +270,7 @@ interface CompositeSolutions {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
   update is ArmResourcePatchAsync<
     CompositeSolution,
-    CompositeSolutionProperties
+    CompositeSolutionPatch
   >;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
@@ -252,7 +283,7 @@ interface CompositeSolutionDefinitions {
   createOrUpdate is ArmResourceCreateOrReplaceSync<CompositeSolutionDefinition>;
   update is ArmResourcePatchSync<
     CompositeSolutionDefinition,
-    CompositeSolutionDefinitionProperties
+    CompositeSolutionDefinitionPatch
   >;
   delete is ArmResourceDeleteSync<CompositeSolutionDefinition>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolutionDefinition>;
