@@ -163,7 +163,7 @@ model ParameterValue {
   //Object types cannot be built correctly. The value will be added in .NET code directly.
 }
 
-@doc("Parameter")
+@doc("Parameter model")
 model Parameter {
   @doc("Parameter name")
   name: string;
@@ -202,9 +202,9 @@ model Parameter {
   microsoftTargets: Array<string>;
 }
 
-@doc("Credential")
+@doc("Credential model")
 model Credential {
-  @doc("Name")
+  @doc("Name of Credential")
   name: string;
 
   @doc("Is Required")
