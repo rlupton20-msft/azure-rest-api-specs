@@ -40,8 +40,8 @@ model Replicate {
 union CertificateType {
   Chained: "Chained",
   SelfSigned: "SelfSigned",
-  string
-};
+  string,
+}
 
 @doc("sslAdminCertificateDsms properties")
 model DsmsCertificateProperties {
