@@ -11,10 +11,9 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.Elements")
 @service({
-  title: "Microsoft.Elements"
+  title: "Microsoft.Elements",
 })
-
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5) 
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @versioned(Versions)
 namespace Microsoft.Elements;
 
@@ -54,7 +53,7 @@ union ProvisioningState {
   Failed: "Failed",
 
   @doc("Operation canceled")
-  Canceled: "Canceled"
+  Canceled: "Canceled",
 }
 
 @doc("Details of the Elements Workspace.")
