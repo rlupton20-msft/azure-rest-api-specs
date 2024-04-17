@@ -146,8 +146,7 @@ model CompositeSolutionProperties {
 }
 
 /** Path request body for CompositeSolutionProperties */
-model CompositeSolutionPatch
-{  
+model CompositeSolutionPatch {
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 
   /** Updatable managed service identity */
@@ -161,8 +160,7 @@ model CompositeSolutionPropertiesUpdate
   is OptionalProperties<UpdateableProperties<CompositeSolutionProperties>>;
 
 /** Path request body for CompositeSolutionDefinitionProperties */
-model CompositeSolutionDefinitionPatch
-{  
+model CompositeSolutionDefinitionPatch {
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 
   /** Updatable managed service identity */
@@ -268,10 +266,7 @@ model BundleProfile {
 interface CompositeSolutions {
   get is ArmResourceRead<CompositeSolution>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
-  update is ArmResourcePatchAsync<
-    CompositeSolution,
-    CompositeSolutionPatch
-  >;
+  update is ArmResourcePatchAsync<CompositeSolution, CompositeSolutionPatch>;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
