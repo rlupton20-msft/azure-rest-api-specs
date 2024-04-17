@@ -37,6 +37,7 @@ model EmployeeProperties {
   provisioningState?: ProvisioningState;
 }
 
+#suppress "@azure-tools/typespec-azure-core/no-enum" ""
 /** The resource provisioning state. */
 @lroStatus
 enum ProvisioningState {
