@@ -13,8 +13,9 @@ using Azure.ResourceManager;
 @service({
   title: "Microsoft.Elements"
 })
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5) 
+@versioned(Versions)
 namespace Microsoft.Elements;
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -46,13 +47,13 @@ union ProvisioningState {
   @doc("Change accepted for processing")
   Accepted: "Accepted",
 
-  @doc("Succeeded")
+  @doc("Operation Succeeded")
   Succeeded: "Succeeded",
 
-  @doc("Failed")
+  @doc("Operation failed")
   Failed: "Failed",
 
-  @doc("Canceled")
+  @doc("Operation canceled")
   Canceled: "Canceled"
 }
 
@@ -71,4 +72,12 @@ interface Workspaces {
   delete is ArmResourceDeleteSync<Workspace>;
   listByResourceGroup is ArmResourceListByParent<Workspace>;
   listBySubscription is ArmListBySubscription<Workspace>;
+}
+
+@doc("Azure Large Instance api versions.")
+enum Versions {
+  @doc("Azure Large Instance api version 2023-07-20-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  v2023_07_20_preview: "2023-07-20-preview",
 }

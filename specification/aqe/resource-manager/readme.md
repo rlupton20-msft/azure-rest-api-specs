@@ -27,16 +27,16 @@ These are the global settings for the Microsoft Elements.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2021-08-01-preview
+tag: package-2023-07-20-preview
 ```
 
 ### Tag: package-2021-08-01-preview
 
-These settings apply only when `--tag=package-2021-08-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2023-07-20-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2021-08-01-preview'
+```yaml $(tag) == 'package-2023-07-20-preview'
 input-file:
-  - Microsoft.Elements/preview/2021-08-01-preview/openapi.json
+  - Microsoft.Elements/preview/2023-07-20-preview/openapi.json
 ```
 
 ---
