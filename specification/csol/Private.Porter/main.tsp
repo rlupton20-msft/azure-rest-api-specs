@@ -13,7 +13,6 @@ using Azure.ResourceManager;
 @service({
   title: "Microsoft.CompositeSolutions",
 })
-
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 // @versioned(Microsoft.CompositeSolutions.Versions)
 @versioned(Versions)
@@ -31,7 +30,8 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A CompositeSolutionProviderHub resource")
-model CompositeSolutionDefinition is TrackedResource<CompositeSolutionDefinitionProperties> {
+model CompositeSolutionDefinition
+  is TrackedResource<CompositeSolutionDefinitionProperties> {
   @doc("The name of the composite solution definition")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("compositeSolutionDefinition")
@@ -59,15 +59,17 @@ model CompositeSolution is TrackedResource<CompositeSolutionProperties> {
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
 union ProvisioningState {
-  | Succeeded: "Succeeded",
-  | Failed: "Failed",
-  | Canceled: "Canceled",
+  Succeeded: "Succeeded",
+  Failed: "Failed",
+  Canceled: "Canceled",
+
   // Add more values from ResourceProvisioningState as needed
-  | Provisioning: "Provisioning",
-  | Updating: "Updating",
-  | Deleting: "Deleting",
-  | Accepted: "Accepted",
-  | string
+  Provisioning: "Provisioning",
+
+  Updating: "Updating",
+  Deleting: "Deleting",
+  Accepted: "Accepted",
+  string,
 }
 
 @doc("Details of the CompositeSolutionDefinition.")
@@ -79,7 +81,7 @@ model CompositeSolutionDefinitionProperties {
   @visibility("read", "create", "update")
   @doc("Bundle Profile.")
   bundleProfile: BundleProfile;
- 
+
   @visibility("read")
   @doc("Parameters for the composite solution")
   @OpenAPI.extension("x-ms-identifiers", ["name"])
@@ -98,18 +100,15 @@ model CompositeSolutionDefinitionProperties {
   @doc("List of metadata objects")
   @OpenAPI.extension("x-ms-identifiers", [])
   metadata?: Array<CrpMetadata>;
-
 }
 
 @doc("Metadata associated with the bundle")
 model CrpMetadata {
-
   @doc("Schema version of the metadata")
   schema: string;
 
   @doc("Name of the metadata")
   mixin: string;
-
 }
 
 @doc("Details of the CompositeSolution.")
@@ -142,15 +141,14 @@ model CompositeSolutionProperties {
   @doc("Bundle Friendly Name.")
   friendlyName?: string;
 
-  @visibility("read","create", "update")
+  @visibility("read", "create", "update")
   @doc("Solution Center Offer ID.")
   saasOfferId?: string;
 }
 
 @doc("KeyVault Secret Reference")
 model KeyVaultSecretReference {
-
- @doc("The secret name")
+  @doc("The secret name")
   credentialName: string;
 
   @doc("The secret name")
@@ -159,17 +157,14 @@ model KeyVaultSecretReference {
 
 @doc("Paramter Value")
 model ParameterValue {
-
   @doc("The parameter name")
   name: string;
 
   //Object types cannot be built correctly. The value will be added in .NET code directly.
- 
 }
 
 @doc("Parameter")
 model Parameter {
- 
   @doc("Parameter name")
   name: string;
 
@@ -205,22 +200,22 @@ model Parameter {
 
   @doc("Which Microsoft cloud(s) the parameter applies to")
   microsoftTargets: Array<string>;
-
 }
 
 @doc("Credential")
 model Credential {
   @doc("Name")
   name: string;
+
   @doc("Is Required")
   isRequired: boolean;
+
   @doc("Applicable Operations")
   applicableOperations: Array<string>;
 }
 
 @doc("The properties related to Bundle")
 model BundleProfile {
-  
   @doc("Repository is the OCI repository of the current bundle")
   @visibility("read", "create")
   repository: string;
@@ -236,24 +231,29 @@ model BundleProfile {
   @doc("Tag is the OCI tag of the current bundle definition.")
   @visibility("read", "create", "update")
   tag?: string;
-
 }
 
 @armResourceOperations(CompositeSolution)
-interface CompositeSolutions  {
+interface CompositeSolutions {
   get is ArmResourceRead<CompositeSolution>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
-  update is ArmResourcePatchAsync<CompositeSolution, CompositeSolutionProperties>;
+  update is ArmResourcePatchAsync<
+    CompositeSolution,
+    CompositeSolutionProperties
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
 }
 
 @armResourceOperations(CompositeSolutionDefinition)
-interface CompositeSolutionDefinitions  {
+interface CompositeSolutionDefinitions {
   get is ArmResourceRead<CompositeSolutionDefinition>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<CompositeSolutionDefinition>;
-  update is ArmResourcePatchSync<CompositeSolutionDefinition, CompositeSolutionDefinitionProperties>;
+  update is ArmResourcePatchSync<
+    CompositeSolutionDefinition,
+    CompositeSolutionDefinitionProperties
+  >;
   delete is ArmResourceDeleteSync<CompositeSolutionDefinition>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolutionDefinition>;
   listBySubscription is ArmListBySubscription<CompositeSolutionDefinition>;
