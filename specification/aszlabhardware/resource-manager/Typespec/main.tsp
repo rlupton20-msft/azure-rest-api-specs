@@ -18,9 +18,6 @@ using Azure.ResourceManager;
   title: "Private.AszLabHardware",
 })
 @versioned(Versions)
-
-// This is a local TypeSpec namespace.
-// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
 namespace Private.AszLabHardware;
 
 scalar ServerResourceId

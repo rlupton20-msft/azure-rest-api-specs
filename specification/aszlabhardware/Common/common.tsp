@@ -2,8 +2,6 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-// This is a local TypeSpec namespace.
-// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
 namespace Private.AszLabHardware;
 
 @doc("AszLabHardware api versions")
