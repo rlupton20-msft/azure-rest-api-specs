@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - AadApplication",
+  title: "Azure CIS FRP",
 })
 @doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/aad-application")
 @versioned(Microsoft.AzureCis.Versions)

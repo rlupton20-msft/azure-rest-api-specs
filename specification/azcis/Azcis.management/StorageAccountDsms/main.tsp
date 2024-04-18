@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - StorageAccount",
+  title: "Azure CIS FRP",
 })
 @doc("storageAccount Provider.")
 @versioned(Microsoft.AzureCis.Versions)

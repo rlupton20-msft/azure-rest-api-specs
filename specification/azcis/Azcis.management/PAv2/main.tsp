@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-  title: "Azure CIS - PAv2",
+  title: "Azure CIS FRP",
 })
 @doc("PushAgentV2Account Provider")
 @versioned(Microsoft.AzureCis.Versions)
