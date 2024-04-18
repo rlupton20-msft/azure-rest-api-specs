@@ -14,3 +14,14 @@ union UserLabResourceMaintenanceStatus {
 
     string,
 }
+
+@doc("Resource association status.")
+union UserLabResourceAssociationStatus {
+    @doc("The Resource is not associated with hardware in the lab.")
+    NotAssociated: "NotAssociated",
+
+    @doc("The Resource is associated with hardware in the lab.")
+    Associated: "Associated",
+
+    string,
+}

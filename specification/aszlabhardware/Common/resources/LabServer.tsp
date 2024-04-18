@@ -35,8 +35,8 @@ model LabServerProperties {
     provisioningState?: ProvisioningState;
 
     @visibility("read", "create")
-    @doc("The OneAsset ID of the LabServer.")
-    assetTag: string;
+    @doc("The Serial Number of the LabServer.")
+    serialNumber: string;
 
     @visibility("read", "create")
     @doc("IP address of the LabServer's BMC.")
