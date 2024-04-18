@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./assets.tsp";
 import "./assetEndpointProfiles.tsp";
 import "./devices.tsp";
+import "./billings.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
