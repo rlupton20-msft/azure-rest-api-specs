@@ -10,7 +10,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-namespace Microsoft.AzureCIS;
+namespace Microsoft.AzureCis;
 
 @doc("CanonicalNameRecord properties")
 model CanonicalNameRecordResourceProperties {
@@ -40,13 +40,13 @@ model CanonicalNameRecordResource
   name: string;
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-enum CanonicalNameRecordProvisioningState {
-  ...ResourceProvisioningState,
+union CanonicalNameRecordProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"

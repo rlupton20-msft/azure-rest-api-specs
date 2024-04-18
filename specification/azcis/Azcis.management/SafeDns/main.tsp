@@ -24,14 +24,13 @@ import "./update/updatecnamerecordset.tsp";
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Namespace types must use PascalCaseTypeSpec"
 @armProviderNamespace
 @service({
-  title: "Foundational ARM Client",
+  title: "Azure CIS FRP",
 })
 @doc("SafeDns Service")
-@versioned(Microsoft.AzureCIS.Versions)
-namespace Microsoft.AzureCIS;
+@versioned(Microsoft.AzureCis.Versions)
+namespace Microsoft.AzureCis;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -91,11 +90,11 @@ model RecordSetOwner {
   contactEmail: string;
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-enum" "Azure services should not use the enum keyword."
 @doc("Provisioning status of the resource.")
-enum DnsNamespaceManagerProvisioningState {
-  ...ResourceProvisioningState,
+union DnsNamespaceManagerProvisioningState {
+  string,
+  ResourceProvisioningState,
 
   @doc("Accepted State")
-  Accepted,
+  Accepted: "Accepted",
 }
