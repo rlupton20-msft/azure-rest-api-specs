@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -22,4 +21,4 @@ using Azure.ResourceManager;
 
 // This is a local TypeSpec namespace.
 // It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
-namespace Common.AszLabHardware;
+namespace Private.AszLabHardware;

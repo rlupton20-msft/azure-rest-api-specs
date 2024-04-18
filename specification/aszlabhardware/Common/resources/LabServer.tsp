@@ -8,7 +8,7 @@ using Azure.ResourceManager;
 
 // This is a local TypeSpec namespace.
 // It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
-namespace Common.AszLabHardware;
+namespace Private.AszLabHardware;
 
 @doc("A physical computer which can be reserved for use by a user")
 model LabServer is TrackedResource<LabServerProperties> {
