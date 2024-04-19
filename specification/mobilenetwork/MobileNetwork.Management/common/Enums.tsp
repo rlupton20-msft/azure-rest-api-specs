@@ -109,6 +109,42 @@ enum RatType {
   `5G`,
 }
 
+@doc("Type of managed service identity (currently only UserAssigned allowed).")
+enum ManagedServiceIdentityType {
+  @doc("No managed identity is assigned.")
+  None,
+
+  @doc("A managed identity assigned by the user.")
+  UserAssigned,
+}
+
+@doc("State of the UE.")
+enum UeState {
+  @doc("UE has been connected.")
+  Connected,
+
+  @doc("UE is idle.")
+  Idle,
+
+  @doc("UE has been detached.")
+  Detached,
+
+  @doc("UE has been deregistered.")
+  Deregistered,
+
+  @doc("UE state is unknown.")
+  Unknown,
+}
+
+@doc("Infrastructure Type Definitions")
+enum InfrastructureType {
+  @doc("Azure Core")
+  AzureCore,
+
+  @doc("Azure Operator Nexus")
+  AzureOperatorNexus,
+}
+
 @doc("Deployment Type Definitions")
 enum SkuDeploymentType {
   @doc("Production Deployment")

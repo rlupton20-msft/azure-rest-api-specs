@@ -6,6 +6,7 @@ using Azure.Core;
 
 namespace Microsoft.MobileNetwork;
 
+#suppress "@azure-tools/typespec-azure-core/use-extensible-enum" "For backward compatibility."
 @doc("The deployment type of the packet core software (Single Node / Multi Node).")
 @fixed
 enum DeploymentType {
@@ -16,6 +17,7 @@ enum DeploymentType {
   `Multi Node`,
 }
 
+#suppress "@azure-tools/typespec-azure-core/use-extensible-enum" "For backward compatibility."
 @doc("The core network technology generation (5G core, EPC / 4G core or EPC / 4G + 5G core).")
 @fixed
 enum CoreNetworkType {
@@ -352,6 +354,7 @@ model SignalingConfiguration {
   nasReroute?: NASRerouteConfiguration;
 }
 
+#suppress "@azure-tools/typespec-azure-core/casing-style" "For backward compatibility."
 @doc("Configuration enabling NAS reroute.")
 model NASRerouteConfiguration {
   @doc("The macro network's MME group ID. This is where unknown UEs are sent to via NAS reroute.")
@@ -371,4 +374,3 @@ model PacketCoreControlPlaneCollectDiagnosticsPackage {
   @doc("The Storage Account Blob URL to upload the diagnostics package to.")
   storageAccountBlobUrl: string;
 }
-

@@ -25,7 +25,9 @@ model SimGroup is TrackedResource<SimGroupPropertiesFormat> {
   @visibility("read")
   name: string;
 
-  ...Azure.ResourceManager.ManagedServiceIdentity;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
+  @doc("The identity used to retrieve the encryption key from Azure key vault.")
+  identity?: ManagedServiceIdentity;
 }
 
 @armResourceOperations

@@ -299,6 +299,40 @@
     }
   },
   "definitions": {
+    "AddNodeHciEdgeDevice": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AddNodeHciEdgeDeviceProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciEdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "AddServer"
+    },
+    "AddNodeHciEdgeDeviceProperties": {
+      "type": "object",
+      "properties": {
+        "jobName": {
+          "type": "string"
+        },
+        "jobId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "jobId",
+        "jobName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
+      ]
+    },
     "DeviceConfiguration": {
       "type": "object",
       "description": "The device Configuration of a device.",
@@ -316,20 +350,36 @@
         "nicDetails"
       ]
     },
+	"DeviceKind": {
+      "type": "string",
+      "description": "Edge device kind.",
+      "enum": [
+        "HCI"
+      ],
+      "x-ms-enum": {
+        "name": "DeviceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HCI",
+            "value": "HCI",
+            "description": "Arc-enabled edge device with HCI OS."
+          }
+        ]
+      }
+    },
     "EdgeDevice": {
       "type": "object",
       "description": "Edge device resource",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/EdgeDeviceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+        "kind": {
+          "$ref": "#/definitions/DeviceKind"
         }
       },
+	  "discriminator": "kind",
+      "required": [
+        "kind"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
@@ -374,6 +424,166 @@
       "required": [
         "deviceConfiguration"
       ]
+    },
+	  "HciEdgeDevice": {
+      "type": "object",
+      "description": "Arc-enabled edge device with HCI OS.",
+      "properties": {
+        "jobType": {
+          "$ref": "#/definitions/JobType"
+        }
+      },
+      "discriminator": "jobType",
+      "required": [
+        "jobType"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "HCI"
+    },
+    "HciEdgeDeviceProperties": {
+      "type": "object",
+      "description": "properties for Arc-enabled edge device with HCI OS.",
+      "properties": {
+        "reportedProperties": {
+          "$ref": "#/definitions/HciDesiredDeviceConfiguration",
+          "description": "The instance view of all current configurations on HCI device.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
+      ]
+    },
+    "HciDesiredDeviceConfiguration": {
+      "type": "object",
+      "properties": {
+        "hyperV": {
+          "$ref": "#/definitions/HyperVConfiguration"
+        },
+        "winRM": {
+          "$ref": "#/definitions/WinRMConfiguration"
+        },
+        "rdp": {
+          "$ref": "#/definitions/RDPConfiguration"
+        }
+      }
+    },
+    "WinRMConfiguration": {
+      "type": "object",
+      "description": "win-rm properties",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "desiredConfiguration"
+        }
+      }
+    },
+    "RDPConfiguration": {
+      "type": "object",
+      "description": "RDP properties",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "RDP Configuration"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "HyperVConfiguration": {
+      "type": "object",
+      "description": "hyper-v properties",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "desiredConfiguration"
+        }
+      }
+    },
+	  "JobType": {
+      "type": "string",
+      "description": "Job Type supported.",
+      "enum": [
+        "AddServer",
+        "RemoveServer",
+        "RepairServer",
+        "ResumeServer",
+        "PauseServer"
+      ],
+      "x-ms-enum": {
+        "name": "JobType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AddServer",
+            "value": "AddServer",
+            "description": "AddServer"
+          },
+          {
+            "name": "RemoveServer",
+            "value": "RemoveServer",
+            "description": "RemoveServer"
+          },
+          {
+            "name": "RepairServer",
+            "value": "RepairServer",
+            "description": "RepairServer"
+          },
+          {
+            "name": "ResumeServer",
+            "value": "ResumeServer",
+            "description": "ResumeServer"
+          },
+          {
+            "name": "PauseServer",
+            "value": "PauseServer",
+            "description": "ResumeServer"
+          }
+        ]
+      }
+    },
+    "PauseNodeHciEdgeDeviceProperties": {
+      "type": "object",
+      "properties": {
+        "pauseJobName": {
+          "type": "string"
+        },
+        "pauseJobId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pauseJobName",
+        "pauseJobId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
+      ]
+    },
+    "PauseServerHciEdgeDevice": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PauseNodeHciEdgeDeviceProperties"
+        }
+      },
+      "discriminator": "jobType",
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciEdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "PauseServer"
     },
     "NicDetail": {
       "type": "object",

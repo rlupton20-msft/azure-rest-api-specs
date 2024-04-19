@@ -23,7 +23,7 @@ model SimPolicyPropertiesFormat {
 
   @doc("A dictionary of sites to the provisioning state of this SIM policy on that site.")
   @visibility("read")
-  siteProvisioningState?: Record<SiteProvisioningState>;
+  siteProvisioningState?: SiteProvisioning;
 
   @doc("Aggregate maximum bit rate across all non-GBR QoS flows of all PDU sessions of a given UE. See 3GPP TS23.501 section 5.7.2.6 for a full description of the UE-AMBR.")
   ueAmbr: Ambr;

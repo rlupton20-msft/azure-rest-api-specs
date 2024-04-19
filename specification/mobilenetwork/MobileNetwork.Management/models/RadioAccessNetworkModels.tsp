@@ -8,6 +8,7 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.MobileNetwork;
 
+#suppress "@azure-tools/typespec-azure-core/use-extensible-enum" "For backward compatibility."
 @doc("Whether to enable metrics ingestion for this radio access network. NOTE: this creates a metrics ingestion endpoint extension resource which introduces additional charges.")
 @fixed
 enum MetricsIngestionEnabled {
