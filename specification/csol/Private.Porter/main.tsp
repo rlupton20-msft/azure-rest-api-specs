@@ -276,7 +276,7 @@ interface CompositeSolutions {
 interface CompositeSolutionDefinitions {
   get is ArmResourceRead<CompositeSolutionDefinition>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<CompositeSolutionDefinition>;
-  update is ArmResourcePatchSync<
+  update is ArmCustomPatchSync<
     CompositeSolutionDefinition,
     CompositeSolutionDefinitionPatch
   >;
