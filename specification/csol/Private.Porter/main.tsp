@@ -266,7 +266,7 @@ model BundleProfile {
 interface CompositeSolutions {
   get is ArmResourceRead<CompositeSolution>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
-  update is ArmResourcePatchAsync<CompositeSolution, CompositeSolutionUpdate1>;
+  update is ArmCustomPatchSync<CompositeSolution, CompositeSolutionUpdate1>;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
