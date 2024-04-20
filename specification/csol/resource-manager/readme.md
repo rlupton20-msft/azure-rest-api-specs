@@ -30,7 +30,6 @@ openapi-subtype: providerHub
 tag: package-preview-2024-03
 ```
 
-
 ### Tag: package-preview-2024-03
 
 These settings apply only when `--tag=package-preview-2024-03` is specified on the command line.
@@ -38,10 +37,15 @@ These settings apply only when `--tag=package-preview-2024-03` is specified on t
 ```yaml $(tag) == 'package-preview-2024-03'
 input-file:
   - Private.Porter/preview/2024-03-01-preview/openapi.json
+suppressions:
+   - code: PatchPropertiesCorrespondToPutProperties
+     from:
+       - openapi.json
+     where:
+       - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Porter/compositeSolutionDefinitions/{csolDefName}"].patch.parameters
+       - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Porter/compositeSolutions/{csolName}"].patch.parameters
+     reason: false positive, patch and put apis do have tags property in request bodies
 ```
-```
-
----
 
 # Code Generation
 
