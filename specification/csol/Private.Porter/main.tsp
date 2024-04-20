@@ -26,6 +26,7 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A CompositeSolutionProviderHub resource")
@@ -41,6 +42,7 @@ model CompositeSolutionDefinition
   ...ManagedServiceIdentity;
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A CompositeSolutionProviderHub resource")
@@ -146,6 +148,7 @@ model CompositeSolutionProperties {
 }
 
 /** Path request body for CompositeSolutionProperties */
+#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 model CompositeSolutionUpdate1 {
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 
@@ -160,6 +163,7 @@ model CompositeSolutionPropertiesUpdate
   is OptionalProperties<UpdateableProperties<CompositeSolutionProperties>>;
 
 /** Path request body for CompositeSolutionDefinitionProperties */
+#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 model CompositeSolutionDefinitionUpdate {
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 
@@ -172,6 +176,7 @@ model CompositeSolutionDefinitionUpdate {
 
 model CompositeSolutionDefinitionPropertiesUpdate
   is OptionalProperties<UpdateableProperties<CompositeSolutionDefinitionProperties>>;
+
 model ManagedServiceIdentityUpdate
   is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedIdentityProperties>>;
 
