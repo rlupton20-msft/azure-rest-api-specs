@@ -36,18 +36,6 @@ model FilterProperties {
   parameters?: Record<string>;
 }
 
-@doc("The properties of the route.")
-model RouteProperties {
-  route: string;
-
-  type: string;
-
-  properties?: Record<unknown>;
-
-  //@extension("x-ms-identifiers", [])
-  filters?: Array<FilterProperties>;
-}
-
 @doc("Defines a desired runtime component")
 model ComponentProperties {
   @doc("Array of field values.")
@@ -62,9 +50,6 @@ model ComponentProperties {
   dependencies?: Array<string>;
 
   type: string;
-
-  //@extension("x-ms-identifiers", [])
-  routes?: Array<RouteProperties>;
 }
 
 @doc("Defines a desired runtime binding")
