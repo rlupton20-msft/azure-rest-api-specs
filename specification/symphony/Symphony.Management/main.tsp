@@ -7,6 +7,7 @@ import "./solutions.tsp";
 import "./targets.tsp";
 import "./versions.tsp";
 import "./instances.tsp";
+import "./campaigns.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

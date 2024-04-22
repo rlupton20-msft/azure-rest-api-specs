@@ -79,3 +79,27 @@ model InstanceTargetProperties {
   //@extension("x-ms-identifiers", [])
   selector?: Record<string>;
 }
+
+model ScheduleProperties {
+  date: string;
+
+  time: string;
+
+  zone: string;
+}
+
+model StageProperties {
+  contexts?: string;
+  //@extension("x-ms-identifiers", [])
+  config?: Record<unknown>;
+
+  inputs?: Record<unknown>;
+
+  name?: string;
+
+  provider?: string;
+
+  stageSelector?: string;
+
+  schedule: ScheduleProperties
+}
