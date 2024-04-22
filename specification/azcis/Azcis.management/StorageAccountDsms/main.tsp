@@ -8,7 +8,7 @@ using Azure.ResourceManager;
 @service({
   title: "Azure CIS FRP",
 })
-@doc("storageAccount Provider.")
+@doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/storage-account")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;
 
