@@ -26,7 +26,6 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A CompositeSolutionProviderHub resource")
@@ -42,7 +41,6 @@ model CompositeSolutionDefinition
   ...ManagedServiceIdentity;
 }
 
-#suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A CompositeSolutionProviderHub resource")
