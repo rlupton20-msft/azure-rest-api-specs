@@ -8,6 +8,8 @@ import "./targets.tsp";
 import "./versions.tsp";
 import "./instances.tsp";
 import "./campaigns.tsp";
+import "./activations.tsp";
+import "./catalogs.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
