@@ -103,3 +103,23 @@ model StageProperties {
 
   schedule: ScheduleProperties
 }
+
+model ActivationStatusProperties {
+  inputs?: Record<unknown>;
+
+  outputs?: Record<unknown>;
+  //@extension("x-ms-identifiers", [])
+  stage: string;
+
+  isActive?: boolean;
+
+  nextStage?: string;
+
+  errorMessage?: string;
+
+  activationGeneration?: string;
+
+  updateTime?: string;
+
+  status?: int32;
+}

@@ -24,6 +24,9 @@ model ActivationProperties {
   stage?: string;
 
   campaign: string;
+
+  @visibility("read")
+  status?: ActivationStatusProperties;
 }
 
 @doc("The service entity.")
