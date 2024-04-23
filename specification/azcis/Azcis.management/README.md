@@ -46,5 +46,6 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/rnmVip.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/safedns.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/storageAccountDsms.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/subscription.json
 ```
 ---
