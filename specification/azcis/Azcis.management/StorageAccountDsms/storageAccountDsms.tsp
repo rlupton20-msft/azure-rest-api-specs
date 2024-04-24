@@ -95,8 +95,7 @@ model StorageAccountDsmsResourceProperties {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
-  @extension("x-ms-identifiers", [])
-  properties?: Array<Property>;
+  properties?: {};
 
   @doc("Provisioning state")
   @visibility("read")
@@ -122,15 +121,6 @@ model AccountSasInfo {
 
   @doc("The signed resource types that are accessible with the account SAS. Service (s)/Container (c)/Object (o).")
   signedResourceTypes?: string;
-}
-
-@doc("Property element contains a key-value pair associated with a dSMS secret.")
-model Property {
-  @doc("Name of the property.")
-  name?: string;
-
-  @doc("Value of the property.")
-  value?: string;
 }
 
 @doc("Replicate element defines where the secret should be replicated to.")
