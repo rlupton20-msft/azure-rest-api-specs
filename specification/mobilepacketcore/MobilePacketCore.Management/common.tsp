@@ -83,6 +83,14 @@ scalar CustomLocationIdProperty
     }
   ]>;
 
+@doc("ARM resource ID of a User Assigned Managed Identity.")
+scalar UamiIdPropertyIdProperty
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities",
+    }
+  ]>;
+
 @doc("ARM resource ID of workload associated with a cluster.")
 scalar AssociatedClusterWorkloadIdProperty
   extends Azure.Core.armResourceIdentifier<[
@@ -124,6 +132,10 @@ scalar AssociatedVirtualNetworkFunctionIdProperty
     }
   ]>;
 
+@added(Versions.v2024_03_15_preview)
+@doc("non-builtin local users")
+scalar AdditionalLocalUsername extends string;
+
 @doc("Operational Status of the resource")
 model OperationalStatus {
   @doc("Status of the deployed workload")
@@ -164,6 +176,9 @@ enum ClusterType {
   @doc("Azure Operator Nexus Kubernetes Service")
   NexusAks,
 }
+
+@doc("URL string")
+scalar URL extends string;
 
 @doc("Usage SKU Definition")
 scalar UsageSku extends string;

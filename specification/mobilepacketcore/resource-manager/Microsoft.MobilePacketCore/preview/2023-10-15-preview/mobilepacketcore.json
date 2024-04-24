@@ -2497,7 +2497,7 @@
         },
         "customLocationId": {
           "$ref": "#/definitions/CustomLocationIdProperty",
-          "description": "Custom Location resource ID"
+          "description": "Kubernetes Service Custom Location resource ID"
         }
       },
       "discriminator": "type",
@@ -2521,6 +2521,15 @@
     "ClusterServiceNexusAksClusterData": {
       "type": "object",
       "description": "Nexus AKS Cluster specific data.",
+      "properties": {
+        "nexusCustomLocationId": {
+          "$ref": "#/definitions/CustomLocationIdProperty",
+          "description": "Operator Nexus Cluster Custom Location resource ID"
+        }
+      },
+      "required": [
+        "nexusCustomLocationId"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/ClusterServiceClusterTypeSpecificData"
@@ -2604,6 +2613,14 @@
             "type"
           ]
         },
+        "oidcIssuerUrl": {
+          "$ref": "#/definitions/URL",
+          "description": "OIDC Issuer URL for the Cluster Service to create the federated credentials"
+        },
+        "uamiResourceId": {
+          "$ref": "#/definitions/UamiIdPropertyIdProperty",
+          "description": "User Assigned Managed Identity (UAMI) resource identifier that has access to the customer provided Azure Key Vault"
+        },
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
           "description": "Operational status",
@@ -2622,7 +2639,9 @@
         "deploymentType",
         "releaseVersion",
         "clusterTypeSpecificData",
-        "componentParameters"
+        "componentParameters",
+        "oidcIssuerUrl",
+        "uamiResourceId"
       ]
     },
     "ClusterServiceResourceTagsUpdate": {
@@ -3229,6 +3248,22 @@
             "type": "string"
           }
         }
+      }
+    },
+    "URL": {
+      "type": "string",
+      "description": "URL string"
+    },
+    "UamiIdPropertyIdProperty": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "ARM resource ID of a User Assigned Managed Identity.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+          }
+        ]
       }
     },
     "UpfDeploymentResource": {
