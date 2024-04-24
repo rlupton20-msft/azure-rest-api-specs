@@ -12,23 +12,43 @@ using Azure.ResourceManager.Foundations;
 namespace Private.Symphony;
 
 @doc("The properties of the service.")
-model CatalogProperties {
+model TargetVersionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
+
+  metadata?: Record<string>;
+
+  properties?: Record<string>;
+
+  displayName?: string;
+
+  constraints?: string;
+
+  scope?: string;
+
+  @doc("A list of topologies")
+  topologies?: TopologyProperties[];
+
+  @doc("A list of components")
+  components?: ComponentProperties[];
+
+  reconciliationPolicy?: ReconciliationPolicyProperties;
 }
 
 @doc("The service entity.")
-model Catalog is TrackedResource<CatalogProperties> {
+@resource("versions")
+@parentResource(Target)
+model TargetVersion is ProxyResource<TargetVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[a-zA-Z0-9-]{3,90}$")
   @path
-  @key("catalogName")
-  @segment("catalogs")
+  @key("versionName")
+  @segment("versions")
   name: string;
-
+  
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -37,17 +57,15 @@ model Catalog is TrackedResource<CatalogProperties> {
 }
 
 @armResourceOperations
-interface Catalogs {
+interface TargetVersions {
   @doc("Returns details of the service.")
-  get is Azure.ResourceManager.ArmResourceRead<Catalog>;
+  get is Azure.ResourceManager.ArmResourceRead<TargetVersion>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Catalog>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<TargetVersion>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchSync<Catalog, CatalogProperties>;
+  update is ArmResourcePatchAsync<TargetVersion, TargetVersionProperties>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<Catalog>;
-  @doc("Returns a collection of services within the resource group.")
-  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Catalog>;
-  @doc("Lists services within an Azure subscription.")
-  listBySubscription is ArmListBySubscription<Catalog>;
+  delete is ArmResourceDeleteSync<TargetVersion>;
+
+  listByParent is ArmResourceListByParent<TargetVersion>;
 }
