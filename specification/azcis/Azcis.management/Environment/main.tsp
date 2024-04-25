@@ -1,6 +1,6 @@
 import "../versions.tsp";
-import "./autopilotEnvironment.tsp";
-import "./autopilotMachineFunction.tsp";
+import "./autopilotenvironment.tsp";
+import "./autopilotmachinefunction.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
