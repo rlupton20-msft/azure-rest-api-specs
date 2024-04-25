@@ -55,15 +55,6 @@ interface Environment {
   get is ArmResourceRead<EnvironmentResource>;
 }
 
-@doc("Provisioning status of the resource.")
-union EnvironmentProvisioningState {
-  string,
-  ResourceProvisioningState,
-
-  @doc("The resource create request has been accepted")
-  Accepted: "Accepted",
-}
-
 @doc("The EnvironmentMode indicates which files will be cloned to the new environment.")
 union EnvironmentMode {
   string,

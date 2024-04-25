@@ -44,6 +44,9 @@
     },
     {
       "name": "Environment"
+    },
+    {
+      "name": "AutopilotMachineFunction"
     }
   ],
   "paths": {
@@ -74,6 +77,9 @@
           }
         },
         "x-ms-examples": {
+          "List Operations AutopilotMachineFunction": {
+            "$ref": "./examples/AutopilotMachineFunction_Operations.json"
+          },
           "List Operations Environment": {
             "$ref": "./examples/Environment_Operations.json"
           }
@@ -115,6 +121,45 @@
         "x-ms-examples": {
           "Get Environment": {
             "$ref": "./examples/Environment_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCis/autopilotMachineFunctions": {
+      "get": {
+        "operationId": "AutopilotMachineFunction_ListBySubscription",
+        "tags": [
+          "AutopilotMachineFunction"
+        ],
+        "description": "List AutopilotMachineFunctionResource resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListBySubscription AutopilotMachineFunction": {
+            "$ref": "./examples/AutopilotMachineFunction_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -281,9 +326,264 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/autopilotMachineFunctions": {
+      "get": {
+        "operationId": "AutopilotMachineFunction_ListByResourceGroup",
+        "tags": [
+          "AutopilotMachineFunction"
+        ],
+        "description": "List AutopilotMachineFunctionResource resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListByResourceGroup AutopilotMachineFunction": {
+            "$ref": "./examples/AutopilotMachineFunction_ListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/autopilotMachineFunctions/{resourceName}": {
+      "get": {
+        "operationId": "AutopilotMachineFunction_Get",
+        "tags": [
+          "AutopilotMachineFunction"
+        ],
+        "description": "Get a AutopilotMachineFunctionResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,80}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get AutopilotMachineFunction": {
+            "$ref": "./examples/AutopilotMachineFunction_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "AutopilotMachineFunction_CreateOrUpdate",
+        "tags": [
+          "AutopilotMachineFunction"
+        ],
+        "description": "Create a AutopilotMachineFunctionResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,80}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AutopilotMachineFunctionResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'AutopilotMachineFunctionResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AutopilotMachineFunctionResource"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create AutopilotMachineFunction": {
+            "$ref": "./examples/AutopilotMachineFunction_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
     }
   },
   "definitions": {
+    "AutopilotMachineFunctionResource": {
+      "type": "object",
+      "description": "AutopilotMachineFunction Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AutopilotMachineFunctionResourceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AutopilotMachineFunctionResourceListResult": {
+      "type": "object",
+      "description": "The response of a AutopilotMachineFunctionResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AutopilotMachineFunctionResource items on this page",
+          "items": {
+            "$ref": "#/definitions/AutopilotMachineFunctionResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AutopilotMachineFunctionResourceProperties": {
+      "type": "object",
+      "description": "AutopilotMachineFunction properties",
+      "properties": {
+        "naming": {
+          "$ref": "#/definitions/Naming",
+          "description": "Target environment/Cluster name."
+        },
+        "machineFunctions": {
+          "type": "array",
+          "description": "Goal state of MachinesFunctions.",
+          "items": {
+            "$ref": "#/definitions/MachineFunction"
+          },
+          "x-ms-identifiers": []
+        },
+        "environmentName": {
+          "type": "string",
+          "description": "EnvironmentName."
+        },
+        "clusterName": {
+          "type": "string",
+          "description": "ClusterName."
+        },
+        "sourceEnvironment": {
+          "type": "string",
+          "description": "SourceEnvironment."
+        },
+        "sourceManaTree": {
+          "type": "string",
+          "description": "SourceManaTree."
+        },
+        "targetManaTree": {
+          "type": "string",
+          "description": "TargetManaTree."
+        },
+        "requestedNodeLabels": {
+          "type": "string",
+          "description": "RequestedNodeLabels."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/EnvironmentProvisioningState",
+          "description": "Provisioning state",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "environmentName",
+        "clusterName",
+        "sourceEnvironment",
+        "sourceManaTree",
+        "targetManaTree"
+      ]
+    },
     "EnvironmentMode": {
       "type": "string",
       "description": "The EnvironmentMode indicates which files will be cloned to the new environment.",
@@ -415,6 +715,54 @@
           "$ref": "#/definitions/EnvironmentProvisioningState",
           "description": "Provisioning state",
           "readOnly": true
+        }
+      }
+    },
+    "MachineFunction": {
+      "type": "object",
+      "description": "MachineFuncion.",
+      "properties": {
+        "machineFunctionName": {
+          "type": "string",
+          "description": "Machine function name."
+        },
+        "allocationType": {
+          "type": "string",
+          "description": "AllocationType."
+        },
+        "requestedNodeLabels": {
+          "type": "string",
+          "description": "RequestedNodeLabels."
+        },
+        "numberOfMachines": {
+          "type": "string",
+          "description": "NumberOfMachines."
+        },
+        "additionalFields": {
+          "type": "array",
+          "description": "Goal state of AdditionalFields.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "machineFunctionName",
+        "allocationType",
+        "numberOfMachines"
+      ]
+    },
+    "Naming": {
+      "type": "object",
+      "description": "Target environment/Cluster name.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Parameter name."
+        },
+        "cluster": {
+          "type": "string",
+          "description": "Parameter value."
         }
       }
     },
