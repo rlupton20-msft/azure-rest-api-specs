@@ -49,6 +49,15 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/subscription.json
 ```
 
+### Tag: package-2023-08-22-stable
+
+These settings apply only when `--tag=package-2023-08-22-stable` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-08-22-stable'
+input-file:
+  - Microsoft.AzureCis/stable/2023-08-22-stable/genevaActions.json
+```
+
 ---
 <!-- # Code Generation
 ## Swagger to SDK

@@ -1,0 +1,22 @@
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+@versioned(Microsoft.AzureCis.StableVersions)
+namespace Microsoft.AzureCis;
+
+@doc("Supported versions.")
+enum StableVersions {
+  @doc("API version 2023-08-22-preview")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2023_08_22_preview: "2023-08-22-preview",
+
+  @doc("API version 2023-08-22-stable")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2023_08_22_stable: "2023-08-22-stable",
+}
