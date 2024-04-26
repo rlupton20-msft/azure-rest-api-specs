@@ -1,4 +1,3 @@
-import "@azure-tools/typespec-client-generator-core";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -45,17 +44,10 @@ model ConnectedChamber {
     }
   ]>;
 }
-
 @doc("Shared storage properties common between create and update.")
 @access(Access.internal)
 model SharedStorageBaseProperties {
-  ...ProvisioningStateProperty;
-  ...CapacityAllocatedProperty;
-  ...CapacityUsedProperty;
-
-  @visibility("read")
-  @doc("Directory where the shared storage volume mounted.")
-  localMountPath?: string;
+  ...StorageBaseProperties;
 
   @visibility("read", "create", "update")
   @doc("List of Chambers connected to the shared storage.")
@@ -67,9 +59,17 @@ model SharedStorageBaseProperties {
 model SharedStorageProperties {
   ...SharedStorageBaseProperties;
 
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create", "update")
+  @doc("Performance tier of the shared storage.")
+  performanceTier: SharedStoragePerformanceTier;
+
+  // Workaround since there is no annotation for removing default.
+  @removed(Versions.`2024-05-01-preview`)
+  @renamedFrom(Versions.`2024-05-01-preview`, "performanceTier")
   @visibility("read", "create")
   @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier = SharedStoragePerformanceTier.Standard;
+  oldPerformanceTier: SharedStoragePerformanceTier = SharedStoragePerformanceTier.Standard;
 }
 
 @doc("Shared storage update properties.")

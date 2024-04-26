@@ -3,10 +3,12 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@azure-tools/typespec-client-generator-core";
 
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using Azure.ClientGenerator.Core;
 
 using Azure.ResourceManager.Foundations;
 using Azure.Core;
@@ -24,6 +26,12 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   `2021-03-01-preview`,
+
+  @doc("Version 2024-05-01-preview")
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  `2024-05-01-preview`,
 }
 
 @doc("The provisioning state of a resource.")
@@ -85,6 +93,7 @@ model PowerStateProperty {
 }
 
 @doc("The property for specifying capacity allocated.")
+@removed(Versions.`2024-05-01-preview`)
 model CapacityAllocatedProperty {
   @visibility("read", "create", "update")
   @doc("Provisioned size: Capacity allocated to the storage volume in terabytes.")
@@ -92,10 +101,24 @@ model CapacityAllocatedProperty {
 }
 
 @doc("The property for specifying capacity used.")
+@removed(Versions.`2024-05-01-preview`)
 model CapacityUsedProperty {
   @visibility("read")
   @doc("Capacity used in the storage volume in gigabytes.")
   capacityUsed?: int64;
+}
+
+@doc("Common storage properties.")
+@added(Versions.`2024-05-01-preview`)
+@access(Access.internal)
+model StorageBaseProperties {
+  ...ProvisioningStateProperty;
+  ...CapacityAllocatedProperty;
+  ...CapacityUsedProperty;
+
+  @visibility("read")
+  @doc("Directory where the storage volume is mounted.")
+  localMountPath?: string;
 }
 
 @doc("The property for specifying timestamp when restart is required.")

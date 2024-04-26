@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "ModSimWorkbench Control Plane API",
-    "version": "2021-03-01-preview",
+    "version": "2024-05-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -4124,15 +4124,17 @@
           "readOnly": true
         },
         "sku": {
-          "type": "string",
+          "$ref": "#/definitions/Sku",
           "description": "SKU name.",
-          "default": "Standard",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         }
-      }
+      },
+      "required": [
+        "sku"
+      ]
     },
     "ChamberUpdate": {
       "type": "object",
@@ -5345,31 +5347,11 @@
           ]
         },
         "performanceTier": {
-          "type": "string",
+          "$ref": "#/definitions/SharedStoragePerformanceTier",
           "description": "Performance tier of the shared storage.",
-          "default": "Standard",
-          "enum": [
-            "Standard",
-            "Ultra"
-          ],
-          "x-ms-enum": {
-            "name": "SharedStoragePerformanceTier",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Standard",
-                "value": "Standard",
-                "description": "Standard tier."
-              },
-              {
-                "name": "Ultra",
-                "value": "Ultra",
-                "description": "Ultra tier."
-              }
-            ]
-          },
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         }
@@ -5458,6 +5440,24 @@
       "required": [
         "enable"
       ]
+    },
+    "Sku": {
+      "type": "string",
+      "description": "Chamber Sku.",
+      "enum": [
+        "Standard"
+      ],
+      "x-ms-enum": {
+        "name": "Sku",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Standard",
+            "value": "Standard",
+            "description": "Standard sku."
+          }
+        ]
+      }
     },
     "Storage": {
       "type": "object",
@@ -5561,37 +5561,11 @@
           "readOnly": true
         },
         "performanceTier": {
-          "type": "string",
+          "$ref": "#/definitions/StoragePerformanceTier",
           "description": "Performance tier of the chamber storage.",
-          "default": "Standard",
-          "enum": [
-            "Standard",
-            "Ultra",
-            "Premium"
-          ],
-          "x-ms-enum": {
-            "name": "StoragePerformanceTier",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Standard",
-                "value": "Standard",
-                "description": "Standard tier."
-              },
-              {
-                "name": "Ultra",
-                "value": "Ultra",
-                "description": "Ultra tier."
-              },
-              {
-                "name": "Premium",
-                "value": "Premium",
-                "description": "Premium tier."
-              }
-            ]
-          },
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         }
