@@ -2030,6 +2030,81 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/restore": {
+      "post": {
+        "operationId": "AutonomousDatabases_Restore",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "Restores an Autonomous Database based on the provided request parameters.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RestoreAutonomousDatabaseDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Perform restore action on Autonomous Database": {
+            "$ref": "./examples/autonomousDatabaseBackup_restore.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/switchover": {
       "post": {
         "operationId": "AutonomousDatabases_Switchover",
@@ -3644,8 +3719,8 @@
       "type": "object",
       "description": "AutonomousDatabaseBackup resource model",
       "properties": {
-        "autonomousDatabaseId": {
-          "$ref": "#/definitions/AutonomousDatabaseId",
+        "autonomousDatabaseOcid": {
+          "$ref": "#/definitions/Ocid",
           "description": "The OCID of the Autonomous Database.",
           "readOnly": true
         },
@@ -3732,10 +3807,7 @@
           "description": "Azure resource provisioning state.",
           "readOnly": true
         }
-      },
-      "required": [
-        "autonomousDatabaseId"
-      ]
+      }
     },
     "AutonomousDatabaseBackupType": {
       "type": "string",
@@ -4158,6 +4230,20 @@
           "description": "The area assigned to In-Memory tables in Autonomous Database.",
           "readOnly": true
         },
+        "nextLongTermBackupTimeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the next long-term backup would be created.",
+          "readOnly": true
+        },
+        "longTermBackupSchedule": {
+          "$ref": "#/definitions/LongTermBackUpScheduleDetails",
+          "description": "Details for the long-term backup schedule.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
         "isPreview": {
           "type": "boolean",
           "description": "Indicates if the Autonomous Database version is a preview version.",
@@ -4304,8 +4390,7 @@
           "readOnly": true
         },
         "backupRetentionPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
+          "$ref": "#/definitions/RetentionPeriod",
           "description": "Retention period, in days, for long-term backups",
           "x-ms-mutability": [
             "read",
@@ -4908,6 +4993,14 @@
             "create"
           ]
         },
+        "longTermBackupSchedule": {
+          "$ref": "#/definitions/LongTermBackUpScheduleDetails",
+          "description": "Details for the long-term backup schedule.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
         "localAdgAutoFailoverMaxDataLossLimit": {
           "type": "integer",
           "format": "int32",
@@ -4944,8 +5037,7 @@
           ]
         },
         "backupRetentionPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
+          "$ref": "#/definitions/RetentionPeriod",
           "description": "Retention period, in days, for long-term backups",
           "x-ms-mutability": [
             "read",
@@ -7931,6 +8023,29 @@
         ]
       }
     },
+    "LongTermBackUpScheduleDetails": {
+      "type": "object",
+      "description": "Details for the long-term backup schedule.",
+      "properties": {
+        "repeatCadence": {
+          "$ref": "#/definitions/RepeatCadenceType",
+          "description": "The frequency of the long-term backup schedule"
+        },
+        "timeOfBackup": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month."
+        },
+        "retentionPeriodInDays": {
+          "$ref": "#/definitions/RetentionPeriod",
+          "description": "Retention period, in days, for backups."
+        },
+        "isDisabled": {
+          "type": "boolean",
+          "description": "Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`."
+        }
+      }
+    },
     "MaintenanceWindow": {
       "type": "object",
       "description": "MaintenanceWindow resource properties",
@@ -8399,6 +8514,7 @@
     "Password": {
       "type": "string",
       "format": "password",
+      "description": "Password string.",
       "x-ms-secret": true
     },
     "PatchingMode": {
@@ -8684,8 +8800,45 @@
         ]
       }
     },
+    "RepeatCadenceType": {
+      "type": "string",
+      "description": "RepeatCadenceType enum",
+      "enum": [
+        "OneTime",
+        "Weekly",
+        "Monthly",
+        "Yearly"
+      ],
+      "x-ms-enum": {
+        "name": "RepeatCadenceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "OneTime",
+            "value": "OneTime",
+            "description": "ONE_TIME value"
+          },
+          {
+            "name": "Weekly",
+            "value": "Weekly",
+            "description": "WEEKLY value"
+          },
+          {
+            "name": "Monthly",
+            "value": "Monthly",
+            "description": "MONTHLY value"
+          },
+          {
+            "name": "Yearly",
+            "value": "Yearly",
+            "description": "YEARLY value"
+          }
+        ]
+      }
+    },
     "ResourcePlanTypeUpdate": {
       "type": "object",
+      "description": "ResourcePlanTypeUpdate model definition",
       "properties": {
         "name": {
           "type": "string",
@@ -8708,6 +8861,27 @@
           "description": "The version of the desired product/artifact."
         }
       }
+    },
+    "RestoreAutonomousDatabaseDetails": {
+      "type": "object",
+      "description": "Details to restore an Oracle Autonomous Database.",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time to restore the database to."
+        }
+      },
+      "required": [
+        "timestamp"
+      ]
+    },
+    "RetentionPeriod": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Retention period, in days, for backups.",
+      "minimum": 90,
+      "maximum": 2558
     },
     "RoleType": {
       "type": "string",
@@ -9341,6 +9515,7 @@
     },
     "aclString": {
       "type": "string",
+      "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
       "minLength": 1,
       "maxLength": 1024
     }
