@@ -1,4 +1,4 @@
-import "../stableVersions.tsp";
+import "./versions.tsp";
 import "./genericgenevaactions.tsp";
 
 using TypeSpec.Versioning;
@@ -9,7 +9,7 @@ using Azure.ResourceManager;
   title: "Azure CIS FRP",
 })
 @doc("GenericGenevaActions Provider")
-@versioned(Microsoft.AzureCis.StableVersions)
+@versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;
 
 interface Operations extends Azure.ResourceManager.Operations {}
