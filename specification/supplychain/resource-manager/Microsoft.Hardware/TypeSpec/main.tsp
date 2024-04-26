@@ -40,7 +40,6 @@ model OrderProperties {
   action?:string;
 
   @doc("Order status")
-  @visibility("read")
   status?: OrderStatus;
 
   @doc("Order line details")
@@ -62,7 +61,6 @@ model OrderProperties {
   @doc("Reservation for order if applicable")
   reservationId?:string;
 
-  @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
@@ -126,11 +124,9 @@ model OrderLine {
   cancelledBy?:string;
 
   @doc("Estimated Delivery Date Time")
-  @visibility("read")
   estimatedDeliveryDateTime?:utcDateTime;
 
   @doc("Estimated Shipped Date Time")
-  @visibility("read")
   estimatedShippedDateTime?:utcDateTime;
 }
 
