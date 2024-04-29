@@ -73,6 +73,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "List Operations DsmsCertificate": {
+            "$ref": "./examples/dsmsCertificate_Operations.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -259,6 +264,27 @@
     }
   },
   "definitions": {
+    "CaType": {
+      "type": "string",
+      "enum": [
+        "SSLAdmin",
+        "AME"
+      ],
+      "x-ms-enum": {
+        "name": "CaType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SSLAdmin",
+            "value": "SSLAdmin"
+          },
+          {
+            "name": "AME",
+            "value": "AME"
+          }
+        ]
+      }
+    },
     "CertificateProvisioningState": {
       "type": "string",
       "description": "Provisioning status of the resource.",
@@ -356,24 +382,24 @@
         },
         "subject": {
           "type": "string",
-          "description": "Certificate Subject Name"
+          "description": "Certificate Subject name, e.g. \"CN=DsmsEv2Extension\" or \"CN=ev2-dsms.dsms.core.azure-test.net\""
         },
         "san": {
           "type": "string",
-          "description": "Certificae Subject Alternative Name"
+          "description": "Certificate Subject Alternate Name, e.g. \"DNS=ev2-dsms.dsms.core.azure-test.net\""
         },
         "caName": {
-          "type": "string",
-          "description": "CA name"
+          "$ref": "#/definitions/CaType",
+          "description": "CA to use, \"SSLAdmin\" or \"AME\""
         },
         "validDays": {
           "type": "integer",
           "format": "int32",
-          "description": "Valid days of this certificate"
+          "description": "Valid days of this certificate (Self-signed certificates only)"
         },
         "caSigning": {
           "type": "boolean",
-          "description": "Enable CA signing"
+          "description": "Enable CA signing (Self-signed certificates only)"
         },
         "certificateTransparency": {
           "type": "boolean",
@@ -393,9 +419,6 @@
         "certificateName",
         "certificateType",
         "rootPath",
-        "dsmsDns",
-        "whitelist",
-        "replicate",
         "subject"
       ]
     },

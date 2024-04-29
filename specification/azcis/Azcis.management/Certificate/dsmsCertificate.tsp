@@ -43,6 +43,12 @@ union CertificateType {
   string,
 }
 
+union CaType {
+  SSLAdmin: "SSLAdmin",
+  AME: "AME",
+  string,
+}
+
 @doc("sslAdminCertificateDsms properties")
 model DsmsCertificateProperties {
   @doc("Name of the certificate")
@@ -55,10 +61,10 @@ model DsmsCertificateProperties {
   rootPath: string;
 
   @doc("Define in which region of dSMS to provision the storage account, such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). This is used only when provision storage account in non-home-dsms endpoint.")
-  dsmsDns: string;
+  dsmsDns?: string;
 
   @doc("Certificate whitelist in dSMS.")
-  whitelist: Whitelists;
+  whitelist?: Whitelists;
 
   @doc("Block auto key roll over")
   blockAutoRollover?: boolean;
@@ -67,21 +73,21 @@ model DsmsCertificateProperties {
   customRolloverPeriodDays?: int32;
 
   @doc("Certificate Replication in dSMS.")
-  replicate: Replicate;
+  replicate?: Replicate;
 
-  @doc("Certificate Subject Name")
+  @doc("Certificate Subject name, e.g. \"CN=DsmsEv2Extension\" or \"CN=ev2-dsms.dsms.core.azure-test.net\"")
   subject: string;
 
-  @doc("Certificae Subject Alternative Name")
+  @doc("Certificate Subject Alternate Name, e.g. \"DNS=ev2-dsms.dsms.core.azure-test.net\"")
   san?: string;
 
-  @doc("CA name")
-  caName?: string;
+  @doc("CA to use, \"SSLAdmin\" or \"AME\"")
+  caName?: CaType;
 
-  @doc("Valid days of this certificate")
+  @doc("Valid days of this certificate (Self-signed certificates only)")
   validDays?: int32;
 
-  @doc("Enable CA signing")
+  @doc("Enable CA signing (Self-signed certificates only)")
   caSigning?: boolean;
 
   @doc("Enable certificate transparency")
