@@ -12,76 +12,108 @@ using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("storageAccountDsms properties.")
+@doc("StorageAccountDsms properties.")
 model StorageAccountDsmsResourceProperties {
-  @doc("Gets or sets the root path of the certificate.")
+  @doc("Name of the Storage Account.")
+  accountName: string; // Camel case for the parameter names.
+
+  @doc("Root path of the certificate.")
   rootPath: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
-  @doc("Gets or sets name.")
-  name: string;
+  @doc("Defines in which region of dSMS to provision the Storage Account, such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). Used only for provisioning Storage Account in non-home-dsms endpoint.")
+  dsmsDns?: string;
 
-  @doc("Description to this xstore account.")
-  description: string;
+  @doc("Account Replication Type.")
+  accountReplicationType?: string;
 
-  @doc("Subscription alias.")
-  subscriptionAlias: string;
+  @doc("Description of the XStore account.")
+  description?: string;
 
-  @doc("Subscription ID to use this xstore account.")
-  subscriptionId?: string;
-
-  @doc("Storage account resource provider. Valid values are \"Classic\", \"ARM\".")
-  resourceProvider: string;
-
-  @doc("Label of this xstore account.")
-  label: string;
-
-  @doc("Location of this storage account.")
+  @doc("Location of the Storage Account.")
   location?: string;
 
-  @doc("Storage account resource group name.")
-  resourceGroupName?: string;
+  @doc("Label of the XStore account.")
+  label?: string;
+
+  @doc("If False, create Storage Account and dSMS object in Deferred Provisioning; if True, create dSMS object in Provisioning, then create Storage Account in Deferred Provisioning and refresh keys in dSMS. Optional, True by default.")
+  xstoreBootstrapping?: boolean;
+
+  @doc("Name of the event to emit once the XStore account is created.")
+  eventEmittedUponProvisioning?: string;
+
+  @doc("If True, will onboard the existing Storage Account to dSMS. If False, will generate dSMS object with random keys. Optional, False by default.")
+  useCreateInsteadOfGenerate?: boolean;
+
+  @doc("Storage account whitelist in dSMS.")
+  whitelists?: Whitelists;
+
+  @doc("Storage account Replication in dSMS.")
+  replicate?: Replicate;
+
+  @doc("Set to True to block auto key rollover. Optional, False by default.")
+  blockAutoRollover?: boolean;
+
+  @doc("Override default key renewal period.")
+  keyRenewalPeriodInDays?: int32;
+
+  @doc("Set to True if you need ACL the Storage Account to Autopilot or PilotFish environments. Optional.")
+  releaseKeyToAgent?: boolean;
+
+  @doc("Set to True to force global sync of dSMS secret or False to skip it. Optional, False by default.")
+  forceSyncGlobalDsmsSecret?: boolean;
+
+  @doc("Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal), Xstore, Invalid (can be used to create dummy Storage Accounts in dSMS).")
+  resourceProvider: string;
+
+  @doc("Set to True to pilot XStore resource provider. In new region or new cloud scenario, it can create Storage Account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE.")
+  pilotXstoreResourceProvider?: boolean;
+
+  @doc("Storage account shared access signature.")
+  @extension("x-ms-identifiers", [])
+  accountSasInfos?: Array<AccountSasInfo>;
+
+  @doc("Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default.")
+  refreshInDsms?: boolean;
+
+  @doc("The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider.")
+  originalResourceProvider?: string;
+
+  @doc("Residency boundary. Acceptable values: Worldwide, National.")
+  residencyBoundary?: string;
+
+  @doc("Minimum account replication type, e.g. Standard_LRS. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used.")
+  resiliencyMinimum?: string;
+
+  @doc("Maximum account replication type, e.g. Standard_ZRS.")
+  resiliencyMaximum?: string;
+
+  @doc("Resiliencies progression id, e.g. Default, PremiumDefault, Zonal.")
+  resilienciesProgressionId?: string;
+
+  @doc("Additional locations to support resiliency, e.g. primary.")
+  additionalLocations?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
-  @doc("Properties")
-  @extension("x-ms-identifiers", [])
-  properties?: Property[];
+  @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
+  properties?: {};
 
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
 }
 
-@doc("Defines the property element.")
-model Property {
-  @doc("Gets or sets the name of the property.")
-  name?: string;
-
-  @doc("Gets or sets the value of the property.")
-  value?: string;
-}
-
-@doc("Defines where the secret should be replicated to.")
-model Replicate {
-  @doc("Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances.")
-  type?: string;
-
-  @doc("Gets or sets the regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon.")
-  values?: string;
-}
-
-@doc("Sas Key Information.")
+@doc("AccountSasInfo element contains Sas Key Information.")
 model AccountSasInfo {
   @doc("dSMS root folder.")
   rootPath?: string;
 
-  @doc("Name of the storage account.")
+  @doc("Name of the Storage Account.")
   name?: string;
 
   @doc("Path in Dsms endpoint. If this specified, then RootPath and Name should be ignored.")
   dsmsLocation?: string;
 
-  @doc("The signed permissions for the account SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).")
+  @doc("The signed permissions for the account SAS. Acceptable values: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).")
   signedPermissions?: string;
 
   @doc("Services like blob(b), queue(q) and table(t).")
@@ -91,13 +123,38 @@ model AccountSasInfo {
   signedResourceTypes?: string;
 }
 
-@doc("storageAccounts Resource")
+@doc("Replicate element defines where the secret should be replicated to.")
+model Replicate {
+  @doc("Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances.")
+  type?: string;
+
+  @doc("Regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon.")
+  regions?: string;
+}
+
+@doc("Whitelist element defines the whitelist for a secret.")
+model Whitelist {
+  @doc("Type of the whitelist. ServiceID: whitelisting a service. SubscriptionID: whitelisting subscription ID for creating Storage Account objects. DnsDomain: whitelisting a DNS domain for creating chained certificates. ServiceTreeID: whitelisting a service tree ID.")
+  type?: string;
+
+  @doc("Values of the whitelist, separated by semicolon.")
+  values?: string;
+}
+
+@doc("Whitelists element is a wrapper object over a collection of Whitelist elements.")
+model Whitelists {
+  @doc("Array of whitelists.")
+  @extension("x-ms-identifiers", [])
+  whitelist?: Array<Whitelist>;
+}
+
+@doc("StorageAccount Resource")
 model StorageAccountDsmsResource
-  is ProxyResource<StorageAccountDsmsResourceProperties> { // This can be TrackedResource based on resourcetype
+  is ProxyResource<StorageAccountDsmsResourceProperties> { // This can be TrackedResource based on resourcetype.
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("storageAccountDsmss") // Start with lower case. Should be plural
+  @segment("storageAccountDsmss") // Start with lower case. Should be plural.
   @visibility("read")
   @path
   name: string;
@@ -107,7 +164,7 @@ model StorageAccountDsmsResource
 @armResourceOperations
 interface StorageAccountDsms {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<StorageAccountDsmsResource>;
-  listBySubscription is ArmListBySubscription<StorageAccountDsmsResource>;
-  listByResourceGroup is ArmResourceListByParent<StorageAccountDsmsResource>;
   get is ArmResourceRead<StorageAccountDsmsResource>;
+  listByResourceGroup is ArmResourceListByParent<StorageAccountDsmsResource>;
+  listBySubscription is ArmListBySubscription<StorageAccountDsmsResource>;
 }
