@@ -53,6 +53,9 @@
     },
     {
       "name": "Devices"
+    },
+    {
+      "name": "BillingContainers"
     }
   ],
   "paths": {
@@ -83,7 +86,7 @@
           }
         },
         "x-ms-examples": {
-          "Returns list of operations.": {
+          "List_Operations": {
             "$ref": "./examples/List_Operations.json"
           }
         },
@@ -122,7 +125,7 @@
           }
         },
         "x-ms-examples": {
-          "List Asset Endpoint Profiles in a Subscription.": {
+          "List_AssetEndpointProfiles_Subscription": {
             "$ref": "./examples/List_AssetEndpointProfiles_Subscription.json"
           }
         },
@@ -161,13 +164,207 @@
           }
         },
         "x-ms-examples": {
-          "List Assets in a Subscription.": {
+          "List_Assets_Subscription": {
             "$ref": "./examples/List_Assets_Subscription.json"
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/billingContainers": {
+      "get": {
+        "operationId": "BillingContainers_ListBySubscription",
+        "tags": [
+          "BillingContainers"
+        ],
+        "description": "List BillingContainer resources by subscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/BillingContainerListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/billingContainers/{billingContainerName}": {
+      "get": {
+        "operationId": "BillingContainers_Get",
+        "tags": [
+          "BillingContainers"
+        ],
+        "description": "Get a BillingContainer",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "billingContainerName",
+            "in": "path",
+            "description": "Name of the billingContainer.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[0-9a-z][a-z0-9-]*$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/BillingContainer"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "BillingContainers_CreateOrReplace",
+        "tags": [
+          "BillingContainers"
+        ],
+        "description": "Create a BillingContainer",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "billingContainerName",
+            "in": "path",
+            "description": "Name of the billingContainer.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[0-9a-z][a-z0-9-]*$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BillingContainer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'BillingContainer' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/BillingContainer"
+            }
+          },
+          "201": {
+            "description": "Resource 'BillingContainer' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/BillingContainer"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "BillingContainers_Delete",
+        "tags": [
+          "BillingContainers"
+        ],
+        "description": "Delete a BillingContainer",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "billingContainerName",
+            "in": "path",
+            "description": "Name of the billingContainer.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[0-9a-z][a-z0-9-]*$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/devices": {
@@ -200,7 +397,7 @@
           }
         },
         "x-ms-examples": {
-          "List devices in a subscription.": {
+          "List_Devices_Subscription": {
             "$ref": "./examples/List_Devices_Subscription.json"
           }
         },
@@ -245,7 +442,7 @@
           }
         },
         "x-ms-examples": {
-          "Get the status of an async operation.": {
+          "Get_OperationStatus": {
             "$ref": "./examples/Get_OperationStatus.json"
           }
         }
@@ -284,7 +481,7 @@
           }
         },
         "x-ms-examples": {
-          "List Asset Endpoint Profiles in a Resource Group.": {
+          "List_AssetEndpointProfiles_ResourceGroup": {
             "$ref": "./examples/List_AssetEndpointProfiles_ResourceGroup.json"
           }
         },
@@ -336,7 +533,7 @@
           }
         },
         "x-ms-examples": {
-          "Get an Asset Endpoint Profile.": {
+          "Get_AssetEndpointProfile": {
             "$ref": "./examples/Get_AssetEndpointProfile.json"
           }
         }
@@ -405,7 +602,7 @@
           }
         },
         "x-ms-examples": {
-          "Create an Asset Endpoint Profile.": {
+          "Create_AssetEndpointProfile": {
             "$ref": "./examples/Create_AssetEndpointProfile.json"
           }
         },
@@ -460,14 +657,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -479,7 +676,7 @@
           }
         },
         "x-ms-examples": {
-          "Patch an Asset Endpoint Profile.": {
+          "Update_AssetEndpointProfile": {
             "$ref": "./examples/Update_AssetEndpointProfile.json"
           }
         },
@@ -519,14 +716,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -541,7 +738,7 @@
           }
         },
         "x-ms-examples": {
-          "Delete an Asset Endpoint Profile.": {
+          "Delete_AssetEndpointProfile": {
             "$ref": "./examples/Delete_AssetEndpointProfile.json"
           }
         },
@@ -584,7 +781,7 @@
           }
         },
         "x-ms-examples": {
-          "List Assets in a Resource Group.": {
+          "List_Assets_ResourceGroup": {
             "$ref": "./examples/List_Assets_ResourceGroup.json"
           }
         },
@@ -636,10 +833,10 @@
           }
         },
         "x-ms-examples": {
-          "Get an Asset": {
+          "Get_Asset": {
             "$ref": "./examples/Get_Asset.json"
           },
-          "Get an Asset with Sync Status.": {
+          "Get_Asset_With_SyncStatus": {
             "$ref": "./examples/Get_Asset_With_SyncStatus.json"
           }
         }
@@ -708,13 +905,13 @@
           }
         },
         "x-ms-examples": {
-          "Create an Asset With External Asset Id.": {
+          "Create_Asset_With_ExternalAssetId": {
             "$ref": "./examples/Create_Asset_With_ExternalAssetId.json"
           },
-          "Create an Asset Without Display Name.": {
+          "Create_Asset_Without_DisplayName": {
             "$ref": "./examples/Create_Asset_Without_DisplayName.json"
           },
-          "Create an Asset Without External Asset Id.": {
+          "Create_Asset_Without_ExternalAssetId": {
             "$ref": "./examples/Create_Asset_Without_ExternalAssetId.json"
           }
         },
@@ -769,14 +966,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -788,7 +985,7 @@
           }
         },
         "x-ms-examples": {
-          "Patch an Asset.": {
+          "Update_Asset": {
             "$ref": "./examples/Update_Asset.json"
           }
         },
@@ -828,14 +1025,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -850,7 +1047,7 @@
           }
         },
         "x-ms-examples": {
-          "Delete an Asset.": {
+          "Delete_Asset": {
             "$ref": "./examples/Delete_Asset.json"
           }
         },
@@ -893,7 +1090,7 @@
           }
         },
         "x-ms-examples": {
-          "List devices in a resource group.": {
+          "List_Devices_ResourceGroup": {
             "$ref": "./examples/List_Devices_ResourceGroup.json"
           }
         },
@@ -945,7 +1142,7 @@
           }
         },
         "x-ms-examples": {
-          "Get a device.": {
+          "Get_Device": {
             "$ref": "./examples/Get_Device.json"
           }
         }
@@ -1014,16 +1211,16 @@
           }
         },
         "x-ms-examples": {
-          "Create a device with attributes.": {
+          "Create_Device_With_Attributes": {
             "$ref": "./examples/Create_Device_With_Attributes.json"
           },
-          "Create a device with endpoints.": {
+          "Create_Device_With_Endpoints": {
             "$ref": "./examples/Create_Device_With_Endpoints.json"
           },
-          "Create a device with external device ID.": {
+          "Create_Device_With_ExternalDeviceId": {
             "$ref": "./examples/Create_Device_With_ExternalDeviceId.json"
           },
-          "Create a device without external device ID.": {
+          "Create_Device_Without_ExternalDeviceId": {
             "$ref": "./examples/Create_Device_Without_ExternalDeviceId.json"
           }
         },
@@ -1078,14 +1275,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -1097,10 +1294,10 @@
           }
         },
         "x-ms-examples": {
-          "Update a device to disable it.": {
+          "Update_Device": {
             "$ref": "./examples/Update_Device.json"
           },
-          "Update a device with new endpoints.": {
+          "Update_Device_With_New_Endpoints": {
             "$ref": "./examples/Update_Device_With_New_Endpoints.json"
           }
         },
@@ -1140,14 +1337,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -1162,7 +1359,7 @@
           }
         },
         "x-ms-examples": {
-          "Delete a device.": {
+          "Delete_Device": {
             "$ref": "./examples/Delete_Device.json"
           }
         },
@@ -1250,8 +1447,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -1348,8 +1544,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -1613,13 +1808,60 @@
         }
       }
     },
-    "Connectivity": {
+    "BillingContainer": {
       "type": "object",
-      "description": "Endpoints for sending or receiving messages to the device.",
+      "description": "billingContainer Model as ARM resource",
       "properties": {
-        "messaging": {
-          "$ref": "#/definitions/Endpoint",
-          "description": "Endpoint for sending and receiving messages from the device."
+        "properties": {
+          "$ref": "#/definitions/BillingContainerProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "etag": {
+          "type": "string",
+          "description": "Resource Tag",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "BillingContainerListResult": {
+      "type": "object",
+      "description": "The response of a BillingContainer list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The BillingContainer items on this page",
+          "items": {
+            "$ref": "#/definitions/BillingContainer"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "BillingContainerProperties": {
+      "type": "object",
+      "description": "Defines the billingContainer properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
         }
       }
     },
@@ -1787,10 +2029,6 @@
             "read",
             "create"
           ]
-        },
-        "connectivity": {
-          "$ref": "#/definitions/Connectivity",
-          "description": "Endpoints for receiving or sending messages to the device."
         }
       },
       "required": [
@@ -1811,10 +2049,6 @@
             "type",
             "address"
           ]
-        },
-        "connectivity": {
-          "$ref": "#/definitions/Connectivity",
-          "description": "Endpoints for receiving or sending messages to the device."
         }
       }
     },
@@ -1848,8 +2082,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -2330,7 +2563,6 @@
       "description": "Private.DeviceRegistry Resource Provider supported API versions.",
       "enum": [
         "2023-11-01-preview",
-        "2024-03-01-preview",
         "2024-05-01-preview"
       ],
       "x-ms-enum": {
@@ -2341,11 +2573,6 @@
             "name": "v2023_11_01_preview",
             "value": "2023-11-01-preview",
             "description": "Private.DeviceRegistry Resource Provider management API version 2023-11-01-preview."
-          },
-          {
-            "name": "v2024_03_01_preview",
-            "value": "2024-03-01-preview",
-            "description": "Private.DeviceRegistry Resource Provider management API version 2024-03-01-preview."
           },
           {
             "name": "v2024_05_01_preview",

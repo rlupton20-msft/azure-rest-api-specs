@@ -1,13 +1,19 @@
+import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@azure-tools/typespec-autorest";
 
 import "./common-types.tsp";
 import "./chambers.tsp";
 
+using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
+using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
+using OpenAPI;
 
 @armProviderNamespace("Microsoft.ModSimWorkbench")
 @service({
@@ -18,38 +24,61 @@ using Azure.ResourceManager;
 namespace Microsoft.ModSimWorkbench;
 
 @doc("Performance tier of shared storage.")
-enum SharedStoragePerformanceTier {
+union SharedStoragePerformanceTier {
+  string,
+
   @doc("Standard tier.")
-  Standard,
+  Standard: "Standard",
 
   @doc("Ultra tier.")
-  Ultra,
+  Ultra: "Ultra",
 }
 
 @doc("List of chambers connected to a shared storage.")
 model ConnectedChamber {
   @doc("Fully qualified resource ID for the chamber resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-  @visibility("read")
-  id: string; // TODO: Change to chamberId
+  @visibility("read", "create", "update")
+  id: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.ModSimWorkbench/chamber";
+    }
+  ]>;
+}
+@doc("Shared storage properties common between create and update.")
+@access(Access.internal)
+model SharedStorageBaseProperties {
+  ...StorageBaseProperties;
+
+  @visibility("read", "create", "update")
+  @doc("List of Chambers connected to the shared storage.")
+  @extension("x-ms-identifiers", ["id"])
+  chambers: Array<ConnectedChamber>;
 }
 
 @doc("Shared storage properties.")
 model SharedStorageProperties {
-  ...ProvisioningStateProperty;
-  ...CapacityAllocatedProperty;
-  ...CapacityUsedProperty;
+  ...SharedStorageBaseProperties;
 
-  @visibility("read")
-  @doc("Directory where the shared storage volume mounted.")
-  localMountPath?: string;
-
+  @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier = SharedStoragePerformanceTier.Standard;
+  performanceTier: SharedStoragePerformanceTier;
 
-  @visibility("read", "create", "update")
-  @doc("List of Chambers connected to the shared storage.")
-  chambers: Array<ConnectedChamber>;
+  // Workaround since there is no annotation for removing default.
+  @removed(Versions.`2024-05-01-preview`)
+  @renamedFrom(Versions.`2024-05-01-preview`, "performanceTier")
+  @visibility("read", "create")
+  @doc("Performance tier of the shared storage.")
+  oldPerformanceTier: SharedStoragePerformanceTier = SharedStoragePerformanceTier.Standard;
+}
+
+@doc("Shared storage update properties.")
+model SharedStorageUpdateProperties {
+  ...SharedStorageBaseProperties;
+
+  @visibility("update")
+  @doc("Performance tier of the shared storage.")
+  performanceTier: SharedStoragePerformanceTier;
 }
 
 @doc("Shared storage tracked resource.")
@@ -65,4 +94,8 @@ model SharedStorage is TrackedResource<SharedStorageProperties> {
 
 @armResourceOperations
 interface SharedStorages
-  extends NestedResourceOperations<SharedStorage, SharedStorageProperties> {}
+  extends NestedResourceOperations<
+      SharedStorage,
+      SharedStorageProperties,
+      SharedStorageUpdateProperties
+    > {}

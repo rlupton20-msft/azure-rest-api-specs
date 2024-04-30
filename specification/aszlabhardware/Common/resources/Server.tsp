@@ -1,24 +1,21 @@
 import "../models/ResourceManager.tsp";
 import "../models/UserLabResourceTypes.tsp";
-import "./Reservation.tsp";
+import "../models/System.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 
-// This is a local TypeSpec namespace.
-// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
-namespace Common.AszLabHardware;
+namespace Private.AszLabHardware;
 
-@parentResource(Reservation)
+@doc("A Server object which will be connected to a LabServer upon successful reservation")
 model Server is TrackedResource<ServerProperties> {
-  @doc("server name")
-  @segment("servers")
-  @key("serverName")
-  @visibility("read")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @path
-  name: string;
+    @doc("The name of the Server")
+    @pattern("^[a-zA-Z0-9-]{3,24}$")
+    @key("serverName")
+    @segment("servers")
+    @path
+    name: string;
 }
 
 @doc("Details of the AszLabHw Server.")
@@ -31,30 +28,30 @@ model ServerProperties {
     @doc("The status of the last operation.")
     provisioningState?: ProvisioningState;
 
-    @visibility("read")
-    @doc("The OneAsset ID of the Server.")
-    assetTag: string;
-
-    @visibility("read")
-    @doc("IP address of the Server's BMC.")
-    bmcIpAddress: string;
-
-    @visibility("read")
-    @doc("Server Inventory Information")
-    inventory?: System;
-
-    @visibility("read")
-    @doc("Server maintenance status.")
-    maintenanceStatus?: UserLabResourceMaintenanceStatus;
-
-    @visibility("read", "update")
+    @visibility("read", "update", "create")
     @doc("User name of the account credential to authenticate to the server.")
     userName?: string;
 
-    @visibility("read", "update")
+    @visibility("read", "update", "create")
     @doc("Keyvault Uri for the password of the account credential to authenticate to the server.")
     userPasswordKeyVaultUri?: string;
-  }
+
+    @visibility("read")
+    @doc("Server association with LabServer status.")
+    associationStatus?: UserLabResourceAssociationStatus;
+
+    @visibility("read")
+    @doc("IP address of the associated LabServer's BMC.")
+    bmcIpAddress?: string;
+
+    @visibility("read")
+    @doc("Inventory Information of the associated LabServer.")
+    inventory?: System;
+
+    @visibility("read")
+    @doc("Maintenance status of the associated LabServer.")
+    maintenanceStatus?: UserLabResourceMaintenanceStatus;
+}
 
 @armResourceOperations
 interface Servers {

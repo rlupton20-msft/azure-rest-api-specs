@@ -94,6 +94,9 @@
         "description": "ProviderLevel operation to check eligibility to create EnterpriseSupport instance",
         "parameters": [
           {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -432,6 +435,54 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EnterpriseSupport/EnterpriseSupports/{EnterpriseSupportName}/supportCost": {
+      "get": {
+        "operationId": "EnterpriseSupportsResource_GetSupportCost",
+        "tags": [
+          "EnterpriseSupportsResource"
+        ],
+        "description": "Custom operation to get support cost for a customer by billing period",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "EnterpriseSupportName",
+            "in": "path",
+            "description": "The name of the  Enterprise Support",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "billingPeriod",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SupportCostResponseItem"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -582,6 +633,46 @@
         }
       }
     },
+    "PricingBucketBreakdown": {
+      "type": "object",
+      "description": "Response Model for Pricing Bucket breakdown",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Id"
+        },
+        "productRunningTotal": {
+          "type": "number",
+          "format": "float",
+          "description": "The product running total"
+        },
+        "supportRunningTotal": {
+          "type": "number",
+          "format": "float",
+          "description": "The support running total"
+        },
+        "pricingTierBreakdown": {
+          "type": "array",
+          "description": "How support charge was calculated, % applied",
+          "items": {
+            "$ref": "#/definitions/SupportPriceBreakdownItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "pricingBucket": {
+          "type": "number",
+          "format": "float",
+          "description": "Pricing Bucket � Azure Monthly, Azure Yearly, Bizapps Monthly, BizApps Yearly"
+        }
+      },
+      "required": [
+        "id",
+        "productRunningTotal",
+        "supportRunningTotal",
+        "pricingTierBreakdown",
+        "pricingBucket"
+      ]
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The status of the current operation.",
@@ -636,6 +727,69 @@
           }
         ]
       }
+    },
+    "SupportCostResponseItem": {
+      "type": "object",
+      "description": "Response Model for Support Cost Response Item",
+      "properties": {
+        "billingPeriod": {
+          "type": "string",
+          "description": "The billing period in form of YYYY-MM"
+        },
+        "pricingBucketBreakdown": {
+          "type": "array",
+          "description": "How support charge was calculated, % applied",
+          "items": {
+            "$ref": "#/definitions/PricingBucketBreakdown"
+          }
+        },
+        "floorPrice": {
+          "type": "number",
+          "format": "float",
+          "description": "The floor price"
+        },
+        "isClosed": {
+          "type": "boolean",
+          "description": "Is billing closed"
+        },
+        "billingCurrency": {
+          "type": "string",
+          "description": "The billing currency"
+        }
+      },
+      "required": [
+        "billingPeriod",
+        "pricingBucketBreakdown",
+        "floorPrice",
+        "isClosed",
+        "billingCurrency"
+      ]
+    },
+    "SupportPriceBreakdownItem": {
+      "type": "object",
+      "description": "Model for Support Price Breakdown",
+      "properties": {
+        "productCost": {
+          "type": "number",
+          "format": "float",
+          "description": "Product Cost"
+        },
+        "supportCost": {
+          "type": "number",
+          "format": "float",
+          "description": "Support Cost"
+        },
+        "supportRateApplied": {
+          "type": "number",
+          "format": "float",
+          "description": "Support Rate Applied"
+        }
+      },
+      "required": [
+        "productCost",
+        "supportCost",
+        "supportRateApplied"
+      ]
     },
     "ValidateEligibility": {
       "type": "string",

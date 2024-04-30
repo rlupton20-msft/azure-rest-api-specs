@@ -1,9 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Microsoft Secure Access Resource Provider",
+    "title": "Private.Access",
     "version": "2023-05-24-preview",
-    "description": "Azure Access Point Management API"
+    "description": "Azure Access Point Management API",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
   },
   "schemes": [
     "https"
@@ -35,49 +40,10 @@
   },
   "tags": [
     {
-      "name": "Operations"
-    },
-    {
       "name": "AccessPoint"
     }
   ],
   "paths": {
-    "/providers/Private.Access/operations": {
-      "get": {
-        "operationId": "Operations_List",
-        "tags": [
-          "Operations"
-        ],
-        "description": "List the operations for the provider",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Operations_List": {
-            "$ref": "./examples/Operations_List.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/providers/Private.Access/accessPoints": {
       "get": {
         "operationId": "AccessPoint_ListBySubscription",
@@ -95,7 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AccessPointResourceListResult"
             }
@@ -105,11 +71,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "AccessPoint_ListBySubscription": {
-            "$ref": "./examples/AccessPoint_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -137,7 +98,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AccessPointResourceListResult"
             }
@@ -147,11 +108,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "AccessPoint_ListByResourceGroup": {
-            "$ref": "./examples/AccessPoint_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -187,7 +143,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AccessPointResource"
             }
@@ -197,11 +153,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "AccessPoint_Get": {
-            "$ref": "./examples/AccessPoint_Get.json"
           }
         }
       },
@@ -266,11 +217,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "AccessPoint_CreateOrUpdate": {
-            "$ref": "./examples/AccessPoint_CreateOrUpdate.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -312,7 +258,7 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AccessPointResource"
             }
@@ -322,11 +268,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "AccessPoint_Update": {
-            "$ref": "./examples/AccessPoint_Update.json"
           }
         }
       },
@@ -371,18 +312,13 @@
             }
           },
           "204": {
-            "description": "Resource deleted successfully."
+            "description": "Resource does not exist."
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "AccessPoint_Delete": {
-            "$ref": "./examples/AccessPoint_Delete.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -427,7 +363,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -473,6 +410,17 @@
           "additionalProperties": {
             "type": "string"
           }
+        }
+      }
+    },
+    "BaseResourceProperties": {
+      "type": "object",
+      "description": "Properties for a base resource.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
         }
       }
     },
@@ -526,6 +474,40 @@
             "name": "Accepted",
             "value": "Accepted",
             "description": "The change request has been accepted"
+          }
+        ]
+      }
+    },
+    "ResourceSkuType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The SKU information of the resource",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
+    },
+    "Versions": {
+      "type": "string",
+      "enum": [
+        "2023-05-24-preview",
+        "2024-02-24-preview"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "v2023_05_24_preview",
+            "value": "2023-05-24-preview"
+          },
+          {
+            "name": "v2024_02_24_preview",
+            "value": "2024-02-24-preview"
           }
         ]
       }

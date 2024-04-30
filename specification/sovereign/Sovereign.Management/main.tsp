@@ -7,6 +7,8 @@ import "./landingZoneConfigurationModels.tsp";
 import "./landingZoneRegistrationModels.tsp";
 import "./transparencyLogModels.tsp";
 import "./common.tsp";
+import "./landingZoneTemplateModels.tsp";
+import "./landingZoneAssociationModels.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -22,6 +24,7 @@ using Azure.ResourceManager.Foundations;
 })
 @versioned(Versions)
 @armProviderNamespace
+@armCommonTypesVersion("v5")
 namespace Microsoft.Sovereign;
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -77,52 +80,51 @@ interface LandingZonesConfigurations
   >;
 }
 
-// Landing zone configuration Resource Type V2
-@added(Versions.Preview20240831)
-@doc("The Landing Zone configuration resource type V2.")
-model LandingZoneConfigurationV2
-  is TrackedResource<LandingZoneConfigurationPropertiesV2> {
-  @doc("The name of the landing zone configuration resource.")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+// Landing zone template resource type
+@added(Versions.Preview20241031)
+@doc("The Landing Zone template resource type.")
+model LandingZoneTemplate is TrackedResource<LandingZoneTemplateProperties> {
+  @doc("The name of the landing zone template resource.")
+  @pattern("^[a-zA-Z0-9-]{3,64}$")
   @key("name")
-  @segment("landingZoneConfigurationsV2")
+  @segment("landingZoneTemplates")
   @path
   name: string;
 }
 
-@added(Versions.Preview20240831)
-@armResourceOperations(LandingZoneConfigurationV2)
-interface LandingZonesConfigurationsV2
+@added(Versions.Preview20241031)
+@armResourceOperations(LandingZoneTemplate)
+interface LandingZoneTemplates
   extends TrackedResourceOperations<
-      LandingZoneConfigurationV2,
-      LandingZoneConfigurationPropertiesV2
+      LandingZoneTemplate,
+      LandingZoneTemplateProperties
     > {
   @action("generateLandingZone")
   @doc("Generate the landing zone.")
-  @added(Versions.Preview20240831)
-  @armResourceAction(LandingZoneConfigurationV2)
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneTemplate)
   generateLandingZone is ArmResourceActionAsync<
-    LandingZoneConfigurationV2,
+    LandingZoneTemplate,
     GenerateLandingZoneRequest,
     GenerateLandingZoneResponse
   >;
 
   @action("updateAuthoringStatus")
   @doc("Provides a mechanism to update the authoring status.")
-  @added(Versions.Preview20240831)
-  @armResourceAction(LandingZoneConfigurationV2)
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneTemplate)
   updateAuthoringStatus is ArmResourceActionSync<
-    LandingZoneConfigurationV2,
+    LandingZoneTemplate,
     UpdateAuthoringStatusRequest,
     UpdateAuthoringStatusResponse
   >;
 
   @action("createCopy")
-  @doc("Provides a mechanism to create a copy of the landing zone configuration.")
-  @added(Versions.Preview20240831)
-  @armResourceAction(LandingZoneConfigurationV2)
+  @doc("Provides a mechanism to create a copy of the landing zone template.")
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneTemplate)
   createCopy is ArmResourceActionSync<
-    LandingZoneConfigurationV2,
+    LandingZoneTemplate,
     CreateCopyRequest,
     CreateCopyResponse
   >;
@@ -149,25 +151,25 @@ interface LandingZoneRegistrations
       LandingZoneRegistrationProperties
     > {}
 
-// Landing zone registration Resource Type V2
-@added(Versions.Preview20240831)
-@doc("The Landing Zone registration resource type V2.")
-model LandingZoneRegistrationV2
-  is TrackedResource<LandingZoneRegistrationProperties> {
-  @doc("The name of the Landing Zone registration resource.")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+// Landing zone association Resource Type
+@added(Versions.Preview20241031)
+@doc("The Landing Zone association resource type")
+model LandingZoneAssociation
+  is TrackedResource<LandingZoneAssociationProperties> {
+  @doc("The name of the Landing Zone association resource.")
+  @pattern("^[a-zA-Z0-9-]{3,64}$")
   @key("name")
-  @segment("landingZoneRegistrationsV2")
+  @segment("landingZoneAssociations")
   @path
   name: string;
 }
 
-@added(Versions.Preview20240831)
-@armResourceOperations(LandingZoneRegistrationV2)
-interface LandingZoneRegistrationsV2
+@added(Versions.Preview20241031)
+@armResourceOperations(LandingZoneAssociation)
+interface LandingZoneAssociations
   extends TrackedResourceOperations<
-      LandingZoneRegistrationV2,
-      LandingZoneRegistrationProperties
+      LandingZoneAssociation,
+      LandingZoneAssociationProperties
     > {}
 
 // Transparency Logs setting Resource Type
@@ -183,10 +185,12 @@ model TransparencyLog is ProxyResource<TransparencyLogProperties> {
   name: string;
 }
 
-@armResourceOperations(TransparencyLog)
 @added(Versions.Preview20240331)
-interface TransparencyLogs
-  extends TenantResourceOperations<
-      TransparencyLog,
-      TransparencyLogProperties
-    > {}
+@armResourceOperations
+interface TransparencyLogs {
+  get is ArmResourceRead<TransparencyLog>;
+  create is ArmResourceCreateOrReplaceSync<TransparencyLog>;
+  update is ArmResourcePatchSync<TransparencyLog, TransparencyLogProperties>;
+  delete is ArmResourceDeleteSync<TransparencyLog>;
+  listByTenant is ArmResourceListByParent<TransparencyLog>;
+}
