@@ -1,0 +1,56 @@
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+using Autorest;
+
+namespace Microsoft.AzureCis;
+
+@doc("DnsNamespaceManagerChildZoneDelegation properties")
+model DnsNamespaceManagerChildZoneDelegationResourceProperties {
+  @doc("Gets or sets the child DNS zone FQDN")
+  childDnsZoneName: string;
+
+  @doc("Gets or sets the ResourceGroupName hosting the child DNS zone")
+  childDnsZoneResourceGroupName: string;
+
+  @doc("Gets or sets the SubscriptionID hosting the Child DNS zone")
+  childDnsZoneSubscriptionId: string;
+
+  @doc("Gets or sets the domain name")
+  dnsZoneName: string;
+
+  @doc("Gets or sets the owning team's ServiceTree Id and Contact Email")
+  recordSetOwner: RecordSetOwner;
+
+  @doc("Provisioning state")
+  @visibility("read")
+  provisioningState?: DnsNamespaceManagerProvisioningState;
+}
+
+@doc("DnsNamespaceManagerChildZoneDelegation Resource")
+model DnsNamespaceManagerChildZoneDelegationResource
+  is ProxyResource<DnsNamespaceManagerChildZoneDelegationResourceProperties> {
+  @doc("The name of resource.")
+  @pattern("^[a-zA-Z0-9-]{3,80}$")
+  @key("resourceName")
+  @segment("dnsNamespaceManagerChildZoneDelegations") // start with lower case
+  @visibility("read")
+  @path
+  name: string;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
+@armResourceOperations
+interface DnsNamespaceManagerChildZoneDelegation {
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DnsNamespaceManagerChildZoneDelegationResource>;
+  listBySubscription is ArmListBySubscription<DnsNamespaceManagerChildZoneDelegationResource>;
+  listByResourceGroup is ArmResourceListByParent<DnsNamespaceManagerChildZoneDelegationResource>;
+  get is ArmResourceRead<DnsNamespaceManagerChildZoneDelegationResource>;
+}
