@@ -42,12 +42,14 @@ model WorkloadProperties {
   #suppress "@azure-tools/typespec-azure-core/casing-style" "Fixing this would be a breaking change."
   @visibility("read")
   @doc("The chamber workload private IP address.")
-  privateIP?: string; // TODO: Should be "privateIp"
+  privateIP?: string; // TODO: Should be "privateIp";
 
+  @removed(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
   @doc("The chamber workload zone.")
   zones?: Array<string>;
 }
+
 @doc("Workload tracked resource.")
 @parentResource(Chamber)
 model Workload is TrackedResource<WorkloadProperties> {
