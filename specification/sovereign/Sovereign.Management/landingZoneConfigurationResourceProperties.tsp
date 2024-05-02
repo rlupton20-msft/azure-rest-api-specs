@@ -5,15 +5,15 @@ using Azure.Core;
 namespace Microsoft.Sovereign;
 
 @added(Versions.Preview20241031)
-@doc("The properties of landing zone template resource type.")
-model LandingZoneTemplateProperties {
+@doc("The properties of landing zone configuration resource type.")
+model LandingZoneConfigurationResourceProperties {
   @visibility("read")
-  @doc("The status of a user-initiated, control-plane operation on the landing zone template.")
+  @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
   provisioningState?: ResourceProvisioningState;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Handled in code."
   @visibility("read")
-  @doc("The status for the landing zone templates workflow.")
+  @doc("The status for the landing zone configurations workflow.")
   authoringStatus?: AuthoringStatus;
 
   @doc("To deploy ddos, choose Yes, otherwise No. Select Existing to provide an existing ddos protection plan.")
@@ -201,13 +201,8 @@ model GenerateLandingZoneResponse {
   @doc("The top level Management Group display name.")
   topLevelMgDisplayName: string;
 
-  @removed(Versions.Preview20241031)
   @doc("The name of the Landing Zone configuration resource.")
   landingZoneConfigurationName: string;
-
-  @added(Versions.Preview20241031)
-  @doc("The name of the Landing Zone template resource.")
-  landingZoneTemplateName: string;
 
   @doc("The url to access the generated code..")
   @secret
@@ -222,13 +217,8 @@ model UpdateAuthoringStatusRequest {
 
 @doc("The response for the request to update authoring status.")
 model UpdateAuthoringStatusResponse {
-  @removed(Versions.Preview20241031)
   @doc("The name of the landing zone configuration resource.")
   landingZoneConfigurationName: string;
-
-  @added(Versions.Preview20241031)
-  @doc("The name of the landing zone template resource.")
-  landingZoneTemplateName: string;
 
   @doc("The value of the authoring status to be updated.")
   authoringStatus: AuthoringStatus;
@@ -299,19 +289,29 @@ model CreateCopyRequest {
 
 @doc("The response of the create copy action of landing zone configuration.")
 model CreateCopyResponse {
-  @removed(Versions.Preview20241031)
   @doc("The id of the copied landing zone configuration resource.")
   copiedLandingZoneConfigurationId: armResourceIdentifier<[
     {
       type: "Microsoft.Sovereign/landingZoneConfigurations";
     }
   ]>;
+}
 
-  @added(Versions.Preview20241031)
-  @doc("The id of the copied landing zone template resource.")
-  copiedLandingZoneTemplateId: armResourceIdentifier<[
+@added(Versions.Preview20241031)
+@doc("The request for the create copy action of landing zone configuration.")
+model CreateLandingZoneConfigurationCopyRequest {
+  @doc("The name of the new landing zone configuration resource.")
+  @pattern("^[a-zA-Z0-9-]{3,64}$")
+  name: string;
+}
+
+@added(Versions.Preview20241031)
+@doc("The response of the create copy action of landing zone configuration.")
+model CreateLandingZoneConfigurationCopyResponse {
+  @doc("The id of the copied landing zone configuration resource.")
+  copiedLandingZoneConfigurationId: armResourceIdentifier<[
     {
-      type: "Microsoft.Sovereign/landingZoneTemplates";
+      type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }
   ]>;
 }

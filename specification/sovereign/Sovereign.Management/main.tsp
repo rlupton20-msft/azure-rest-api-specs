@@ -7,8 +7,9 @@ import "./landingZoneConfigurationModels.tsp";
 import "./landingZoneRegistrationModels.tsp";
 import "./transparencyLogModels.tsp";
 import "./common.tsp";
-import "./landingZoneTemplateModels.tsp";
-import "./landingZoneAssociationModels.tsp";
+import "./landingZoneAccountModels.tsp";
+import "./landingZoneConfigurationResourceProperties.tsp";
+import "./landingZoneRegistrationResourceProperties.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -30,6 +31,7 @@ namespace Microsoft.Sovereign;
 interface Operations extends Azure.ResourceManager.Operations {}
 
 // Landing zone configuration Resource Type
+@removed(Versions.Preview20241031)
 @tenantResource
 @added(Versions.Preview20230928)
 @doc("The Landing Zone configuration resource type.")
@@ -42,7 +44,7 @@ model LandingZoneConfiguration
   @path
   name: string;
 }
-
+@removed(Versions.Preview20241031)
 @armResourceOperations(LandingZoneConfiguration)
 interface LandingZonesConfigurations
   extends TenantResourceOperations<
@@ -52,6 +54,7 @@ interface LandingZonesConfigurations
   @action("generateLandingZone")
   @doc("Generate the landing zone.")
   @added(Versions.Preview20230928)
+  @removed(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfiguration)
   generateLandingZone is ArmResourceActionAsync<
     LandingZoneConfiguration,
@@ -62,6 +65,7 @@ interface LandingZonesConfigurations
   @action("updateAuthoringStatus")
   @doc("Provides a mechanism to update the authoring status.")
   @added(Versions.Preview20230928)
+  @removed(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfiguration)
   updateAuthoringStatus is ArmResourceActionSync<
     LandingZoneConfiguration,
@@ -72,6 +76,7 @@ interface LandingZonesConfigurations
   @action("createCopy")
   @doc("Provides a mechanism to create a copy of the landing zone configuration.")
   @added(Versions.Preview20230928)
+  @removed(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfiguration)
   createCopy is ArmResourceActionSync<
     LandingZoneConfiguration,
@@ -80,58 +85,9 @@ interface LandingZonesConfigurations
   >;
 }
 
-// Landing zone template resource type
-@added(Versions.Preview20241031)
-@doc("The Landing Zone template resource type.")
-model LandingZoneTemplate is TrackedResource<LandingZoneTemplateProperties> {
-  @doc("The name of the landing zone template resource.")
-  @pattern("^[a-zA-Z0-9-]{3,64}$")
-  @key("name")
-  @segment("landingZoneTemplates")
-  @path
-  name: string;
-}
-
-@added(Versions.Preview20241031)
-@armResourceOperations(LandingZoneTemplate)
-interface LandingZoneTemplates
-  extends TrackedResourceOperations<
-      LandingZoneTemplate,
-      LandingZoneTemplateProperties
-    > {
-  @action("generateLandingZone")
-  @doc("Generate the landing zone.")
-  @added(Versions.Preview20241031)
-  @armResourceAction(LandingZoneTemplate)
-  generateLandingZone is ArmResourceActionAsync<
-    LandingZoneTemplate,
-    GenerateLandingZoneRequest,
-    GenerateLandingZoneResponse
-  >;
-
-  @action("updateAuthoringStatus")
-  @doc("Provides a mechanism to update the authoring status.")
-  @added(Versions.Preview20241031)
-  @armResourceAction(LandingZoneTemplate)
-  updateAuthoringStatus is ArmResourceActionSync<
-    LandingZoneTemplate,
-    UpdateAuthoringStatusRequest,
-    UpdateAuthoringStatusResponse
-  >;
-
-  @action("createCopy")
-  @doc("Provides a mechanism to create a copy of the landing zone template.")
-  @added(Versions.Preview20241031)
-  @armResourceAction(LandingZoneTemplate)
-  createCopy is ArmResourceActionSync<
-    LandingZoneTemplate,
-    CreateCopyRequest,
-    CreateCopyResponse
-  >;
-}
-
 // Landing zone registration Resource Type
 @tenantResource
+@removed(Versions.Preview20241031)
 @added(Versions.Preview20230928)
 @doc("The Landing Zone registration resource type.")
 model LandingZoneRegistration
@@ -144,6 +100,7 @@ model LandingZoneRegistration
   name: string;
 }
 
+@removed(Versions.Preview20241031)
 @armResourceOperations(LandingZoneRegistration)
 interface LandingZoneRegistrations
   extends TenantResourceOperations<
@@ -151,26 +108,126 @@ interface LandingZoneRegistrations
       LandingZoneRegistrationProperties
     > {}
 
-// Landing zone association Resource Type
+@doc("The Landing Zone Account parent resource type.")
 @added(Versions.Preview20241031)
-@doc("The Landing Zone association resource type")
-model LandingZoneAssociation
-  is TrackedResource<LandingZoneAssociationProperties> {
-  @doc("The name of the Landing Zone association resource.")
+model LandingZoneAccount is TrackedResource<LandingZoneAccountProperties> {
+  @doc("The parent landing zone account")
+  @segment("landingZoneAccounts")
+  @key("landingZoneAccountName")
   @pattern("^[a-zA-Z0-9-]{3,64}$")
-  @key("name")
-  @segment("landingZoneAssociations")
+  @visibility("read")
+  @path
+  name: string;
+
+  ...ManagedServiceIdentity;
+}
+
+@armResourceOperations(LandingZoneAccount)
+@added(Versions.Preview20241031)
+interface LandingZoneAccounts
+  extends TrackedResourceOperations<
+      LandingZoneAccount,
+      LandingZoneAccountProperties
+    > {}
+
+@parentResource(LandingZoneAccount)
+@added(Versions.Preview20241031)
+@resource("landingZoneConfigurations")
+model LandingZoneConfigurationResource
+  is ProxyResource<LandingZoneConfigurationResourceProperties> {
+  @doc("The landing zone configuration name")
+  @segment("landingZoneConfigurations")
+  @key("landingZoneConfigurationName")
+  @visibility("read")
+  @pattern("^[a-zA-Z0-9-]{3,64}$")
   @path
   name: string;
 }
 
 @added(Versions.Preview20241031)
-@armResourceOperations(LandingZoneAssociation)
-interface LandingZoneAssociations
-  extends TrackedResourceOperations<
-      LandingZoneAssociation,
-      LandingZoneAssociationProperties
-    > {}
+@armResourceOperations(LandingZoneConfigurationResource)
+interface LandingZoneConfigurationOperations {
+  @doc("Gets the landing zone configuration.")
+  get is ArmResourceRead<LandingZoneConfigurationResource>;
+  @doc("Creates the landing zone configuration.")
+  create is ArmResourceCreateOrUpdateAsync<LandingZoneConfigurationResource>;
+  @doc("Updates the landing zone configuration.")
+  update is ArmResourcePatchSync<
+    LandingZoneConfigurationResource,
+    LandingZoneConfigurationResourceProperties
+  >;
+  @doc("Deletes the landing zone configuration.")
+  delete is ArmResourceDeleteSync<LandingZoneConfigurationResource>;
+  @doc("Lists the landing zone configurations within a resource group.")
+  listByResourceGroup is ArmResourceListByParent<LandingZoneConfigurationResource>;
+  @doc("Lists the landing zone configurations within a subscription.")
+  listBySubscription is ArmListBySubscription<LandingZoneConfigurationResource>;
+
+  @action("generateLandingZone")
+  @doc("Generate the landing zone.")
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneConfigurationResource)
+  generateLandingZone is ArmResourceActionAsync<
+    LandingZoneConfigurationResource,
+    GenerateLandingZoneRequest,
+    GenerateLandingZoneResponse
+  >;
+
+  @action("updateAuthoringStatus")
+  @doc("Provides a mechanism to update the authoring status.")
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneConfigurationResource)
+  updateAuthoringStatus is ArmResourceActionSync<
+    LandingZoneConfigurationResource,
+    UpdateAuthoringStatusRequest,
+    UpdateAuthoringStatusResponse
+  >;
+
+  @action("createCopy")
+  @doc("Provides a mechanism to create a copy of the landing zone configuration.")
+  @added(Versions.Preview20241031)
+  @armResourceAction(LandingZoneConfigurationResource)
+  createCopy is ArmResourceActionSync<
+    LandingZoneConfigurationResource,
+    CreateLandingZoneConfigurationCopyRequest,
+    CreateLandingZoneConfigurationCopyResponse
+  >;
+}
+
+// Landing zone registration resource type
+@parentResource(LandingZoneAccount)
+@added(Versions.Preview20241031)
+@resource("landingZoneRegistrations")
+@doc("The Landing Zone registration resource type")
+model LandingZoneRegistrationResource
+  is TrackedResource<LandingZoneRegistrationResourceProperties> {
+  @doc("The name of the Landing Zone Registration resource.")
+  @pattern("^[a-zA-Z0-9-]{3,64}$")
+  @key("landingZoneRegistrationName")
+  @segment("landingZoneRegistrations")
+  @path
+  name: string;
+}
+
+@added(Versions.Preview20241031)
+@armResourceOperations(LandingZoneRegistrationResource)
+interface LandingZoneRegistrationOperations {
+  @doc("Gets the landing zone registration.")
+  get is ArmResourceRead<LandingZoneRegistrationResource>;
+  @doc("Creates the landing zone registration.")
+  create is ArmResourceCreateOrUpdateAsync<LandingZoneRegistrationResource>;
+  @doc("Updates the landing zone registration.")
+  update is ArmResourcePatchSync<
+    LandingZoneRegistrationResource,
+    LandingZoneRegistrationResourceProperties
+  >;
+  @doc("Deletes the landing zone registration.")
+  delete is ArmResourceDeleteSync<LandingZoneRegistrationResource>;
+  @doc("Lists the landing zone registrations within a resource group.")
+  listByResourceGroup is ArmResourceListByParent<LandingZoneRegistrationResource>;
+  @doc("Lists the landing zone registrations within a subscription.")
+  listBySubscription is ArmListBySubscription<LandingZoneRegistrationResource>;
+}
 
 // Transparency Logs setting Resource Type
 @tenantResource

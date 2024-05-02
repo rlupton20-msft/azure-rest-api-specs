@@ -4,6 +4,7 @@ using Azure.Core;
 
 namespace Microsoft.Sovereign;
 
+@removed(Versions.Preview20241031)
 @doc("The properties of landing zone configuration resource type.")
 model LandingZoneConfigurationProperties {
   @visibility("read")
