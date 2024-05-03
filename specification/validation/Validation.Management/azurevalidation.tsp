@@ -108,19 +108,19 @@ model ValidationResultProperties {
   tokenId: string;
 
   @doc("The resource identifier.")
-  resourceId: string;
+  resourceIdentifier: string;
 
   @doc("The action type")
   operation: Operation;
 
   @doc("The allowed claim.")
-  allowed: boolean;
+  allowed?: boolean;
 
   @doc("The outcome of the validation.")
-  outcome: Outcome;
+  outcome?: Outcome;
 
   @doc("The message.")
-  message: string;
+  message?: string;
 
   @doc("The error details.")
   error?: {
