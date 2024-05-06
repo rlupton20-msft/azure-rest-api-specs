@@ -33,6 +33,9 @@ namespace Private.Symphony;
 
 @doc("Versions info.")
 enum Versions {
+  /** 2023-05-02-preview preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2023-05-22-preview`,
   /** 2024-04-01-preview preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2024-04-01-preview`,
