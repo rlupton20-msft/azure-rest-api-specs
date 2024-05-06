@@ -15,7 +15,6 @@ import "./instanceVersions.tsp";
 import "./catalogVersions.tsp";
 import "./campaignVersions.tsp";
 
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;

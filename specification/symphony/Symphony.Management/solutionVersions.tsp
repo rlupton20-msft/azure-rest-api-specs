@@ -11,24 +11,28 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of the SolutionVersion.")
 model SolutionVersionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   @doc("A list of components")
+  @OpenAPI.extension("x-ms-identifiers", [])
   components?: ComponentProperties[];
 
+  @doc("The display name of solution version")
   displayName?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("Metadata of solution version")
   metadata?: Record<string>;
 }
 
 @doc("The service entity.")
 @resource("versions")
 @parentResource(Solution)
-model SolutionVersion is ProxyResource<SolutionVersionProperties> {
+model SolutionVersion is TrackedResource<SolutionVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
@@ -37,7 +41,7 @@ model SolutionVersion is ProxyResource<SolutionVersionProperties> {
   @key("versionName")
   @segment("versions")
   name: string;
-  
+
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -52,7 +56,7 @@ interface SolutionVersions {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<SolutionVersion>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchSync<SolutionVersion, SolutionVersionProperties>;
+  update is ArmCustomPatchSync<SolutionVersion>;
   @doc("Deletes specified service.")
   delete is ArmResourceDeleteSync<SolutionVersion>;
 

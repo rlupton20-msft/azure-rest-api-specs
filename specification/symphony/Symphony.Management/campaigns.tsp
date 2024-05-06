@@ -16,12 +16,6 @@ model CampaignProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  firstStage?: string;
-
-  selfDriving?: boolean;
-
-  stages?: Record<StageProperties>;
 }
 
 @doc("The service entity.")
@@ -49,7 +43,7 @@ interface Campaigns {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<Campaign>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchAsync<Campaign, CampaignProperties>;
+  update is ArmCustomPatchSync<Campaign>;
   @doc("Deletes specified service.")
   delete is ArmResourceDeleteSync<Campaign>;
   @doc("Returns a collection of services within the resource group.")

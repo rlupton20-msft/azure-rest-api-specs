@@ -11,20 +11,23 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("Defining the Activation.")
 model ActivationProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The inputs of the Activation.")
   inputs?: Record<unknown>;
 
-  name?: string;
-
+  @doc("The stage of the Activation.")
   stage?: string;
 
+  @doc("The campaign of the Activation.")
   campaign: string;
 
+  @doc("The status of the Activation.")
   @visibility("read")
   status?: ActivationStatusProperties;
 }
@@ -54,7 +57,7 @@ interface Activations {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<Activation>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchAsync<Activation, ActivationProperties>;
+  update is ArmCustomPatchSync<Activation>;
   @doc("Deletes specified service.")
   delete is ArmResourceDeleteSync<Activation>;
   @doc("Returns a collection of services within the resource group.")

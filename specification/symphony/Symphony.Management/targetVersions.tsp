@@ -11,35 +11,46 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("Defining the TargetVersion.")
 model TargetVersionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The metadata of the TargetVersion.")
   metadata?: Record<string>;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The properties of the TargetVersion.")
   properties?: Record<string>;
 
+  @doc("The display name of the TargetVersion.")
   displayName?: string;
 
+  @doc("The constraints of the TargetVersion.")
   constraints?: string;
 
+  @doc("The scope of the TargetVersion.")
   scope?: string;
 
   @doc("A list of topologies")
+  @OpenAPI.extension("x-ms-identifiers", [])
   topologies?: TopologyProperties[];
 
   @doc("A list of components")
+  @OpenAPI.extension("x-ms-identifiers", [])
   components?: ComponentProperties[];
 
+  @doc("The reconciliationPolicy of the TargetVersion.")
   reconciliationPolicy?: ReconciliationPolicyProperties;
 }
 
 @doc("The service entity.")
 @resource("versions")
 @parentResource(Target)
-model TargetVersion is ProxyResource<TargetVersionProperties> {
+model TargetVersion is TrackedResource<TargetVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
@@ -48,7 +59,7 @@ model TargetVersion is ProxyResource<TargetVersionProperties> {
   @key("versionName")
   @segment("versions")
   name: string;
-  
+
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -63,9 +74,9 @@ interface TargetVersions {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<TargetVersion>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchAsync<TargetVersion, TargetVersionProperties>;
+  update is ArmCustomPatchAsync<TargetVersion>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<TargetVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<TargetVersion>;
 
   listByParent is ArmResourceListByParent<TargetVersion>;
 }

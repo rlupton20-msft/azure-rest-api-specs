@@ -11,25 +11,37 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of the CatalogVersion.")
 model CatalogVersionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The properties of the CatalogVersion.")
   properties: Record<unknown>;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The metadata of the CatalogVersion.")
   metadata?: Record<string>;
 
+  @doc("The parentName of the CatalogVersion.")
   parentName?: string;
 
-  type: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The catalogType of the CatalogVersion.")
+  catalogType: string;
+
+  @doc("The status of the CatalogVersion.")
+  @visibility("read")
+  status?: CatalogStatusProperties;
 }
 
 @doc("The service entity.")
 @resource("versions")
 @parentResource(Catalog)
-model CatalogVersion is ProxyResource<CatalogVersionProperties> {
+model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
@@ -38,7 +50,7 @@ model CatalogVersion is ProxyResource<CatalogVersionProperties> {
   @key("versionName")
   @segment("versions")
   name: string;
-  
+
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -53,7 +65,7 @@ interface CatalogVersions {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<CatalogVersion>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchSync<CatalogVersion, CatalogVersionProperties>;
+  update is ArmCustomPatchSync<CatalogVersion>;
   @doc("Deletes specified service.")
   delete is ArmResourceDeleteSync<CatalogVersion>;
 

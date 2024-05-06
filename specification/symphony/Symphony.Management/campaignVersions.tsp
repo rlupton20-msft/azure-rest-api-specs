@@ -11,23 +11,27 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("Defining the CampaignVersion.")
 model CampaignVersionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("The firstStage of the CampaignVersion.")
   firstStage?: string;
 
+  @doc("The selfDriving of the CampaignVersion.")
   selfDriving?: boolean;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The stages of the CampaignVersion.")
   stages?: Record<StageProperties>;
 }
 
 @doc("The service entity.")
 @resource("versions")
 @parentResource(Campaign)
-model CampaignVersion is ProxyResource<CampaignVersionProperties> {
+model CampaignVersion is TrackedResource<CampaignVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
@@ -36,7 +40,7 @@ model CampaignVersion is ProxyResource<CampaignVersionProperties> {
   @key("versionName")
   @segment("versions")
   name: string;
-  
+
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -51,7 +55,7 @@ interface CampaignVersions {
   @doc("Creates new or updates existing API.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<CampaignVersion>;
   @doc("Updates existing service.")
-  update is ArmResourcePatchSync<CampaignVersion, CampaignVersionProperties>;
+  update is ArmCustomPatchSync<CampaignVersion>;
   @doc("Deletes specified service.")
   delete is ArmResourceDeleteSync<CampaignVersion>;
 
