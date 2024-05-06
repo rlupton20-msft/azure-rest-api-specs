@@ -24,7 +24,7 @@ model ActivationProperties {
   @doc("The stage of the Activation.")
   stage?: string;
 
-  @doc("The campaign of the Activation.")
+  @doc("The campaign version of the Activation.")
   campaign: string;
 
   @doc("The status of the Activation.")

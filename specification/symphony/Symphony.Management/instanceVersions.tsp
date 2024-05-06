@@ -27,7 +27,7 @@ model InstanceVersionProperties {
   @doc("The scope of the InstanceVersion.")
   scope?: string;
 
-  @doc("The solution of the InstanceVersion.")
+  @doc("The solution version.")
   solution: string;
 
   @doc("The version of the InstanceVersion.")

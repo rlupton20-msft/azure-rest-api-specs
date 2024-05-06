@@ -26,7 +26,7 @@ model CatalogVersionProperties {
   @doc("The metadata of the CatalogVersion.")
   metadata?: Record<string>;
 
-  @doc("The parentName of the CatalogVersion.")
+  @doc("The parent catalog version")
   parentName?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"

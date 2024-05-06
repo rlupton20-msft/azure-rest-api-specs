@@ -27,18 +27,6 @@ union ProvisioningState {
   Azure.ResourceManager.ResourceProvisioningState,
 }
 
-@doc("The properties of the route.")
-model FilterProperties {
-  @doc("The direction of the Filter.")
-  direction: string;
-
-  @doc("The type of the Filter.")
-  type: string;
-
-  @doc("The parameters of the Filter.")
-  parameters?: Record<string>;
-}
-
 @doc("Defines a desired runtime component")
 model ComponentProperties {
   @doc("Array of field values.")
