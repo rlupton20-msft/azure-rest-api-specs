@@ -20,7 +20,7 @@ model LandingZoneRegistrationResourceProperties {
 
   //need to check if landingZoneAccount name is needed
   @doc("The resource id of the associated landing zone configuration.")
-  existingLandingZoneConfigId: armResourceIdentifier<[
+  existingLandingZoneConfigurationId: armResourceIdentifier<[
     {
       type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }

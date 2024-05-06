@@ -200,7 +200,7 @@ interface LandingZoneConfigurationOperations {
 @resource("landingZoneRegistrations")
 @doc("The Landing Zone registration resource type")
 model LandingZoneRegistrationResource
-  is TrackedResource<LandingZoneRegistrationResourceProperties> {
+  is ProxyResource<LandingZoneRegistrationResourceProperties> {
   @doc("The name of the Landing Zone Registration resource.")
   @pattern("^[a-zA-Z0-9-]{3,64}$")
   @key("landingZoneRegistrationName")
