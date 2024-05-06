@@ -102,7 +102,7 @@ model ReconciliationPolicyProperties {
 }
 
 @doc("Defines a InstanceTarget")
-model InstanceTargetProperties {
+model TargetSelectorProperties {
   @doc("The name of the InstanceTarget")
   name?: string;
 

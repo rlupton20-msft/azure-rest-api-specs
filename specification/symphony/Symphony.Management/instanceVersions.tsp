@@ -34,7 +34,7 @@ model InstanceVersionProperties {
   version?: string;
 
   @doc("The target of the InstanceVersion.")
-  target?: InstanceTargetProperties;
+  target?: TargetSelectorProperties;
 
   @doc("The reconciliationPolicy of the InstanceVersion.")
   reconciliationPolicy?: ReconciliationPolicyProperties;
