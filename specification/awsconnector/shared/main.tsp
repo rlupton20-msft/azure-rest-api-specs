@@ -11,14 +11,14 @@ alias AwsCommonProperties = {
   @doc("Gets and sets the property awsAccountId.")
   awsAccountId?: string;
 
-  @doc("Gets and sets the property awsResourceName.")
-  awsResourceName?: string;
+  @doc("Gets and sets the property arn.")
+  arn?: string;
+
+  @doc("Gets and sets the property publicCloudResourceName.")
+  publicCloudResourceName?: string;
 
   @doc("Gets and sets the property awsSourceSchema.")
   awsSourceSchema?: string;
-
-  @doc("Gets and sets the property awsSdkVersion.")
-  awsSdkVersion?: string;
 
   @doc("Gets and sets the property awsRegion.")
   awsRegion?: string;

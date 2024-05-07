@@ -80,7 +80,7 @@ model AwsRdsDBClusterProperties {
   backtrackWindow?: int32;
 
   @doc("Gets and sets the property backupRetentionPeriod. The number of days for which automated backups are retained.")
-  backupRetentionPeriod?: int32;
+  backupRetentionPeriod?: int32 = 1;
 
   @doc("Gets and sets the property copyTagsToSnapshot. A value that indicates whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.")
   copyTagsToSnapshot?: boolean;
@@ -95,7 +95,7 @@ model AwsRdsDBClusterProperties {
   dbClusterInstanceClass?: string;
 
   @doc("Gets and sets the property dbClusterParameterGroupName. The name of the DB cluster parameter group to associate with this DB cluster.")
-  dbClusterParameterGroupName?: string;
+  dbClusterParameterGroupName?: string = "default.aurora5.6";
 
   @doc("Gets and sets the property dbClusterResourceId. The AWS Region-unique, immutable identifier for the DB cluster.")
   dbClusterResourceId?: string;
@@ -207,7 +207,7 @@ model AwsRdsDBClusterProperties {
   restoreToTime?: string;
 
   @doc("Gets and sets the property restoreType. The type of restore to be performed. You can specify one of the following values:full-copy - The new DB cluster is restored as a full copy of the source DB cluster.copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.")
-  restoreType?: string;
+  restoreType?: string = "full-copy";
 
   @doc("Gets and sets the property scalingConfiguration. The ScalingConfiguration property type specifies the scaling configuration of an Aurora Serverless DB cluster. The ScalingConfiguration property type specifies the scaling configuration of an Aurora Serverless DB cluster.")
   scalingConfiguration?: ScalingConfiguration;
@@ -226,6 +226,9 @@ model AwsRdsDBClusterProperties {
 
   @doc("Gets and sets the property storageEncrypted. Indicates whether the DB instance is encrypted.If you specify the DBClusterIdentifier, SnapshotIdentifier, or SourceDBInstanceIdentifier property, don't specify this property. The value is inherited from the cluster, snapshot, or source DB instance.")
   storageEncrypted?: boolean;
+
+  @doc("Gets and sets the property storageThroughput. Specifies the storage throughput value for the DB cluster. This setting applies only to the gp3 storage type.")
+  storageThroughput?: int32;
 
   @doc("Gets and sets the property storageType. Specifies the storage type to be associated with the DB cluster.")
   storageType?: string;
