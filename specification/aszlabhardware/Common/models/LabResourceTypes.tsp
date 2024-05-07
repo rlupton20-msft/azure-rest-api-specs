@@ -1,44 +1,52 @@
 @doc("LabResource availability for reservation state.")
-enum LabResourceAvailableForReservationState {
+union LabResourceAvailableForReservationState {
     @doc("The LabResource is not available for reservation.")
-    NotAvailableForReservation,
+    NotAvailableForReservation: "NotAvailableForReservation",
 
     @doc("The LabResource is available for reservation.")
-    AvailableForReservation,
+    AvailableForReservation: "AvailableForReservation",
+
+    string,
 }
 
 @doc("LabResource reservation status.")
-enum LabResourceReservationStatus {
+union LabResourceReservationStatus {
     @doc("The LabResource is not reserved.")
-    NotReserved,
+    NotReserved: "NotReserved",
 
     @doc("The LabResource is reserved.")
-    Reserved,
+    Reserved: "Reserved",
+
+    string,
 }
 
 @doc("LabResource maintenance request state.")
-enum LabResourceMaintenanceRequestState {
+union LabResourceMaintenanceRequestState {
     @doc("The LabResource is not requested for maintenance.")
-    MaintenanceNotRequested,
+    MaintenanceNotRequested: "MaintenanceNotRequested",
 
     @doc("The LabResource is requested for maintenance.")
-    MaintenanceRequested,
+    MaintenanceRequested: "MaintenanceRequested",
 
     @doc("The LabResource is required for maintenance.")
-    MaintenanceRequired,
+    MaintenanceRequired: "MaintenanceRequired",
+
+    string,
 }
 
 @doc("LabResource maintenance status.")
-enum LabResourceMaintenanceStatus {
+union LabResourceMaintenanceStatus {
     @doc("The LabResource is not requested for maintenance.")
-    MaintenanceNotRequested,
+    MaintenanceNotRequested: "MaintenanceNotRequested",
 
     @doc("The LabResource is pending a requested maintenance.")
-    MaintenancePending,
+    MaintenancePending: "MaintenancePending",
 
     @doc("The LabResource is in maintenance.")
-    InMaintenance,
+    InMaintenance: "InMaintenance",
 
     @doc("The LabResource is in exclusive access mode (not available for reservation).")
-    ExclusiveAccess,
+    ExclusiveAccess: "ExclusiveAccess",
+
+    string,
 }

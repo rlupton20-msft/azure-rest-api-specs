@@ -20,7 +20,8 @@ namespace Microsoft.MobileNetwork;
 @parentResource(UeInfo)
 model ExtendedUeInfo is ProxyResource<ExtendedUeInfoProperties> {
   @doc("The name of the extended UE info.")
-  @path  
+  @pattern(".*")
+  @path
   @key("extendedInformation")
   @segment("extendedInformation")
   @visibility("read")

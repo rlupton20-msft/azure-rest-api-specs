@@ -75,6 +75,9 @@
       "name": "AutonomousDatabases"
     },
     {
+      "name": "AutonomousDatabaseBackups"
+    },
+    {
       "name": "AutonomousDatabaseCharacterSets"
     },
     {
@@ -1562,6 +1565,339 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups": {
+      "get": {
+        "operationId": "AutonomousDatabaseBackups_ListByAutonomousDatabase",
+        "tags": [
+          "AutonomousDatabaseBackups"
+        ],
+        "description": "List AutonomousDatabaseBackup resources by AutonomousDatabase",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackupListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Autonomous Database Backups by Autonomous Database.": {
+            "$ref": "./examples/autonomousDatabaseBackup_listByParent.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}": {
+      "get": {
+        "operationId": "AutonomousDatabaseBackups_Get",
+        "tags": [
+          "AutonomousDatabaseBackups"
+        ],
+        "description": "Get a AutonomousDatabaseBackup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "adbbackupid",
+            "in": "path",
+            "description": "AutonomousDatabaseBackup id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackup"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "AutonomousDatabaseBackups_CreateOrUpdate",
+        "tags": [
+          "AutonomousDatabaseBackups"
+        ],
+        "description": "Create a AutonomousDatabaseBackup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "adbbackupid",
+            "in": "path",
+            "description": "AutonomousDatabaseBackup id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AutonomousDatabaseBackup' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackup"
+            }
+          },
+          "201": {
+            "description": "Resource 'AutonomousDatabaseBackup' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackup"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_create.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "AutonomousDatabaseBackups_Update",
+        "tags": [
+          "AutonomousDatabaseBackups"
+        ],
+        "description": "Update a AutonomousDatabaseBackup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "adbbackupid",
+            "in": "path",
+            "description": "AutonomousDatabaseBackup id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackupUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseBackup"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Patch Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_patch.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "AutonomousDatabaseBackups_Delete",
+        "tags": [
+          "AutonomousDatabaseBackups"
+        ],
+        "description": "Delete a AutonomousDatabaseBackup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "adbbackupid",
+            "in": "path",
+            "description": "AutonomousDatabaseBackup id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete Autonomous Database Backup.": {
+            "$ref": "./examples/autonomousDatabaseBackup_delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/failover": {
       "post": {
         "operationId": "AutonomousDatabases_Failover",
@@ -1599,19 +1935,14 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
           "202": {
             "description": "Resource operation accepted.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
-                }
-              },
-              "required": [
-                "properties"
-              ]
-            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -1649,10 +1980,6 @@
           "AutonomousDatabases"
         ],
         "description": "Generate wallet action on Autonomous Database",
-        "produces": [
-          "application/octet-stream",
-          "application/json"
-        ],
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1703,6 +2030,81 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/restore": {
+      "post": {
+        "operationId": "AutonomousDatabases_Restore",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "Restores an Autonomous Database based on the provided request parameters.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RestoreAutonomousDatabaseDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Perform restore action on Autonomous Database": {
+            "$ref": "./examples/autonomousDatabaseBackup_restore.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/switchover": {
       "post": {
         "operationId": "AutonomousDatabases_Switchover",
@@ -1740,19 +2142,14 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
           "202": {
             "description": "Resource operation accepted.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "properties": {
-                  "$ref": "#/definitions/PostActionResponseProperties"
-                }
-              },
-              "required": [
-                "properties"
-              ]
-            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
@@ -2063,6 +2460,70 @@
         "x-ms-examples": {
           "Delete Exadata Infrastructure": {
             "$ref": "./examples/exaInfra_delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/addStorageCapacity": {
+      "post": {
+        "operationId": "CloudExadataInfrastructures_AddStorageCapacity",
+        "tags": [
+          "CloudExadataInfrastructures"
+        ],
+        "description": "Perform add storage capacity on exadata infra",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudexadatainfrastructurename",
+            "in": "path",
+            "description": "CloudExadataInfrastructure name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudExadataInfrastructure"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Perform add storage capacity on exadata infra": {
+            "$ref": "./examples/exaInfra_addStorageCapacity.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -3197,6 +3658,198 @@
         }
       ]
     },
+    "AutonomousDatabaseBackup": {
+      "type": "object",
+      "description": "AutonomousDatabaseBackup resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AutonomousDatabaseBackupProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AutonomousDatabaseBackupLifecycleState": {
+      "type": "string",
+      "description": "AutonomousDatabaseBackupLifecycleState enum",
+      "enum": [
+        "Creating",
+        "Active",
+        "Deleting",
+        "Failed",
+        "Updating"
+      ],
+      "x-ms-enum": {
+        "name": "AutonomousDatabaseBackupLifecycleState",
+        "modelAsString": true
+      }
+    },
+    "AutonomousDatabaseBackupListResult": {
+      "type": "object",
+      "description": "The response of a AutonomousDatabaseBackup list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AutonomousDatabaseBackup items on this page",
+          "items": {
+            "$ref": "#/definitions/AutonomousDatabaseBackup"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AutonomousDatabaseBackupProperties": {
+      "type": "object",
+      "description": "AutonomousDatabaseBackup resource model",
+      "properties": {
+        "autonomousDatabaseOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the Autonomous Database.",
+          "readOnly": true
+        },
+        "databaseSizeInTBs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of the database in terabytes at the time the backup was taken.",
+          "readOnly": true
+        },
+        "dbVersion": {
+          "type": "string",
+          "description": "A valid Oracle Database version for Autonomous Database.",
+          "readOnly": true
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user-friendly name for the backup. The name does not have to be unique.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "ocid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the Autonomous Database backup.",
+          "readOnly": true
+        },
+        "isAutomatic": {
+          "type": "boolean",
+          "description": "Indicates whether the backup is user-initiated or automatic.",
+          "readOnly": true
+        },
+        "isRestorable": {
+          "type": "boolean",
+          "description": "Indicates whether the backup can be used to restore the associated Autonomous Database.",
+          "readOnly": true
+        },
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Additional information about the current lifecycle state.",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/AutonomousDatabaseBackupLifecycleState",
+          "description": "The current state of the backup.",
+          "readOnly": true
+        },
+        "retentionPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Retention period, in days, for long-term backups.",
+          "minimum": 90,
+          "maximum": 3650,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "sizeInTBs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The backup size in terabytes (TB).",
+          "readOnly": true
+        },
+        "timeAvailableTil": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp until when the backup will be available.",
+          "readOnly": true
+        },
+        "timeEnded": {
+          "type": "string",
+          "description": "The date and time the backup completed.",
+          "readOnly": true
+        },
+        "type": {
+          "$ref": "#/definitions/AutonomousDatabaseBackupType",
+          "description": "The type of backup.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "Azure resource provisioning state.",
+          "readOnly": true
+        }
+      }
+    },
+    "AutonomousDatabaseBackupType": {
+      "type": "string",
+      "description": "AutonomousDatabaseBackupType enum",
+      "enum": [
+        "Incremental",
+        "Full",
+        "LongTerm"
+      ],
+      "x-ms-enum": {
+        "name": "AutonomousDatabaseBackupType",
+        "modelAsString": true
+      }
+    },
+    "AutonomousDatabaseBackupUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the AutonomousDatabaseBackup.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AutonomousDatabaseBackupUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "AutonomousDatabaseBackupUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the AutonomousDatabaseBackup.",
+      "properties": {
+        "retentionPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Retention period, in days, for long-term backups.",
+          "minimum": 90,
+          "maximum": 3650,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
     "AutonomousDatabaseBaseProperties": {
       "type": "object",
       "description": "Autonomous Database base resource model.",
@@ -3515,14 +4168,14 @@
           "readOnly": true
         },
         "actualUsedDataStorageSizeInTbs": {
-          "type": "integer",
-          "format": "int32",
+          "type": "number",
+          "format": "double",
           "description": "The current amount of storage in use for user and system data, in terabytes (TB).",
           "readOnly": true
         },
         "allocatedStorageSizeInTbs": {
-          "type": "integer",
-          "format": "int32",
+          "type": "number",
+          "format": "double",
           "description": "The amount of storage currently allocated for the database tables and billed for, rounded up.",
           "readOnly": true
         },
@@ -3576,6 +4229,20 @@
           "format": "int32",
           "description": "The area assigned to In-Memory tables in Autonomous Database.",
           "readOnly": true
+        },
+        "nextLongTermBackupTimeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the next long-term backup would be created.",
+          "readOnly": true
+        },
+        "longTermBackupSchedule": {
+          "$ref": "#/definitions/LongTermBackUpScheduleDetails",
+          "description": "Details for the long-term backup schedule.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         },
         "isPreview": {
           "type": "boolean",
@@ -3731,6 +4398,18 @@
             "update",
             "create"
           ]
+        },
+        "whitelistedIps": {
+          "type": "array",
+          "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
+          "items": {
+            "$ref": "#/definitions/aclString"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "discriminator": "dataBaseType",
@@ -3772,7 +4451,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -4027,7 +4707,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -4068,7 +4749,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -4312,6 +4994,14 @@
             "create"
           ]
         },
+        "longTermBackupSchedule": {
+          "$ref": "#/definitions/LongTermBackUpScheduleDetails",
+          "description": "Details for the long-term backup schedule.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
         "localAdgAutoFailoverMaxDataLossLimit": {
           "type": "integer",
           "format": "int32",
@@ -4356,6 +5046,18 @@
             "update",
             "create"
           ]
+        },
+        "whitelistedIps": {
+          "type": "array",
+          "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
+          "items": {
+            "$ref": "#/definitions/aclString"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
     },
@@ -4363,13 +5065,13 @@
       "type": "object",
       "description": "Autonomous Database Wallet File resource model.",
       "properties": {
-        "data": {
+        "walletFiles": {
           "type": "string",
-          "format": "byte"
+          "description": "The base64 encoded wallet files"
         }
       },
       "required": [
-        "data"
+        "walletFiles"
       ]
     },
     "AutonomousDbVersion": {
@@ -4406,7 +5108,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -4726,7 +5429,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -5112,7 +5816,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -5373,6 +6078,11 @@
           "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
           "readOnly": true
         },
+        "nsgUrl": {
+          "type": "string",
+          "description": "HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.",
+          "readOnly": true
+        },
         "subnetId": {
           "$ref": "#/definitions/SubnetId",
           "description": "Client subnet",
@@ -5386,6 +6096,18 @@
           "description": "Client OCI backup subnet CIDR, default is 192.168.252.0/22",
           "minLength": 1,
           "maxLength": 32,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "nsgCidrs": {
+          "type": "array",
+          "description": "CIDR blocks for additional NSG ingress rules. The VNET CIDRs used to provision the VM Cluster will be added by default.",
+          "items": {
+            "$ref": "#/definitions/NSGCidr"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "create"
@@ -6005,7 +6727,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -6264,7 +6987,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -6549,7 +7273,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -6768,7 +7493,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -6900,7 +7626,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -7160,7 +7887,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -7295,6 +8023,29 @@
             "description": "BringYourOwnLicense value"
           }
         ]
+      }
+    },
+    "LongTermBackUpScheduleDetails": {
+      "type": "object",
+      "description": "Details for the long-term backup schedule.",
+      "properties": {
+        "repeatCadence": {
+          "$ref": "#/definitions/RepeatCadenceType",
+          "description": "The frequency of the long-term backup schedule"
+        },
+        "timeOfBackup": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month."
+        },
+        "retentionPeriodInDays": {
+          "$ref": "#/definitions/RetentionPeriod",
+          "description": "Retention period, in days, for backups."
+        },
+        "isDisabled": {
+          "type": "boolean",
+          "description": "Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`."
+        }
       }
     },
     "MaintenanceWindow": {
@@ -7464,6 +8215,25 @@
         ]
       }
     },
+    "NSGCidr": {
+      "type": "object",
+      "description": "A rule for allowing inbound (INGRESS) IP packets",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Conceptually, this is the range of IP addresses that a packet coming into the instance can come from.",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "destinationPortRange": {
+          "$ref": "#/definitions/PortRange",
+          "description": "Destination port range to specify particular destination ports for TCP rules."
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
     "Objective": {
       "type": "string",
       "description": "Objective enum",
@@ -7622,7 +8392,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -7745,6 +8516,7 @@
     "Password": {
       "type": "string",
       "format": "password",
+      "description": "Password string.",
       "x-ms-secret": true
     },
     "PatchingMode": {
@@ -7807,17 +8579,28 @@
         ]
       }
     },
-    "PostActionResponseProperties": {
+    "PortRange": {
       "type": "object",
+      "description": "Port Range to specify particular destination ports for TCP rules.",
       "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/AzureResourceProvisioningState",
-          "description": "Post action provisioning state",
-          "readOnly": true
+        "min": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum port number, which must not be greater than the maximum port number.",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "max": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.",
+          "minimum": 1,
+          "maximum": 65535
         }
       },
       "required": [
-        "provisioningState"
+        "min",
+        "max"
       ]
     },
     "Preference": {
@@ -8019,8 +8802,45 @@
         ]
       }
     },
+    "RepeatCadenceType": {
+      "type": "string",
+      "description": "RepeatCadenceType enum",
+      "enum": [
+        "OneTime",
+        "Weekly",
+        "Monthly",
+        "Yearly"
+      ],
+      "x-ms-enum": {
+        "name": "RepeatCadenceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "OneTime",
+            "value": "OneTime",
+            "description": "ONE_TIME value"
+          },
+          {
+            "name": "Weekly",
+            "value": "Weekly",
+            "description": "WEEKLY value"
+          },
+          {
+            "name": "Monthly",
+            "value": "Monthly",
+            "description": "MONTHLY value"
+          },
+          {
+            "name": "Yearly",
+            "value": "Yearly",
+            "description": "YEARLY value"
+          }
+        ]
+      }
+    },
     "ResourcePlanTypeUpdate": {
       "type": "object",
+      "description": "ResourcePlanTypeUpdate model definition",
       "properties": {
         "name": {
           "type": "string",
@@ -8043,6 +8863,27 @@
           "description": "The version of the desired product/artifact."
         }
       }
+    },
+    "RestoreAutonomousDatabaseDetails": {
+      "type": "object",
+      "description": "Details to restore an Oracle Autonomous Database.",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time to restore the database to."
+        }
+      },
+      "required": [
+        "timestamp"
+      ]
+    },
+    "RetentionPeriod": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Retention period, in days, for backups.",
+      "minimum": 90,
+      "maximum": 2558
     },
     "RoleType": {
       "type": "string",
@@ -8541,7 +9382,8 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items"
+          "description": "The link to the next page of items",
+          "readOnly": true
         }
       },
       "required": [
@@ -8672,6 +9514,12 @@
           }
         ]
       }
+    },
+    "aclString": {
+      "type": "string",
+      "description": "The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']",
+      "minLength": 1,
+      "maxLength": 1024
     }
   },
   "parameters": {}

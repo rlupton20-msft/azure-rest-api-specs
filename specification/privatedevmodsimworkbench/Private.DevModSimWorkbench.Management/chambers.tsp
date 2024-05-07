@@ -21,6 +21,14 @@ using TypeSpec.OpenAPI;
 @versioned(Microsoft.ModSimWorkbench.Versions)
 namespace Microsoft.ModSimWorkbench;
 
+@doc("Chamber Sku.")
+@added(Versions.`2024-05-01-preview`)
+union Sku {
+  string,
+
+  @doc("Standard sku.")
+  Standard: "Standard",
+}
 @doc("Property to enable or disable")
 model EnableProperty {
   @doc("Enabled if true")
@@ -92,18 +100,20 @@ model LicenseServices {
 }
 
 @doc("License service provider")
-enum LicenseServiceProvider {
+union LicenseServiceProvider {
+  string,
+
   @doc("Ansys license service provider")
-  ansys,
+  ansys: "ansys",
 
   @doc("Cadence license service provider")
-  cadence,
+  cadence: "cadence",
 
   @doc("Siemens license service provider")
-  siemens,
+  siemens: "siemens",
 
   @doc("Synopsys license service provider")
-  synopsys,
+  synopsys: "synopsys",
 }
 
 @doc("Parameters for restarting license service")
@@ -143,7 +153,15 @@ model ChamberProperties {
 
   @visibility("read", "create")
   @doc("SKU name.")
-  sku?: string = "Standard"; // TODO: Change to enum with default
+  @added(Versions.`2024-05-01-preview`)
+  sku: Sku;
+
+  // This oldSku @added, @renamedFrom, @deleted is workaround for the missing opposite of @madeoptional
+  @visibility("read", "create")
+  @doc("SKU name.")
+  @removed(Versions.`2024-05-01-preview`)
+  @renamedFrom(Versions.`2024-05-01-preview`, "sku")
+  oldSku?: string = "Standard";
 }
 
 @doc("Chamber tracked resource.")

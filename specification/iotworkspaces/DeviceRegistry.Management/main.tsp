@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./assets.tsp";
 import "./assetEndpointProfiles.tsp";
 import "./devices.tsp";
+import "./billings.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -36,20 +37,11 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@@Autorest.example(Operations.list,
-  "./examples/List_Operations.json",
-  "Returns list of operations."
-);
-
 @armResourceOperations
 interface OperationStatus {
   @doc("Returns the current status of an async operation.")
   @autoRoute
   @armUpdateProviderNamespace
-  @Autorest.example(
-    "./examples/Get_OperationStatus.json",
-    "Get the status of an async operation."
-  )
   get(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,

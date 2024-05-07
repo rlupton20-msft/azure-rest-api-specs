@@ -3,10 +3,12 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@azure-tools/typespec-client-generator-core";
 
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using Azure.ClientGenerator.Core;
 
 using Azure.ResourceManager.Foundations;
 using Azure.Core;
@@ -24,30 +26,39 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   `2021-03-01-preview`,
+
+  @doc("Version 2024-05-01-preview")
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  `2024-05-01-preview`,
 }
 
 @doc("The provisioning state of a resource.")
 @lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  string,
+
+  // extend ARM common provisioning state
+  ResourceProvisioningState,
 
   @doc("Resource has unknown state.")
-  Unknown,
+  Unknown: "Unknown",
 
   @doc("Resource is being validated.")
-  Validating,
+  Validating: "Validating",
 
   @doc("Resource provisioning in progress.")
-  Processing,
+  Processing: "Processing",
 
   @doc("Resource is being deleted.")
-  Deleting,
+  Deleting: "Deleting",
 
   @doc("Resource provisioning action accepted.")
-  Accepted,
+  Accepted: "Accepted",
 
   @doc("Resource has been deleted.")
-  Deleted,
+  Deleted: "Deleted",
 }
 
 @doc("The property for specifying the status of the last operation.")
@@ -58,18 +69,20 @@ model ProvisioningStateProperty {
 }
 
 @doc("The power state of a resource.")
-enum PowerState {
+union PowerState {
+  string,
+
   @doc("Resource is Running.")
-  Running,
+  Running: "Running",
 
   @doc("Resource is Stopped.")
-  Stopped,
+  Stopped: "Stopped",
 
   @doc("Resource is Starting.")
-  Starting,
+  Starting: "Starting",
 
   @doc("Resource is Stopping.")
-  Stopping,
+  Stopping: "Stopping",
 }
 
 @doc("The property for specifying the power state.")
@@ -80,6 +93,7 @@ model PowerStateProperty {
 }
 
 @doc("The property for specifying capacity allocated.")
+@removed(Versions.`2024-05-01-preview`)
 model CapacityAllocatedProperty {
   @visibility("read", "create", "update")
   @doc("Provisioned size: Capacity allocated to the storage volume in terabytes.")
@@ -87,10 +101,24 @@ model CapacityAllocatedProperty {
 }
 
 @doc("The property for specifying capacity used.")
+@removed(Versions.`2024-05-01-preview`)
 model CapacityUsedProperty {
   @visibility("read")
   @doc("Capacity used in the storage volume in gigabytes.")
   capacityUsed?: int64;
+}
+
+@doc("Common storage properties.")
+@added(Versions.`2024-05-01-preview`)
+@access(Access.internal)
+model StorageBaseProperties {
+  ...ProvisioningStateProperty;
+  ...CapacityAllocatedProperty;
+  ...CapacityUsedProperty;
+
+  @visibility("read")
+  @doc("Directory where the storage volume is mounted.")
+  localMountPath?: string;
 }
 
 @doc("The property for specifying timestamp when restart is required.")
@@ -122,19 +150,21 @@ interface ProxyResourceOperations<T extends ProxyResourceBase> {
 @doc("Common interface for all tracked resources")
 interface BaseResourceOperations<
   T extends TrackedResourceBase,
-  P extends TypeSpec.Reflection.Model
+  P extends TypeSpec.Reflection.Model,
+  U extends TypeSpec.Reflection.Model = P
 > {
   get is ArmResourceRead<T>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<T>;
-  update is ArmResourcePatchAsync<T, P>;
+  update is ArmResourcePatchAsync<T, U>;
   delete is ArmResourceDeleteWithoutOkAsync<T>;
 }
 
 @doc("Common interface of all nested resources")
 interface NestedResourceOperations<
   T extends TrackedResourceBase,
-  P extends TypeSpec.Reflection.Model
-> extends BaseResourceOperations<T, P> {
+  P extends TypeSpec.Reflection.Model,
+  U extends TypeSpec.Reflection.Model = P
+> extends BaseResourceOperations<T, P, U> {
   list is ArmResourceListByParent<T>;
 }
 

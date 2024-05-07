@@ -3322,6 +3322,10 @@
     }
   },
   "definitions": {
+    "AdditionalLocalUsername": {
+      "type": "string",
+      "description": "non-builtin local users"
+    },
     "AmfDeploymentResource": {
       "type": "object",
       "description": "Azure for Operators 5G Core Access and Mobility Function (AMF) Deployment Resource",
@@ -3420,6 +3424,51 @@
         }
       }
     },
+    "AssociatedClusterWorkloadIdProperty": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "ARM resource ID of workload associated with a cluster.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.MobilePacketCore/amfDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/nrfDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/nssfDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/observabilityServices"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/sdmDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/smfDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/upfDeployments"
+          },
+          {
+            "type": "Microsoft.MobilePacketCore/vnfAgentDeployments"
+          }
+        ]
+      }
+    },
+    "AssociatedVirtualNetworkFunctionIdProperty": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "ARM resource ID of a Virtualized Network Function associated with a VNF Agent",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.MobilePacketCore/virtualizedMmeDeployments"
+          }
+        ]
+      }
+    },
     "ClusterServiceAksClusterData": {
       "type": "object",
       "description": "AKS Cluster specific data.",
@@ -3440,7 +3489,7 @@
         },
         "customLocationId": {
           "$ref": "#/definitions/CustomLocationIdProperty",
-          "description": "Custom Location resource ID"
+          "description": "Kubernetes Service Custom Location resource ID"
         }
       },
       "discriminator": "type",
@@ -3464,6 +3513,15 @@
     "ClusterServiceNexusAksClusterData": {
       "type": "object",
       "description": "Nexus AKS Cluster specific data.",
+      "properties": {
+        "nexusCustomLocationId": {
+          "$ref": "#/definitions/CustomLocationIdProperty",
+          "description": "Operator Nexus Cluster Custom Location resource ID"
+        }
+      },
+      "required": [
+        "nexusCustomLocationId"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/ClusterServiceClusterTypeSpecificData"
@@ -3547,9 +3605,25 @@
             "type"
           ]
         },
+        "oidcIssuerUrl": {
+          "$ref": "#/definitions/URL",
+          "description": "OIDC Issuer URL for the Cluster Service to create the federated credentials"
+        },
+        "uamiResourceId": {
+          "$ref": "#/definitions/UamiIdPropertyIdProperty",
+          "description": "User Assigned Managed Identity (UAMI) resource identifier that has access to the customer provided Azure Key Vault"
+        },
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
           "description": "Operational status",
+          "readOnly": true
+        },
+        "associatedWorkloadResources": {
+          "type": "array",
+          "description": "Associated cluster workload resource identifiers",
+          "items": {
+            "$ref": "#/definitions/AssociatedClusterWorkloadIdProperty"
+          },
           "readOnly": true
         }
       },
@@ -3557,7 +3631,9 @@
         "deploymentType",
         "releaseVersion",
         "clusterTypeSpecificData",
-        "componentParameters"
+        "componentParameters",
+        "oidcIssuerUrl",
+        "uamiResourceId"
       ]
     },
     "ClusterServiceResourceTagsUpdate": {
@@ -3659,10 +3735,7 @@
           },
           "readOnly": true
         }
-      },
-      "required": [
-        "moboBrokerResources"
-      ]
+      }
     },
     "MobileCoreScalingUnitSku": {
       "type": "string",
@@ -3677,10 +3750,7 @@
           "description": "Resource identifier of a Managed-On-Behalf-Of broker resource",
           "readOnly": true
         }
-      },
-      "required": [
-        "id"
-      ]
+      }
     },
     "NrfDeploymentResource": {
       "type": "object",
@@ -4294,6 +4364,22 @@
         }
       }
     },
+    "URL": {
+      "type": "string",
+      "description": "URL string"
+    },
+    "UamiIdPropertyIdProperty": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "ARM resource ID of a User Assigned Managed Identity.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+          }
+        ]
+      }
+    },
     "UpfDeploymentResource": {
       "type": "object",
       "description": "Azure for Operators 5G Core User Plane Function (UPF) Deployment Resource",
@@ -4502,9 +4588,21 @@
             "create"
           ]
         },
+        "additionalLocalUsernames": {
+          "type": "array",
+          "description": "Virtualized MME non-builtin local users",
+          "items": {
+            "$ref": "#/definitions/AdditionalLocalUsername"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "managedOnBehalfOfConfiguration": {
           "$ref": "#/definitions/ManagedOnBehalfOfConfiguration",
-          "description": "Managed On Behalf Of Configuration."
+          "description": "Managed On Behalf Of Configuration.",
+          "readOnly": true
         }
       },
       "required": [
@@ -4620,6 +4718,14 @@
         "operationalStatus": {
           "$ref": "#/definitions/OperationalStatus",
           "description": "Operational status",
+          "readOnly": true
+        },
+        "associatedVirtualNetworkFunctions": {
+          "type": "array",
+          "description": "Associated Virtual Network Function resource identifiers",
+          "items": {
+            "$ref": "#/definitions/AssociatedVirtualNetworkFunctionIdProperty"
+          },
           "readOnly": true
         }
       },

@@ -83,6 +83,59 @@ scalar CustomLocationIdProperty
     }
   ]>;
 
+@doc("ARM resource ID of a User Assigned Managed Identity.")
+scalar UamiIdPropertyIdProperty
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities",
+    }
+  ]>;
+
+@doc("ARM resource ID of workload associated with a cluster.")
+scalar AssociatedClusterWorkloadIdProperty
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.MobilePacketCore/amfDeployments",
+    },
+    {
+      type: "Microsoft.MobilePacketCore/nrfDeployments",
+    },
+    {
+      type: "Microsoft.MobilePacketCore/nssfDeployments",
+    },
+    {
+      type: "Microsoft.MobilePacketCore/observabilityServices",
+    },
+    {
+      @added(Versions.v2024_06_01_preview)
+      type: "Microsoft.MobilePacketCore/sdmDeployments",
+    },
+    {
+      type: "Microsoft.MobilePacketCore/smfDeployments",
+    },
+    {
+      type: "Microsoft.MobilePacketCore/upfDeployments",
+    },
+    {
+      @added(Versions.v2024_03_15_preview)
+      type: "Microsoft.MobilePacketCore/vnfAgentDeployments",
+    }
+  ]>;
+
+@added(Versions.v2024_03_15_preview)
+@doc("ARM resource ID of a Virtualized Network Function associated with a VNF Agent")
+scalar AssociatedVirtualNetworkFunctionIdProperty
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      @added(Versions.v2024_03_15_preview)
+      type: "Microsoft.MobilePacketCore/virtualizedMmeDeployments",
+    }
+  ]>;
+
+@added(Versions.v2024_03_15_preview)
+@doc("non-builtin local users")
+scalar AdditionalLocalUsername extends string;
+
 @doc("Operational Status of the resource")
 model OperationalStatus {
   @doc("Status of the deployed workload")
@@ -124,6 +177,9 @@ enum ClusterType {
   NexusAks,
 }
 
+@doc("URL string")
+scalar URL extends string;
+
 @doc("Usage SKU Definition")
 scalar UsageSku extends string;
 
@@ -161,7 +217,7 @@ model QualifiedComponentDeploymentParameters {
 model ManagedOnBehalfOfConfiguration {
   @visibility("read")
   @doc("Associated MoboBrokerResources.")
-  moboBrokerResources: MoboBrokerResource[];
+  moboBrokerResources?: MoboBrokerResource[];
 }
 
 @added(Versions.v2024_03_15_preview)
@@ -169,5 +225,5 @@ model ManagedOnBehalfOfConfiguration {
 model MoboBrokerResource {
   @visibility("read")
   @doc("Resource identifier of a Managed-On-Behalf-Of broker resource")
-  id: string;
+  id?: string;
 }

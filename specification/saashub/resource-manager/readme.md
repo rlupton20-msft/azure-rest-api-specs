@@ -41,3 +41,13 @@ input-file:
 - Microsoft.SaaSHub/preview/2023-01-01-preview/saasHub.json
 - Microsoft.SaaSHub/preview/2023-01-01-preview/saasHubOperations.json
 ```
+
+
+### Tag: package-2024-05-01-preview
+
+These settings apply only when `--tag=package-2024-05-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-01-preview'
+input-file:
+- Microsoft.SaaSHub/preview/2024-05-01-preview/openapi.json
+```

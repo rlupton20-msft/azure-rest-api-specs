@@ -171,7 +171,7 @@
           }
         },
         "x-ms-examples": {
-          "Connectors_Get": {
+          "GetConnector": {
             "$ref": "./examples/Connectors_Get.json"
           }
         }
@@ -235,7 +235,7 @@
           }
         },
         "x-ms-examples": {
-          "Connectors_CreateOrUpdate": {
+          "CreateConnector": {
             "$ref": "./examples/Connectors_CreateOrUpdate.json"
           }
         },
@@ -915,6 +915,9 @@
           }
         },
         "x-ms-examples": {
+          "Get Insight resources by workloadImpactName and insightName": {
+            "$ref": "./examples/Insights_Get.json"
+          },
           "Get Insight sample for Diagnostics category": {
             "$ref": "./examples/Insights_Get_diagnostics.json"
           },
@@ -931,7 +934,7 @@
         "tags": [
           "Insights"
         ],
-        "description": "Create Insight resource, This is Admin only operation",
+        "description": "Create Insight resource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -996,7 +999,7 @@
         "tags": [
           "Insights"
         ],
-        "description": "Delete Insight resource, This is Admin only operation",
+        "description": "Delete Insight resource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -1060,6 +1063,24 @@
       "required": [
         "name",
         "value"
+      ]
+    },
+    "Article": {
+      "type": "object",
+      "description": "Article details of the insight like title, content etc",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the insight article"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the insight article"
+        }
+      },
+      "required": [
+        "title",
+        "content"
       ]
     },
     "ClientIncidentDetails": {
@@ -1193,10 +1214,6 @@
           "$ref": "#/definitions/Platform",
           "description": "connector type"
         },
-        "filters": {
-          "type": "string",
-          "description": "filters associated with this connector"
-        },
         "lastRunTimeStamp": {
           "type": "string",
           "format": "date-time",
@@ -1228,30 +1245,8 @@
         "connectorType": {
           "$ref": "#/definitions/Platform",
           "description": "connector type"
-        },
-        "filters": {
-          "type": "string",
-          "description": "filters associated with this connector"
         }
       }
-    },
-    "Content": {
-      "type": "object",
-      "description": "Article details of the insight like title, description etc",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Title of the insight"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the insight"
-        }
-      },
-      "required": [
-        "title",
-        "description"
-      ]
     },
     "ErrorDetailProperties": {
       "type": "object",
@@ -1415,12 +1410,17 @@
         "impactId": {
           "type": "string",
           "description": "Azure Id of the impact."
+        },
+        "impactUniqueId": {
+          "type": "string",
+          "description": "unique (guid) id of the impact generated during impact creation."
         }
       },
       "required": [
         "impactedResourceId",
         "startTime",
-        "impactId"
+        "impactId",
+        "impactUniqueId"
       ]
     },
     "ImpactedResource": {
@@ -1557,6 +1557,42 @@
         }
       }
     },
+    "InsightLevel": {
+      "type": "string",
+      "description": "values for insight level",
+      "enum": [
+        "Informational",
+        "Warning",
+        "Error",
+        "Critical"
+      ],
+      "x-ms-enum": {
+        "name": "InsightLevel",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Informational",
+            "value": "Informational",
+            "description": "Informational insight"
+          },
+          {
+            "name": "Warning",
+            "value": "Warning",
+            "description": "Warning insight"
+          },
+          {
+            "name": "Error",
+            "value": "Error",
+            "description": "Error insight"
+          },
+          {
+            "name": "Critical",
+            "value": "Critical",
+            "description": "Critical insight"
+          }
+        ]
+      }
+    },
     "InsightListResult": {
       "type": "object",
       "description": "The response of a Insight list operation.",
@@ -1595,18 +1631,23 @@
           "type": "string",
           "description": "status of the insight. example resolved, repaired, other."
         },
-        "eventId": {
-          "type": "string",
-          "description": "Identifier of the event that has been correlated with this insight. This can be used to aggregate insights for the same event."
+        "article": {
+          "$ref": "#/definitions/Article",
+          "description": "Contains title & content for the insight"
         },
-        "content": {
-          "$ref": "#/definitions/Content",
-          "description": "Contains title & description for the insight"
+        "level": {
+          "$ref": "#/definitions/InsightLevel",
+          "description": "level of the insight. Informational, Warning, Error, Critical."
         },
-        "eventTime": {
+        "priority": {
+          "type": "integer",
+          "format": "int64",
+          "description": "priority of the insight relative to other insights."
+        },
+        "attributionTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Time of the event, which has been correlated the impact."
+          "description": "attribution time of the insight."
         },
         "insightUniqueId": {
           "type": "string",
@@ -1623,7 +1664,10 @@
       },
       "required": [
         "category",
-        "content",
+        "article",
+        "level",
+        "priority",
+        "attributionTime",
         "insightUniqueId",
         "impact"
       ]

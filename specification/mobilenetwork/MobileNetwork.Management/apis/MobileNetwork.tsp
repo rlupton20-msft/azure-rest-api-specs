@@ -25,7 +25,9 @@ model MobileNetwork is TrackedResource<MobileNetworkPropertiesFormat> {
   @visibility("read")
   name: string;
 
-  ...Azure.ResourceManager.ManagedServiceIdentity;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
+  @doc("The identity used to retrieve any private keys used for SUPI concealment from Azure key vault.")
+  identity?: ManagedServiceIdentity;
 }
 
 @armResourceOperations

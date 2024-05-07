@@ -17,7 +17,7 @@
         "connectivity": "PublicAddress",
         "serviceLocations": [
           {
-            "name": "eastUs",
+            "name": "eastus",
             "primaryRegionProperties": {
               "operatorAddresses": [
                 "10.1.1.1"
@@ -25,7 +25,7 @@
             }
           },
           {
-            "name": "westtUs",
+            "name": "westus",
             "primaryRegionProperties": {
               "operatorAddresses": [
                 "10.1.1.2"
@@ -48,6 +48,10 @@
                 ],
                 "allowedSignalingSourceAddressPrefixes": [
                   "23.3.56.0/29"
+                ],
+                "allowedMediaSourceAddressPrefixes": [
+                  "23.3.56.0",
+                  "23.3.57.0"
                 ]
               },
               {
@@ -61,6 +65,9 @@
                 ],
                 "allowedSignalingSourceAddressPrefixes": [
                   "24.3.58.0/29"
+                ],
+                "allowedMediaSourceAddressPrefixes": [
+                  "23.3.56.0/29"
                 ]
               }
             ],
@@ -73,27 +80,64 @@
             ]
           },
           {
-            "peerGroupName": "OCProd",
+            "peerGroupName": "OCPrd",
             "peers": [
               {
                 "peerName": "OCPrd1",
                 "peerType": "ARecord",
                 "aRecordsAndPorts": [
                   {
-                    "aRecord": "xx.yy.com",
+                    "aRecord": "oc0-region1.preview.comms.azure.com",
                     "port": 5060
                   }
                 ],
                 "allowedSignalingSourceAddressPrefixes": [
+                  "23.3.57.0/29"
+                ],
+                "allowedMediaSourceAddressPrefixes": [
                   "23.3.56.0/29"
                 ]
               },
               {
                 "peerName": "OCPrd2",
                 "peerType": "SRV",
-                "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
+                "srvRecord": "_sip._tls.OCPrd.fqdn.com",
                 "allowedSignalingSourceAddressPrefixes": [
-                  "24.3.56.0/29"
+                  "23.3.56.0",
+                  "10.7.99.0"
+                ],
+                "allowedMediaSourceAddressPrefixes": [
+                  "23.3.56.0",
+                  "10.7.99.0"
+                ]
+              }
+            ],
+            "signalingProtocol": "TLS",
+            "mediaProtocol": "SRTP",
+            "codecs": [
+              "PCMA",
+              "PCMU",
+              "G722"
+            ]
+          },
+          {
+            "peerGroupName": "voicaiPrd",
+            "peers": [
+              {
+                "peerName": "voicaiPrd1",
+                "peerType": "IP",
+                "ipsAndPorts": [
+                  {
+                    "ipAddress": "23.3.56.9",
+                    "port": 5060
+                  }
+                ],
+                "allowedSignalingSourceAddressPrefixes": [
+                  "23.3.56.0/29"
+                ],
+                "allowedMediaSourceAddressPrefixes": [
+                  "23.3.56.0",
+                  "23.3.57.0"
                 ]
               }
             ],
@@ -114,8 +158,12 @@
                 "defaultService": "TeamsPhoneMobile"
               },
               {
-                "peerGroup": "OCProd",
+                "peerGroup": "OCPrd",
                 "defaultService": "OperatorConnect"
+              },
+              {
+                "peerGroup": "voicaiPrd",
+                "defaultService": "AiVoiceServices"
               }
             ],
             "serviceToPeerGroup": [
@@ -125,7 +173,11 @@
               },
               {
                 "service": "OperatorConnect",
-                "defaultPeerGroup": "OCProd"
+                "defaultPeerGroup": "OCPrd"
+              },
+              {
+                "service": "AiVoiceServices",
+                "defaultPeerGroup": "voicaiPrd"
               }
             ]
           },
@@ -135,22 +187,62 @@
               "routings": [
                 {
                   "peerName": "TPMPrd1",
-                  "serviceLocation": "westUS",
+                  "serviceLocation": "westus",
                   "priority": 0
                 },
                 {
                   "peerName": "TPMPrd1",
-                  "serviceLocation": "eastUS",
+                  "serviceLocation": "eastus",
                   "priority": 1
                 },
                 {
                   "peerName": "TPMPrd2",
-                  "serviceLocation": "westUS",
+                  "serviceLocation": "westus",
                   "priority": 1
                 },
                 {
                   "peerName": "TPMPrd2",
-                  "serviceLocation": "eastUS",
+                  "serviceLocation": "eastus",
+                  "priority": 0
+                }
+              ]
+            },
+            {
+              "peerGroupName": "OCPrd",
+              "routings": [
+                {
+                  "peerName": "OCPrd1",
+                  "serviceLocation": "westus",
+                  "priority": 0
+                },
+                {
+                  "peerName": "OCPrd1",
+                  "serviceLocation": "eastus",
+                  "priority": 1
+                },
+                {
+                  "peerName": "OCPrd2",
+                  "serviceLocation": "westus",
+                  "priority": 1
+                },
+                {
+                  "peerName": "OCPrd2",
+                  "serviceLocation": "eastus",
+                  "priority": 0
+                }
+              ]
+            },
+            {
+              "peerGroupName": "voicaiPrd",
+              "routings": [
+                {
+                  "peerName": "voicaiPrd1",
+                  "serviceLocation": "westus",
+                  "priority": 1
+                },
+                {
+                  "peerName": "voicaiPrd1",
+                  "serviceLocation": "eastus",
                   "priority": 0
                 }
               ]
@@ -175,12 +267,13 @@
         "e911Type": "Standard",
         "platforms": [
           "OperatorConnect",
-          "TeamsPhoneMobile"
+          "TeamsPhoneMobile",
+          "AiVoiceServices"
         ],
-        "autoGeneratedDomainNameLabelScope": "TenantReuse",
+        "autoGeneratedDomainNameLabelScope": "NoReuse",
         "onPremMcpEnabled": false,
         "integratedMcpEnabled": true,
-        "preferredProtocolForMcp": "TLS/TCP",
+        "signalingProtocolForMcp": "TLS",
         "emergencyDialStrings": [
           "112",
           "911",
@@ -193,6 +286,12 @@
           "allowedAddressPrefixes": [
             "198.51.100.192/26"
           ]
+        },
+        "aiVoiceServices": {
+          "callProtection": {
+            "enabled": true,
+            "logStorageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/examplerg/providers/Microsoft.Storage/storageAccounts/examplestorageaccount"
+          }
         }
       }
     }
@@ -208,135 +307,82 @@
           "name": "standard"
         },
         "properties": {
+          "status": "ChangePending",
           "operatorPeerGroupConfigScheme": "UseOperatorPeerGroupConfig",
           "connectivity": "PublicAddress",
           "serviceLocations": [
             {
-              "name": "eastUs",
+              "name": "eastus",
               "primaryRegionProperties": {
                 "operatorAddresses": [
                   "10.1.1.1"
                 ]
               },
               "acgAddressRanges": {
-                "signalingForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "signalingForOperator": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForOperator": [
-                  "12.34.12.1/30"
-                ]
+                "signalingForBackendServices": [],
+                "signalingForOperator": [],
+                "mediaForBackendServices": [],
+                "mediaForOperator": []
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
                     "peerGroupName": "TPMPrd",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
+                    "srvRecord": "_sip._tls.TPMPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5061
                   },
                   {
-                    "peerGroupName": "TPMPrd2",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.3",
-                      "192.0.2.4"
-                    ],
-                    "port": 5678
+                    "peerGroupName": "OCPrd",
+                    "srvRecord": "_sip._tls.OCPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5063
+                  },
+                  {
+                    "peerGroupName": "voicaiPrd",
+                    "srvRecord": "_sip._tls.voicaiPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5065
                   }
                 ],
-                "backendServices": [
-                  {
-                    "serviceName": "Zoom",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "srvRecord": "",
-                    "port": 1234
-                  },
-                  {
-                    "serviceName": "TPM",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
-                  }
-                ]
+                "backendServices": []
               }
             },
             {
-              "name": "westUs",
+              "name": "westus",
               "primaryRegionProperties": {
                 "operatorAddresses": [
                   "10.1.1.2"
                 ]
               },
               "acgAddressRanges": {
-                "signalingForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "signalingForOperator": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForOperator": [
-                  "12.34.12.1/30"
-                ]
+                "signalingForBackendServices": [],
+                "signalingForOperator": [],
+                "mediaForBackendServices": [],
+                "mediaForOperator": []
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
                     "peerGroupName": "TPMPrd",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
+                    "srvRecord": "_sip._tls.TPMPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5061
                   },
                   {
-                    "peerGroupName": "OCProd",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.3",
-                      "192.0.2.4"
-                    ],
-                    "port": 5678
+                    "peerGroupName": "OCPrd",
+                    "srvRecord": "_sip._tls.OCPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5063
+                  },
+                  {
+                    "peerGroupName": "voicaiPrd",
+                    "srvRecord": "_sip._tls.voicaiPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5065
                   }
                 ],
-                "backendServices": [
-                  {
-                    "serviceName": "OC",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "srvRecord": "",
-                    "port": 1234
-                  },
-                  {
-                    "serviceName": "TPM",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
-                  }
-                ]
+                "backendServices": []
               }
             }
           ],
@@ -355,6 +401,10 @@
                   ],
                   "allowedSignalingSourceAddressPrefixes": [
                     "23.3.56.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0",
+                    "23.3.57.0"
                   ]
                 },
                 {
@@ -367,7 +417,10 @@
                     }
                   ],
                   "allowedSignalingSourceAddressPrefixes": [
-                    "24.3.56.0/29"
+                    "24.3.58.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29"
                   ]
                 }
               ],
@@ -380,14 +433,55 @@
               ]
             },
             {
-              "peerGroupName": "OCProd",
+              "peerGroupName": "OCPrd",
               "peers": [
                 {
                   "peerName": "OCPrd1",
                   "peerType": "ARecord",
                   "aRecordsAndPorts": [
                     {
-                      "aRecord": "xx.yy.com",
+                      "aRecord": "oc0-region1.preview.comms.azure.com",
+                      "port": 5060
+                    }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.57.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29"
+                  ]
+                },
+                {
+                  "peerName": "OCPrd2",
+                  "peerType": "SRV",
+                  "srvRecord": "_sip._tls.OCPrd.fqdn.com",
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0",
+                    "10.7.99.0"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0",
+                    "10.7.99.0"
+                  ]
+                }
+              ],
+              "signalingProtocol": "TLS",
+              "mediaProtocol": "SRTP",
+              "codecs": [
+                "PCMA",
+                "PCMU",
+                "G722"
+              ]
+            },
+            {
+              "peerGroupName": "voicaiPrd",
+              "peers": [
+                {
+                  "peerName": "voicaiPrd1",
+                  "peerType": "IP",
+                  "ipsAndPorts": [
+                    {
+                      "ipAddress": "23.3.56.9",
                       "port": 5060
                     }
                   ],
@@ -395,20 +489,8 @@
                     "23.3.56.0/29"
                   ],
                   "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
-                  ]
-                },
-                {
-                  "peerName": "OCPrd2",
-                  "peerType": "SRV",
-                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
-                  "allowedSignalingSourceAddressPrefixes": [
-                    "24.3.56.0/29"
-                  ],
-                  "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
+                    "23.3.56.0",
+                    "23.3.57.0"
                   ]
                 }
               ],
@@ -429,8 +511,12 @@
                   "defaultService": "TeamsPhoneMobile"
                 },
                 {
-                  "peerGroup": "OCProd",
-                  "defaultService": "TeamsPhoneMobile"
+                  "peerGroup": "OCPrd",
+                  "defaultService": "OperatorConnect"
+                },
+                {
+                  "peerGroup": "voicaiPrd",
+                  "defaultService": "AiVoiceServices"
                 }
               ],
               "serviceToPeerGroup": [
@@ -440,7 +526,11 @@
                 },
                 {
                   "service": "OperatorConnect",
-                  "defaultPeerGroup": "OCProd"
+                  "defaultPeerGroup": "OCPrd"
+                },
+                {
+                  "service": "AiVoiceServices",
+                  "defaultPeerGroup": "voicaiPrd"
                 }
               ]
             },
@@ -450,22 +540,62 @@
                 "routings": [
                   {
                     "peerName": "TPMPrd1",
-                    "serviceLocation": "westUS",
+                    "serviceLocation": "westus",
                     "priority": 0
                   },
                   {
                     "peerName": "TPMPrd1",
-                    "serviceLocation": "eastUS",
+                    "serviceLocation": "eastus",
                     "priority": 1
                   },
                   {
                     "peerName": "TPMPrd2",
-                    "serviceLocation": "westUS",
+                    "serviceLocation": "westus",
                     "priority": 1
                   },
                   {
                     "peerName": "TPMPrd2",
-                    "serviceLocation": "eastUS",
+                    "serviceLocation": "eastus",
+                    "priority": 0
+                  }
+                ]
+              },
+              {
+                "peerGroupName": "OCPrd",
+                "routings": [
+                  {
+                    "peerName": "OCPrd1",
+                    "serviceLocation": "westus",
+                    "priority": 0
+                  },
+                  {
+                    "peerName": "OCPrd1",
+                    "serviceLocation": "eastus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "OCPrd2",
+                    "serviceLocation": "westus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "OCPrd2",
+                    "serviceLocation": "eastus",
+                    "priority": 0
+                  }
+                ]
+              },
+              {
+                "peerGroupName": "voicaiPrd",
+                "routings": [
+                  {
+                    "peerName": "voicaiPrd1",
+                    "serviceLocation": "westus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "voicaiPrd1",
+                    "serviceLocation": "eastus",
                     "priority": 0
                   }
                 ]
@@ -490,20 +620,33 @@
           "e911Type": "Standard",
           "platforms": [
             "OperatorConnect",
-            "TeamsPhoneMobile"
+            "TeamsPhoneMobile",
+            "AiVoiceServices"
           ],
-          "autoGeneratedDomainNameLabelScope": "TenantReuse",
-          "autoGeneratedDomainNameLabel": "h6emgfescubyguek",
+          "autoGeneratedDomainNameLabelScope": "NoReuse",
+          "autoGeneratedDomainNameLabel": "somelabel",
           "onPremMcpEnabled": false,
           "integratedMcpEnabled": true,
-          "preferredProtocolForMcp": "TLS/TCP",
+          "signalingProtocolForMcp": "TLS",
           "emergencyDialStrings": [
             "112",
             "911",
             "933",
             "999"
           ],
-          "teamsVoicemailPilotNumber": "11231231234"
+          "teamsVoicemailPilotNumber": "11231231234",
+          "apiBridge": {
+            "configureApiBridge": "enabled",
+            "allowedAddressPrefixes": [
+              "198.51.100.192/26"
+            ]
+          },
+          "aiVoiceServices": {
+            "callProtection": {
+              "enabled": true,
+              "logStorageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/examplerg/providers/Microsoft.Storage/storageAccounts/examplestorageaccount"
+            }
+          }
         }
       }
     },
@@ -522,67 +665,77 @@
           "connectivity": "PublicAddress",
           "serviceLocations": [
             {
-              "name": "eastUs",
+              "name": "eastus",
               "primaryRegionProperties": {
                 "operatorAddresses": [
                   "10.1.1.1"
                 ]
               },
               "acgAddressRanges": {
-                "signalingForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "signalingForOperator": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForBackendServices": [
-                  "12.34.12.1/30"
-                ],
-                "mediaForOperator": [
-                  "12.34.12.1/30"
-                ]
+                "signalingForBackendServices": [],
+                "signalingForOperator": [],
+                "mediaForBackendServices": [],
+                "mediaForOperator": []
               },
               "acgContactInfo": {
                 "peerGroups": [
                   {
                     "peerGroupName": "TPMPrd",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
+                    "srvRecord": "_sip._tls.TPMPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5061
                   },
                   {
-                    "peerGroupName": "OCProd",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.3",
-                      "192.0.2.4"
-                    ],
-                    "port": 5678
+                    "peerGroupName": "OCPrd",
+                    "srvRecord": "_sip._tls.OCPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5063
+                  },
+                  {
+                    "peerGroupName": "voicaiPrd",
+                    "srvRecord": "_sip._tls.voicaiPrd-region1.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5065
                   }
                 ],
-                "backendServices": [
+                "backendServices": []
+              }
+            },
+            {
+              "name": "westus",
+              "primaryRegionProperties": {
+                "operatorAddresses": [
+                  "10.1.1.2"
+                ]
+              },
+              "acgAddressRanges": {
+                "signalingForBackendServices": [],
+                "signalingForOperator": [],
+                "mediaForBackendServices": [],
+                "mediaForOperator": []
+              },
+              "acgContactInfo": {
+                "peerGroups": [
                   {
-                    "serviceName": "Zoom",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "srvRecord": "",
-                    "port": 1234
+                    "peerGroupName": "TPMPrd",
+                    "srvRecord": "_sip._tls.TPMPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5061
                   },
                   {
-                    "serviceName": "TPM",
-                    "srvRecord": "xx.yy.com",
-                    "ipAddresses": [
-                      "192.0.2.1",
-                      "192.0.2.2"
-                    ],
-                    "port": 1234
+                    "peerGroupName": "OCPrd",
+                    "srvRecord": "_sip._tls.OCPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5063
+                  },
+                  {
+                    "peerGroupName": "voicaiPrd",
+                    "srvRecord": "_sip._tls.voicaiPrd-region2.fqdn.com",
+                    "ipAddresses": [],
+                    "port": 5065
                   }
-                ]
+                ],
+                "backendServices": []
               }
             }
           ],
@@ -603,8 +756,8 @@
                     "23.3.56.0/29"
                   ],
                   "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
+                    "23.3.56.0",
+                    "23.3.57.0"
                   ]
                 },
                 {
@@ -617,11 +770,10 @@
                     }
                   ],
                   "allowedSignalingSourceAddressPrefixes": [
-                    "25.3.56.0/29"
+                    "24.3.58.0/29"
                   ],
                   "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
+                    "23.3.56.0/29"
                   ]
                 }
               ],
@@ -634,14 +786,55 @@
               ]
             },
             {
-              "peerGroupName": "OCProd",
+              "peerGroupName": "OCPrd",
               "peers": [
                 {
                   "peerName": "OCPrd1",
                   "peerType": "ARecord",
                   "aRecordsAndPorts": [
                     {
-                      "aRecord": "xx.yy.com",
+                      "aRecord": "oc0-region1.preview.comms.azure.com",
+                      "port": 5060
+                    }
+                  ],
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.57.0/29"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0/29"
+                  ]
+                },
+                {
+                  "peerName": "OCPrd2",
+                  "peerType": "SRV",
+                  "srvRecord": "_sip._tls.OCPrd-region2.fqdn.com",
+                  "allowedSignalingSourceAddressPrefixes": [
+                    "23.3.56.0",
+                    "10.7.99.0"
+                  ],
+                  "allowedMediaSourceAddressPrefixes": [
+                    "23.3.56.0",
+                    "10.7.99.0"
+                  ]
+                }
+              ],
+              "signalingProtocol": "TLS",
+              "mediaProtocol": "SRTP",
+              "codecs": [
+                "PCMA",
+                "PCMU",
+                "G722"
+              ]
+            },
+            {
+              "peerGroupName": "voicaiPrd",
+              "peers": [
+                {
+                  "peerName": "voicaiPrd1",
+                  "peerType": "IP",
+                  "ipsAndPorts": [
+                    {
+                      "ipAddress": "23.3.56.9",
                       "port": 5060
                     }
                   ],
@@ -649,20 +842,8 @@
                     "23.3.56.0/29"
                   ],
                   "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
-                  ]
-                },
-                {
-                  "peerName": "OCPrd2",
-                  "peerType": "SRV",
-                  "srvRecord": "_sip._tls.someimsnetwork.fqdn.com",
-                  "allowedSignalingSourceAddressPrefixes": [
-                    "24.3.56.0/29"
-                  ],
-                  "allowedMediaSourceAddressPrefixes": [
-                    "23.3.56.0/29",
-                    "23.3.57.0/29"
+                    "23.3.56.0",
+                    "23.3.57.0"
                   ]
                 }
               ],
@@ -683,8 +864,12 @@
                   "defaultService": "TeamsPhoneMobile"
                 },
                 {
-                  "peerGroup": "OCProd",
+                  "peerGroup": "OCPrd",
                   "defaultService": "OperatorConnect"
+                },
+                {
+                  "peerGroup": "voicaiPrd",
+                  "defaultService": "AiVoiceServices"
                 }
               ],
               "serviceToPeerGroup": [
@@ -694,7 +879,11 @@
                 },
                 {
                   "service": "OperatorConnect",
-                  "defaultPeerGroup": "OCProd"
+                  "defaultPeerGroup": "OCPrd"
+                },
+                {
+                  "service": "AiVoiceServices",
+                  "defaultPeerGroup": "voicaiPrd"
                 }
               ]
             },
@@ -704,22 +893,62 @@
                 "routings": [
                   {
                     "peerName": "TPMPrd1",
-                    "serviceLocation": "westUS",
+                    "serviceLocation": "westus",
                     "priority": 0
                   },
                   {
                     "peerName": "TPMPrd1",
-                    "serviceLocation": "eastUS",
+                    "serviceLocation": "eastus",
                     "priority": 1
                   },
                   {
                     "peerName": "TPMPrd2",
-                    "serviceLocation": "westUS",
+                    "serviceLocation": "westus",
                     "priority": 1
                   },
                   {
                     "peerName": "TPMPrd2",
-                    "serviceLocation": "eastUS",
+                    "serviceLocation": "eastus",
+                    "priority": 0
+                  }
+                ]
+              },
+              {
+                "peerGroupName": "OCPrd",
+                "routings": [
+                  {
+                    "peerName": "OCPrd1",
+                    "serviceLocation": "westus",
+                    "priority": 0
+                  },
+                  {
+                    "peerName": "OCPrd1",
+                    "serviceLocation": "eastus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "OCPrd2",
+                    "serviceLocation": "westus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "OCPrd2",
+                    "serviceLocation": "eastus",
+                    "priority": 0
+                  }
+                ]
+              },
+              {
+                "peerGroupName": "voicaiPrd",
+                "routings": [
+                  {
+                    "peerName": "voicaiPrd1",
+                    "serviceLocation": "westus",
+                    "priority": 1
+                  },
+                  {
+                    "peerName": "voicaiPrd1",
+                    "serviceLocation": "eastus",
                     "priority": 0
                   }
                 ]
@@ -744,20 +973,33 @@
           "e911Type": "Standard",
           "platforms": [
             "OperatorConnect",
-            "TeamsPhoneMobile"
+            "TeamsPhoneMobile",
+            "AiVoiceServices"
           ],
-          "autoGeneratedDomainNameLabelScope": "TenantReuse",
-          "autoGeneratedDomainNameLabel": "h6emgfescubyguek",
+          "autoGeneratedDomainNameLabelScope": "NoReuse",
+          "autoGeneratedDomainNameLabel": "somelabel",
           "onPremMcpEnabled": false,
           "integratedMcpEnabled": true,
-          "preferredProtocolForMcp": "TLS/TCP",
+          "signalingProtocolForMcp": "TLS",
           "emergencyDialStrings": [
             "112",
             "911",
             "933",
             "999"
           ],
-          "teamsVoicemailPilotNumber": "11231231234"
+          "teamsVoicemailPilotNumber": "11231231234",
+          "apiBridge": {
+            "configureApiBridge": "enabled",
+            "allowedAddressPrefixes": [
+              "198.51.100.192/26"
+            ]
+          },
+          "aiVoiceServices": {
+            "callProtection": {
+              "enabled": true,
+              "logStorageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/examplerg/providers/Microsoft.Storage/storageAccounts/examplestorageaccount"
+            }
+          }
         }
       }
     }

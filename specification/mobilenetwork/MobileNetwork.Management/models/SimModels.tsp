@@ -7,15 +7,17 @@ using TypeSpec.OpenAPI;
 namespace Microsoft.MobileNetwork;
 
 @doc("The state of the SIM resource.")
-enum SimState {
+union SimState {
   @doc("The SIM is disabled because not all configuration required for enabling is present.")
-  Disabled,
+  Disabled: "Disabled",
 
   @doc("The SIM is enabled.")
-  Enabled,
+  Enabled: "Enabled",
 
   @doc("The SIM cannot be enabled because some of the associated configuration is invalid.")
-  Invalid,
+  Invalid: "Invalid",
+
+  string,
 }
 
 @doc("Common SIM properties.")
@@ -30,7 +32,7 @@ model CommonSimPropertiesFormat {
 
   @doc("A dictionary of sites to the provisioning state of this SIM on that site.")
   @visibility("read")
-  siteProvisioningState?: Record<SiteProvisioningState>;
+  siteProvisioningState?: SiteProvisioning;
 
   @doc("The international mobile subscriber identity (IMSI) for the SIM.")
   @visibility("read", "create")
@@ -79,6 +81,7 @@ model SimStaticIpPropertiesStaticIp {
   ipv4Address?: Ipv4Addr;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 @doc("SIM properties.")
 model SimPropertiesFormat extends CommonSimPropertiesFormat {
   @doc("The Ki value for the SIM.")
@@ -150,6 +153,7 @@ model SimNameAndEncryptedProperties {
   properties: EncryptedSimPropertiesFormat;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 @doc("Encrypted SIM properties.")
 model EncryptedSimPropertiesFormat extends CommonSimPropertiesFormat {
   @doc("The encrypted SIM credentials.")

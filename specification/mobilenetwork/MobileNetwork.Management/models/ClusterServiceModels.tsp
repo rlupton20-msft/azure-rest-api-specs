@@ -38,7 +38,7 @@ model ClusterServiceClusterTypeSpecificData {
   type: ClusterType;
 
   @doc("Custom Location resource ID")
-  customLocationId: CustomLocationResourceId;
+  customLocationId: CustomLocationIdProperty;
 }
 
 @doc("AKS Cluster specific data.")
