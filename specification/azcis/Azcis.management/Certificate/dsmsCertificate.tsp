@@ -107,7 +107,7 @@ model DsmsCertificateResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("dsmsCertificate") // Start with lower case. Should be plural
+  @segment("dsmsCertificates") // Start with lower case. Should be plural
   @visibility("read")
   @path
   name: string;
