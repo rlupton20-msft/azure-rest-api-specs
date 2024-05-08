@@ -2,6 +2,13 @@
 
 > see https://aka.ms/autorest
 
+```yaml
+title: RPaaSClient
+openapi-type: arm
+openapi-subtype: rpaas
+tag: 2023-08-22-preview
+```
+
 This is the AutoRest configuration file for Resources.
 
 ## Getting Started
@@ -47,6 +54,7 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/safedns.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/storageAccountDsms.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/subscription.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/certificate.json
 ```
 
 ### Tag: package-2023-08-22
