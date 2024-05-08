@@ -11,36 +11,32 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the Activation.")
-model ActivationProperties {
+@doc("The properties of the service.")
+model CampaignProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("The firstStage of the CampaignVersion.")
+  firstStage?: string;
+
+  @doc("The selfDriving of the CampaignVersion.")
+  selfDriving?: boolean;
+
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The inputs of the Activation.")
-  inputs?: Record<unknown>;
-
-  @doc("The stage of the Activation.")
-  stage?: string;
-
-  @doc("The campaign version of the Activation.")
-  campaign: string;
-
-  @doc("The status of the Activation.")
-  @visibility("read")
-  status?: ActivationStatusProperties;
+  @doc("The stages of the CampaignVersion.")
+  stages?: Record<StageProperties>;
 }
 
 @doc("The service entity.")
-model Activation is TrackedResource<ActivationProperties> {
+model Campaign is TrackedResource<CampaignProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[-\\w\\._\\(\\)]+$")
   @path
-  @key("activationName")
-  @segment("activations")
+  @key("campaignName")
+  @segment("campaigns")
   name: string;
 
   // Extended location is not included in TrackedResource yet
@@ -51,17 +47,17 @@ model Activation is TrackedResource<ActivationProperties> {
 }
 
 @armResourceOperations
-interface Activations {
+interface Campaigns {
   @doc("Returns details of the service.")
-  get is Azure.ResourceManager.ArmResourceRead<Activation>;
+  get is Azure.ResourceManager.ArmResourceRead<Campaign>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Activation>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Campaign>;
   @doc("Updates existing service.")
-  update is ArmCustomPatchSync<Activation>;
+  update is ArmCustomPatchSync<Campaign>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<Activation>;
+  delete is ArmResourceDeleteSync<Campaign>;
   @doc("Returns a collection of services within the resource group.")
-  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Activation>;
+  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Campaign>;
   @doc("Lists services within an Azure subscription.")
-  listBySubscription is ArmListBySubscription<Activation>;
+  listBySubscription is ArmListBySubscription<Campaign>;
 }

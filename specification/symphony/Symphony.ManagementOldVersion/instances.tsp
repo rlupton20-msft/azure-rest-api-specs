@@ -11,36 +11,41 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the Activation.")
-model ActivationProperties {
+@doc("The properties of the service.")
+model InstanceProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The inputs of the Activation.")
-  inputs?: Record<unknown>;
+  @doc("The metadata of the InstanceVersion.")
+  metadata?: Record<string>;
 
-  @doc("The stage of the Activation.")
-  stage?: string;
+  @doc("The display name of the InstanceVersion.")
+  displayName?: string;
 
-  @doc("The campaign version of the Activation.")
-  campaign: string;
+  @doc("The scope of the InstanceVersion.")
+  scope?: string;
 
-  @doc("The status of the Activation.")
-  @visibility("read")
-  status?: ActivationStatusProperties;
+  @doc("The solution version.")
+  solution: string;
+
+  @doc("The target of the InstanceVersion.")
+  target?: TargetSelectorProperties;
+
+  @doc("The reconciliationPolicy of the InstanceVersion.")
+  reconciliationPolicy?: ReconciliationPolicyProperties;
 }
 
 @doc("The service entity.")
-model Activation is TrackedResource<ActivationProperties> {
+model Instance is TrackedResource<InstanceProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[-\\w\\._\\(\\)]+$")
   @path
-  @key("activationName")
-  @segment("activations")
+  @key("instanceName")
+  @segment("instances")
   name: string;
 
   // Extended location is not included in TrackedResource yet
@@ -51,17 +56,17 @@ model Activation is TrackedResource<ActivationProperties> {
 }
 
 @armResourceOperations
-interface Activations {
+interface Instances {
   @doc("Returns details of the service.")
-  get is Azure.ResourceManager.ArmResourceRead<Activation>;
+  get is ArmResourceRead<Instance>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Activation>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Instance>;
   @doc("Updates existing service.")
-  update is ArmCustomPatchSync<Activation>;
+  update is ArmCustomPatchSync<Instance>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<Activation>;
+  delete is ArmResourceDeleteSync<Instance>;
   @doc("Returns a collection of services within the resource group.")
-  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Activation>;
+  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Instance>;
   @doc("Lists services within an Azure subscription.")
-  listBySubscription is ArmListBySubscription<Activation>;
+  listBySubscription is ArmListBySubscription<Instance>;
 }

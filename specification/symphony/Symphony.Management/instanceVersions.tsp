@@ -30,9 +30,6 @@ model InstanceVersionProperties {
   @doc("The solution version.")
   solution: string;
 
-  @doc("The version of the InstanceVersion.")
-  version?: string;
-
   @doc("The target of the InstanceVersion.")
   target?: TargetSelectorProperties;
 
@@ -47,7 +44,7 @@ model InstanceVersion is TrackedResource<InstanceVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[-\\w\\._\\(\\)]+$")
   @path
   @key("versionName")
   @segment("versions")

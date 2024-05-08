@@ -23,7 +23,7 @@ model Campaign is TrackedResource<CampaignProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[-\\w\\._\\(\\)]+$")
   @path
   @key("campaignName")
   @segment("campaigns")
@@ -41,7 +41,7 @@ interface Campaigns {
   @doc("Returns details of the service.")
   get is Azure.ResourceManager.ArmResourceRead<Campaign>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<Campaign>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Campaign>;
   @doc("Updates existing service.")
   update is ArmCustomPatchSync<Campaign>;
   @doc("Deletes specified service.")
