@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 @service({
   title: "Foundational ARM Client",
 })
-@doc("dscm Service")
+@doc("dscm Certificate Service")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;
 
