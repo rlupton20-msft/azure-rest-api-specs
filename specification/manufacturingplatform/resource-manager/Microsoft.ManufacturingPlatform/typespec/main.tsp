@@ -190,6 +190,14 @@ model MdsResourceProperties {
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Profile of Fabric resources.")
   fabricProfile?: FabricProfile;
+
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
+  @doc("Profile of User Managed OpenAI.")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @visibility("read", "create", "update")
+  userManagedOpenAIProfile?: UserManagedOpenAIProfile;
+
 }
 
 @doc("The properties related to Aks Resource")
@@ -338,6 +346,37 @@ model OpenAIProfile {
   @doc("Resource Id of OpenAI Resource")
   @visibility("read")
   id?: string;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Gpt Model Name")
+  @visibility("read", "create", "update")
+  gptModelName?: string;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Gpt Model Version")
+  @visibility("read", "create", "update")
+  gptModelVersion?: string;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Gpt Model Capacity")
+  @visibility("read", "create", "update")
+  gptModelCapacity?: int32;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Embedding Model Name")
+  @visibility("read", "create")
+  embeddingModelName?: string;
+  
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Embedding Model Version")
+  @visibility("read", "create")
+  embeddingModelVersion?: string;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Embedding Model Capacity")
+  @visibility("read", "create", "update")
+  embeddingModelCapacity?: int32;
+
 }
 
 @doc("Configuration of the managed resource group associated with the resource.")
@@ -399,6 +438,26 @@ model FabricProfile {
   @doc("One Lake Path")
   @visibility("read", "create", "update")
   oneLakePath: string;
+}
+
+@doc("The properties related to User Managed OpenAI Resource")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+model UserManagedOpenAIProfile {
+  @doc("Resource Id of OpenAI Resource")
+  @visibility("read", "create", "update")
+  id: string;
+
+  @doc("Gpt Model Deployment Name")
+  @visibility("read", "create", "update")
+  gptModelDeploymentName: string;
+
+  @doc("Embedding Model Deployment Name")
+  @visibility("read", "create", "update")
+  embeddingModelDeploymentName: string;
+  
+  @doc("Embedding Model Type")
+  @visibility("read", "create")
+  embeddingModelType: string;
 }
 
 @armResourceOperations(MdsResource)

@@ -56,6 +56,10 @@ model VnfAgentDeploymentResourceProperties {
   @doc("Operational status")
   @visibility("read")
   operationalStatus?: OperationalStatus;
+
+  @doc("Associated Virtual Network Function resource identifiers")
+  @visibility("read")
+  associatedVirtualNetworkFunctions?: AssociatedVirtualNetworkFunctionIdProperty[];
 }
 
 @added(Versions.v2024_03_15_preview)

@@ -1,25 +1,27 @@
 @doc("The status of the resource manager.")
-enum ResourceManagerStatus {
+union ResourceManagerStatus {
     @doc("The resource is being created.")
-    Creating,
+    Creating: "Creating",
 
     @doc("The resource is being converged.")
-    Converging,
+    Converging: "Converging",
 
     @doc("The resource is converged.")
-    Converged,
+    Converged: "Converged",
 
     @doc("The resource is being deleted.")
-    Deleting,
+    Deleting: "Deleting",
 
     @doc("The resource failed to create.")
-    FailedToCreate,
+    FailedToCreate: "FailedToCreate",
 
     @doc("The resource failed to converge.")
-    FailedToConverge,
+    FailedToConverge: "FailedToConverge",
 
     @doc("The resource failed to delete.")
-    FailedToDelete
+    FailedToDelete: "FailedToDelete",
+
+    string,
 }
 
 @doc("The properties of the resource manager.")

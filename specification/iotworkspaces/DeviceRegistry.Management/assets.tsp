@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
@@ -134,7 +133,7 @@ model DataPoint {
 }
 
 @doc("Defines the data point observability mode.")
-enum DataPointsObservabilityMode {
+union DataPointsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "none",
 
@@ -149,6 +148,8 @@ enum DataPointsObservabilityMode {
 
   @doc("Map as log to OpenTelemetry.")
   Log: "log",
+
+  string,
 }
 
 @doc("Defines the event properties.")
@@ -170,12 +171,14 @@ model Event {
 }
 
 @doc("Defines the event observability mode.")
-enum EventsObservabilityMode {
+union EventsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "none",
 
   @doc("Map as log to OpenTelemetry.")
   Log: "log",
+
+  string,
 }
 
 @doc("Defines the asset status properties.")
@@ -199,42 +202,15 @@ model AssetStatusError {
 
 @armResourceOperations
 interface Assets {
-  @Autorest.example("./examples/Get_Asset.json", "Get an Asset")
-  @Autorest.example(
-    "./examples/Get_Asset_With_SyncStatus.json",
-    "Get an Asset with Sync Status."
-  )
   get is ArmResourceRead<Asset>;
 
-  @Autorest.example(
-    "./examples/Create_Asset_With_ExternalAssetId.json",
-    "Create an Asset With External Asset Id."
-  )
-  @Autorest.example(
-    "./examples/Create_Asset_Without_ExternalAssetId.json",
-    "Create an Asset Without External Asset Id."
-  )
-  @Autorest.example(
-    "./examples/Create_Asset_Without_DisplayName.json",
-    "Create an Asset Without Display Name."
-  )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Asset>;
 
-  @Autorest.example("./examples/Update_Asset.json", "Patch an Asset.")
   update is ArmResourcePatchAsync<Asset, AssetProperties>;
 
-  @Autorest.example("./examples/Delete_Asset.json", "Delete an Asset.")
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;
 
-  @Autorest.example(
-    "./examples/List_Assets_ResourceGroup.json",
-    "List Assets in a Resource Group."
-  )
   listByResourceGroup is ArmResourceListByParent<Asset>;
 
-  @Autorest.example(
-    "./examples/List_Assets_Subscription.json",
-    "List Assets in a Subscription."
-  )
   listBySubscription is ArmListBySubscription<Asset>;
 }

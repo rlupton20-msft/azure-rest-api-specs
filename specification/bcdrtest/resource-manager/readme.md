@@ -35,7 +35,7 @@ These settings apply only when `--tag=package-YYYY-MM-DD` is specified on the co
 
 ```yaml $(tag) == 'package-YYYY-MM-DD'
 input-file:
-  - Microsoft.BcdrTest/preview/2023-06-01-preview/ResourceVaults.json
+  - Microsoft.BcdrTest/preview/2023-06-01-preview/extensionVault.json
 ```
 
 ---

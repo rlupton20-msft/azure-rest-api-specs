@@ -1,13 +1,12 @@
-import "../models/ReservationConstraints.tsp";
 import "../models/ResourceManager.tsp";
+import "../models/ServerAssociation.tsp";
 
+using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using Azure.ResourceManager;
+using OpenAPI;
 
-// This is a local TypeSpec namespace.
-// It is transformed to Microsoft.AszLabHardware as a namespace for the models file and generated controllers source.
-namespace Common.AszLabHardware;
+namespace Private.AszLabHardware;
 
 @doc("A physical computer which can be reserved for use by a user")
 model Reservation is TrackedResource<ReservationProperties> {
@@ -29,16 +28,16 @@ model ReservationProperties {
     @doc("The status of the last operation.")
     provisioningState?: ProvisioningState;
 
-    @visibility("read","create", "update")
-    @doc("The set of constraints to create the reservation.")
-    reservationConstraints: ReservationConstraints;
+    @visibility("read", "create")
+    @doc("The set of Servers to create the reservation.")
+    @extension("x-ms-identifiers", ["server"])
+    serverAssociations?: ServerAssociation[];
 }
 
 @armResourceOperations
 interface Reservations {
   get is ArmResourceRead<Reservation>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Reservation>;
-  update is ArmResourcePatchSync<Reservation, ReservationProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Reservation>;
   listByResourceGroup is ArmResourceListByParent<Reservation>;
   listBySubscription is ArmListBySubscription<Reservation>;
