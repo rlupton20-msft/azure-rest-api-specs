@@ -55,9 +55,6 @@ model SolutionTypeSettings {
 
 @doc("Public connector permissions.")
 model TestPermissionResponse {
-  @doc("The name of public cloud connector")
-  overallStatus: Status;
-
   @doc("Solution type permissions.")
   solutionTypes: Array<SolutionTypePermissions>;
 }

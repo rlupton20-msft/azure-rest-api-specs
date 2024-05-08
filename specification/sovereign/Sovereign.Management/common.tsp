@@ -19,4 +19,9 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @doc("Second preview version.")
   Preview20240331: "2024-03-31-preview",
+
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @doc("Public preview version.")
+  Preview20241031: "2024-10-31-preview",
 }

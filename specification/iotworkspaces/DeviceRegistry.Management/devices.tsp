@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/provisioningState.tsp";
@@ -106,9 +105,6 @@ model DeviceEndpoints {
   @extension("x-ms-identifiers", ["type", "address"])
   @visibility("read", "create")
   unassigned?: Endpoint[];
-
-  @doc("Endpoints for receiving or sending messages to the device.")
-  connectivity?: Connectivity;
 }
 
 @doc("Endpoints related to the device")
@@ -121,58 +117,17 @@ model Endpoint {
   address?: string;
 }
 
-@doc("Endpoints for sending or receiving messages to the device.")
-model Connectivity {
-  @doc("Endpoint for sending and receiving messages from the device.")
-  // `type` is a reserved keyname. Wrap in double quotes
-  messaging?: Endpoint;
-}
-
 @armResourceOperations
 interface Devices {
-  @Autorest.example("./examples/Get_Device.json", "Get a device.")
   get is ArmResourceRead<Device>;
 
-  @Autorest.example(
-    "./examples/Create_Device_With_Attributes.json",
-    "Create a device with attributes."
-  )
-  @Autorest.example(
-    "./examples/Create_Device_With_Endpoints.json",
-    "Create a device with endpoints."
-  )
-  @Autorest.example(
-    "./examples/Create_Device_With_ExternalDeviceId.json",
-    "Create a device with external device ID."
-  )
-  @Autorest.example(
-    "./examples/Create_Device_Without_ExternalDeviceId.json",
-    "Create a device without external device ID."
-  )
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
 
-  @Autorest.example(
-    "./examples/Update_Device.json",
-    "Update a device to disable it."
-  )
-  @Autorest.example(
-    "./examples/Update_Device_With_New_Endpoints.json",
-    "Update a device with new endpoints."
-  )
   update is ArmResourcePatchAsync<Device, DeviceProperties>;
 
-  @Autorest.example("./examples/Delete_Device.json", "Delete a device.")
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
 
-  @Autorest.example(
-    "./examples/List_Devices_ResourceGroup.json",
-    "List devices in a resource group."
-  )
   listByResourceGroup is ArmResourceListByParent<Device>;
 
-  @Autorest.example(
-    "./examples/List_Devices_Subscription.json",
-    "List devices in a subscription."
-  )
   listBySubscription is ArmListBySubscription<Device>;
 }

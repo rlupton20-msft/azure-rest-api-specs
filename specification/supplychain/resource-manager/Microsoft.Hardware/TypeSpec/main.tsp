@@ -40,7 +40,6 @@ model OrderProperties {
   action?:string;
 
   @doc("Order status")
-  @visibility("read")
   status?: OrderStatus;
 
   @doc("Order line details")
@@ -62,7 +61,6 @@ model OrderProperties {
   @doc("Reservation for order if applicable")
   reservationId?:string;
 
-  @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
@@ -105,7 +103,7 @@ model OrderLine {
   product: Product;
   
   @doc("order line fulfillment instructions")
-  lineFulfillmentInstructions?: LineFulfillmentInstructions;
+  lineFulfillmentInstruction?: LineFulfillmentInstruction;
 
   @doc("line level Price")
   price:Price;
@@ -126,11 +124,9 @@ model OrderLine {
   cancelledBy?:string;
 
   @doc("Estimated Delivery Date Time")
-  @visibility("read")
   estimatedDeliveryDateTime?:utcDateTime;
 
   @doc("Estimated Shipped Date Time")
-  @visibility("read")
   estimatedShippedDateTime?:utcDateTime;
 }
 
@@ -162,7 +158,7 @@ model Product {
 }
 
 @doc("Order line fulfillment instructions")
-model LineFulfillmentInstructions {
+model LineFulfillmentInstruction {
   @doc("Device line referred to by the warranty line.")
   referenceDeviceLine?: int64;
 

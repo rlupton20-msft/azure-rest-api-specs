@@ -1,9 +1,9 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
 import "../shared/main.tsp";
 
@@ -12,18 +12,25 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using OpenAPI;
 using Azure.Core;
+using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
 @service({
   title: "Microsoft.AwsConnector",
-  version: "2024-08-01-preview",
 })
 @doc("Microsoft.AwsConnector Resource Provider management API.")
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+@versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.AwsConnector;
+
+/** Api versions */
+enum Versions {
+  /** 2024-08-01-preview api version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-08-01-preview`,
+}
 
 //---------------------------------------------- RdsDBClusters ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
@@ -39,6 +46,8 @@ model RdsDBCluster is TrackedResource<RdsDBClusterProperties> {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of RdsDBCluster")
 model RdsDBClusterProperties {
   @doc("Gets and sets the property awsProperties.")
@@ -49,6 +58,8 @@ model RdsDBClusterProperties {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of awsRdsDBCluster")
 model AwsRdsDBClusterProperties {
   @doc("Gets and sets the property allocatedStorage. The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster.")
@@ -69,7 +80,7 @@ model AwsRdsDBClusterProperties {
   backtrackWindow?: int32;
 
   @doc("Gets and sets the property backupRetentionPeriod. The number of days for which automated backups are retained.")
-  backupRetentionPeriod?: int32;
+  backupRetentionPeriod?: int32 = 1;
 
   @doc("Gets and sets the property copyTagsToSnapshot. A value that indicates whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.")
   copyTagsToSnapshot?: boolean;
@@ -84,7 +95,7 @@ model AwsRdsDBClusterProperties {
   dbClusterInstanceClass?: string;
 
   @doc("Gets and sets the property dbClusterParameterGroupName. The name of the DB cluster parameter group to associate with this DB cluster.")
-  dbClusterParameterGroupName?: string;
+  dbClusterParameterGroupName?: string = "default.aurora5.6";
 
   @doc("Gets and sets the property dbClusterResourceId. The AWS Region-unique, immutable identifier for the DB cluster.")
   dbClusterResourceId?: string;
@@ -196,7 +207,7 @@ model AwsRdsDBClusterProperties {
   restoreToTime?: string;
 
   @doc("Gets and sets the property restoreType. The type of restore to be performed. You can specify one of the following values:full-copy - The new DB cluster is restored as a full copy of the source DB cluster.copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.")
-  restoreType?: string;
+  restoreType?: string = "full-copy";
 
   @doc("Gets and sets the property scalingConfiguration. The ScalingConfiguration property type specifies the scaling configuration of an Aurora Serverless DB cluster. The ScalingConfiguration property type specifies the scaling configuration of an Aurora Serverless DB cluster.")
   scalingConfiguration?: ScalingConfiguration;
@@ -216,6 +227,9 @@ model AwsRdsDBClusterProperties {
   @doc("Gets and sets the property storageEncrypted. Indicates whether the DB instance is encrypted.If you specify the DBClusterIdentifier, SnapshotIdentifier, or SourceDBInstanceIdentifier property, don't specify this property. The value is inherited from the cluster, snapshot, or source DB instance.")
   storageEncrypted?: boolean;
 
+  @doc("Gets and sets the property storageThroughput. Specifies the storage throughput value for the DB cluster. This setting applies only to the gp3 storage type.")
+  storageThroughput?: int32;
+
   @doc("Gets and sets the property storageType. Specifies the storage type to be associated with the DB cluster.")
   storageType?: string;
 
@@ -233,6 +247,8 @@ model AwsRdsDBClusterProperties {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of DBClusterRole")
 model DBClusterRole {
   @doc("Gets and sets the property featureName. The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion in the Amazon RDS API Reference.")
@@ -244,6 +260,8 @@ model DBClusterRole {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of Endpoint")
 model Endpoint {
   @doc("Gets and sets the property address. The connection endpoint for the DB cluster.")
@@ -255,6 +273,8 @@ model Endpoint {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of MasterUserSecret")
 model MasterUserSecret {
   @doc("Gets and sets the property kmsKeyId. The AWS KMS key identifier that is used to encrypt the secret.")
@@ -266,6 +286,8 @@ model MasterUserSecret {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of ReadEndpoint")
 model ReadEndpoint {
   @doc("Gets and sets the property address. The reader endpoint for the DB cluster.")
@@ -274,6 +296,8 @@ model ReadEndpoint {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of ScalingConfiguration")
 model ScalingConfiguration {
   @doc("Gets and sets the property autoPause. A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).")
@@ -297,6 +321,8 @@ model ScalingConfiguration {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of ServerlessV2ScalingConfiguration")
 model ServerlessV2ScalingConfiguration {
   @doc("Gets and sets the property maxCapacity. The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value that you can use is 128.")
@@ -308,6 +334,8 @@ model ServerlessV2ScalingConfiguration {
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of Tag")
 model Tag {
   @doc("Gets and sets the property key. The key name of the tag. You can specify a value that is 1 to 128 Unicode characters in length and cannot be prefixed with aws:. You can use any of the following characters: the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. ")
