@@ -11,36 +11,34 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the Activation.")
-model ActivationProperties {
+@doc("The properties of the service.")
+model SolutionProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("A list of components")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  components?: ComponentProperties[];
+
+  @doc("The display name of solution version")
+  displayName?: string;
+
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The inputs of the Activation.")
-  inputs?: Record<unknown>;
-
-  @doc("The stage of the Activation.")
-  stage?: string;
-
-  @doc("The campaign version of the Activation.")
-  campaign: string;
-
-  @doc("The status of the Activation.")
-  @visibility("read")
-  status?: ActivationStatusProperties;
+  @doc("Metadata of solution version")
+  metadata?: Record<string>;
 }
 
 @doc("The service entity.")
-model Activation is TrackedResource<ActivationProperties> {
+@resource("solutions")
+model Solution is TrackedResource<SolutionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[-\\w\\._\\(\\)]+$")
   @path
-  @key("activationName")
-  @segment("activations")
+  @key("solutionName")
+  @segment("solutions")
   name: string;
 
   // Extended location is not included in TrackedResource yet
@@ -51,17 +49,17 @@ model Activation is TrackedResource<ActivationProperties> {
 }
 
 @armResourceOperations
-interface Activations {
+interface Solutions {
   @doc("Returns details of the service.")
-  get is Azure.ResourceManager.ArmResourceRead<Activation>;
+  get is Azure.ResourceManager.ArmResourceRead<Solution>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Activation>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Solution>;
   @doc("Updates existing service.")
-  update is ArmCustomPatchSync<Activation>;
+  update is ArmCustomPatchSync<Solution>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<Activation>;
+  delete is ArmResourceDeleteSync<Solution>;
   @doc("Returns a collection of services within the resource group.")
-  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Activation>;
+  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Solution>;
   @doc("Lists services within an Azure subscription.")
-  listBySubscription is ArmListBySubscription<Activation>;
+  listBySubscription is ArmListBySubscription<Solution>;
 }

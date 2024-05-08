@@ -54,7 +54,7 @@ model TargetVersion is TrackedResource<TargetVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[-\\w\\._\\(\\)]+$")
   @path
   @key("versionName")
   @segment("versions")

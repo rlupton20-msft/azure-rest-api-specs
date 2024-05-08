@@ -11,36 +11,42 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the Activation.")
-model ActivationProperties {
+@doc("The properties of the service.")
+model CatalogProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The inputs of the Activation.")
-  inputs?: Record<unknown>;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The properties of the CatalogVersion.")
+  properties: Record<unknown>;
 
-  @doc("The stage of the Activation.")
-  stage?: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The metadata of the CatalogVersion.")
+  metadata?: Record<string>;
 
-  @doc("The campaign version of the Activation.")
-  campaign: string;
+  @doc("The parent catalog version")
+  parentName?: string;
 
-  @doc("The status of the Activation.")
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The catalogType of the CatalogVersion.")
+  catalogType: string;
+
+  @doc("The status of the CatalogVersion.")
   @visibility("read")
-  status?: ActivationStatusProperties;
+  status?: CatalogStatusProperties;
 }
 
 @doc("The service entity.")
-model Activation is TrackedResource<ActivationProperties> {
+model Catalog is TrackedResource<CatalogProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[-\\w\\._\\(\\)]+$")
   @path
-  @key("activationName")
-  @segment("activations")
+  @key("catalogName")
+  @segment("catalogs")
   name: string;
 
   // Extended location is not included in TrackedResource yet
@@ -51,17 +57,17 @@ model Activation is TrackedResource<ActivationProperties> {
 }
 
 @armResourceOperations
-interface Activations {
+interface Catalogs {
   @doc("Returns details of the service.")
-  get is Azure.ResourceManager.ArmResourceRead<Activation>;
+  get is Azure.ResourceManager.ArmResourceRead<Catalog>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Activation>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Catalog>;
   @doc("Updates existing service.")
-  update is ArmCustomPatchSync<Activation>;
+  update is ArmCustomPatchSync<Catalog>;
   @doc("Deletes specified service.")
-  delete is ArmResourceDeleteSync<Activation>;
+  delete is ArmResourceDeleteSync<Catalog>;
   @doc("Returns a collection of services within the resource group.")
-  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Activation>;
+  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Catalog>;
   @doc("Lists services within an Azure subscription.")
-  listBySubscription is ArmListBySubscription<Activation>;
+  listBySubscription is ArmListBySubscription<Catalog>;
 }

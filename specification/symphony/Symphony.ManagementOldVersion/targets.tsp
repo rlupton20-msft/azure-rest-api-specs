@@ -16,6 +16,35 @@ model TargetProperties {
   @doc("Provisioning state of the service.")
   @visibility("read")
   provisioningState?: ProvisioningState;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The metadata of the TargetVersion.")
+  metadata?: Record<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The properties of the TargetVersion.")
+  properties?: Record<string>;
+
+  @doc("The display name of the TargetVersion.")
+  displayName?: string;
+
+  @doc("The constraints of the TargetVersion.")
+  constraints?: string;
+
+  @doc("The scope of the TargetVersion.")
+  scope?: string;
+
+  @doc("A list of topologies")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  topologies?: TopologyProperties[];
+
+  @doc("A list of components")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  components?: ComponentProperties[];
+
+  @doc("The reconciliationPolicy of the TargetVersion.")
+  reconciliationPolicy?: ReconciliationPolicyProperties;
 }
 
 @doc("The service entity.")

@@ -23,7 +23,7 @@ model Instance is TrackedResource<InstanceProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[-\\w\\._\\(\\)]+$")
   @path
   @key("instanceName")
   @segment("instances")
@@ -41,7 +41,7 @@ interface Instances {
   @doc("Returns details of the service.")
   get is ArmResourceRead<Instance>;
   @doc("Creates new or updates existing API.")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Instance>;
   @doc("Updates existing service.")
   update is ArmCustomPatchSync<Instance>;
   @doc("Deletes specified service.")
