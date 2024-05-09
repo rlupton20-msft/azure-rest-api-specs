@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Oracle.Database
-  output-folder: $(csharp-sdks-folder)/Oracle.Database/management/Oracle.Database/GeneratedProtocol
+  namespace: Private.OracleDatabaseDev
+  output-folder: $(csharp-sdks-folder)/Private.OracleDatabaseDev/management/Private.OracleDatabaseDev/GeneratedProtocol
 ```
