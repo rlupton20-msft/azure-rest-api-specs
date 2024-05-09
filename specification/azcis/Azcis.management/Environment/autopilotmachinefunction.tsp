@@ -21,22 +21,22 @@ model AutopilotMachineFunctionResourceProperties {
   @extension("x-ms-identifiers", [])
   machineFunctions?: Array<MachineFunction>;
 
-  @doc("EnvironmentName.")
+  @doc("Target Environment Name to allocate MachineFunction.")
   environmentName: string;
 
-  @doc("ClusterName.")
+  @doc("Target Cluster where Target Environment lives in.")
   clusterName: string;
 
-  @doc("SourceEnvironment.")
+  @doc("Name of the source environment. Legacy Machines will move out of this environment to the environment that need to be allocated.")
   sourceEnvironment: string;
 
-  @doc("SourceManaTree.")
+  @doc("Name of the source mana tree. If extra logical machines needed for allocation, logic machines will borrow from this ManaTree.")
   sourceManaTree: string;
 
-  @doc("TargetManaTree.")
+  @doc("Name of the target mana tree. If extra logical machines needed for allocation, logic machines will write into this ManaTree.")
   targetManaTree: string;
 
-  @doc("RequestedNodeLabels.")
+  @doc("If a RequestedNodeLabel declared inside of MachineFunction, this particular MachineFunction will filled with this RequestedNodeLabels, but if no such requestedNodeLabel in ManaTree files, it will throw exception.")
   requestedNodeLabels?: string;
 
   @doc("Provisioning state")
@@ -55,19 +55,19 @@ model Naming {
 
 @doc("MachineFuncion.")
 model MachineFunction {
-  @doc("Machine function name.")
+  @doc("Name of Machine Function allocated machines need to assign to.")
   machineFunctionName: string;
 
-  @doc("AllocationType.")
+  @doc("Allocation Type options: LegacyMachine - allocate and update machines in machines.csv; NonLegacyMachine (LogicalNameMachine, LogicalMachine, AzureVM, ApContainer etc.) - allocate and update machines in allocation.ini.")
   allocationType: string;
 
-  @doc("RequestedNodeLabels.")
+  @doc("If a RequestedNodeLabel declared inside of MachineFunction, this particular MachineFunction will filled with this RequestedNodeLabels, but if no such requestedNodeLabel in ManaTree files, it will throw exception.")
   requestedNodeLabels?: string;
 
-  @doc("NumberOfMachines.")
+  @doc("Number of machines being requested for this machine function.")
   numberOfMachines: string;
 
-  @doc("Goal state of AdditionalFields.")
+  @doc("Customized and non-required attribute needed to check-in in the allocation.ini file.")
   additionalFields?: Array<string>;
 }
 
