@@ -63,6 +63,7 @@ These settings apply only when `--tag=package-2023-08-22` is specified on the co
 
 ```yaml $(tag) == 'package-2023-08-22'
 input-file:
+  - Microsoft.AzureCis/stable/2023-08-22/aad.json
   - Microsoft.AzureCis/stable/2023-08-22/genevaActions.json
 ```
 
