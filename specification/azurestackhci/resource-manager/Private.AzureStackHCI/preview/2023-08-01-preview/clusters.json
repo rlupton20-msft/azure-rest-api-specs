@@ -457,76 +457,6 @@
           "final-state-via": "location"
         }
       }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/addNodes": {
-      "post": {
-        "tags": [
-          "Cluster"
-        ],
-        "operationId": "Clusters_AddNodes",
-        "description": "Add nodes to a cluster",
-        "x-ms-examples": {
-          "Add Cluster Nodes": {
-            "$ref": "./examples/AddNodes.json"
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ClusterNameParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "addNodesRequest",
-            "in": "body",
-            "description": "Add Nodes Request Payload",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddNodesRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Cluster"
-            }
-          },
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-         
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        }
-      }
     }
   },
   "definitions": {
@@ -562,39 +492,23 @@
           "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
           "x-ms-client-flatten": true
         },
-        "properties": {
-          "description": "Cluster properties.",
-          "$ref": "#/definitions/ClusterProperties",
-          "x-ms-client-flatten": true
+        "kind": {
+          "$ref": "#/definitions/ClusterKind",
+          "description": "Cluster kind to support polymorphic resource.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         }
-      }
-    },
-    "ClusterPatch": {
-      "description": "Cluster details to update.",
-      "type": "object",
-      "properties": {
-        "tags": {
-          "description": "Resource tags.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "identity": {
-          "description": "Identity of Cluster resource",
-          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "x-ms-client-flatten": true
-        },
-        "properties": {
-          "description": "Cluster properties.",
-          "$ref": "#/definitions/ClusterPatchProperties",
-          "x-ms-client-flatten": true
-        }
-      }
+      },
+      "discriminator": "kind",
+      "required": [
+        "kind"
+      ]
     },
     "ClusterProperties": {
-      "description": "Cluster properties.",
       "type": "object",
+      "description": "properties for Arc-enabled edge device with HCI OS.",
       "properties": {
         "provisioningState": {
           "description": "Provisioning state.",
@@ -662,7 +576,52 @@
             "modelAsString": true
           },
           "readOnly": true
+        }
+      }
+    },
+    "ClusterPatch": {
+      "description": "Cluster details to update.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         },
+        "identity": {
+          "description": "Identity of Cluster resource",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "description": "Cluster properties.",
+          "$ref": "#/definitions/ClusterPatchProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "HciCluster": {
+      "type": "object",
+      "description": "Cluster of nodes installed with HCI OS.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/HciClusterProperties",
+          "description": "properties for Cluster of nodes installed with HCI OS."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Cluster"
+        }
+      ],
+      "x-ms-discriminator-value": "HCI"
+    },
+    "HciClusterProperties": {
+      "description": "Cluster properties.",
+      "type": "object",
+      "properties": {
         "cloudId": {
           "description": "Unique, immutable resource id.",
           "type": "string",
@@ -744,7 +703,59 @@
           "type": "string",
           "readOnly": true
         }
-      }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClusterProperties"
+        }
+      ]
+    },
+    "AzureLinuxCluster": {
+      "type": "object",
+      "description": "Cluster of nodes installed with Azure Linux OS.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureLinuxClusterProperties",
+          "description": "properties for Cluster of nodes installed with Azure Linux OS."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Cluster"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
+    },
+    "AzureLinuxClusterProperties": {
+      "description": "Cluster properties.",
+      "type": "object",
+      "properties": {
+        "cloudId": {
+          "description": "Unique, immutable resource id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "cloudManagementEndpoint": {
+          "description": "Endpoint configured for management from the Azure portal.",
+          "type": "string"
+        },
+        "registrationTimestamp": {
+          "description": "First cluster sync timestamp.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "sshEnabled": {
+          "description": "ssh enabled.",
+          "type": "boolean",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClusterProperties"
+        }
+      ]
     },
     "ClusterPatchProperties": {
       "description": "Cluster properties.",
@@ -956,6 +967,49 @@
         }
       }
     },
+    "ClusterKind": {
+      "type": "string",
+      "description": "Cluster kind.",
+      "enum": [
+        "HCI",
+        "WindowsServer",
+        "WindowsIoT",
+        "AzureLinux",
+        "Ubuntu"
+      ],
+      "default": "HCI",
+      "x-ms-enum": {
+        "name": "ClusterKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HCI",
+            "value": "HCI",
+            "description": "Cluster of nodes installed with HCI OS."
+          },
+          {
+            "name": "WindowsServer",
+            "value": "WindowsServer",
+            "description": "Cluster of nodes installed with WindowsServer OS."
+          },
+          {
+            "name": "WindowsIoT",
+            "value": "WindowsIoT",
+            "description": "Cluster of nodes installed with WindowsIoT OS."
+          },
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "Cluster of nodes installed with AzureLinux(Mariner) OS."
+          },
+          {
+            "name": "Ubuntu",
+            "value": "Ubuntu",
+            "description": "Cluster of nodes installed with Linux Ubuntu OS."
+          }
+        ]
+      }
+    },
     "ClusterNode": {
       "description": "Cluster node details.",
       "type": "object",
@@ -1105,29 +1159,6 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SoftwareAssuranceChangeRequestProperties"
-        }
-      },
-      "additionalProperties": false
-    },
-    "AddNodesRequest": {
-      "description": "The content of the action request",
-      "type": "object",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/AddNodesProperties"
-        }
-      },
-      "additionalProperties": false
-    },
-    "AddNodesProperties": {
-      "description": "The properties of the action request",
-      "type": "object",
-      "properties": {
-        "arcNodeResourceIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       },
       "additionalProperties": false
