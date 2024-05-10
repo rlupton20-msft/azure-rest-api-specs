@@ -177,4 +177,8 @@ model OracleSubscriptionProperties {
   @doc("Intent for the update operation")
   @visibility("update")
   intent?: Intent;
+
+  @doc("Azure subscriptions to be added")
+  @visibility("update", "read")
+  azureSubscriptionIds?: string[];
 }
