@@ -7,11 +7,13 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
+@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("JitPolicySet properties")
 model JitPolicySetProperties {
   @doc("The cloud ID for the request")
@@ -29,6 +31,7 @@ model JitPolicySetProperties {
   provisioningState?: DscmProvisioningState;
 }
 
+@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Policy.")
 model Policy {
   @doc("The unique identifier for the policy (unique per cloud per service)")
@@ -61,6 +64,7 @@ model Policy {
   policyActions?: Array<PolicyAction>;
 }
 
+@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Policy condition for evaluation.")
 model PolicyCondition {
   @doc("Operator for the policy to be evaluated.")
@@ -76,6 +80,7 @@ model PolicyCondition {
   property: string;
 }
 
+@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Policy action performed after condition is met.")
 model PolicyAction {
   @doc("The type of property action.")
@@ -88,6 +93,7 @@ model PolicyAction {
   propertyValue: string;
 }
 
+@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("JitPolicySet Resource")
 model JitPolicySetResource
   is ProxyResource<JitPolicySetProperties> { // this can be TrackedResource based on resourcetype
