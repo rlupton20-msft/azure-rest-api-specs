@@ -114,7 +114,7 @@ model ApplicationGroup {
   @extension("x-ms-identifiers", [])
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 
-  @doc("The cloud identifier for the application group. Possible options are PROD, blackforest, fairfax, mooncake. Required.")
+  @doc("The cloud identifier for the application group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
   cloudId: string = "PROD";
 
   @doc("Client subscriptions. Optional.")
