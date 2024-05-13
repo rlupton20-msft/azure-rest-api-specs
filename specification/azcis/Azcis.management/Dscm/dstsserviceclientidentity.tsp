@@ -7,13 +7,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsServiceClientIdentity properties")
 model DstsServiceClientIdentityResourceProperties {
   @doc("Gets or sets the account name. This is case-insensitive. E.g. \"%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)\".")
@@ -50,7 +48,6 @@ model DstsServiceClientIdentityResourceProperties {
   provisioningState?: DscmProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("This model represents a claim provisioning in SCI.")
 model DstsClaimProvisioning {
   @doc("Gets or sets the type of identity in the target service. This is case-insensitive. E.g. \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\".")
@@ -75,7 +72,6 @@ model DstsClaimProvisioning {
   dstsInstance?: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("This model represents an IP range in SCI.")
 model RequiredIpRange {
   @doc("Gets or sets the start of IP range. E.g. \"172.1.1.1\".")
@@ -86,7 +82,6 @@ model RequiredIpRange {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsServiceClientIdentityResource Resource")
 model DstsServiceClientIdentityResource
   is ProxyResource<DstsServiceClientIdentityResourceProperties> {
@@ -100,7 +95,6 @@ model DstsServiceClientIdentityResource
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DstsServiceClientIdentity {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DstsServiceClientIdentityResource>;
