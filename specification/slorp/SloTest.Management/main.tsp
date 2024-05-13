@@ -34,7 +34,7 @@ model Slo is ExtensionResource<SloProperties> {
   @doc("The name of the employee")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("sloName")
-  @segment("Slos")
+  @segment("slos")
   @path
   name: string;
 }
