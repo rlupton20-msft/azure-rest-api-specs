@@ -42,10 +42,232 @@
       "name": "Operations"
     },
     {
-      "name": "SLOMetadatas"
+      "name": "sloMetadatas"
+    },
+    {
+      "name": "slos"
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Microsoft.AshishSLOTest/slos": {
+      "get": {
+        "operationId": "Slos_List",
+        "tags": [
+          "slos"
+        ],
+        "description": "List slo resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/sloListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.AshishSLOTest/slos/{slos}": {
+      "get": {
+        "operationId": "Slos_Get",
+        "tags": [
+          "slos"
+        ],
+        "description": "Get a slo",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "slos",
+            "in": "path",
+            "description": "The name of the SLO",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/slo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Slos_CreateOrUpdate",
+        "tags": [
+          "slos"
+        ],
+        "description": "Create a slo",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "slos",
+            "in": "path",
+            "description": "The name of the SLO",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/slo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'slo' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/slo"
+            }
+          },
+          "201": {
+            "description": "Resource 'slo' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/slo"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Slos_Update",
+        "tags": [
+          "slos"
+        ],
+        "description": "Update a slo",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "slos",
+            "in": "path",
+            "description": "The name of the SLO",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sloUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/slo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Slos_Delete",
+        "tags": [
+          "slos"
+        ],
+        "description": "Delete a slo",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "slos",
+            "in": "path",
+            "description": "The name of the SLO",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/providers/Microsoft.AshishSLOTest/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -81,9 +303,9 @@
       "get": {
         "operationId": "SloMetadatas_ListBySubscription",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "List SLOMetadata resources by subscription ID",
+        "description": "List sloMetadata resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -96,7 +318,41 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SLOMetadataListResult"
+              "$ref": "#/definitions/sloMetadataListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AshishSLOTest/slos": {
+      "get": {
+        "operationId": "Slos_ListBySubscription",
+        "tags": [
+          "slos"
+        ],
+        "description": "List slo resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/sloListResult"
             }
           },
           "default": {
@@ -115,9 +371,9 @@
       "get": {
         "operationId": "SloMetadatas_ListByResourceGroup",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "List SLOMetadata resources by resource group",
+        "description": "List sloMetadata resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -133,7 +389,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SLOMetadataListResult"
+              "$ref": "#/definitions/sloMetadataListResult"
             }
           },
           "default": {
@@ -152,9 +408,9 @@
       "get": {
         "operationId": "SloMetadatas_Get",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "Get a SLOMetadata",
+        "description": "Get a sloMetadata",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -168,7 +424,7 @@
           {
             "name": "sloMetadataName",
             "in": "path",
-            "description": "The name of the employee",
+            "description": "The name of the SLO",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -178,7 +434,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SLOMetadata"
+              "$ref": "#/definitions/sloMetadata"
             }
           },
           "default": {
@@ -192,9 +448,9 @@
       "put": {
         "operationId": "SloMetadatas_CreateOrUpdate",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "Create a SLOMetadata",
+        "description": "Create a sloMetadata",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -208,7 +464,7 @@
           {
             "name": "sloMetadataName",
             "in": "path",
-            "description": "The name of the employee",
+            "description": "The name of the SLO",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -219,21 +475,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SLOMetadata"
+              "$ref": "#/definitions/sloMetadata"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'SLOMetadata' update operation succeeded",
+            "description": "Resource 'sloMetadata' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/SLOMetadata"
+              "$ref": "#/definitions/sloMetadata"
             }
           },
           "201": {
-            "description": "Resource 'SLOMetadata' create operation succeeded",
+            "description": "Resource 'sloMetadata' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/SLOMetadata"
+              "$ref": "#/definitions/sloMetadata"
             },
             "headers": {
               "Retry-After": {
@@ -258,9 +514,9 @@
       "patch": {
         "operationId": "SloMetadatas_Update",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "Update a SLOMetadata",
+        "description": "Update a sloMetadata",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -274,7 +530,7 @@
           {
             "name": "sloMetadataName",
             "in": "path",
-            "description": "The name of the employee",
+            "description": "The name of the SLO",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -285,7 +541,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SLOMetadataUpdate"
+              "$ref": "#/definitions/sloMetadataUpdate"
             }
           }
         ],
@@ -293,7 +549,7 @@
           "200": {
             "description": "ARM operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/SLOMetadata"
+              "$ref": "#/definitions/sloMetadata"
             }
           },
           "default": {
@@ -307,9 +563,9 @@
       "delete": {
         "operationId": "SloMetadatas_Delete",
         "tags": [
-          "SLOMetadatas"
+          "sloMetadatas"
         ],
-        "description": "Delete a SLOMetadata",
+        "description": "Delete a sloMetadata",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -323,7 +579,7 @@
           {
             "name": "sloMetadataName",
             "in": "path",
-            "description": "The name of the employee",
+            "description": "The name of the SLO",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -401,7 +657,59 @@
         ]
       }
     },
-    "SLOMetadata": {
+    "SLOMetadataProperties": {
+      "type": "object",
+      "description": "Details of the AshishSLOTest SLOMetadata.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "slo": {
+      "type": "object",
+      "description": "A AshishSLOTestProviderHub resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SLOMetadataProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "sloListResult": {
+      "type": "object",
+      "description": "The response of a slo list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The slo items on this page",
+          "items": {
+            "$ref": "#/definitions/slo"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "sloMetadata": {
       "type": "object",
       "description": "A AshishSLOTestProviderHub resource",
       "properties": {
@@ -421,15 +729,15 @@
         }
       ]
     },
-    "SLOMetadataListResult": {
+    "sloMetadataListResult": {
       "type": "object",
-      "description": "The response of a SLOMetadata list operation.",
+      "description": "The response of a sloMetadata list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The SLOMetadata items on this page",
+          "description": "The sloMetadata items on this page",
           "items": {
-            "$ref": "#/definitions/SLOMetadata"
+            "$ref": "#/definitions/sloMetadata"
           }
         },
         "nextLink": {
@@ -442,20 +750,9 @@
         "value"
       ]
     },
-    "SLOMetadataProperties": {
+    "sloMetadataUpdate": {
       "type": "object",
-      "description": "Details of the AshishSLOTest SLOMetadata.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        }
-      }
-    },
-    "SLOMetadataUpdate": {
-      "type": "object",
-      "description": "The type used for update operations of the SLOMetadata.",
+      "description": "The type used for update operations of the sloMetadata.",
       "properties": {
         "tags": {
           "type": "object",
@@ -465,7 +762,21 @@
           }
         }
       }
+    },
+    "sloUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the slo."
     }
   },
-  "parameters": {}
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
 }
