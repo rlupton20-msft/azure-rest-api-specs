@@ -7,13 +7,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dsmsAllowlist properties")
 model DsmsAllowlistResourceProperties {
   @doc("The name of the folder to apply allowlist changes to. This should be the full folder path starting with a '$', with '$' replacing all '/' characters. Example: '/my-folder/root-folder' should be passed as '$my-folder$root-folder")
@@ -36,7 +34,6 @@ model DsmsAllowlistResourceProperties {
   provisioningState?: DscmProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dsmsAllowlist Resource")
 model DsmsAllowlistResource
   is ProxyResource<DsmsAllowlistResourceProperties> { // this can be TrackedResource based on resourcetype
@@ -50,7 +47,6 @@ model DsmsAllowlistResource
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DsmsAllowlist {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DsmsAllowlistResource>;
