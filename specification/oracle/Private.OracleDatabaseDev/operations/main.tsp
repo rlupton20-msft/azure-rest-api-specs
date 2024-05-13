@@ -13,3 +13,4 @@ import "./autonomousDatabaseBackupOperations.tsp";
 import "./autonomousDatabaseCharacterSetOperations.tsp";
 import "./autonomousDatabaseNationalCharacterSetOperations.tsp";
 import "./autonomousDatabaseVersionOperations.tsp";
+import "./oracleCloudAccountOperations.tsp";
