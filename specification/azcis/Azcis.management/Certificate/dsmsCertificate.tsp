@@ -37,14 +37,22 @@ model Replicate {
   regions: string;
 }
 
+@doc("Certificate Type")
 union CertificateType {
+  @doc("Chained type")
   Chained: "Chained",
+
+  @doc("SelfSigned type")
   SelfSigned: "SelfSigned",
   string,
 }
 
+@doc("Ca Type")
 union CaType {
+  @doc("SSLAdmin type")
   SSLAdmin: "SSLAdmin",
+
+  @doc("AME type")
   AME: "AME",
   string,
 }
