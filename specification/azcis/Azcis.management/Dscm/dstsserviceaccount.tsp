@@ -7,13 +7,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsServiceAccount properties")
 model DstsServiceAccountResourceProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property " id " found in the resource envelope and resource properties."
@@ -55,7 +53,6 @@ model DstsServiceAccountResourceProperties {
   provisioningState?: DscmProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsServiceAccount Resource")
 model DstsServiceAccountResource
   is ProxyResource<DstsServiceAccountResourceProperties> { // this can be TrackedResource based on resourcetype
@@ -69,7 +66,6 @@ model DstsServiceAccountResource
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DstsServiceAccount {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DstsServiceAccountResource>;
@@ -78,14 +74,12 @@ interface DstsServiceAccount {
   get is ArmResourceRead<DstsServiceAccountResource>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Authenticaiton requirement of the account.")
 model DstsAuthenticationRequirement {
   @doc("Authentication requirement value. E.g. \"PTH\".")
   value: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Realm information of the account.")
 model DstsRealm {
   @doc("Realm's name. This is case-insensitive. E.g. \"svc://crpadmin@%(ArmRegionName).acs.%($CS.ComputeDnsSuffix)/\".")
@@ -95,7 +89,6 @@ model DstsRealm {
   redirectionUrl?: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Claim mapping for authorization of the account.")
 model DstsClaimMapping {
   @doc("Type of input identity. This is case-insensitive. E.g. \"http://sts.msft.net/user/Group\".")
