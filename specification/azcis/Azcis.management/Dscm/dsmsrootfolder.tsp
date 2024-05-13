@@ -6,13 +6,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dsmsRootFolder properties")
 model DsmsRootFolderResourceProperties {
   @doc("The name of the root folder to add. This should be the full folder path starting with a \"$\", with \"$\" replacing all \"/\" characters")
@@ -26,7 +24,6 @@ model DsmsRootFolderResourceProperties {
   provisioningState?: DscmProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dsmsRootFolder Resource")
 model DsmsRootFolderResource
   is ProxyResource<DsmsRootFolderResourceProperties> { // this can be TrackedResource based on resourcetype
@@ -40,7 +37,6 @@ model DsmsRootFolderResource
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DsmsRootFolder {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DsmsRootFolderResource>;
