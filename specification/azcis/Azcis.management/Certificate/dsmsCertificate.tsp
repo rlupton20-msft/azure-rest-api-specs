@@ -44,6 +44,7 @@ union CertificateType {
 
   @doc("SelfSigned type")
   SelfSigned: "SelfSigned",
+
   string,
 }
 
@@ -54,6 +55,7 @@ union CaType {
 
   @doc("AME type")
   AME: "AME",
+
   string,
 }
 
