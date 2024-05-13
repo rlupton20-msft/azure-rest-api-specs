@@ -9,6 +9,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace("Microsoft.Agriculture")
 @service({
@@ -41,8 +42,16 @@ model AgriDataManagerResource is TrackedResource<AgriDataManagerResourceProperti
   @path
   name: string;
 
+  @doc("System data pertaining to the resource")
+  @visibility("read")
+  systemData: AgriDataManagerResourceSystemData;
   ...ManagedServiceIdentity;
-  ...ResourceSku;
+  ...TagsUpdateModel<AgriDataManagerResource>;
+}
+
+@doc("System metadata pertaining to the Agri data manager resource.")
+model AgriDataManagerResourceSystemData {
+	...SystemData;
 }
 
 @doc("The status of the current operation.")
@@ -76,31 +85,6 @@ model AgriDataManagerResourceProperties {
   @doc("Uri of the Data Manager For Agriculture instance.")
   @visibility("read")
   instanceUri: string;
-
-  @doc("Metadata pertaining to creation and last modification of the resource.")
-  @visibility("read")
-  systemData: SystemData;
-}
-
-@doc("Metadata pertaining to creation and last modification of the resource.")
-model SystemData {
-  @doc("Persona which created the resource.")
-  createdBy: string;
-
-  @doc("Type of persona which created the resource.")
-  createdByType: string;
-  
-  @doc("Date time which resource was created.")
-  createdAt: utcDateTime;
-
-  @doc("Persona who last modified the resource.")
-  lastModifiedBy: string;
-
-  @doc("Type of personal who last modified the resource.")
-  lastModifiedByType: string;
-
-  @doc("Date time at which the resource was last modified.")
-  lastModifiedAt: utcDateTime;
 }
 
 @armResourceOperations(AgriDataManagerResource)

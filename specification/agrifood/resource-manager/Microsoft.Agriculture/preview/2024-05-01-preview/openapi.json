@@ -393,15 +393,26 @@
             "create"
           ]
         },
+        "systemData": {
+          "$ref": "#/definitions/AgriDataManagerResourceSystemData",
+          "description": "System data pertaining to the resource",
+          "readOnly": true
+        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
+      "required": [
+        "systemData"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -451,17 +462,49 @@
           "type": "string",
           "description": "Uri of the Data Manager For Agriculture instance.",
           "readOnly": true
-        },
-        "systemData": {
-          "$ref": "#/definitions/SystemData",
-          "description": "Metadata pertaining to creation and last modification of the resource.",
-          "readOnly": true
         }
       },
       "required": [
-        "instanceUri",
-        "systemData"
+        "instanceUri"
       ]
+    },
+    "AgriDataManagerResourceSystemData": {
+      "type": "object",
+      "description": "System metadata pertaining to the Agri data manager resource.",
+      "properties": {
+        "createdBy": {
+          "type": "string",
+          "description": "The identity that created the resource.",
+          "readOnly": true
+        },
+        "createdByType": {
+          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
+          "description": "The type of identity that created the resource.",
+          "readOnly": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "description": "The type of identity that created the resource.",
+          "readOnly": true
+        },
+        "lastModifiedBy": {
+          "type": "string",
+          "description": "The identity that last modified the resource.",
+          "readOnly": true
+        },
+        "lastModifiedByType": {
+          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
+          "description": "The type of identity that last modified the resource.",
+          "readOnly": true
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "The timestamp of resource last modification (UTC)",
+          "readOnly": true
+        }
+      }
     },
     "AgriDataManagerResourceUpdate": {
       "type": "object",
@@ -470,10 +513,6 @@
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
-        },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         },
         "tags": {
           "type": "object",
@@ -501,6 +540,42 @@
             "create"
           ]
         }
+      }
+    },
+    "Azure.ResourceManager.Foundations.createdByType": {
+      "type": "string",
+      "description": "The kind of entity that created the resource.",
+      "enum": [
+        "User",
+        "Application",
+        "ManagedIdentity",
+        "Key"
+      ],
+      "x-ms-enum": {
+        "name": "createdByType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "User",
+            "value": "User",
+            "description": "The entity was created by a user."
+          },
+          {
+            "name": "Application",
+            "value": "Application",
+            "description": "The entity was created by an application."
+          },
+          {
+            "name": "ManagedIdentity",
+            "value": "ManagedIdentity",
+            "description": "The entity was created by a managed identity."
+          },
+          {
+            "name": "Key",
+            "value": "Key",
+            "description": "The entity was created by a key."
+          }
+        ]
       }
     },
     "ProvisioningState": {
@@ -556,46 +631,6 @@
           }
         ]
       }
-    },
-    "SystemData": {
-      "type": "object",
-      "description": "Metadata pertaining to creation and last modification of the resource.",
-      "properties": {
-        "createdBy": {
-          "type": "string",
-          "description": "Persona which created the resource."
-        },
-        "createdByType": {
-          "type": "string",
-          "description": "Type of persona which created the resource."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Date time which resource was created."
-        },
-        "lastModifiedBy": {
-          "type": "string",
-          "description": "Persona who last modified the resource."
-        },
-        "lastModifiedByType": {
-          "type": "string",
-          "description": "Type of personal who last modified the resource."
-        },
-        "lastModifiedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Date time at which the resource was last modified."
-        }
-      },
-      "required": [
-        "createdBy",
-        "createdByType",
-        "createdAt",
-        "lastModifiedBy",
-        "lastModifiedByType",
-        "lastModifiedAt"
-      ]
     },
     "Versions": {
       "type": "string",
