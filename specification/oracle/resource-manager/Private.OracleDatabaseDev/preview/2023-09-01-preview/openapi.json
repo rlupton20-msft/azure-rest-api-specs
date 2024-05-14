@@ -870,12 +870,12 @@
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/systemVersions": {
-      "post": {
+      "get": {
         "operationId": "SystemVersions_ListByFilter",
         "tags": [
           "SystemVersions"
         ],
-        "description": "List Exadata System Versions by the provided filter",
+        "description": "List Exadata System Versions",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -887,13 +887,28 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
           },
           {
-            "name": "body",
-            "in": "body",
-            "description": "Body of read begin list",
+            "name": "giVersion",
+            "in": "query",
+            "description": "Grid Infrastructure version to filter by.",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/SystemVersionsFilter"
-            }
+            "minLength": 1,
+            "maxLength": 30,
+            "type": "string"
+          },
+          {
+            "name": "shape",
+            "in": "query",
+            "description": "Exadata shape to filter by.",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          {
+            "name": "latestVersionFilter",
+            "in": "query",
+            "description": "Flag to filter by latest version only (optional).",
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -9399,28 +9414,6 @@
       },
       "required": [
         "systemVersion"
-      ]
-    },
-    "SystemVersionsFilter": {
-      "type": "object",
-      "description": "SystemVersions filter",
-      "properties": {
-        "giVersion": {
-          "type": "string",
-          "description": "Grid Infrastructure version"
-        },
-        "shape": {
-          "type": "string",
-          "description": "Exadata shape"
-        },
-        "latestVersionFilter": {
-          "type": "boolean",
-          "description": "Filter list to display only latest versions"
-        }
-      },
-      "required": [
-        "giVersion",
-        "shape"
       ]
     },
     "TlsAuthenticationType": {
