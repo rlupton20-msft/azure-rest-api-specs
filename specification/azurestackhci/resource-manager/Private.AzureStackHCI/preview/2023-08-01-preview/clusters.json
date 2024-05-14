@@ -538,6 +538,11 @@
           },
           "readOnly": true
         },
+        "cloudId": {
+          "description": "Unique, immutable resource id.",
+          "type": "string",
+          "readOnly": true
+        },
         "status": {
           "description": "Status of the cluster agent.",
           "type": "string",
@@ -560,6 +565,13 @@
             "modelAsString": true
           },
           "readOnly": true
+        },
+        "k8sClusterList": {
+          "description": "List of Kubernetes clusters.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "connectivityStatus": {
           "description": "Overall connectivity status for the cluster resource.",
@@ -616,16 +628,98 @@
           "$ref": "#/definitions/Cluster"
         }
       ],
-      "x-ms-discriminator-value": "HCI"
+      "x-ms-discriminator-value": "Solution1"
+    },
+    "HciClusterAllowedDeviceKind": {
+      "type": "string",
+      "description": "Edge device kind.",
+      "enum": [
+        "HCI"
+      ],
+      "default": "HCI",
+      "x-ms-enum": {
+        "name": "DeviceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HCI",
+            "value": "HCI",
+            "description": "Arc-enabled edge device with HCI OS."
+          }       
+        ]
+      }
+    },
+    "MixedClusterAllowedDeviceKind": {
+      "type": "string",
+      "description": "Edge device kind.",
+      "enum": [
+        "HCI",
+        "WindowsServer",
+        "WindowsIoT",
+        "AzureLinux",
+        "UbuntuLinux"
+      ],
+      "default": "HCI",
+      "x-ms-enum": {
+        "name": "DeviceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HCI",
+            "value": "HCI",
+            "description": "Arc-enabled edge device with HCI OS."
+          },
+          {
+            "name": "WindowsServer",
+            "value": "WindowsServer",
+            "description": "Arc-enabled edge device with WindowsServer OS."
+          },
+          {
+            "name": "WindowsIoT",
+            "value": "WindowsIoT",
+            "description": "Arc-enabled edge device with WindowsIoT OS."
+          },
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "Arc-enabled edge device with AzureLinux OS."
+          },
+          {
+            "name": "UbuntuLinux",
+            "value": "UbuntuLinux",
+            "description": "Arc-enabled edge device with UbuntuLinux OS."
+          }          
+        ]
+      }
+    },
+    "AzureLinuxClusterAllowedDeviceKind": {
+      "type": "string",
+      "description": "Edge device kind.",
+      "enum": [
+        "AzureLinux"
+      ],
+      "x-ms-enum": {
+        "name": "DeviceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "Arc-enabled edge device with AzureLinux OS."
+          }      
+        ]
+      }
     },
     "HciClusterProperties": {
       "description": "Cluster properties.",
       "type": "object",
       "properties": {
-        "cloudId": {
-          "description": "Unique, immutable resource id.",
-          "type": "string",
-          "readOnly": true
+        "allowedNodeCategories": {
+          "description": "Allowed device categories for the cluster.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HciClusterAllowedDeviceKind"
+          }
         },
         "cloudManagementEndpoint": {
           "description": "Endpoint configured for management from the Azure portal.",
@@ -724,20 +818,22 @@
           "$ref": "#/definitions/Cluster"
         }
       ],
-      "x-ms-discriminator-value": "AzureLinux"
+      "x-ms-discriminator-value": "Solution2"
     },
     "AzureLinuxClusterProperties": {
       "description": "Cluster properties.",
       "type": "object",
       "properties": {
-        "cloudId": {
-          "description": "Unique, immutable resource id.",
-          "type": "string",
-          "readOnly": true
-        },
         "cloudManagementEndpoint": {
           "description": "Endpoint configured for management from the Azure portal.",
           "type": "string"
+        },
+        "allowedNodeCategories": {
+          "description": "Allowed device categories for the cluster.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AzureLinuxClusterAllowedDeviceKind"
+          }
         },
         "registrationTimestamp": {
           "description": "First cluster sync timestamp.",
@@ -971,41 +1067,29 @@
       "type": "string",
       "description": "Cluster kind.",
       "enum": [
-        "HCI",
-        "WindowsServer",
-        "WindowsIoT",
-        "AzureLinux",
-        "Ubuntu"
+        "Solution1",
+        "Solution2",
+        "Solution3"
       ],
-      "default": "HCI",
+      "default": "Solution1",
       "x-ms-enum": {
         "name": "ClusterKind",
         "modelAsString": true,
         "values": [
           {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Cluster of nodes installed with HCI OS."
+            "name": "Solution1",
+            "value": "Solution1",
+            "description": "Cluster Solution1."
           },
           {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Cluster of nodes installed with WindowsServer OS."
+            "name": "Solution2",
+            "value": "Solution2",
+            "description": "Cluster Solution2."
           },
           {
-            "name": "WindowsIoT",
-            "value": "WindowsIoT",
-            "description": "Cluster of nodes installed with WindowsIoT OS."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Cluster of nodes installed with AzureLinux(Mariner) OS."
-          },
-          {
-            "name": "Ubuntu",
-            "value": "Ubuntu",
-            "description": "Cluster of nodes installed with Linux Ubuntu OS."
+            "name": "Solution3",
+            "value": "Solution3",
+            "description": "Cluster Solution3."
           }
         ]
       }
