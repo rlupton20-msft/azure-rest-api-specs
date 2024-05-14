@@ -39,21 +39,21 @@ model Replicate {
 
 @doc("Certificate Type")
 union CertificateType {
-  @doc("Chained type")
+  @doc("Chained certificate")
   Chained: "Chained",
 
-  @doc("SelfSigned type")
+  @doc("Self-signed certificate")
   SelfSigned: "SelfSigned",
 
   string,
 }
 
-@doc("Ca Type")
+@doc("CA type")
 union CaType {
-  @doc("SSLAdmin type")
+  @doc("SSLAdmin CA")
   SSLAdmin: "SSLAdmin",
 
-  @doc("AME type")
+  @doc("AME CA")
   AME: "AME",
 
   string,
