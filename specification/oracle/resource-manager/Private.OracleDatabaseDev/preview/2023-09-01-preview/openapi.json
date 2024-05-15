@@ -88,6 +88,9 @@
     },
     {
       "name": "AutonomousDatabaseVersions"
+    },
+    {
+      "name": "OracleCloudAccount"
     }
   ],
   "paths": {
@@ -507,6 +510,90 @@
         "x-ms-examples": {
           "Get an autonomous version": {
             "$ref": "./examples/autonomousDatabaseVersion_get.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName": {
+      "get": {
+        "operationId": "OracleCloudAccount_ListByLocation",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "List OracleCloudAccountDetails resources by Location",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetailsListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName/{cloudAccountName}": {
+      "get": {
+        "operationId": "OracleCloudAccount_Get",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "Get a OracleCloudAccountDetails",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "cloudAccountName",
+            "in": "path",
+            "description": "CloudAccountName",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetails"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get oracle subscription details of azure subscription": {
+            "$ref": "./examples/OracleCloudAccount_get.json"
           }
         }
       }
@@ -8532,6 +8619,69 @@
         ]
       }
     },
+    "OracleCloudAccountDetails": {
+      "type": "object",
+      "description": "CloudAccount resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/OracleCloudAccountProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "OracleCloudAccountDetailsListResult": {
+      "type": "object",
+      "description": "The response of a OracleCloudAccountDetails list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The OracleCloudAccountDetails items on this page",
+          "items": {
+            "$ref": "#/definitions/OracleCloudAccountDetails"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "OracleCloudAccountProperties": {
+      "type": "object",
+      "description": "CloudAccount resource model",
+      "properties": {
+        "cloudAccountName": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "minLength": 1,
+          "maxLength": 255,
+          "readOnly": true
+        },
+        "cloudAccountHomeRegion": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "cloudAccountName",
+        "cloudAccountHomeRegion"
+      ]
+    },
     "OracleSubscription": {
       "type": "object",
       "description": "OracleSubscription resource definition",
@@ -9536,24 +9686,6 @@
         ]
       },
       "readOnly": true
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Versions for API",
-      "enum": [
-        "2023-09-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v20230901",
-            "value": "2023-09-01-preview",
-            "description": "2023-09-01-preview"
-          }
-        ]
-      }
     },
     "VirtualNetworkAddress": {
       "type": "object",
