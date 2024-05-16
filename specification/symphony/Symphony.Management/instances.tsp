@@ -7,23 +7,22 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of an Instance resource.")
 model InstanceProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("The service entity.")
+@doc("An Instance resource.")
 model Instance is TrackedResource<InstanceProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("Name of Instance.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("instanceName")
   @segment("instances")
@@ -38,16 +37,16 @@ model Instance is TrackedResource<InstanceProperties> {
 
 @armResourceOperations
 interface Instances {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified Instance resource.")
   get is ArmResourceRead<Instance>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing Instance resource.")
   createOrUpdate is ArmResourceCreateOrReplaceSync<Instance>;
-  @doc("Updates existing service.")
+  @doc("Updates existing Instance resource.")
   update is ArmCustomPatchSync<Instance>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified Instance resource.")
   delete is ArmResourceDeleteSync<Instance>;
-  @doc("Returns a collection of services within the resource group.")
+  @doc("Returns a collection of Instances resources within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Instance>;
-  @doc("Lists services within an Azure subscription.")
+  @doc("Lists Instances resources within an Azure subscription.")
   listBySubscription is ArmListBySubscription<Instance>;
 }
