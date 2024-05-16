@@ -7,41 +7,44 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the InstanceVersion.")
+@doc("The properties of an InstanceVersion resource.")
 model InstanceVersionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The metadata of the InstanceVersion.")
+  @doc("The metadata information of the InstanceVersion resource.")
   metadata?: Record<string>;
 
-  @doc("The display name of the InstanceVersion.")
+  @doc("The display name of the InstanceVersion resource.")
   displayName?: string;
 
-  @doc("The scope of the InstanceVersion.")
+  @doc("The scope of the InstanceVersion resource.")
   scope?: string;
 
-  @doc("The solution version.")
+  @doc("The SolutionVersion resource of the InstanceVersion resource.")
   solution: string;
 
-  @doc("The target of the InstanceVersion.")
+  @doc("Defines the Target the InstanceVersion resource will deploy to.")
   target?: TargetSelectorProperties;
 
-  @doc("The reconciliationPolicy of the InstanceVersion.")
+  @doc("The reconciliationPolicy of the InstanceVersion resource.")
   reconciliationPolicy?: ReconciliationPolicyProperties;
+
+  @doc("The status of the InstanceVersion.")
+  @visibility("read")
+  status?: InstanceStatusProperties;
 }
 
-@doc("The service entity.")
+@doc("An InstanceVersion resource belonging to an Instance resource.")
 @resource("versions")
 @parentResource(Instance)
 model InstanceVersion is TrackedResource<InstanceVersionProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("Name of InstanceVersion resource.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
@@ -59,14 +62,14 @@ model InstanceVersion is TrackedResource<InstanceVersionProperties> {
 
 @armResourceOperations
 interface InstanceVersions {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified InstanceVersion resource.")
   get is Azure.ResourceManager.ArmResourceRead<InstanceVersion>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing InstanceVersion resource.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<InstanceVersion>;
-  @doc("Updates existing service.")
+  @doc("Updates existing InstanceVersion resource.")
   update is ArmCustomPatchAsync<InstanceVersion>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified InstanceVersion resource.")
   delete is ArmResourceDeleteWithoutOkAsync<InstanceVersion>;
-
-  listByParent is ArmResourceListByParent<InstanceVersion>;
+  @doc("Returns a collection of InstanceVersion resources belonging to an Instance resource.")
+  listByInstance is ArmResourceListByParent<InstanceVersion>;
 }

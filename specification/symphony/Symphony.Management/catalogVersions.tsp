@@ -7,13 +7,12 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
 @doc("The properties of the CatalogVersion.")
 model CatalogVersionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The provisioning state of the CatalogVersion.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
@@ -26,7 +25,7 @@ model CatalogVersionProperties {
   @doc("The metadata of the CatalogVersion.")
   metadata?: Record<string>;
 
-  @doc("The parent catalog version")
+  @doc("The name of parent CatalogVersion")
   parentName?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
@@ -38,7 +37,7 @@ model CatalogVersionProperties {
   status?: CatalogStatusProperties;
 }
 
-@doc("The service entity.")
+@doc("The CatalogVersion entity.")
 @resource("versions")
 @parentResource(Catalog)
 model CatalogVersion is TrackedResource<CatalogVersionProperties> {
@@ -53,21 +52,21 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
 
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Edge location of the resource.")
+  @doc("Edge location of the CatalogVersion.")
   @visibility("read", "create")
   extendedLocation: ExtendedLocation;
 }
 
 @armResourceOperations
 interface CatalogVersions {
-  @doc("Returns details of the service.")
+  @doc("Returns the details of the CatalogVersion.")
   get is Azure.ResourceManager.ArmResourceRead<CatalogVersion>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates a CatalogVersion.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<CatalogVersion>;
-  @doc("Updates existing service.")
+  @doc("Updates the existing CatalogVersion.")
   update is ArmCustomPatchSync<CatalogVersion>;
-  @doc("Deletes specified service.")
+  @doc("Deletes the specified CatalogVersion.")
   delete is ArmResourceDeleteSync<CatalogVersion>;
-
-  listByParent is ArmResourceListByParent<CatalogVersion>;
+  @doc("Lists CatalogVersions within a Catalog.")
+  listByCatalog is ArmResourceListByParent<CatalogVersion>;
 }

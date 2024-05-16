@@ -7,18 +7,17 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("Defining the TargetVersion.")
+@doc("The properties of a TargetVersion resource.")
 model TargetVersionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The metadata of the TargetVersion.")
+  @doc("The metadata information of the TargetVersion.")
   metadata?: Record<string>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
@@ -35,11 +34,11 @@ model TargetVersionProperties {
   @doc("The scope of the TargetVersion.")
   scope?: string;
 
-  @doc("A list of topologies")
+  @doc("Defines the device topology for a target or instance.")
   @OpenAPI.extension("x-ms-identifiers", [])
   topologies?: TopologyProperties[];
 
-  @doc("A list of components")
+  @doc("A list of components.")
   @OpenAPI.extension("x-ms-identifiers", [])
   components?: ComponentProperties[];
 
@@ -47,7 +46,7 @@ model TargetVersionProperties {
   reconciliationPolicy?: ReconciliationPolicyProperties;
 }
 
-@doc("The service entity.")
+@doc("A TargetVersion resource belonging to a Target resource.")
 @resource("versions")
 @parentResource(Target)
 model TargetVersion is TrackedResource<TargetVersionProperties> {
@@ -69,14 +68,14 @@ model TargetVersion is TrackedResource<TargetVersionProperties> {
 
 @armResourceOperations
 interface TargetVersions {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified TargetVersion resource.")
   get is Azure.ResourceManager.ArmResourceRead<TargetVersion>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing TargetVersion resource.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<TargetVersion>;
-  @doc("Updates existing service.")
+  @doc("Updates existing TargetVersion resource.")
   update is ArmCustomPatchAsync<TargetVersion>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified TargetVersion resource.")
   delete is ArmResourceDeleteWithoutOkAsync<TargetVersion>;
-
-  listByParent is ArmResourceListByParent<TargetVersion>;
+  @doc("Returns a collection of TargetVersion resources belonging to a Target resource.")
+  listByTarget is ArmResourceListByParent<TargetVersion>;
 }

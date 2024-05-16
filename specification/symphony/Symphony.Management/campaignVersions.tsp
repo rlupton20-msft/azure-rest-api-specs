@@ -7,20 +7,19 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
 @doc("Defining the CampaignVersion.")
 model CampaignVersionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("Provisioning state of the campaignVersion.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("The firstStage of the CampaignVersion.")
+  @doc("The initial stage of the CampaignVersion.")
   firstStage?: string;
 
-  @doc("The selfDriving of the CampaignVersion.")
+  @doc("Whether campaign is self driving or not. That is whether a stage should trigger the next stage when it finishes.")
   selfDriving?: boolean;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
@@ -28,11 +27,11 @@ model CampaignVersionProperties {
   stages?: Record<StageProperties>;
 }
 
-@doc("The service entity.")
+@doc("The campaignVersion entity. A nested resource of Campaign entity")
 @resource("versions")
 @parentResource(Campaign)
 model CampaignVersion is TrackedResource<CampaignVersionProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("The name of the campaignVersion.")
   @maxLength(90)
   @minLength(1)
   @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
@@ -50,14 +49,14 @@ model CampaignVersion is TrackedResource<CampaignVersionProperties> {
 
 @armResourceOperations
 interface CampaignVersions {
-  @doc("Returns details of the service.")
+  @doc("Returns the details of the campaignVersion.")
   get is Azure.ResourceManager.ArmResourceRead<CampaignVersion>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates a new or updates an existing campaignVersion.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<CampaignVersion>;
-  @doc("Updates existing service.")
+  @doc("Updates an existing campaignVersion.")
   update is ArmCustomPatchSync<CampaignVersion>;
-  @doc("Deletes specified service.")
+  @doc("Deletes a specified campaignVersion.")
   delete is ArmResourceDeleteSync<CampaignVersion>;
-
-  listByParent is ArmResourceListByParent<CampaignVersion>;
+  @doc("Lists CampaignVersions within a Campaign.")
+  listByCampaign is ArmResourceListByParent<CampaignVersion>;
 }

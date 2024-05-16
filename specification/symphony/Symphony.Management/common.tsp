@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-core";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
@@ -27,38 +26,37 @@ union ProvisioningState {
   Azure.ResourceManager.ResourceProvisioningState,
 }
 
-@doc("Defines a desired runtime component")
+@doc("Defines a desired runtime component.")
 model ComponentProperties {
-  @doc("Array of field values.")
+  @doc("Name of the component.")
   name: string;
 
-  @doc("Metadata of Component")
+  @doc("Metadata information of the component.")
   metadata?: Record<string>;
 
-  @doc("Properties of Component")
+  @doc("Properties of the component.")
   properties?: Record<unknown>;
 
-  @doc("Constraints of Component")
+  @doc("Constraints of the component.")
   constraints?: string;
 
-  @doc("Dependencies of Component")
+  @doc("Dependencies of the component.")
   @OpenAPI.extension("x-ms-identifiers", [])
   dependencies?: Array<string>;
 
-  @doc("Type of Component")
+  @doc("Component type.")
   type: string;
 }
 
-@doc("Defines a desired runtime binding")
+@doc("Defines a binding for a provider.")
 model BindingProperties {
-  @doc("The provider of the Binding.")
+  @doc("Name of the provider.")
   provider: string;
 
-  @doc("The config of the Binding.")
-  //@extension("x-ms-identifiers", [])
+  @doc("Configuration values for the binding.")
   config?: Record<string>;
 
-  @doc("The role of the Binding.")
+  @doc("Role that the provider binds to with the component.")
   role: string;
 }
 
@@ -69,7 +67,7 @@ model TopologyProperties {
   bindings?: Array<BindingProperties>;
 }
 
-@doc("Defines the ReconciliationPolicy")
+@doc("Defines a state of the reconciliation policy.")
 union ReconciliationState {
   string,
 
@@ -85,30 +83,18 @@ model ReconciliationPolicyProperties {
   @doc("The state of the ReconciliationPolicy")
   state: ReconciliationState;
 
-  @doc("The interval of the ReconciliationPolicy")
+  @doc("Policy interval.")
   interval: string;
 }
 
-@doc("Defines a InstanceTarget")
+@doc("Properties of the reference target.")
 model TargetSelectorProperties {
-  @doc("The name of the InstanceTarget")
+  @doc("Name of the TargetVersion resource.")
   name?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The selector of the InstanceTarget")
+  @doc("The selector of the TargetVersion resource.")
   selector?: Record<string>;
-}
-
-@doc("Defines a Schedule")
-model ScheduleProperties {
-  @doc("The date of the Schedule")
-  date: string;
-
-  @doc("The time of the Schedule")
-  time: string;
-
-  @doc("The zone of the Schedule")
-  zone: string;
 }
 
 @doc("Defines a Stage")
@@ -132,17 +118,17 @@ model StageProperties {
   stageSelector?: string;
 
   @doc("The schedule of the Stage")
-  schedule?: ScheduleProperties;
+  schedule?: utcDateTime;
 }
 
 @doc("Defines a ActivationStatus")
 model ActivationStatusProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The inputs of the ActivationStatus")
+  @doc("The inputs of the ActivationStatus, Inputs holds a key-value map of user-defined parameters for the initial stage")
   inputs?: Record<unknown>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The outputs of the ActivationStatus")
+  @doc("The outputs of the ActivationStatus, it is different as the different input stages.")
   outputs?: Record<unknown>;
 
   @doc("The stage of the ActivationStatus")
@@ -163,8 +149,11 @@ model ActivationStatusProperties {
   @doc("The updateTime of the ActivationStatus")
   updateTime?: string;
 
-  @doc("The status of the ActivationStatus")
+  @doc("The status code of the ActivationStatus")
   status?: int32;
+
+  @doc("The status message of the ActivationStatus")
+  statusMessage?: string;
 }
 
 @doc("Defines a CatalogStatus")
@@ -172,4 +161,14 @@ model CatalogStatusProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
   @doc("The properties of the CatalogStatus")
   properties: Record<string>;
+}
+
+@doc("Defines an InstanceStatus")
+model InstanceStatusProperties {
+  @doc("The lastModified of the InstanceStatus")
+  lastModified: utcDateTime;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The state properties of the InstanceStatus")
+  properties?: Record<string>;
 }
