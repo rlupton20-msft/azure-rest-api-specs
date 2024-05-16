@@ -24,7 +24,7 @@ model Solution is TrackedResource<SolutionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("solutionName")
   @segment("solutions")

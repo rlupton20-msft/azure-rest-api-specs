@@ -45,7 +45,7 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("versionName")
   @segment("versions")
