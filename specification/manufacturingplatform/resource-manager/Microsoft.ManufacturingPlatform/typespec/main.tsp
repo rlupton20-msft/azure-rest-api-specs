@@ -96,7 +96,8 @@ model MdsResourceProperties {
 
   @visibility("read", "create")
   @doc("Continuous Export Period.")
-  continuousExportPeriod: int32;
+  @madeOptional(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  continuousExportPeriod?: int32 = 0;
 
   @visibility("read")
   @doc("Service Url")
@@ -193,7 +194,7 @@ model MdsResourceProperties {
 
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
-  @doc("Profile of User Managed OpenAI.")
+  @doc("Profile of User Managed OpenAI Resource.")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create", "update")
   userManagedOpenAIProfile?: UserManagedOpenAIProfile;
@@ -348,17 +349,17 @@ model OpenAIProfile {
   id?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Name")
+  @doc("GPT Model Name")
   @visibility("read", "create", "update")
   gptModelName?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Version")
+  @doc("GPT Model Version")
   @visibility("read", "create", "update")
   gptModelVersion?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Capacity")
+  @doc("GPT Model Capacity in Tokens Per Minute(thousands)")
   @visibility("read", "create", "update")
   gptModelCapacity?: int32;
 
@@ -373,7 +374,7 @@ model OpenAIProfile {
   embeddingModelVersion?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Embedding Model Capacity")
+  @doc("Embedding Model Capacity in Tokens Per Minute(thousands)")
   @visibility("read", "create", "update")
   embeddingModelCapacity?: int32;
 
