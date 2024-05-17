@@ -1,8 +1,8 @@
-# Oracle.Database
+# Private.OracleDatabaseDev
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for Oracle.Database.
+This is the AutoRest configuration file for Private.OracleDatabaseDev.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the Oracle.Database.
+These are the global settings for the Private.OracleDatabaseDev.
 
 ```yaml
 openapi-type: arm
@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2023-09-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-09-01-preview'
 input-file:
-  - Oracle.Database/preview/2023-09-01-preview/openapi.json
+  - Private.OracleDatabaseDev/preview/2023-09-01-preview/openapi.json
 ```
 
 ---

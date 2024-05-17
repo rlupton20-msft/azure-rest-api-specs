@@ -42,12 +42,16 @@ model WorkloadProperties {
   #suppress "@azure-tools/typespec-azure-core/casing-style" "Fixing this would be a breaking change."
   @visibility("read")
   @doc("The chamber workload private IP address.")
-  privateIP?: string; // TODO: Should be "privateIp"
+  privateIP?: string; // TODO: Should be "privateIp";
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "zones needs to be removed from workload property level"
+  @removed(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
   @doc("The chamber workload zone.")
   zones?: Array<string>;
+
 }
+
 @doc("Workload tracked resource.")
 @parentResource(Chamber)
 model Workload is TrackedResource<WorkloadProperties> {
@@ -57,6 +61,12 @@ model Workload is TrackedResource<WorkloadProperties> {
   @TypeSpec.Http.path
   @pattern("^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("The chamber workload zone.")
+  zones?: Array<string>;
 }
 
 @armResourceOperations

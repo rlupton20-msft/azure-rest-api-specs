@@ -16,7 +16,7 @@ model TransparencyLogProperties {
   emailCultures: Culture[];
 
   @doc("The format of Transparency Log email attachments.")
-  emailAttachmentFormat?: FileFormat = FileFormat.CSV;
+  emailAttachmentFormat?: FileFormat = "CSV";
 }
 
 @doc("Supported cultures.")
