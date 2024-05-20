@@ -44,6 +44,10 @@ model TargetVersionProperties {
 
   @doc("The reconciliationPolicy of the TargetVersion.")
   reconciliationPolicy?: ReconciliationPolicyProperties;
+
+  @doc("The status of the TargetVersion.")
+  @visibility("read")
+  status?: InstanceTargetStatusProperties;
 }
 
 @doc("A TargetVersion resource belonging to a Target resource.")

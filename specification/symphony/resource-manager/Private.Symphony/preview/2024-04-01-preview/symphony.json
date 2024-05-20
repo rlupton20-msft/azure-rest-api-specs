@@ -3854,27 +3854,6 @@
         }
       }
     },
-    "InstanceStatusProperties": {
-      "type": "object",
-      "description": "Defines an InstanceStatus",
-      "properties": {
-        "lastModified": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The lastModified of the InstanceStatus"
-        },
-        "properties": {
-          "type": "object",
-          "description": "The state properties of the InstanceStatus",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "lastModified"
-      ]
-    },
     "InstanceTagsUpdate": {
       "type": "object",
       "description": "The type used for updating tags in Instance resources.",
@@ -3887,6 +3866,27 @@
           }
         }
       }
+    },
+    "InstanceTargetStatusProperties": {
+      "type": "object",
+      "description": "Defines a status for Target and Instance deployment",
+      "properties": {
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The lastModified of the Status"
+        },
+        "properties": {
+          "type": "object",
+          "description": "The state properties of the Status",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "lastModified"
+      ]
     },
     "InstanceVersion": {
       "type": "object",
@@ -3977,7 +3977,7 @@
           "description": "The reconciliationPolicy of the InstanceVersion resource."
         },
         "status": {
-          "$ref": "#/definitions/InstanceStatusProperties",
+          "$ref": "#/definitions/InstanceTargetStatusProperties",
           "description": "The status of the InstanceVersion.",
           "readOnly": true
         }
@@ -4479,6 +4479,11 @@
         "reconciliationPolicy": {
           "$ref": "#/definitions/ReconciliationPolicyProperties",
           "description": "The reconciliationPolicy of the TargetVersion."
+        },
+        "status": {
+          "$ref": "#/definitions/InstanceTargetStatusProperties",
+          "description": "The status of the TargetVersion.",
+          "readOnly": true
         }
       }
     },
