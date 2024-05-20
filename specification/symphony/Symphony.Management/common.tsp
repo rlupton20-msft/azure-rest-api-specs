@@ -163,12 +163,12 @@ model CatalogStatusProperties {
   properties: Record<string>;
 }
 
-@doc("Defines an InstanceStatus")
-model InstanceStatusProperties {
-  @doc("The lastModified of the InstanceStatus")
+@doc("Defines a status for Target and Instance deployment")
+model InstanceTargetStatusProperties {
+  @doc("The lastModified of the Status")
   lastModified: utcDateTime;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The state properties of the InstanceStatus")
+  @doc("The state properties of the Status")
   properties?: Record<string>;
 }

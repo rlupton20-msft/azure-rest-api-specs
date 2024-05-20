@@ -37,7 +37,7 @@ model InstanceVersionProperties {
 
   @doc("The status of the InstanceVersion.")
   @visibility("read")
-  status?: InstanceStatusProperties;
+  status?: InstanceTargetStatusProperties;
 }
 
 @doc("An InstanceVersion resource belonging to an Instance resource.")
