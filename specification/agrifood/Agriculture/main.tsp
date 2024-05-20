@@ -44,7 +44,7 @@ model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
 
   @doc("System data pertaining to the resource")
   @visibility("read")
-  systemData: AgriServiceResourceSystemData;
+  systemData?: AgriServiceResourceSystemData;
   ...ManagedServiceIdentity;
   ...TagsUpdateModel<AgriServiceResource>;
   ...ResourceSku;
@@ -79,9 +79,9 @@ model AgriServiceResourceProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("AgriService Resource description.")
+  @doc("AgriService resource version.")
   @visibility("read", "create", "update")
-  description?: string = "AgriService resource.";
+  version?: string;
 
   @visibility("read")
   @doc("Uri of the AgriService instance.")
