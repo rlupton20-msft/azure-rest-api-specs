@@ -7,7 +7,6 @@ import "./CodeSigningAccount.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
@@ -37,7 +36,7 @@ interface CertificateProfiles {
   @doc("List certificate profiles under a trusted signing account.")
   listByCodeSigningAccount is ArmResourceListByParent<CertificateProfile>;
 
-  @doc("Revoke a certificate.")
+  @doc("Revoke a certificate under a certificate profile.")
   revokeCertificate is ArmResourceActionNoContentSync<
     CertificateProfile,
     RevokeCertificate

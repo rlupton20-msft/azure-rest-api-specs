@@ -7,23 +7,22 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of the campaign.")
 model CampaignProperties {
-  @doc("Provisioning state of the service.")
+  @doc("Provisioning state of the campaign.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("The service entity.")
+@doc("The campaign entity.")
 model Campaign is TrackedResource<CampaignProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("The name of the campaign.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("campaignName")
   @segment("campaigns")
@@ -38,16 +37,16 @@ model Campaign is TrackedResource<CampaignProperties> {
 
 @armResourceOperations
 interface Campaigns {
-  @doc("Returns details of the service.")
+  @doc("Returns the details of the campaign.")
   get is Azure.ResourceManager.ArmResourceRead<Campaign>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates a new or updates an existing campaign.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Campaign>;
-  @doc("Updates existing service.")
+  @doc("Updates an existing campaign.")
   update is ArmCustomPatchSync<Campaign>;
-  @doc("Deletes specified service.")
+  @doc("Deletes a specified campaign.")
   delete is ArmResourceDeleteSync<Campaign>;
-  @doc("Returns a collection of services within the resource group.")
+  @doc("Returns a collection of campaigns within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Campaign>;
-  @doc("Lists services within an Azure subscription.")
+  @doc("Lists campaigns within an Azure subscription.")
   listBySubscription is ArmListBySubscription<Campaign>;
 }

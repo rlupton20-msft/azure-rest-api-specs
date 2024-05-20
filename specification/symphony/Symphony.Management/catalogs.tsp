@@ -7,23 +7,22 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of the Catalog.")
 model CatalogProperties {
-  @doc("Provisioning state of the service.")
+  @doc("Provisioning state of the Catalog.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("The service entity.")
+@doc("The Catalog entity.")
 model Catalog is TrackedResource<CatalogProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("catalogName")
   @segment("catalogs")
@@ -31,23 +30,23 @@ model Catalog is TrackedResource<CatalogProperties> {
 
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Edge location of the resource.")
+  @doc("Edge location of the Catalog.")
   @visibility("read", "create")
   extendedLocation: ExtendedLocation;
 }
 
 @armResourceOperations
 interface Catalogs {
-  @doc("Returns details of the service.")
+  @doc("Returns details of the Catalog.")
   get is Azure.ResourceManager.ArmResourceRead<Catalog>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates the Catalog.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Catalog>;
-  @doc("Updates existing service.")
+  @doc("Updates the existing Catalog.")
   update is ArmCustomPatchSync<Catalog>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified Catalog.")
   delete is ArmResourceDeleteSync<Catalog>;
-  @doc("Returns a collection of services within the resource group.")
+  @doc("Returns a collection of Catalogs within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Catalog>;
-  @doc("Lists services within an Azure subscription.")
+  @doc("Lists Catalogs within an Azure subscription.")
   listBySubscription is ArmListBySubscription<Catalog>;
 }

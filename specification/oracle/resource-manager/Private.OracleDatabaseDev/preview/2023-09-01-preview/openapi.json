@@ -51,6 +51,9 @@
       "name": "CloudVmClusters"
     },
     {
+      "name": "SystemVersions"
+    },
+    {
       "name": "VirtualNetworkAddresses"
     },
     {
@@ -85,6 +88,9 @@
     },
     {
       "name": "AutonomousDatabaseVersions"
+    },
+    {
+      "name": "OracleCloudAccount"
     }
   ],
   "paths": {
@@ -508,6 +514,90 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName": {
+      "get": {
+        "operationId": "OracleCloudAccount_ListByLocation",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "List OracleCloudAccountDetails resources by Location",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetailsListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName/{cloudAccountName}": {
+      "get": {
+        "operationId": "OracleCloudAccount_Get",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "Get a OracleCloudAccountDetails",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "cloudAccountName",
+            "in": "path",
+            "description": "CloudAccountName",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetails"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get oracle subscription details of azure subscription": {
+            "$ref": "./examples/OracleCloudAccount_get.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/dbSystemShapes": {
       "get": {
         "operationId": "DbSystemShapes_ListByLocation",
@@ -863,6 +953,72 @@
           "Get a GiVersion by name": {
             "$ref": "./examples/giVersions_get.json"
           }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/systemVersions": {
+      "get": {
+        "operationId": "SystemVersions_ListByFilter",
+        "tags": [
+          "SystemVersions"
+        ],
+        "description": "List Exadata System Versions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "giVersion",
+            "in": "query",
+            "description": "Grid Infrastructure version to filter by.",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 30,
+            "type": "string"
+          },
+          {
+            "name": "shape",
+            "in": "query",
+            "description": "Exadata shape to filter by.",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          {
+            "name": "latestVersionFilter",
+            "in": "query",
+            "description": "Flag to filter by latest version only (optional).",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SystemVersionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Exadata System Versions by the provided filter": {
+            "$ref": "./examples/systemVersions_listSystemVersions.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
         }
       }
     },
@@ -6088,7 +6244,10 @@
           "description": "Operating system version of the image.",
           "minLength": 1,
           "maxLength": 255,
-          "readOnly": true
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "sshPublicKeys": {
           "type": "array",
@@ -8460,6 +8619,69 @@
         ]
       }
     },
+    "OracleCloudAccountDetails": {
+      "type": "object",
+      "description": "CloudAccount resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/OracleCloudAccountProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "OracleCloudAccountDetailsListResult": {
+      "type": "object",
+      "description": "The response of a OracleCloudAccountDetails list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The OracleCloudAccountDetails items on this page",
+          "items": {
+            "$ref": "#/definitions/OracleCloudAccountDetails"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "OracleCloudAccountProperties": {
+      "type": "object",
+      "description": "CloudAccount resource model",
+      "properties": {
+        "cloudAccountName": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "minLength": 1,
+          "maxLength": 255,
+          "readOnly": true
+        },
+        "cloudAccountHomeRegion": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "cloudAccountName",
+        "cloudAccountHomeRegion"
+      ]
+    },
     "OracleSubscription": {
       "type": "object",
       "description": "OracleSubscription resource definition",
@@ -8550,6 +8772,17 @@
           "x-ms-mutability": [
             "update"
           ]
+        },
+        "azureSubscriptionIds": {
+          "type": "array",
+          "description": "Azure subscriptions to be added",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         }
       }
     },
@@ -8613,6 +8846,17 @@
           "$ref": "#/definitions/Intent",
           "description": "Intent for the update operation",
           "x-ms-mutability": [
+            "update"
+          ]
+        },
+        "azureSubscriptionIds": {
+          "type": "array",
+          "description": "Azure subscriptions to be added",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
             "update"
           ]
         }
@@ -9266,6 +9510,62 @@
         ]
       }
     },
+    "SystemVersion": {
+      "type": "object",
+      "description": "SystemVersion resource Definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SystemVersionProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SystemVersionListResult": {
+      "type": "object",
+      "description": "The response of a SystemVersion list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SystemVersion items on this page",
+          "items": {
+            "$ref": "#/definitions/SystemVersion"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SystemVersionProperties": {
+      "type": "object",
+      "description": "System Version Resource model",
+      "properties": {
+        "systemVersion": {
+          "type": "string",
+          "description": "A valid Oracle System Version",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "systemVersion"
+      ]
+    },
     "TlsAuthenticationType": {
       "type": "string",
       "description": "TlsAuthenticationType enum.",
@@ -9386,24 +9686,6 @@
         ]
       },
       "readOnly": true
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Versions for API",
-      "enum": [
-        "2023-09-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v20230901",
-            "value": "2023-09-01-preview",
-            "description": "2023-09-01-preview"
-          }
-        ]
-      }
     },
     "VirtualNetworkAddress": {
       "type": "object",

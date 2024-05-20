@@ -7,23 +7,22 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of a Target resource.")
 model TargetProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("The service entity.")
+@doc("A Target resource.")
 model Target is TrackedResource<TargetProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("Name of target.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[-\\w\\._\\(\\)]+$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("targetName")
   @segment("targets")
@@ -38,16 +37,16 @@ model Target is TrackedResource<TargetProperties> {
 
 @armResourceOperations
 interface Targets {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified Target resource.")
   get is Azure.ResourceManager.ArmResourceRead<Target>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing Target resource.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Target>;
-  @doc("Updates existing service.")
+  @doc("Updates existing Target resource.")
   update is ArmCustomPatchSync<Target>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified Target resource.")
   delete is ArmResourceDeleteSync<Target>;
-  @doc("Returns a collection of services within the resource group.")
+  @doc("Returns a collection of Target resources within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Target>;
-  @doc("Lists services within an Azure subscription.")
+  @doc("Lists Targets resources within an Azure subscription.")
   listBySubscription is ArmListBySubscription<Target>;
 }
