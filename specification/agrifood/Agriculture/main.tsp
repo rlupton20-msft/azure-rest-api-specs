@@ -33,24 +33,25 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A AgricultureProviderHub resource")
-model AgriDataManagerResource is TrackedResource<AgriDataManagerResourceProperties> {
-  @doc("The name of the AgriDataManager Resource Name")
+model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
+  @doc("The name of the AgriService resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("agriDataManagerResourceName")
-  @segment("agriDataManager")
+  @key("agriServiceResourceName")
+  @segment("agriService")
   @visibility("read")
   @path
   name: string;
 
   @doc("System data pertaining to the resource")
   @visibility("read")
-  systemData: AgriDataManagerResourceSystemData;
+  systemData: AgriServiceResourceSystemData;
   ...ManagedServiceIdentity;
-  ...TagsUpdateModel<AgriDataManagerResource>;
+  ...TagsUpdateModel<AgriServiceResource>;
+  ...ResourceSku;
 }
 
 @doc("System metadata pertaining to the Agri data manager resource.")
-model AgriDataManagerResourceSystemData {
+model AgriServiceResourceSystemData {
 	...SystemData;
 }
 
@@ -73,26 +74,26 @@ enum ProvisioningState {
 }
 
 @doc("Details of the Agriculture AgriDataManager.")
-model AgriDataManagerResourceProperties {
+model AgriServiceResourceProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("AgriDataManager Resource Version.")
+  @doc("AgriService Resource description.")
   @visibility("read", "create", "update")
-  version?: string;
+  description?: string = "AgriService resource.";
 
-  @doc("Uri of the Data Manager For Agriculture instance.")
   @visibility("read")
-  instanceUri: string;
+  @doc("Uri of the AgriService instance.")
+  instanceUri?: string;
 }
 
-@armResourceOperations(AgriDataManagerResource)
-interface AgriDataManager  {
-  get is ArmResourceRead<AgriDataManagerResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<AgriDataManagerResource>;
-  update is ArmResourcePatchAsync<AgriDataManagerResource, AgriDataManagerResourceProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<AgriDataManagerResource>;
-  listByResourceGroup is ArmResourceListByParent<AgriDataManagerResource>;
-  listBySubscription is ArmListBySubscription<AgriDataManagerResource>;
+@armResourceOperations(AgriServiceResource)
+interface AgriService  {
+  get is ArmResourceRead<AgriServiceResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AgriServiceResource>;
+  update is ArmResourcePatchAsync<AgriServiceResource, AgriServiceResourceProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<AgriServiceResource>;
+  listByResourceGroup is ArmResourceListByParent<AgriServiceResource>;
+  listBySubscription is ArmListBySubscription<AgriServiceResource>;
 }
