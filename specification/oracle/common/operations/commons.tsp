@@ -19,7 +19,7 @@ interface InternalList {
   @action("ResourceReadBegin")
   @post
   ResourceReadBeginListSync<
-    TResource extends ArmResource,
+    TResource extends Foundations.Resource,
     TRequest,
     TResponse,
     TBaseParameters = BaseParameters<TResource>
@@ -49,7 +49,7 @@ interface ListActions {
   @armResourceAction(TResource)
   @post
   ArmResourceGetActionAsync<
-    TResource extends ArmResource,
+    TResource extends Foundations.Resource,
     TResponse,
     TBaseParameters = BaseParameters<TResource>
   >(

@@ -6,10 +6,10 @@ using Autorest;
 
 namespace Private.OracleDatabaseDev;
 
-@armResourceOperations(OracleSubscription<ResourcePlanType>)
+@armResourceOperations(OracleSubscription<Foundations.Plan>)
 interface OracleSubscriptions
   extends OracleSubscriptionLevelResource<
-      OracleSubscription<ResourcePlanType>,
+      OracleSubscription<Foundations.Plan>,
       OracleSubscriptionProperties
     > {
   @doc("List Cloud Account Details")
@@ -18,7 +18,7 @@ interface OracleSubscriptions
     "List Cloud Account details for the Oracle Subscription"
   )
   listCloudAccountDetails is ListActions.ArmResourceGetActionAsync<
-    OracleSubscription<ResourcePlanType>,
+    OracleSubscription<Foundations.Plan>,
     CloudAccountDetails
   >;
 
@@ -28,7 +28,7 @@ interface OracleSubscriptions
     "List Saas Subscription details for the Oracle Subscription"
   )
   listSaasSubscriptionDetails is ListActions.ArmResourceGetActionAsync<
-    OracleSubscription<ResourcePlanType>,
+    OracleSubscription<Foundations.Plan>,
     SaasSubscriptionDetails
   >;
 
@@ -38,7 +38,7 @@ interface OracleSubscriptions
     "List Activation Links for the Oracle Subscription"
   )
   listActivationLinks is ListActions.ArmResourceGetActionAsync<
-    OracleSubscription<ResourcePlanType>,
+    OracleSubscription<Foundations.Plan>,
     ActivationLinks
   >;
 
@@ -49,12 +49,12 @@ interface OracleSubscriptions
    * @template BaseParameters The http parameters that are part of the request
    */
   update is ArmCustomPatchAsync<
-    OracleSubscription<ResourcePlanType>,
+    OracleSubscription<Foundations.Plan>,
     ResourceUpdateModel<
       OracleSubscription<ResourcePlanTypeUpdate>,
       OracleSubscriptionProperties
     >,
-    DefaultBaseParameters<OracleSubscription<ResourcePlanType>>
+    DefaultBaseParameters<OracleSubscription<Foundations.Plan>>
   >;
 }
 

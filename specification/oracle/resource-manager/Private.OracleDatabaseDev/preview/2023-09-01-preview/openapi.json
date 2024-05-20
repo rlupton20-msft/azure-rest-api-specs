@@ -51,9 +51,6 @@
       "name": "CloudVmClusters"
     },
     {
-      "name": "SystemVersions"
-    },
-    {
       "name": "VirtualNetworkAddresses"
     },
     {
@@ -91,6 +88,9 @@
     },
     {
       "name": "OracleCloudAccount"
+    },
+    {
+      "name": "SystemVersions"
     }
   ],
   "paths": {
@@ -958,11 +958,11 @@
     },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/systemVersions": {
       "get": {
-        "operationId": "SystemVersions_ListByFilter",
+        "operationId": "SystemVersions_ListByLocation",
         "tags": [
           "SystemVersions"
         ],
-        "description": "List Exadata System Versions",
+        "description": "List SystemVersion resources by Location",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1019,6 +1019,48 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/systemVersions/{systemversionname}": {
+      "get": {
+        "operationId": "SystemVersions_Get",
+        "tags": [
+          "SystemVersions"
+        ],
+        "description": "Get a SystemVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "systemversionname",
+            "in": "path",
+            "description": "SystemVersion name",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SystemVersion"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
         }
       }
     },
@@ -4046,6 +4088,11 @@
           "description": "Timestamp until when the backup will be available.",
           "readOnly": true
         },
+        "timeStarted": {
+          "type": "string",
+          "description": "The date and time the backup started.",
+          "readOnly": true
+        },
         "timeEnded": {
           "type": "string",
           "description": "The date and time the backup completed.",
@@ -4061,10 +4108,7 @@
           "description": "Azure resource provisioning state.",
           "readOnly": true
         }
-      },
-      "required": [
-        "autonomousDatabaseOcid"
-      ]
+      }
     },
     "AutonomousDatabaseBackupType": {
       "type": "string",
@@ -6244,10 +6288,7 @@
           "description": "Operating system version of the image.",
           "minLength": 1,
           "maxLength": 255,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "readOnly": true
         },
         "sshPublicKeys": {
           "type": "array",
@@ -9544,8 +9585,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -9564,6 +9604,28 @@
       },
       "required": [
         "systemVersion"
+      ]
+    },
+    "SystemVersionsFilter": {
+      "type": "object",
+      "description": "SystemVersions filter",
+      "properties": {
+        "giVersion": {
+          "type": "string",
+          "description": "Grid Infrastructure version"
+        },
+        "shape": {
+          "type": "string",
+          "description": "Exadata shape"
+        },
+        "isLatestVersion": {
+          "type": "boolean",
+          "description": "Check If we have to list only latest versions"
+        }
+      },
+      "required": [
+        "giVersion",
+        "shape"
       ]
     },
     "TlsAuthenticationType": {

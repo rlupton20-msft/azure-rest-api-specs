@@ -12,7 +12,7 @@ namespace Private.OracleDatabaseDev;
 
 @armResourceOperations(T)
 interface OracleSubscriptionLevelResource<
-  T extends ArmResource,
+  T extends Foundations.Resource,
   TProperties extends TypeSpec.Reflection.Model
 >
   extends ResourceListBySubscription<T>,
@@ -23,28 +23,28 @@ interface OracleSubscriptionLevelResource<
 
 @armResourceOperations(T)
 interface OracleTrackedResource<
-  T extends ArmResource,
+  T extends Foundations.Resource,
   TProperties extends TypeSpec.Reflection.Model
 > extends OracleSubscriptionLevelResource<T, TProperties> {
   listByResourceGroup is ArmResourceListByParent<T>;
 }
 
 @armResourceOperations(T)
-interface OracleReadOnlyResource<T extends ArmResource> {
+interface OracleReadOnlyResource<T extends Foundations.Resource> {
   // TODO: Swagger generator bug, cannot be extracted to interface
   // listByParent is ArmResourceListByParent<T>;
   get is ArmResourceRead<T>;
 }
 
 @armResourceOperations(T)
-interface OracleLocationBasedResource<T extends ArmResource>
+interface OracleLocationBasedResource<T extends Foundations.Resource>
   extends OracleReadOnlyResource<T> {
   listByLocation is ArmResourceListByParent<T>;
 }
 
 @armResourceOperations(T)
 interface OracleChildResource<
-  T extends ArmResource,
+  T extends Foundations.Resource,
   TProperties extends TypeSpec.Reflection.Model
 >
   extends ResourceCreateAsync<T>,

@@ -14,6 +14,6 @@ scalar AutonomousDatabaseId
   ]>;
 
 @doc("Retention period, in days, for backups.")
-@minValue(90)
+@minValue(60)
 @maxValue(2558)
 scalar RetentionPeriod extends int32;
