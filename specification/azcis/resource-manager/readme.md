@@ -33,7 +33,7 @@ These are the global settings for the Resources.
 
 ```yaml
 openapi-type: arm
-
+tag: package-2023-08-22
 ```
 
 ### Tag: package-2023-08-22-preview
@@ -65,6 +65,7 @@ These settings apply only when `--tag=package-2023-08-22` is specified on the co
 input-file:
   - Microsoft.AzureCis/stable/2023-08-22/aad.json
   - Microsoft.AzureCis/stable/2023-08-22/genevaActions.json
+  - Microsoft.AzureCis/stable/2023-08-22/environment.json
 ```
 
 ---
