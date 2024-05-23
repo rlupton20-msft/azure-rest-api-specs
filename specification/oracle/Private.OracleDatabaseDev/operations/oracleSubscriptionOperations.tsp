@@ -50,7 +50,7 @@ interface OracleSubscriptions
   addAzureSubscriptions is ArmResourceActionAsync<
     OracleSubscription<Foundations.Plan>,
     AzureSubscriptions,
-    OracleSubscription<Foundations.Plan>
+    void
  >;
 
  @doc("Remove Azure Subscriptions")
@@ -61,7 +61,7 @@ interface OracleSubscriptions
  removeAzureSubscriptions is ArmResourceActionAsync<
   OracleSubscription<Foundations.Plan>,
   AzureSubscriptions,
-  OracleSubscription<Foundations.Plan>
+  void
 >;
 
   /**
