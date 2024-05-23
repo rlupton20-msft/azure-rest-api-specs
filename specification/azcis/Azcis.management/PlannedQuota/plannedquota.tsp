@@ -26,6 +26,9 @@ model PlannedQuotaResourceProperties {
   @doc("Plan version")
   planVersion?: string;
 
+  @doc("Planned Quota region")
+  region?: string;
+
   @doc("Stage name")
   stage?: string;
 
