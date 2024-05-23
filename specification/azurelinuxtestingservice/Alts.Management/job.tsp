@@ -1,4 +1,4 @@
-namespace Microsoft.AzureLinuxTestingService;
+namespace Private.AltsTest;
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -54,15 +54,25 @@ model JobResourceProperties is ResourceProperties {
     logUrl?: string;
 }
 
+@doc("Image type to use for testing")
 enum ImageType {
-    vhd,
-    marketplace,
-    shared_gallery
+  @doc("VHD image")
+  vhd,
+
+  @doc("Marketplace image")
+  marketplace,
+
+  @doc("Shared image gallery")
+  shared_gallery,
 }
 
+@doc("CPU Architecture")
 enum Architecture {
-    x64,
-    arm64
+  @doc("x64 architecture")
+  x64,
+
+  @doc("arm64 architecture")
+  arm64,
 }
 
 @minValue(1)

@@ -1,4 +1,4 @@
-namespace Microsoft.AzureLinuxTestingService;
+namespace Private.AltsTest;
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -42,11 +42,19 @@ model JobTemplateResourceProperties is ResourceProperties{
     concurrency?: int32 = 4;
 }
 
+@doc("Action to take on a particular test case")
 enum TestCaseAction {
+  @doc("Include test case")
   include,
+
+  @doc("Exclude test case")
   exclude,
+
+  @doc("Force include test case")
   forceInclude,
-  forceExclude
+
+  @doc("Force exclude test case")
+  forceExclude,
 }
 
 @minValue(0)

@@ -6,7 +6,7 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "./test_case.tsp";
+import "./put_response_template.tsp";
 import "./job_template.tsp";
 import "./job.tsp";
 import "./test_result.tsp";
@@ -29,19 +29,14 @@ Requirements for defining an ARM Service:
   - serviceVersion
   - armProviderNamespace
 */
-@armProviderNamespace
 @service({
     title: "Azure Linux Testing Service",
     version: "2023-08-01-preview"
-
 })
-
-
 @doc("This is the Azure Linux Validation Service")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-namespace Microsoft.AzureLinuxTestingService; 
-
-
+@armProviderNamespace("Private.ALTSTest")
+namespace Private.AltsTest;
 // Common elements:
 @doc("General resource properties.")
 model ResourceProperties {
@@ -50,15 +45,22 @@ model ResourceProperties {
   @lroStatus
 	provisioningState?: ProvisioningState;
 }
-
-
 // Extend the provisioning state
 @lroStatus
+@doc("The extended resource provisioning states.")
 enum ProvisioningState {
   ...ResourceProvisioningState, // Succeeded, Failed, and Canceled
+
+  @doc("The resource is queued for provisioning.")
   Queued,
+
+  @doc("The resource is being provisioned.")
   Provisioning,
+
+  @doc("The resource is running.")
   Running,
+
+  @doc("The resource is being canceled.")
   Cancelling,
 }
 
