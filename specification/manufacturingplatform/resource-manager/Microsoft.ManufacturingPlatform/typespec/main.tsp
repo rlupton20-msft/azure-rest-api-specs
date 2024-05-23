@@ -96,7 +96,8 @@ model MdsResourceProperties {
 
   @visibility("read", "create")
   @doc("Continuous Export Period.")
-  continuousExportPeriod: int32;
+  @madeOptional(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  continuousExportPeriod?: int32 = 0;
 
   @visibility("read")
   @doc("Service Url")
@@ -153,7 +154,7 @@ model MdsResourceProperties {
   functionAppProfile?: FunctionAppProfile;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
-  @visibility("read")
+  @visibility("read","create", "update")
   @doc("Profile of OpenAI Resource.")
   openAIProfile?: OpenAIProfile;
 
@@ -193,7 +194,7 @@ model MdsResourceProperties {
 
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
-  @doc("Profile of User Managed OpenAI.")
+  @doc("Profile of User Managed OpenAI Resource.")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create", "update")
   userManagedOpenAIProfile?: UserManagedOpenAIProfile;
@@ -348,19 +349,24 @@ model OpenAIProfile {
   id?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Name")
+  @doc("GPT Model Name")
   @visibility("read", "create", "update")
   gptModelName?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Version")
+  @doc("GPT Model Version")
   @visibility("read", "create", "update")
   gptModelVersion?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-  @doc("Gpt Model Capacity")
+  @doc("GPT Model Capacity")
   @visibility("read", "create", "update")
   gptModelCapacity?: int32;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("GPT Model SKU Name")
+  @visibility("read", "create", "update")
+  gptModelSkuName?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Embedding Model Name")
@@ -371,6 +377,11 @@ model OpenAIProfile {
   @doc("Embedding Model Version")
   @visibility("read", "create")
   embeddingModelVersion?: string;
+
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @doc("Embedding Model SKU Name")
+  @visibility("read", "create", "update")
+  embeddingModelSkuName?: string;
 
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Embedding Model Capacity")

@@ -7,7 +7,6 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
@@ -39,11 +38,5 @@ interface CryptoCertificates {
   /**
    * Lists crypto certificate analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    CryptoCertificateResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<CryptoCertificateResource>;
 }

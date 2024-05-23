@@ -7,36 +7,35 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the SolutionVersion.")
+@doc("The properties of a SolutionVersion resource.")
 model SolutionVersionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("A list of components")
+  @doc("A list of components.")
   @OpenAPI.extension("x-ms-identifiers", [])
   components?: ComponentProperties[];
 
-  @doc("The display name of solution version")
+  @doc("The display name of the SolutionVersion resource.")
   displayName?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("Metadata of solution version")
+  @doc("The metadata information of the SolutionVersion resource.")
   metadata?: Record<string>;
 }
 
-@doc("The service entity.")
+@doc("A SolutionVersion resource belonging to a Solution resource.")
 @resource("versions")
 @parentResource(Solution)
 model SolutionVersion is TrackedResource<SolutionVersionProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("Name of SolutionVersion resource.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("versionName")
   @segment("versions")
@@ -51,14 +50,14 @@ model SolutionVersion is TrackedResource<SolutionVersionProperties> {
 
 @armResourceOperations
 interface SolutionVersions {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified SolutionVersion resource.")
   get is Azure.ResourceManager.ArmResourceRead<SolutionVersion>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing SolutionVersion resource.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<SolutionVersion>;
-  @doc("Updates existing service.")
+  @doc("Updates existing SolutionVersion resource.")
   update is ArmCustomPatchSync<SolutionVersion>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified SolutionVersion resource.")
   delete is ArmResourceDeleteSync<SolutionVersion>;
-
-  listByParent is ArmResourceListByParent<SolutionVersion>;
+  @doc("Returns a collection of SolutionVersion resources belonging to a Solution resource.")
+  listBySolution is ArmResourceListByParent<SolutionVersion>;
 }

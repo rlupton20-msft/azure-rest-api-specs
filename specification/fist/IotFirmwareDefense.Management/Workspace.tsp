@@ -6,7 +6,6 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
@@ -56,7 +55,7 @@ interface Workspaces {
   /**
    * The operation to update a firmware analysis workspaces.
    */
-  @parameterVisibility("read")
+  @parameterVisibility
   update is ArmCustomPatchSync<Workspace, WorkspaceUpdateDefinition>;
 
   /**

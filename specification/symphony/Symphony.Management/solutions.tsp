@@ -7,24 +7,23 @@ import "./common.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Symphony;
 
-@doc("The properties of the service.")
+@doc("The properties of a Solution resource.")
 model SolutionProperties {
-  @doc("Provisioning state of the service.")
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("The service entity.")
+@doc("A Solution resource.")
 @resource("solutions")
 model Solution is TrackedResource<SolutionProperties> {
-  @doc("The name of Azure API Center service.")
+  @doc("Name of solution.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-zA-Z0-9-]{3,90}$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("solutionName")
   @segment("solutions")
@@ -39,16 +38,16 @@ model Solution is TrackedResource<SolutionProperties> {
 
 @armResourceOperations
 interface Solutions {
-  @doc("Returns details of the service.")
+  @doc("Returns details of specified Solution resource.")
   get is Azure.ResourceManager.ArmResourceRead<Solution>;
-  @doc("Creates new or updates existing API.")
+  @doc("Creates new or updates existing Solution resource.")
   createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Solution>;
-  @doc("Updates existing service.")
+  @doc("Updates existing Solution resource.")
   update is ArmCustomPatchSync<Solution>;
-  @doc("Deletes specified service.")
+  @doc("Deletes specified Solution resource.")
   delete is ArmResourceDeleteSync<Solution>;
-  @doc("Returns a collection of services within the resource group.")
+  @doc("Returns a collection of Solution resources within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Solution>;
-  @doc("Lists services within an Azure subscription.")
+  @doc("Lists Solutions resources within an Azure subscription.")
   listBySubscription is ArmListBySubscription<Solution>;
 }

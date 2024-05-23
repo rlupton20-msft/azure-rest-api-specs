@@ -6,8 +6,8 @@ Please also specify `--typescript-sdks-folder=<path to root folder of your azure
 ``` yaml $(typescript)
 typescript:
   azure-arm: true
-  package-name: "@azure/arm-Oracle.Database"
-  output-folder: "$(typescript-sdks-folder)/sdk/Oracle.Database/arm-Oracle.Database"
+  package-name: "@azure/arm-Private.OracleDatabaseDev"
+  output-folder: "$(typescript-sdks-folder)/sdk/Private.OracleDatabaseDev/arm-Private.OracleDatabaseDev"
   payload-flattening-threshold: 1
   clear-output-folder: true
   generate-metadata: true

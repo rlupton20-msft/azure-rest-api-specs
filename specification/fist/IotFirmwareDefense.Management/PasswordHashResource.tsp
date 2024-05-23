@@ -7,7 +7,6 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
@@ -38,11 +37,5 @@ interface PasswordHashes {
   /**
    * Lists password hash analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    PasswordHashResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<PasswordHashResource>;
 }
