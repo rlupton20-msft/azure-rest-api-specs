@@ -972,30 +972,6 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "giVersion",
-            "in": "query",
-            "description": "Grid Infrastructure version to filter by.",
-            "required": true,
-            "minLength": 1,
-            "maxLength": 30,
-            "type": "string"
-          },
-          {
-            "name": "shape",
-            "in": "query",
-            "description": "Exadata shape to filter by.",
-            "required": true,
-            "minLength": 1,
-            "maxLength": 255,
-            "type": "string"
-          },
-          {
-            "name": "latestVersionFilter",
-            "in": "query",
-            "description": "Flag to filter by latest version only (optional).",
-            "type": "boolean"
           }
         ],
         "responses": {
@@ -1309,6 +1285,66 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/addAzureSubscriptions": {
+      "post": {
+        "operationId": "OracleSubscriptions_AddAzureSubscriptions",
+        "tags": [
+          "OracleSubscriptions"
+        ],
+        "description": "Add Azure Subscriptions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureSubscriptions"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Azure operation completed successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Add Azure Subscriptions to the OracleSubscription": {
+            "$ref": "./examples/oracleSubscriptions_addAzureSubscriptions.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/listActivationLinks": {
       "post": {
         "operationId": "OracleSubscriptions_ListActivationLinks",
@@ -1463,6 +1499,66 @@
         "x-ms-examples": {
           "List Saas Subscription details for the Oracle Subscription": {
             "$ref": "./examples/oracleSubscriptions_listSaasSubscriptionDetails.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/removeAzureSubscriptions": {
+      "post": {
+        "operationId": "OracleSubscriptions_RemoveAzureSubscriptions",
+        "tags": [
+          "OracleSubscriptions"
+        ],
+        "description": "Remove Azure Subscriptions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureSubscriptions"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Azure operation completed successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Remove Azure Subscriptions from the OracleSubscription": {
+            "$ref": "./examples/oracleSubscriptions_removeAzureSubscriptions.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -5563,6 +5659,19 @@
       },
       "readOnly": true
     },
+    "AzureSubscriptions": {
+      "type": "object",
+      "description": "Azure Subscriptions model",
+      "properties": {
+        "azureSubscriptionIds": {
+          "type": "array",
+          "description": "Azure Subscription Ids to be updated",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "CloneType": {
       "type": "string",
       "description": "CloneType enum",
@@ -8820,10 +8929,7 @@
           "items": {
             "type": "string"
           },
-          "x-ms-mutability": [
-            "read",
-            "update"
-          ]
+          "readOnly": true
         }
       }
     },
@@ -8887,17 +8993,6 @@
           "$ref": "#/definitions/Intent",
           "description": "Intent for the update operation",
           "x-ms-mutability": [
-            "update"
-          ]
-        },
-        "azureSubscriptionIds": {
-          "type": "array",
-          "description": "Azure subscriptions to be added",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
             "update"
           ]
         }

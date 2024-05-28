@@ -137,6 +137,12 @@ model SaasSubscriptionDetails {
   isFreeTrial?: boolean;
 }
 
+@doc("Azure Subscriptions model")
+model AzureSubscriptions {
+  @doc("Azure Subscription Ids to be updated")
+  azureSubscriptionIds?: string[];
+}
+
 @doc("Activation Links model")
 model ActivationLinks {
   @doc("New Cloud Account Activation Link")
@@ -179,6 +185,6 @@ model OracleSubscriptionProperties {
   intent?: Intent;
 
   @doc("Azure subscriptions to be added")
-  @visibility("update", "read")
+  @visibility("read")
   azureSubscriptionIds?: string[];
 }
