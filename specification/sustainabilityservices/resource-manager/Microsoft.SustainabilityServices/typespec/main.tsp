@@ -68,10 +68,92 @@ model CalculationResourceProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-
   @doc("Calculation Resource Version.")
   @visibility("read", "create", "update")
   version?: string;
+
+  @visibility("read", "create")
+  @doc("Application Id for token claims.")
+  @pattern("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+  tokenClaimsApplicationId: string;
+
+  @doc("DDoS Protection Plan")
+  @visibility("read", "create")
+  ddosplan?: string;
+
+  @visibility("read")
+  @doc("Service Url")
+  serviceUrl?: string;
+
+  @visibility("read")
+  @doc("Profile of Storage Created.")
+  storageProfile?: StorageProfile;
+
+  @visibility("read")
+  @doc("Profile of AKV Created.")
+  akvProfile?: AkvProfile;
+
+  @visibility("read")
+  @doc("Profile of App Service Created.")
+  appServiceProfile?: AppServiceProfile;
+
+  @visibility("read")
+  @doc("Profile of Azure Redis Created.")
+  redisProfile?: RedisProfile;
+
+  @visibility("read")
+  @doc("Profile of App Gateway Created.")
+  appGatewayProfile?: AppGatewayProfile;
+
+  @visibility("read")
+  @doc("Profile of Monitoring Resource Created.")
+  monitoringProfile?: MonitoringProfile;
+}
+
+@doc("The properties related to Storage Resource")
+model StorageProfile {
+  @doc("Resource Id of Storage Resource")
+  @visibility("read")
+  id?: string;
+}
+
+@doc("The properties related to Azure Redis Cache Resource")
+model RedisProfile {
+  @doc("Resource Id of Azure Redis Cache Resource")
+  @visibility("read")
+  id?: string;
+}
+
+@doc("The properties related to Monitoring Resource")
+model MonitoringProfile {
+  @doc("Resource Id of Application Insights Resource")
+  @visibility("read")
+  id?: string;
+}
+
+@doc("The properties related to Azure App Gateway Resource")
+model AppGatewayProfile {
+  @doc("Resource Id of App Gateway Resource")
+  @visibility("read")
+  id?: string;
+
+  @doc("Frontend IP of App Gateway Resource")
+  @visibility("read")
+  publicip?: string;
+}
+
+@doc("The properties related to App Service Resource")
+model AppServiceProfile {
+  @doc("Resource Id of App service Resource")
+  @visibility("read")
+  id?: string;
+}
+
+@doc("The properties related to Azure Key Vault (Akv) Resource")
+model AkvProfile {
+  @doc("Resource Id of Akv Resource")
+  @visibility("read")
+  id?: string;
 }
 
 @armResourceOperations(CalculationResource)

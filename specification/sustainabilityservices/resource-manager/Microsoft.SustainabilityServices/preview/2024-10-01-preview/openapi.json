@@ -380,6 +380,44 @@
     }
   },
   "definitions": {
+    "AkvProfile": {
+      "type": "object",
+      "description": "The properties related to Azure Key Vault (Akv) Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of Akv Resource",
+          "readOnly": true
+        }
+      }
+    },
+    "AppGatewayProfile": {
+      "type": "object",
+      "description": "The properties related to Azure App Gateway Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of App Gateway Resource",
+          "readOnly": true
+        },
+        "publicip": {
+          "type": "string",
+          "description": "Frontend IP of App Gateway Resource",
+          "readOnly": true
+        }
+      }
+    },
+    "AppServiceProfile": {
+      "type": "object",
+      "description": "The properties related to App Service Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of App service Resource",
+          "readOnly": true
+        }
+      }
+    },
     "CalculationResource": {
       "type": "object",
       "description": "A SustainabilityServicesProviderHub resource",
@@ -446,8 +484,63 @@
             "update",
             "create"
           ]
+        },
+        "tokenClaimsApplicationId": {
+          "type": "string",
+          "description": "Application Id for token claims.",
+          "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "ddosplan": {
+          "type": "string",
+          "description": "DDoS Protection Plan",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "serviceUrl": {
+          "type": "string",
+          "description": "Service Url",
+          "readOnly": true
+        },
+        "storageProfile": {
+          "$ref": "#/definitions/StorageProfile",
+          "description": "Profile of Storage Created.",
+          "readOnly": true
+        },
+        "akvProfile": {
+          "$ref": "#/definitions/AkvProfile",
+          "description": "Profile of AKV Created.",
+          "readOnly": true
+        },
+        "appServiceProfile": {
+          "$ref": "#/definitions/AppServiceProfile",
+          "description": "Profile of App Service Created.",
+          "readOnly": true
+        },
+        "redisProfile": {
+          "$ref": "#/definitions/RedisProfile",
+          "description": "Profile of Azure Redis Created.",
+          "readOnly": true
+        },
+        "appGatewayProfile": {
+          "$ref": "#/definitions/AppGatewayProfile",
+          "description": "Profile of App Gateway Created.",
+          "readOnly": true
+        },
+        "monitoringProfile": {
+          "$ref": "#/definitions/MonitoringProfile",
+          "description": "Profile of Monitoring Resource Created.",
+          "readOnly": true
         }
-      }
+      },
+      "required": [
+        "tokenClaimsApplicationId"
+      ]
     },
     "CalculationResourceUpdate": {
       "type": "object",
@@ -486,6 +579,17 @@
             "update",
             "create"
           ]
+        }
+      }
+    },
+    "MonitoringProfile": {
+      "type": "object",
+      "description": "The properties related to Monitoring Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of Application Insights Resource",
+          "readOnly": true
         }
       }
     },
@@ -541,6 +645,28 @@
             "description": "Change accepted for processing"
           }
         ]
+      }
+    },
+    "RedisProfile": {
+      "type": "object",
+      "description": "The properties related to Azure Redis Cache Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of Azure Redis Cache Resource",
+          "readOnly": true
+        }
+      }
+    },
+    "StorageProfile": {
+      "type": "object",
+      "description": "The properties related to Storage Resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource Id of Storage Resource",
+          "readOnly": true
+        }
       }
     },
     "Versions": {
