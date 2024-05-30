@@ -25,7 +25,6 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the policyframework.
 
 ```yaml
-v3: true
 openapi-type: arm
 tag: package-2024-06-01-preview
 ```
