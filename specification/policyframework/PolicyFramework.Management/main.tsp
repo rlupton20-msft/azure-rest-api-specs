@@ -9,6 +9,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using TypeSpec.OpenAPI;
 
 /** Microsoft.PolicyFramework Resource Provider management API. */
 @armProviderNamespace
@@ -33,7 +34,7 @@ enum Versions {
 @doc("The evaluation engine properties.")
 model EvaluationEngineProperties {
   name: string;
-  //complete later with sample properties
+  // complete later with sample properties
 }
 
 @doc("The evaluation engine")
@@ -53,7 +54,7 @@ model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
 @doc("The evaluation engine assignment properties.")
 model EvaluationEngineAssignmentProperties {
   name: string;
-  //complete later with sample properties
+  // complete later with sample properties
 }
 
 @doc("The evaluation engine assignment")
@@ -75,7 +76,7 @@ model EvaluationEngineAssignment
 @doc("The evaluation engine policy definition properties.")
 model PolicyDefinitionProperties {
   name: string;
-  //complete later with sample properties
+  // complete later with sample properties
 }
 
 @doc("The evaluation engine policy definition")
@@ -95,8 +96,8 @@ interface EvaluationEngineOperations {
   get is ArmResourceRead<EvaluationEngine>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngine>;
   delete is ArmResourceDeleteSync<EvaluationEngine>;
-  listByParent is ArmResourceListByParent<EvaluationEngine>;
-  listBySubscription is ArmResourceListBySubscription<EvaluationEngine>;
+  listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
+  listBySubscription is ArmListBySubscription<EvaluationEngine>;
 }
 
 @armResourceOperations
@@ -104,9 +105,15 @@ interface EvaluationEngineAssignmentOperations {
   get is ArmResourceRead<EvaluationEngineAssignment>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngineAssignment>;
   delete is ArmResourceDeleteSync<EvaluationEngineAssignment>;
-  listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
-  listByParent is ArmResourceListByParent<EvaluationEngineAssignment>;
-  listBySubscription is ArmResourceListBySubscription<EvaluationEngine>;
+  // listByResourceGroup is ArmResourceListByParent<EvaluationEngineAssignment>;
+  // listBySubscription is ArmListBySubscription<EvaluationEngineAssignment>;
+
+  /**
+   * The operatoins above cause issues and I can't seem to find any information on how to fix them
+   * They issues are something to do with the commented out lines being duplicates of "ListByEvaluationEngine"
+   * I am commenting thm out for now to be able to generate swagger files for now.
+   */
+  //
 }
 
 @armResourceOperations
@@ -115,5 +122,5 @@ interface PolicyDefinitionOperations {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<PolicyDefinition>;
   delete is ArmResourceDeleteSync<PolicyDefinition>;
   listByResourceGroup is ArmResourceListByParent<PolicyDefinition>;
-  listBySubscription is ArmResourceListBySubscription<PolicyDefinition>;
+  listBySubscription is ArmListBySubscription<PolicyDefinition>;
 }
