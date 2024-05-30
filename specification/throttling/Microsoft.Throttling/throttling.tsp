@@ -51,8 +51,8 @@ union ProvisioningState {
   @doc("Resource being deleted")
   Deleting: "Deleting",
 
-  string,
   ResourceProvisioningState,
+  string,
 }
 
 @doc("Throttling account")
@@ -71,9 +71,9 @@ model Account is TrackedResource<AccountProperties> {
 @armResourceOperations
 interface Accounts {
   get is ArmResourceRead<Account>;
-  create is ArmResourceCreateOrReplaceSync<Account>;
-  update is ArmResourcePatchSync<Account, AccountProperties>;
-  delete is ArmResourceDeleteSync<Account>;
+  create is ArmResourceCreateOrReplaceAsync<Account>;
+  update is ArmResourcePatchAsync<Account, AccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Account>;
   listByResourceGroup is ArmResourceListByParent<Account>;
   listBySubscription is ArmListBySubscription<Account>;
 }
@@ -140,9 +140,9 @@ model Category is TrackedResource<CategoryProperties> {
 @armResourceOperations
 interface Categories {
   get is ArmResourceRead<Category>;
-  create is ArmResourceCreateOrReplaceSync<Category>;
-  update is ArmResourcePatchSync<Category, CategoryProperties>;
-  delete is ArmResourceDeleteSync<Category>;
+  create is ArmResourceCreateOrReplaceAsync<Category>;
+  update is ArmResourcePatchAsync<Category, CategoryProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Category>;
   listByParent is ArmResourceListByParent<Category>;
 }
 
@@ -152,18 +152,6 @@ model CategoryProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Window duration")
-  // TODO: define, see task #27581502
-  //@minValue("?)
-  //@maxValue("?")
-  windowDuration: duration;
-
-  @doc("Minimal decision duration")
-  // TODO: define, see task #27581502
-  //@minValue("?)
-  //@maxValue("?")
-  minDecisionDuration: duration;
-
   @doc("Threshold value")
   @minValue(1)
   threshold: int32;
@@ -172,4 +160,16 @@ model CategoryProperties {
   @minValue(-16)
   @maxValue(-1)
   depth: int32;
+
+  @doc("Window duration")
+  // TODO: define, see task #27581502
+  //@minValue("?")
+  //@maxValue("?")
+  windowDuration: duration;
+
+  @doc("Minimal decision duration")
+  // TODO: define, see task #27581502
+  //@minValue("?")
+  //@maxValue("?")
+  minDecisionDuration: duration;
 }

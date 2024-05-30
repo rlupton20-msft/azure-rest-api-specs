@@ -349,6 +349,13 @@
             "description": "Resource 'Account' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Account"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -362,7 +369,11 @@
           "Accounts_Create": {
             "$ref": "./examples/Accounts_Create.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
       },
       "patch": {
         "operationId": "Accounts_Update",
@@ -407,6 +418,20 @@
               "$ref": "#/definitions/Account"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -418,7 +443,11 @@
           "Accounts_Update": {
             "$ref": "./examples/Accounts_Update.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "Accounts_Delete",
@@ -448,8 +477,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -465,7 +505,11 @@
           "Accounts_Delete": {
             "$ref": "./examples/Accounts_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Throttling/accounts/{accountName}/categories": {
@@ -635,6 +679,13 @@
             "description": "Resource 'Category' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Category"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -648,7 +699,11 @@
           "Categories_Create": {
             "$ref": "./examples/Categories_Create.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
       },
       "patch": {
         "operationId": "Categories_Update",
@@ -703,6 +758,20 @@
               "$ref": "#/definitions/Category"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -714,7 +783,11 @@
           "Categories_Update": {
             "$ref": "./examples/Categories_Update.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "Categories_Delete",
@@ -754,8 +827,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -771,7 +855,11 @@
           "Categories_Delete": {
             "$ref": "./examples/Categories_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     }
   },
@@ -975,16 +1063,6 @@
           "description": "Provisioning state",
           "readOnly": true
         },
-        "windowDuration": {
-          "type": "string",
-          "format": "duration",
-          "description": "Window duration"
-        },
-        "minDecisionDuration": {
-          "type": "string",
-          "format": "duration",
-          "description": "Minimal decision duration"
-        },
         "threshold": {
           "type": "integer",
           "format": "int32",
@@ -997,13 +1075,23 @@
           "description": "Depth of the bucket",
           "minimum": -16,
           "maximum": -1
+        },
+        "windowDuration": {
+          "type": "string",
+          "format": "duration",
+          "description": "Window duration"
+        },
+        "minDecisionDuration": {
+          "type": "string",
+          "format": "duration",
+          "description": "Minimal decision duration"
         }
       },
       "required": [
-        "windowDuration",
-        "minDecisionDuration",
         "threshold",
-        "depth"
+        "depth",
+        "windowDuration",
+        "minDecisionDuration"
       ]
     },
     "CategoryUpdate": {
@@ -1028,16 +1116,6 @@
       "type": "object",
       "description": "The updatable properties of the Category.",
       "properties": {
-        "windowDuration": {
-          "type": "string",
-          "format": "duration",
-          "description": "Window duration"
-        },
-        "minDecisionDuration": {
-          "type": "string",
-          "format": "duration",
-          "description": "Minimal decision duration"
-        },
         "threshold": {
           "type": "integer",
           "format": "int32",
@@ -1050,6 +1128,16 @@
           "description": "Depth of the bucket",
           "minimum": -16,
           "maximum": -1
+        },
+        "windowDuration": {
+          "type": "string",
+          "format": "duration",
+          "description": "Window duration"
+        },
+        "minDecisionDuration": {
+          "type": "string",
+          "format": "duration",
+          "description": "Minimal decision duration"
         }
       }
     },
