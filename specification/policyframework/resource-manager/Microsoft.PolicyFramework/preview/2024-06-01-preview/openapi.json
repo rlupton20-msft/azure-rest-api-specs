@@ -84,46 +84,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/engineName": {
-      "get": {
-        "operationId": "PolicyDefinitionOperations_ListBySubscription",
-        "tags": [
-          "PolicyDefinitionOperations"
-        ],
-        "description": "List PolicyDefinition resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "engineName",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/PolicyDefinitionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines": {
       "get": {
         "operationId": "EvaluationEngineOperations_ListByResourceGroup",
@@ -303,13 +263,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/engineName": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyAssignments": {
       "get": {
-        "operationId": "PolicyDefinitionOperations_ListByEvaluationEngine",
+        "operationId": "EvaluationEngineAssignmentOperations_ListByEvaluationEngine",
         "tags": [
-          "PolicyDefinitionOperations"
+          "EvaluationEngineAssignmentOperations"
         ],
-        "description": "List PolicyDefinition resources by EvaluationEngine",
+        "description": "List EvaluationEngineAssignment resources by EvaluationEngine",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -331,7 +291,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinitionListResult"
+              "$ref": "#/definitions/EvaluationEngineAssignmentListResult"
             }
           },
           "default": {
@@ -346,7 +306,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/engineName/{assignmentName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyAssignments/{assignmentName}": {
       "get": {
         "operationId": "EvaluationEngineAssignmentOperations_Get",
         "tags": [
@@ -392,7 +352,7 @@
         }
       },
       "put": {
-        "operationId": "EvaluationEngineAssignmentOperations_CreateOrUpdate",
+        "operationId": "EvaluationEngineAssignmentOperations_Create",
         "tags": [
           "EvaluationEngineAssignmentOperations"
         ],
@@ -440,13 +400,6 @@
             "description": "Resource 'EvaluationEngineAssignment' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/EvaluationEngineAssignment"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -455,11 +408,60 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
+      },
+      "patch": {
+        "operationId": "EvaluationEngineAssignmentOperations_Update",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "Update a EvaluationEngineAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "engineName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "assignmentName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignmentUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
       },
       "delete": {
         "operationId": "EvaluationEngineAssignmentOperations_Delete",
@@ -506,7 +508,50 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/engineName/{policyName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyDefinitions": {
+      "get": {
+        "operationId": "PolicyDefinitionOperations_ListByEvaluationEngine",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "List PolicyDefinition resources by EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "engineName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PolicyDefinitionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyDefinitions/{policyName}": {
       "get": {
         "operationId": "PolicyDefinitionOperations_Get",
         "tags": [
@@ -552,7 +597,7 @@
         }
       },
       "put": {
-        "operationId": "PolicyDefinitionOperations_CreateOrUpdate",
+        "operationId": "PolicyDefinitionOperations_Create",
         "tags": [
           "PolicyDefinitionOperations"
         ],
@@ -600,13 +645,6 @@
             "description": "Resource 'PolicyDefinition' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/PolicyDefinition"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -615,11 +653,60 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
+      },
+      "patch": {
+        "operationId": "PolicyDefinitionOperations_Update",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "Update a PolicyDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "engineName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PolicyDefinitionUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PolicyDefinition"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
       },
       "delete": {
         "operationId": "PolicyDefinitionOperations_Delete",
@@ -680,20 +767,8 @@
             "read",
             "create"
           ]
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "Microsoft.PolicyFramework/evaluationEngines"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
         }
       },
-      "required": [
-        "type"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -732,6 +807,27 @@
         }
       ]
     },
+    "EvaluationEngineAssignmentListResult": {
+      "type": "object",
+      "description": "The response of a EvaluationEngineAssignment list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EvaluationEngineAssignment items on this page",
+          "items": {
+            "$ref": "#/definitions/EvaluationEngineAssignment"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "EvaluationEngineAssignmentProperties": {
       "type": "object",
       "description": "The evaluation engine assignment properties.",
@@ -743,6 +839,41 @@
       "required": [
         "name"
       ]
+    },
+    "EvaluationEngineAssignmentUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the EvaluationEngineAssignment.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.PolicyFramework/evaluationEngines/Assignments"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/EvaluationEngineAssignmentUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EvaluationEngineAssignmentUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the EvaluationEngineAssignment.",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
     },
     "EvaluationEngineListResult": {
       "type": "object",
@@ -841,6 +972,41 @@
       "required": [
         "name"
       ]
+    },
+    "PolicyDefinitionUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the PolicyDefinition.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.PolicyFramework/evaluationEngines/Definitions"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/PolicyDefinitionUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "PolicyDefinitionUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the PolicyDefinition.",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {}

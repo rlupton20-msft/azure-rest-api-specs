@@ -21,7 +21,7 @@ namespace Microsoft.PolicyFramework;
 
 /** PolicyFramework RP API versions. */
 enum Versions {
-  /** 2024-05-29-preview version */
+  /** 2024-06-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -44,8 +44,6 @@ model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
   @visibility("read")
   @path
   name: string;
-
-  type: "Microsoft.PolicyFramework/evaluationEngines";
 }
 
 /**
@@ -62,7 +60,7 @@ model EvaluationEngineAssignmentProperties {
 model EvaluationEngineAssignment
   is TrackedResource<EvaluationEngineAssignmentProperties> {
   @key("assignmentName")
-  @segment("engineName")
+  @segment("policyAssignments")
   @visibility("read")
   @path
   name: string;
@@ -71,7 +69,7 @@ model EvaluationEngineAssignment
 }
 
 /**
- * The evaluation engine policy definition type
+ * The evaluation engine policy type definition
  */
 @doc("The evaluation engine policy definition properties.")
 model PolicyDefinitionProperties {
@@ -83,7 +81,7 @@ model PolicyDefinitionProperties {
 @parentResource(EvaluationEngine)
 model PolicyDefinition is TrackedResource<PolicyDefinitionProperties> {
   @key("policyName")
-  @segment("engineName")
+  @segment("policyDefinitions")
   @visibility("read")
   @path
   name: string;
@@ -103,24 +101,20 @@ interface EvaluationEngineOperations {
 @armResourceOperations
 interface EvaluationEngineAssignmentOperations {
   get is ArmResourceRead<EvaluationEngineAssignment>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngineAssignment>;
+  create is ArmResourceCreateOrReplaceSync<EvaluationEngineAssignment>;
+  update is ArmResourcePatchSync<
+    EvaluationEngineAssignment,
+    EvaluationEngineAssignmentProperties
+  >;
   delete is ArmResourceDeleteSync<EvaluationEngineAssignment>;
-  // listByResourceGroup is ArmResourceListByParent<EvaluationEngineAssignment>;
-  // listBySubscription is ArmListBySubscription<EvaluationEngineAssignment>;
-
-  /**
-   * The operatoins above cause issues and I can't seem to find any information on how to fix them
-   * They issues are something to do with the commented out lines being duplicates of "ListByEvaluationEngine"
-   * I am commenting thm out for now to be able to generate swagger files for now.
-   */
-  //
+  listByParent is ArmResourceListByParent<EvaluationEngineAssignment>;
 }
 
 @armResourceOperations
 interface PolicyDefinitionOperations {
   get is ArmResourceRead<PolicyDefinition>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<PolicyDefinition>;
+  create is ArmResourceCreateOrReplaceSync<PolicyDefinition>;
+  update is ArmResourcePatchSync<PolicyDefinition, PolicyDefinitionProperties>;
   delete is ArmResourceDeleteSync<PolicyDefinition>;
-  listByResourceGroup is ArmResourceListByParent<PolicyDefinition>;
-  listBySubscription is ArmListBySubscription<PolicyDefinition>;
+  listByParent is ArmResourceListByParent<PolicyDefinition>;
 }

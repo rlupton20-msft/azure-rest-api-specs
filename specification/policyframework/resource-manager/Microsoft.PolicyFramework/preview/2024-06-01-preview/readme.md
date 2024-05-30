@@ -25,6 +25,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the policyframework.
 
 ```yaml
+v3: true
 openapi-type: arm
 tag: package-2024-06-01-preview
 ```
@@ -35,7 +36,7 @@ These settings apply only when `--tag=package-2024-06-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-06-01-preview'
 input-file:
-  - resource-manager\PolicyFramework.Management\preview\2024-06-01-preview\openapi.json
+  - Microsoft.PolicyFramework\preview\2024-06-01-preview\openapi.json
 ```
 
 ---
