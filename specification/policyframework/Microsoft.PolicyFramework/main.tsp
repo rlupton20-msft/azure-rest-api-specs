@@ -19,6 +19,8 @@ using TypeSpec.OpenAPI;
 @versioned(Versions)
 namespace Microsoft.PolicyFramework;
 
+interface Operations extends Azure.ResourceManager.Operations {}
+
 /** PolicyFramework RP API versions. */
 enum Versions {
   /** 2024-06-01-preview version */
@@ -33,16 +35,16 @@ enum Versions {
  */
 @doc("The evaluation engine properties.")
 model EvaluationEngineProperties {
-  name: string;
   // complete later with sample properties
 }
 
 @doc("The evaluation engine")
 model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
-  @key("engineName")
+  @key("evaluationEngineName")
   @segment("evaluationEngines")
   @visibility("read")
   @path
+  @doc("The name of the evaluation engine.")
   name: string;
 }
 
@@ -51,42 +53,39 @@ model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
  */
 @doc("The evaluation engine assignment properties.")
 model EvaluationEngineAssignmentProperties {
-  name: string;
   // complete later with sample properties
 }
 
 @doc("The evaluation engine assignment")
 @parentResource(EvaluationEngine)
 model EvaluationEngineAssignment
-  is TrackedResource<EvaluationEngineAssignmentProperties> {
+  is ProxyResource<EvaluationEngineAssignmentProperties> {
   @key("assignmentName")
-  @segment("policyAssignments")
+  @segment("evaluationEngineAssignments")
   @visibility("read")
   @path
+  @doc("The name of the evaluation engine assignment.")
   name: string;
-
-  type: "Microsoft.PolicyFramework/evaluationEngines/Assignments";
 }
 
 /**
  * The evaluation engine policy type definition
  */
 @doc("The evaluation engine policy definition properties.")
-model PolicyDefinitionProperties {
-  name: string;
+model EvaluationEnginePolicyDefinitionProperties {
   // complete later with sample properties
 }
 
 @doc("The evaluation engine policy definition")
 @parentResource(EvaluationEngine)
-model PolicyDefinition is TrackedResource<PolicyDefinitionProperties> {
+model EvaluationEnginePolicyDefinition
+  is ProxyResource<EvaluationEnginePolicyDefinitionProperties> {
   @key("policyName")
-  @segment("policyDefinitions")
+  @segment("evaluationEnginePolicyDefinitions")
   @visibility("read")
   @path
+  @doc("The name of the evaluation engine policy definition.")
   name: string;
-
-  type: "Microsoft.PolicyFramework/evaluationEngines/Definitions";
 }
 
 @armResourceOperations
@@ -112,9 +111,12 @@ interface EvaluationEngineAssignmentOperations {
 
 @armResourceOperations
 interface PolicyDefinitionOperations {
-  get is ArmResourceRead<PolicyDefinition>;
-  create is ArmResourceCreateOrReplaceSync<PolicyDefinition>;
-  update is ArmResourcePatchSync<PolicyDefinition, PolicyDefinitionProperties>;
-  delete is ArmResourceDeleteSync<PolicyDefinition>;
-  listByParent is ArmResourceListByParent<PolicyDefinition>;
+  get is ArmResourceRead<EvaluationEnginePolicyDefinition>;
+  create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyDefinition>;
+  update is ArmResourcePatchSync<
+    EvaluationEnginePolicyDefinition,
+    EvaluationEnginePolicyDefinitionProperties
+  >;
+  delete is ArmResourceDeleteSync<EvaluationEnginePolicyDefinition>;
+  listByParent is ArmResourceListByParent<EvaluationEnginePolicyDefinition>;
 }

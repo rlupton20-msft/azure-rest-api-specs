@@ -40,6 +40,9 @@
   },
   "tags": [
     {
+      "name": "Operations"
+    },
+    {
       "name": "EvaluationEngineOperations"
     },
     {
@@ -50,6 +53,45 @@
     }
   ],
   "paths": {
+    "/providers/Microsoft.PolicyFramework/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyFramework/evaluationEngines": {
       "get": {
         "operationId": "EvaluationEngineOperations_ListBySubscription",
@@ -81,6 +123,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_ListBySubscription_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -118,10 +165,15 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}": {
       "get": {
         "operationId": "EvaluationEngineOperations_Get",
         "tags": [
@@ -139,8 +191,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           }
@@ -157,6 +210,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -177,8 +235,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
@@ -222,7 +281,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EvaluationEngineOperations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "EvaluationEngineOperations_Delete",
@@ -241,8 +305,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           }
@@ -260,10 +325,18 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Delete_MaximumSet_Gen.json"
+          },
+          "EvaluationEngineOperations_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Delete_MinimumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyAssignments": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEngineAssignments": {
       "get": {
         "operationId": "EvaluationEngineAssignmentOperations_ListByEvaluationEngine",
         "tags": [
@@ -281,8 +354,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           }
@@ -303,10 +377,15 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_ListByEvaluationEngine_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_ListByEvaluationEngine_MaximumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyAssignments/{assignmentName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEngineAssignments/{assignmentName}": {
       "get": {
         "operationId": "EvaluationEngineAssignmentOperations_Get",
         "tags": [
@@ -324,14 +403,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "assignmentName",
             "in": "path",
+            "description": "The name of the evaluation engine assignment.",
             "required": true,
             "type": "string"
           }
@@ -348,6 +429,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -368,14 +454,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "assignmentName",
             "in": "path",
+            "description": "The name of the evaluation engine assignment.",
             "required": true,
             "type": "string"
           },
@@ -408,6 +496,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Create_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Create_MaximumSet_Gen.json"
+          }
         }
       },
       "patch": {
@@ -427,14 +520,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "assignmentName",
             "in": "path",
+            "description": "The name of the evaluation engine assignment.",
             "required": true,
             "type": "string"
           },
@@ -461,6 +556,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Update_MaximumSet_Gen.json"
+          }
         }
       },
       "delete": {
@@ -480,14 +580,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "assignmentName",
             "in": "path",
+            "description": "The name of the evaluation engine assignment.",
             "required": true,
             "type": "string"
           }
@@ -505,16 +607,24 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Delete_MaximumSet_Gen.json"
+          },
+          "EvaluationEngineAssignmentOperations_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Delete_MinimumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyDefinitions": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEnginePolicyDefinitions": {
       "get": {
         "operationId": "PolicyDefinitionOperations_ListByEvaluationEngine",
         "tags": [
           "PolicyDefinitionOperations"
         ],
-        "description": "List PolicyDefinition resources by EvaluationEngine",
+        "description": "List EvaluationEnginePolicyDefinition resources by EvaluationEngine",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -526,8 +636,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           }
@@ -536,7 +647,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinitionListResult"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinitionListResult"
             }
           },
           "default": {
@@ -548,16 +659,21 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_ListByEvaluationEngine_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_ListByEvaluationEngine_MaximumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{engineName}/policyDefinitions/{policyName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEnginePolicyDefinitions/{policyName}": {
       "get": {
         "operationId": "PolicyDefinitionOperations_Get",
         "tags": [
           "PolicyDefinitionOperations"
         ],
-        "description": "Get a PolicyDefinition",
+        "description": "Get a EvaluationEnginePolicyDefinition",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -569,14 +685,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "policyName",
             "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
             "required": true,
             "type": "string"
           }
@@ -585,7 +703,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
             }
           },
           "default": {
@@ -594,6 +712,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Get_MaximumSet_Gen.json"
+          }
         }
       },
       "put": {
@@ -601,7 +724,7 @@
         "tags": [
           "PolicyDefinitionOperations"
         ],
-        "description": "Create a PolicyDefinition",
+        "description": "Create a EvaluationEnginePolicyDefinition",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -613,14 +736,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "policyName",
             "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
             "required": true,
             "type": "string"
           },
@@ -630,21 +755,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'PolicyDefinition' update operation succeeded",
+            "description": "Resource 'EvaluationEnginePolicyDefinition' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
             }
           },
           "201": {
-            "description": "Resource 'PolicyDefinition' create operation succeeded",
+            "description": "Resource 'EvaluationEnginePolicyDefinition' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
             }
           },
           "default": {
@@ -653,6 +778,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Create_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Create_MaximumSet_Gen.json"
+          }
         }
       },
       "patch": {
@@ -660,7 +790,7 @@
         "tags": [
           "PolicyDefinitionOperations"
         ],
-        "description": "Update a PolicyDefinition",
+        "description": "Update a EvaluationEnginePolicyDefinition",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -672,14 +802,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "policyName",
             "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
             "required": true,
             "type": "string"
           },
@@ -689,7 +821,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PolicyDefinitionUpdate"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinitionUpdate"
             }
           }
         ],
@@ -697,7 +829,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
             }
           },
           "default": {
@@ -706,6 +838,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Update_MaximumSet_Gen.json"
+          }
         }
       },
       "delete": {
@@ -713,7 +850,7 @@
         "tags": [
           "PolicyDefinitionOperations"
         ],
-        "description": "Delete a PolicyDefinition",
+        "description": "Delete a EvaluationEnginePolicyDefinition",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -725,14 +862,16 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "engineName",
+            "name": "evaluationEngineName",
             "in": "path",
+            "description": "The name of the evaluation engine.",
             "required": true,
             "type": "string"
           },
           {
             "name": "policyName",
             "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
             "required": true,
             "type": "string"
           }
@@ -749,6 +888,14 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Delete_MaximumSet_Gen.json"
+          },
+          "PolicyDefinitionOperations_Delete_MinimumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Delete_MinimumSet_Gen.json"
           }
         }
       }
@@ -787,23 +934,11 @@
             "read",
             "create"
           ]
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "Microsoft.PolicyFramework/evaluationEngines/Assignments"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
         }
       },
-      "required": [
-        "type"
-      ],
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -830,50 +965,11 @@
     },
     "EvaluationEngineAssignmentProperties": {
       "type": "object",
-      "description": "The evaluation engine assignment properties.",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
+      "description": "The evaluation engine assignment properties."
     },
     "EvaluationEngineAssignmentUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the EvaluationEngineAssignment.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "Microsoft.PolicyFramework/evaluationEngines/Assignments"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/EvaluationEngineAssignmentUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "EvaluationEngineAssignmentUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the EvaluationEngineAssignment.",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      }
+      "description": "The type used for update operations of the EvaluationEngineAssignment."
     },
     "EvaluationEngineListResult": {
       "type": "object",
@@ -896,59 +992,35 @@
         "value"
       ]
     },
-    "EvaluationEngineProperties": {
-      "type": "object",
-      "description": "The evaluation engine properties.",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "PolicyDefinition": {
+    "EvaluationEnginePolicyDefinition": {
       "type": "object",
       "description": "The evaluation engine policy definition",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/PolicyDefinitionProperties",
+          "$ref": "#/definitions/EvaluationEnginePolicyDefinitionProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true,
           "x-ms-mutability": [
             "read",
             "create"
           ]
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "Microsoft.PolicyFramework/evaluationEngines/Definitions"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
         }
       },
-      "required": [
-        "type"
-      ],
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
-    "PolicyDefinitionListResult": {
+    "EvaluationEnginePolicyDefinitionListResult": {
       "type": "object",
-      "description": "The response of a PolicyDefinition list operation.",
+      "description": "The response of a EvaluationEnginePolicyDefinition list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The PolicyDefinition items on this page",
+          "description": "The EvaluationEnginePolicyDefinition items on this page",
           "items": {
-            "$ref": "#/definitions/PolicyDefinition"
+            "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
           }
         },
         "nextLink": {
@@ -961,52 +1033,17 @@
         "value"
       ]
     },
-    "PolicyDefinitionProperties": {
+    "EvaluationEnginePolicyDefinitionProperties": {
       "type": "object",
-      "description": "The evaluation engine policy definition properties.",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
+      "description": "The evaluation engine policy definition properties."
     },
-    "PolicyDefinitionUpdate": {
+    "EvaluationEnginePolicyDefinitionUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the PolicyDefinition.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "Microsoft.PolicyFramework/evaluationEngines/Definitions"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/PolicyDefinitionUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
+      "description": "The type used for update operations of the EvaluationEnginePolicyDefinition."
     },
-    "PolicyDefinitionUpdateProperties": {
+    "EvaluationEngineProperties": {
       "type": "object",
-      "description": "The updatable properties of the PolicyDefinition.",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      }
+      "description": "The evaluation engine properties."
     }
   },
   "parameters": {}
