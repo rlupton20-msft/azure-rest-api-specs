@@ -35,6 +35,9 @@ enum Versions {
  */
 @doc("The evaluation engine properties.")
 model EvaluationEngineProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
   // complete later with sample properties
 }
 
@@ -42,8 +45,9 @@ model EvaluationEngineProperties {
 model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
   @key("evaluationEngineName")
   @segment("evaluationEngines")
-  @visibility("read")
+  @visibility("readonly")
   @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine.")
   name: string;
 }
@@ -53,6 +57,12 @@ model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
  */
 @doc("The evaluation engine assignment properties.")
 model EvaluationEngineAssignmentProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The version of the evaluation engine assignment.")
+  version: string;
   // complete later with sample properties
 }
 
@@ -62,8 +72,9 @@ model EvaluationEngineAssignment
   is ProxyResource<EvaluationEngineAssignmentProperties> {
   @key("assignmentName")
   @segment("evaluationEngineAssignments")
-  @visibility("read")
+  @visibility("readonly")
   @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine assignment.")
   name: string;
 }
@@ -73,6 +84,12 @@ model EvaluationEngineAssignment
  */
 @doc("The evaluation engine policy definition properties.")
 model EvaluationEnginePolicyDefinitionProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The version of the evaluation engine policy definition.")
+  version: string;
   // complete later with sample properties
 }
 
@@ -82,10 +99,50 @@ model EvaluationEnginePolicyDefinition
   is ProxyResource<EvaluationEnginePolicyDefinitionProperties> {
   @key("policyName")
   @segment("evaluationEnginePolicyDefinitions")
-  @visibility("read")
+  @visibility("read", "create", "update", "delete")
   @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine policy definition.")
   name: string;
+}
+
+@lroStatus
+@doc("The provisioning state of the last accepted operation")
+// enum ProvisioningState {
+//   ...ResourceProvisioningState,
+
+//   @doc("Resource is creating")
+//   Creating,
+
+//   @doc("Resource is updating")
+//   Updating,
+
+//   @doc("Resource is deleting")
+//   Deleting,
+
+//   @doc("Resource succeeded")
+//   Succeeded,
+
+//   @doc("Resource failed")
+//   Failed,
+// }
+union ProvisioningState {
+  ResourceProvisioningState, // include standard provisioning states
+
+  @doc("Resource is creating")
+  Creating: "Creating",
+
+  @doc("Resource is updating")
+  Updating: "Updating",
+
+  @doc("Resource is deleting")
+  Deleting: "Deleting",
+
+  @doc("Resource succeeded")
+  Succeeded: "Succeeded",
+
+  @doc("Resource failed")
+  Failed: "Failed",
 }
 
 @armResourceOperations
