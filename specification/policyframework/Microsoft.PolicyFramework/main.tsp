@@ -149,6 +149,7 @@ union ProvisioningState {
 interface EvaluationEngineOperations {
   get is ArmResourceRead<EvaluationEngine>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngine>;
+  update is ArmResourcePatchAsync<EvaluationEngine, EvaluationEngineProperties>;
   delete is ArmResourceDeleteSync<EvaluationEngine>;
   listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
   listBySubscription is ArmListBySubscription<EvaluationEngine>;
