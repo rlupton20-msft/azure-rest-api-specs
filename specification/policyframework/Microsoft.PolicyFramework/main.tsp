@@ -31,7 +31,7 @@ enum Versions {
 }
 
 /**
- * The evaluation engine type definition (include name and properties of the evaluation engine)
+ * The evaluation engine type definition
  */
 @doc("The evaluation engine properties.")
 model EvaluationEngineProperties {
