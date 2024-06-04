@@ -22,7 +22,7 @@ enum DiagnosticDestination {
 
   @doc("DiagnosticDestination Type EnclaveOnly")
   EnclaveOnly,
- 
+
   @doc("DiagnosticDestination Type Both")
   Both,
 }
@@ -67,10 +67,10 @@ model EnclaveDefaultSettings {
 @doc("Enclave Address Spaces")
 model EnclaveAddressSpaces {
   @doc("Enclave Address Space")
-  enclaveAddressSpace?: string;
+  enclaveAddressSpace: string;
 
   @doc("Managed Address Space")
-  managedAddressSpace?: string;
+  managedAddressSpace: string;
 }
 
 @doc("Virtual Enclave Resource properties")
