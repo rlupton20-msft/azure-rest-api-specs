@@ -99,7 +99,7 @@ model EvaluationEnginePolicyDefinition
   is ProxyResource<EvaluationEnginePolicyDefinitionProperties> {
   @key("policyName")
   @segment("evaluationEnginePolicyDefinitions")
-  @visibility("read", "create", "update", "delete")
+  @visibility("read")
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine policy definition.")
@@ -108,24 +108,6 @@ model EvaluationEnginePolicyDefinition
 
 @lroStatus
 @doc("The provisioning state of the last accepted operation")
-// enum ProvisioningState {
-//   ...ResourceProvisioningState,
-
-//   @doc("Resource is creating")
-//   Creating,
-
-//   @doc("Resource is updating")
-//   Updating,
-
-//   @doc("Resource is deleting")
-//   Deleting,
-
-//   @doc("Resource succeeded")
-//   Succeeded,
-
-//   @doc("Resource failed")
-//   Failed,
-// }
 union ProvisioningState {
   ResourceProvisioningState, // include standard provisioning states
 
