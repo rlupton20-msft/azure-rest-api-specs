@@ -37,10 +37,10 @@ model TimeWindow
 model TargetLink
 {
     @doc("target operation")
-    operation:string;
+    operation: ARMOperation;
 
     @doc("target resource id")
-    resourceId:string;
+    resourceId: string;
 }
 
 @doc("Details of the AzureChangeControl ChangeControl.")
@@ -50,10 +50,16 @@ model ChangeControlProperties {
     provisioningState?: ProvisioningState;
 
     @doc("The change control kind")
-    changeKind: string;
+    changeKind: ChangeKind;
 
     @doc("Validity period of the change control.")
     validityPeriod: TimeWindow;
+
+    @doc("The external change reference.")
+    changeReference: string;
+
+    @doc("The external service reference.")
+    serviceReference: string;
 
     @doc("Linked change control targets")
     @OpenAPI.extension("x-ms-identifiers", [])
@@ -86,8 +92,18 @@ union ProvisioningState {
 
     @doc("Provisioning canceled")
     Canceled: "Canceled",
+}
 
-    string
+@doc("The ARM operation.")
+union ARMOperation {
+    @doc("ARM Delete operation.")
+    Delete: "Delete",
+}
+
+@doc("The type of change being made.")
+union ChangeKind {
+    @doc("A breakglass scenario change.")
+    Breakglass: "Breakglass",
 }
 
 @doc("The validation result.")
@@ -101,8 +117,8 @@ model IsValidResult {
 
 @doc("The validation request.")
 model IsValidRequest {
-    @doc("The operation.")
-    operation: string;
+    @doc("The ARM operation.")
+    operation: ARMOperation;
     
     @doc("The resourceId.")
     resourceId: string;
