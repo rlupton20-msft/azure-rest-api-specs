@@ -11,11 +11,12 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Autorest;
 
-namespace Microsoft.AzureCIS;
+namespace Microsoft.AzureCis;
 
 @doc("PublishConfigValuesResource properties")
 model PublishConfigValuesResourceProperties {
   @doc("PublishValues.")
+  @extension("x-ms-identifiers", [])
   publishValues: Array<PublishValue>;
 
   @doc("CloudSprout environment to publish the value to. Optional.")
