@@ -1316,7 +1316,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ValidationResult"
+              "$ref": "#/definitions/SubscriptionValidationResult"
             }
           },
           "202": {
@@ -1541,7 +1541,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ValidationResult"
+              "$ref": "#/definitions/SubscriptionValidationResult"
             }
           },
           "202": {
@@ -8442,6 +8442,24 @@
         ]
       }
     },
+    "ErrorMessage": {
+      "type": "object",
+      "description": "Error Message",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A short error code that defines the error"
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable error string."
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
     "EstimatedPatchingTime": {
       "type": "object",
       "description": "The estimated total time required in minutes for all patching operations (database server, storage server, and network switch patching).",
@@ -9987,6 +10005,52 @@
         "allowedResources": [
           {
             "type": "Microsoft.Network/virtualNetworks/subnets"
+          }
+        ]
+      }
+    },
+    "SubscriptionValidationResult": {
+      "type": "object",
+      "description": "Validation result of adding/removing Azure subscriptions",
+      "properties": {
+        "validationStatus": {
+          "$ref": "#/definitions/SubscriptionValidationStatus",
+          "description": "Validation status"
+        },
+        "validationDetails": {
+          "type": "array",
+          "description": "Validation result details",
+          "items": {
+            "$ref": "#/definitions/ErrorMessage"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "validationStatus",
+        "validationDetails"
+      ]
+    },
+    "SubscriptionValidationStatus": {
+      "type": "string",
+      "description": "Validation status",
+      "enum": [
+        "Succeed",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "SubscriptionValidationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeed",
+            "value": "Succeed",
+            "description": "Successfully Validation"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Failed Validation"
           }
         ]
       }
