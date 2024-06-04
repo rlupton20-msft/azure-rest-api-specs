@@ -57,6 +57,8 @@ These settings apply only when `--tag=package-2023-08-22` is specified on the co
 input-file:
   - Microsoft.AzureCis/stable/2023-08-22/aad.json
   - Microsoft.AzureCis/stable/2023-08-22/dscm.json
+  - Microsoft.AzureCis/stable/2023-08-22/environment.json
   - Microsoft.AzureCis/stable/2023-08-22/genevaActions.json
+  - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
 ```
 ---
