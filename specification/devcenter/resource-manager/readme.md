@@ -27,6 +27,7 @@ These are the global settings for the devcenter.
 openapi-type: arm
 openapi-subtype: rpaas
 tag: package-preview-2024-06
+eol: crlf
 ```
 
 
@@ -34,7 +35,7 @@ tag: package-preview-2024-06
 
 These settings apply only when `--tag=package-preview-2024-06` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2024-05'
+```yaml $(tag) == 'package-preview-2024-06'
 input-file:
   - Microsoft.DevCenter/preview/2024-06-01-preview/commonDefinitions.json
   - Microsoft.DevCenter/preview/2024-06-01-preview/devcenter.json
