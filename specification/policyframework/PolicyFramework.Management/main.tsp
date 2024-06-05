@@ -45,7 +45,6 @@ model EvaluationEngineProperties {
 model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
   @key("evaluationEngineName")
   @segment("evaluationEngines")
-  @visibility("readonly")
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine.")
@@ -72,7 +71,6 @@ model EvaluationEngineAssignment
   is ProxyResource<EvaluationEngineAssignmentProperties> {
   @key("assignmentName")
   @segment("evaluationEngineAssignments")
-  @visibility("readonly")
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine assignment.")
@@ -99,7 +97,6 @@ model EvaluationEnginePolicyDefinition
   is ProxyResource<EvaluationEnginePolicyDefinitionProperties> {
   @key("policyName")
   @segment("evaluationEnginePolicyDefinitions")
-  @visibility("read")
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the evaluation engine policy definition.")
