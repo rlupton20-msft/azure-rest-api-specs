@@ -467,17 +467,20 @@
     }
   },
   "definitions": {
+    "ARMOperation": {
+      "type": "string",
+      "enum": [
+        "Delete"
+      ],
+      "x-ms-enum": {
+        "modelAsString": false
+      },
+      "x-nullable": false
+    },
     "ChangeControl": {
       "type": "object",
       "description": "A AzureChangeControlProviderHub resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
           "$ref": "#/definitions/ChangeControlProperties",
           "description": "The resource-specific properties for this resource.",
@@ -525,7 +528,7 @@
           "readOnly": true
         },
         "changeKind": {
-          "type": "string",
+          "$ref": "#/definitions/ChangeKind",
           "description": "The change control kind"
         },
         "validityPeriod": {
@@ -572,7 +575,7 @@
       "description": "The updatable properties of the ChangeControl.",
       "properties": {
         "changeKind": {
-          "type": "string",
+          "$ref": "#/definitions/ChangeKind",
           "description": "The change control kind"
         },
         "validityPeriod": {
@@ -593,6 +596,34 @@
         }
       }
     },
+    "ChangeKind": {
+      "type": "string",
+      "enum": [
+        "Breakglass"
+      ],
+      "x-ms-enum": {
+        "modelAsString": false
+      },
+      "x-nullable": false
+    },
+    "IsValidRequest": {
+      "type": "object",
+      "description": "The validation request.",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/ARMOperation",
+          "description": "The ARM operation."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "The resourceId."
+        }
+      },
+      "required": [
+        "operation",
+        "resourceId"
+      ]
+    },
     "IsValidResult": {
       "type": "object",
       "description": "The validation result.",
@@ -610,55 +641,22 @@
         "isValid"
       ]
     },
-    "IsValidRequest": {
-      "type": "object",
-      "description": "The validation request.",
-      "properties": {
-        "operation": {
-          "type": "string",
-          "description": "The operation."
-        },
-        "resourceId": {
-          "type": "string",
-          "description": "The resourceId."
-        }
-      },
-      "required": [
-        "operation",
-        "resourceId"
-      ]
-    },
     "ProvisioningState": {
       "type": "string",
       "description": "The status of the current operation.",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Provisioning",
         "Updating",
         "Deleting",
-        "Accepted"
+        "Accepted",
+        "Succeeded",
+        "Failed",
+        "Canceled"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
-        "modelAsString": true,
+        "modelAsString": false,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Provisioning",
             "value": "Provisioning",
@@ -678,6 +676,21 @@
             "name": "Accepted",
             "value": "Accepted",
             "description": "Change accepted for processing"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Provisioning succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Provisioning failed"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Provisioning canceled"
           }
         ]
       },
@@ -688,7 +701,7 @@
       "description": "The target link",
       "properties": {
         "operation": {
-          "type": "string",
+          "$ref": "#/definitions/ARMOperation",
           "description": "target operation"
         },
         "resourceId": {
