@@ -74,7 +74,7 @@ model EnclaveEndpointProperties {
   endpointRuleCollection?: EnclaveEndpointRule[];
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  @doc("List of resource ids created by enclave endpoint.")
+  @doc("List of resource ids created by community endpoint.")
   resourceCollection?: string[];
 
   @doc("Provisioning State.")

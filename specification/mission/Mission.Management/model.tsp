@@ -19,6 +19,7 @@ import "./resourcetypes/transitHub/transitHub.tsp";
 import "./resourcetypes/enclaveConnection/enclaveConnection.tsp";
 import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
+import "./resourcetypes/postActions/approvalcallback.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -227,6 +228,19 @@ interface VirtualEnclave {
     @body
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
+
+  @autoRoute
+  @doc("Upon getting desired approvals this faciliates actions on approvals")
+  @armResourceAction(EnclaveResource)
+  @post
+  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
+  approvalCallback(
+    ...ResourceInstanceParameters<EnclaveResource>,
+
+    @doc("Check approval callback request body.")
+    @body
+    approvalCallbackRequest: ApprovalCallbackRequest,
+  ): ArmResponse<ApprovalCallbackResponse> | ErrorResponse;
 }
 
 @doc("Community Interface")
