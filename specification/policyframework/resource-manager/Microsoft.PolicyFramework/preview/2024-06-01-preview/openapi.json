@@ -1,0 +1,1263 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microsoft.PolicyFramework Resource Provider Management Service",
+    "version": "2024-06-01-preview",
+    "description": "Microsoft.PolicyFramework Resource Provider management API.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "EvaluationEngineOperations"
+    },
+    {
+      "name": "EvaluationEngineAssignmentOperations"
+    },
+    {
+      "name": "PolicyDefinitionOperations"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.PolicyFramework/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyFramework/evaluationEngines": {
+      "get": {
+        "operationId": "EvaluationEngineOperations_ListBySubscription",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "List EvaluationEngine resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_ListBySubscription_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines": {
+      "get": {
+        "operationId": "EvaluationEngineOperations_ListByResourceGroup",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "List EvaluationEngine resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}": {
+      "get": {
+        "operationId": "EvaluationEngineOperations_Get",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Get a EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngine"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "EvaluationEngineOperations_CreateOrUpdate",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Create a EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngine"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EvaluationEngine' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngine"
+            }
+          },
+          "201": {
+            "description": "Resource 'EvaluationEngine' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngine"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EvaluationEngineOperations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "EvaluationEngineOperations_Update",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Update a EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngine"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EvaluationEngineOperations_Delete",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Delete a EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEngineAssignments": {
+      "get": {
+        "operationId": "EvaluationEngineAssignmentOperations_ListByEvaluationEngine",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "List EvaluationEngineAssignment resources by EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignmentListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_ListByEvaluationEngine_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_ListByEvaluationEngine_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEngineAssignments/{assignmentName}": {
+      "get": {
+        "operationId": "EvaluationEngineAssignmentOperations_Get",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "Get a EvaluationEngineAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "assignmentName",
+            "in": "path",
+            "description": "The name of the evaluation engine assignment.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "EvaluationEngineAssignmentOperations_Create",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "Create a EvaluationEngineAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "assignmentName",
+            "in": "path",
+            "description": "The name of the evaluation engine assignment.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EvaluationEngineAssignment' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          },
+          "201": {
+            "description": "Resource 'EvaluationEngineAssignment' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Create_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Create_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "EvaluationEngineAssignmentOperations_Update",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "Update a EvaluationEngineAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "assignmentName",
+            "in": "path",
+            "description": "The name of the evaluation engine assignment.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignmentUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEngineAssignment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EvaluationEngineAssignmentOperations_Delete",
+        "tags": [
+          "EvaluationEngineAssignmentOperations"
+        ],
+        "description": "Delete a EvaluationEngineAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "assignmentName",
+            "in": "path",
+            "description": "The name of the evaluation engine assignment.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineAssignmentOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineAssignmentOperations_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEnginePolicyDefinitions": {
+      "get": {
+        "operationId": "PolicyDefinitionOperations_ListByEvaluationEngine",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "List EvaluationEnginePolicyDefinition resources by EvaluationEngine",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinitionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_ListByEvaluationEngine_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_ListByEvaluationEngine_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEnginePolicyDefinitions/{policyName}": {
+      "get": {
+        "operationId": "PolicyDefinitionOperations_Get",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "Get a EvaluationEnginePolicyDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "PolicyDefinitionOperations_Create",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "Create a EvaluationEnginePolicyDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EvaluationEnginePolicyDefinition' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+            }
+          },
+          "201": {
+            "description": "Resource 'EvaluationEnginePolicyDefinition' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Create_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Create_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "PolicyDefinitionOperations_Update",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "Update a EvaluationEnginePolicyDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinitionUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "PolicyDefinitionOperations_Delete",
+        "tags": [
+          "PolicyDefinitionOperations"
+        ],
+        "description": "Delete a EvaluationEnginePolicyDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the evaluation engine policy definition.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PolicyDefinitionOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/PolicyDefinitionOperations_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "EvaluationEngine": {
+      "type": "object",
+      "description": "The evaluation engine",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EvaluationEngineProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "EvaluationEngineAssignment": {
+      "type": "object",
+      "description": "The evaluation engine assignment",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EvaluationEngineAssignmentProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EvaluationEngineAssignmentListResult": {
+      "type": "object",
+      "description": "The response of a EvaluationEngineAssignment list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EvaluationEngineAssignment items on this page",
+          "items": {
+            "$ref": "#/definitions/EvaluationEngineAssignment"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EvaluationEngineAssignmentProperties": {
+      "type": "object",
+      "description": "The evaluation engine assignment properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning State",
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the evaluation engine assignment."
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
+    "EvaluationEngineAssignmentUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the EvaluationEngineAssignment.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EvaluationEngineAssignmentUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EvaluationEngineAssignmentUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the EvaluationEngineAssignment.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The version of the evaluation engine assignment."
+        }
+      }
+    },
+    "EvaluationEngineListResult": {
+      "type": "object",
+      "description": "The response of a EvaluationEngine list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EvaluationEngine items on this page",
+          "items": {
+            "$ref": "#/definitions/EvaluationEngine"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EvaluationEnginePolicyDefinition": {
+      "type": "object",
+      "description": "The evaluation engine policy definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EvaluationEnginePolicyDefinitionProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EvaluationEnginePolicyDefinitionListResult": {
+      "type": "object",
+      "description": "The response of a EvaluationEnginePolicyDefinition list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EvaluationEnginePolicyDefinition items on this page",
+          "items": {
+            "$ref": "#/definitions/EvaluationEnginePolicyDefinition"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EvaluationEnginePolicyDefinitionProperties": {
+      "type": "object",
+      "description": "The evaluation engine policy definition properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning State",
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the evaluation engine policy definition."
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
+    "EvaluationEnginePolicyDefinitionUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the EvaluationEnginePolicyDefinition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EvaluationEnginePolicyDefinitionUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EvaluationEnginePolicyDefinitionUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the EvaluationEnginePolicyDefinition.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The version of the evaluation engine policy definition."
+        }
+      }
+    },
+    "EvaluationEngineProperties": {
+      "type": "object",
+      "description": "The evaluation engine properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning State",
+          "readOnly": true
+        }
+      }
+    },
+    "EvaluationEngineUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the EvaluationEngine.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of the last accepted operation",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Creating",
+        "Updating",
+        "Deleting"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource failed"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Creating",
+            "value": "Creating",
+            "description": "Resource is creating"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Resource is updating"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "Resource is deleting"
+          }
+        ]
+      },
+      "readOnly": true
+    }
+  },
+  "parameters": {}
+}
