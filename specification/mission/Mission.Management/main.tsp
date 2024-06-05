@@ -36,3 +36,4 @@ using TypeSpec.Versioning;
 namespace Microsoft.Mission;
 
 interface Operations extends Azure.ResourceManager.Operations {}
+
