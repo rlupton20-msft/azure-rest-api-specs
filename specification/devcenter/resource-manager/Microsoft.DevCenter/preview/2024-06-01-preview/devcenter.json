@@ -5034,1954 +5034,1954 @@
       }
     }
   },
-    "definitions": {
-      "DevCenterPlan": {
-        "type": "object",
-        "description": "Represents a devcenter plan resource.",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-          }
-        ],
+  "definitions": {
+    "DevCenterPlan": {
+      "type": "object",
+      "description": "Represents a devcenter plan resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
         "properties": {
-          "properties": {
-            "description": "Plan properties",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/PlanProperties"
-          },
-          "sku": {
-            "description": "The SKU for DevCenters created using this definition.",
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
+          "description": "Plan properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PlanProperties"
+        },
+        "sku": {
+          "description": "The SKU for DevCenters created using this definition.",
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
+        }
+      }
+    },
+    "PlanProperties": {
+      "description": "Properties of the devcenter plan.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      }
+    },
+    "DevCenterPlanMember": {
+      "type": "object",
+      "description": "Represents a devcenter plan member resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Plan member properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PlanMemberProperties"
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        }
+      }
+    },
+    "PlanMemberProperties": {
+      "description": "Properties of the devcenter plan member.",
+      "type": "object",
+      "properties": {
+        "memberId": {
+          "description": "The unique id of the member.",
+          "type": "string"
+        },
+        "memberType": {
+          "description": "The type of the member (user, group)",
+          "enum": [
+            "User",
+            "Group"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PlanMemberType",
+            "modelAsString": true
+          }
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        },
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      }
+    },
+    "PlanMemberUpdate": {
+      "description": "The devcenter plan member resource for partial updates. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        }
+      }
+    },
+    "DevCenter": {
+      "type": "object",
+      "description": "Represents a devcenter resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "DevCenter properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevCenterProperties"
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "DevCenterProperties": {
+      "description": "Properties of the devcenter.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DevCenterUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "devCenterUri": {
+          "description": "The URI of the Dev Center.",
+          "$ref": "#/definitions/DevCenterUri",
+          "readOnly": true
+        }
+      }
+    },
+    "DevCenterUpdateProperties": {
+      "description": "Properties of the devcenter. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "description": "Resource Id of an associated Plan"
+        },
+        "encryption": {
+          "$ref": "#/definitions/Encryption",
+          "description": "Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations)."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the devcenter."
+        },
+        "projectCatalogSettings": {
+          "$ref": "#/definitions/DevCenterProjectCatalogSettings",
+          "description": "Dev Center settings to be used when associating a project with a catalog."
+        },
+        "networkSettings": {
+          "$ref": "#/definitions/DevCenterNetworkSettings",
+          "description": "Network settings that will be enforced on network resources associated with the Dev Center."
+        },
+        "devBoxProvisioningSettings": {
+          "$ref": "#/definitions/DevBoxProvisioningSettings",
+          "description": "Settings to be used in the provisioning of all Dev Boxes that belong to this dev center."
+        }
+      }
+    },
+    "DevCenterEncryptionSet": {
+      "description": "Represents a devcenter encryption set resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevCenterEncryptionSetProperties",
+          "description": "Properties of a devcenter encryption set."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "DevCenterEncryptionSetProperties": {
+      "description": "Properties of the devcenter encryption set.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DevCenterEncryptionSetUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      }
+    },
+    "DevCenterEncryptionSetUpdateProperties": {
+      "description": "Properties of the devcenter encryption set. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "devboxDisksEncryptionEnableStatus": {
+          "description": "Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not.",
+          "$ref": "#/definitions/DevboxDisksEncryptionEnableStatus"
+        },
+        "keyEncryptionKeyUrl": {
+          "type": "string",
+          "description": "Key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek."
+        }
+      }
+    },
+    "DevboxDisksEncryptionEnableStatus": {
+      "description": "Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption is enabled or not.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "DevboxDisksEncryptionEnableStatus",
+        "modelAsString": true
+      }
+    },
+    "DevCenterProjectCatalogSettings": {
+      "type": "object",
+      "description": "Project catalog settings for project catalogs under a project associated to this dev center.",
+      "properties": {
+        "catalogItemSyncEnableStatus": {
+          "description": "Whether project catalogs associated with projects in this dev center can be configured to sync catalog items.",
+          "$ref": "#/definitions/CatalogItemSyncEnableStatus"
+        }
+      }
+    },
+    "DevBoxProvisioningSettings": {
+      "type": "object",
+      "description": "Provisioning settings that apply to all Dev Boxes created in this dev center",
+      "properties": {
+        "installAzureMonitorAgentEnableStatus": {
+          "description": "Whether project catalogs associated with projects in this dev center can be configured to sync catalog items.",
+          "$ref": "#/definitions/InstallAzureMonitorAgentEnableStatus"
+        }
+      }
+    },
+    "CatalogItemSyncEnableStatus": {
+      "description": "Catalog item sync types enable or disable status. Indicates whether project catalogs are allowed to sync catalog items under projects associated to this dev center.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "CatalogItemSyncEnableStatus",
+        "modelAsString": true
+      }
+    },
+    "DevCenterNetworkSettings": {
+      "type": "object",
+      "description": "Network settings for the Dev Center.",
+      "properties": {
+        "microsoftHostedNetworkEnableStatus": {
+          "$ref": "#/definitions/MicrosoftHostedNetworkEnableStatus"
+        }
+      }
+    },
+    "ProjectNetworkSettings": {
+      "type": "object",
+      "description": "Network settings for the project.",
+      "properties": {
+        "microsoftHostedNetworkEnableStatus": {
+          "$ref": "#/definitions/MicrosoftHostedNetworkEnableStatus",
+          "readOnly": true
+        }
+      }
+    },
+    "MicrosoftHostedNetworkEnableStatus": {
+      "description": "Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to Enabled if not set.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "MicrosoftHostedNetworkEnableStatus",
+        "modelAsString": true
+      }
+    },
+    "Encryption": {
+      "type": "object",
+      "properties": {
+        "customerManagedKeyEncryption": {
+          "$ref": "../../../../../common-types/resource-management/v4/customermanagedkeys.json#/definitions/customerManagedKeyEncryption"
+        }
+      }
+    },
+    "InstallAzureMonitorAgentEnableStatus": {
+      "description": "Setting to be used when determining whether to install the Azure Monitor Agent service on Dev Boxes that belong to this dev center.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "InstallAzureMonitorAgentEnableStatus",
+        "modelAsString": true
+      }
+    },
+    "PlanUpdate": {
+      "description": "The devcenter plan resource for partial updates. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
+        }
+      ],
+      "properties": {
+        "sku": {
+          "description": "The SKU for DevCenters created using this definition.",
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
+        }
+      }
+    },
+    "DevCenterUpdate": {
+      "description": "The devcenter resource for partial updates. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
+        }
+      ],
+      "properties": {
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevCenterUpdateProperties",
+          "description": "Properties of a Dev Center to be updated."
+        }
+      }
+    },
+    "EncryptionSetUpdate": {
+      "description": "The devcenter encryption set resource for partial updates. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevCenterEncryptionSetUpdateProperties",
+          "description": "Properties of a Dev Center encryption set to be updated."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "PlanListResult": {
+      "description": "Result of the list devcenter plans operation",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevCenterPlan"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "PlanMembersListResult": {
+      "description": "Result of the list devcenter plan members operation",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevCenterPlanMember"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "DevCenterListResult": {
+      "description": "Result of the list devcenters operation",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevCenter"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "EncryptionSetListResult": {
+      "description": "Result of the list devcenter encryption set operation",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevCenterEncryptionSet"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "DevCenterUri": {
+      "description": "The URI of the resource.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "Project": {
+      "description": "Represents a project resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProjectProperties",
+          "description": "Properties of a project."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "ProjectUpdateProperties": {
+      "description": "Properties of a project. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "devCenterId": {
+          "type": "string",
+          "description": "Resource Id of an associated DevCenter"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project."
+        },
+        "maxDevBoxesPerUser": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "description": "When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the project."
+        },
+        "catalogSettings": {
+          "$ref": "#/definitions/ProjectCatalogSettings",
+          "description": "Settings to be used when associating a project with a catalog."
+        }
+      }
+    },
+    "ProjectCatalogSettings": {
+      "description": "Settings to be used when associating a project with a catalog.",
+      "type": "object",
+      "properties": {
+        "catalogItemSyncTypes": {
+          "description": "Indicates catalog item types that can be synced.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CatalogItemType"
           }
         }
-      },
-      "PlanProperties": {
-        "description": "Properties of the devcenter plan.",
-        "type": "object",
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          }
+      }
+    },
+    "ProjectProperties": {
+      "description": "Properties of a project.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectUpdateProperties"
         }
-      },
-      "DevCenterPlanMember": {
-        "type": "object",
-        "description": "Represents a devcenter plan member resource.",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "description": "Plan member properties",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/PlanMemberProperties"
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "devCenterUri": {
+          "description": "The URI of the Dev Center resource this project is associated with.",
+          "$ref": "#/definitions/DevCenterUri",
+          "readOnly": true
         }
-      },
-      "PlanMemberProperties": {
-        "description": "Properties of the devcenter plan member.",
-        "type": "object",
+      }
+    },
+    "ProjectUpdate": {
+      "description": "The project properties for partial update. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
+        }
+      ],
+      "properties": {
         "properties": {
-          "memberId": {
-            "description": "The unique id of the member.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProjectUpdateProperties",
+          "description": "Properties of a project to be updated."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "ProjectListResult": {
+      "description": "Results of the project list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "InheritedSettingsForProject": {
+      "description": "Applicable inherited settings for a project.",
+      "type": "object",
+      "properties": {
+        "projectCatalogSettings": {
+          "$ref": "#/definitions/DevCenterProjectCatalogSettings",
+          "description": "Dev Center settings to be used when associating a project with a catalog.",
+          "readOnly": true
+        },
+        "networkSettings": {
+          "$ref": "#/definitions/ProjectNetworkSettings",
+          "description": "Network settings that will be enforced on this project.",
+          "readOnly": true
+        }
+      }
+    },
+    "Catalog": {
+      "description": "Represents a catalog.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/CatalogProperties",
+          "description": "Catalog properties."
+        }
+      }
+    },
+    "CatalogUpdateProperties": {
+      "description": "Properties of a catalog. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "gitHub": {
+          "description": "Properties for a GitHub catalog type.",
+          "$ref": "#/definitions/GitCatalog"
+        },
+        "adoGit": {
+          "description": "Properties for an Azure DevOps catalog type.",
+          "$ref": "#/definitions/GitCatalog"
+        },
+        "syncType": {
+          "enum": [
+            "Manual",
+            "Scheduled"
+          ],
+          "description": "Indicates the type of sync that is configured for the catalog.",
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CatalogSyncType",
+            "modelAsString": true
+          }
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
             "type": "string"
           },
-          "memberType": {
-            "description": "The type of the member (user, group)",
-            "enum": [
-              "User",
-              "Group"
-            ],
-            "type": "string",
-            "x-ms-enum": {
-              "name": "PlanMemberType",
-              "modelAsString": true
-            }
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          },
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        }
+      }
+    },
+    "CatalogProperties": {
+      "description": "Properties of a catalog.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CatalogUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "syncState": {
+          "enum": [
+            "Succeeded",
+            "InProgress",
+            "Failed",
+            "Canceled"
+          ],
+          "description": "The synchronization state of the catalog.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CatalogSyncState",
+            "modelAsString": true
+          }
+        },
+        "lastSyncStats": {
+          "description": "Stats of the latest synchronization.",
+          "$ref": "#/definitions/SyncStats",
+          "readOnly": true
+        },
+        "connectionState": {
+          "enum": [
+            "Connected",
+            "Disconnected"
+          ],
+          "description": "The connection state of the catalog.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CatalogConnectionState",
+            "modelAsString": true
+          }
+        },
+        "lastConnectionTime": {
+          "description": "When the catalog was last connected.",
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        },
+        "lastSyncTime": {
+          "description": "When the catalog was last synced.",
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        }
+      }
+    },
+    "SyncStats": {
+      "description": "Stats of the synchronization.",
+      "type": "object",
+      "properties": {
+        "added": {
+          "description": "Count of catalog items added during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "updated": {
+          "description": "Count of catalog items updated during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "unchanged": {
+          "description": "Count of catalog items that were unchanged during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "removed": {
+          "description": "Count of catalog items removed during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "validationErrors": {
+          "description": "Count of catalog items that had validation errors during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "synchronizationErrors": {
+          "description": "Count of synchronization errors that occured during synchronization.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "minimum": 0
+        },
+        "syncedCatalogItemTypes": {
+          "description": "Indicates catalog item types that were synced.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CatalogItemType"
           }
         }
-      },
-      "PlanMemberUpdate": {
-        "description": "The devcenter plan member resource for partial updates. Properties not provided in the update request will not be changed.",
-        "type": "object",
+      }
+    },
+    "GitCatalog": {
+      "description": "Properties for a Git repository catalog.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "Git URI.",
+          "type": "string"
+        },
+        "branch": {
+          "description": "Git branch.",
+          "type": "string"
+        },
+        "secretIdentifier": {
+          "description": "A reference to the Key Vault secret containing a security token to authenticate to a Git repository.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The folder where the catalog items can be found inside the repository.",
+          "type": "string"
+        }
+      }
+    },
+    "CatalogUpdate": {
+      "description": "The catalog's properties for partial update. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "properties": {
         "properties": {
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          }
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/CatalogUpdateProperties",
+          "description": "Catalog properties for update."
         }
-      },
-      "DevCenter": {
-        "type": "object",
-        "description": "Represents a devcenter resource.",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+      }
+    },
+    "CatalogListResult": {
+      "description": "Results of the catalog list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Catalog"
           }
-        ],
-        "properties": {
-          "properties": {
-            "description": "DevCenter properties",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevCenterProperties"
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
         }
-      },
-      "DevCenterProperties": {
-        "description": "Properties of the devcenter.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/DevCenterUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
+      }
+    },
+    "SyncErrorDetails": {
+      "description": "Synchronization error details.",
+      "type": "object",
+      "properties": {
+        "operationError": {
+          "description": "Error information for the overall synchronization operation.",
+          "readOnly": true,
+          "$ref": "vdi.json#/definitions/CatalogErrorDetails"
+        },
+        "conflicts": {
+          "description": "Catalog items that have conflicting names.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CatalogConflictError"
           },
-          "devCenterUri": {
-            "description": "The URI of the Dev Center.",
-            "$ref": "#/definitions/DevCenterUri",
-            "readOnly": true
-          }
+          "x-ms-identifiers": [],
+          "readOnly": true
+        },
+        "errors": {
+          "description": "Errors that occured during synchronization.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CatalogSyncError"
+          },
+          "x-ms-identifiers": [],
+          "readOnly": true
         }
-      },
-      "DevCenterUpdateProperties": {
-        "description": "Properties of the devcenter. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "planId": {
-            "type": "string",
-            "description": "Resource Id of an associated Plan"
-          },
-          "encryption": {
-            "$ref": "#/definitions/Encryption",
-            "description": "Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations)."
-          },
-          "displayName": {
-            "type": "string",
-            "description": "The display name of the devcenter."
-          },
-          "projectCatalogSettings": {
-            "$ref": "#/definitions/DevCenterProjectCatalogSettings",
-            "description": "Dev Center settings to be used when associating a project with a catalog."
-          },
-          "networkSettings": {
-            "$ref": "#/definitions/DevCenterNetworkSettings",
-            "description": "Network settings that will be enforced on network resources associated with the Dev Center."
-          },
-          "devBoxProvisioningSettings": {
-            "$ref": "#/definitions/DevBoxProvisioningSettings",
-            "description": "Settings to be used in the provisioning of all Dev Boxes that belong to this dev center."
-          }
-        }
-      },
-      "DevCenterEncryptionSet": {
-        "description": "Represents a devcenter encryption set resource.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevCenterEncryptionSetProperties",
-            "description": "Properties of a devcenter encryption set."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
-        }
-      },
-      "DevCenterEncryptionSetProperties": {
-        "description": "Properties of the devcenter encryption set.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/DevCenterEncryptionSetUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          }
-        }
-      },
-      "DevCenterEncryptionSetUpdateProperties": {
-        "description": "Properties of the devcenter encryption set. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "devboxDisksEncryptionEnableStatus": {
-            "description": "Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not.",
-            "$ref": "#/definitions/DevboxDisksEncryptionEnableStatus"
-          },
-          "keyEncryptionKeyUrl": {
-            "type": "string",
-            "description": "Key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek."
-          }
-        }
-      },
-      "DevboxDisksEncryptionEnableStatus": {
-        "description": "Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption is enabled or not.",
-        "enum": [
-          "Enabled",
-          "Disabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "DevboxDisksEncryptionEnableStatus",
-          "modelAsString": true
-        }
-      },
-      "DevCenterProjectCatalogSettings": {
-        "type": "object",
-        "description": "Project catalog settings for project catalogs under a project associated to this dev center.",
-        "properties": {
-          "catalogItemSyncEnableStatus": {
-            "description": "Whether project catalogs associated with projects in this dev center can be configured to sync catalog items.",
-            "$ref": "#/definitions/CatalogItemSyncEnableStatus"
-          }
-        }
-      },
-      "DevBoxProvisioningSettings": {
-        "type": "object",
-        "description": "Provisioning settings that apply to all Dev Boxes created in this dev center",
-        "properties": {
-          "installAzureMonitorAgentEnableStatus": {
-            "description": "Whether project catalogs associated with projects in this dev center can be configured to sync catalog items.",
-            "$ref": "#/definitions/InstallAzureMonitorAgentEnableStatus"
-          }
-        }
-      },
-      "CatalogItemSyncEnableStatus": {
-        "description": "Catalog item sync types enable or disable status. Indicates whether project catalogs are allowed to sync catalog items under projects associated to this dev center.",
-        "enum": [
-          "Enabled",
-          "Disabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "CatalogItemSyncEnableStatus",
-          "modelAsString": true
-        }
-      },
-      "DevCenterNetworkSettings": {
-        "type": "object",
-        "description": "Network settings for the Dev Center.",
-        "properties": {
-          "microsoftHostedNetworkEnableStatus": {
-            "$ref": "#/definitions/MicrosoftHostedNetworkEnableStatus"
-          }
-        }
-      },
-      "ProjectNetworkSettings": {
-        "type": "object",
-        "description": "Network settings for the project.",
-        "properties": {
-          "microsoftHostedNetworkEnableStatus": {
-            "$ref": "#/definitions/MicrosoftHostedNetworkEnableStatus",
-            "readOnly": true
-          }
-        }
-      },
-      "MicrosoftHostedNetworkEnableStatus": {
-        "description": "Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to Enabled if not set.",
-        "enum": [
-          "Enabled",
-          "Disabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "MicrosoftHostedNetworkEnableStatus",
-          "modelAsString": true
-        }
-      },
-      "Encryption": {
-        "type": "object",
-        "properties": {
-          "customerManagedKeyEncryption": {
-            "$ref": "../../../../../common-types/resource-management/v4/customermanagedkeys.json#/definitions/customerManagedKeyEncryption"
-          }
-        }
-      },
-      "InstallAzureMonitorAgentEnableStatus": {
-        "description": "Setting to be used when determining whether to install the Azure Monitor Agent service on Dev Boxes that belong to this dev center.",
-        "enum": [
-          "Enabled",
-          "Disabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "InstallAzureMonitorAgentEnableStatus",
-          "modelAsString": true
-        }
-      },
-      "PlanUpdate": {
-        "description": "The devcenter plan resource for partial updates. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
-          }
-        ],
-        "properties": {
-          "sku": {
-            "description": "The SKU for DevCenters created using this definition.",
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
-          }
-        }
-      },
-      "DevCenterUpdate": {
-        "description": "The devcenter resource for partial updates. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
-          }
-        ],
-        "properties": {
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          },
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevCenterUpdateProperties",
-            "description": "Properties of a Dev Center to be updated."
-          }
-        }
-      },
-      "EncryptionSetUpdate": {
-        "description": "The devcenter encryption set resource for partial updates. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevCenterEncryptionSetUpdateProperties",
-            "description": "Properties of a Dev Center encryption set to be updated."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
-        }
-      },
-      "PlanListResult": {
-        "description": "Result of the list devcenter plans operation",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DevCenterPlan"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "PlanMembersListResult": {
-        "description": "Result of the list devcenter plan members operation",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DevCenterPlanMember"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "DevCenterListResult": {
-        "description": "Result of the list devcenters operation",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DevCenter"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "EncryptionSetListResult": {
-        "description": "Result of the list devcenter encryption set operation",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DevCenterEncryptionSet"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "DevCenterUri": {
-        "description": "The URI of the resource.",
-        "readOnly": true,
-        "type": "string"
-      },
-      "Project": {
-        "description": "Represents a project resource.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ProjectProperties",
-            "description": "Properties of a project."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
-        }
-      },
-      "ProjectUpdateProperties": {
-        "description": "Properties of a project. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "devCenterId": {
-            "type": "string",
-            "description": "Resource Id of an associated DevCenter"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the project."
-          },
-          "maxDevBoxesPerUser": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0,
-            "description": "When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced."
-          },
-          "displayName": {
-            "type": "string",
-            "description": "The display name of the project."
-          },
-          "catalogSettings": {
-            "$ref": "#/definitions/ProjectCatalogSettings",
-            "description": "Settings to be used when associating a project with a catalog."
-          }
-        }
-      },
-      "ProjectCatalogSettings": {
-        "description": "Settings to be used when associating a project with a catalog.",
-        "type": "object",
-        "properties": {
-          "catalogItemSyncTypes": {
-            "description": "Indicates catalog item types that can be synced.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/CatalogItemType"
-            }
-          }
-        }
-      },
-      "ProjectProperties": {
-        "description": "Properties of a project.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/ProjectUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "devCenterUri": {
-            "description": "The URI of the Dev Center resource this project is associated with.",
-            "$ref": "#/definitions/DevCenterUri",
-            "readOnly": true
-          }
-        }
-      },
-      "ProjectUpdate": {
-        "description": "The project properties for partial update. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ProjectUpdateProperties",
-            "description": "Properties of a project to be updated."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
-        }
-      },
-      "ProjectListResult": {
-        "description": "Results of the project list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Project"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "InheritedSettingsForProject": {
-        "description": "Applicable inherited settings for a project.",
-        "type": "object",
-        "properties": {
-          "projectCatalogSettings": {
-            "$ref": "#/definitions/DevCenterProjectCatalogSettings",
-            "description": "Dev Center settings to be used when associating a project with a catalog.",
-            "readOnly": true
-          },
-          "networkSettings": {
-            "$ref": "#/definitions/ProjectNetworkSettings",
-            "description": "Network settings that will be enforced on this project.",
-            "readOnly": true
-          }
-        }
-      },
-      "Catalog": {
-        "description": "Represents a catalog.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/CatalogProperties",
-            "description": "Catalog properties."
-          }
-        }
-      },
-      "CatalogUpdateProperties": {
-        "description": "Properties of a catalog. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "gitHub": {
-            "description": "Properties for a GitHub catalog type.",
-            "$ref": "#/definitions/GitCatalog"
-          },
-          "adoGit": {
-            "description": "Properties for an Azure DevOps catalog type.",
-            "$ref": "#/definitions/GitCatalog"
-          },
-          "syncType": {
-            "enum": [
-              "Manual",
-              "Scheduled"
-            ],
-            "description": "Indicates the type of sync that is configured for the catalog.",
-            "type": "string",
-            "x-ms-enum": {
-              "name": "CatalogSyncType",
-              "modelAsString": true
-            }
-          },
-          "tags": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "x-ms-mutability": [
-              "read",
-              "create",
-              "update"
-            ],
-            "description": "Resource tags."
-          }
-        }
-      },
-      "CatalogProperties": {
-        "description": "Properties of a catalog.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/CatalogUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "syncState": {
-            "enum": [
-              "Succeeded",
-              "InProgress",
-              "Failed",
-              "Canceled"
-            ],
-            "description": "The synchronization state of the catalog.",
-            "readOnly": true,
-            "type": "string",
-            "x-ms-enum": {
-              "name": "CatalogSyncState",
-              "modelAsString": true
-            }
-          },
-          "lastSyncStats": {
-            "description": "Stats of the latest synchronization.",
-            "$ref": "#/definitions/SyncStats",
-            "readOnly": true
-          },
-          "connectionState": {
-            "enum": [
-              "Connected",
-              "Disconnected"
-            ],
-            "description": "The connection state of the catalog.",
-            "readOnly": true,
-            "type": "string",
-            "x-ms-enum": {
-              "name": "CatalogConnectionState",
-              "modelAsString": true
-            }
-          },
-          "lastConnectionTime": {
-            "description": "When the catalog was last connected.",
-            "type": "string",
-            "readOnly": true,
-            "format": "date-time"
-          },
-          "lastSyncTime": {
-            "description": "When the catalog was last synced.",
-            "type": "string",
-            "readOnly": true,
-            "format": "date-time"
-          }
-        }
-      },
-      "SyncStats": {
-        "description": "Stats of the synchronization.",
-        "type": "object",
-        "properties": {
-          "added": {
-            "description": "Count of catalog items added during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "updated": {
-            "description": "Count of catalog items updated during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "unchanged": {
-            "description": "Count of catalog items that were unchanged during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "removed": {
-            "description": "Count of catalog items removed during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "validationErrors": {
-            "description": "Count of catalog items that had validation errors during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "synchronizationErrors": {
-            "description": "Count of synchronization errors that occured during synchronization.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true,
-            "minimum": 0
-          },
-          "syncedCatalogItemTypes": {
-            "description": "Indicates catalog item types that were synced.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/CatalogItemType"
-            }
-          }
-        }
-      },
-      "GitCatalog": {
-        "description": "Properties for a Git repository catalog.",
-        "type": "object",
-        "properties": {
-          "uri": {
-            "description": "Git URI.",
-            "type": "string"
-          },
-          "branch": {
-            "description": "Git branch.",
-            "type": "string"
-          },
-          "secretIdentifier": {
-            "description": "A reference to the Key Vault secret containing a security token to authenticate to a Git repository.",
-            "type": "string"
-          },
-          "path": {
-            "description": "The folder where the catalog items can be found inside the repository.",
-            "type": "string"
-          }
-        }
-      },
-      "CatalogUpdate": {
-        "description": "The catalog's properties for partial update. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/CatalogUpdateProperties",
-            "description": "Catalog properties for update."
-          }
-        }
-      },
-      "CatalogListResult": {
-        "description": "Results of the catalog list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Catalog"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "SyncErrorDetails": {
-        "description": "Synchronization error details.",
-        "type": "object",
-        "properties": {
-          "operationError": {
-            "description": "Error information for the overall synchronization operation.",
-            "readOnly": true,
+      }
+    },
+    "CatalogSyncError": {
+      "description": "An individual synchronization error.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The path of the file the error is associated with.",
+          "type": "string",
+          "readOnly": true
+        },
+        "errorDetails": {
+          "description": "Errors associated with the file.",
+          "type": "array",
+          "items": {
             "$ref": "vdi.json#/definitions/CatalogErrorDetails"
           },
-          "conflicts": {
-            "description": "Catalog items that have conflicting names.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/CatalogConflictError"
-            },
-            "x-ms-identifiers": [],
-            "readOnly": true
-          },
-          "errors": {
-            "description": "Errors that occured during synchronization.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/CatalogSyncError"
-            },
-            "x-ms-identifiers": [],
-            "readOnly": true
-          }
+          "x-ms-identifiers": [],
+          "readOnly": true
         }
-      },
-      "CatalogSyncError": {
-        "description": "An individual synchronization error.",
-        "type": "object",
-        "properties": {
-          "path": {
-            "description": "The path of the file the error is associated with.",
-            "type": "string",
-            "readOnly": true
-          },
-          "errorDetails": {
-            "description": "Errors associated with the file.",
-            "type": "array",
-            "items": {
-              "$ref": "vdi.json#/definitions/CatalogErrorDetails"
-            },
-            "x-ms-identifiers": [],
-            "readOnly": true
-          }
-        }
-      },
-      "CatalogConflictError": {
-        "description": "An individual conflict error.",
-        "type": "object",
-        "properties": {
-          "path": {
-            "description": "The path of the file that has a conflicting name.",
-            "type": "string",
-            "readOnly": true
-          },
-          "name": {
-            "description": "Name of the conflicting catalog item.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "Gallery": {
-        "description": "Represents a gallery.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/GalleryProperties",
-            "description": "Gallery properties."
-          }
-        }
-      },
-      "GalleryProperties": {
-        "description": "Properties of a gallery.",
-        "type": "object",
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "galleryResourceId": {
-            "description": "The resource ID of the backing Azure Compute Gallery.",
-            "type": "string",
-            "x-ms-mutability": [
-              "read",
-              "create"
-            ]
-          }
+      }
+    },
+    "CatalogConflictError": {
+      "description": "An individual conflict error.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The path of the file that has a conflicting name.",
+          "type": "string",
+          "readOnly": true
         },
-        "required": [
-          "galleryResourceId"
-        ]
-      },
-      "Image": {
-        "description": "Represents an image.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ImageProperties",
-            "description": "Image properties."
-          }
+        "name": {
+          "description": "Name of the conflicting catalog item.",
+          "type": "string",
+          "readOnly": true
         }
-      },
-      "ImageProperties": {
-        "description": "Properties of an image.",
-        "type": "object",
-        "properties": {
-          "description": {
-            "description": "The description of the image.",
-            "type": "string",
-            "readOnly": true
-          },
-          "publisher": {
-            "description": "The publisher of the image.",
-            "type": "string",
-            "readOnly": true
-          },
-          "offer": {
-            "description": "The name of the image offer.",
-            "type": "string",
-            "readOnly": true
-          },
-          "sku": {
-            "description": "The SKU name for the image.",
-            "type": "string",
-            "readOnly": true
-          },
-          "recommendedMachineConfiguration": {
-            "description": "The recommended machine configuration to use with the image.",
-            "$ref": "#/definitions/RecommendedMachineConfiguration",
-            "readOnly": true
-          },
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "hibernateSupport": {
-            "description": "Indicates whether this image has hibernate enabled. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate",
-            "readOnly": true,
-            "$ref": "#/definitions/HibernateSupport"
-          }
+      }
+    },
+    "Gallery": {
+      "description": "Represents a gallery.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
         }
-      },
-      "RecommendedMachineConfiguration": {
-        "description": "Properties for a recommended machine configuration.",
-        "type": "object",
+      ],
+      "properties": {
         "properties": {
-          "memory": {
-            "description": "Recommended memory range.",
-            "$ref": "#/definitions/ResourceRange",
-            "readOnly": true
-          },
-          "vCPUs": {
-            "description": "Recommended vCPU range.",
-            "$ref": "#/definitions/ResourceRange",
-            "readOnly": true
-          }
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GalleryProperties",
+          "description": "Gallery properties."
         }
-      },
-      "ResourceRange": {
-        "description": "Properties for a range of values.",
-        "type": "object",
-        "properties": {
-          "min": {
-            "description": "Minimum value.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "max": {
-            "description": "Maximum value.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          }
-        }
-      },
-      "ImageVersion": {
-        "description": "Represents an image version.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ImageVersionProperties",
-            "description": "Image version properties."
-          }
-        }
-      },
-      "ImageVersionProperties": {
-        "description": "Properties of an image version.",
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The semantic version string.",
-            "type": "string",
-            "readOnly": true
-          },
-          "publishedDate": {
-            "description": "The datetime that the backing image version was published.",
-            "type": "string",
-            "readOnly": true,
-            "format": "date-time"
-          },
-          "excludeFromLatest": {
-            "description": "If the version should be excluded from being treated as the latest version.",
-            "type": "boolean",
-            "readOnly": true
-          },
-          "osDiskImageSizeInGb": {
-            "description": "The size of the OS disk image, in GB.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          }
-        }
-      },
-      "GalleryListResult": {
-        "description": "Results of the gallery list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Gallery"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "ImageListResult": {
-        "description": "Results of the image list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Image"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "ImageVersionListResult": {
-        "description": "Results of the image version list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/ImageVersion"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "AllowedEnvironmentType": {
-        "description": "Represents an allowed environment type.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/AllowedEnvironmentTypeProperties",
-            "description": "Properties of an allowed environment type."
-          }
-        }
-      },
-      "AllowedEnvironmentTypeProperties": {
-        "description": "Properties of an allowed environment type.",
-        "type": "object",
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "displayName": {
-            "description": "The display name of the allowed environment type.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "AllowedEnvironmentTypeListResult": {
-        "description": "Result of the allowed environment type list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/AllowedEnvironmentType"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentType": {
-        "description": "Represents an environment type.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/EnvironmentTypeProperties",
-            "description": "Properties of an environment type."
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          }
-        }
-      },
-      "EnvironmentTypeProperties": {
-        "description": "Properties of an environment type.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/EnvironmentTypeUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentTypeUpdate": {
-        "description": "The environment type for partial update. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/EnvironmentTypeUpdateProperties",
-            "description": "Properties of an environment type to be updated."
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          }
-        }
-      },
-      "EnvironmentTypeUpdateProperties": {
-        "description": "Properties of an environment type. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "displayName": {
-            "type": "string",
-            "description": "The display name of the environment type."
-          }
-        }
-      },
-      "EnvironmentTypeListResult": {
-        "description": "Result of the environment type list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/EnvironmentType"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "ProjectEnvironmentType": {
-        "description": "Represents an environment type.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ProjectEnvironmentTypeProperties",
-            "description": "Properties of an environment type."
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          },
-          "location": {
-            "type": "string",
-            "description": "The geo-location for the environment type"
-          }
-        }
-      },
-      "ProjectEnvironmentTypeUpdateProperties": {
-        "description": "Properties of a project environment type. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "deploymentTargetId": {
-            "description": "Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription.",
-            "type": "string"
-          },
-          "displayName": {
-            "description": "The display name of the project environment type.",
-            "type": "string"
-          },
-          "status": {
-            "description": "Defines whether this Environment Type can be used in this Project.",
-            "$ref": "#/definitions/EnvironmentTypeEnableStatus"
-          },
-          "creatorRoleAssignment": {
-            "description": "The role definition assigned to the environment creator on backing resources.",
-            "type": "object",
-            "properties": {
-              "roles": {
-                "type": "object",
-                "description": "A map of roles to assign to the environment creator.",
-                "additionalProperties": {
-                  "$ref": "#/definitions/EnvironmentRole"
-                }
-              }
-            }
-          },
-          "userRoleAssignments": {
-            "description": "Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs.",
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/UserRoleAssignment"
-            }
-          }
-        }
-      },
-      "ProjectEnvironmentTypeProperties": {
-        "description": "Properties of a project environment type.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/ProjectEnvironmentTypeUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "environmentCount": {
-            "description": "The number of environments of this type.",
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0,
-            "readOnly": true
-          }
-        }
-      },
-      "ProjectEnvironmentTypeUpdate": {
-        "description": "The project environment type for partial update. Properties not provided in the update request will not be changed.",
-        "type": "object",
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/ProjectEnvironmentTypeUpdateProperties",
-            "description": "Properties to configure an environment type."
-          },
-          "tags": {
-            "$ref": "commonDefinitions.json#/definitions/Tags",
-            "description": "Resource tags."
-          },
-          "identity": {
-            "description": "Managed identity properties",
-            "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
-          }
-        }
-      },
-      "ProjectEnvironmentTypeListResult": {
-        "description": "Result of the project environment type list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "readOnly": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/ProjectEnvironmentType"
-            }
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "DevBoxDefinitionListResult": {
-        "description": "Results of the Dev Box definition list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DevBoxDefinition"
-            },
-            "readOnly": true
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "DevBoxDefinitionUpdate": {
-        "description": "Partial update of a Dev Box definition resource.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevBoxDefinitionUpdateProperties",
-            "description": "Properties of a Dev Box definition to be updated."
-          }
-        }
-      },
-      "DevBoxDefinition": {
-        "description": "Represents a definition for a Developer Machine.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "description": "Dev Box definition properties",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/DevBoxDefinitionProperties"
-          }
-        }
-      },
-      "DevBoxDefinitionUpdateProperties": {
-        "description": "Properties of a Dev Box definition. These properties can be updated after the resource has been created.",
-        "type": "object",
-        "properties": {
-          "imageReference": {
-            "$ref": "vdi.json#/definitions/ImageReference",
-            "description": "Image reference information."
-          },
-          "sku": {
-            "description": "The SKU for Dev Boxes created using this definition.",
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
-          },
-          "osStorageType": {
-            "description": "The storage type used for the Operating System disk of Dev Boxes created using this definition.",
-            "type": "string"
-          },
-          "hibernateSupport": {
-            "description": "Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate",
-            "$ref": "#/definitions/HibernateSupport"
-          }
-        }
-      },
-      "DevBoxDefinitionProperties": {
-        "description": "Properties of a Dev Box definition.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/definitions/DevBoxDefinitionUpdateProperties"
-          }
-        ],
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "imageValidationStatus": {
-            "description": "Validation status of the configured image.",
-            "$ref": "vdi.json#/definitions/ImageValidationStatus",
-            "readOnly": true
-          },
-          "imageValidationErrorDetails": {
-            "description": "Details for image validator error. Populated when the image validation is not successful.",
-            "$ref": "vdi.json#/definitions/ImageValidationErrorDetails",
-            "readOnly": true
-          },
-          "validationStatus": {
-            "description": "Validation status for the Dev Box Definition.",
-            "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
-            "readOnly": true
-          },
-          "activeImageReference": {
-            "$ref": "vdi.json#/definitions/ImageReference",
-            "description": "Image reference information for the currently active image (only populated during updates).",
-            "readOnly": true
-          }
+      }
+    },
+    "GalleryProperties": {
+      "description": "Properties of a gallery.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
         },
-        "required": [
-          "imageReference",
-          "sku"
-        ]
-      },
-      "AttachedNetworkConnection": {
-        "description": "Represents an attached NetworkConnection.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/AttachedNetworkConnectionProperties",
-            "description": "Attached NetworkConnection properties."
-          }
-        }
-      },
-      "AttachedNetworkConnectionProperties": {
-        "description": "Properties of an attached NetworkConnection.",
-        "type": "object",
-        "properties": {
-          "provisioningState": {
-            "description": "The provisioning state of the resource.",
-            "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-            "readOnly": true
-          },
-          "networkConnectionId": {
-            "description": "The resource ID of the NetworkConnection you want to attach.",
-            "type": "string",
-            "x-ms-mutability": [
-              "read",
-              "create"
-            ]
-          },
-          "networkConnectionLocation": {
-            "description": "The geo-location where the NetworkConnection resource specified in 'networkConnectionResourceId' property lives.",
-            "type": "string",
-            "readOnly": true
-          },
-          "healthCheckStatus": {
-            "$ref": "vdi.json#/definitions/HealthCheckStatus",
-            "readOnly": true
-          },
-          "domainJoinType": {
-            "description": "AAD Join type of the network. This is populated based on the referenced Network Connection.",
-            "$ref": "vdi.json#/definitions/DomainJoinType",
-            "readOnly": true
-          }
-        },
-        "required": [
-          "networkConnectionId"
-        ]
-      },
-      "AttachedNetworkListResult": {
-        "description": "Results of the Attached Networks list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/AttachedNetworkConnection"
-            },
-            "readOnly": true
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentRole": {
-        "type": "object",
-        "description": "A role that can be assigned to a user.",
-        "properties": {
-          "roleName": {
-            "description": "The common name of the Role Assignment. This is a descriptive name such as 'AcrPush'.",
-            "type": "string",
-            "readOnly": true
-          },
-          "description": {
-            "description": "This is a description of the Role Assignment.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "UserRoleAssignment": {
-        "type": "object",
-        "description": "Mapping of user object ID to role assignments.",
-        "x-ms-client-name": "userRoleAssignmentValue",
-        "properties": {
-          "roles": {
-            "type": "object",
-            "description": "A map of roles to assign to the parent user.",
-            "additionalProperties": {
-              "$ref": "#/definitions/EnvironmentRole"
-            }
-          }
-        }
-      },
-      "OperationStatus": {
-        "description": "The current status of an async operation",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationStatusResult"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "description": "Custom operation properties, populated only for a successful operation.",
-            "type": "object",
-            "readOnly": true
-          }
-        }
-      },
-      "CatalogItemType": {
-        "description": "Indicates catalog item types.",
-        "enum": [
-          "EnvironmentDefinition",
-          "ImageDefinition"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "CatalogItemType",
-          "modelAsString": true
-        }
-      },
-      "EnvironmentTypeEnableStatus": {
-        "description": "Indicates whether the environment type is either enabled or disabled.",
-        "enum": [
-          "Enabled",
-          "Disabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "EnvironmentTypeEnableStatus",
-          "modelAsString": true
-        }
-      },
-      "HibernateSupport": {
-        "description": "Indicates whether hibernate is enabled/disabled.",
-        "enum": [
-          "Disabled",
-          "Enabled"
-        ],
-        "type": "string",
-        "x-ms-enum": {
-          "name": "HibernateSupport",
-          "modelAsString": true
-        }
-      },
-      "ListUsagesResult": {
-        "description": "List of Core Usages.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "The array page of Usages.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Usage"
-            },
-            "x-ms-identifiers": [],
-            "readOnly": true
-          },
-          "nextLink": {
-            "description": "The link to get the next page of Usage result.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "Usage": {
-        "description": "The core usage details.",
-        "type": "object",
-        "properties": {
-          "currentValue": {
-            "description": "The current usage.",
-            "type": "integer",
-            "format": "int64"
-          },
-          "limit": {
-            "description": "The limit integer.",
-            "type": "integer",
-            "format": "int64"
-          },
-          "unit": {
-            "description": "The unit details.",
-            "type": "string",
-            "enum": [
-              "Count"
-            ],
-            "x-ms-enum": {
-              "name": "UsageUnit",
-              "modelAsString": true
-            }
-          },
-          "name": {
-            "description": "The name.",
-            "$ref": "#/definitions/UsageName"
-          },
-          "id": {
-            "description": "The fully qualified arm resource id.",
-            "type": "string"
-          }
-        }
-      },
-      "UsageName": {
-        "description": "The Usage Names.",
-        "type": "object",
-        "properties": {
-          "localizedValue": {
-            "description": "The localized name of the resource.",
-            "type": "string"
-          },
-          "value": {
-            "description": "The name of the resource.",
-            "type": "string"
-          }
-        }
-      },
-      "CustomizationTaskListResult": {
-        "description": "Results of the Task list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/CustomizationTask"
-            },
-            "readOnly": true
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "CustomizationTask": {
-        "description": "Represents a Task to be used in customizing a Dev Box.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "description": "Task properties",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/CustomizationTaskProperties"
-          }
-        }
-      },
-      "CustomizationTaskProperties": {
-        "description": "Properties of a Task.",
-        "type": "object",
-        "properties": {
-          "inputs": {
-            "description": "Inputs to the task.",
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/CustomizationTaskInput"
-            },
-            "readOnly": true
-          },
-          "timeout": {
-            "description": "The default timeout for the task.",
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "validationStatus": {
-            "description": "Validation status for the Task.",
-            "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
-            "readOnly": true
-          }
-        }
-      },
-      "CustomizationTaskInput": {
-        "description": "Input for a Task.",
-        "type": "object",
-        "properties": {
-          "description": {
-            "description": "Description of the input.",
-            "type": "string",
-            "readOnly": true
-          },
-          "type": {
-            "description": "Type of the input.",
-            "type": "string",
-            "enum": [
-              "string",
-              "number",
-              "boolean"
-            ],
-            "x-ms-enum": {
-              "name": "CustomizationTaskInputType",
-              "modelAsString": true
-            },
-            "readOnly": true
-          },
-          "required": {
-            "description": "Whether or not the input is required.",
-            "type": "boolean",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentDefinitionListResult": {
-        "description": "Results of the environment definition list operation.",
-        "type": "object",
-        "properties": {
-          "value": {
-            "description": "Current page of results.",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/EnvironmentDefinition"
-            },
-            "readOnly": true
-          },
-          "nextLink": {
-            "description": "URL to get the next set of results if there are any.",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentDefinition": {
-        "description": "Represents an environment definition catalog item.",
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-          }
-        ],
-        "properties": {
-          "properties": {
-            "description": "Environment definition properties.",
-            "x-ms-client-flatten": true,
-            "$ref": "#/definitions/EnvironmentDefinitionProperties"
-          }
-        }
-      },
-      "EnvironmentDefinitionProperties": {
-        "description": "Properties of an environment definition.",
-        "type": "object",
-        "properties": {
-          "description": {
-            "description": "A short description of the environment definition.",
-            "type": "string",
-            "readOnly": true
-          },
-          "parameters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/EnvironmentDefinitionParameter"
-            },
-            "description": "Input parameters passed to an environment.",
-            "readOnly": true
-          },
-          "templatePath": {
-            "description": "Path to the Environment Definition entrypoint file.",
-            "type": "string",
-            "readOnly": true
-          },
-          "validationStatus": {
-            "description": "Validation status for the environment definition.",
-            "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
-            "readOnly": true
-          }
-        }
-      },
-      "EnvironmentDefinitionParameter": {
-        "type": "object",
-        "description": "Properties of an Environment Definition parameter",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique ID of the parameter",
-            "readOnly": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Display name of the parameter",
-            "readOnly": true
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the parameter",
-            "readOnly": true
-          },
-          "type": {
-            "description": "A string of one of the basic JSON types (number, integer, array, object, boolean, string)",
-            "$ref": "#/definitions/ParameterType",
-            "readOnly": true
-          },
-          "readOnly": {
-            "type": "boolean",
-            "description": "Whether or not this parameter is read-only.  If true, default should have a value.",
-            "readOnly": true
-          },
-          "required": {
-            "type": "boolean",
-            "description": "Whether or not this parameter is required",
-            "readOnly": true
-          }
-        }
-      },
-      "ParameterType": {
-        "type": "string",
-        "enum": [
-          "array",
-          "boolean",
-          "integer",
-          "number",
-          "object",
-          "string"
-        ],
-        "description": "The type of data a parameter accepts.",
-        "readOnly": true,
-        "x-ms-enum": {
-          "name": "ParameterType",
-          "modelAsString": true,
-          "values": [
-            {
-              "value": "array",
-              "description": "The parameter accepts an array of values."
-            },
-            {
-              "value": "boolean",
-              "description": "The parameter accepts a boolean value."
-            },
-            {
-              "value": "integer",
-              "description": "The parameter accepts an integer value."
-            },
-            {
-              "value": "number",
-              "description": "The parameter accepts a number value."
-            },
-            {
-              "value": "object",
-              "description": "The parameter accepts an object value."
-            },
-            {
-              "value": "string",
-              "description": "The parameter accepts a string value."
-            }
+        "galleryResourceId": {
+          "description": "The resource ID of the backing Azure Compute Gallery.",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
           ]
         }
       },
-      "CheckScopedNameAvailabilityRequest": {
-        "description": "The scoped name check availability request body.",
-        "type": "object",
+      "required": [
+        "galleryResourceId"
+      ]
+    },
+    "Image": {
+      "description": "Represents an image.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
         "properties": {
-          "name": {
-            "description": "The name of the resource for which availability needs to be checked.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The resource type.",
-            "type": "string"
-          },
-          "scope": {
-            "description": "The resource id to scope the name check.",
-            "type": "string"
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ImageProperties",
+          "description": "Image properties."
+        }
+      }
+    },
+    "ImageProperties": {
+      "description": "Properties of an image.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description of the image.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publisher": {
+          "description": "The publisher of the image.",
+          "type": "string",
+          "readOnly": true
+        },
+        "offer": {
+          "description": "The name of the image offer.",
+          "type": "string",
+          "readOnly": true
+        },
+        "sku": {
+          "description": "The SKU name for the image.",
+          "type": "string",
+          "readOnly": true
+        },
+        "recommendedMachineConfiguration": {
+          "description": "The recommended machine configuration to use with the image.",
+          "$ref": "#/definitions/RecommendedMachineConfiguration",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "hibernateSupport": {
+          "description": "Indicates whether this image has hibernate enabled. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate",
+          "readOnly": true,
+          "$ref": "#/definitions/HibernateSupport"
+        }
+      }
+    },
+    "RecommendedMachineConfiguration": {
+      "description": "Properties for a recommended machine configuration.",
+      "type": "object",
+      "properties": {
+        "memory": {
+          "description": "Recommended memory range.",
+          "$ref": "#/definitions/ResourceRange",
+          "readOnly": true
+        },
+        "vCPUs": {
+          "description": "Recommended vCPU range.",
+          "$ref": "#/definitions/ResourceRange",
+          "readOnly": true
+        }
+      }
+    },
+    "ResourceRange": {
+      "description": "Properties for a range of values.",
+      "type": "object",
+      "properties": {
+        "min": {
+          "description": "Minimum value.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "max": {
+          "description": "Maximum value.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageVersion": {
+      "description": "Represents an image version.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ImageVersionProperties",
+          "description": "Image version properties."
+        }
+      }
+    },
+    "ImageVersionProperties": {
+      "description": "Properties of an image version.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The semantic version string.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publishedDate": {
+          "description": "The datetime that the backing image version was published.",
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        },
+        "excludeFromLatest": {
+          "description": "If the version should be excluded from being treated as the latest version.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "osDiskImageSizeInGb": {
+          "description": "The size of the OS disk image, in GB.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      }
+    },
+    "GalleryListResult": {
+      "description": "Results of the gallery list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Gallery"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageListResult": {
+      "description": "Results of the image list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Image"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageVersionListResult": {
+      "description": "Results of the image version list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageVersion"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "AllowedEnvironmentType": {
+      "description": "Represents an allowed environment type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AllowedEnvironmentTypeProperties",
+          "description": "Properties of an allowed environment type."
+        }
+      }
+    },
+    "AllowedEnvironmentTypeProperties": {
+      "description": "Properties of an allowed environment type.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The display name of the allowed environment type.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "AllowedEnvironmentTypeListResult": {
+      "description": "Result of the allowed environment type list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllowedEnvironmentType"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentType": {
+      "description": "Represents an environment type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/EnvironmentTypeProperties",
+          "description": "Properties of an environment type."
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        }
+      }
+    },
+    "EnvironmentTypeProperties": {
+      "description": "Properties of an environment type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentTypeUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentTypeUpdate": {
+      "description": "The environment type for partial update. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/EnvironmentTypeUpdateProperties",
+          "description": "Properties of an environment type to be updated."
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        }
+      }
+    },
+    "EnvironmentTypeUpdateProperties": {
+      "description": "Properties of an environment type. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the environment type."
+        }
+      }
+    },
+    "EnvironmentTypeListResult": {
+      "description": "Result of the environment type list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvironmentType"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ProjectEnvironmentType": {
+      "description": "Represents an environment type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProjectEnvironmentTypeProperties",
+          "description": "Properties of an environment type."
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        },
+        "location": {
+          "type": "string",
+          "description": "The geo-location for the environment type"
+        }
+      }
+    },
+    "ProjectEnvironmentTypeUpdateProperties": {
+      "description": "Properties of a project environment type. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "deploymentTargetId": {
+          "description": "Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The display name of the project environment type.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Defines whether this Environment Type can be used in this Project.",
+          "$ref": "#/definitions/EnvironmentTypeEnableStatus"
+        },
+        "creatorRoleAssignment": {
+          "description": "The role definition assigned to the environment creator on backing resources.",
+          "type": "object",
+          "properties": {
+            "roles": {
+              "type": "object",
+              "description": "A map of roles to assign to the environment creator.",
+              "additionalProperties": {
+                "$ref": "#/definitions/EnvironmentRole"
+              }
+            }
+          }
+        },
+        "userRoleAssignments": {
+          "description": "Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/UserRoleAssignment"
           }
         }
+      }
+    },
+    "ProjectEnvironmentTypeProperties": {
+      "description": "Properties of a project environment type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectEnvironmentTypeUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "environmentCount": {
+          "description": "The number of environments of this type.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "readOnly": true
+        }
+      }
+    },
+    "ProjectEnvironmentTypeUpdate": {
+      "description": "The project environment type for partial update. Properties not provided in the update request will not be changed.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProjectEnvironmentTypeUpdateProperties",
+          "description": "Properties to configure an environment type."
+        },
+        "tags": {
+          "$ref": "commonDefinitions.json#/definitions/Tags",
+          "description": "Resource tags."
+        },
+        "identity": {
+          "description": "Managed identity properties",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity"
+        }
+      }
+    },
+    "ProjectEnvironmentTypeListResult": {
+      "description": "Result of the project environment type list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProjectEnvironmentType"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "DevBoxDefinitionListResult": {
+      "description": "Results of the Dev Box definition list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DevBoxDefinition"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "DevBoxDefinitionUpdate": {
+      "description": "Partial update of a Dev Box definition resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "commonDefinitions.json#/definitions/TrackedResourceUpdate"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevBoxDefinitionUpdateProperties",
+          "description": "Properties of a Dev Box definition to be updated."
+        }
+      }
+    },
+    "DevBoxDefinition": {
+      "description": "Represents a definition for a Developer Machine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Dev Box definition properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DevBoxDefinitionProperties"
+        }
+      }
+    },
+    "DevBoxDefinitionUpdateProperties": {
+      "description": "Properties of a Dev Box definition. These properties can be updated after the resource has been created.",
+      "type": "object",
+      "properties": {
+        "imageReference": {
+          "$ref": "vdi.json#/definitions/ImageReference",
+          "description": "Image reference information."
+        },
+        "sku": {
+          "description": "The SKU for Dev Boxes created using this definition.",
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku"
+        },
+        "osStorageType": {
+          "description": "The storage type used for the Operating System disk of Dev Boxes created using this definition.",
+          "type": "string"
+        },
+        "hibernateSupport": {
+          "description": "Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate",
+          "$ref": "#/definitions/HibernateSupport"
+        }
+      }
+    },
+    "DevBoxDefinitionProperties": {
+      "description": "Properties of a Dev Box definition.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DevBoxDefinitionUpdateProperties"
+        }
+      ],
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "imageValidationStatus": {
+          "description": "Validation status of the configured image.",
+          "$ref": "vdi.json#/definitions/ImageValidationStatus",
+          "readOnly": true
+        },
+        "imageValidationErrorDetails": {
+          "description": "Details for image validator error. Populated when the image validation is not successful.",
+          "$ref": "vdi.json#/definitions/ImageValidationErrorDetails",
+          "readOnly": true
+        },
+        "validationStatus": {
+          "description": "Validation status for the Dev Box Definition.",
+          "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
+          "readOnly": true
+        },
+        "activeImageReference": {
+          "$ref": "vdi.json#/definitions/ImageReference",
+          "description": "Image reference information for the currently active image (only populated during updates).",
+          "readOnly": true
+        }
       },
+      "required": [
+        "imageReference",
+        "sku"
+      ]
+    },
+    "AttachedNetworkConnection": {
+      "description": "Represents an attached NetworkConnection.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AttachedNetworkConnectionProperties",
+          "description": "Attached NetworkConnection properties."
+        }
+      }
+    },
+    "AttachedNetworkConnectionProperties": {
+      "description": "Properties of an attached NetworkConnection.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "networkConnectionId": {
+          "description": "The resource ID of the NetworkConnection you want to attach.",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "networkConnectionLocation": {
+          "description": "The geo-location where the NetworkConnection resource specified in 'networkConnectionResourceId' property lives.",
+          "type": "string",
+          "readOnly": true
+        },
+        "healthCheckStatus": {
+          "$ref": "vdi.json#/definitions/HealthCheckStatus",
+          "readOnly": true
+        },
+        "domainJoinType": {
+          "description": "AAD Join type of the network. This is populated based on the referenced Network Connection.",
+          "$ref": "vdi.json#/definitions/DomainJoinType",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "networkConnectionId"
+      ]
+    },
+    "AttachedNetworkListResult": {
+      "description": "Results of the Attached Networks list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttachedNetworkConnection"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentRole": {
+      "type": "object",
+      "description": "A role that can be assigned to a user.",
+      "properties": {
+        "roleName": {
+          "description": "The common name of the Role Assignment. This is a descriptive name such as 'AcrPush'.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "This is a description of the Role Assignment.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "UserRoleAssignment": {
+      "type": "object",
+      "description": "Mapping of user object ID to role assignments.",
+      "x-ms-client-name": "userRoleAssignmentValue",
+      "properties": {
+        "roles": {
+          "type": "object",
+          "description": "A map of roles to assign to the parent user.",
+          "additionalProperties": {
+            "$ref": "#/definitions/EnvironmentRole"
+          }
+        }
+      }
+    },
+    "OperationStatus": {
+      "description": "The current status of an async operation",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationStatusResult"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Custom operation properties, populated only for a successful operation.",
+          "type": "object",
+          "readOnly": true
+        }
+      }
+    },
+    "CatalogItemType": {
+      "description": "Indicates catalog item types.",
+      "enum": [
+        "EnvironmentDefinition",
+        "ImageDefinition"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "CatalogItemType",
+        "modelAsString": true
+      }
+    },
+    "EnvironmentTypeEnableStatus": {
+      "description": "Indicates whether the environment type is either enabled or disabled.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "EnvironmentTypeEnableStatus",
+        "modelAsString": true
+      }
+    },
+    "HibernateSupport": {
+      "description": "Indicates whether hibernate is enabled/disabled.",
+      "enum": [
+        "Disabled",
+        "Enabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "HibernateSupport",
+        "modelAsString": true
+      }
+    },
+    "ListUsagesResult": {
+      "description": "List of Core Usages.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The array page of Usages.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Usage"
+          },
+          "x-ms-identifiers": [],
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "The link to get the next page of Usage result.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Usage": {
+      "description": "The core usage details.",
+      "type": "object",
+      "properties": {
+        "currentValue": {
+          "description": "The current usage.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "limit": {
+          "description": "The limit integer.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "unit": {
+          "description": "The unit details.",
+          "type": "string",
+          "enum": [
+            "Count"
+          ],
+          "x-ms-enum": {
+            "name": "UsageUnit",
+            "modelAsString": true
+          }
+        },
+        "name": {
+          "description": "The name.",
+          "$ref": "#/definitions/UsageName"
+        },
+        "id": {
+          "description": "The fully qualified arm resource id.",
+          "type": "string"
+        }
+      }
+    },
+    "UsageName": {
+      "description": "The Usage Names.",
+      "type": "object",
+      "properties": {
+        "localizedValue": {
+          "description": "The localized name of the resource.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The name of the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "CustomizationTaskListResult": {
+      "description": "Results of the Task list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomizationTask"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "CustomizationTask": {
+      "description": "Represents a Task to be used in customizing a Dev Box.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Task properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/CustomizationTaskProperties"
+        }
+      }
+    },
+    "CustomizationTaskProperties": {
+      "description": "Properties of a Task.",
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "description": "Inputs to the task.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/CustomizationTaskInput"
+          },
+          "readOnly": true
+        },
+        "timeout": {
+          "description": "The default timeout for the task.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "validationStatus": {
+          "description": "Validation status for the Task.",
+          "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
+          "readOnly": true
+        }
+      }
+    },
+    "CustomizationTaskInput": {
+      "description": "Input for a Task.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "Description of the input.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Type of the input.",
+          "type": "string",
+          "enum": [
+            "string",
+            "number",
+            "boolean"
+          ],
+          "x-ms-enum": {
+            "name": "CustomizationTaskInputType",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "required": {
+          "description": "Whether or not the input is required.",
+          "type": "boolean",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentDefinitionListResult": {
+      "description": "Results of the environment definition list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvironmentDefinition"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentDefinition": {
+      "description": "Represents an environment definition catalog item.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Environment definition properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/EnvironmentDefinitionProperties"
+        }
+      }
+    },
+    "EnvironmentDefinitionProperties": {
+      "description": "Properties of an environment definition.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "A short description of the environment definition.",
+          "type": "string",
+          "readOnly": true
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvironmentDefinitionParameter"
+          },
+          "description": "Input parameters passed to an environment.",
+          "readOnly": true
+        },
+        "templatePath": {
+          "description": "Path to the Environment Definition entrypoint file.",
+          "type": "string",
+          "readOnly": true
+        },
+        "validationStatus": {
+          "description": "Validation status for the environment definition.",
+          "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
+          "readOnly": true
+        }
+      }
+    },
+    "EnvironmentDefinitionParameter": {
+      "type": "object",
+      "description": "Properties of an Environment Definition parameter",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ID of the parameter",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the parameter",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the parameter",
+          "readOnly": true
+        },
+        "type": {
+          "description": "A string of one of the basic JSON types (number, integer, array, object, boolean, string)",
+          "$ref": "#/definitions/ParameterType",
+          "readOnly": true
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "Whether or not this parameter is read-only.  If true, default should have a value.",
+          "readOnly": true
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether or not this parameter is required",
+          "readOnly": true
+        }
+      }
+    },
+    "ParameterType": {
+      "type": "string",
+      "enum": [
+        "array",
+        "boolean",
+        "integer",
+        "number",
+        "object",
+        "string"
+      ],
+      "description": "The type of data a parameter accepts.",
+      "readOnly": true,
+      "x-ms-enum": {
+        "name": "ParameterType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "array",
+            "description": "The parameter accepts an array of values."
+          },
+          {
+            "value": "boolean",
+            "description": "The parameter accepts a boolean value."
+          },
+          {
+            "value": "integer",
+            "description": "The parameter accepts an integer value."
+          },
+          {
+            "value": "number",
+            "description": "The parameter accepts a number value."
+          },
+          {
+            "value": "object",
+            "description": "The parameter accepts an object value."
+          },
+          {
+            "value": "string",
+            "description": "The parameter accepts a string value."
+          }
+        ]
+      }
+    },
+    "CheckScopedNameAvailabilityRequest": {
+      "description": "The scoped name check availability request body.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the resource for which availability needs to be checked.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The resource type.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The resource id to scope the name check.",
+          "type": "string"
+        }
+      }
+    },
     "ImageDefinitionListResult": {
       "description": "Results of the Image Definition list operation.",
       "type": "object",
