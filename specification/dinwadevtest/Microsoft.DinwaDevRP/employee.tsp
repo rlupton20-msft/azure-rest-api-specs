@@ -12,12 +12,7 @@ namespace Microsoft.Contoso;
 
 /** Employee resource */
 model Employee is TrackedResource<EmployeeProperties> {
-  /** Name of employee */
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("employeeName")
-  @path
-  @segment("employees")
-  name: string;
+  ...ResourceNameParameter<Employee>;
 }
 
 /** Employee properties */
@@ -37,23 +32,24 @@ model EmployeeProperties {
   provisioningState?: ProvisioningState;
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-enum" ""
 /** The resource provisioning state. */
 @lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  ResourceProvisioningState,
 
   /** The resource is being provisioned. */
-  Provisioning,
+  Provisioning: "Provisioning",
 
   /** The resource is being updated. */
-  Updating,
+  Updating: "Updating",
 
   /** The resource is being deleted. */
-  Deleting,
+  Deleting: "Deleting",
 
   /** The resource provisioning request has been accepted. */
-  Accepted,
+  Accepted: "Accepted",
+
+  string,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
