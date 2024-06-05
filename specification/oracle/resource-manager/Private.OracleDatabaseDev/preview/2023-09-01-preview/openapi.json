@@ -91,6 +91,9 @@
     },
     {
       "name": "SystemVersions"
+    },
+    {
+      "name": "ProxyOracleSubscriptionOperations"
     }
   ],
   "paths": {
@@ -972,30 +975,6 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "giVersion",
-            "in": "query",
-            "description": "Grid Infrastructure version to filter by.",
-            "required": true,
-            "minLength": 1,
-            "maxLength": 30,
-            "type": "string"
-          },
-          {
-            "name": "shape",
-            "in": "query",
-            "description": "Exadata shape to filter by.",
-            "required": true,
-            "minLength": 1,
-            "maxLength": 255,
-            "type": "string"
-          },
-          {
-            "name": "latestVersionFilter",
-            "in": "query",
-            "description": "Flag to filter by latest version only (optional).",
-            "type": "boolean"
           }
         ],
         "responses": {
@@ -1309,6 +1288,69 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/addAzureSubscriptions": {
+      "post": {
+        "operationId": "OracleSubscriptions_AddAzureSubscriptions",
+        "tags": [
+          "OracleSubscriptions"
+        ],
+        "description": "Add Azure Subscriptions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureSubscriptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionValidationResult"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Add Azure Subscriptions to the OracleSubscription": {
+            "$ref": "./examples/oracleSubscriptions_addAzureSubscriptions.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/listActivationLinks": {
       "post": {
         "operationId": "OracleSubscriptions_ListActivationLinks",
@@ -1463,6 +1505,343 @@
         "x-ms-examples": {
           "List Saas Subscription details for the Oracle Subscription": {
             "$ref": "./examples/oracleSubscriptions_listSaasSubscriptionDetails.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/removeAzureSubscriptions": {
+      "post": {
+        "operationId": "OracleSubscriptions_RemoveAzureSubscriptions",
+        "tags": [
+          "OracleSubscriptions"
+        ],
+        "description": "Remove Azure Subscriptions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureSubscriptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionValidationResult"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Remove Azure Subscriptions from the OracleSubscription": {
+            "$ref": "./examples/oracleSubscriptions_removeAzureSubscriptions.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/proxyoracleSubscriptions": {
+      "get": {
+        "operationId": "ProxyOracleSubscriptionOperations_ListBySubscription",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "List ProxyOracleSubscription resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscriptionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/proxyoracleSubscriptions/default": {
+      "get": {
+        "operationId": "ProxyOracleSubscriptionOperations_Get",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "Get a ProxyOracleSubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscription"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ProxyOracleSubscriptionOperations_CreateOrUpdate",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "Create a ProxyOracleSubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ProxyOracleSubscription' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscription"
+            }
+          },
+          "201": {
+            "description": "Resource 'ProxyOracleSubscription' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscription"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ProxyOracleSubscriptionOperations_Update",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "Update a ProxyOracleSubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscriptionUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ProxyOracleSubscription"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ProxyOracleSubscriptionOperations_Delete",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "Delete a ProxyOracleSubscription",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/proxyoracleSubscriptions/default/getCloudAccountInfo": {
+      "post": {
+        "operationId": "ProxyOracleSubscriptionOperations_GetCloudAccountInfo",
+        "tags": [
+          "ProxyOracleSubscriptionOperations"
+        ],
+        "description": "get cloud account info API",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetails"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get oracle subscription details of azure subscription": {
+            "$ref": "./examples/OracleCloudAccount_get.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -5563,6 +5942,19 @@
       },
       "readOnly": true
     },
+    "AzureSubscriptions": {
+      "type": "object",
+      "description": "Azure Subscriptions model",
+      "properties": {
+        "azureSubscriptionIds": {
+          "type": "array",
+          "description": "Azure Subscription Ids to be updated",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "CloneType": {
       "type": "string",
       "description": "CloneType enum",
@@ -8050,6 +8442,24 @@
         ]
       }
     },
+    "ErrorMessage": {
+      "type": "object",
+      "description": "Error Message",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A short error code that defines the error"
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable error string."
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
     "EstimatedPatchingTime": {
       "type": "object",
       "description": "The estimated total time required in minutes for all patching operations (database server, storage server, and network switch patching).",
@@ -8820,10 +9230,7 @@
           "items": {
             "type": "string"
           },
-          "x-ms-mutability": [
-            "read",
-            "update"
-          ]
+          "readOnly": true
         }
       }
     },
@@ -8887,17 +9294,6 @@
           "$ref": "#/definitions/Intent",
           "description": "Intent for the update operation",
           "x-ms-mutability": [
-            "update"
-          ]
-        },
-        "azureSubscriptionIds": {
-          "type": "array",
-          "description": "Azure subscriptions to be added",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
             "update"
           ]
         }
@@ -9143,6 +9539,98 @@
           }
         ]
       }
+    },
+    "ProxyOracleSubscription": {
+      "type": "object",
+      "description": "OracleSubscription resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ProxyOracleSubscriptionProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ProxyOracleSubscriptionListResult": {
+      "type": "object",
+      "description": "The response of a ProxyOracleSubscription list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ProxyOracleSubscription items on this page",
+          "items": {
+            "$ref": "#/definitions/ProxyOracleSubscription"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ProxyOracleSubscriptionProperties": {
+      "type": "object",
+      "description": "The properties of ProxyOracleSubscription",
+      "properties": {
+        "parentSubscriptionId": {
+          "type": "string",
+          "description": "Parent SubscriptionId",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProxyOracleSubscriptionProvisioningState",
+          "description": "OracleSubscriptionProvisioningState provisioning state",
+          "readOnly": true
+        }
+      }
+    },
+    "ProxyOracleSubscriptionProvisioningState": {
+      "type": "string",
+      "description": "OracleSubscriptionProvisioningState enum",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "ProxyOracleSubscriptionProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "ProxyOracleSubscriptionUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the ProxyOracleSubscription."
     },
     "RefreshableModelType": {
       "type": "string",
@@ -9517,6 +10005,52 @@
         "allowedResources": [
           {
             "type": "Microsoft.Network/virtualNetworks/subnets"
+          }
+        ]
+      }
+    },
+    "SubscriptionValidationResult": {
+      "type": "object",
+      "description": "Validation result of adding/removing Azure subscriptions",
+      "properties": {
+        "validationStatus": {
+          "$ref": "#/definitions/SubscriptionValidationStatus",
+          "description": "Validation status"
+        },
+        "validationDetails": {
+          "type": "array",
+          "description": "Validation result details",
+          "items": {
+            "$ref": "#/definitions/ErrorMessage"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "validationStatus",
+        "validationDetails"
+      ]
+    },
+    "SubscriptionValidationStatus": {
+      "type": "string",
+      "description": "Validation status",
+      "enum": [
+        "Succeed",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "SubscriptionValidationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeed",
+            "value": "Succeed",
+            "description": "Successfully Validation"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Failed Validation"
           }
         ]
       }

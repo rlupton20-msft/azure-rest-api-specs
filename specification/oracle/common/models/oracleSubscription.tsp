@@ -137,6 +137,12 @@ model SaasSubscriptionDetails {
   isFreeTrial?: boolean;
 }
 
+@doc("Azure Subscriptions model")
+model AzureSubscriptions {
+  @doc("Azure Subscription Ids to be updated")
+  azureSubscriptionIds?: string[];
+}
+
 @doc("Activation Links model")
 model ActivationLinks {
   @doc("New Cloud Account Activation Link")
@@ -147,6 +153,37 @@ model ActivationLinks {
   @visibility("read")
   existingCloudAccountActivationLink?: string;
 }
+
+@doc("Validation status")
+union SubscriptionValidationStatus {
+@doc("Successfully Validation")
+Succeed: "Succeed",
+
+@doc("Failed Validation")
+Failed: "Failed",
+
+string,
+}
+
+@doc("Error Message")
+model ErrorMessage {
+@doc("A short error code that defines the error")
+code: string;
+
+@doc("A human-readable error string.")
+message: string;
+}
+
+@doc("Validation result of adding/removing Azure subscriptions")
+model SubscriptionValidationResult {
+@doc("Validation status")
+validationStatus: SubscriptionValidationStatus;
+
+@doc("Validation result details")
+@OpenAPI.extension("x-ms-identifiers", [])
+validationDetails: ErrorMessage[];
+}
+
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
@@ -179,6 +216,6 @@ model OracleSubscriptionProperties {
   intent?: Intent;
 
   @doc("Azure subscriptions to be added")
-  @visibility("update", "read")
+  @visibility("read")
   azureSubscriptionIds?: string[];
 }

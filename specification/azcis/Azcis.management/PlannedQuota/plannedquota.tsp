@@ -23,11 +23,14 @@ model PlannedQuotaResourceProperties {
   @doc("Subscription Name in plan")
   subscriptionNameInPlan: string;
 
+  @doc("Stage name")
+  stage?: string;
+
   @doc("Plan version")
   planVersion?: string;
 
-  @doc("Stage name")
-  stage?: string;
+  @doc("Planned Quota region")
+  region?: string;
 
   @doc("Property bindings")
   @extension("x-ms-identifiers", [])
@@ -43,10 +46,10 @@ model PlannedQuotaResourceProperties {
 
 @doc("plannedQuota Property Binding")
 model PropertyBinding {
-  @doc("Placeholder")
+  @doc("Property binding placeholder")
   placeholder: string;
 
-  @doc("Resource Name")
+  @doc("Resource name of the property")
   resourceName: string;
 }
 

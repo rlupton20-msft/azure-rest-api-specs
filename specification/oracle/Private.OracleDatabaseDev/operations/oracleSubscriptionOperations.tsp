@@ -42,6 +42,28 @@ interface OracleSubscriptions
     ActivationLinks
   >;
 
+  @doc("Add Azure Subscriptions")
+  @example(
+    "./examples/oracleSubscriptions_addAzureSubscriptions.json",
+    "Add Azure Subscriptions to the OracleSubscription"
+  )
+  addAzureSubscriptions is ArmResourceActionAsync<
+    OracleSubscription<Foundations.Plan>,
+    AzureSubscriptions,
+    SubscriptionValidationResult
+ >;
+
+ @doc("Remove Azure Subscriptions")
+ @example(
+   "./examples/oracleSubscriptions_removeAzureSubscriptions.json",
+   "Remove Azure Subscriptions from the OracleSubscription"
+ )
+ removeAzureSubscriptions is ArmResourceActionAsync<
+  OracleSubscription<Foundations.Plan>,
+  AzureSubscriptions,
+  SubscriptionValidationResult
+>;
+
   /**
    * @dev Update a resource using the asynchronous call pattern.
    * @template Resource The ArmResource to update.
