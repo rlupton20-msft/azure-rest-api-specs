@@ -56,6 +56,15 @@
     },
     {
       "name": "BillingContainers"
+    },
+    {
+      "name": "SchemaRegistries"
+    },
+    {
+      "name": "Schemas"
+    },
+    {
+      "name": "SchemaVersions"
     }
   ],
   "paths": {
@@ -445,6 +454,40 @@
           "Get_OperationStatus": {
             "$ref": "./examples/Get_OperationStatus.json"
           }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/schemaRegistries": {
+      "get": {
+        "operationId": "SchemaRegistries_ListBySubscription",
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "List SchemaRegistry resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistryListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
         }
       }
     },
@@ -1368,6 +1411,692 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries": {
+      "get": {
+        "operationId": "SchemaRegistries_ListByResourceGroup",
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "List SchemaRegistry resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistryListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}": {
+      "get": {
+        "operationId": "SchemaRegistries_Get",
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Get a SchemaRegistry",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "SchemaRegistries_CreateOrReplace",
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Create a SchemaRegistry",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SchemaRegistry' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            }
+          },
+          "201": {
+            "description": "Resource 'SchemaRegistry' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SchemaRegistry"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "SchemaRegistries_Delete",
+        "tags": [
+          "SchemaRegistries"
+        ],
+        "description": "Delete a SchemaRegistry",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas": {
+      "get": {
+        "operationId": "Schemas_ListBySchemaRegistry",
+        "tags": [
+          "Schemas"
+        ],
+        "description": "List Schema resources by SchemaRegistry",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}": {
+      "get": {
+        "operationId": "Schemas_Get",
+        "tags": [
+          "Schemas"
+        ],
+        "description": "Get a Schema",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Schemas_CreateOrReplace",
+        "tags": [
+          "Schemas"
+        ],
+        "description": "Create a Schema",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Schema' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          },
+          "201": {
+            "description": "Resource 'Schema' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Schemas_Delete",
+        "tags": [
+          "Schemas"
+        ],
+        "description": "Delete a Schema",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions": {
+      "get": {
+        "operationId": "SchemaVersions_ListBySchema",
+        "tags": [
+          "SchemaVersions"
+        ],
+        "description": "List SchemaVersion resources by Schema",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaVersionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions/{schemaVersionName}": {
+      "get": {
+        "operationId": "SchemaVersions_Get",
+        "tags": [
+          "SchemaVersions"
+        ],
+        "description": "Get a SchemaVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaVersionName",
+            "in": "path",
+            "description": "Schema version name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]*$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SchemaVersion"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "SchemaVersions_CreateOrReplace",
+        "tags": [
+          "SchemaVersions"
+        ],
+        "description": "Create a SchemaVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaVersionName",
+            "in": "path",
+            "description": "Schema version name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]*$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SchemaVersion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SchemaVersion' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SchemaVersion"
+            }
+          },
+          "201": {
+            "description": "Resource 'SchemaVersion' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SchemaVersion"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "SchemaVersions_Delete",
+        "tags": [
+          "SchemaVersions"
+        ],
+        "description": "Delete a SchemaVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schemaRegistryName",
+            "in": "path",
+            "description": "Schema registry name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaName",
+            "in": "path",
+            "description": "Schema name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "schemaVersionName",
+            "in": "path",
+            "description": "Schema version name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]*$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1863,6 +2592,24 @@
           "description": "Provisioning state of the resource.",
           "readOnly": true
         }
+      }
+    },
+    "ContentType": {
+      "type": "string",
+      "description": "Defines the schema content type.",
+      "enum": [
+        "application/schema+json"
+      ],
+      "x-ms-enum": {
+        "name": "ContentType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "JsonSchema",
+            "value": "application/schema+json",
+            "description": "JSON Schema content type"
+          }
+        ]
       }
     },
     "DataPoint": {
@@ -2371,6 +3118,295 @@
         ]
       },
       "readOnly": true
+    },
+    "Schema": {
+      "type": "object",
+      "description": "Schema definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SchemaProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SchemaListResult": {
+      "type": "object",
+      "description": "The response of a Schema list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Schema items on this page",
+          "items": {
+            "$ref": "#/definitions/Schema"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SchemaProperties": {
+      "type": "object",
+      "description": "Defines the schema properties.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "Globally unique, immutable, non-reusable id.",
+          "readOnly": true
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the schema."
+        },
+        "contentType": {
+          "$ref": "#/definitions/ContentType",
+          "description": "Schema's content type. (JSON Schema only available option at release)",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "schemaType": {
+          "$ref": "#/definitions/SchemaType",
+          "description": "Type of the Schema (MessageSchema only available option at release).",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        },
+        "tags": {
+          "type": "array",
+          "description": "Schema tags.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "contentType",
+        "schemaType"
+      ]
+    },
+    "SchemaRegistry": {
+      "type": "object",
+      "description": "Schema registry definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SchemaRegistryProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "SchemaRegistryListResult": {
+      "type": "object",
+      "description": "The response of a SchemaRegistry list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SchemaRegistry items on this page",
+          "items": {
+            "$ref": "#/definitions/SchemaRegistry"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SchemaRegistryProperties": {
+      "type": "object",
+      "description": "Defines the schema registry properties.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "Globally unique, immutable, non-reusable id.",
+          "readOnly": true
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Schema registry namespace. Uniquely identifies a schema registry withing a tenant.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the schema registry."
+        },
+        "storageAccountContainerUrl": {
+          "type": "string",
+          "description": "The Storage Account's Container URL where schemas will be stored.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/SystemAssignedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
+        }
+      },
+      "required": [
+        "namespace",
+        "storageAccountContainerUrl"
+      ]
+    },
+    "SchemaType": {
+      "type": "string",
+      "description": "Defines the schema type.",
+      "enum": [
+        "messageSchema"
+      ],
+      "x-ms-enum": {
+        "name": "SchemaType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "MessageShema",
+            "value": "messageSchema",
+            "description": "Message Schema schema type"
+          }
+        ]
+      }
+    },
+    "SchemaVersion": {
+      "type": "object",
+      "description": "Schema version's definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SchemaVersionProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SchemaVersionListResult": {
+      "type": "object",
+      "description": "The response of a SchemaVersion list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SchemaVersion items on this page",
+          "items": {
+            "$ref": "#/definitions/SchemaVersion"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SchemaVersionProperties": {
+      "type": "object",
+      "description": "Defines the schema version properties.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "Globally unique, immutable, non-reusable id.",
+          "readOnly": true
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the schema."
+        },
+        "schemaContent": {
+          "type": "string",
+          "description": "Schema Content (for example, the actual payload of a Schema Message).",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "hash": {
+          "type": "string",
+          "description": "Hash of the schema content.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "schemaContent",
+        "hash"
+      ]
     },
     "TransportAuthentication": {
       "type": "object",

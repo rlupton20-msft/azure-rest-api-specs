@@ -6,6 +6,7 @@ import "./assets.tsp";
 import "./assetEndpointProfiles.tsp";
 import "./devices.tsp";
 import "./billings.tsp";
+import "./schemaRegistry.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
