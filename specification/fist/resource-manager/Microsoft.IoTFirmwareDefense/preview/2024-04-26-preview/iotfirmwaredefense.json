@@ -2437,10 +2437,18 @@
         },
         "filePaths": {
           "type": "array",
-          "description": "File paths related to the component.",
+          "description": "File paths related to the component. Note, relatedFiles should be used instead of this property.",
           "items": {
             "type": "string"
           }
+        },
+        "relatedFiles": {
+          "type": "array",
+          "description": "File properties related to the component.",
+          "items": {
+            "$ref": "#/definitions/SbomFileProperties"
+          },
+          "x-ms-identifiers": []
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -2488,6 +2496,29 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "SbomFileProperties": {
+      "type": "object",
+      "description": "Properties of a file detected in the filesystem related to an SBOM component.",
+      "properties": {
+        "filePath": {
+          "type": "string",
+          "description": "File path related to the component."
+        },
+        "sha1Hash": {
+          "type": "string",
+          "description": "The SHA1 hash of the contents at the file path."
+        },
+        "sha256Hash": {
+          "type": "string",
+          "description": "The SHA256 hash of the contents at the file path."
+        }
+      },
+      "required": [
+        "filePath",
+        "sha1Hash",
+        "sha256Hash"
       ]
     },
     "StatusMessage": {
