@@ -90,7 +90,7 @@ model SchemaProperties {
 
   @doc("Schema's content type. (JSON Schema only available option at release)")
   @visibility("read", "create")
-  contentType: ContentType;
+  format: Format;
 
   @doc("Type of the Schema (MessageSchema only available option at release).")
   @visibility("read", "create")
@@ -106,10 +106,10 @@ model SchemaProperties {
 }
 
 @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
-@doc("Defines the schema content type.")
-union ContentType {
-  @doc("JSON Schema content type")
-  JsonSchema: "application/schema+json",
+@doc("Defines the schema format.")
+union Format {
+  @doc("JSON Schema draft 7 format")
+  JsonSchemaDraft7: "JsonSchema/draft-07",
 
   string,
 }
@@ -118,7 +118,7 @@ union ContentType {
 @doc("Defines the schema type.")
 union SchemaType {
   @doc("Message Schema schema type")
-  MessageShema: "messageSchema",
+  MessageSchema: "MessageSchema",
 
   string,
 }
@@ -143,10 +143,6 @@ model SchemaVersionProperties {
   @doc("Globally unique, immutable, non-reusable id.")
   @visibility("read")
   uuid?: string;
-
-  @doc("Human-readable display name.")
-  @visibility("read", "create")
-  displayName?: string;
 
   @doc("Human-readable description of the schema.")
   description?: string;
