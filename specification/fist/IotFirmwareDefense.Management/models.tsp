@@ -682,12 +682,12 @@ model SbomFileProperties {
   /**
    * The SHA1 hash of the contents at the file path.
    */
-  sha1Hash: string;
+  sha1Sum: string;
 
   /**
    * The SHA256 hash of the contents at the file path.
    */
-  sha256Hash: string;
+  sha256Sum: string;
 }
 
 /**
