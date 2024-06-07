@@ -1,4 +1,5 @@
 import "../../common/models/oracleSubscription.tsp";
+import "../../common/operations/commons.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
@@ -50,7 +51,7 @@ interface OracleSubscriptions
   addAzureSubscriptions is ArmResourceActionAsync<
     OracleSubscription<Foundations.Plan>,
     AzureSubscriptions,
-    SubscriptionValidationResult
+    ValidationResult
  >;
 
  @doc("Remove Azure Subscriptions")
@@ -61,7 +62,7 @@ interface OracleSubscriptions
  removeAzureSubscriptions is ArmResourceActionAsync<
   OracleSubscription<Foundations.Plan>,
   AzureSubscriptions,
-  SubscriptionValidationResult
+  ValidationResult
 >;
 
   /**
