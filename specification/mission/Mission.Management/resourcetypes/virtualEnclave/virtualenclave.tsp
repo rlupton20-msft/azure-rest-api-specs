@@ -1,6 +1,5 @@
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -15,16 +14,21 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
+@doc("Microsoft Mission Resource Provider management API.")
+namespace Microsoft.Mission;
+
 @doc("Specifies the destination of where to store diagnostic logs.")
-enum DiagnosticDestination {
+union DiagnosticDestination {
   @doc("DiagnosticDestination Type CommunityOnly")
-  CommunityOnly,
+  CommunityOnly: "CommunityOnly",
 
   @doc("DiagnosticDestination Type EnclaveOnly")
-  EnclaveOnly,
- 
+  EnclaveOnly: "EnclaveOnly",
+
   @doc("DiagnosticDestination Type Both")
-  Both,
+  Both: "Both",
+
+  string
 }
 
 @doc("Specifies the enclave approval state")
