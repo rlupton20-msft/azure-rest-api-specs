@@ -154,36 +154,6 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
-@doc("Validation status")
-union SubscriptionValidationStatus {
-@doc("Successfully Validation")
-Succeed: "Succeed",
-
-@doc("Failed Validation")
-Failed: "Failed",
-
-string,
-}
-
-@doc("Error Message")
-model ErrorMessage {
-@doc("A short error code that defines the error")
-code: string;
-
-@doc("A human-readable error string.")
-message: string;
-}
-
-@doc("Validation result of adding/removing Azure subscriptions")
-model SubscriptionValidationResult {
-@doc("Validation status")
-validationStatus: SubscriptionValidationStatus;
-
-@doc("Validation result details")
-@OpenAPI.extension("x-ms-identifiers", [])
-validationDetails: ErrorMessage[];
-}
-
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
