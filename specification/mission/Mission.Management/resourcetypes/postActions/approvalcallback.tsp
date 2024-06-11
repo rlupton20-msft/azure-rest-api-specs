@@ -1,6 +1,5 @@
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -17,7 +16,7 @@ model ApprovalCallbackRequest {
   resourceId: string;
 
   @doc("Approval status indicating 'Approved' or 'Declined'")
-  approvalStatus: "Approved" | "Declined";
+  approvalStatus: "Approved" | "Declined" | string;
 }
 
 // Define a model for the approval response

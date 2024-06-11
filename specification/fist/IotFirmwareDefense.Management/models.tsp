@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 

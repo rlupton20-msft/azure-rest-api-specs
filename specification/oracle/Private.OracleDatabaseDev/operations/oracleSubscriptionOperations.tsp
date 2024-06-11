@@ -1,5 +1,4 @@
 import "../../common/models/oracleSubscription.tsp";
-import "../../common/operations/commons.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
