@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
+import "./common/userAuthentication.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -66,20 +67,6 @@ model UserAuthentication {
 
   @doc("Defines the certificate reference when Certificate user authentication mode is selected.")
   x509Credentials?: X509Credentials;
-}
-
-@doc("The mode to authenticate the user of the client at the server.")
-union UserAuthenticationMode {
-  @doc("The user authentication mode is anonymous")
-  Anonymous: "Anonymous",
-
-  @doc("The user authentication mode is an x509 certificate.")
-  Certificate: "Certificate",
-
-  @doc("The user authentication mode is a username and password.")
-  UsernamePassword: "UsernamePassword",
-
-  string,
 }
 
 @doc("The credentials for authentication mode UsernamePassword.")

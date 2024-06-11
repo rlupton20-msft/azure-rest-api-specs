@@ -6,6 +6,8 @@ import "./assets.tsp";
 import "./assetEndpointProfiles.tsp";
 import "./devices.tsp";
 import "./billings.tsp";
+import "./discoveredAssets.tsp";
+import "./discoveredAssetEndpointProfiles.tsp";
 import "./schemaRegistry.tsp";
 
 using TypeSpec.Http;
@@ -23,6 +25,7 @@ using Azure.ResourceManager.Foundations;
 @versioned(global.Private.DeviceRegistry.Versions)
 namespace Private.DeviceRegistry;
 
+/** API versions */
 @doc("Private.DeviceRegistry Resource Provider supported API versions.")
 enum Versions {
   @doc("Private.DeviceRegistry Resource Provider management API version 2023-11-01-preview.")
