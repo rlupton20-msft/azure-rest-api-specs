@@ -154,6 +154,7 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
+
 @doc("Validation status")
 union SubscriptionValidationStatus {
 @doc("Successfully Validation")
@@ -184,7 +185,7 @@ validationStatus: SubscriptionValidationStatus;
 validationDetails: ErrorMessage[];
 }
 
-@doc("Lifecyclestate of Oracle Subscription")
+@doc("Lifecyclestate of Oracle Subscription enum")
 union OracleSubscriptionLifecycleState {
 @doc("Available - Successful Creation of Oracle Subscription")
 Available: "Available",
@@ -195,7 +196,7 @@ Provisioning: "Provisioning",
 @doc("Updating - State when Oracle Subscription is being Updated")
 Updating: "Updating",
 
-@doc("Failed - State when Oracle Subscription cloud linking has failed")
+@doc("Failed - State when Oracle Subscription has failed")
 Failed: "Failed",
 
 string,
@@ -238,7 +239,7 @@ model OracleSubscriptionProperties {
 
   @doc("State of the Oracle subscription")
   @visibility("read")
-  lifecycleState?: OracleSubscriptionLifecycleState;
+  oracleSubscriptionLifeCycleState?: OracleSubscriptionLifecycleState;
 
   @doc("Status details of the last operation on Oracle subscription")
   @visibility("read")
