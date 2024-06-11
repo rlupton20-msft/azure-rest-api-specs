@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of binary hardening results.
  */
@@ -33,7 +33,7 @@ model BinaryHardeningResource is ProxyResource<BinaryHardeningResult> {
 }
 
 @armResourceOperations
-interface BinaryHardeningResources {
+interface BinaryHardening {
   /**
    * Lists binary hardening analysis results of a firmware.
    */
