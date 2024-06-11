@@ -184,6 +184,23 @@ validationStatus: SubscriptionValidationStatus;
 validationDetails: ErrorMessage[];
 }
 
+@doc("Lifecyclestate of Oracle Subscription")
+union OracleSubscriptionLifecycleState {
+@doc("Available - Successful Creation of Oracle Subscription")
+Available: "Available",
+
+@doc("Provisioning - State when Oracle Subscription is being provisioned")
+Provisioning: "Provisioning",
+
+@doc("Updating - State when Oracle Subscription is being Updated")
+Updating: "Updating",
+
+@doc("Failed - State when Oracle Subscription cloud linking has failed")
+Failed: "Failed",
+
+string,
+}
+
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
@@ -218,4 +235,12 @@ model OracleSubscriptionProperties {
   @doc("Azure subscriptions to be added")
   @visibility("read")
   azureSubscriptionIds?: string[];
+
+  @doc("State of the Oracle subscription")
+  @visibility("read")
+  lifecycleState?: OracleSubscriptionLifecycleState;
+
+  @doc("Status details of the last operation on Oracle subscription")
+  @visibility("read")
+  lastOperationStatusDetail?: string;
 }
