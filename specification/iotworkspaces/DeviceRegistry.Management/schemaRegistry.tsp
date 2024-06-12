@@ -104,8 +104,11 @@ model SchemaProperties {
 @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
 @doc("Defines the schema format.")
 union Format {
-  @doc("JSON Schema draft 7 format")
-  JsonSchemaDraft7: "JsonSchema/draft-07",
+  @doc("JSON Schema version draft 7 format")
+  JsonSchema_draft7: "JsonSchema/draft-07",
+
+  @doc("Delta format")
+  Delta_1_0: "Delta/1.0",
 
   string,
 }
