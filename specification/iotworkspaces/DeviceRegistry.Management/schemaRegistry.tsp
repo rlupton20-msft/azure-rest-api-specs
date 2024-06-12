@@ -33,8 +33,10 @@ model SchemaRegistryProperties {
   @visibility("read")
   uuid?: string;
 
-  @doc("Schema registry namespace. Uniquely identifies a schema registry withing a tenant.")
+  @doc("Schema registry namespace. Uniquely identifies a schema registry within a tenant.")
   @visibility("read", "create")
+  @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
+  @maxLength(32)
   // namespace is a reserved keyname. Wrap in ` quotes
   `namespace`: string;
 
@@ -43,11 +45,6 @@ model SchemaRegistryProperties {
 
   @doc("Human-readable description of the schema registry.")
   description?: string;
-
-  // Not sure this field is neede for auth/permission purposes
-  // @doc("The Storage Account resourceId where schemas will be stored.")
-  // @visibility("read", "create")
-  // storageAccountResourceId: string;
 
   @doc("The Storage Account's Container URL where schemas will be stored.")
   @visibility("read", "create")
@@ -70,7 +67,7 @@ model Schema is ProxyResource<SchemaProperties> {
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @path
   @minLength(3)
-  @maxLength(63)
+  @maxLength(64)
   name: string;
 }
 
@@ -96,7 +93,6 @@ model SchemaProperties {
   @visibility("read", "create")
   schemaType: SchemaType;
 
-  // Is this mandatory for pure proxy resources with sync create/update operations?
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -130,10 +126,10 @@ model SchemaVersion is ProxyResource<SchemaVersionProperties> {
   @doc("Schema version name parameter.")
   @key("schemaVersionName")
   @segment("schemaVersions")
-  @pattern("^[a-z0-9]*$")
+  @pattern("^[0-9]*$")
   @path
   @minLength(1)
-  @maxLength(63)
+  @maxLength(10)
   name: string;
 }
 
@@ -155,7 +151,6 @@ model SchemaVersionProperties {
   @visibility("read")
   hash: string;
 
-  // Is this mandatory for pure proxy resources with sync create/update operations?
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
