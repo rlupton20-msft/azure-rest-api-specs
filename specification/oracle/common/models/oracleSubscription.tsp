@@ -140,7 +140,7 @@ model SaasSubscriptionDetails {
 @doc("Azure Subscriptions model")
 model AzureSubscriptions {
   @doc("Azure Subscription Ids to be updated")
-  azureSubscriptionIds?: string[];
+  azureSubscriptionIds: string[];
 }
 
 @doc("Activation Links model")
