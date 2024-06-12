@@ -92,6 +92,11 @@ model AssetProperties {
   @doc("A set of key-value pairs that contain custom attributes set by the customer.")
   attributes?: Record<unknown>;
 
+  @doc("Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.")
+  @visibility("read", "create")
+  @added(Versions.v2024_07_01_preview)
+  discoveredAssetRef?: string[];
+
   @doc("Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.")
   @removed(Versions.v2024_07_01_preview)
   defaultDataPointsConfiguration?: string;
@@ -136,10 +141,10 @@ model DataSet {
   @doc("Name of the data set.")
   name: string;
 
-  @doc("Protocol-specific JSON string that describes configuration for the specific dataset.")
+  @doc("Protocol-specific JSON string that describes configuration for the specific data set.")
   dataSetConfiguration?: string;
 
-  @doc("Object that describes the topic information for the specific dataset.")
+  @doc("Object that describes the topic information for the specific data set.")
   topic?: Topic;
 
   @doc("Array of data points that are part of the data set. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.")
@@ -247,7 +252,7 @@ model AssetStatus {
   @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
   version?: int32;
 
-  @doc("Array of dataset statuses that describe the status of each dataset.")
+  @doc("Array of data set statuses that describe the status of each data set.")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
   dataSets?: AssetStatusDataSet[];
@@ -270,7 +275,7 @@ model AssetStatusError {
 @doc("Defines the asset status data set properties.")
 @added(Versions.v2024_07_01_preview)
 model AssetStatusDataSet {
-  @doc("The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information.")
+  @doc("The name of the data set. Must be unique within the status.datasets array. This name is used to correlate between the spec and status data set information.")
   name: string;
 
   @doc("The message schema reference object.")

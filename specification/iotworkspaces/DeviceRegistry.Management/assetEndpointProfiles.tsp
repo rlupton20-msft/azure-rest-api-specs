@@ -55,6 +55,15 @@ model AssetEndpointProfileProperties {
   @doc("Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
   additionalConfiguration?: string;
 
+  @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow.")
+  @visibility("read", "create")
+  @added(Versions.v2024_07_01_preview)
+  discoveredAssetEndpointProfileRef?: string;
+
+  @doc("The node identifiers on the Edge that host the brokers workload.")
+  @added(Versions.v2024_07_01_preview)
+  nodes?: string[];
+
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;

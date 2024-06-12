@@ -731,6 +731,9 @@
         "x-ms-examples": {
           "Create_AssetEndpointProfile": {
             "$ref": "./examples/Create_AssetEndpointProfile.json"
+          },
+          "Create_AssetEndpointProfile_With_DiscoveredAepRef": {
+            "$ref": "./examples/Create_AssetEndpointProfile_With_DiscoveredAepRef.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1032,6 +1035,9 @@
           }
         },
         "x-ms-examples": {
+          "Create_Asset_With_DiscoveredAssetRef": {
+            "$ref": "./examples/Create_Asset_With_DiscoveredAssetRef.json"
+          },
           "Create_Asset_With_ExternalAssetId": {
             "$ref": "./examples/Create_Asset_With_ExternalAssetId.json"
           },
@@ -2897,6 +2903,21 @@
           "type": "string",
           "description": "Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
         },
+        "discoveredAssetEndpointProfileRef": {
+          "type": "string",
+          "description": "Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "description": "The node identifiers on the Edge that host the brokers workload.",
+          "items": {
+            "type": "string"
+          }
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of the resource.",
@@ -2949,6 +2970,13 @@
         "additionalConfiguration": {
           "type": "string",
           "description": "Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+        },
+        "nodes": {
+          "type": "array",
+          "description": "The node identifiers on the Edge that host the brokers workload.",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -3053,6 +3081,17 @@
           "description": "A set of key-value pairs that contain custom attributes set by the customer.",
           "additionalProperties": {}
         },
+        "discoveredAssetRef": {
+          "type": "array",
+          "description": "Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "defaultDataSetsConfiguration": {
           "type": "string",
           "description": "Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
@@ -3115,7 +3154,7 @@
         },
         "dataSets": {
           "type": "array",
-          "description": "Array of dataset statuses that describe the status of each dataset.",
+          "description": "Array of data set statuses that describe the status of each data set.",
           "items": {
             "$ref": "#/definitions/AssetStatusDataSet"
           },
@@ -3137,7 +3176,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information."
+          "description": "The name of the data set. Must be unique within the status.datasets array. This name is used to correlate between the spec and status data set information."
         },
         "messageSchemaReference": {
           "$ref": "#/definitions/MessageSchemaReference",
@@ -3471,11 +3510,11 @@
         },
         "dataSetConfiguration": {
           "type": "string",
-          "description": "Protocol-specific JSON string that describes configuration for the specific dataset."
+          "description": "Protocol-specific JSON string that describes configuration for the specific data set."
         },
         "topic": {
           "$ref": "#/definitions/Topic",
-          "description": "Object that describes the topic information for the specific dataset."
+          "description": "Object that describes the topic information for the specific data set."
         },
         "dataPoints": {
           "type": "array",
