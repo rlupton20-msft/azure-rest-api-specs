@@ -47,10 +47,9 @@ interface OracleSubscriptions
     "./examples/oracleSubscriptions_addAzureSubscriptions.json",
     "Add Azure Subscriptions to the OracleSubscription"
   )
-  addAzureSubscriptions is ArmResourceActionAsync<
+  addAzureSubscriptions is ArmResourceActionNoResponseContentAsync<
     OracleSubscription<Foundations.Plan>,
-    AzureSubscriptions,
-    ValidationResult
+    AzureSubscriptions
  >;
 
  @doc("Remove Azure Subscriptions")
@@ -58,10 +57,9 @@ interface OracleSubscriptions
    "./examples/oracleSubscriptions_removeAzureSubscriptions.json",
    "Remove Azure Subscriptions from the OracleSubscription"
  )
- removeAzureSubscriptions is ArmResourceActionAsync<
+ removeAzureSubscriptions is ArmResourceActionNoResponseContentAsync<
   OracleSubscription<Foundations.Plan>,
-  AzureSubscriptions,
-  ValidationResult
+  AzureSubscriptions
 >;
 
   /**
