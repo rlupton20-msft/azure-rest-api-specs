@@ -42,6 +42,10 @@ model AssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;
 
+  @doc("Defines the endpoint profile type.")
+  @added(Versions.v2024_07_01_preview)
+  endpointProfileType: string;
+
   @doc("Defines the client authentication mechanism to the server.")
   userAuthentication?: UserAuthentication;
 

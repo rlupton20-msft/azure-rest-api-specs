@@ -2881,6 +2881,10 @@
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
         },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the endpoint profile type."
+        },
         "userAuthentication": {
           "$ref": "#/definitions/UserAuthentication",
           "description": "Defines the client authentication mechanism to the server."
@@ -2900,7 +2904,8 @@
         }
       },
       "required": [
-        "targetAddress"
+        "targetAddress",
+        "endpointProfileType"
       ]
     },
     "AssetEndpointProfileUpdate": {
@@ -2928,6 +2933,10 @@
           "type": "string",
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
+        },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the endpoint profile type."
         },
         "userAuthentication": {
           "$ref": "#/definitions/UserAuthenticationUpdate",
@@ -2972,10 +2981,6 @@
           "type": "string",
           "description": "Globally unique, immutable, non-reusable id.",
           "readOnly": true
-        },
-        "assetType": {
-          "type": "string",
-          "description": "Resource path to asset type (model) definition."
         },
         "enabled": {
           "type": "boolean",
@@ -3048,19 +3053,23 @@
           "description": "A set of key-value pairs that contain custom attributes set by the customer.",
           "additionalProperties": {}
         },
-        "defaultDataPointsConfiguration": {
+        "defaultDataSetsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
         },
         "defaultEventsConfiguration": {
           "type": "string",
           "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
         },
-        "dataPoints": {
+        "defaultTopic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the default topic information for the asset."
+        },
+        "dataSets": {
           "type": "array",
-          "description": "Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of data sets that are part of the asset. Each data set describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DataPoint"
+            "$ref": "#/definitions/DataSet"
           },
           "x-ms-identifiers": []
         },
@@ -3103,8 +3112,41 @@
           "type": "integer",
           "format": "int32",
           "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version."
+        },
+        "dataSets": {
+          "type": "array",
+          "description": "Array of dataset statuses that describe the status of each dataset.",
+          "items": {
+            "$ref": "#/definitions/AssetStatusDataSet"
+          },
+          "x-ms-identifiers": []
+        },
+        "events": {
+          "type": "array",
+          "description": "Array of event statuses that describe the status of each event.",
+          "items": {
+            "$ref": "#/definitions/AssetStatusEvent"
+          },
+          "x-ms-identifiers": []
         }
       }
+    },
+    "AssetStatusDataSet": {
+      "type": "object",
+      "description": "Defines the asset status data set properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information."
+        },
+        "messageSchemaReference": {
+          "$ref": "#/definitions/MessageSchemaReference",
+          "description": "The message schema reference object."
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "AssetStatusError": {
       "type": "object",
@@ -3120,6 +3162,23 @@
           "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”)."
         }
       }
+    },
+    "AssetStatusEvent": {
+      "type": "object",
+      "description": "Defines the asset status event properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information."
+        },
+        "messageSchemaReference": {
+          "$ref": "#/definitions/MessageSchemaReference",
+          "description": "The message schema reference object."
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "AssetUpdate": {
       "type": "object",
@@ -3142,10 +3201,6 @@
       "type": "object",
       "description": "The updatable properties of the Asset.",
       "properties": {
-        "assetType": {
-          "type": "string",
-          "description": "Resource path to asset type (model) definition."
-        },
         "enabled": {
           "type": "boolean",
           "description": "Enabled/Disabled status of the asset."
@@ -3195,19 +3250,23 @@
           "description": "A set of key-value pairs that contain custom attributes set by the customer.",
           "additionalProperties": {}
         },
-        "defaultDataPointsConfiguration": {
+        "defaultDataSetsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
         },
         "defaultEventsConfiguration": {
           "type": "string",
           "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
         },
-        "dataPoints": {
+        "defaultTopic": {
+          "$ref": "#/definitions/TopicUpdate",
+          "description": "Object that describes the default topic information for the asset."
+        },
+        "dataSets": {
           "type": "array",
-          "description": "Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of data sets that are part of the asset. Each data set describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DataPoint"
+            "$ref": "#/definitions/DataSet"
           },
           "x-ms-identifiers": []
         },
@@ -3285,14 +3344,28 @@
         "name": {
           "type": "string",
           "description": "The name of the data point."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataPointBaseProperties"
+        }
+      ]
+    },
+    "DataPointBaseProperties": {
+      "type": "object",
+      "description": "Defines the data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
         },
         "dataSource": {
           "type": "string",
           "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "capabilityId": {
-          "type": "string",
-          "description": "The path to the type definition of the capability (e.g. DTMI, OPC UA information model node id, etc.), for example dtmi:com:example:Robot:_contents:__prop1;1."
         },
         "observabilityMode": {
           "type": "string",
@@ -3387,6 +3460,35 @@
           }
         ]
       }
+    },
+    "DataSet": {
+      "type": "object",
+      "description": "Defines the data set properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the data set."
+        },
+        "dataSetConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific JSON string that describes configuration for the specific dataset."
+        },
+        "topic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the topic information for the specific dataset."
+        },
+        "dataPoints": {
+          "type": "array",
+          "description": "Array of data points that are part of the data set. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "items": {
+            "$ref": "#/definitions/DataPoint"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "Device": {
       "type": "object",
@@ -4077,14 +4179,28 @@
         "name": {
           "type": "string",
           "description": "The name of the event."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EventBaseProperties"
+        }
+      ]
+    },
+    "EventBaseProperties": {
+      "type": "object",
+      "description": "Defines the event properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event."
         },
         "eventNotifier": {
           "type": "string",
           "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
-        },
-        "capabilityId": {
-          "type": "string",
-          "description": "The path to the type definition of the capability (e.g. DTMI, OPC UA information model node id, etc.), for example dtmi:com:example:Robot:_contents:__prop1;1."
         },
         "observabilityMode": {
           "type": "string",
@@ -4114,6 +4230,10 @@
         "eventConfiguration": {
           "type": "string",
           "description": "Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "topic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the topic information for the specific event."
         }
       },
       "required": [
@@ -4179,6 +4299,29 @@
           }
         ]
       }
+    },
+    "MessageSchemaReference": {
+      "type": "object",
+      "description": "Defines the message schema reference properties.",
+      "properties": {
+        "schemaRegistryNamespace": {
+          "type": "string",
+          "description": "The reference to the message schema registry namespace."
+        },
+        "schemaName": {
+          "type": "string",
+          "description": "The reference to the message schema name."
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "The reference to the message schema version."
+        }
+      },
+      "required": [
+        "schemaRegistryNamespace",
+        "schemaName",
+        "schemaVersion"
+      ]
     },
     "OwnCertificate": {
       "type": "object",
@@ -4516,6 +4659,37 @@
         "hash"
       ]
     },
+    "Topic": {
+      "type": "object",
+      "description": "Object that describes the topic information.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The topic path for messages sent for the specific entry."
+        },
+        "retain": {
+          "type": "boolean",
+          "description": "The topic retain attribute for the specific entry."
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "TopicUpdate": {
+      "type": "object",
+      "description": "Object that describes the topic information.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The topic path for messages sent for the specific entry."
+        },
+        "retain": {
+          "type": "boolean",
+          "description": "The topic retain attribute for the specific entry."
+        }
+      }
+    },
     "TransportAuthentication": {
       "type": "object",
       "description": "Definition of the authentication mechanism for the southbound connector.",
@@ -4568,7 +4742,7 @@
               {
                 "name": "Anonymous",
                 "value": "Anonymous",
-                "description": "The user authentication mode is anonymous"
+                "description": "The user authentication mode is anonymous."
               },
               {
                 "name": "Certificate",
@@ -4617,7 +4791,7 @@
           {
             "name": "Anonymous",
             "value": "Anonymous",
-            "description": "The user authentication mode is anonymous"
+            "description": "The user authentication mode is anonymous."
           },
           {
             "name": "Certificate",
@@ -4658,7 +4832,7 @@
               {
                 "name": "Anonymous",
                 "value": "Anonymous",
-                "description": "The user authentication mode is anonymous"
+                "description": "The user authentication mode is anonymous."
               },
               {
                 "name": "Certificate",
