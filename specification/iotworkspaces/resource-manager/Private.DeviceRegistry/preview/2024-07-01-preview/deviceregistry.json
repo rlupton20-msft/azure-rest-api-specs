@@ -3830,6 +3830,10 @@
           },
           "x-ms-identifiers": []
         },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the endpoint profile type."
+        },
         "discoveryId": {
           "type": "string",
           "description": "Unique identifier used to detect changes in the discovered asset endpoint profile."
@@ -3855,6 +3859,7 @@
       },
       "required": [
         "targetAddress",
+        "endpointProfileType",
         "discoveryId",
         "version"
       ]
@@ -3896,6 +3901,10 @@
             "$ref": "#/definitions/UserAuthenticationMode"
           },
           "x-ms-identifiers": []
+        },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the endpoint profile type."
         },
         "discoveryId": {
           "type": "string",
@@ -3941,10 +3950,6 @@
       "type": "object",
       "description": "Defines the discovered asset properties.",
       "properties": {
-        "assetType": {
-          "type": "string",
-          "description": "Resource path to asset type (model) definition."
-        },
         "assetEndpointProfileUri": {
           "type": "string",
           "description": "A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.",
@@ -3994,11 +3999,23 @@
           "type": "string",
           "description": "Discovered asset serial number."
         },
-        "dataPoints": {
+        "defaultDataSetsConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific JSON string that describes configuration for all data sets."
+        },
+        "defaultEventsConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+        },
+        "defaultTopic": {
+          "$ref": "#/definitions/DiscoveredTopic",
+          "description": "Object that describes the default topic information for the discovered asset."
+        },
+        "dataSets": {
           "type": "array",
-          "description": "Array of data points that are part of the discovered asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of data sets that are part of the discovered asset. Each data set spec describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DiscoveredDataPoint"
+            "$ref": "#/definitions/DiscoveredDataSet"
           },
           "x-ms-identifiers": []
         },
@@ -4043,10 +4060,6 @@
       "type": "object",
       "description": "The updatable properties of the DiscoveredAsset.",
       "properties": {
-        "assetType": {
-          "type": "string",
-          "description": "Resource path to asset type (model) definition."
-        },
         "discoveryId": {
           "type": "string",
           "description": "Unique identifier used to detect changes in the discovered asset."
@@ -4088,11 +4101,23 @@
           "type": "string",
           "description": "Discovered asset serial number."
         },
-        "dataPoints": {
+        "defaultDataSetsConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific JSON string that describes configuration for all data sets."
+        },
+        "defaultEventsConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+        },
+        "defaultTopic": {
+          "$ref": "#/definitions/DiscoveredTopicUpdate",
+          "description": "Object that describes the default topic information for the discovered asset."
+        },
+        "dataSets": {
           "type": "array",
-          "description": "Array of data points that are part of the discovered asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of data sets that are part of the discovered asset. Each data set spec describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DiscoveredDataPoint"
+            "$ref": "#/definitions/DiscoveredDataSet"
           },
           "x-ms-identifiers": []
         },
@@ -4118,9 +4143,9 @@
           "type": "string",
           "description": "The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset."
         },
-        "capabilityId": {
+        "dataPointConfiguration": {
           "type": "string",
-          "description": "The path to the type definition of the capability (e.g. DTMI, OPC UA information model node id, etc.), for example dtmi:com:example:Robot:_contents:__prop1;1."
+          "description": "Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
         },
         "lastUpdatedOn": {
           "type": "string",
@@ -4129,7 +4154,37 @@
         }
       },
       "required": [
+        "name",
         "dataSource"
+      ]
+    },
+    "DiscoveredDataSet": {
+      "type": "object",
+      "description": "Defines the data set spec properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the data set."
+        },
+        "dataSetConfiguration": {
+          "type": "string",
+          "description": "Protocol-specific JSON string that describes configuration for the specific data set."
+        },
+        "topic": {
+          "$ref": "#/definitions/DiscoveredTopic",
+          "description": "Object that describes the topic information for the specific data set."
+        },
+        "dataPoints": {
+          "type": "array",
+          "description": "Array of data points that are part of the discovered asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "items": {
+            "$ref": "#/definitions/DiscoveredDataPoint"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "name"
       ]
     },
     "DiscoveredEvent": {
@@ -4144,9 +4199,13 @@
           "type": "string",
           "description": "The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the event on the asset."
         },
-        "capabilityId": {
+        "eventConfiguration": {
           "type": "string",
-          "description": "The path to the type definition of the capability (e.g. DTMI, OPC UA information model node id, etc.), for example dtmi:com:example:Robot:_contents:__prop1;1."
+          "description": "Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "topic": {
+          "$ref": "#/definitions/DiscoveredTopic",
+          "description": "Object that describes the topic information for the specific event."
         },
         "lastUpdatedOn": {
           "type": "string",
@@ -4155,8 +4214,40 @@
         }
       },
       "required": [
+        "name",
         "eventNotifier"
       ]
+    },
+    "DiscoveredTopic": {
+      "type": "object",
+      "description": "Defines the topic information of the discovered asset.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The topic path for messages sent for the specific entry."
+        },
+        "retain": {
+          "type": "boolean",
+          "description": "The topic retain attribute for the specific entry."
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "DiscoveredTopicUpdate": {
+      "type": "object",
+      "description": "Defines the topic information of the discovered asset.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The topic path for messages sent for the specific entry."
+        },
+        "retain": {
+          "type": "boolean",
+          "description": "The topic retain attribute for the specific entry."
+        }
+      }
     },
     "Endpoint": {
       "type": "object",

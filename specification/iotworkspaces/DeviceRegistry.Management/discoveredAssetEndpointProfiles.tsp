@@ -48,6 +48,9 @@ model DiscoveredAssetEndpointProfileProperties {
   @extension("x-ms-identifiers", [])
   supportedAuthentications?: UserAuthenticationMode[];
 
+  @doc("Defines the endpoint profile type.")
+  endpointProfileType: string;
+
   @doc("Unique identifier used to detect changes in the discovered asset endpoint profile.")
   discoveryId: string;
 
