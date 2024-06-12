@@ -103,6 +103,9 @@ model EvaluationEnginePolicyDefinition
   name: string;
 }
 
+/**
+ * Provisioning State information
+ */
 @lroStatus
 @doc("The provisioning state of the last accepted operation")
 union ProvisioningState {
@@ -124,6 +127,87 @@ union ProvisioningState {
   Failed: "Failed",
 }
 
+/**
+ * Evaluation POST request and response
+ */
+@doc("The evaluation action request")
+model EvaluationActionRequest {
+  @doc("The evaluation type")
+  type: string;
+
+  @doc("The location of the evaluation")
+  location: string;
+
+  @doc("The evaluation property")
+  property: string;
+}
+
+@doc("The evaluation action response")
+model EvaluationActionResponse {
+  @doc("The evaluation id")
+  id: string;
+
+  @doc("The evaluation scope")
+  scope: string;
+
+  @doc("the evaluation parameters")
+  parameters: string; // null TBD
+
+  @doc("The evaulation policy definition id")
+  policyDefinitionId: string; // null TBD
+
+  @doc("The evaluation applicability rule")
+  applicabilityRule: string;
+
+  @doc("The evaluation effect rule")
+  effectRule: string;
+
+  @doc("The evaluation effect")
+  effect: string;
+
+  @doc("The evaluation effect configuration")
+  effectConfiguration: string; // null TBD
+}
+
+/**
+ * Evaluate Applicability POST request and response
+ */
+@doc("The applicability action request")
+model ApplicabilityActionRequest {
+  @doc("The applicability type")
+  type: string;
+
+  @doc("The applicability property")
+  property: string;
+}
+
+@doc("The applicability action response")
+model ApplicabilityActionResponse {
+  @doc("The applicability id")
+  id: string;
+
+  @doc("The applicability scope")
+  scope: string;
+
+  @doc("The applicability parameters")
+  parameters: string; // null TBD
+
+  @doc("The applicability policy definition id")
+  policyDefinitionId: string; // null TDB
+
+  @doc("The applicability rule")
+  applicabilityRule: string;
+
+  @doc("The applicability effect rule")
+  effectRule: string;
+
+  @doc("The applicability effect")
+  effect: string;
+
+  @doc("The applicability effect configuration")
+  effectConfiguration: string; // null TBD
+}
+
 @armResourceOperations
 interface EvaluationEngineOperations {
   get is ArmResourceRead<EvaluationEngine>;
@@ -132,6 +216,16 @@ interface EvaluationEngineOperations {
   delete is ArmResourceDeleteSync<EvaluationEngine>;
   listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
   listBySubscription is ArmListBySubscription<EvaluationEngine>;
+  evaluate is ArmResourceActionAsync<
+    EvaluationEngine,
+    EvaluationActionRequest,
+    EvaluationActionResponse
+  >;
+  applicability is ArmResourceActionAsync<
+    EvaluationEngine,
+    ApplicabilityActionRequest,
+    ApplicabilityActionResponse
+  >;
 }
 
 @armResourceOperations

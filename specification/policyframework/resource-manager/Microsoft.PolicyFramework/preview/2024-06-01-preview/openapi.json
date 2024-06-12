@@ -408,6 +408,154 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/applicability": {
+      "post": {
+        "operationId": "EvaluationEngineOperations_Applicability",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApplicabilityActionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApplicabilityActionResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Applicability_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Applicability_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluate": {
+      "post": {
+        "operationId": "EvaluationEngineOperations_Evaluate",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationActionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationActionResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Evaluate_MaximumSet_Gen": {
+            "$ref": "./examples/EvaluationEngineOperations_Evaluate_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluationEngineAssignments": {
       "get": {
         "operationId": "EvaluationEngineAssignmentOperations_ListByEvaluationEngine",
@@ -986,6 +1134,143 @@
     }
   },
   "definitions": {
+    "ApplicabilityActionRequest": {
+      "type": "object",
+      "description": "The applicability action request",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The applicability type"
+        },
+        "property": {
+          "type": "string",
+          "description": "The applicability property"
+        }
+      },
+      "required": [
+        "type",
+        "property"
+      ]
+    },
+    "ApplicabilityActionResponse": {
+      "type": "object",
+      "description": "The applicability action response",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The applicability id"
+        },
+        "scope": {
+          "type": "string",
+          "description": "The applicability scope"
+        },
+        "parameters": {
+          "type": "string",
+          "description": "The applicability parameters"
+        },
+        "policyDefinitionId": {
+          "type": "string",
+          "description": "The applicability policy definition id"
+        },
+        "applicabilityRule": {
+          "type": "string",
+          "description": "The applicability rule"
+        },
+        "effectRule": {
+          "type": "string",
+          "description": "The applicability effect rule"
+        },
+        "effect": {
+          "type": "string",
+          "description": "The applicability effect"
+        },
+        "effectConfiguration": {
+          "type": "string",
+          "description": "The applicability effect configuration"
+        }
+      },
+      "required": [
+        "id",
+        "scope",
+        "parameters",
+        "policyDefinitionId",
+        "applicabilityRule",
+        "effectRule",
+        "effect",
+        "effectConfiguration"
+      ]
+    },
+    "EvaluationActionRequest": {
+      "type": "object",
+      "description": "The evaluation action request",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The evaluation type"
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the evaluation"
+        },
+        "property": {
+          "type": "string",
+          "description": "The evaluation property"
+        }
+      },
+      "required": [
+        "type",
+        "location",
+        "property"
+      ]
+    },
+    "EvaluationActionResponse": {
+      "type": "object",
+      "description": "The evaluation action response",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The evaluation id"
+        },
+        "scope": {
+          "type": "string",
+          "description": "The evaluation scope"
+        },
+        "parameters": {
+          "type": "string",
+          "description": "the evaluation parameters"
+        },
+        "policyDefinitionId": {
+          "type": "string",
+          "description": "The evaulation policy definition id"
+        },
+        "applicabilityRule": {
+          "type": "string",
+          "description": "The evaluation applicability rule"
+        },
+        "effectRule": {
+          "type": "string",
+          "description": "The evaluation effect rule"
+        },
+        "effect": {
+          "type": "string",
+          "description": "The evaluation effect"
+        },
+        "effectConfiguration": {
+          "type": "string",
+          "description": "The evaluation effect configuration"
+        }
+      },
+      "required": [
+        "id",
+        "scope",
+        "parameters",
+        "policyDefinitionId",
+        "applicabilityRule",
+        "effectRule",
+        "effect",
+        "effectConfiguration"
+      ]
+    },
     "EvaluationEngine": {
       "type": "object",
       "description": "The evaluation engine",
