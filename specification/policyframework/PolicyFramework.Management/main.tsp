@@ -128,6 +128,23 @@ union ProvisioningState {
 }
 
 /**
+ * POST actions Result state
+ */
+@doc("The result of the last accepted operation")
+union ResultState {
+  @doc("The operation is in progress")
+  InProgress: "InProgress",
+
+  @doc("The operation has succeeded")
+  Accept: "accept",
+
+  @doc("The operation has failed")
+  Deny: "deny",
+
+  string,
+}
+
+/**
  * Evaluation POST request and response
  */
 @doc("The evaluation action request")
@@ -138,8 +155,8 @@ model EvaluationActionRequest {
   @doc("The location of the evaluation")
   location: string;
 
-  @doc("The evaluation property")
-  property: string;
+  @doc("The evaluation properties")
+  properties: string;
 }
 
 @doc("The evaluation action response")
@@ -151,10 +168,10 @@ model EvaluationActionResponse {
   scope: string;
 
   @doc("the evaluation parameters")
-  parameters: string; // null TBD
+  parameters?: Record<string>;
 
-  @doc("The evaulation policy definition id")
-  policyDefinitionId: string; // null TBD
+  @doc("The evaluation policy definition id")
+  policyDefinitionId: string;
 
   @doc("The evaluation applicability rule")
   applicabilityRule: string;
@@ -163,10 +180,10 @@ model EvaluationActionResponse {
   effectRule: string;
 
   @doc("The evaluation effect")
-  effect: string;
+  effect?: ResultState;
 
   @doc("The evaluation effect configuration")
-  effectConfiguration: string; // null TBD
+  effectConfiguration?: string;
 }
 
 /**
@@ -177,8 +194,8 @@ model ApplicabilityActionRequest {
   @doc("The applicability type")
   type: string;
 
-  @doc("The applicability property")
-  property: string;
+  @doc("The applicability properties")
+  properties: string;
 }
 
 @doc("The applicability action response")
@@ -190,10 +207,10 @@ model ApplicabilityActionResponse {
   scope: string;
 
   @doc("The applicability parameters")
-  parameters: string; // null TBD
+  parameters?: Record<string>;
 
   @doc("The applicability policy definition id")
-  policyDefinitionId: string; // null TDB
+  policyDefinitionId: string;
 
   @doc("The applicability rule")
   applicabilityRule: string;
@@ -202,10 +219,49 @@ model ApplicabilityActionResponse {
   effectRule: string;
 
   @doc("The applicability effect")
-  effect: string;
+  effect?: ResultState;
 
   @doc("The applicability effect configuration")
-  effectConfiguration: string; // null TBD
+  effectConfiguration?: string;
+}
+
+/**
+ * Transpile POST request and response
+ */
+@doc("The transpile action request")
+model TranspileActionRequest {
+  @doc("The transpile type")
+  type: string;
+
+  @doc("The transpile location")
+  location: string;
+}
+
+@doc("The transpile action response")
+model TranspileActionResponse {
+  @doc("The transpile id")
+  id: string;
+
+  @doc("The transpile scope")
+  scope: string;
+
+  @doc("The transpile parameters")
+  parameters?: Record<string>;
+
+  @doc("The transpile policy definition id")
+  policyDefinitionId: string;
+
+  @doc("The transpile rule")
+  applicabilityRule: string;
+
+  @doc("The transpile effect rule")
+  effectRule: string;
+
+  @doc("The transpile effect")
+  effect?: ResultState;
+
+  @doc("The transpile effect configuration")
+  effectConfiguration?: string;
 }
 
 @armResourceOperations
@@ -225,6 +281,11 @@ interface EvaluationEngineOperations {
     EvaluationEngine,
     ApplicabilityActionRequest,
     ApplicabilityActionResponse
+  >;
+  transpile is ArmResourceActionAsync<
+    EvaluationEngine,
+    TranspileActionRequest,
+    TranspileActionResponse
   >;
 }
 
