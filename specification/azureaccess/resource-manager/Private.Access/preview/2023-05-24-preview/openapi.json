@@ -3,7 +3,7 @@
   "info": {
     "title": "Private.Access",
     "version": "2023-05-24-preview",
-    "description": "Azure Access Point Management API",
+    "description": "Azure Private RP Access Management API",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -40,15 +40,49 @@
   },
   "tags": [
     {
-      "name": "AccessPoint"
+      "name": "Operations"
+    },
+    {
+      "name": "AccessPointOperations"
     }
   ],
   "paths": {
+    "/providers/Private.Access/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.Access/accessPoints": {
       "get": {
-        "operationId": "AccessPoint_ListBySubscription",
+        "operationId": "AccessPointOperations_ListBySubscription",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "List AccessPointResource resources by subscription ID",
         "parameters": [
@@ -80,9 +114,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/accessPoints": {
       "get": {
-        "operationId": "AccessPoint_ListByResourceGroup",
+        "operationId": "AccessPointOperations_ListByResourceGroup",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "List AccessPointResource resources by resource group",
         "parameters": [
@@ -117,9 +151,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/accessPoints/{accessPointName}": {
       "get": {
-        "operationId": "AccessPoint_Get",
+        "operationId": "AccessPointOperations_Get",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Get a AccessPointResource",
         "parameters": [
@@ -157,9 +191,9 @@
         }
       },
       "put": {
-        "operationId": "AccessPoint_CreateOrUpdate",
+        "operationId": "AccessPointOperations_CreateOrUpdate",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Create a AccessPointResource",
         "parameters": [
@@ -223,9 +257,9 @@
         "x-ms-long-running-operation": true
       },
       "patch": {
-        "operationId": "AccessPoint_Update",
+        "operationId": "AccessPointOperations_Update",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Update a AccessPointResource",
         "parameters": [
@@ -272,9 +306,9 @@
         }
       },
       "delete": {
-        "operationId": "AccessPoint_Delete",
+        "operationId": "AccessPointOperations_Delete",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Delete a AccessPointResource",
         "parameters": [
@@ -300,14 +334,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -363,8 +397,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -428,33 +461,18 @@
       "type": "string",
       "description": "The provisioning status of the resource",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Provisioning",
         "Updating",
         "Deleting",
-        "Accepted"
+        "Accepted",
+        "Canceled",
+        "Succeeded",
+        "Failed"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Provisioning",
             "value": "Provisioning",
@@ -474,12 +492,29 @@
             "name": "Accepted",
             "value": "Accepted",
             "description": "The change request has been accepted"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "The change request has been canceled"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The change request has succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The change request has failed"
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "ResourceSkuType": {
       "type": "object",
+      "description": "The base SKU resource.",
       "properties": {
         "name": {
           "type": "string",
@@ -489,27 +524,6 @@
             "create"
           ]
         }
-      }
-    },
-    "Versions": {
-      "type": "string",
-      "enum": [
-        "2023-05-24-preview",
-        "2024-02-24-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_05_24_preview",
-            "value": "2023-05-24-preview"
-          },
-          {
-            "name": "v2024_02_24_preview",
-            "value": "2024-02-24-preview"
-          }
-        ]
       }
     }
   },
