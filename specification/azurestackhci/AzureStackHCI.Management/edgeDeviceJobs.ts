@@ -288,7 +288,7 @@ model RemoteSupportJobProperties extends JobProperties{
   type: RemoteSupportType,
 
   @doc("log collection job reported properties.")
-  reportedProperties?: LogCollectionReportedProperties
+  reportedProperties?: RemoteSupportReportedProperties
 }
 
 model RemoteSupportReportedProperties{
