@@ -169,7 +169,7 @@ model EvaluationActionResponse {
   scope: string;
 
   @doc("the evaluation parameters")
-  parameters?: Record<string>;
+  parameters?: string;
 
   @doc("The evaluation policy definition id")
   policyDefinitionId: string;
@@ -208,7 +208,7 @@ model ApplicabilityActionResponse {
   scope: string;
 
   @doc("The applicability parameters")
-  parameters?: Record<string>;
+  parameters?: string;
 
   @doc("The applicability policy definition id")
   policyDefinitionId: string;
@@ -248,7 +248,7 @@ model TranspileActionResponse {
   scope: string;
 
   @doc("The transpile parameters")
-  parameters?: Record<string>;
+  parameters?: string;
 
   @doc("The transpile policy definition id")
   policyDefinitionId: string;
