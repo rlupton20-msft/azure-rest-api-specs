@@ -38,6 +38,7 @@ model ReservationProperties {
 interface Reservations {
   get is ArmResourceRead<Reservation>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Reservation>;
+  update is ArmResourcePatchSync<Reservation, ReservationProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Reservation>;
   listByResourceGroup is ArmResourceListByParent<Reservation>;
   listBySubscription is ArmListBySubscription<Reservation>;

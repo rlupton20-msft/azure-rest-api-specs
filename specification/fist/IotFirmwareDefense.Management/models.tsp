@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -17,16 +17,21 @@ interface Operations extends Azure.ResourceManager.Operations {}
  * The status of firmware scan.
  */
 union Status {
-  /**  The analysis job is queued */
+  /** The analysis job is queued */
   Pending: "Pending",
+
   /** The firmware is currently being extracted */
   Extracting: "Extracting",
+
   /** Analysis is being run on the firmware */
   Analyzing: "Analyzing",
-  /**  Analysis job results are ready */
+
+  /** Analysis job results are ready */
   Ready: "Ready",
-  /**  An error occured while running firmware analysis */
+
+  /** An error occured while running firmware analysis */
   Error: "Error",
+
   string,
 }
 
@@ -78,14 +83,19 @@ union ProvisioningState {
 union SummaryType {
   /** The summary contains information about the submitted firmware */
   Firmware: "Firmware",
+
   /** The summary contains information about the CVE analysis results */
   CVE: "CVE",
+
   /** The summary contains information about the binary hardening analysis results */
   BinaryHardening: "BinaryHardening",
+
   /** The summary contains information about the cryptographic certificate analysis results */
   CryptoCertificate: "CryptoCertificate",
+
   /** The summary contains information about the cryptographic key analysis results */
   CryptoKey: "CryptoKey",
+
   string,
 }
 
@@ -631,9 +641,15 @@ model SbomComponent {
   license?: string;
 
   /**
-   * File paths related to the component.
+   * File paths related to the component. Note, relatedFiles should be used instead of this property.
    */
   filePaths?: string[];
+
+  /**
+   * File properties related to the component.
+   */
+  @extension("x-ms-identifiers", [])
+  relatedFiles?: SbomFileProperties[];
 
   /**
    * The status of the last operation.
@@ -652,6 +668,26 @@ model SummaryResourceProperties {
    */
   @visibility("read")
   provisioningState?: ProvisioningState;
+}
+
+/**
+ * Properties of a file detected in the filesystem related to an SBOM component.
+ */
+model SbomFileProperties {
+  /**
+   * File path related to the component.
+   */
+  filePath: string;
+
+  /**
+   * The SHA1 hash of the contents at the file path.
+   */
+  sha1Sum: string;
+
+  /**
+   * The SHA256 hash of the contents at the file path.
+   */
+  sha256Sum: string;
 }
 
 /**

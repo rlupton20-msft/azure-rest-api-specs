@@ -457,6 +457,75 @@
           "final-state-via": "location"
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/addNodes": {
+      "post": {
+        "tags": [
+          "Cluster"
+        ],
+        "operationId": "Clusters_AddNodes",
+        "description": "Add nodes to a cluster",
+        "x-ms-examples": {
+          "Add Cluster Nodes": {
+            "$ref": "./examples/AddNodes.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "addNodesRequest",
+            "in": "body",
+            "description": "Add Nodes Request Payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddNodesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Cluster"
+            }
+          },
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      }
     }
   },
   "definitions": {
@@ -492,23 +561,39 @@
           "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
           "x-ms-client-flatten": true
         },
-        "kind": {
-          "$ref": "#/definitions/ClusterKind",
-          "description": "Cluster kind to support polymorphic resource.",
-          "x-ms-mutability": [
-            "create",
-            "read"
-          ]
+        "properties": {
+          "description": "Cluster properties.",
+          "$ref": "#/definitions/ClusterProperties",
+          "x-ms-client-flatten": true
         }
-      },
-      "discriminator": "kind",
-      "required": [
-        "kind"
-      ]
+      }
+    },
+    "ClusterPatch": {
+      "description": "Cluster details to update.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "identity": {
+          "description": "Identity of Cluster resource",
+          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "x-ms-client-flatten": true
+        },
+        "properties": {
+          "description": "Cluster properties.",
+          "$ref": "#/definitions/ClusterPatchProperties",
+          "x-ms-client-flatten": true
+        }
+      }
     },
     "ClusterProperties": {
+      "description": "Cluster properties.",
       "type": "object",
-      "description": "properties for Arc-enabled edge device with HCI OS.",
       "properties": {
         "provisioningState": {
           "description": "Provisioning state.",
@@ -538,11 +623,6 @@
           },
           "readOnly": true
         },
-        "cloudId": {
-          "description": "Unique, immutable resource id.",
-          "type": "string",
-          "readOnly": true
-        },
         "status": {
           "description": "Status of the cluster agent.",
           "type": "string",
@@ -566,160 +646,10 @@
           },
           "readOnly": true
         },
-        "k8sClusterList": {
-          "description": "List of Kubernetes clusters.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "connectivityStatus": {
-          "description": "Overall connectivity status for the cluster resource.",
+        "cloudId": {
+          "description": "Unique, immutable resource id.",
           "type": "string",
-          "enum": [
-            "NotYetRegistered",
-            "Connected",
-            "NotConnectedRecently",
-            "PartiallyConnected",
-            "Disconnected"
-          ],
-          "x-ms-enum": {
-            "name": "ConnectivityStatus",
-            "modelAsString": true
-          },
           "readOnly": true
-        }
-      }
-    },
-    "ClusterPatch": {
-      "description": "Cluster details to update.",
-      "type": "object",
-      "properties": {
-        "tags": {
-          "description": "Resource tags.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "identity": {
-          "description": "Identity of Cluster resource",
-          "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "x-ms-client-flatten": true
-        },
-        "properties": {
-          "description": "Cluster properties.",
-          "$ref": "#/definitions/ClusterPatchProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "HciCluster": {
-      "type": "object",
-      "description": "Cluster of nodes installed with HCI OS.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/HciClusterProperties",
-          "description": "properties for Cluster of nodes installed with HCI OS."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Cluster"
-        }
-      ],
-      "x-ms-discriminator-value": "Solution1"
-    },
-    "HciClusterAllowedDeviceKind": {
-      "type": "string",
-      "description": "Edge device kind.",
-      "enum": [
-        "HCI"
-      ],
-      "default": "HCI",
-      "x-ms-enum": {
-        "name": "DeviceKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Arc-enabled edge device with HCI OS."
-          }       
-        ]
-      }
-    },
-    "MixedClusterAllowedDeviceKind": {
-      "type": "string",
-      "description": "Edge device kind.",
-      "enum": [
-        "HCI",
-        "WindowsServer",
-        "WindowsIoT",
-        "AzureLinux",
-        "UbuntuLinux"
-      ],
-      "default": "HCI",
-      "x-ms-enum": {
-        "name": "DeviceKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Arc-enabled edge device with HCI OS."
-          },
-          {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Arc-enabled edge device with WindowsServer OS."
-          },
-          {
-            "name": "WindowsIoT",
-            "value": "WindowsIoT",
-            "description": "Arc-enabled edge device with WindowsIoT OS."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Arc-enabled edge device with AzureLinux OS."
-          },
-          {
-            "name": "UbuntuLinux",
-            "value": "UbuntuLinux",
-            "description": "Arc-enabled edge device with UbuntuLinux OS."
-          }          
-        ]
-      }
-    },
-    "AzureLinuxClusterAllowedDeviceKind": {
-      "type": "string",
-      "description": "Edge device kind.",
-      "enum": [
-        "AzureLinux"
-      ],
-      "x-ms-enum": {
-        "name": "DeviceKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Arc-enabled edge device with AzureLinux OS."
-          }      
-        ]
-      }
-    },
-    "HciClusterProperties": {
-      "description": "Cluster properties.",
-      "type": "object",
-      "properties": {
-        "allowedNodeCategories": {
-          "description": "Allowed device categories for the cluster.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/HciClusterAllowedDeviceKind"
-          }
         },
         "cloudManagementEndpoint": {
           "description": "Endpoint configured for management from the Azure portal.",
@@ -752,11 +682,6 @@
         "reportedProperties": {
           "description": "Properties reported by cluster agent.",
           "$ref": "#/definitions/ClusterReportedProperties",
-          "readOnly": true
-        },
-        "isolatedVmAttestationConfigurations": {
-          "description": "Attestation configurations for isolated VM (e.g. TVM, CVM) of the cluster.",
-          "$ref": "#/definitions/IsolatedVmAttestationConfigurations",
           "readOnly": true
         },
         "trialDaysRemaining": {
@@ -797,61 +722,7 @@
           "type": "string",
           "readOnly": true
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ClusterProperties"
-        }
-      ]
-    },
-    "AzureLinuxCluster": {
-      "type": "object",
-      "description": "Cluster of nodes installed with Azure Linux OS.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/AzureLinuxClusterProperties",
-          "description": "properties for Cluster of nodes installed with Azure Linux OS."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Cluster"
-        }
-      ],
-      "x-ms-discriminator-value": "Solution2"
-    },
-    "AzureLinuxClusterProperties": {
-      "description": "Cluster properties.",
-      "type": "object",
-      "properties": {
-        "cloudManagementEndpoint": {
-          "description": "Endpoint configured for management from the Azure portal.",
-          "type": "string"
-        },
-        "allowedNodeCategories": {
-          "description": "Allowed device categories for the cluster.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AzureLinuxClusterAllowedDeviceKind"
-          }
-        },
-        "registrationTimestamp": {
-          "description": "First cluster sync timestamp.",
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        },
-        "sshEnabled": {
-          "description": "ssh enabled.",
-          "type": "boolean",
-          "readOnly": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ClusterProperties"
-        }
-      ]
+      }
     },
     "ClusterPatchProperties": {
       "description": "Cluster properties.",
@@ -907,27 +778,6 @@
           "description": "TimeStamp denoting the latest SA benefit applicability is validated.",
           "type": "string",
           "format": "date-time",
-          "readOnly": true
-        }
-      }
-    },
-    "IsolatedVmAttestationConfigurations": {
-      "description": "Attestation configurations for isolated VM (e.g. TVM, CVM) of the cluster.",
-      "type": "object",
-      "properties": {
-        "attestationResourceId": {
-          "description": "Fully qualified Arm Resource Id of the Microsoft Azure Attestation resource associated with this cluster.",
-          "type": "string",
-          "readOnly": true
-        },
-        "relyingPartyServiceEndpoint": {
-          "description": "Region specific endpoint for relying party service.",
-          "type": "string",
-          "readOnly": true
-        },
-        "attestationServiceEndpoint": {
-          "description": "Region specific endpoint for Microsoft Azure Attestation service for the cluster",
-          "type": "string",
           "readOnly": true
         }
       }
@@ -1027,7 +877,8 @@
           "type": "array",
           "readOnly": true,
           "items": {
-            "type": "string"
+            "type": "string",
+            "readOnly": true
           }
         },
         "clusterType": {
@@ -1061,37 +912,6 @@
           },
           "readOnly": true
         }
-      }
-    },
-    "ClusterKind": {
-      "type": "string",
-      "description": "Cluster kind.",
-      "enum": [
-        "Solution1",
-        "Solution2",
-        "Solution3"
-      ],
-      "default": "Solution1",
-      "x-ms-enum": {
-        "name": "ClusterKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Solution1",
-            "value": "Solution1",
-            "description": "Cluster Solution1."
-          },
-          {
-            "name": "Solution2",
-            "value": "Solution2",
-            "description": "Cluster Solution2."
-          },
-          {
-            "name": "Solution3",
-            "value": "Solution3",
-            "description": "Cluster Solution3."
-          }
-        ]
       }
     },
     "ClusterNode": {
@@ -1243,6 +1063,29 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SoftwareAssuranceChangeRequestProperties"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AddNodesRequest": {
+      "description": "The content of the action request",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AddNodesProperties"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AddNodesProperties": {
+      "description": "The properties of the action request",
+      "type": "object",
+      "properties": {
+        "arcNodeResourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false

@@ -140,7 +140,7 @@ model SaasSubscriptionDetails {
 @doc("Azure Subscriptions model")
 model AzureSubscriptions {
   @doc("Azure Subscription Ids to be updated")
-  azureSubscriptionIds?: string[];
+  azureSubscriptionIds: string[];
 }
 
 @doc("Activation Links model")
@@ -153,6 +153,24 @@ model ActivationLinks {
   @visibility("read")
   existingCloudAccountActivationLink?: string;
 }
+
+@doc("Lifecyclestate of Oracle Subscription enum")
+union OracleSubscriptionLifecycleState {
+@doc("Available - Successful Creation of Oracle Subscription")
+Available: "Available",
+
+@doc("Provisioning - State when Oracle Subscription is being provisioned")
+Provisioning: "Provisioning",
+
+@doc("Updating - State when Oracle Subscription is being Updated")
+Updating: "Updating",
+
+@doc("Failed - State when Oracle Subscription has failed")
+Failed: "Failed",
+
+string,
+}
+
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
@@ -187,4 +205,12 @@ model OracleSubscriptionProperties {
   @doc("Azure subscriptions to be added")
   @visibility("read")
   azureSubscriptionIds?: string[];
+
+  @doc("State of the Oracle subscription")
+  @visibility("read")
+  oracleSubscriptionLifeCycleState?: OracleSubscriptionLifecycleState;
+
+  @doc("Status details of the last operation on Oracle subscription")
+  @visibility("read")
+  lastOperationStatusDetail?: string;
 }

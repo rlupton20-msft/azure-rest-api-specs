@@ -3022,6 +3022,62 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/approvalCallback": {
+      "post": {
+        "operationId": "VirtualEnclave_ApprovalCallback",
+        "tags": [
+          "VirtualEnclave"
+        ],
+        "description": "Upon getting desired approvals this faciliates actions on approvals",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "virtualEnclaveName",
+            "in": "path",
+            "description": "The name of the enclaveResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "approvalCallbackRequest",
+            "in": "body",
+            "description": "Check approval callback request body.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_ApprovalCallback": {
+            "$ref": "./examples/VirtualEnclave_PostApprovalCallback.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/checkAddressSpaceAvailability": {
       "post": {
         "operationId": "VirtualEnclave_CheckAddressSpaceAvailability",
@@ -4085,6 +4141,44 @@
     }
   },
   "definitions": {
+    "ApprovalCallbackRequest": {
+      "type": "object",
+      "description": "Request to the action call to handle approval status",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id of the item being approved or declined"
+        },
+        "approvalStatus": {
+          "type": "string",
+          "description": "Approval status indicating 'Approved' or 'Declined'",
+          "enum": [
+            "Approved",
+            "Declined"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "resourceId",
+        "approvalStatus"
+      ]
+    },
+    "ApprovalCallbackResponse": {
+      "type": "object",
+      "description": "Response after handling the approval status",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Confirmation message indicating the result of the operation."
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
     "BlobCatalog": {
       "type": "object",
       "description": "Blob Catalog type.",
@@ -4703,11 +4797,7 @@
           "type": "string",
           "description": "Managed Address Space"
         }
-      },
-      "required": [
-        "enclaveAddressSpace",
-        "managedAddressSpace"
-      ]
+      }
     },
     "EnclaveConnectionProperties": {
       "type": "object",
@@ -4984,7 +5074,7 @@
         },
         "resourceCollection": {
           "type": "array",
-          "description": "List of resource ids created by enclave endpoint.",
+          "description": "List of resource ids created by community endpoint.",
           "items": {
             "type": "string"
           }
@@ -5119,7 +5209,7 @@
         },
         "resourceCollection": {
           "type": "array",
-          "description": "List of resource ids created by enclave endpoint.",
+          "description": "List of resource ids created by community endpoint.",
           "items": {
             "type": "string"
           }

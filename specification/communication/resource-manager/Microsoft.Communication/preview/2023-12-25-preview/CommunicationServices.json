@@ -659,7 +659,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/NetworkSecurityPerimeterConfiguration"
+              "$ref": "../../../../../common-types/resource-management/v5/networksecurityperimeter.json#/definitions/NetworkSecurityPerimeterConfiguration"
             }
           },
           "default": {
@@ -768,7 +768,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/NetworkSecurityPerimeterConfigurationList"
+              "$ref": "../../../../../common-types/resource-management/v5/networksecurityperimeter.json#/definitions/NetworkSecurityPerimeterConfigurationListResult"
             }
           },
           "default": {
@@ -1032,7 +1032,7 @@
           "$ref": "#/definitions/CorsPolicyList"
         },
         "publicNetworkAccess": {
-          "$ref": "#/definitions/PublicNetworkAccess"
+          "$ref": "../../../../../common-types/resource-management/v5/networksecurityperimeter.json#/definitions/PublicNetworkAccess"
         }
       }
     },
@@ -1087,7 +1087,7 @@
           "$ref": "../../../../../common-types/resource-management/v5/customermanagedkeys.json#/definitions/encryption"
         },
         "publicNetworkAccess": {
-          "$ref": "#/definitions/PublicNetworkAccess"
+          "$ref": "../../../../../common-types/resource-management/v5/networksecurityperimeter.json#/definitions/PublicNetworkAccess"
         }
       }
     },
@@ -1107,316 +1107,6 @@
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity"
-        }
-      }
-    },
-    "PublicNetworkAccess": {
-      "description": "The public network access type for the CommunicationService.",
-      "enum": [
-        "Enabled",
-        "SecuredByPerimeter"
-      ],
-      "type": "string",
-      "x-ms-enum": {
-        "name": "PublicNetworkAccess",
-        "modelAsString": true
-      },
-      "default": "Enabled"
-    },
-    "NetworkSecurityPerimeterConfiguration": {
-      "description": "Network security perimeter configuration.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/Resource"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterConfigurationProperties",
-          "description": "Properties of the network security perimeter configuration.",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "NetworkSecurityPerimeterConfigurationProperties": {
-      "description": "Network security perimeter configuration information to reflect latest association and nsp profile configuration.",
-      "type": "object",
-      "properties": {
-        "provisioningState": {
-          "description": "Provisioning state to reflect configuration state and indicate status of nsp profile configuration retrieval.",
-          "enum": [
-            "Creating",
-            "Updating",
-            "Deleting",
-            "Succeeded",
-            "Canceled",
-            "Failed",
-            "Deleted",
-            "Accepted"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NetworkSecurityPerimeterConfigProvisioningState",
-            "modelAsString": true
-          }
-        },
-        "provisioningIssues": {
-          "description": "Provisioning issues to reflect status when attempting to retrieve nsp profile configuration.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NetworkSecurityPerimeterConfigurationIssues"
-          },
-          "x-ms-identifiers": []
-        },
-        "networkSecurityPerimeter": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterInfo",
-          "description": "Perimeter info for nsp association."
-        },
-        "resourceAssociation": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterResourceAssociation",
-          "description": "Nsp association name and access mode of association."
-        },
-        "profile": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterConfigurationProfile",
-          "description": "Nsp profile configuration, access rules and diagnostic settings."
-        }
-      }
-    },
-    "NetworkSecurityPerimeterConfigurationIssues": {
-      "description": "Network security perimeter configuration issues.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Provisioning issue name.",
-          "type": "string"
-        },
-        "properties": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterConfigurationIssuesProperties",
-          "description": "Provisioning issue properties.",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "NetworkSecurityPerimeterConfigurationIssuesProperties": {
-      "description": "Network security perimeter configuration issues properties.",
-      "type": "object",
-      "properties": {
-        "issueType": {
-          "description": "Provisioning issue type.",
-          "enum": [
-            "MissingPerimeterConfiguration",
-            "MissingIdentityConfiguration",
-            "ConfigurationPropagationFailure",
-            "Other"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NetworkSecurityPerimeterConfigurationIssueType",
-            "modelAsString": true
-          }
-        },
-        "severity": {
-          "description": "Provisioning issue severity.",
-          "enum": [
-            "Warning",
-            "Error"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NetworkSecurityPerimeterConfigurationIssueSeverity",
-            "modelAsString": true
-          }
-        },
-        "description": {
-          "description": "Provisioning issue description.",
-          "type": "string"
-        },
-        "suggestedResourceIds": {
-          "description": "ARM IDs of resources that can be associated to the same perimeter to remediate the issue.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "suggestedAccessRules": {
-          "description": "Access rules that can be added to the same profile to remediate the issue.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "NetworkSecurityPerimeterInfo": {
-      "description": "Network security perimeter info.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Arm id for network security perimeter.",
-          "type": "string"
-        },
-        "perimeterGuid": {
-          "description": "Network security perimeter guid.",
-          "type": "string"
-        },
-        "location": {
-          "description": "Network security perimeter location.",
-          "type": "string"
-        }
-      }
-    },
-    "NetworkSecurityPerimeterResourceAssociation": {
-      "description": "Nsp resource association",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Association name",
-          "type": "string"
-        },
-        "accessMode": {
-          "description": "Network security perimeter access mode.",
-          "enum": [
-            "Learning",
-            "Enforced",
-            "Audit"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NetworkSecurityPerimeterAssociationAccessMode",
-            "modelAsString": true
-          }
-        }
-      }
-    },
-    "NetworkSecurityPerimeterConfigurationProfile": {
-      "description": "Nsp configuration with profile information.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Nsp configuration profile name.",
-          "type": "string"
-        },
-        "accessRulesVersion": {
-          "description": "Access rules version number for nsp profile.",
-          "type": "string"
-        },
-        "accessRules": {
-          "description": "List of inbound or outbound access rule setup on the nsp profile.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NetworkSecurityPerimeterProfileAccessRule"
-          },
-          "x-ms-identifiers": []
-        },
-        "diagnosticSettingsVersion": {
-          "description": "Diagnostic settings version number for nsp profile.",
-          "type": "string"
-        },
-        "enabledLogCategories": {
-          "description": "Enabled log categories for nsp profile.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "NetworkSecurityPerimeterProfileAccessRule": {
-      "description": "Network security perimeter profile access rule.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Name for nsp access rule.",
-          "type": "string"
-        },
-        "properties": {
-          "$ref": "#/definitions/NetworkSecurityPerimeterProfileAccessRuleProperties",
-          "description": "NSP access rule properties.",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "NetworkSecurityPerimeterProfileAccessRuleProperties": {
-      "description": "Network security perimeter profile access rule properties.",
-      "type": "object",
-      "properties": {
-        "direction": {
-          "description": "NSP access rule direction.",
-          "enum": [
-            "Inbound",
-            "Outbound"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NetworkSecurityPerimeterProfileAccessRuleDirection",
-            "modelAsString": true
-          }
-        },
-        "addressPrefixes": {
-          "description": "Address prefixes.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "subscriptions": {
-          "description": "List of subscriptions.",
-          "type": "array",
-          "items": {
-            "description": "Subscription ID",
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "networkSecurityPerimeters": {
-          "description": "Network security perimeters.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NetworkSecurityPerimeterInfo"
-          }
-        },
-        "fullyQualifiedDomainNames": {
-          "description": "Fully qualified domain names.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "emailAddresses": {
-          "description": "List of email addresses.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "phoneNumbers": {
-          "description": "List of phone numbers.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "NetworkSecurityPerimeterConfigurationList": {
-      "description": "Network security perimeter configuration List.",
-      "type": "object",
-      "properties": {
-        "value": {
-          "description": "List of all network security parameter configurations.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NetworkSecurityPerimeterConfiguration"
-          }
-        },
-        "nextLink": {
-          "description": "A link for the next page of Network Security Perimeter Configuration.",
-          "type": "string"
         }
       }
     }
