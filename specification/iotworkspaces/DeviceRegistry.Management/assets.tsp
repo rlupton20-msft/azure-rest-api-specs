@@ -95,7 +95,7 @@ model AssetProperties {
   @doc("Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.")
   @visibility("read", "create")
   @added(Versions.v2024_07_01_preview)
-  discoveredAssetRef?: string[];
+  discoveredAssetRefs?: string[];
 
   @doc("Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.")
   @removed(Versions.v2024_07_01_preview)
