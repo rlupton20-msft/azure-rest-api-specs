@@ -153,6 +153,7 @@ model EvaluationActionRequest {
   type: string;
 
   @doc("The location of the evaluation")
+  @visibility("create", "read")
   location: string;
 
   @doc("The evaluation properties")
@@ -234,6 +235,7 @@ model TranspileActionRequest {
   type: string;
 
   @doc("The transpile location")
+  @visibility("create", "read")
   location: string;
 }
 
