@@ -128,18 +128,57 @@ union ProvisioningState {
 }
 
 /**
- * POST actions Result state
+ * POST actions result
  */
 @doc("The result of the last accepted operation")
-union ResultState {
-  @doc("The operation is in progress")
-  InProgress: "InProgress",
+union ActionResult {
+  @doc("The action succeeded")
+  Succeeded: "Succeeded",
 
-  @doc("The operation has succeeded")
-  Accept: "accept",
+  @doc("The action failed")
+  Failed: "Failed",
 
-  @doc("The operation has failed")
+  string,
+}
+
+/**
+ * POST actions effect
+ *  retrieved from the Azure Policy definitions effect
+ */
+@doc("The policy definitions effect")
+union PolicyDefinitionsEffect {
+  @doc("The add to network group effect")
+  AddToNetworkGroup: "addToNetworkGroup",
+
+  @doc("The append effect")
+  Append: "append",
+
+  @doc("The audit effect")
+  Audit: "audit",
+
+  @doc("The audit if not exists effect")
+  AuditIfNotExists: "auditIfNotExists",
+
+  @doc("The deny effect")
   Deny: "deny",
+
+  @doc("The deny action effect")
+  DenyAction: "denyAction",
+
+  @doc("The deploy if not exists effect")
+  DeployIfNotExists: "deployIfNotExists",
+
+  @doc("The disabled effect")
+  Disabled: "disabled",
+
+  @doc("The manual effect")
+  Manual: "manual",
+
+  @doc("The modify effect")
+  Modify: "modify",
+
+  @doc("The mutate effect")
+  Mutate: "mutate",
 
   string,
 }
@@ -172,7 +211,7 @@ model EvaluationActionResponse {
   parameters?: string;
 
   @doc("The evaluation policy definition id")
-  policyDefinitionId: string;
+  policyDefinitionId?: string;
 
   @doc("The evaluation applicability rule")
   applicabilityRule: string;
@@ -181,10 +220,17 @@ model EvaluationActionResponse {
   effectRule: string;
 
   @doc("The evaluation effect")
-  effect?: ResultState;
+  effect?: PolicyDefinitionsEffect;
 
   @doc("The evaluation effect configuration")
   effectConfiguration?: string;
+
+  @doc("The evaluation result")
+  result: ActionResult;
+
+  // @doc("Provisioning State")
+  // @visibility("read")
+  // provisioningState?: ProvisioningState;
 }
 
 /**
@@ -211,7 +257,7 @@ model ApplicabilityActionResponse {
   parameters?: string;
 
   @doc("The applicability policy definition id")
-  policyDefinitionId: string;
+  policyDefinitionId?: string;
 
   @doc("The applicability rule")
   applicabilityRule: string;
@@ -220,10 +266,17 @@ model ApplicabilityActionResponse {
   effectRule: string;
 
   @doc("The applicability effect")
-  effect?: ResultState;
+  effect?: PolicyDefinitionsEffect;
 
   @doc("The applicability effect configuration")
   effectConfiguration?: string;
+
+  @doc("The evaluation result")
+  result: ActionResult;
+
+  // @doc("Provisioning State")
+  // @visibility("read")
+  // provisioningState?: ProvisioningState;
 }
 
 /**
@@ -251,7 +304,7 @@ model TranspileActionResponse {
   parameters?: string;
 
   @doc("The transpile policy definition id")
-  policyDefinitionId: string;
+  policyDefinitionId?: string;
 
   @doc("The transpile rule")
   applicabilityRule: string;
@@ -260,10 +313,17 @@ model TranspileActionResponse {
   effectRule: string;
 
   @doc("The transpile effect")
-  effect?: ResultState;
+  effect?: PolicyDefinitionsEffect;
 
   @doc("The transpile effect configuration")
   effectConfiguration?: string;
+
+  @doc("The evaluation result")
+  result: ActionResult;
+
+  // @doc("Provisioning State")
+  // @visibility("read")
+  // provisioningState?: ProvisioningState;
 }
 
 @armResourceOperations
