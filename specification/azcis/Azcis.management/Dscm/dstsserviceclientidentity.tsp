@@ -41,7 +41,7 @@ model DstsServiceClientIdentityResourceProperties {
   subscriptions?: string;
 
   @doc("Subject names.")
-  subjectNames: Array<string>;
+  subjectNames?: Array<string>;
 
   @doc("Provisioning state")
   @visibility("read")
