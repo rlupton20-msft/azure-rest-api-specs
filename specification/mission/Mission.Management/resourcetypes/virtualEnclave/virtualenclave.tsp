@@ -31,6 +31,26 @@ union DiagnosticDestination {
   string
 }
 
+@doc("Specifies the enclave approval state")
+union EnclaveApprovalState {
+  @doc("EnclaveApprovalState Type Un specified")
+  UnSpecified: "UnSpecified",
+
+  @doc("EnclaveApprovalState Type Pending Approval")
+  PendingApproval: "PendingApproval",
+
+  @doc("EnclaveApprovalState Type Approved")
+  Approved: "Approved",
+
+  @doc("EnclaveApprovalState Type Declined")
+  Declined: "Declined",
+
+  @doc("EnclaveApprovalState Type Timeout")
+  Timeout: "Timeout",
+
+  string,
+}
+
 @doc("Enclave Virtual Network Properties")
 model EnclaveVirtualNetwork {
   @doc("Network Size.")
@@ -87,6 +107,10 @@ model VirtualEnclaveProperties {
   @doc("Provisioning State.")
   @visibility("read")
   provisioningState?: ProvisioningState;
+
+  @doc("Enclave Approval State.")
+  @visibility("read")
+  enclaveApprovalState?: EnclaveApprovalState,
 
   @doc("Virtual Network.")
   enclaveVirtualNetwork: EnclaveVirtualNetwork;
