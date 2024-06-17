@@ -4,8 +4,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
-@versioned(Microsoft.Mission.Versions)
-@doc("Private Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 @doc("Supported API versions for the Microsoft.Mission resource provider.")
@@ -25,8 +23,4 @@ enum Versions {
   @doc("The 2024-01-01-preview version.")
   @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   v2024_01_01_preview: "2024-01-01-preview",
-
-  @doc("The 2024-06-01-preview version.")
-  @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  v2024_06_01_preview: "2024-06-01-preview",
 }

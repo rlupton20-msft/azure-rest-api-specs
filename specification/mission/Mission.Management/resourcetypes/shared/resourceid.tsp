@@ -1,5 +1,6 @@
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -9,60 +10,57 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@doc("Microsoft Mission Resource Provider management API.")
-namespace Microsoft.Mission;
-
 scalar VirtualEnclaveResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/virtualEnclaves",
     }
   ]>;
 
 scalar NsgResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Network/networkSecurityGroups",
     }
   ]>;
 
 scalar CommunityResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/communities",
     }
   ]>;
 
 scalar KeyVaultResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.KeyVault/vaults",
     }
   ]>;
 
 scalar LogAnalyticsResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.OperationalInsights/workspaces",
     }
   ]>;
 
 scalar StorageAccountResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Storage/storageAccounts",
     }
   ]>;
 
 scalar EndpointResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/virtualEnclaves/endpoints",
     }
   ]>;
 
 scalar EnclaveConnectionSourceResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/virtualEnclaves",
     },
@@ -72,7 +70,7 @@ scalar EnclaveConnectionSourceResourceId
   ]>;
 
 scalar DestinationEndpointResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/virtualEnclaves/enclaveEndpoints",
     },
@@ -82,14 +80,14 @@ scalar DestinationEndpointResourceId
   ]>;
 
 scalar TransitHubResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Mission/communities/transitHubs",
     }
   ]>;
 
 scalar IPGroupResourceId
-  extends armResourceIdentifier<[
+  extends ResourceIdentifier<[
     {
       type: "Microsoft.Network/IpGroups",
     }

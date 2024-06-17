@@ -3,12 +3,14 @@ import "@typespec/http";
 import "@typespec/openapi";
 import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./resourcetypes/community/community.tsp";
 import "./resourcetypes/virtualEnclave/virtualenclave.tsp";
 import "./resourcetypes/workload/workload.tsp";
+import "./resourcetypes/catalog/catalog.tsp";
 import "./resourcetypes/endpoint/endpoint.tsp";
 import "./resourcetypes/internalConnection/internalConnection.tsp";
 import "./resourcetypes/externalConnection/externalConnection.tsp";
@@ -46,19 +48,19 @@ namespace Microsoft.Mission;
 )
 @armResourceCreateOrUpdate(TResource)
 @put
-op ArmResourceCreateOrUpdateAsync<
-  TResource extends Azure.ResourceManager.Foundations.Resource,
+op ArmResourceCreateOrUpdate2Async<
+  TResource extends Azure.ResourceManager.Foundations.ArmResource,
   TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
 
   @doc("Resource create parameters.")
-  @bodyRoot
+  @body
   resource: TResource,
 ): ArmUpdatedResponse<TResource> | ArmCreatedResponse<TResource> | ErrorResponse;
 
 @doc("Arm resource update successful")
-model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.Resource>
+model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.ArmResource>
   is ArmResponse<TResource>;
 
 @doc("Community Model Resource")
@@ -89,6 +91,16 @@ model WorkloadResource is TrackedResource<WorkloadProperties> {
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
   @path
   @doc("The name of the workloadResource Resource")
+  name: string;
+}
+
+@doc("Catalog Model Resource")
+model CatalogResource is TrackedResource<CatalogProperties> {
+  @key("catalogName")
+  @segment("catalogs")
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
+  @doc("The name of the catalogResource Resource")
+  @path
   name: string;
 }
 
@@ -176,9 +188,9 @@ model CommunityEndpointResource
 @armResourceOperations
 interface Workload {
   get is ArmResourceRead<WorkloadResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<WorkloadResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<WorkloadResource>;
   update is ArmResourcePatchAsync<WorkloadResource, WorkloadProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<WorkloadResource>;
+  delete is ArmResourceDeleteAsync<WorkloadResource>;
   listByParent is ArmResourceListByParent<WorkloadResource>;
   listBySubscription is ArmListBySubscription<WorkloadResource>;
 }
@@ -187,9 +199,9 @@ interface Workload {
 @armResourceOperations
 interface Endpoint {
   get is ArmResourceRead<EndpointResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EndpointResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<EndpointResource>;
   update is ArmResourcePatchAsync<EndpointResource, EndpointProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<EndpointResource>;
+  delete is ArmResourceDeleteAsync<EndpointResource>;
   listByParent is ArmResourceListByParent<EndpointResource>;
   listBySubscription is ArmListBySubscription<EndpointResource>;
 }
@@ -198,9 +210,9 @@ interface Endpoint {
 @armResourceOperations
 interface VirtualEnclave {
   get is ArmResourceRead<EnclaveResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<EnclaveResource>;
   update is ArmResourcePatchAsync<EnclaveResource, VirtualEnclaveProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<EnclaveResource>;
+  delete is ArmResourceDeleteAsync<EnclaveResource>;
   listByParent is ArmResourceListByParent<EnclaveResource>;
   listBySubscription is ArmListBySubscription<EnclaveResource>;
 
@@ -213,7 +225,7 @@ interface VirtualEnclave {
     ...ResourceInstanceParameters<EnclaveResource>,
 
     @doc("Check IP Address Space request body.")
-    @bodyRoot
+    @body
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
 
@@ -235,23 +247,34 @@ interface VirtualEnclave {
 @armResourceOperations
 interface Community {
   get is ArmResourceRead<CommunityResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<CommunityResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<CommunityResource>;
   update is ArmResourcePatchAsync<CommunityResource, CommunityProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<CommunityResource>;
+  delete is ArmResourceDeleteAsync<CommunityResource>;
   listByParent is ArmResourceListByParent<CommunityResource>;
   listBySubscription is ArmListBySubscription<CommunityResource>;
+}
+
+@doc("Catalog Interface")
+@armResourceOperations
+interface Catalog {
+  get is ArmResourceRead<CatalogResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<CatalogResource>;
+  update is ArmResourcePatchAsync<CatalogResource, CatalogProperties>;
+  delete is ArmResourceDeleteAsync<CatalogResource>;
+  listByParent is ArmResourceListByParent<CatalogResource>;
+  listBySubscription is ArmListBySubscription<CatalogResource>;
 }
 
 @doc("Internal Connections")
 @armResourceOperations
 interface InternalConnections {
   get is ArmResourceRead<InternalConnection>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<InternalConnection>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<InternalConnection>;
   update is ArmResourcePatchAsync<
     InternalConnection,
     InternalConnectionProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<InternalConnection>;
+  delete is ArmResourceDeleteAsync<InternalConnection>;
   listByParent is ArmResourceListByParent<InternalConnection>;
   listBySubscription is ArmListBySubscription<InternalConnection>;
 }
@@ -261,9 +284,9 @@ interface InternalConnections {
 @armResourceOperations
 interface TransitHub {
   get is ArmResourceRead<TransitHubResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<TransitHubResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<TransitHubResource>;
   update is ArmResourcePatchAsync<TransitHubResource, TransitHubProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<TransitHubResource>;
+  delete is ArmResourceDeleteAsync<TransitHubResource>;
   listByParent is ArmResourceListByParent<TransitHubResource>;
   listBySubscription is ArmListBySubscription<TransitHubResource>;
 }
@@ -273,12 +296,12 @@ interface TransitHub {
 @armResourceOperations
 interface EnclaveConnection {
   get is ArmResourceRead<EnclaveConnectionResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveConnectionResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<EnclaveConnectionResource>;
   update is ArmResourcePatchAsync<
     EnclaveConnectionResource,
     EnclaveConnectionProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<EnclaveConnectionResource>;
+  delete is ArmResourceDeleteAsync<EnclaveConnectionResource>;
   listByParent is ArmResourceListByParent<EnclaveConnectionResource>;
   listBySubscription is ArmListBySubscription<EnclaveConnectionResource>;
 }
@@ -288,12 +311,12 @@ interface EnclaveConnection {
 @armResourceOperations
 interface EnclaveEndpoints {
   get is ArmResourceRead<EnclaveEndpointResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveEndpointResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<EnclaveEndpointResource>;
   update is ArmResourcePatchAsync<
     EnclaveEndpointResource,
     EnclaveEndpointProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<EnclaveEndpointResource>;
+  delete is ArmResourceDeleteAsync<EnclaveEndpointResource>;
   listByParent is ArmResourceListByParent<EnclaveEndpointResource>;
   listBySubscription is ArmListBySubscription<EnclaveEndpointResource>;
 }
@@ -303,12 +326,12 @@ interface EnclaveEndpoints {
 @armResourceOperations
 interface CommunityEndpoints {
   get is ArmResourceRead<CommunityEndpointResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<CommunityEndpointResource>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<CommunityEndpointResource>;
   update is ArmResourcePatchAsync<
     CommunityEndpointResource,
     CommunityEndpointProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<CommunityEndpointResource>;
+  delete is ArmResourceDeleteAsync<CommunityEndpointResource>;
   listByParent is ArmResourceListByParent<CommunityEndpointResource>;
   listBySubscription is ArmListBySubscription<CommunityEndpointResource>;
 }
@@ -317,12 +340,12 @@ interface CommunityEndpoints {
 @armResourceOperations
 interface ExternalConnections {
   get is ArmResourceRead<ExternalConnection>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ExternalConnection>;
+  createOrUpdate is ArmResourceCreateOrUpdate2Async<ExternalConnection>;
   update is ArmResourcePatchAsync<
     ExternalConnection,
     ExternalConnectionProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<ExternalConnection>;
+  delete is ArmResourceDeleteAsync<ExternalConnection>;
   listByParent is ArmResourceListByParent<ExternalConnection>;
   listBySubscription is ArmListBySubscription<ExternalConnection>;
 }

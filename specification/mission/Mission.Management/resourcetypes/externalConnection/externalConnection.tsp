@@ -1,5 +1,6 @@
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -12,21 +13,16 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@doc("Microsoft Mission Resource Provider management API.")
-namespace Microsoft.Mission;
-
 @doc("Specifies the state of the externalConnection.")
-union ExternalConnectionState {
+enum ExternalConnectionState {
   @doc("ExternalConnectionState Type Pending")
-  Pending: "Pending",
+  Pending,
 
   @doc("ExternalConnectionState Type Approved")
-  Approved: "Approved",
+  Approved,
 
   @doc("ExternalConnectionState Type Active")
-  Active: "Active",
-
-  string
+  Active,
 }
 
 @doc("Describes the properties of an External Connection.")
