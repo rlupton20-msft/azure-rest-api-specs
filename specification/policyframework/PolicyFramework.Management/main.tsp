@@ -133,10 +133,10 @@ union ProvisioningState {
 @doc("The result of the last accepted operation")
 union ActionResult {
   @doc("The action succeeded")
-  Succeeded: "Succeeded",
+  Compliant: "Compliant",
 
   @doc("The action failed")
-  Failed: "Failed",
+  NonCompliant: "NonCompliant",
 
   string,
 }
@@ -197,6 +197,10 @@ model EvaluationActionRequest {
 
   @doc("The evaluation properties")
   properties: string;
+
+  @doc("The evaluation scope")
+  @query
+  scope: string;
 }
 
 @doc("The evaluation action response")
@@ -227,10 +231,6 @@ model EvaluationActionResponse {
 
   @doc("The evaluation result")
   result: ActionResult;
-
-  // @doc("Provisioning State")
-  // @visibility("read")
-  // provisioningState?: ProvisioningState;
 }
 
 /**
@@ -243,6 +243,10 @@ model ApplicabilityActionRequest {
 
   @doc("The applicability properties")
   properties: string;
+
+  @doc("The applicability scope")
+  @query
+  scope: string;
 }
 
 @doc("The applicability action response")
@@ -273,10 +277,6 @@ model ApplicabilityActionResponse {
 
   @doc("The evaluation result")
   result: ActionResult;
-
-  // @doc("Provisioning State")
-  // @visibility("read")
-  // provisioningState?: ProvisioningState;
 }
 
 /**
@@ -290,6 +290,10 @@ model TranspileActionRequest {
   @doc("The transpile location")
   @visibility("create", "read")
   location: string;
+
+  @doc("The transpile request scope")
+  @query
+  scope: string;
 }
 
 @doc("The transpile action response")
@@ -320,13 +324,51 @@ model TranspileActionResponse {
 
   @doc("The evaluation result")
   result: ActionResult;
-
-  // @doc("Provisioning State")
-  // @visibility("read")
-  // provisioningState?: ProvisioningState;
 }
 
+/**
+ *
+ */
 @armResourceOperations
+interface CustomPostActions {
+  /**
+   * Custom operation to perform an evaluation - POST
+   */
+  @autoRoute
+  @armResourceAction(EvaluationActionRequest)
+  @post
+  ArmResourceEvaluationListActionAsync<
+    EvaluationEngine,
+    EvaluationActionResponse
+  >(
+    ...ResourceInstanceParameters<EvaluationActionRequest>,
+  ): ArmResponse<EvaluationActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
+
+  /**
+   * Custom operation to check applicability - POST
+   */
+  @autoRoute
+  @armResourceAction(ApplicabilityActionRequest)
+  @post
+  ArmResourceApplicabilityActionAsync<
+    EvaluationEngine,
+    ApplicabilityActionResponse
+  >(
+    ...ResourceInstanceParameters<ApplicabilityActionRequest>,
+  ): ArmResponse<ApplicabilityActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
+
+  /**
+   *  Custom operation to transpile - POST
+   */
+  @autoRoute
+  @armResourceAction(TranspileActionRequest)
+  @post
+  ArmResourceTranspileActionAsync<EvaluationEngine, TranspileActionResponse>(
+    ...ResourceInstanceParameters<TranspileActionRequest>,
+  ): ArmResponse<TranspileActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
+}
+
+@armResourceOperations(EvaluationEngine)
 interface EvaluationEngineOperations {
   get is ArmResourceRead<EvaluationEngine>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngine>;
@@ -334,20 +376,17 @@ interface EvaluationEngineOperations {
   delete is ArmResourceDeleteSync<EvaluationEngine>;
   listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
   listBySubscription is ArmListBySubscription<EvaluationEngine>;
-  evaluate is ArmResourceActionAsync<
+  evaluate is CustomPostActions.ArmResourceEvaluationListActionAsync<
     EvaluationEngine,
-    EvaluationActionRequest,
-    EvaluationActionResponse
+    ResourceListResult<EvaluationActionResponse>
   >;
-  applicability is ArmResourceActionAsync<
+  checkApplicability is CustomPostActions.ArmResourceApplicabilityActionAsync<
     EvaluationEngine,
-    ApplicabilityActionRequest,
-    ApplicabilityActionResponse
+    ResourceListResult<ApplicabilityActionResponse>
   >;
-  transpile is ArmResourceActionAsync<
+  transpile is CustomPostActions.ArmResourceTranspileActionAsync<
     EvaluationEngine,
-    TranspileActionRequest,
-    TranspileActionResponse
+    ResourceListResult<TranspileActionResponse>
   >;
 }
 
