@@ -199,12 +199,13 @@ model EvaluationActionRequest {
   properties: string;
 
   @doc("The evaluation scope")
-  @query
   scope: string;
 }
 
 @doc("The evaluation action response")
 model EvaluationActionResponse {
+  ...ResourceNameParameter<EvaluationActionResponse>;
+
   @doc("The evaluation id")
   id: string;
 
@@ -245,7 +246,6 @@ model ApplicabilityActionRequest {
   properties: string;
 
   @doc("The applicability scope")
-  @query
   scope: string;
 }
 
@@ -292,7 +292,6 @@ model TranspileActionRequest {
   location: string;
 
   @doc("The transpile request scope")
-  @query
   scope: string;
 }
 
@@ -332,6 +331,13 @@ model TranspileActionResponse {
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" "This is a template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a template"
+@extension("x-ms-long-running-operation", true)
+@extension(
+  "x-ms-long-running-operation-options",
+  {
+    `final-state-via`: "location",
+  }
+)
 @autoRoute
 @armResourceAction(TResource)
 @post
@@ -343,6 +349,7 @@ op ArmResourceListActionAsync<
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
 
+  @doc("The request body")
   @bodyRoot
   request: TRequest,
 ): ArmResponse<TResponse> | ArmAcceptedLroResponse | ErrorResponse;

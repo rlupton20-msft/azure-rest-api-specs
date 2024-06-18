@@ -434,15 +434,9 @@
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "name": "scope",
-            "in": "query",
-            "description": "The applicability scope",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "request",
             "in": "body",
+            "description": "The request body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ApplicabilityActionRequest"
@@ -476,6 +470,9 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
         },
         "x-ms-long-running-operation": true,
         "x-ms-pageable": {
@@ -514,15 +511,9 @@
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "name": "scope",
-            "in": "query",
-            "description": "The evaluation scope",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "request",
             "in": "body",
+            "description": "The request body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/EvaluationActionRequest"
@@ -556,6 +547,9 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
         },
         "x-ms-long-running-operation": true,
         "x-ms-pageable": {
@@ -1170,15 +1164,9 @@
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "name": "scope",
-            "in": "query",
-            "description": "The transpile request scope",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "request",
             "in": "body",
+            "description": "The request body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/TranspileActionRequest"
@@ -1212,6 +1200,9 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
         },
         "x-ms-long-running-operation": true,
         "x-ms-pageable": {
@@ -1261,11 +1252,16 @@
         "properties": {
           "type": "string",
           "description": "The applicability properties"
+        },
+        "scope": {
+          "type": "string",
+          "description": "The applicability scope"
         }
       },
       "required": [
         "type",
-        "properties"
+        "properties",
+        "scope"
       ]
     },
     "ApplicabilityActionResponse": {
@@ -1357,18 +1353,28 @@
         "properties": {
           "type": "string",
           "description": "The evaluation properties"
+        },
+        "scope": {
+          "type": "string",
+          "description": "The evaluation scope"
         }
       },
       "required": [
         "type",
         "location",
-        "properties"
+        "properties",
+        "scope"
       ]
     },
     "EvaluationActionResponse": {
       "type": "object",
       "description": "The evaluation action response",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the EvaluationActionResponse",
+          "pattern": "^[a-zA-Z0-9-]{3,24}$"
+        },
         "id": {
           "type": "string",
           "description": "The evaluation id"
@@ -1407,6 +1413,7 @@
         }
       },
       "required": [
+        "name",
         "id",
         "scope",
         "applicabilityRule",
@@ -1800,11 +1807,16 @@
             "read",
             "create"
           ]
+        },
+        "scope": {
+          "type": "string",
+          "description": "The transpile request scope"
         }
       },
       "required": [
         "type",
-        "location"
+        "location",
+        "scope"
       ]
     },
     "TranspileActionResponse": {
