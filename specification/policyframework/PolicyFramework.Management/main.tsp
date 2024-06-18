@@ -326,13 +326,12 @@ model TranspileActionResponse {
   result: ActionResult;
 }
 
-
 // NOTE(chrostow): This is a template for resource list actions that return synchronously with no request body. This which will be added to the library at some point.
+/**
+ * Custom operations template for the evaluation engine actions - POST
+ */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" "This is a template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a template"
-/**
- * Interface of custom operations for the evaluation engine - POST
- */
 @autoRoute
 @armResourceAction(TResource)
 @post
@@ -345,8 +344,8 @@ op ArmResourceListActionAsync<
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
 
   @bodyRoot
-  request: TRequest
-): ArmResponse<TResponse> | ArmAcceptedLroResponse  | ErrorResponse;
+  request: TRequest,
+): ArmResponse<TResponse> | ArmAcceptedLroResponse | ErrorResponse;
 
 @armResourceOperations(EvaluationEngine)
 interface EvaluationEngineOperations {
