@@ -327,7 +327,7 @@ model TranspileActionResponse {
 }
 
 /**
- *
+ * Interface of custom operations for the evaluation engine - POST
  */
 @armResourceOperations
 interface CustomPostActions {
