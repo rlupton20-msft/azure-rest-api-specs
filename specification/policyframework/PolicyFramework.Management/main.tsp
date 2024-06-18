@@ -326,47 +326,27 @@ model TranspileActionResponse {
   result: ActionResult;
 }
 
+
+// NOTE(chrostow): This is a template for resource list actions that return synchronously with no request body. This which will be added to the library at some point.
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "This is a template"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a template"
 /**
  * Interface of custom operations for the evaluation engine - POST
  */
-@armResourceOperations
-interface CustomPostActions {
-  /**
-   * Custom operation to perform an evaluation - POST
-   */
-  @autoRoute
-  @armResourceAction(EvaluationActionRequest)
-  @post
-  ArmResourceEvaluationListActionAsync<
-    EvaluationEngine,
-    EvaluationActionResponse
-  >(
-    ...ResourceInstanceParameters<EvaluationActionRequest>,
-  ): ArmResponse<EvaluationActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
+@autoRoute
+@armResourceAction(TResource)
+@post
+op ArmResourceListActionAsync<
+  TResource extends Azure.ResourceManager.Foundations.Resource,
+  TRequest extends {},
+  TResponse extends {},
+  TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
+>(
+  ...ResourceInstanceParameters<TResource, TBaseParameters>,
 
-  /**
-   * Custom operation to check applicability - POST
-   */
-  @autoRoute
-  @armResourceAction(ApplicabilityActionRequest)
-  @post
-  ArmResourceApplicabilityActionAsync<
-    EvaluationEngine,
-    ApplicabilityActionResponse
-  >(
-    ...ResourceInstanceParameters<ApplicabilityActionRequest>,
-  ): ArmResponse<ApplicabilityActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
-
-  /**
-   *  Custom operation to transpile - POST
-   */
-  @autoRoute
-  @armResourceAction(TranspileActionRequest)
-  @post
-  ArmResourceTranspileActionAsync<EvaluationEngine, TranspileActionResponse>(
-    ...ResourceInstanceParameters<TranspileActionRequest>,
-  ): ArmResponse<TranspileActionResponse> | ArmAcceptedLroResponse | ErrorResponse;
-}
+  @bodyRoot
+  request: TRequest
+): ArmResponse<TResponse> | ArmAcceptedLroResponse  | ErrorResponse;
 
 @armResourceOperations(EvaluationEngine)
 interface EvaluationEngineOperations {
@@ -376,17 +356,20 @@ interface EvaluationEngineOperations {
   delete is ArmResourceDeleteSync<EvaluationEngine>;
   listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
   listBySubscription is ArmListBySubscription<EvaluationEngine>;
-  evaluate is CustomPostActions.ArmResourceEvaluationListActionAsync<
+  evaluate is ArmResourceListActionAsync<
     EvaluationEngine,
-    ResourceListResult<EvaluationEngine>
+    EvaluationActionRequest,
+    ResourceListResult<EvaluationActionResponse>
   >;
-  checkApplicability is CustomPostActions.ArmResourceApplicabilityActionAsync<
+  checkApplicability is ArmResourceListActionAsync<
     EvaluationEngine,
-    ResourceListResult<EvaluationEngine>
+    ApplicabilityActionRequest,
+    ResourceListResult<ApplicabilityActionResponse>
   >;
-  transpile is CustomPostActions.ArmResourceTranspileActionAsync<
+  transpile is ArmResourceListActionAsync<
     EvaluationEngine,
-    ResourceListResult<EvaluationEngine>
+    TranspileActionRequest,
+    ResourceListResult<TranspileActionResponse>
   >;
 }
 

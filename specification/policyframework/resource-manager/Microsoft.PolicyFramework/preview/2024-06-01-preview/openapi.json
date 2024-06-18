@@ -131,120 +131,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/checkApplicability": {
-      "post": {
-        "operationId": "EvaluationEngineOperations_CheckApplicability",
-        "tags": [
-          "EvaluationEngineOperations"
-        ],
-        "description": "Custom operation to check applicability - POST",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/EvaluationEngineListResult"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "EvaluationEngineOperations_CheckApplicability": {
-            "$ref": "./examples/EvaluationEngineOperations_CheckApplicability_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluate": {
-      "post": {
-        "operationId": "EvaluationEngineOperations_Evaluate",
-        "tags": [
-          "EvaluationEngineOperations"
-        ],
-        "description": "Custom operation to perform an evaluation - POST",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/EvaluationEngineListResult"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "EvaluationEngineOperations_Evaluate": {
-            "$ref": "./examples/EvaluationEngineOperations_Evaluate_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines": {
       "get": {
         "operationId": "EvaluationEngineOperations_ListByResourceGroup",
@@ -519,6 +405,166 @@
           "EvaluationEngineOperations_Delete": {
             "$ref": "./examples/EvaluationEngineOperations_Delete_MaximumSet_Gen.json"
           }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/checkApplicability": {
+      "post": {
+        "operationId": "EvaluationEngineOperations_CheckApplicability",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Interface of custom operations for the evaluation engine - POST",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "The applicability scope",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApplicabilityActionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApplicabilityActionResponseListResult"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_CheckApplicability": {
+            "$ref": "./examples/EvaluationEngineOperations_CheckApplicability_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/evaluate": {
+      "post": {
+        "operationId": "EvaluationEngineOperations_Evaluate",
+        "tags": [
+          "EvaluationEngineOperations"
+        ],
+        "description": "Interface of custom operations for the evaluation engine - POST",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "The evaluation scope",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EvaluationActionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvaluationActionResponseListResult"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EvaluationEngineOperations_Evaluate": {
+            "$ref": "./examples/EvaluationEngineOperations_Evaluate_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
         }
       }
     },
@@ -1098,13 +1144,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/transpile": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyFramework/evaluationEngines/{evaluationEngineName}/transpile": {
       "post": {
         "operationId": "EvaluationEngineOperations_Transpile",
         "tags": [
           "EvaluationEngineOperations"
         ],
-        "description": "Custom operation to transpile - POST",
+        "description": "Interface of custom operations for the evaluation engine - POST",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1114,13 +1160,36 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "evaluationEngineName",
+            "in": "path",
+            "description": "The name of the evaluation engine.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "The transpile request scope",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TranspileActionRequest"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/EvaluationEngineListResult"
+              "$ref": "#/definitions/TranspileActionResponseListResult"
             }
           },
           "202": {
@@ -1192,16 +1261,11 @@
         "properties": {
           "type": "string",
           "description": "The applicability properties"
-        },
-        "scope": {
-          "type": "string",
-          "description": "The applicability scope"
         }
       },
       "required": [
         "type",
-        "properties",
-        "scope"
+        "properties"
       ]
     },
     "ApplicabilityActionResponse": {
@@ -1253,6 +1317,27 @@
         "result"
       ]
     },
+    "ApplicabilityActionResponseListResult": {
+      "type": "object",
+      "description": "The response of a ApplicabilityActionResponse list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ApplicabilityActionResponse items on this page",
+          "items": {
+            "$ref": "#/definitions/ApplicabilityActionResponse"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "EvaluationActionRequest": {
       "type": "object",
       "description": "The evaluation action request",
@@ -1272,17 +1357,12 @@
         "properties": {
           "type": "string",
           "description": "The evaluation properties"
-        },
-        "scope": {
-          "type": "string",
-          "description": "The evaluation scope"
         }
       },
       "required": [
         "type",
         "location",
-        "properties",
-        "scope"
+        "properties"
       ]
     },
     "EvaluationActionResponse": {
@@ -1332,6 +1412,27 @@
         "applicabilityRule",
         "effectRule",
         "result"
+      ]
+    },
+    "EvaluationActionResponseListResult": {
+      "type": "object",
+      "description": "The response of a EvaluationActionResponse list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EvaluationActionResponse items on this page",
+          "items": {
+            "$ref": "#/definitions/EvaluationActionResponse"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
       ]
     },
     "EvaluationEngine": {
@@ -1699,16 +1800,11 @@
             "read",
             "create"
           ]
-        },
-        "scope": {
-          "type": "string",
-          "description": "The transpile request scope"
         }
       },
       "required": [
         "type",
-        "location",
-        "scope"
+        "location"
       ]
     },
     "TranspileActionResponse": {
@@ -1758,6 +1854,27 @@
         "applicabilityRule",
         "effectRule",
         "result"
+      ]
+    },
+    "TranspileActionResponseListResult": {
+      "type": "object",
+      "description": "The response of a TranspileActionResponse list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The TranspileActionResponse items on this page",
+          "items": {
+            "$ref": "#/definitions/TranspileActionResponse"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
       ]
     }
   },
