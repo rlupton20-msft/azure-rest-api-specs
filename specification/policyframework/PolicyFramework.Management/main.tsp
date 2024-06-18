@@ -378,15 +378,15 @@ interface EvaluationEngineOperations {
   listBySubscription is ArmListBySubscription<EvaluationEngine>;
   evaluate is CustomPostActions.ArmResourceEvaluationListActionAsync<
     EvaluationEngine,
-    ResourceListResult<EvaluationActionResponse>
+    ResourceListResult<EvaluationEngine>
   >;
   checkApplicability is CustomPostActions.ArmResourceApplicabilityActionAsync<
     EvaluationEngine,
-    ResourceListResult<ApplicabilityActionResponse>
+    ResourceListResult<EvaluationEngine>
   >;
   transpile is CustomPostActions.ArmResourceTranspileActionAsync<
     EvaluationEngine,
-    ResourceListResult<TranspileActionResponse>
+    ResourceListResult<EvaluationEngine>
   >;
 }
 
