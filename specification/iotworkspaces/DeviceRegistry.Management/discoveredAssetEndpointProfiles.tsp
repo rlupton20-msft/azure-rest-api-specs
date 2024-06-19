@@ -57,10 +57,6 @@ model DiscoveredAssetEndpointProfileProperties {
   @doc("An integer that is incremented each time the resource is modified.")
   version: int32;
 
-  @doc("The nodes identifiers on the Edge that host the brokers workload.")
-  @extension("x-ms-identifiers", [])
-  nodes?: string[];
-
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
