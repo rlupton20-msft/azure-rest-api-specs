@@ -27,6 +27,13 @@ openapi-subtype: rpaas
 tag: package-2021-10-01-preview
 ```
 
+### Suppressions
+
+```yaml
+suppressions:
+  - code: unsupported-versioning-decorator
+```
+
 ### Tag: package-package-2021-08-01-preview
 
 These settings apply only when `--tag=package-2021-10-01-preview` is specified on the command line.
@@ -48,7 +55,6 @@ suppressions:
   - code: APIVersionPattern
     from: openapi.json
     reason: Canonical version is valid
-    
 ```
 
 ---

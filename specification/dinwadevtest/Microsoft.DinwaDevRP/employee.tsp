@@ -1,11 +1,13 @@
 import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
+#suppress "@azure-tools/typespec-autorest-canonical/unsupported-versioning-decorator" "Keep as warning."
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.Core;
+#suppress "@azure-tools/typespec-autorest-canonical/unsupported-versioning-decorator" "Keep as warning."
 using Azure.ResourceManager;
 
 namespace Microsoft.Contoso;
