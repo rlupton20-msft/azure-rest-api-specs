@@ -239,15 +239,6 @@ model Event extends EventBaseProperties {
   name: string;
 }
 
-// Use inheritance to override existing property and make it required
-#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
-@doc("Defines the event properties.")
-model Event extends EventBaseProperties {
-  @doc("The name of the event.")
-  @added(Versions.v2024_07_01_preview)
-  name: string;
-}
-
 @doc("Defines the event observability mode.")
 union EventsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
