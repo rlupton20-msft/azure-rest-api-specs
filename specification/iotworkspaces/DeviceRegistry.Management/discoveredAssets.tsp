@@ -146,16 +146,6 @@ model DiscoveredEvent {
   lastUpdatedOn?: utcDateTime;
 }
 
-@doc("Defines the topic information of the discovered asset.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
-model DiscoveredTopic {
-  @doc("The topic path for messages sent for the specific entry.")
-  path: string;
-
-  @doc("The topic retain attribute for the specific entry.")
-  retain?: boolean;
-}
-
 @armResourceOperations
 @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
 interface DiscoveredAssets {
