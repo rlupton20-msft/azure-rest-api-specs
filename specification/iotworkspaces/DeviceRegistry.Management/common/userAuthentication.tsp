@@ -14,10 +14,6 @@ union UserAuthenticationMode {
   @doc("The user authentication mode is an x509 certificate.")
   Certificate: "Certificate",
 
-  @doc("The user authentication mode is an authentication token.")
-  @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
-  TokenAuth: "TokenAuth",
-
   @doc("The user authentication mode is a username and password.")
   UsernamePassword: "UsernamePassword",
 

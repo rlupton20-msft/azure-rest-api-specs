@@ -50,6 +50,7 @@ model AssetEndpointProfileProperties {
   userAuthentication?: UserAuthentication;
 
   @doc("Defines the authentication mechanism for the southbound connector connecting to the shop floor/OT device.")
+  @removed(Versions.v2024_07_01_preview)
   transportAuthentication?: TransportAuthentication;
 
   @doc("Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
@@ -60,9 +61,10 @@ model AssetEndpointProfileProperties {
   @added(Versions.v2024_07_01_preview)
   discoveredAssetEndpointProfileRef?: string;
 
-  @doc("The node identifiers on the Edge that host the brokers workload.")
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
   @added(Versions.v2024_07_01_preview)
-  nodes?: string[];
+  status?: AssetEndpointProfileStatus;
 
   @doc("Provisioning state of the resource.")
   @visibility("read")
@@ -98,13 +100,16 @@ model X509Credentials {
 }
 
 @doc("Definition of the authentication mechanism for the southbound connector.")
+@removed(Versions.v2024_07_01_preview)
 model TransportAuthentication {
   @doc("Defines a reference to a secret which contains all certificates and private keys that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
   @extension("x-ms-identifiers", [])
+  @removed(Versions.v2024_07_01_preview)
   ownCertificates: OwnCertificate[];
 }
 
 @doc("Certificate or private key that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
+@removed(Versions.v2024_07_01_preview)
 model OwnCertificate {
   @doc("Certificate thumbprint.")
   certThumbprint?: string;
@@ -114,6 +119,24 @@ model OwnCertificate {
 
   @doc("Secret Reference Name (Pfx or Pem password).")
   certPasswordReference?: string;
+}
+
+@doc("Defines the asset endpoint profile status properties.")
+@added(Versions.v2024_07_01_preview)
+model AssetEndpointProfileStatus {
+  @doc("Array object to transfer and persist errors that originate from the Edge.")
+  @extension("x-ms-identifiers", [])
+  errors?: AssetEndpointProfileStatusError[];
+}
+
+@doc("Defines the asset endpoint profile status error properties.")
+@added(Versions.v2024_07_01_preview)
+model AssetEndpointProfileStatusError {
+  @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
+  code?: int32;
+
+  @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
+  message?: string;
 }
 
 @armResourceOperations

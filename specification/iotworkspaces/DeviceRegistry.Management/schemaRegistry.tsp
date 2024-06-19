@@ -85,7 +85,7 @@ model SchemaProperties {
   @doc("Human-readable description of the schema.")
   description?: string;
 
-  @doc("Schema's content type. (JSON Schema only available option at release)")
+  @doc("Format of the Schema. (JSON Schema only available option at release)")
   @visibility("read", "create")
   format: Format;
 
@@ -97,8 +97,10 @@ model SchemaProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
   @doc("Schema tags.")
-  tags?: Array<string>;
+  // Allowed scenario as per user-defined tags: https://github.com/Azure/azure-openapi-validator/blob/main/docs/avoid-additional-properties.md
+  tags?: Record<string>;
 }
 
 @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)

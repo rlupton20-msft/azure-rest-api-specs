@@ -8,5 +8,9 @@ model ServerAssociation {
 
     @visibility("read", "create")
     @doc("The serial number of the server to be reserved.")
-    serialNumber: string;
+    serialNumber?: string;
+
+    @visibility("read", "create")
+    @doc("The name of the server to be reserved.")
+    name?: string;
 }

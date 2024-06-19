@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
+import "./common/topic.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -57,7 +58,13 @@ model AssetProperties {
 
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.")
   @visibility("read", "create")
+  @removed(Versions.v2024_07_01_preview)
   assetEndpointProfileUri: string;
+
+  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
+  @visibility("read", "create")
+  @added(Versions.v2024_07_01_preview)
+  assetEndpointProfileRef: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
   @visibility("read")
@@ -232,6 +239,15 @@ model Event extends EventBaseProperties {
   name: string;
 }
 
+// Use inheritance to override existing property and make it required
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@doc("Defines the event properties.")
+model Event extends EventBaseProperties {
+  @doc("The name of the event.")
+  @added(Versions.v2024_07_01_preview)
+  name: string;
+}
+
 @doc("Defines the event observability mode.")
 union EventsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
@@ -303,16 +319,6 @@ model MessageSchemaReference {
 
   @doc("The reference to the message schema version.")
   schemaVersion: string;
-}
-
-@doc("Object that describes the topic information.")
-@added(Versions.v2024_07_01_preview)
-model Topic {
-  @doc("The topic path for messages sent for the specific entry.")
-  path: string;
-
-  @doc("The topic retain attribute for the specific entry.")
-  retain?: boolean;
 }
 
 @armResourceOperations

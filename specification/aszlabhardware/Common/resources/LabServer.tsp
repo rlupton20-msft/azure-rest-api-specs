@@ -11,7 +11,7 @@ namespace Private.AszLabHardware;
 @doc("A physical computer which can be reserved for use by a user")
 model LabServer is TrackedResource<LabServerProperties> {
     @doc("The name of the server")
-    @pattern("^[a-zA-Z0-9-]{3,24}$")
+    @pattern("^[a-zA-Z0-9_-]{3,99}$")
     @key("serverName")
     @segment("labservers")
     @path

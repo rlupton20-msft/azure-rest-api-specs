@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
+import "./common/topic.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -36,9 +37,9 @@ model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
 @doc("Defines the discovered asset properties.")
 @added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
 model DiscoveredAssetProperties {
-  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.")
+  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
-  assetEndpointProfileUri: string;
+  assetEndpointProfileRef: string;
 
   @doc("Unique identifier used to detect changes in the discovered asset.")
   discoveryId: string;
@@ -78,7 +79,7 @@ model DiscoveredAssetProperties {
   defaultEventsConfiguration?: string;
 
   @doc("Object that describes the default topic information for the discovered asset.")
-  defaultTopic?: DiscoveredTopic;
+  defaultTopic?: Topic;
 
   @doc("Array of data sets that are part of the discovered asset. Each data set spec describes the data points that make up the set.")
   @extension("x-ms-identifiers", [])
@@ -103,7 +104,7 @@ model DiscoveredDataSet {
   dataSetConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific data set.")
-  topic?: DiscoveredTopic;
+  topic?: Topic;
 
   @doc("Array of data points that are part of the discovered asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.")
   @extension("x-ms-identifiers", [])
@@ -139,7 +140,7 @@ model DiscoveredEvent {
   eventConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific event.")
-  topic?: DiscoveredTopic;
+  topic?: Topic;
 
   @doc("Timestamp indicating when the event was added or modified.")
   lastUpdatedOn?: utcDateTime;

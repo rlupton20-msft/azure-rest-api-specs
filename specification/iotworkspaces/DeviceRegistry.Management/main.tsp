@@ -14,6 +14,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes.Private;
 using Azure.ResourceManager.Private;
 using Azure.ResourceManager.Foundations;
 
