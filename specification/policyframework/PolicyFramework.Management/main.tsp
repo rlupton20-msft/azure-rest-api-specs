@@ -204,8 +204,6 @@ model EvaluationActionRequest {
 
 @doc("The evaluation action response")
 model EvaluationActionResponse {
-  ...ResourceNameParameter<EvaluationActionResponse>;
-
   @doc("The evaluation id")
   id: string;
 
@@ -299,6 +297,10 @@ model TranspileActionRequest {
 model TranspileActionResponse {
   @doc("The transpile id")
   id: string;
+
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("The name of the evaluation engine assignment.")
+  name: string;
 
   @doc("The transpile scope")
   scope: string;
