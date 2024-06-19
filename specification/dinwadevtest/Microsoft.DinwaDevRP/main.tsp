@@ -1,41 +1,29 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-
-using TypeSpec.Versioning;
-
-@versioned(Versions)
-@service({
-  title: "Widget Service",
-})
-namespace DemoService;
-
-enum Versions {
-  v2021_10_01_preview: "2021-10-01-preview",
-  v2021_10_02_preview: "2021-10-02-preview",
-}
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "./employee.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
 
-/** The Widget */
-model Widget {
-  /** The weight */
-  weight: int32;
+/** Microsoft.Contoso Resource Provider management API. */
+@armProviderNamespace
+@service({
+  title: "Microsoft.Contoso management service",
+})
+@versioned(Microsoft.Contoso.Versions)
+namespace Microsoft.Contoso;
 
-  /** The color */
-  color: "red";
-
-  /** The name */
-  @added(Versions.v2021_10_02_preview) name: string;
-}
-
-/** The Error */
-@error
-model Error {
-  /** The error code */
-  code: int32;
-
-  /** The error message */
-  message: string;
+/** The available API versions. */
+enum Versions {
+  /** 2021-10-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2021_10_01_preview: "2021-10-01-preview",
 }
