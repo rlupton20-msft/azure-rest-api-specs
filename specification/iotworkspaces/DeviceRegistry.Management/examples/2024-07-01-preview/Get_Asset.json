@@ -32,12 +32,11 @@
         },
         "properties": {
           "uuid": "0796f7c1-f2c8-44d7-9f5b-9a6f9522a85d",
-          "assetType": "MyAssetType",
           "enabled": true,
           "externalAssetId": "8ZBA6LRHU0A458969",
           "displayName": "AssetDisplayName",
           "description": "This is a sample Asset",
-          "assetEndpointProfileUri": "https://www.example.com/myAssetEndpointProfile",
+          "assetEndpointProfileRef": "myAssetEndpointProfile",
           "version": 73766,
           "manufacturer": "Contoso",
           "manufacturerUri": "https://www.contoso.com/manufacturerUri",
@@ -47,32 +46,50 @@
           "softwareRevision": "2.0",
           "documentationUri": "https://www.example.com/manual",
           "serialNumber": "64-103816-519918-8",
-          "defaultDataPointsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+          "defaultDataSetsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultEventsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
-          "dataPoints": [
+          "defaultTopic": {
+            "path": "/path/defaultTopic",
+            "retain": true
+          },
+          "dataSets": [
             {
-              "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
-              "capabilityId": "dtmi:com:example:Thermostat:__temperature;1",
-              "observabilityMode": "counter",
-              "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}"
-            },
-            {
-              "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt2",
-              "capabilityId": "dtmi:com:example:Thermostat:__pressure;1",
-              "observabilityMode": "none",
-              "dataPointConfiguration": "{\"publishingInterval\":4,\"samplingInterval\":4,\"queueSize\":7}"
+              "name": "dataset1",
+              "dataSetConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+              "topic": {
+                "path": "/path/dataset1",
+                "retain": true
+              },
+              "dataPoints": [
+                {
+                  "name": "dataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
+                  "observabilityMode": "counter",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}"
+                },
+                {
+                  "name": "dataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt2",
+                  "observabilityMode": "none",
+                  "dataPointConfiguration": "{\"publishingInterval\":4,\"samplingInterval\":4,\"queueSize\":7}"
+                }
+              ]
             }
           ],
           "events": [
             {
+              "name": "event1",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
-              "capabilityId": "dtmi:com:example:Thermostat:__temperature;1",
               "observabilityMode": "none",
-              "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}"
+              "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}",
+              "topic": {
+                "path": "/path/event1",
+                "retain": true
+              }
             },
             {
+              "name": "event2",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-              "capabilityId": "dtmi:com:example:Thermostat:__pressure;1",
               "observabilityMode": "log",
               "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":8,\"queueSize\":4}"
             }
