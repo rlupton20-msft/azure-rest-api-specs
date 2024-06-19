@@ -203,10 +203,7 @@ model EvaluationActionRequest {
 }
 
 @doc("The evaluation action response")
-model EvaluationActionResponse {
-  @doc("The evaluation id")
-  id: string;
-
+model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The evaluation scope")
   scope: string;
 
@@ -248,10 +245,8 @@ model ApplicabilityActionRequest {
 }
 
 @doc("The applicability action response")
-model ApplicabilityActionResponse {
-  @doc("The applicability id")
-  id: string;
-
+model ApplicabilityActionResponse
+  is Azure.ResourceManager.Foundations.Resource {
   @doc("The applicability scope")
   scope: string;
 
@@ -294,10 +289,7 @@ model TranspileActionRequest {
 }
 
 @doc("The transpile action response")
-model TranspileActionResponse {
-  @doc("The transpile id")
-  id: string;
-
+model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile scope")
   scope: string;
 
