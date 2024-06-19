@@ -18,7 +18,7 @@ model Device is TrackedResource<DeviceProperties> {
   @doc("Name of the device.")
   @key("deviceName")
   @segment("devices")
-  @pattern("^[0-9A-z][A-z0-9-]*$")
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
   @maxLength(64)
