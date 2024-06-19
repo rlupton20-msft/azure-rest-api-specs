@@ -342,7 +342,7 @@ model TranspileActionResponse {
 op ArmResourceListActionAsync<
   TResource extends Azure.ResourceManager.Foundations.Resource,
   TRequest extends {},
-  TResponse extends unknown,
+  TResponse extends Azure.ResourceManager.Foundations.Resource,
   TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
