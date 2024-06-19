@@ -46,8 +46,6 @@ input-file:
 ```
 suppressions:
   - code: APIVersionPattern
-    from: openapi.json
-    reason: Canonical version is valid
 
 ---
 
