@@ -298,10 +298,6 @@ model TranspileActionResponse {
   @doc("The transpile id")
   id: string;
 
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @doc("The name of the evaluation engine assignment.")
-  name: string;
-
   @doc("The transpile scope")
   scope: string;
 
@@ -346,7 +342,7 @@ model TranspileActionResponse {
 op ArmResourceListActionAsync<
   TResource extends Azure.ResourceManager.Foundations.Resource,
   TRequest extends {},
-  TResponse extends {},
+  TResponse extends unknown,
   TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
