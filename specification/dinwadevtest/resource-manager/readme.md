@@ -45,9 +45,9 @@ input-file:
   - Microsoft.Contoso/canonical/openapi.json
 ```
 suppressions:
-  - code: unsupported-versioning-decorator
+  - code: APIVersionPattern
     from: openapi.json
-    reason: Keep it as warning
+    reason: Canonical version is valid
 
 ---
 
