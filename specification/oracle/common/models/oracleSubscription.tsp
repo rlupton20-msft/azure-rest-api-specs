@@ -140,7 +140,7 @@ model SaasSubscriptionDetails {
 @doc("Azure Subscriptions model")
 model AzureSubscriptions {
   @doc("Azure Subscription Ids to be updated")
-  azureSubscriptionIds?: string[];
+  azureSubscriptionIds: string[];
 }
 
 @doc("Activation Links model")
@@ -154,34 +154,21 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
-@doc("Validation status")
-union SubscriptionValidationStatus {
-@doc("Successfully Validation")
-Succeed: "Succeed",
+@doc("Lifecyclestate of Oracle Subscription enum")
+union OracleSubscriptionLifecycleState {
+@doc("Available - Successful Creation of Oracle Subscription")
+Available: "Available",
 
-@doc("Failed Validation")
+@doc("Provisioning - State when Oracle Subscription is being provisioned")
+Provisioning: "Provisioning",
+
+@doc("Updating - State when Oracle Subscription is being Updated")
+Updating: "Updating",
+
+@doc("Failed - State when Oracle Subscription has failed")
 Failed: "Failed",
 
 string,
-}
-
-@doc("Error Message")
-model ErrorMessage {
-@doc("A short error code that defines the error")
-code: string;
-
-@doc("A human-readable error string.")
-message: string;
-}
-
-@doc("Validation result of adding/removing Azure subscriptions")
-model SubscriptionValidationResult {
-@doc("Validation status")
-validationStatus: SubscriptionValidationStatus;
-
-@doc("Validation result details")
-@OpenAPI.extension("x-ms-identifiers", [])
-validationDetails: ErrorMessage[];
 }
 
 
@@ -218,4 +205,12 @@ model OracleSubscriptionProperties {
   @doc("Azure subscriptions to be added")
   @visibility("read")
   azureSubscriptionIds?: string[];
+
+  @doc("State of the Oracle subscription")
+  @visibility("read")
+  oracleSubscriptionLifeCycleState?: OracleSubscriptionLifecycleState;
+
+  @doc("Status details of the last operation on Oracle subscription")
+  @visibility("read")
+  lastOperationStatusDetail?: string;
 }

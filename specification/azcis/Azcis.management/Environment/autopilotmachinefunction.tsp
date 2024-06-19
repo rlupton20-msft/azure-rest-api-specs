@@ -16,12 +16,9 @@ namespace Microsoft.AzureCis;
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("AutopilotMachineFunction properties")
 model AutopilotMachineFunctionResourceProperties {
-  @doc("Target environment/Cluster name.")
-  naming?: Naming; // Camel case for the parameter names.
-
   @doc("Goal state of MachinesFunctions.")
   @extension("x-ms-identifiers", [])
-  machineFunctions?: Array<MachineFunction>;
+  machineFunctions?: Array<MachineFunction>; // Camel case for the parameter names.
 
   @doc("Target Environment Name to allocate MachineFunction.")
   environmentName: string;
@@ -44,16 +41,6 @@ model AutopilotMachineFunctionResourceProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: EnvironmentProvisioningState;
-}
-
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
-@doc("Target environment/Cluster name.")
-model Naming {
-  @doc("Parameter name.")
-  prefix?: string;
-
-  @doc("Parameter value.")
-  cluster?: string;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)

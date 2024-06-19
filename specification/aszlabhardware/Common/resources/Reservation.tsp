@@ -11,7 +11,7 @@ namespace Private.AszLabHardware;
 @doc("A physical computer which can be reserved for use by a user")
 model Reservation is TrackedResource<ReservationProperties> {
     @doc("The name of the reservation")
-    @pattern("^[a-zA-Z0-9-]{3,24}$")
+    @pattern("^[a-zA-Z0-9_-]{3,99}$")
     @key("reservationName")
     @segment("reservations")
     @path
@@ -38,6 +38,7 @@ model ReservationProperties {
 interface Reservations {
   get is ArmResourceRead<Reservation>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Reservation>;
+  update is ArmResourcePatchSync<Reservation, ReservationProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Reservation>;
   listByResourceGroup is ArmResourceListByParent<Reservation>;
   listBySubscription is ArmListBySubscription<Reservation>;

@@ -245,7 +245,7 @@
             "description": "The name of the server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -285,7 +285,7 @@
             "description": "The name of the server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           },
           {
             "name": "resource",
@@ -351,7 +351,7 @@
             "description": "The name of the server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           },
           {
             "name": "properties",
@@ -400,7 +400,7 @@
             "description": "The name of the server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -457,7 +457,7 @@
             "description": "The name of the server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -533,7 +533,7 @@
             "description": "The name of the reservation",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -573,7 +573,7 @@
             "description": "The name of the reservation",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           },
           {
             "name": "resource",
@@ -617,6 +617,55 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "Reservations_Update",
+        "tags": [
+          "Reservations"
+        ],
+        "description": "Update a Reservation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "reservationName",
+            "in": "path",
+            "description": "The name of the reservation",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReservationUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
       "delete": {
         "operationId": "Reservations_Delete",
         "tags": [
@@ -639,7 +688,7 @@
             "description": "The name of the reservation",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -733,7 +782,7 @@
             "description": "The name of the Server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -773,7 +822,7 @@
             "description": "The name of the Server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           },
           {
             "name": "resource",
@@ -839,7 +888,7 @@
             "description": "The name of the Server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           },
           {
             "name": "properties",
@@ -888,7 +937,7 @@
             "description": "The name of the Server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -945,7 +994,7 @@
             "description": "The name of the Server",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9_-]{3,99}$"
           }
         ],
         "responses": {
@@ -1739,6 +1788,19 @@
             "read",
             "create"
           ]
+        }
+      }
+    },
+    "ReservationUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the Reservation.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },

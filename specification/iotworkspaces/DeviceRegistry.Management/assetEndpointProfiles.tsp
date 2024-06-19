@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
+import "./common/userAuthentication.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -41,14 +42,29 @@ model AssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;
 
+  @doc("Defines the endpoint profile type.")
+  @added(Versions.v2024_07_01_preview)
+  endpointProfileType: string;
+
   @doc("Defines the client authentication mechanism to the server.")
   userAuthentication?: UserAuthentication;
 
   @doc("Defines the authentication mechanism for the southbound connector connecting to the shop floor/OT device.")
+  @removed(Versions.v2024_07_01_preview)
   transportAuthentication?: TransportAuthentication;
 
   @doc("Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
   additionalConfiguration?: string;
+
+  @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow.")
+  @visibility("read", "create")
+  @added(Versions.v2024_07_01_preview)
+  discoveredAssetEndpointProfileRef?: string;
+
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
+  @added(Versions.v2024_07_01_preview)
+  status?: AssetEndpointProfileStatus;
 
   @doc("Provisioning state of the resource.")
   @visibility("read")
@@ -68,20 +84,6 @@ model UserAuthentication {
   x509Credentials?: X509Credentials;
 }
 
-@doc("The mode to authenticate the user of the client at the server.")
-union UserAuthenticationMode {
-  @doc("The user authentication mode is anonymous")
-  Anonymous: "Anonymous",
-
-  @doc("The user authentication mode is an x509 certificate.")
-  Certificate: "Certificate",
-
-  @doc("The user authentication mode is a username and password.")
-  UsernamePassword: "UsernamePassword",
-
-  string,
-}
-
 @doc("The credentials for authentication mode UsernamePassword.")
 model UsernamePasswordCredentials {
   @doc("A reference to secret containing the username.")
@@ -98,13 +100,16 @@ model X509Credentials {
 }
 
 @doc("Definition of the authentication mechanism for the southbound connector.")
+@removed(Versions.v2024_07_01_preview)
 model TransportAuthentication {
   @doc("Defines a reference to a secret which contains all certificates and private keys that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
   @extension("x-ms-identifiers", [])
+  @removed(Versions.v2024_07_01_preview)
   ownCertificates: OwnCertificate[];
 }
 
 @doc("Certificate or private key that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
+@removed(Versions.v2024_07_01_preview)
 model OwnCertificate {
   @doc("Certificate thumbprint.")
   certThumbprint?: string;
@@ -114,6 +119,24 @@ model OwnCertificate {
 
   @doc("Secret Reference Name (Pfx or Pem password).")
   certPasswordReference?: string;
+}
+
+@doc("Defines the asset endpoint profile status properties.")
+@added(Versions.v2024_07_01_preview)
+model AssetEndpointProfileStatus {
+  @doc("Array object to transfer and persist errors that originate from the Edge.")
+  @extension("x-ms-identifiers", [])
+  errors?: AssetEndpointProfileStatusError[];
+}
+
+@doc("Defines the asset endpoint profile status error properties.")
+@added(Versions.v2024_07_01_preview)
+model AssetEndpointProfileStatusError {
+  @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
+  code?: int32;
+
+  @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
+  message?: string;
 }
 
 @armResourceOperations
