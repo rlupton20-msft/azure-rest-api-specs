@@ -208,7 +208,7 @@ interface VirtualEnclave {
   @doc("Checks that the IP Address Space to be allocated for this Virtual Enclave is available.")
   @armResourceAction(EnclaveResource)
   @post
-  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
+  @removed(Microsoft.Mission.Versions.v2024_06_01_preview)
   checkAddressSpaceAvailability(
     ...ResourceInstanceParameters<EnclaveResource>,
 
@@ -240,6 +240,19 @@ interface Community {
   delete is ArmResourceDeleteWithoutOkAsync<CommunityResource>;
   listByParent is ArmResourceListByParent<CommunityResource>;
   listBySubscription is ArmListBySubscription<CommunityResource>;
+
+  @autoRoute
+  @doc("Checks that the IP Address Space to be allocated for this Community is available.")
+  @armResourceAction(CommunityResource)
+  @post
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  checkAddressSpaceAvailability(
+    ...ResourceInstanceParameters<CommunityResource>,
+
+    @doc("Check IP Address Space request body.")
+    @bodyRoot
+    checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
+  ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
 }
 
 @doc("Internal Connections")
