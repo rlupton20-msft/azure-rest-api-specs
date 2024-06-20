@@ -48,7 +48,7 @@ union EnclaveApprovalState {
   @doc("EnclaveApprovalState Type Timeout")
   Timeout: "Timeout",
 
-  string,
+  string
 }
 
 @doc("Enclave Virtual Network Properties")
@@ -97,6 +97,19 @@ model EnclaveAddressSpaces {
   managedAddressSpace?: string;
 }
 
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Maintenance Mode")
+model MaintenanceModeConfiguration {
+  @doc("Current status of Maintenance Mode")
+  status: "On" | "CanNotDelete" | "Off" | string;
+
+  @doc("The user, group or service principal object affected by Maintenance Mode")
+  principalObjectIds?: string[];
+
+  @doc("Justification for entering or exiting Maintenance Mode")
+  justification?: "Networking" | "Governance" | "Off" | string;
+}
+
 @doc("Virtual Enclave Resource properties")
 model VirtualEnclaveProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -134,4 +147,9 @@ model VirtualEnclaveProperties {
   @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Managed resource group configuration.")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration: MaintenanceModeConfiguration;
 }
