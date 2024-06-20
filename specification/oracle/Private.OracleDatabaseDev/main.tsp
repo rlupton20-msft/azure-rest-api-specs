@@ -1,3 +1,4 @@
+import "@azure-tools/typespec-autorest";
 import "./operations/main.tsp";
 import "./versions.tsp";
 
