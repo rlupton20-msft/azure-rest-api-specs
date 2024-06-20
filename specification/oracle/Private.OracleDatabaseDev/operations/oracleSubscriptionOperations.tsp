@@ -3,6 +3,7 @@ import "../../common/models/oracleSubscription.tsp";
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using Autorest;
+using TypeSpec.Versioning;
 
 namespace Private.OracleDatabaseDev;
 
