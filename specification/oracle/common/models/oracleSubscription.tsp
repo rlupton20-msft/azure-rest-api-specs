@@ -154,18 +154,15 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
-@doc("Lifecyclestate of Oracle Subscription enum")
-union OracleSubscriptionLifecycleState {
-@doc("Available - Successful Creation of Oracle Subscription")
-Available: "Available",
+@doc("Lifecyclestate of Add SubscriptionOperation state enum")
+union AddSubscriptionOperationState {
+@doc("Succeeded - State when Add Subscription operation succeeded")
+Succeeded: "Succeeded",
 
-@doc("Provisioning - State when Oracle Subscription is being provisioned")
-Provisioning: "Provisioning",
-
-@doc("Updating - State when Oracle Subscription is being Updated")
+@doc("Updating - State when Add Subscription operation is being Updated")
 Updating: "Updating",
 
-@doc("Failed - State when Oracle Subscription has failed")
+@doc("Failed - State when Add Subscription operation failed")
 Failed: "Failed",
 
 string,
@@ -206,10 +203,10 @@ model OracleSubscriptionProperties {
   @visibility("read")
   azureSubscriptionIds?: string[];
 
-  @doc("State of the Oracle subscription")
+  @doc("State of the add Azure subscription operation on Oracle subscription")
   @visibility("read")
-  oracleSubscriptionLifeCycleState?: OracleSubscriptionLifecycleState;
-
+  addSubscriptionOperationState?: AddSubscriptionOperationState;
+  
   @doc("Status details of the last operation on Oracle subscription")
   @visibility("read")
   lastOperationStatusDetail?: string;
