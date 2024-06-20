@@ -43,6 +43,7 @@ interface OracleSubscriptions
     ActivationLinks
   >;
 
+  @added(Versions.v20240601_preview)
   @doc("Add Azure Subscriptions")
   @example(
     "./examples/oracleSubscriptions_addAzureSubscriptions.json",
@@ -53,6 +54,7 @@ interface OracleSubscriptions
     AzureSubscriptions
  >;
 
+ @added(Versions.v20240601_preview)
  @doc("Remove Azure Subscriptions")
  @example(
    "./examples/oracleSubscriptions_removeAzureSubscriptions.json",
