@@ -154,7 +154,7 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
-@doc("Lifecyclestate of Add SubscriptionOperation state enum")
+@doc("Add Subscription Operation state enum")
 union AddSubscriptionOperationState {
 @doc("Succeeded - State when Add Subscription operation succeeded")
 Succeeded: "Succeeded",
