@@ -1120,7 +1120,19 @@
         },
         "kubernetesVersion": {
           "type": "string",
-          "description": "The version of Kubernetes in use by the provisioned cluster."
+          "description": "The version of k8s or k3s in use by the provisioned cluster."
+        },
+        "kubernetesDistribution": {
+          "type": "string",
+          "description": "Indicates the kubernetes distribution, k8s and k3s are available.",
+          "enum": [
+            "K8s",
+            "K3s"
+          ], 
+          "x-ms-enum": {
+            "name": "kubernetesDistribution",
+            "modelAsString": true
+          }
         },
         "networkProfile": {
           "description": "The network configuration profile for the provisioned cluster.",
@@ -1613,9 +1625,10 @@
         },
         "networkPolicy": {
           "type": "string",
-          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
+          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'.",
           "enum": [
-            "calico"
+            "calico",
+            "cilium"
           ],
           "default": "calico",
           "x-ms-enum": {
@@ -1626,6 +1639,13 @@
         "podCidr": {
           "type": "string",
           "description": "A CIDR notation IP Address range from which to assign pod IPs."
+        },
+        "cniConfigurations": {
+          "type": "object",
+          "description": "CNI Configuration for different cilium settings.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "description": "The network configuration profile for the provisioned cluster."
@@ -1689,6 +1709,62 @@
               "description": "IP address of the Kubernetes API server"
             }
           }
+        },
+        "witness":{ 
+          "$ref": "#/definitions/WitnessProfile",
+          "description": "Witness settings for the etcd cluster."
+        }
+      }
+    },
+    "WitnessProfile": {
+      "type": "object",
+      "discriminator": "type",
+      "properties": {
+        "type": { "$ref": "#/definitions/WitnessType" },
+        "endpoint": {
+          "type": "string"
+        }
+      },
+      "required": [ "type", "endpoint" ]
+    },
+    "WitnessType": {
+      "type": "string",
+      "enum": ["NFS", "SMB", "AzureBlob"],
+      "x-ms-enum": {
+        "name": "WitnessType",
+        "modelAsString": true
+      }
+    },
+    "NfsWitnessProfile": {
+      "x-ms-discriminator-value": "NFS",
+      "type": "object",
+      "allOf": [ { "$ref": "#/definitions/WitnessProfile" } ]
+    },
+    "SmbWitnessProfile": {
+      "x-ms-discriminator-value": "SMB",
+      "type": "object",
+      "allOf": [ { "$ref": "#/definitions/WitnessProfile" } ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "x-ms-mutability": ["create", "update"],
+          "x-ms-secret": true
+        }
+      },
+      "required": [ "username" ]
+    },
+    "AzureBlobWitnessProfile": {
+      "x-ms-discriminator-value": "AzureBlob",
+      "type": "object",
+      "allOf": [ { "$ref": "#/definitions/WitnessProfile" } ],
+      "properties": {
+        "sasToken": {
+          "type": "string",
+          "x-ms-mutability": ["create", "update"],
+          "x-ms-secret": true
         }
       }
     },
