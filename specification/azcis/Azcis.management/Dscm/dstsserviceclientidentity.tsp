@@ -18,7 +18,7 @@ model DstsServiceClientIdentityResourceProperties {
   accountName: string;
 
   @doc("Gets or sets the DSTS instance endpoint FQDN, in which the account is created. This is case-insensitive. E.g. \"co2agg04-dsts.dsts.core.azure-test.net\" for dogfood.")
-  dstsInstance: string;
+  dstsInstance?: string;
 
   @doc("Gets or sets a list of claim provisionings.")
   @extension("x-ms-identifiers", [])
@@ -41,7 +41,7 @@ model DstsServiceClientIdentityResourceProperties {
   subscriptions?: string;
 
   @doc("Subject names.")
-  subjectNames: Array<string>;
+  subjectNames?: Array<string>;
 
   @doc("Provisioning state")
   @visibility("read")
