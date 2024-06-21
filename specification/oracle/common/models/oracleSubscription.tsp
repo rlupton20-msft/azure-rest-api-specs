@@ -1,5 +1,6 @@
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.OracleDatabaseDev;
@@ -137,6 +138,7 @@ model SaasSubscriptionDetails {
   isFreeTrial?: boolean;
 }
 
+@added(Versions.v20240601_preview)
 @doc("Azure Subscriptions model")
 model AzureSubscriptions {
   @doc("Azure Subscription Ids to be updated")
@@ -154,6 +156,7 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
+@added(Versions.v20240601_preview)
 @doc("Add Subscription Operation state enum")
 union AddSubscriptionOperationState {
 @doc("Succeeded - State when Add Subscription operation succeeded")
@@ -167,7 +170,6 @@ Failed: "Failed",
 
 string,
 }
-
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
@@ -199,14 +201,17 @@ model OracleSubscriptionProperties {
   @visibility("update")
   intent?: Intent;
 
+  @added(Versions.v20240601_preview)
   @doc("Azure subscriptions to be added")
   @visibility("read")
   azureSubscriptionIds?: string[];
 
+  @added(Versions.v20240601_preview)
   @doc("State of the add Azure subscription operation on Oracle subscription")
   @visibility("read")
   addSubscriptionOperationState?: AddSubscriptionOperationState;
-  
+
+  @added(Versions.v20240601_preview)
   @doc("Status details of the last operation on Oracle subscription")
   @visibility("read")
   lastOperationStatusDetail?: string;
