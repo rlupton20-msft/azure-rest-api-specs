@@ -20,7 +20,7 @@ model BillingContainer is ProxyResource<BillingContainerProperties> {
   @doc("Name of the billingContainer.")
   @key("billingContainerName")
   @segment("billingContainers")
-  @pattern("^[0-9a-z][a-z0-9-]*$")
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
   @maxLength(64)
