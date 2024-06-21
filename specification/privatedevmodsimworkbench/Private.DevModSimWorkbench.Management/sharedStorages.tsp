@@ -90,6 +90,12 @@ model SharedStorage is TrackedResource<SharedStorageProperties> {
   @TypeSpec.Http.path
   @pattern("^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("The availability zones.")
+  zones?: Array<string>;
 }
 
 @armResourceOperations

@@ -49,7 +49,6 @@ model WorkloadProperties {
   @visibility("read", "create")
   @doc("The chamber workload zone.")
   zones?: Array<string>;
-
 }
 
 @doc("Workload tracked resource.")
@@ -65,7 +64,7 @@ model Workload is TrackedResource<WorkloadProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
-  @doc("The chamber workload zone.")
+  @doc("The availability zones.")
   zones?: Array<string>;
 }
 

@@ -142,14 +142,14 @@ model ResultProperty {
 }
 
 @doc("Common interface for all tracked resources")
-interface ProxyResourceOperations<T extends ProxyResourceBase> {
+interface ProxyResourceOperations<T extends Azure.ResourceManager.Foundations.ProxyResource> {
   get is ArmResourceRead<T>;
   list is ArmResourceListByParent<T>;
 }
 
 @doc("Common interface for all tracked resources")
 interface BaseResourceOperations<
-  T extends TrackedResourceBase,
+  T extends Azure.ResourceManager.Foundations.TrackedResource,
   P extends TypeSpec.Reflection.Model,
   U extends TypeSpec.Reflection.Model = P
 > {
@@ -161,7 +161,7 @@ interface BaseResourceOperations<
 
 @doc("Common interface of all nested resources")
 interface NestedResourceOperations<
-  T extends TrackedResourceBase,
+  T extends Azure.ResourceManager.Foundations.TrackedResource,
   P extends TypeSpec.Reflection.Model,
   U extends TypeSpec.Reflection.Model = P
 > extends BaseResourceOperations<T, P, U> {
@@ -169,7 +169,7 @@ interface NestedResourceOperations<
 }
 
 @doc("Resource that can be restarted")
-interface Restartable<T extends ArmResource> {
+interface Restartable<T extends Azure.ResourceManager.Foundations.TrackedResource> {
   @doc("Start connector")
   start is ArmResourceActionAsync<T, void, never>;
 
