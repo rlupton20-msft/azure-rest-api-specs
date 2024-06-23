@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.AgriculturePlatform",
-    "version": "2024-05-01-preview",
+    "version": "2024-06-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -418,6 +418,33 @@
     }
   },
   "definitions": {
+    "AgriServiceConfig": {
+      "type": "object",
+      "description": "Config of the AgriService instance.",
+      "properties": {
+        "instanceUri": {
+          "type": "string",
+          "description": "Instance URI of the AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "cosmosDbEndpoint": {
+          "type": "string",
+          "description": "Cosmos DB endpoint of the AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        }
+      }
+    },
     "AgriServiceResource": {
       "type": "object",
       "description": "A AgriculturePlatform resource",
@@ -488,19 +515,34 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "version": {
-          "type": "string",
-          "description": "AgriService resource version.",
+        "config": {
+          "$ref": "#/definitions/AgriServiceConfig",
+          "description": "Config of the AgriService instance.",
+          "readOnly": true
+        },
+        "dataConnectors": {
+          "type": "object",
+          "description": "Data connectors object of AgriService instance.",
+          "additionalProperties": {
+            "$ref": "#/definitions/DataConnector"
+          },
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "instanceUri": {
-          "type": "string",
-          "description": "Uri of the AgriService instance.",
-          "readOnly": true
+        "solutions": {
+          "type": "object",
+          "description": "AgriService installed solutions.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Solution"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
     },
@@ -571,15 +613,112 @@
       "type": "object",
       "description": "The updatable properties of the AgriServiceResource.",
       "properties": {
-        "version": {
-          "type": "string",
-          "description": "AgriService resource version.",
+        "dataConnectors": {
+          "type": "object",
+          "description": "Data connectors object of AgriService instance.",
+          "additionalProperties": {
+            "$ref": "#/definitions/DataConnector"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "solutions": {
+          "type": "object",
+          "description": "AgriService installed solutions.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Solution"
+          },
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         }
+      }
+    },
+    "AuthCredentials": {
+      "type": "object",
+      "description": "Model for data connector credentials.",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/AuthCredentialsKind",
+          "description": "Type of credential.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Client ID associated with the provider, if type of credentials is OAuthClientCredentials.",
+          "minLength": 1,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "keyVaultUri": {
+          "type": "string",
+          "description": "URI of the key vault",
+          "minLength": 2,
+          "maxLength": 100,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "keyName": {
+          "type": "string",
+          "description": "Name of the key vault key.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "keyVersion": {
+          "type": "string",
+          "description": "Version of the key vault key.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "AuthCredentialsKind": {
+      "type": "string",
+      "description": "Enum for different kind of Data connector auth credentials supported.",
+      "enum": [
+        "OAuthClientCredentials",
+        "ApiKeyAuthCredentials"
+      ],
+      "x-ms-enum": {
+        "name": "AuthCredentialsKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "OAuthClientCredentials",
+            "value": "OAuthClientCredentials",
+            "description": "OAuthClientCredentials kind."
+          },
+          {
+            "name": "ApiKeyAuthCredentials",
+            "value": "ApiKeyAuthCredentials",
+            "description": "ApiKeyAuthCredentials kind."
+          }
+        ]
       }
     },
     "Azure.ResourceManager.Foundations.createdByType": {
@@ -616,6 +755,60 @@
             "description": "The entity was created by a key."
           }
         ]
+      }
+    },
+    "DataConnector": {
+      "type": "object",
+      "description": "The properties related to an AgriService data connector.",
+      "properties": {
+        "credentials": {
+          "$ref": "#/definitions/AuthCredentials",
+          "description": "Data connector credentials.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "KeyVaultProperties": {
+      "type": "object",
+      "description": "Properties of the key vault.",
+      "properties": {
+        "keyVaultUri": {
+          "type": "string",
+          "description": "URI of the key vault",
+          "minLength": 2,
+          "maxLength": 100,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "keyName": {
+          "type": "string",
+          "description": "Name of the key vault key.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "keyVersion": {
+          "type": "string",
+          "description": "Version of the key vault key.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
       }
     },
     "ProvisioningState": {
@@ -672,20 +865,81 @@
         ]
       }
     },
+    "Solution": {
+      "type": "object",
+      "description": "AgriService solution model.",
+      "properties": {
+        "applicationName": {
+          "type": "string",
+          "description": "Application name of the solution.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "partnerId": {
+          "type": "string",
+          "description": "Partner ID.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "saasSubscriptionId": {
+          "type": "string",
+          "description": "SAAS subscription ID.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "saasSubscriptionName": {
+          "type": "string",
+          "description": "SAAS subscription name.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "planId": {
+          "type": "string",
+          "description": "Plan ID.",
+          "minLength": 2,
+          "maxLength": 256,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
     "Versions": {
       "type": "string",
       "description": "Supported API versions for the Microsoft.AgriculturePlatform resource provider.",
       "enum": [
-        "2024-05-01-preview"
+        "2024-06-01-preview"
       ],
       "x-ms-enum": {
         "name": "Versions",
         "modelAsString": true,
         "values": [
           {
-            "name": "v2024_05_01_preview",
-            "value": "2024-05-01-preview",
-            "description": "The 2024-05-01-preview version."
+            "name": "v2024_06_01_preview",
+            "value": "2024-06-01-preview",
+            "description": "The 2024-06-01-preview version."
           }
         ]
       }
