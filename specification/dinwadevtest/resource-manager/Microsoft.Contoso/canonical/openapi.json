@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "ContosoProviderHubClient",
+    "title": "Microsoft.Contoso management service",
     "version": "canonical",
-    "description": "Contoso Resource Provider management API.",
+    "description": "Microsoft.Contoso Resource Provider management API.",
     "x-canonical-included-versions": [
-      "2021-10-01-preview"
+      "v2021_10_01_preview"
     ],
     "x-typespec-generated": [
       {
@@ -50,7 +50,7 @@
     }
   ],
   "paths": {
-    "/providers/Microsoft.ContosoProviderHub/operations": {
+    "/providers/Microsoft.Contoso/operations": {
       "get": {
         "operationId": "Operations_List",
         "tags": [
@@ -81,7 +81,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContosoProviderHub/employees": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Contoso/employees": {
       "get": {
         "operationId": "Employees_ListBySubscription",
         "tags": [
@@ -115,7 +115,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContosoProviderHub/employees": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/employees": {
       "get": {
         "operationId": "Employees_ListByResourceGroup",
         "tags": [
@@ -152,7 +152,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContosoProviderHub/employees/{employeeName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/employees/{employeeName}": {
       "get": {
         "operationId": "Employees_Get",
         "tags": [
@@ -366,104 +366,13 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
-      },
-      "head": {
-        "operationId": "Employees_CheckExistence",
-        "tags": [
-          "Employees"
-        ],
-        "description": "A sample HEAD operation to check resource existence",
-        "parameters": [
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "employeeName",
-            "in": "path",
-            "description": "The name of the Employee",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The Azure resource exists"
-          },
-          "404": {
-            "description": "The Azure resource is not found"
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContosoProviderHub/employees/{employeeName}/move": {
-      "post": {
-        "operationId": "Employees_Move",
-        "tags": [
-          "Employees"
-        ],
-        "description": "A sample resource action that move employee to different location",
-        "parameters": [
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "employeeName",
-            "in": "path",
-            "description": "The name of the Employee",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MoveRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/MoveResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
       }
     }
   },
   "definitions": {
     "Employee": {
       "type": "object",
-      "description": "A ContosoProviderHub resource",
+      "description": "Employee resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/EmployeeProperties",
@@ -560,68 +469,22 @@
         }
       }
     },
-    "MoveRequest": {
-      "type": "object",
-      "description": "Employee move request",
-      "properties": {
-        "from": {
-          "type": "string",
-          "description": "The moving from location"
-        },
-        "to": {
-          "type": "string",
-          "description": "The moving to location"
-        }
-      },
-      "required": [
-        "from",
-        "to"
-      ]
-    },
-    "MoveResponse": {
-      "type": "object",
-      "description": "Employee move response",
-      "properties": {
-        "movingStatus": {
-          "type": "string",
-          "description": "The status of the move"
-        }
-      },
-      "required": [
-        "movingStatus"
-      ]
-    },
     "ProvisioningState": {
       "type": "string",
-      "description": "The provisioning state of a resource.",
+      "description": "The resource provisioning state.",
       "enum": [
-        "Accepted",
-        "Provisioning",
-        "Updating",
         "Succeeded",
         "Failed",
         "Canceled",
-        "Deleting"
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Accepted",
-            "value": "Accepted",
-            "description": "The resource create request has been accepted"
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "The resource is being provisioned"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "The resource is updating"
-          },
           {
             "name": "Succeeded",
             "value": "Succeeded",
@@ -638,13 +501,27 @@
             "description": "Resource creation was canceled."
           },
           {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "The resource is being provisioned."
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The resource is being updated."
+          },
+          {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "The resource is being deleted"
+            "description": "The resource is being deleted."
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource provisioning request has been accepted."
           }
         ]
-      },
-      "readOnly": true
+      }
     }
   },
   "parameters": {}
