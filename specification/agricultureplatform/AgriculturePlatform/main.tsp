@@ -1,15 +1,14 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace("Microsoft.AgriculturePlatform")
 @service({
@@ -42,26 +41,28 @@ model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
   @path
   name: string;
 
-  ...ManagedServiceIdentity;
-  ...ResourceSku;
+  ...ManagedServiceIdentityProperty;
+  ...ResourceSkuProperty;
 }
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning,
-
-  @doc("Update in progress")
-  Updating,
-
-  @doc("Deletion in progress")
-  Deleting,
-
-  @doc("Change accepted for processing")
-  Accepted,
+union ProvisioningState {
+  string,
+  /** Resource has been created. */
+  Succeeded:"Succeeded",
+  /** Resource creation failed. */
+  Failed:"Failed",
+  /** Resource creation was canceled. */
+  Canceled:"Canceled",
+  /** The resource is being provisioned */
+  Provisioning:"Provisioning",
+  /** The resource is updating */
+  Updating:"Updating",
+  /** The resource is being deleted */
+  Deleting:"Deleting",
+  /** The resource create request has been accepted */
+  Accepted:"Accepted"
 }
 
 @doc("Details of the Agriculture AgriDataManager.")
@@ -128,6 +129,7 @@ model ManagedOnBehalfOfConfiguration {
 @doc("MoboBroker resource.")
 model MoboBrokerResource {
   @visibility("read")
+   @doc("Resource Id of MoboBrokerResource")
   id: string;
 }
 
