@@ -24,7 +24,7 @@ union DiagnosticDestination {
 
   @doc("DiagnosticDestination Type EnclaveOnly")
   EnclaveOnly: "EnclaveOnly",
-
+ 
   @doc("DiagnosticDestination Type Both")
   Both: "Both",
 
@@ -51,13 +51,50 @@ union EnclaveApprovalState {
   string
 }
 
+@doc("Subnet Configuration")
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+model SubnetConfiguration {
+  @doc("Subnet name.")
+  name: string;
+
+  @doc("Subnet ID.")
+  @visibility("read")
+  id?: string;
+
+  @doc("Subnet mask.")
+  subnetMask: string;
+
+  @doc("Subnet delegation.")
+  subnetDelegation?: string;
+
+  @doc("Address prefix.")
+  @visibility("read")
+  addressPrefix?: string;
+
+  @doc("Network security group ID.")
+  @visibility("read")
+  networkSecurityGroupId?: string;
+}
+
 @doc("Enclave Virtual Network Properties")
 model EnclaveVirtualNetwork {
+  @doc("Network Name.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  name: string;
+
   @doc("Network Size.")
   networkSize: string;
 
   @doc("Custom CIDR Range.")
   customCidrRange?: string;
+
+  @doc("Subnet Configurations.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  subnetConfigurations?: SubnetConfiguration[];
+
+  @doc("Allow Subnet Communication.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  allowSubnetCommunication: boolean;
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Connect to Azure Services (True or False).")

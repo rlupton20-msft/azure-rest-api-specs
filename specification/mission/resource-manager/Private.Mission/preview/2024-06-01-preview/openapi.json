@@ -4813,6 +4813,10 @@
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
         "networkSize": {
           "type": "string",
           "description": "Network Size."
@@ -4820,6 +4824,17 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configurations.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          }
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Allow Subnet Communication."
         },
         "connectToAzureServices": {
           "type": "boolean",
@@ -4827,13 +4842,19 @@
         }
       },
       "required": [
-        "networkSize"
+        "name",
+        "networkSize",
+        "allowSubnetCommunication"
       ]
     },
     "EnclaveVirtualNetworkUpdate": {
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
         "networkSize": {
           "type": "string",
           "description": "Network Size."
@@ -4841,6 +4862,17 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configurations.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          }
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Allow Subnet Communication."
         },
         "connectToAzureServices": {
           "type": "boolean",
@@ -5708,6 +5740,43 @@
           }
         ]
       }
+    },
+    "SubnetConfiguration": {
+      "type": "object",
+      "description": "Subnet Configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Subnet name."
+        },
+        "id": {
+          "type": "string",
+          "description": "Subnet ID.",
+          "readOnly": true
+        },
+        "subnetMask": {
+          "type": "string",
+          "description": "Subnet mask."
+        },
+        "subnetDelegation": {
+          "type": "string",
+          "description": "Subnet delegation."
+        },
+        "addressPrefix": {
+          "type": "string",
+          "description": "Address prefix.",
+          "readOnly": true
+        },
+        "networkSecurityGroupId": {
+          "type": "string",
+          "description": "Network security group ID.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name",
+        "subnetMask"
+      ]
     },
     "TransitHubProperties": {
       "type": "object",
