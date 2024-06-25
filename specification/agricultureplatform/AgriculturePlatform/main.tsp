@@ -42,17 +42,8 @@ model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
   @path
   name: string;
 
-  @doc("System data pertaining to the resource")
-  @visibility("read")
-  systemData?: AgriServiceResourceSystemData;
   ...ManagedServiceIdentity;
-  ...TagsUpdateModel<AgriServiceResource>;
   ...ResourceSku;
-}
-
-@doc("System metadata pertaining to the AgriService resource.")
-model AgriServiceResourceSystemData {
-	...SystemData;
 }
 
 @doc("The status of the current operation.")
@@ -83,17 +74,13 @@ model AgriServiceResourceProperties {
   @visibility("read")
   config?: AgriServiceConfig;
 
-  @doc("Data connectors object of AgriService instance.")
-  @visibility("read", "create", "update")
-  dataConnectors?: Record<DataConnector>;
-
-  @doc("AgriService installed solutions.")
-  @visibility("read", "create", "update")
-  solutions?: Record<Solution>;
+  @visibility("read")
+  @doc("Managed On Behalf Of Configuration.")
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 
 @doc("Config of the AgriService instance.")
-model AgriServiceConfig {
+model AgriServiceConfig { // include all resources which will be created here in MOBO, properties, endpoints etc. 
   @doc("Instance URI of the AgriService instance.")
   @visibility("read")
   @minLength(2)
@@ -106,6 +93,24 @@ model AgriServiceConfig {
   @maxLength(256)
   cosmosDbEndpoint?: string;
 
+  @doc("Storage account endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  storageAccountEndpoint?: string;
+
+  @doc("Key vault endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  keyVaultEndpoint?: string;
+
+  @doc("Redis instance endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  redisEndpoint?: string;
+
   @doc("Version of AgriService instance.")
   @visibility("read")
   @minLength(2)
@@ -113,88 +118,17 @@ model AgriServiceConfig {
   version?: string;
 }
 
-@doc("The properties related to an AgriService data connector.")
-model DataConnector {
-  @doc("Data connector credentials.")
-  @visibility("read", "create", "update")
-  credentials?: AuthCredentials;
+@doc("Configuration of the managed on behalf of resource.")
+model ManagedOnBehalfOfConfiguration {
+    @visibility("read")
+    @doc("Associated MoboBrokerResources.")
+    moboBrokerResources: MoboBrokerResource[];
 }
 
-@doc("Model for data connector credentials.")
-model AuthCredentials {
-  @doc("Type of credential.")
-  @visibility("read", "create", "update")
-  kind?: AuthCredentialsKind;
-
-  @doc("Client ID associated with the provider, if type of credentials is OAuthClientCredentials.")
-  @visibility("read", "create", "update")
-  @minLength(1)
-  clientId?: string;
-
-  ...KeyVaultProperties;
-}
-
-@doc("Enum for different kind of Data connector auth credentials supported.")
-enum AuthCredentialsKind {
-  @doc("OAuthClientCredentials kind.")
-  OAuthClientCredentials,
-
-  @doc("ApiKeyAuthCredentials kind.")
-  ApiKeyAuthCredentials,
-}
-
-@doc("Properties of the key vault.")
-model KeyVaultProperties {
-  @doc("URI of the key vault")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(100)
-  keyVaultUri?: string;
-
-  @doc("Name of the key vault key.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  keyName?: string;
-
-  @doc("Version of the key vault key.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  keyVersion?: string;
-}
-
-@doc("AgriService solution model.")
-model Solution {
-  @doc("Application name of the solution.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  applicationName?: string;
-
-  @doc("Partner ID.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  partnerId?: string;
-
-  @doc("SAAS subscription ID.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  saasSubscriptionId?: string;
-
-  @doc("SAAS subscription name.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  saasSubscriptionName?: string;
-
-  @doc("Plan ID.")
-  @visibility("read", "create", "update")
-  @minLength(2)
-  @maxLength(256)
-  planId?: string;
+@doc("MoboBroker resource.")
+model MoboBrokerResource {
+  @visibility("read")
+  id: string;
 }
 
 @armResourceOperations(AgriServiceResource)

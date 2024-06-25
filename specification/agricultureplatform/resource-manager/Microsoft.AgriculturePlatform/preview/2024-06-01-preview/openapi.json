@@ -436,6 +436,27 @@
           "maxLength": 256,
           "readOnly": true
         },
+        "storageAccountEndpoint": {
+          "type": "string",
+          "description": "Storage account endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "keyVaultEndpoint": {
+          "type": "string",
+          "description": "Key vault endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "redisEndpoint": {
+          "type": "string",
+          "description": "Redis instance endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
         "version": {
           "type": "string",
           "description": "Version of AgriService instance.",
@@ -458,21 +479,9 @@
             "create"
           ]
         },
-        "systemData": {
-          "$ref": "#/definitions/AgriServiceResourceSystemData",
-          "description": "System data pertaining to the resource",
-          "readOnly": true
-        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
         },
         "sku": {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
@@ -520,66 +529,9 @@
           "description": "Config of the AgriService instance.",
           "readOnly": true
         },
-        "dataConnectors": {
-          "type": "object",
-          "description": "Data connectors object of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnector"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "solutions": {
-          "type": "object",
-          "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      }
-    },
-    "AgriServiceResourceSystemData": {
-      "type": "object",
-      "description": "System metadata pertaining to the AgriService resource.",
-      "properties": {
-        "createdBy": {
-          "type": "string",
-          "description": "The identity that created the resource.",
-          "readOnly": true
-        },
-        "createdByType": {
-          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
-          "description": "The type of identity that created the resource.",
-          "readOnly": true
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date",
-          "description": "The type of identity that created the resource.",
-          "readOnly": true
-        },
-        "lastModifiedBy": {
-          "type": "string",
-          "description": "The identity that last modified the resource.",
-          "readOnly": true
-        },
-        "lastModifiedByType": {
-          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
-          "description": "The type of identity that last modified the resource.",
-          "readOnly": true
-        },
-        "lastModifiedAt": {
-          "type": "string",
-          "format": "date",
-          "description": "The timestamp of resource last modification (UTC)",
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed On Behalf Of Configuration.",
           "readOnly": true
         }
       }
@@ -592,224 +544,48 @@
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
+        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
           }
-        },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
-        },
-        "properties": {
-          "$ref": "#/definitions/AgriServiceResourceUpdateProperties",
-          "x-ms-client-flatten": true
         }
       }
     },
-    "AgriServiceResourceUpdateProperties": {
+    "ManagedOnBehalfOfConfiguration": {
       "type": "object",
-      "description": "The updatable properties of the AgriServiceResource.",
+      "description": "Configuration of the managed on behalf of resource.",
       "properties": {
-        "dataConnectors": {
-          "type": "object",
-          "description": "Data connectors object of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnector"
+        "moboBrokerResources": {
+          "type": "array",
+          "description": "Associated MoboBrokerResources.",
+          "items": {
+            "$ref": "#/definitions/MoboBrokerResource"
           },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "solutions": {
-          "type": "object",
-          "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "readOnly": true
         }
-      }
+      },
+      "required": [
+        "moboBrokerResources"
+      ]
     },
-    "AuthCredentials": {
+    "MoboBrokerResource": {
       "type": "object",
-      "description": "Model for data connector credentials.",
+      "description": "MoboBroker resource.",
       "properties": {
-        "kind": {
-          "$ref": "#/definitions/AuthCredentialsKind",
-          "description": "Type of credential.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "clientId": {
+        "id": {
           "type": "string",
-          "description": "Client ID associated with the provider, if type of credentials is OAuthClientCredentials.",
-          "minLength": 1,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "keyVaultUri": {
-          "type": "string",
-          "description": "URI of the key vault",
-          "minLength": 2,
-          "maxLength": 100,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "keyName": {
-          "type": "string",
-          "description": "Name of the key vault key.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "keyVersion": {
-          "type": "string",
-          "description": "Version of the key vault key.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "readOnly": true
         }
-      }
-    },
-    "AuthCredentialsKind": {
-      "type": "string",
-      "description": "Enum for different kind of Data connector auth credentials supported.",
-      "enum": [
-        "OAuthClientCredentials",
-        "ApiKeyAuthCredentials"
-      ],
-      "x-ms-enum": {
-        "name": "AuthCredentialsKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "OAuthClientCredentials",
-            "value": "OAuthClientCredentials",
-            "description": "OAuthClientCredentials kind."
-          },
-          {
-            "name": "ApiKeyAuthCredentials",
-            "value": "ApiKeyAuthCredentials",
-            "description": "ApiKeyAuthCredentials kind."
-          }
-        ]
-      }
-    },
-    "Azure.ResourceManager.Foundations.createdByType": {
-      "type": "string",
-      "description": "The kind of entity that created the resource.",
-      "enum": [
-        "User",
-        "Application",
-        "ManagedIdentity",
-        "Key"
-      ],
-      "x-ms-enum": {
-        "name": "createdByType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "User",
-            "value": "User",
-            "description": "The entity was created by a user."
-          },
-          {
-            "name": "Application",
-            "value": "Application",
-            "description": "The entity was created by an application."
-          },
-          {
-            "name": "ManagedIdentity",
-            "value": "ManagedIdentity",
-            "description": "The entity was created by a managed identity."
-          },
-          {
-            "name": "Key",
-            "value": "Key",
-            "description": "The entity was created by a key."
-          }
-        ]
-      }
-    },
-    "DataConnector": {
-      "type": "object",
-      "description": "The properties related to an AgriService data connector.",
-      "properties": {
-        "credentials": {
-          "$ref": "#/definitions/AuthCredentials",
-          "description": "Data connector credentials.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      }
-    },
-    "KeyVaultProperties": {
-      "type": "object",
-      "description": "Properties of the key vault.",
-      "properties": {
-        "keyVaultUri": {
-          "type": "string",
-          "description": "URI of the key vault",
-          "minLength": 2,
-          "maxLength": 100,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "keyName": {
-          "type": "string",
-          "description": "Name of the key vault key.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "keyVersion": {
-          "type": "string",
-          "description": "Version of the key vault key.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      }
+      },
+      "required": [
+        "id"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -863,67 +639,6 @@
             "description": "Change accepted for processing"
           }
         ]
-      }
-    },
-    "Solution": {
-      "type": "object",
-      "description": "AgriService solution model.",
-      "properties": {
-        "applicationName": {
-          "type": "string",
-          "description": "Application name of the solution.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "partnerId": {
-          "type": "string",
-          "description": "Partner ID.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "saasSubscriptionId": {
-          "type": "string",
-          "description": "SAAS subscription ID.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "saasSubscriptionName": {
-          "type": "string",
-          "description": "SAAS subscription name.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "planId": {
-          "type": "string",
-          "description": "Plan ID.",
-          "minLength": 2,
-          "maxLength": 256,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
       }
     },
     "Versions": {
