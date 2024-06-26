@@ -13,7 +13,7 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Schema registry definition.")
 model SchemaRegistry is TrackedResource<SchemaRegistryProperties> {
   @doc("Schema registry name parameter.")
@@ -26,7 +26,7 @@ model SchemaRegistry is TrackedResource<SchemaRegistryProperties> {
   name: string;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Defines the schema registry properties.")
 model SchemaRegistryProperties {
   @doc("Globally unique, immutable, non-reusable id.")
@@ -57,7 +57,7 @@ model SchemaRegistryProperties {
   ...ManagedSystemAssignedIdentityProperty;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @parentResource(SchemaRegistry)
 @doc("Schema definition.")
 model Schema is ProxyResource<SchemaProperties> {
@@ -71,7 +71,7 @@ model Schema is ProxyResource<SchemaProperties> {
   name: string;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Defines the schema properties.")
 model SchemaProperties {
   @doc("Globally unique, immutable, non-reusable id.")
@@ -79,17 +79,16 @@ model SchemaProperties {
   uuid?: string;
 
   @doc("Human-readable display name.")
-  @visibility("read", "create")
   displayName?: string;
 
   @doc("Human-readable description of the schema.")
   description?: string;
 
-  @doc("Format of the Schema. (JSON Schema only available option at release)")
+  @doc("Format of the schema.")
   @visibility("read", "create")
   format: Format;
 
-  @doc("Type of the Schema (MessageSchema only available option at release).")
+  @doc("Type of the schema.")
   @visibility("read", "create")
   schemaType: SchemaType;
 
@@ -103,7 +102,7 @@ model SchemaProperties {
   tags?: Record<string>;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Defines the schema format.")
 union Format {
   @doc("JSON Schema version draft 7 format")
@@ -115,7 +114,7 @@ union Format {
   string,
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Defines the schema type.")
 union SchemaType {
   @doc("Message Schema schema type")
@@ -124,7 +123,7 @@ union SchemaType {
   string,
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @parentResource(Schema)
 @doc("Schema version's definition.")
 model SchemaVersion is ProxyResource<SchemaVersionProperties> {
@@ -138,7 +137,7 @@ model SchemaVersion is ProxyResource<SchemaVersionProperties> {
   name: string;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @doc("Defines the schema version properties.")
 model SchemaVersionProperties {
   @doc("Globally unique, immutable, non-reusable id.")
@@ -148,53 +147,44 @@ model SchemaVersionProperties {
   @doc("Human-readable description of the schema.")
   description?: string;
 
-  @doc("Schema Content (for example, the actual payload of a Schema Message).")
+  @doc("Schema content.")
   @visibility("read", "create")
   schemaContent: string;
 
   @doc("Hash of the schema content.")
   @visibility("read")
-  hash: string;
+  hash?: string;
 
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @armResourceOperations
 interface SchemaRegistries {
   get is ArmResourceRead<SchemaRegistry>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<SchemaRegistry>;
-
+  update is ArmResourcePatchAsync<SchemaRegistry, SchemaRegistryProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<SchemaRegistry>;
-
   listByResourceGroup is ArmResourceListByParent<SchemaRegistry>;
-
   listBySubscription is ArmListBySubscription<SchemaRegistry>;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @armResourceOperations
 interface Schemas {
   get is ArmResourceRead<Schema>;
-
   createOrReplace is ArmResourceCreateOrReplaceSync<Schema>;
-
   delete is ArmResourceDeleteSync<Schema>;
-
   listByParent is ArmResourceListByParent<Schema>;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 @armResourceOperations
 interface SchemaVersions {
   get is ArmResourceRead<SchemaVersion>;
-
   createOrReplace is ArmResourceCreateOrReplaceSync<SchemaVersion>;
-
   delete is ArmResourceDeleteSync<SchemaVersion>;
-
   listByParent is ArmResourceListByParent<SchemaVersion>;
 }

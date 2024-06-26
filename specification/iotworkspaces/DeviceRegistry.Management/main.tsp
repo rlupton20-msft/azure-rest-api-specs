@@ -8,7 +8,7 @@ import "./devices.tsp";
 import "./billings.tsp";
 import "./discoveredAssets.tsp";
 import "./discoveredAssetEndpointProfiles.tsp";
-import "./schemaRegistry.tsp";
+import "./schemaRegistries.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -23,7 +23,7 @@ using Azure.ResourceManager.Foundations;
   title: "Private.DeviceRegistry management service",
 })
 @doc("Private.DeviceRegistry Resource Provider management API.")
-@versioned(global.Private.DeviceRegistry.Versions)
+@versioned(Versions)
 namespace Private.DeviceRegistry;
 
 /** API versions */

@@ -5,7 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
-import "./common/userAuthentication.tsp";
+import "./common/authenticationMethod.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -42,21 +42,26 @@ model AssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;
 
-  @doc("Defines the endpoint profile type.")
+  @doc("Defines the configuration for the connector type that is being used with the endpoint profile.")
   @added(Versions.v2024_07_01_preview)
   endpointProfileType: string;
 
   @doc("Defines the client authentication mechanism to the server.")
-  userAuthentication?: UserAuthentication;
+  @removed(Versions.v2024_07_01_preview)
+  userAuthentication?: Authentication;
+
+  @doc("Defines the client authentication mechanism to the server.")
+  @added(Versions.v2024_07_01_preview)
+  authentication?: Authentication;
 
   @doc("Defines the authentication mechanism for the southbound connector connecting to the shop floor/OT device.")
   @removed(Versions.v2024_07_01_preview)
   transportAuthentication?: TransportAuthentication;
 
-  @doc("Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
+  @doc("Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
   additionalConfiguration?: string;
 
-  @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow.")
+  @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.")
   @visibility("read", "create")
   @added(Versions.v2024_07_01_preview)
   discoveredAssetEndpointProfileRef?: string;
@@ -72,10 +77,12 @@ model AssetEndpointProfileProperties {
 }
 
 @doc("Definition of the client authentication mechanism to the server.")
-model UserAuthentication {
-  @doc("Defines the mode to authenticate the user of the client at the server.")
+@renamedFrom(Versions.v2024_07_01_preview, "UserAuthentication")
+model Authentication {
+  @doc("Defines the method to authenticate the user of the client at the server.")
+  @renamedFrom(Versions.v2024_07_01_preview, "mode")
   // Default mode is Certificate
-  mode: UserAuthenticationMode = UserAuthenticationMode.Certificate;
+  method: AuthenticationMethod = AuthenticationMethod.Certificate;
 
   @doc("Defines the username and password references when UsernamePassword user authentication mode is selected.")
   usernamePasswordCredentials?: UsernamePasswordCredentials;
@@ -87,16 +94,31 @@ model UserAuthentication {
 @doc("The credentials for authentication mode UsernamePassword.")
 model UsernamePasswordCredentials {
   @doc("A reference to secret containing the username.")
+  @removed(Versions.v2024_07_01_preview)
   usernameReference: string;
 
+  @doc("The name of the secret containing the username.")
+  @added(Versions.v2024_07_01_preview)
+  usernameSecretName: string;
+
   @doc("A reference to secret containing the password.")
+  @removed(Versions.v2024_07_01_preview)
   passwordReference: string;
+
+  @doc("The name of the secret containing the password.")
+  @added(Versions.v2024_07_01_preview)
+  passwordSecretName: string;
 }
 
 @doc("The x509 certificate for authentication mode Certificate.")
 model X509Credentials {
   @doc("A reference to secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).")
+  @removed(Versions.v2024_07_01_preview)
   certificateReference: string;
+
+  @doc("The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).")
+  @added(Versions.v2024_07_01_preview)
+  certificateSecretName: string;
 }
 
 @doc("Definition of the authentication mechanism for the southbound connector.")
@@ -142,17 +164,12 @@ model AssetEndpointProfileStatusError {
 @armResourceOperations
 interface AssetEndpointProfiles {
   get is ArmResourceRead<AssetEndpointProfile>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<AssetEndpointProfile>;
-
   update is ArmResourcePatchAsync<
     AssetEndpointProfile,
     AssetEndpointProfileProperties
   >;
-
   delete is ArmResourceDeleteWithoutOkAsync<AssetEndpointProfile>;
-
   listByResourceGroup is ArmResourceListByParent<AssetEndpointProfile>;
-
   listBySubscription is ArmListBySubscription<AssetEndpointProfile>;
 }

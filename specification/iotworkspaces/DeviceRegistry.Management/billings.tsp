@@ -13,7 +13,7 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @doc("billingContainer Model as ARM resource")
 @subscriptionResource
 model BillingContainer is ProxyResource<BillingContainerProperties> {
@@ -33,7 +33,7 @@ model BillingContainer is ProxyResource<BillingContainerProperties> {
   etag?: string;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @doc("Defines the billingContainer properties.")
 model BillingContainerProperties {
   @doc("Provisioning state of the resource.")
@@ -41,17 +41,13 @@ model BillingContainerProperties {
   provisioningState?: ProvisioningState;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @armResourceOperations
 interface BillingContainers {
   get is ArmResourceRead<BillingContainer>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
-
   // we don't have updatable property today, when we have it uncomment the below run tsp compile .
   // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
-
   delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
-
   listByResourceGroup is ArmResourceListByParent<BillingContainer>;
 }
