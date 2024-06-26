@@ -1,15 +1,14 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace("Microsoft.AgriculturePlatform")
 @service({
@@ -21,10 +20,10 @@ namespace Microsoft.AgriculturePlatform;
 
 @doc("Supported API versions for the Microsoft.AgriculturePlatform resource provider.")
 enum Versions {
-  @doc("The 2024-05-01-preview version.")
+  @doc("The 2024-06-01-preview version.")
   @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  v2024_05_01_preview: "2024-05-01-preview",
+  v2024_06_01_preview: "2024-06-01-preview",
 }
 
 
@@ -42,35 +41,28 @@ model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
   @path
   name: string;
 
-  @doc("System data pertaining to the resource")
-  @visibility("read")
-  systemData?: AgriServiceResourceSystemData;
-  ...ManagedServiceIdentity;
-  ...TagsUpdateModel<AgriServiceResource>;
-  ...ResourceSku;
-}
-
-@doc("System metadata pertaining to the AgriService resource.")
-model AgriServiceResourceSystemData {
-	...SystemData;
+  ...ManagedServiceIdentityProperty;
+  ...ResourceSkuProperty;
 }
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning,
-
-  @doc("Update in progress")
-  Updating,
-
-  @doc("Deletion in progress")
-  Deleting,
-
-  @doc("Change accepted for processing")
-  Accepted,
+union ProvisioningState {
+  string,
+  /** Resource has been created. */
+  Succeeded:"Succeeded",
+  /** Resource creation failed. */
+  Failed:"Failed",
+  /** Resource creation was canceled. */
+  Canceled:"Canceled",
+  /** The resource is being provisioned */
+  Provisioning:"Provisioning",
+  /** The resource is updating */
+  Updating:"Updating",
+  /** The resource is being deleted */
+  Deleting:"Deleting",
+  /** The resource create request has been accepted */
+  Accepted:"Accepted"
 }
 
 @doc("Details of the Agriculture AgriDataManager.")
@@ -79,13 +71,66 @@ model AgriServiceResourceProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("AgriService resource version.")
-  @visibility("read", "create", "update")
-  version?: string;
+  @doc("Config of the AgriService instance.")
+  @visibility("read")
+  config?: AgriServiceConfig;
 
   @visibility("read")
-  @doc("Uri of the AgriService instance.")
+  @doc("Managed On Behalf Of Configuration.")
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+}
+
+@doc("Config of the AgriService instance.")
+model AgriServiceConfig { // include all resources which will be created here in MOBO, properties, endpoints etc. 
+  @doc("Instance URI of the AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
   instanceUri?: string;
+
+  @doc("Cosmos DB endpoint of the AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  cosmosDbEndpoint?: string;
+
+  @doc("Storage account endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  storageAccountEndpoint?: string;
+
+  @doc("Key vault endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  keyVaultEndpoint?: string;
+
+  @doc("Redis instance endpoint of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  redisEndpoint?: string;
+
+  @doc("Version of AgriService instance.")
+  @visibility("read")
+  @minLength(2)
+  @maxLength(256)
+  version?: string;
+}
+
+@doc("Configuration of the managed on behalf of resource.")
+model ManagedOnBehalfOfConfiguration {
+    @visibility("read")
+    @doc("Associated MoboBrokerResources.")
+    moboBrokerResources: MoboBrokerResource[];
+}
+
+@doc("MoboBroker resource.")
+model MoboBrokerResource {
+  @visibility("read")
+   @doc("Resource Id of MoboBrokerResource")
+  id: string;
 }
 
 @armResourceOperations(AgriServiceResource)

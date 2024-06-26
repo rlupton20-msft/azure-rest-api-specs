@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Microsoft.Agriculture",
-    "version": "2024-05-01-preview",
+    "title": "Microsoft.AgriculturePlatform",
+    "version": "2024-06-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -46,7 +46,7 @@
     }
   ],
   "paths": {
-    "/providers/Microsoft.Agriculture/operations": {
+    "/providers/Microsoft.AgriculturePlatform/operations": {
       "get": {
         "operationId": "Operations_List",
         "tags": [
@@ -74,10 +74,18 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Agriculture/agriService": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AgriculturePlatform/agriService": {
       "get": {
         "operationId": "AgriService_ListBySubscription",
         "tags": [
@@ -108,10 +116,15 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "AgriService_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_ListBySubscription_MaximumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Agriculture/agriService": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgriculturePlatform/agriService": {
       "get": {
         "operationId": "AgriService_ListByResourceGroup",
         "tags": [
@@ -145,10 +158,15 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "AgriService_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_ListByResourceGroup_MaximumSet_Gen.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Agriculture/agriService/{agriServiceResourceName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgriculturePlatform/agriService/{agriServiceResourceName}": {
       "get": {
         "operationId": "AgriService_Get",
         "tags": [
@@ -186,6 +204,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "AgriService_Get_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -253,7 +276,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "AgriService_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
       },
       "patch": {
         "operationId": "AgriService_Update",
@@ -320,7 +348,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "AgriService_Update_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_Update_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "AgriService_Delete",
@@ -375,14 +408,67 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "AgriService_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/AgriService_Delete_MaximumSet_Gen.json"
+          }
+        }
       }
     }
   },
   "definitions": {
+    "AgriServiceConfig": {
+      "type": "object",
+      "description": "Config of the AgriService instance.",
+      "properties": {
+        "instanceUri": {
+          "type": "string",
+          "description": "Instance URI of the AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "cosmosDbEndpoint": {
+          "type": "string",
+          "description": "Cosmos DB endpoint of the AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "storageAccountEndpoint": {
+          "type": "string",
+          "description": "Storage account endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "keyVaultEndpoint": {
+          "type": "string",
+          "description": "Key vault endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "redisEndpoint": {
+          "type": "string",
+          "description": "Redis instance endpoint of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of AgriService instance.",
+          "minLength": 2,
+          "maxLength": 256,
+          "readOnly": true
+        }
+      }
+    },
     "AgriServiceResource": {
       "type": "object",
-      "description": "A AgricultureProviderHub resource",
+      "description": "A AgriculturePlatform resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/AgriServiceResourceProperties",
@@ -393,21 +479,9 @@
             "create"
           ]
         },
-        "systemData": {
-          "$ref": "#/definitions/AgriServiceResourceSystemData",
-          "description": "System data pertaining to the resource",
-          "readOnly": true
-        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
         },
         "sku": {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
@@ -450,56 +524,14 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "version": {
-          "type": "string",
-          "description": "AgriService resource version.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "instanceUri": {
-          "type": "string",
-          "description": "Uri of the AgriService instance.",
-          "readOnly": true
-        }
-      }
-    },
-    "AgriServiceResourceSystemData": {
-      "type": "object",
-      "description": "System metadata pertaining to the Agri data manager resource.",
-      "properties": {
-        "createdBy": {
-          "type": "string",
-          "description": "The identity that created the resource.",
+        "config": {
+          "$ref": "#/definitions/AgriServiceConfig",
+          "description": "Config of the AgriService instance.",
           "readOnly": true
         },
-        "createdByType": {
-          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
-          "description": "The type of identity that created the resource.",
-          "readOnly": true
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date",
-          "description": "The type of identity that created the resource.",
-          "readOnly": true
-        },
-        "lastModifiedBy": {
-          "type": "string",
-          "description": "The identity that last modified the resource.",
-          "readOnly": true
-        },
-        "lastModifiedByType": {
-          "$ref": "#/definitions/Azure.ResourceManager.Foundations.createdByType",
-          "description": "The type of identity that last modified the resource.",
-          "readOnly": true
-        },
-        "lastModifiedAt": {
-          "type": "string",
-          "format": "date",
-          "description": "The timestamp of resource last modification (UTC)",
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed On Behalf Of Configuration.",
           "readOnly": true
         }
       }
@@ -512,73 +544,48 @@
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
+        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
           }
-        },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
-        },
-        "properties": {
-          "$ref": "#/definitions/AgriServiceResourceUpdateProperties",
-          "x-ms-client-flatten": true
         }
       }
     },
-    "AgriServiceResourceUpdateProperties": {
+    "ManagedOnBehalfOfConfiguration": {
       "type": "object",
-      "description": "The updatable properties of the AgriServiceResource.",
+      "description": "Configuration of the managed on behalf of resource.",
       "properties": {
-        "version": {
-          "type": "string",
-          "description": "AgriService resource version.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+        "moboBrokerResources": {
+          "type": "array",
+          "description": "Associated MoboBrokerResources.",
+          "items": {
+            "$ref": "#/definitions/MoboBrokerResource"
+          },
+          "readOnly": true
         }
-      }
+      },
+      "required": [
+        "moboBrokerResources"
+      ]
     },
-    "Azure.ResourceManager.Foundations.createdByType": {
-      "type": "string",
-      "description": "The kind of entity that created the resource.",
-      "enum": [
-        "User",
-        "Application",
-        "ManagedIdentity",
-        "Key"
-      ],
-      "x-ms-enum": {
-        "name": "createdByType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "User",
-            "value": "User",
-            "description": "The entity was created by a user."
-          },
-          {
-            "name": "Application",
-            "value": "Application",
-            "description": "The entity was created by an application."
-          },
-          {
-            "name": "ManagedIdentity",
-            "value": "ManagedIdentity",
-            "description": "The entity was created by a managed identity."
-          },
-          {
-            "name": "Key",
-            "value": "Key",
-            "description": "The entity was created by a key."
-          }
-        ]
-      }
+    "MoboBrokerResource": {
+      "type": "object",
+      "description": "MoboBroker resource.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -636,18 +643,18 @@
     },
     "Versions": {
       "type": "string",
-      "description": "Supported API versions for the Microsoft.Agriculture resource provider.",
+      "description": "Supported API versions for the Microsoft.AgriculturePlatform resource provider.",
       "enum": [
-        "2024-05-01-preview"
+        "2024-06-01-preview"
       ],
       "x-ms-enum": {
         "name": "Versions",
         "modelAsString": true,
         "values": [
           {
-            "name": "v2024_05_01_preview",
-            "value": "2024-05-01-preview",
-            "description": "The 2024-05-01-preview version."
+            "name": "v2024_06_01_preview",
+            "value": "2024-06-01-preview",
+            "description": "The 2024-06-01-preview version."
           }
         ]
       }
