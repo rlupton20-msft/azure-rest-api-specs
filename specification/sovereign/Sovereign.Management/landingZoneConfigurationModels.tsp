@@ -98,12 +98,3 @@ model LandingZoneConfigurationProperties {
   @OpenAPI.extension("x-ms-identifiers", [])
   tags?: Tags[];
 }
-
-@doc("The details associated with tags.")
-model Tags {
-  @doc("A tag name.")
-  name: string;
-
-  @doc("A tag value.")
-  value: string;
-}

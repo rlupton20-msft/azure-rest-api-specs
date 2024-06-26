@@ -2,12 +2,13 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./landingZoneConfigurationModels.tsp";
 import "./landingZoneRegistrationModels.tsp";
 import "./transparencyLogModels.tsp";
 import "./common.tsp";
-import "./landingZoneAccountModels.tsp";
+import "./landingZoneAccountResourceProperties.tsp";
 import "./landingZoneConfigurationResourceProperties.tsp";
 import "./landingZoneRegistrationResourceProperties.tsp";
 
@@ -17,8 +18,6 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.Core;
 using OpenAPI;
-using Autorest;
-using Azure.ResourceManager.Foundations;
 
 @service({
   title: "Cloud for Sovereignty Resource Provider.",
@@ -108,9 +107,11 @@ interface LandingZoneRegistrations
       LandingZoneRegistrationProperties
     > {}
 
-@doc("The Landing Zone Account parent resource type.")
+@doc("The Landing zone account parent resource type.")
 @added(Versions.Preview20241031)
-model LandingZoneAccount is TrackedResource<LandingZoneAccountProperties> {
+@resource("landingZoneAccounts")
+model LandingZoneAccountResource
+  is TrackedResource<LandingZoneAccountResourceProperties> {
   @doc("The parent landing zone account")
   @segment("landingZoneAccounts")
   @key("landingZoneAccountName")
@@ -119,18 +120,18 @@ model LandingZoneAccount is TrackedResource<LandingZoneAccountProperties> {
   @path
   name: string;
 
-  ...ManagedServiceIdentity;
+  ...ManagedServiceIdentityProperty;
 }
 
-@armResourceOperations(LandingZoneAccount)
+@armResourceOperations(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 interface LandingZoneAccounts
   extends TrackedResourceOperations<
-      LandingZoneAccount,
-      LandingZoneAccountProperties
+      LandingZoneAccountResource,
+      LandingZoneAccountResourceProperties
     > {}
 
-@parentResource(LandingZoneAccount)
+@parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 @resource("landingZoneConfigurations")
 model LandingZoneConfigurationResource
@@ -195,7 +196,7 @@ interface LandingZoneConfigurationOperations {
 }
 
 // Landing zone registration resource type
-@parentResource(LandingZoneAccount)
+@parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 @resource("landingZoneRegistrations")
 @doc("The Landing Zone registration resource type")

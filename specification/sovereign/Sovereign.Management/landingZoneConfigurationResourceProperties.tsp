@@ -93,6 +93,19 @@ model LandingZoneConfigurationResourceProperties {
 
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
+
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+}
+
+@doc("The details associated with tags.")
+model Tags {
+  @doc("A tag name.")
+  name: string;
+
+  @doc("A tag value.")
+  value: string;
 }
 
 @doc("Landing zone management group properties.")
