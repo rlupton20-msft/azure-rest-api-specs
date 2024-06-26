@@ -62,7 +62,7 @@ model SubnetConfiguration {
   id?: string;
 
   @doc("Subnet mask.")
-  subnetMask: string;
+  subnetMask: int32;
 
   @doc("Subnet delegation.")
   subnetDelegation?: string;
@@ -80,7 +80,7 @@ model SubnetConfiguration {
 model EnclaveVirtualNetwork {
   @doc("Network Name.")
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  name: string;
+  name?: string;
 
   @doc("Network Size.")
   networkSize: string;
