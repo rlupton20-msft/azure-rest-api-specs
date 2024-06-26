@@ -2,6 +2,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-portal-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 @doc("Azure Throttling Service (ATS)")
@@ -28,6 +29,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Autorest;
 using Azure.Core;
+using Azure.Portal;
 using Azure.ResourceManager;
 using OpenAPI;
 
@@ -56,6 +58,40 @@ union ProvisioningState {
 }
 
 @doc("Throttling account")
+@marketplaceOffer({
+  id: "throttling.account",
+})
+@browse({
+  argQuery: {
+    filePath: "./arg/account.kql",
+  },
+})
+@about({
+  icon: {
+    filePath: "./icon.svg",
+  },
+  displayNames: {
+    singular: "Throttling account",
+    plural: "Throttling accounts",
+  },
+  learnMoreDocs: [
+    {
+      title: "Learn Azure Throttling Service",
+      uri: "https://aka.ms/ats",
+    }
+  ],
+  keywords: [
+    "Azure Throttling Service",
+    "Azure Throttling Solutions",
+    "ATS",
+    "throttling",
+    "throttling account"
+  ],
+})
+@promotion({
+  apiVersion: Versions.v2024_01_01_preview,
+  autoUpdate: true,
+})
 model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
   @key("accountName")
@@ -125,6 +161,40 @@ model AzureActiveDirectoryProperties {
 
 @doc("Throttling category")
 @parentResource(Account)
+@marketplaceOffer({
+  id: "throttling.account.category",
+})
+@browse({
+  argQuery: {
+    filePath: "./arg/category.kql",
+  },
+})
+@about({
+  icon: {
+    filePath: "./icon.svg",
+  },
+  displayNames: {
+    singular: "Throttling category",
+    plural: "Throttling categories",
+  },
+  learnMoreDocs: [
+    {
+      title: "Learn Azure Throttling Service",
+      uri: "https://aka.ms/ats",
+    }
+  ],
+  keywords: [
+    "Azure Throttling Service",
+    "Azure Throttling Solutions",
+    "ATS",
+    "throttling",
+    "category"
+  ],
+})
+@promotion({
+  apiVersion: Versions.v2024_01_01_preview,
+  autoUpdate: true,
+})
 model Category is TrackedResource<CategoryProperties> {
   @doc("Category name")
   @key("categoryName")
