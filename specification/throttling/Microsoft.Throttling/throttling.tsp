@@ -88,10 +88,6 @@ union ProvisioningState {
     "throttling account"
   ],
 })
-@promotion({
-  apiVersion: Versions.v2024_01_01_preview,
-  autoUpdate: true,
-})
 model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
   @key("accountName")
@@ -190,10 +186,6 @@ model AzureActiveDirectoryProperties {
     "throttling",
     "category"
   ],
-})
-@promotion({
-  apiVersion: Versions.v2024_01_01_preview,
-  autoUpdate: true,
 })
 model Category is TrackedResource<CategoryProperties> {
   @doc("Category name")
