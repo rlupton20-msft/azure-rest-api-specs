@@ -45,7 +45,7 @@
         "tags": [
           "Jobs"
         ],
-        "description": "List Job resources by EdgeDevice",
+        "description": "List EdgeDeviceJob resources by EdgeDevice",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -67,7 +67,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/JobListResult"
+              "$ref": "#/definitions/EdgeDeviceJobListResult"
             }
           },
           "default": {
@@ -88,7 +88,7 @@
         "tags": [
           "Jobs"
         ],
-        "description": "Get a Job",
+        "description": "Get a EdgeDeviceJob",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -108,7 +108,7 @@
           {
             "name": "jobsName",
             "in": "path",
-            "description": "Name of Job",
+            "description": "Name of EdgeDevice Job",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -118,7 +118,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/Job"
+              "$ref": "#/definitions/EdgeDeviceJob"
             }
           },
           "default": {
@@ -134,7 +134,7 @@
         "tags": [
           "Jobs"
         ],
-        "description": "Create a Job",
+        "description": "Create a EdgeDeviceJob",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -154,7 +154,7 @@
           {
             "name": "jobsName",
             "in": "path",
-            "description": "Name of Job",
+            "description": "Name of EdgeDevice Job",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -165,23 +165,27 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Job"
+              "$ref": "#/definitions/EdgeDeviceJob"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'Job' update operation succeeded",
+            "description": "Resource 'EdgeDeviceJob' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/Job"
+              "$ref": "#/definitions/EdgeDeviceJob"
             }
           },
           "201": {
-            "description": "Resource 'Job' create operation succeeded",
+            "description": "Resource 'EdgeDeviceJob' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/Job"
+              "$ref": "#/definitions/EdgeDeviceJob"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -206,7 +210,7 @@
         "tags": [
           "Jobs"
         ],
-        "description": "Delete a Job",
+        "description": "Delete a EdgeDeviceJob",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -226,7 +230,7 @@
           {
             "name": "jobsName",
             "in": "path",
-            "description": "Name of Job",
+            "description": "Name of EdgeDevice Job",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
@@ -376,7 +380,7 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/Job"
+          "$ref": "#/definitions/EdgeDeviceJob"
         }
       ],
       "x-ms-discriminator-value": "AzureLinux"
@@ -443,11 +447,11 @@
     "AzureLinuxRemoteSupportJobProperties": {
       "type": "object",
       "properties": {
-        "accesslevel": {
+        "accessLevel": {
           "$ref": "#/definitions/RemoteSupportAccessLevel",
           "description": "Remote support access level."
         },
-        "expirationTimeStamp": {
+        "expirationTimestamp": {
           "type": "string",
           "format": "date-time",
           "description": "Remote support expiration timestamp."
@@ -457,7 +461,7 @@
           "description": "Remote support type."
         },
         "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
+          "$ref": "#/definitions/RemoteSupportReportedProperties",
           "description": "log collection job reported properties."
         },
         "deploymentMode": {
@@ -526,8 +530,8 @@
         }
       },
       "required": [
-        "accesslevel",
-        "expirationTimeStamp",
+        "accessLevel",
+        "expirationTimestamp",
         "type"
       ],
       "allOf": [
@@ -889,11 +893,11 @@
     "HciRemoteSupportJobProperties": {
       "type": "object",
       "properties": {
-        "accesslevel": {
+        "accessLevel": {
           "$ref": "#/definitions/RemoteSupportAccessLevel",
           "description": "Remote support access level."
         },
-        "expirationTimeStamp": {
+        "expirationTimestamp": {
           "type": "string",
           "format": "date-time",
           "description": "Remote support expiration timestamp."
@@ -903,7 +907,7 @@
           "description": "Remote support type."
         },
         "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
+          "$ref": "#/definitions/RemoteSupportReportedProperties",
           "description": "log collection job reported properties."
         },
         "deploymentMode": {
@@ -972,8 +976,8 @@
         }
       },
       "required": [
-        "accesslevel",
-        "expirationTimeStamp",
+        "accessLevel",
+        "expirationTimestamp",
         "type"
       ],
       "allOf": [
@@ -983,7 +987,7 @@
       ],
       "x-ms-discriminator-value": "RemoteSupport"
     },
-    "Job": {
+    "EdgeDeviceJob": {
       "type": "object",
       "description": "Jobs resource",
       "properties": {
@@ -1006,15 +1010,15 @@
         }
       ]
     },
-    "JobListResult": {
+    "EdgeDeviceJobListResult": {
       "type": "object",
-      "description": "The response of a Job list operation.",
+      "description": "The response of a EdgeDeviceJob list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The Job items on this page",
+          "description": "The EdgeDeviceJob items on this page",
           "items": {
-            "$ref": "#/definitions/Job"
+            "$ref": "#/definitions/EdgeDeviceJob"
           }
         },
         "nextLink": {
@@ -1254,11 +1258,11 @@
     "RemoteSupportJobProperties": {
       "type": "object",
       "properties": {
-        "accesslevel": {
+        "accessLevel": {
           "$ref": "#/definitions/RemoteSupportAccessLevel",
           "description": "Remote support access level."
         },
-        "expirationTimeStamp": {
+        "expirationTimestamp": {
           "type": "string",
           "format": "date-time",
           "description": "Remote support expiration timestamp."
@@ -1268,13 +1272,13 @@
           "description": "Remote support type."
         },
         "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
+          "$ref": "#/definitions/RemoteSupportReportedProperties",
           "description": "log collection job reported properties."
         }
       },
       "required": [
-        "accesslevel",
-        "expirationTimeStamp",
+        "accessLevel",
+        "expirationTimestamp",
         "type"
       ],
       "allOf": [
@@ -1333,7 +1337,7 @@
         "nodeSettings": {
           "$ref": "#/definitions/RemoteSupportNodeSettings"
         },
-        "SessionDetails": {
+        "sessionDetails": {
           "$ref": "#/definitions/RemoteSupportSession"
         }
       }
@@ -1349,14 +1353,14 @@
           "type": "string",
           "format": "date-time"
         },
-        "NodeName": {
+        "nodeName": {
           "type": "string"
         },
-        "Duration": {
+        "duration": {
           "type": "integer",
           "format": "int32"
         },
-        "AccessLevel": {
+        "accessLevel": {
           "$ref": "#/definitions/RemoteSupportAccessLevel"
         }
       }

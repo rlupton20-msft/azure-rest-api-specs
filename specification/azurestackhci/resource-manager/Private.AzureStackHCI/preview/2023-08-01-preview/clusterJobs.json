@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Edge device Jobs",
+    "title": "Cluster Jobs",
     "version": "2023-08-01-preview",
-    "description": "Edge device Jobs"
+    "description": "Azure Stack HCI cluster Jobs"
   },
   "schemes": [
     "https"
@@ -41,11 +41,11 @@
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/jobs": {
       "get": {
-        "operationId": "Jobs_ListByCluster",
+        "operationId": "Jobs_ListByClusters",
         "tags": [
           "Jobs"
         ],
-        "description": "List Job resources by Cluster",
+        "description": "List Job resources by Clusters",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -269,27 +269,58 @@
     }
   },
   "definitions": {
-    "AzureLinuxCollectLogJobProperties": {
+    "AddServerJobProperties": {
       "type": "object",
       "properties": {
-        "fromDate": {
+        "serverName": {
           "type": "string",
-          "format": "date-time",
-          "description": "From date for log collection."
+          "description": "Name of server to be added to cluster."
         },
-        "toDate": {
+        "hostIpv4Address": {
           "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
+          "description": "Ip address of server to be added to cluster."
         },
-        "lastLogGenerated": {
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
+        }
+      },
+      "required": [
+        "serverName",
+        "hostIpv4Address"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClusterJobProperties"
+        }
+      ]
+    },
+    "AzureLinuxAddServerJobProperties": {
+      "type": "object",
+      "properties": {
+        "serverName": {
           "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
+          "description": "Name of server to be added to cluster."
         },
-        "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
-          "description": "log collection job reported properties."
+        "hostIpv4Address": {
+          "type": "string",
+          "description": "Ip address of server to be added to cluster."
+        },
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
         },
         "deploymentMode": {
           "type": "string",
@@ -306,12 +337,12 @@
               {
                 "name": "Validate",
                 "value": "Validate",
-                "description": "Validate edge device job."
+                "description": "Validate ECE action deployment for a cluster."
               },
               {
                 "name": "Deploy",
                 "value": "Deploy",
-                "description": "Deploy edge device job."
+                "description": "Deploy ECE action deployment for a cluster."
               }
             ]
           }
@@ -352,45 +383,37 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
           "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        },
+        "sshUser": {
+          "type": "string",
+          "description": "ssh user name."
         }
       },
       "required": [
-        "fromDate",
-        "toDate"
+        "serverName",
+        "hostIpv4Address",
+        "sshUser"
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/AzureLinuxEdgeDeviceJobProperties"
+          "$ref": "#/definitions/AzureLinuxClusterJobProperties"
         }
       ],
-      "x-ms-discriminator-value": "CollectLog"
+      "x-ms-discriminator-value": "AddServer"
     },
-    "AzureLinuxEdgeDeviceJob": {
+    "AzureLinuxClusterJobProperties": {
       "type": "object",
-      "description": "Edgedevice job for Azure Linux solution.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/AzureLinuxEdgeDeviceJobProperties"
-        }
-      },
-      "required": [
-        "properties"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/Job"
-        }
-      ],
-      "x-ms-discriminator-value": "AzureLinux"
-    },
-    "AzureLinuxEdgeDeviceJobProperties": {
-      "type": "object",
-      "description": "Edgedevice job properties",
+      "description": "Cluster Job properties",
       "properties": {
         "jobType": {
-          "$ref": "#/definitions/AzureLinuxEdgeDeviceJobType",
+          "$ref": "#/definitions/AzureLinuxJobType",
           "description": "Job Type to support polymorphic resource.",
           "x-ms-mutability": [
             "create",
@@ -404,37 +427,49 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/JobProperties"
+          "$ref": "#/definitions/ClusterJobProperties"
         }
       ]
     },
-    "AzureLinuxEdgeDeviceJobType": {
+    "AzureLinuxJob": {
+      "type": "object",
+      "description": "Cluster job for Azure Linux solution.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureLinuxClusterJobProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Job"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
+    },
+    "AzureLinuxJobType": {
       "type": "string",
       "description": "Job Type supported.",
       "enum": [
-        "CollectLog",
-        "RemoteSupport",
-        "RemoteConnect",
+        "AddServer",
+        "RepairServer",
         "EnableSsh"
       ],
       "x-ms-enum": {
-        "name": "AzureLinuxEdgeDeviceJobType",
+        "name": "AzureLinuxJobType",
         "modelAsString": true,
         "values": [
           {
-            "name": "CollectLog",
-            "value": "CollectLog",
-            "description": "CollectLog"
+            "name": "AddServer",
+            "value": "AddServer",
+            "description": "AddServer"
           },
           {
-            "name": "RemoteSupport",
-            "value": "RemoteSupport",
-            "description": "RemoteSupport"
-          },
-          {
-            "name": "RemoteConnect",
-            "value": "RemoteConnect",
-            "description": "RemoteConnect"
+            "name": "RepairServer",
+            "value": "RepairServer",
+            "description": "RepairServer"
           },
           {
             "name": "EnableSsh",
@@ -444,25 +479,22 @@
         ]
       }
     },
-    "AzureLinuxRemoteSupportJobProperties": {
+    "AzureLinuxRepairServerJobProperties": {
       "type": "object",
       "properties": {
-        "accessLevel": {
-          "$ref": "#/definitions/RemoteSupportAccessLevel",
-          "description": "Remote support access level."
-        },
-        "expirationTimestamp": {
+        "serverName": {
           "type": "string",
-          "format": "date-time",
-          "description": "Remote support expiration timestamp."
+          "description": "Name of server to be repaired in cluster."
         },
-        "type": {
-          "$ref": "#/definitions/RemoteSupportType",
-          "description": "Remote support type."
-        },
-        "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
-          "description": "log collection job reported properties."
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
         },
         "deploymentMode": {
           "type": "string",
@@ -479,12 +511,12 @@
               {
                 "name": "Validate",
                 "value": "Validate",
-                "description": "Validate edge device job."
+                "description": "Validate ECE action deployment for a cluster."
               },
               {
                 "name": "Deploy",
                 "value": "Deploy",
-                "description": "Deploy edge device job."
+                "description": "Deploy ECE action deployment for a cluster."
               }
             ]
           }
@@ -525,58 +557,158 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        },
+        "sshUser": {
+          "type": "string",
+          "description": "ssh user name."
+        }
+      },
+      "required": [
+        "serverName",
+        "sshUser"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureLinuxClusterJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "RepairServer"
+    },
+    "AzureStackHciJob": {
+      "type": "object",
+      "description": "Cluster job for Azure Stack HCI solution.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/HciClusterJobProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Job"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureStackHCI"
+    },
+    "ClusterJobProperties": {
+      "type": "object",
+      "description": "Cluster Job properties",
+      "properties": {
+        "deploymentMode": {
+          "type": "string",
+          "description": "Deployment mode to trigger job.",
+          "default": "Deploy",
+          "enum": [
+            "Validate",
+            "Deploy"
+          ],
+          "x-ms-enum": {
+            "name": "DeploymentMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Validate",
+                "value": "Validate",
+                "description": "Validate ECE action deployment for a cluster."
+              },
+              {
+                "name": "Deploy",
+                "value": "Deploy",
+                "description": "Deploy ECE action deployment for a cluster."
+              }
+            ]
+          }
+        },
+        "arcNodeResourceIds": {
+          "type": "array",
+          "description": "List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Job provisioning state",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Unique, immutable job id.",
+          "readOnly": true
+        },
+        "startTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job started.",
+          "readOnly": true
+        },
+        "endTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job completed.",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        }
+      }
+    },
+    "ClusterProperties": {
+      "type": "object",
+      "description": "A ClusterProperties"
+    },
+    "Clusters": {
+      "type": "object",
+      "description": "A Cluster",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ClusterProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of Cluster",
           "readOnly": true
         }
       },
       "required": [
-        "accessLevel",
-        "expirationTimestamp",
-        "type"
+        "name"
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/AzureLinuxEdgeDeviceJobProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "RemoteSupport"
-    },
-    "CollectLogJobProperties": {
-      "type": "object",
-      "properties": {
-        "fromDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "From date for log collection."
-        },
-        "toDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
-        },
-        "lastLogGenerated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
-        },
-        "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
-          "description": "log collection job reported properties."
-        }
-      },
-      "required": [
-        "fromDate",
-        "toDate"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/JobProperties"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
     },
     "DeploymentMode": {
       "type": "string",
-      "description": "The deployment mode of edge device job.",
+      "description": "The deployment mode of ECE action for a cluster.",
       "enum": [
         "Validate",
         "Deploy"
@@ -588,54 +720,12 @@
           {
             "name": "Validate",
             "value": "Validate",
-            "description": "Validate edge device job."
+            "description": "Validate ECE action deployment for a cluster."
           },
           {
             "name": "Deploy",
             "value": "Deploy",
-            "description": "Deploy edge device job."
-          }
-        ]
-      }
-    },
-    "DeviceType": {
-      "type": "string",
-      "description": "Edge device type based on host OS installed.",
-      "enum": [
-        "HCI",
-        "WindowsServer",
-        "WindowsIoT",
-        "AzureLinux",
-        "UbuntuLinux"
-      ],
-      "x-ms-enum": {
-        "name": "DeviceType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Arc-enabled edge device with HCI OS."
-          },
-          {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Arc-enabled edge device with WindowsServer OS."
-          },
-          {
-            "name": "WindowsIoT",
-            "value": "WindowsIoT",
-            "description": "Arc-enabled edge device with WindowsIoT OS."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Arc-enabled edge device with AzureLinux OS."
-          },
-          {
-            "name": "UbuntuLinux",
-            "value": "UbuntuLinux",
-            "description": "Arc-enabled edge device with UbuntuLinux OS."
+            "description": "Deploy ECE action deployment for a cluster."
           }
         ]
       }
@@ -651,7 +741,7 @@
         },
         "steps": {
           "type": "array",
-          "description": "List of steps of Edgedevice job.",
+          "description": "List of steps of cluster job.",
           "items": {
             "$ref": "#/definitions/Step"
           },
@@ -660,57 +750,130 @@
         }
       }
     },
-    "EdgeDeviceJobType": {
+    "EceDeploymentSecrets": {
+      "type": "object",
+      "description": "Protected parameters list stored in keyvault.",
+      "properties": {
+        "secretName": {
+          "type": "string",
+          "description": "Secret name stored in keyvault."
+        },
+        "eceSecretName": {
+          "$ref": "#/definitions/EceSecrets",
+          "description": "Secret name expected for job execution."
+        },
+        "secretLocation": {
+          "type": "string",
+          "format": "uri",
+          "description": "Secret URI stored in keyvault."
+        }
+      }
+    },
+    "EceSecrets": {
       "type": "string",
-      "description": "Common Job Types supported.",
+      "description": "Secret names allowed for Enterprise Cloud Engine (ECE) deployment.",
       "enum": [
-        "CollectLog",
-        "RemoteSupport",
-        "RemoteConnect"
+        "AzureStackLCMUserCredential",
+        "DefaultARBApplication",
+        "LocalAdminCredential",
+        "WitnessStorageKey"
       ],
       "x-ms-enum": {
-        "name": "EdgeDeviceJobType",
+        "name": "EceSecrets",
         "modelAsString": true,
         "values": [
           {
-            "name": "CollectLog",
-            "value": "CollectLog",
-            "description": "CollectLog"
+            "name": "AzureStackLCMUserCredential",
+            "value": "AzureStackLCMUserCredential",
+            "description": "AzureStackLCMUserCredential used for LCM operations for AzureStackHCI cluster."
           },
           {
-            "name": "RemoteSupport",
-            "value": "RemoteSupport",
-            "description": "RemoteSupport"
+            "name": "DefaultARBApplication",
+            "value": "DefaultARBApplication",
+            "description": "DefaultARBApplication used to manage Azure Arc resource bridge (ARB) for AzureStackHCI cluster."
           },
           {
-            "name": "RemoteConnect",
-            "value": "RemoteConnect",
-            "description": "RemoteConnect"
+            "name": "LocalAdminCredential",
+            "value": "LocalAdminCredential",
+            "description": "LocalAdminCredential used for admin operations for AzureStackHCI cluster."
+          },
+          {
+            "name": "WitnessStorageKey",
+            "value": "WitnessStorageKey",
+            "description": "WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster."
           }
         ]
       }
     },
-    "HciCollectLogJobProperties": {
+    "EdgeSolutionType": {
+      "type": "string",
+      "description": "Edge solution type.",
+      "enum": [
+        "AzureStackHCI",
+        "AzureLinux"
+      ],
+      "x-ms-enum": {
+        "name": "EdgeSolutionType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureStackHCI",
+            "value": "AzureStackHCI",
+            "description": "Edge solution for Azure stack HCI edge devices."
+          },
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "Edge solution for Azure linux edge devices."
+          }
+        ]
+      }
+    },
+    "HciAddNetworkIntentJobProperties": {
       "type": "object",
       "properties": {
-        "fromDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "From date for log collection."
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
         },
-        "toDate": {
+        "hostNetwork": {
+          "$ref": "#/definitions/HostNetwork",
+          "description": "HostNetwork properties to set network intent."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciClusterJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "AddNetworkIntent"
+    },
+    "HciAddServerJobProperties": {
+      "type": "object",
+      "properties": {
+        "serverName": {
           "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
+          "description": "Name of server to be added to cluster."
         },
-        "lastLogGenerated": {
+        "hostIpv4Address": {
           "type": "string",
-          "format": "date-time",
-          "description": "To date for log collection."
+          "description": "Ip address of server to be added to cluster."
         },
-        "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
-          "description": "log collection job reported properties."
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
         },
         "deploymentMode": {
           "type": "string",
@@ -727,12 +890,12 @@
               {
                 "name": "Validate",
                 "value": "Validate",
-                "description": "Validate edge device job."
+                "description": "Validate ECE action deployment for a cluster."
               },
               {
                 "name": "Deploy",
                 "value": "Deploy",
-                "description": "Deploy edge device job."
+                "description": "Deploy ECE action deployment for a cluster."
               }
             ]
           }
@@ -773,45 +936,32 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
           "readOnly": true
         }
       },
       "required": [
-        "fromDate",
-        "toDate"
+        "serverName",
+        "hostIpv4Address"
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/HciEdgeDeviceJobProperties"
+          "$ref": "#/definitions/HciClusterJobProperties"
         }
       ],
-      "x-ms-discriminator-value": "CollectLog"
+      "x-ms-discriminator-value": "AddServer"
     },
-    "HciEdgeDeviceJob": {
+    "HciClusterJobProperties": {
       "type": "object",
-      "description": "Edgedevice job for Azure Stack HCI solution.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/HciEdgeDeviceJobProperties"
-        }
-      },
-      "required": [
-        "properties"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/Job"
-        }
-      ],
-      "x-ms-discriminator-value": "HCI"
-    },
-    "HciEdgeDeviceJobProperties": {
-      "type": "object",
-      "description": "HCI Edgedevice job properties",
+      "description": "HCI Cluster Job properties",
       "properties": {
         "jobType": {
-          "$ref": "#/definitions/HciEdgeDeviceJobType",
+          "$ref": "#/definitions/HciJobType",
           "description": "Job Type to support polymorphic resource.",
           "x-ms-mutability": [
             "create",
@@ -825,90 +975,64 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/JobProperties"
+          "$ref": "#/definitions/ClusterJobProperties"
         }
       ]
     },
-    "HciEdgeDeviceJobType": {
+    "HciJobType": {
       "type": "string",
       "description": "Job Type supported.",
       "enum": [
-        "CollectLog",
-        "RemoteSupport",
-        "RemoteConnect",
-        "RenameHostname"
+        "AddServer",
+        "RepairServer",
+        "ResumeServer",
+        "PauseServer",
+        "AddNetworkIntent",
+        "SetInformation"
       ],
       "x-ms-enum": {
-        "name": "HciEdgeDeviceJobType",
+        "name": "HciJobType",
         "modelAsString": true,
         "values": [
           {
-            "name": "CollectLog",
-            "value": "CollectLog",
-            "description": "CollectLog"
+            "name": "AddServer",
+            "value": "AddServer",
+            "description": "AddServer"
           },
           {
-            "name": "RemoteSupport",
-            "value": "RemoteSupport",
-            "description": "RemoteSupport"
+            "name": "RepairServer",
+            "value": "RepairServer",
+            "description": "RepairServer"
           },
           {
-            "name": "RemoteConnect",
-            "value": "RemoteConnect",
-            "description": "RemoteConnect"
+            "name": "ResumeServer",
+            "value": "ResumeServer",
+            "description": "ResumeServer"
           },
           {
-            "name": "RenameHostname",
-            "value": "RenameHostname",
-            "description": "RenameHostname"
+            "name": "PauseServer",
+            "value": "PauseServer",
+            "description": "PauseServer"
+          },
+          {
+            "name": "AddNetworkIntent",
+            "value": "AddNetworkIntent",
+            "description": "AddNetworkIntent"
+          },
+          {
+            "name": "SetInformation",
+            "value": "SetInformation",
+            "description": "SetInformation"
           }
         ]
       }
     },
-    "HciRemoteConnectJobProperties": {
+    "HciPauseServerJobProperties": {
       "type": "object",
       "properties": {
-        "userName": {
+        "serverName": {
           "type": "string",
-          "description": "user name."
-        },
-        "password": {
-          "type": "string",
-          "format": "password",
-          "description": "password.",
-          "x-ms-secret": true
-        }
-      },
-      "required": [
-        "userName",
-        "password"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/HciEdgeDeviceJobProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "RemoteConnect"
-    },
-    "HciRemoteSupportJobProperties": {
-      "type": "object",
-      "properties": {
-        "accessLevel": {
-          "$ref": "#/definitions/RemoteSupportAccessLevel",
-          "description": "Remote support access level."
-        },
-        "expirationTimestamp": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Remote support expiration timestamp."
-        },
-        "type": {
-          "$ref": "#/definitions/RemoteSupportType",
-          "description": "Remote support type."
-        },
-        "reportedProperties": {
-          "$ref": "#/definitions/RemoteSupportReportedProperties",
-          "description": "log collection job reported properties."
+          "description": "Trigger pause job for given server name in cluster."
         },
         "deploymentMode": {
           "type": "string",
@@ -925,12 +1049,12 @@
               {
                 "name": "Validate",
                 "value": "Validate",
-                "description": "Validate edge device job."
+                "description": "Validate ECE action deployment for a cluster."
               },
               {
                 "name": "Deploy",
                 "value": "Deploy",
-                "description": "Deploy edge device job."
+                "description": "Deploy ECE action deployment for a cluster."
               }
             ]
           }
@@ -971,28 +1095,269 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
           "readOnly": true
         }
       },
       "required": [
-        "accessLevel",
-        "expirationTimestamp",
-        "type"
+        "serverName"
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/HciEdgeDeviceJobProperties"
+          "$ref": "#/definitions/HciClusterJobProperties"
         }
       ],
-      "x-ms-discriminator-value": "RemoteSupport"
+      "x-ms-discriminator-value": "PauseServer"
+    },
+    "HciRepairServerJobProperties": {
+      "type": "object",
+      "properties": {
+        "serverName": {
+          "type": "string",
+          "description": "Name of server to be repaired in cluster."
+        },
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
+        },
+        "deploymentMode": {
+          "type": "string",
+          "description": "Deployment mode to trigger job.",
+          "default": "Deploy",
+          "enum": [
+            "Validate",
+            "Deploy"
+          ],
+          "x-ms-enum": {
+            "name": "DeploymentMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Validate",
+                "value": "Validate",
+                "description": "Validate ECE action deployment for a cluster."
+              },
+              {
+                "name": "Deploy",
+                "value": "Deploy",
+                "description": "Deploy ECE action deployment for a cluster."
+              }
+            ]
+          }
+        },
+        "arcNodeResourceIds": {
+          "type": "array",
+          "description": "List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Job provisioning state",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Unique, immutable job id.",
+          "readOnly": true
+        },
+        "startTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job started.",
+          "readOnly": true
+        },
+        "endTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job completed.",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "serverName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciClusterJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "RepairServer"
+    },
+    "HciResumeServerJobProperties": {
+      "type": "object",
+      "properties": {
+        "serverName": {
+          "type": "string",
+          "description": "Trigger resume job for given server name in cluster."
+        },
+        "deploymentMode": {
+          "type": "string",
+          "description": "Deployment mode to trigger job.",
+          "default": "Deploy",
+          "enum": [
+            "Validate",
+            "Deploy"
+          ],
+          "x-ms-enum": {
+            "name": "DeploymentMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Validate",
+                "value": "Validate",
+                "description": "Validate ECE action deployment for a cluster."
+              },
+              {
+                "name": "Deploy",
+                "value": "Deploy",
+                "description": "Deploy ECE action deployment for a cluster."
+              }
+            ]
+          }
+        },
+        "arcNodeResourceIds": {
+          "type": "array",
+          "description": "List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Job provisioning state",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Unique, immutable job id.",
+          "readOnly": true
+        },
+        "startTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job started.",
+          "readOnly": true
+        },
+        "endTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job completed.",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/JobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "serverName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciClusterJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "ResumeServer"
+    },
+    "HciSetInformationJobProperties": {
+      "type": "object",
+      "properties": {
+        "Switchless": {
+          "type": "boolean",
+          "description": "Set to represent if the system is configured in a switchless or switched configuration."
+        },
+        "StorageIntentAdapters": {
+          "type": "string",
+          "description": "A string with a list of comma-separated name of the network adapters to use for the storage intent."
+        },
+        "Name": {
+          "type": "string",
+          "description": "A string with the name of the storage intent. If not provided a default one storage is used."
+        },
+        "VlanId": {
+          "type": "string",
+          "description": "A string with a list of comma-separated vlan ids to use which should map exactly and in order to the adapters provided in StorageIntentAdapters. If not provided the system uses the defaults set by Network ATC."
+        },
+        "JumboPacket": {
+          "type": "string",
+          "description": "A string with the size to be set for Jumb packet frame size for the storage adapters."
+        },
+        "NetworkDirect": {
+          "type": "string",
+          "description": "A string to be set to enabled or disabled to specify if network direct mode should be enabled/disabled."
+        },
+        "NetworkDirectTechnology": {
+          "type": "string",
+          "description": "A string that specifies the network direct technology to be used. Possible values are iWARP, RoCE and RoCEv2."
+        },
+        "PriorityValue8021Action_Cluster": {
+          "type": "string",
+          "description": "A string to specify the 802.1Q priority for the cluster."
+        },
+        "PriorityValue8021Action_SMB": {
+          "type": "string",
+          "description": "A string to specify the 802.1Q priority for SMB."
+        },
+        "BandwidthPercentage_SMB": {
+          "type": "string",
+          "description": "A string to specify the bandwidth percentage to be used for SMB."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HciClusterJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "SetInformation"
+    },
+    "HostNetwork": {
+      "type": "object"
     },
     "Job": {
       "type": "object",
       "description": "Jobs resource",
       "properties": {
         "kind": {
-          "$ref": "#/definitions/DeviceType",
+          "$ref": "#/definitions/EdgeSolutionType",
           "description": "Edge Solution type to support polymorphic resource.",
           "x-ms-mutability": [
             "create",
@@ -1031,10 +1396,59 @@
         "value"
       ]
     },
-    "JobProperties": {
+    "JobReportedProperties": {
       "type": "object",
-      "description": "Edgedevice job properties",
+      "description": "Reported Properties for cluster job triggered from cloud.",
       "properties": {
+        "percentComplete": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The percentage of the job that is complete.",
+          "readOnly": true
+        },
+        "validationStatus": {
+          "$ref": "#/definitions/EceActionStatus",
+          "description": "Validation status of ob.",
+          "readOnly": true
+        },
+        "deploymentStatus": {
+          "$ref": "#/definitions/EceActionStatus",
+          "description": "Deployment status of job.",
+          "readOnly": true
+        }
+      }
+    },
+    "JobType": {
+      "type": "string",
+      "description": "Common Job Types supported.",
+      "enum": [
+        "AddServer",
+        "RepairServer"
+      ],
+      "x-ms-enum": {
+        "name": "JobType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AddServer",
+            "value": "AddServer",
+            "description": "AddServer"
+          },
+          {
+            "name": "RepairServer",
+            "value": "RepairServer",
+            "description": "RepairServer"
+          }
+        ]
+      }
+    },
+    "PauseServerJobProperties": {
+      "type": "object",
+      "properties": {
+        "serverName": {
+          "type": "string",
+          "description": "Trigger pause job for given server name in cluster."
+        },
         "deploymentMode": {
           "type": "string",
           "description": "Deployment mode to trigger job.",
@@ -1050,144 +1464,25 @@
               {
                 "name": "Validate",
                 "value": "Validate",
-                "description": "Validate edge device job."
+                "description": "Validate ECE action deployment for a cluster."
               },
               {
                 "name": "Deploy",
                 "value": "Deploy",
-                "description": "Deploy edge device job."
+                "description": "Deploy ECE action deployment for a cluster."
               }
             ]
           }
-        },
-        "arcNodeResourceIds": {
-          "type": "array",
-          "description": "List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "create",
-            "read"
-          ]
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Job provisioning state",
-          "readOnly": true
-        },
-        "jobId": {
-          "type": "string",
-          "description": "Unique, immutable job id.",
-          "readOnly": true
-        },
-        "startTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The UTC date and time at which the job started.",
-          "readOnly": true
-        },
-        "endTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The UTC date and time at which the job completed.",
-          "readOnly": true
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'",
-          "readOnly": true
-        },
-        "reportedProperties": {
-          "$ref": "#/definitions/JobReportedProperties",
-          "description": "Reported properties for job",
-          "readOnly": true
         }
-      }
-    },
-    "JobReportedProperties": {
-      "type": "object",
-      "description": "Reported Properties for  job triggered from cloud.",
-      "properties": {
-        "percentComplete": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The percentage of the job that is complete.",
-          "readOnly": true
-        },
-        "validationStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Validation status of job.",
-          "readOnly": true
-        },
-        "deploymentStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Deployment status of job.",
-          "readOnly": true
-        }
-      }
-    },
-    "LogCollectionReportedProperties": {
-      "type": "object",
-      "properties": {
-        "percentComplete": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The percentage of the job that is complete.",
-          "readOnly": true
-        },
-        "validationStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Validation status of job.",
-          "readOnly": true
-        },
-        "deploymentStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Deployment status of job.",
-          "readOnly": true
-        },
-        "logCollectionSessionDetails": {
-          "$ref": "#/definitions/LogCollectionSession"
-        }
-      }
-    },
-    "LogCollectionSession": {
-      "type": "object",
-      "properties": {
-        "startTime": {
-          "type": "string"
-        },
-        "endTime": {
-          "type": "string"
-        },
-        "timeCollected": {
-          "type": "string"
-        },
-        "logSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "status": {
-          "$ref": "#/definitions/LogCollectionStatus"
-        },
-        "correlationId": {
-          "type": "string"
-        }
-      }
-    },
-    "LogCollectionStatus": {
-      "type": "string",
-      "enum": [
-        "None",
-        "InProgress",
-        "Failed",
-        "Succeeded"
+      },
+      "required": [
+        "serverName"
       ],
-      "x-ms-enum": {
-        "name": "LogCollectionStatus",
-        "modelAsString": true
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClusterJobProperties"
+        }
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -1243,138 +1538,74 @@
         ]
       }
     },
-    "RemoteSupportAccessLevel": {
-      "type": "string",
-      "enum": [
-        "None",
-        "Diagnostics",
-        "DiagnosticsAndRepair"
-      ],
-      "x-ms-enum": {
-        "name": "RemoteSupportAccessLevel",
-        "modelAsString": true
-      }
-    },
-    "RemoteSupportJobProperties": {
+    "RepairServerJobProperties": {
       "type": "object",
       "properties": {
-        "accessLevel": {
-          "$ref": "#/definitions/RemoteSupportAccessLevel",
-          "description": "Remote support access level."
-        },
-        "expirationTimestamp": {
+        "serverName": {
           "type": "string",
-          "format": "date-time",
-          "description": "Remote support expiration timestamp."
+          "description": "Name of server to be repaired in cluster."
         },
-        "type": {
-          "$ref": "#/definitions/RemoteSupportType",
-          "description": "Remote support type."
-        },
-        "reportedProperties": {
-          "$ref": "#/definitions/LogCollectionReportedProperties",
-          "description": "log collection job reported properties."
+        "secrets": {
+          "type": "array",
+          "description": "List of protected parameters to pass to trigger job for cluster.",
+          "items": {
+            "$ref": "#/definitions/EceDeploymentSecrets"
+          },
+          "x-ms-identifiers": [
+            "secretName"
+          ]
         }
       },
       "required": [
-        "accessLevel",
-        "expirationTimestamp",
-        "type"
+        "serverName"
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/JobProperties"
+          "$ref": "#/definitions/ClusterJobProperties"
         }
       ]
     },
-    "RemoteSupportNodeSettings": {
+    "ResumeServerJobProperties": {
       "type": "object",
       "properties": {
-        "arcResourceId": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "createdAt": {
+        "serverName": {
           "type": "string",
-          "format": "date-time"
+          "description": "Trigger resume job for given server name in cluster."
         },
-        "updatedAt": {
+        "deploymentMode": {
           "type": "string",
-          "format": "date-time"
-        },
-        "connectionStatus": {
-          "type": "string"
-        },
-        "connectionErrorMessage": {
-          "type": "string"
-        },
-        "transcriptLocation": {
-          "type": "string"
+          "description": "Deployment mode to trigger job.",
+          "default": "Deploy",
+          "enum": [
+            "Validate",
+            "Deploy"
+          ],
+          "x-ms-enum": {
+            "name": "DeploymentMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Validate",
+                "value": "Validate",
+                "description": "Validate ECE action deployment for a cluster."
+              },
+              {
+                "name": "Deploy",
+                "value": "Deploy",
+                "description": "Deploy ECE action deployment for a cluster."
+              }
+            ]
+          }
         }
-      }
-    },
-    "RemoteSupportReportedProperties": {
-      "type": "object",
-      "properties": {
-        "percentComplete": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The percentage of the job that is complete.",
-          "readOnly": true
-        },
-        "validationStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Validation status of job.",
-          "readOnly": true
-        },
-        "deploymentStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Deployment status of job.",
-          "readOnly": true
-        },
-        "nodeSettings": {
-          "$ref": "#/definitions/RemoteSupportNodeSettings"
-        },
-        "sessionDetails": {
-          "$ref": "#/definitions/RemoteSupportSession"
-        }
-      }
-    },
-    "RemoteSupportSession": {
-      "type": "object",
-      "properties": {
-        "sessionStartTime": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "sessionEndTime": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "nodeName": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "accessLevel": {
-          "$ref": "#/definitions/RemoteSupportAccessLevel"
-        }
-      }
-    },
-    "RemoteSupportType": {
-      "type": "string",
-      "enum": [
-        "Enable",
-        "Revoke"
+      },
+      "required": [
+        "serverName"
       ],
-      "x-ms-enum": {
-        "name": "RemoteSupportType",
-        "modelAsString": true
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClusterJobProperties"
+        }
+      ]
     },
     "Step": {
       "type": "object",

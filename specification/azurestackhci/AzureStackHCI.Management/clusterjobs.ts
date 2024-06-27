@@ -191,7 +191,7 @@ enum JobType {
 @doc("Jobs resource")
 @parentResource(Clusters)
 @discriminator("kind")
-model Job is ProxyResource<ClusterJobProperties> {
+model ClusterJob is ProxyResource<ClusterJobProperties> {
   @doc("Name of Job")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @segment("jobs")
@@ -291,7 +291,7 @@ model ResumeServerJobProperties extends ClusterJobProperties{
 ////////define all AzureStack HCI jobs in below section///////
 ////////////////////////////////////////////////////////////////////////////////
 @doc("Cluster job for Azure Stack HCI solution.")
-model AzureStackHciJob extends Job{
+model AzureStackHciJob extends ClusterJob{
   kind: EdgeSolutionType.AzureStackHCI,
   properties: HciClusterJobProperties
 }
@@ -401,7 +401,7 @@ model HciSetInformationJobProperties extends HciClusterJobProperties{
 ////////Start AzureLinux jobs///////
 ////////////////////////////////////////////////////////////////////////////////
 @doc("Cluster job for Azure Linux solution.")
-model AzureLinuxJob extends Job{
+model AzureLinuxJob extends ClusterJob{
   kind: EdgeSolutionType.AzureLinux,
   properties: AzureLinuxClusterJobProperties
 }
@@ -450,8 +450,8 @@ model AzureLinuxRepairServerJobProperties extends AzureLinuxClusterJobProperties
 // interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
 interface Jobs {
-  get is ArmResourceRead<Job>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Job>;
-  delete is ArmResourceDeleteWithoutOkAsync<Job>;
-  listByParent is ArmResourceListByParent<Job>;
+  get is ArmResourceRead<ClusterJob>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ClusterJob>;
+  delete is ArmResourceDeleteWithoutOkAsync<ClusterJob>;
+  listByParent is ArmResourceListByParent<ClusterJob>;
 }
