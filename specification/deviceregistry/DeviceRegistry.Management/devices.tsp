@@ -18,7 +18,7 @@ model Device is TrackedResource<DeviceProperties> {
   @doc("Name of the device.")
   @key("deviceName")
   @segment("devices")
-  @pattern("^[0-9a-z][a-z0-9-]*$")
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
   @maxLength(64)
@@ -107,7 +107,7 @@ model DeviceEndpoints {
   unassigned?: Endpoint[];
 }
 
-@doc("Connection endpoint url a device can use to connect to a service.")
+@doc("Endpoints related to the device")
 model Endpoint {
   @doc("Type of connection endpoint.")
   // `type` is a reserved keyname. Wrap in double quotes
@@ -120,14 +120,9 @@ model Endpoint {
 @armResourceOperations
 interface Devices {
   get is ArmResourceRead<Device>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
-
   update is ArmResourcePatchAsync<Device, DeviceProperties>;
-
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
-
   listByResourceGroup is ArmResourceListByParent<Device>;
-
   listBySubscription is ArmListBySubscription<Device>;
 }

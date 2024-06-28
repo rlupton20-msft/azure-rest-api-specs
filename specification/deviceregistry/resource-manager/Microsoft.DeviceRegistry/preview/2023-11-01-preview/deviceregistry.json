@@ -390,6 +390,10 @@
               "$ref": "#/definitions/AssetEndpointProfile"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -693,6 +697,10 @@
               "$ref": "#/definitions/Asset"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -927,7 +935,7 @@
             "type": "string",
             "minLength": 3,
             "maxLength": 64,
-            "pattern": "^[0-9a-z][a-z0-9-]*$"
+            "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
         "responses": {
@@ -974,7 +982,7 @@
             "type": "string",
             "minLength": 3,
             "maxLength": 64,
-            "pattern": "^[0-9a-z][a-z0-9-]*$"
+            "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
             "name": "resource",
@@ -999,6 +1007,10 @@
               "$ref": "#/definitions/Device"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -1056,7 +1068,7 @@
             "type": "string",
             "minLength": 3,
             "maxLength": 64,
-            "pattern": "^[0-9a-z][a-z0-9-]*$"
+            "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
             "name": "properties",
@@ -1133,7 +1145,7 @@
             "type": "string",
             "minLength": 3,
             "maxLength": 64,
-            "pattern": "^[0-9a-z][a-z0-9-]*$"
+            "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
         "responses": {
@@ -1181,11 +1193,7 @@
         "properties": {
           "$ref": "#/definitions/AssetProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -1212,11 +1220,7 @@
         "properties": {
           "$ref": "#/definitions/AssetEndpointProfileProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -1281,7 +1285,7 @@
         },
         "additionalConfiguration": {
           "type": "string",
-          "description": "Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1329,7 +1333,7 @@
         },
         "additionalConfiguration": {
           "type": "string",
-          "description": "Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
         }
       }
     },
@@ -1389,7 +1393,7 @@
         },
         "assetEndpointProfileUri": {
           "type": "string",
-          "description": "A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.",
+          "description": "A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides datapoints for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1440,15 +1444,15 @@
         },
         "defaultDataPointsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Stringified JSON that contains protocol-specific default configuration for all datapoints. Each datapoint can have its own configuration that overrides the default settings here."
         },
         "defaultEventsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
         },
         "dataPoints": {
           "type": "array",
-          "description": "Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of datapoints that are part of the asset. Each datapoint can reference an asset type capability and have per-datapoint configuration.",
           "items": {
             "$ref": "#/definitions/DataPoint"
           },
@@ -1456,7 +1460,7 @@
         },
         "events": {
           "type": "array",
-          "description": "Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration. See below for more details about the definition of the events element.",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "items": {
             "$ref": "#/definitions/Event"
           },
@@ -1587,15 +1591,15 @@
         },
         "defaultDataPointsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Stringified JSON that contains protocol-specific default configuration for all datapoints. Each datapoint can have its own configuration that overrides the default settings here."
         },
         "defaultEventsConfiguration": {
           "type": "string",
-          "description": "Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol."
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
         },
         "dataPoints": {
           "type": "array",
-          "description": "Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.",
+          "description": "Array of datapoints that are part of the asset. Each datapoint can reference an asset type capability and have per-datapoint configuration.",
           "items": {
             "$ref": "#/definitions/DataPoint"
           },
@@ -1603,7 +1607,7 @@
         },
         "events": {
           "type": "array",
-          "description": "Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration. See below for more details about the definition of the events element.",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "items": {
             "$ref": "#/definitions/Event"
           },
@@ -1613,11 +1617,20 @@
     },
     "DataPoint": {
       "type": "object",
-      "description": "Defines the data point properties.",
+      "description": "Defines the datapoint properties.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataPointBase"
+        }
+      ]
+    },
+    "DataPointBase": {
+      "type": "object",
+      "description": "Defines the datapoint properties.",
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the data point."
+          "description": "The name of the datapoint."
         },
         "dataSource": {
           "type": "string",
@@ -1629,7 +1642,7 @@
         },
         "observabilityMode": {
           "type": "string",
-          "description": "An indication of how the data point should be mapped to OpenTelemetry.",
+          "description": "An indication of how the datapoint should be mapped to OpenTelemetry.",
           "default": "none",
           "enum": [
             "none",
@@ -1672,7 +1685,7 @@
         },
         "dataPointConfiguration": {
           "type": "string",
-          "description": "Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+          "description": "Stringified JSON that contains connector-specific configuration for the datapoint. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
         }
       },
       "required": [
@@ -1681,7 +1694,7 @@
     },
     "DataPointsObservabilityMode": {
       "type": "string",
-      "description": "Defines the data point observability mode.",
+      "description": "Defines the datapoint observability mode.",
       "enum": [
         "none",
         "counter",
@@ -1728,11 +1741,7 @@
         "properties": {
           "$ref": "#/definitions/DeviceProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         },
         "etag": {
           "type": "string",
@@ -1959,7 +1968,7 @@
     },
     "Endpoint": {
       "type": "object",
-      "description": "Connection endpoint url a device can use to connect to a service.",
+      "description": "Endpoints related to the device",
       "properties": {
         "type": {
           "type": "string",
@@ -1972,6 +1981,15 @@
       }
     },
     "Event": {
+      "type": "object",
+      "description": "Defines the event properties.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EventBase"
+        }
+      ]
+    },
+    "EventBase": {
       "type": "object",
       "description": "Defines the event properties.",
       "properties": {
@@ -2014,7 +2032,7 @@
         },
         "eventConfiguration": {
           "type": "string",
-          "description": "Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
         }
       },
       "required": [
@@ -2155,7 +2173,7 @@
       "properties": {
         "mode": {
           "type": "string",
-          "description": "Defines the mode to authenticate the user of the client at the server.",
+          "description": "Defines the method to authenticate the user of the client at the server.",
           "default": "Certificate",
           "enum": [
             "Anonymous",
@@ -2169,17 +2187,17 @@
               {
                 "name": "Anonymous",
                 "value": "Anonymous",
-                "description": "The user authentication mode is anonymous"
+                "description": "The user authentication method is anonymous."
               },
               {
                 "name": "Certificate",
                 "value": "Certificate",
-                "description": "The user authentication mode is an x509 certificate."
+                "description": "The user authentication method is an x509 certificate."
               },
               {
                 "name": "UsernamePassword",
                 "value": "UsernamePassword",
-                "description": "The user authentication mode is a username and password."
+                "description": "The user authentication method is a username and password."
               }
             ]
           }
@@ -2199,7 +2217,7 @@
     },
     "UserAuthenticationMode": {
       "type": "string",
-      "description": "The mode to authenticate the user of the client at the server.",
+      "description": "The method to authenticate the user of the client at the server.",
       "enum": [
         "Anonymous",
         "Certificate",
@@ -2212,17 +2230,17 @@
           {
             "name": "Anonymous",
             "value": "Anonymous",
-            "description": "The user authentication mode is anonymous"
+            "description": "The user authentication method is anonymous."
           },
           {
             "name": "Certificate",
             "value": "Certificate",
-            "description": "The user authentication mode is an x509 certificate."
+            "description": "The user authentication method is an x509 certificate."
           },
           {
             "name": "UsernamePassword",
             "value": "UsernamePassword",
-            "description": "The user authentication mode is a username and password."
+            "description": "The user authentication method is a username and password."
           }
         ]
       }
@@ -2233,7 +2251,7 @@
       "properties": {
         "mode": {
           "type": "string",
-          "description": "Defines the mode to authenticate the user of the client at the server.",
+          "description": "Defines the method to authenticate the user of the client at the server.",
           "default": "Certificate",
           "enum": [
             "Anonymous",
@@ -2247,17 +2265,17 @@
               {
                 "name": "Anonymous",
                 "value": "Anonymous",
-                "description": "The user authentication mode is anonymous"
+                "description": "The user authentication method is anonymous."
               },
               {
                 "name": "Certificate",
                 "value": "Certificate",
-                "description": "The user authentication mode is an x509 certificate."
+                "description": "The user authentication method is an x509 certificate."
               },
               {
                 "name": "UsernamePassword",
                 "value": "UsernamePassword",
-                "description": "The user authentication mode is a username and password."
+                "description": "The user authentication method is a username and password."
               }
             ]
           }
@@ -2302,30 +2320,6 @@
           "type": "string",
           "description": "A reference to secret containing the password."
         }
-      }
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Microsoft.DeviceRegistry Resource Provider supported API versions.",
-      "enum": [
-        "2023-11-01-preview",
-        "2024-05-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_11_01_preview",
-            "value": "2023-11-01-preview",
-            "description": "Microsoft.DeviceRegistry Resource Provider management API version 2023-11-01-preview."
-          },
-          {
-            "name": "v2024_05_01_preview",
-            "value": "2024-05-01-preview",
-            "description": "Microsoft.DeviceRegistry Resource Provider management API version 2024-05-01-preview."
-          }
-        ]
       }
     },
     "X509Credentials": {

@@ -13,14 +13,14 @@ using OpenAPI;
 
 namespace Microsoft.DeviceRegistry;
 
-@added(global.Microsoft.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @doc("billingContainer Model as ARM resource")
 @subscriptionResource
 model BillingContainer is ProxyResource<BillingContainerProperties> {
   @doc("Name of the billingContainer.")
   @key("billingContainerName")
   @segment("billingContainers")
-  @pattern("^[0-9a-z][a-z0-9-]*$")
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
   @maxLength(64)
@@ -33,7 +33,7 @@ model BillingContainer is ProxyResource<BillingContainerProperties> {
   etag?: string;
 }
 
-@added(global.Microsoft.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @doc("Defines the billingContainer properties.")
 model BillingContainerProperties {
   @doc("Provisioning state of the resource.")
@@ -41,17 +41,13 @@ model BillingContainerProperties {
   provisioningState?: ProvisioningState;
 }
 
-@added(global.Microsoft.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @armResourceOperations
 interface BillingContainers {
   get is ArmResourceRead<BillingContainer>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
-
   // we don't have updatable property today, when we have it uncomment the below run tsp compile .
   // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
-
   delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
-
   listByResourceGroup is ArmResourceListByParent<BillingContainer>;
 }
