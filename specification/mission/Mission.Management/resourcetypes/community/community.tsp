@@ -43,6 +43,7 @@ model GovernedServiceItem {
   id?: string;
 
   @doc("service name")
+  @visibility("read")
   name?: string;
 
   @doc("governance option for this service (Allow, Deny, Exception Only, or Not Applicable).")
