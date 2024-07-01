@@ -183,7 +183,7 @@ enum EdgeDeviceJobType {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-@doc("Jobs resource")
+@doc("EdgeDevice Jobs resource")
 @parentResource(EdgeDevice)
 @discriminator("kind")
 model EdgeDeviceJob is ProxyResource<JobProperties> {
@@ -424,7 +424,7 @@ model AzureLinuxRemoteSupportJobProperties extends AzureLinuxEdgeDeviceJobProper
 
 // interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
-interface Jobs {
+interface EdgeDeviceJobs {
   get is ArmResourceRead<EdgeDeviceJob>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeDeviceJob>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeDeviceJob>;

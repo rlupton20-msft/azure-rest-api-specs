@@ -10,7 +10,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
-
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @armProviderNamespace
 @service({
   title: "AzureStackHCI",
@@ -449,9 +449,9 @@ model AzureLinuxRepairServerJobProperties extends AzureLinuxClusterJobProperties
 
 // interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
-interface Jobs {
+interface ClusterJobs {
   get is ArmResourceRead<ClusterJob>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ClusterJob>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ClusterJob>;
   delete is ArmResourceDeleteWithoutOkAsync<ClusterJob>;
   listByParent is ArmResourceListByParent<ClusterJob>;
 }

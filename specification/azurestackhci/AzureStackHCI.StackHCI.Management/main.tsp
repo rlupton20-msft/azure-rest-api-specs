@@ -2,7 +2,11 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./EdgeNodePool.tsp";
+// import "./EdgeNodePool.tsp";
+import "./edgeDeviceJobs.tsp";
+import "./clusterJobs.tsp";
+// import "./clusters.tsp";
+// import "./edgeDevices.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -17,7 +21,7 @@ using TypeSpec.Versioning;
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 @armProviderNamespace
 @service({
-  title: "Private.AzureStackHCI",
+  title: "AzureStackHCI",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -32,5 +36,5 @@ enum Versions {
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_06_01_preview: "2024-06-01-preview",
+  v2023_08_01_preview: "2023-08-01-preview",
 }
