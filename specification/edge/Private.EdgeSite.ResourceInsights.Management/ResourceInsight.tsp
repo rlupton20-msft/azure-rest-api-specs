@@ -9,19 +9,19 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 namespace Private.EdgeSite;
 /**
- * An Edge Aggregation resource for resource insights
+ * A Microsoft.Edge connectivity status resource
  */
-model ResourceInsight
-  is Azure.ResourceManager.ExtensionResource<ResourceInsightProperties> {
+model ResourceInsight is ExtensionResource<ResourceInsightProperties> {
   /**
-   * Name of resource insight
+   * Name of ResourceInsights
    */
   @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   @path
-  @key("resourceInsightName")
-  @segment("resourceInsights")
+  @key("ResourceInsightsName")
+  @segment("ResourceInsights")
   @visibility("read")
   name: string;
 }
@@ -29,14 +29,27 @@ model ResourceInsight
 @armResourceOperations
 interface ResourceInsights {
   /**
-   * Get a ResourceInsight
+   * Get a ResourceInsights
    */
   get is ArmResourceRead<ResourceInsight>;
 
   /**
-   * List ResourceInsight resources by parent
+   * Create a ResourceInsights
+   */
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<
+    ResourceInsight,
+    Azure.ResourceManager.Foundations.BaseParameters<ResourceInsight>,
+    ArmAsyncOperationHeader & Azure.Core.Foundations.RetryAfterHeader
+  >;
+
+  
+  /**
+   * Delete a ResourceInsights
+   */
+  delete is ArmResourceDeleteSync<ResourceInsight>;
+
+  /**
+   * List ResourceInsights resources by parent
    */
   list is ArmResourceListByParent<ResourceInsight>;
 }
-
-@@doc(ResourceInsight.name, "Name of resource insight");
