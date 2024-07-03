@@ -76,7 +76,7 @@ model EvaluationEnginePolicyAssignmentProperties {
   @doc("The metadata of the evaluation engine policy assignment.")
   metadata?: {};
 
-  @doc("The corresponsing policy definition id for the policy assignment.")
+  @doc("The corresponding policy definition id for the policy assignment.")
   policyDefinitionId: string;
 
   @doc("The parameters of the evaluation engine policy assignment.")
@@ -107,7 +107,7 @@ model EvaluationEnginePolicyDefinitionProperties {
   @doc("The version of the evaluation engine policy definition.")
   version: string;
 
-  @doc("The description of the evaluation engine policy assignment.")
+  @doc("The description of the evaluation engine policy definition.")
   @pattern("^[a-zA-Z0-9 ]{3,250}$")
   description?: string;
 
@@ -117,8 +117,14 @@ model EvaluationEnginePolicyDefinitionProperties {
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
 
-  @doc("The evaluation engine policy logic - contains the actual if-else statements for the policy definition.")
-  policyLogic: string;
+  @doc("Set of 0+ conditions in specified language that returns boolean")
+  applicabilityConditions?: string;
+
+  @doc("Set of 1+ conditions in specified language that returns boolean")
+  complianceConditions: string;
+
+  @doc("Templatized effect following structure/syntax as defined in effect config of engine")
+  effect?: {};
 }
 
 @doc("The evaluation engine policy definition")
