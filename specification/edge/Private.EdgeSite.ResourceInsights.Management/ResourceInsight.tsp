@@ -16,12 +16,12 @@ namespace Private.EdgeSite;
  */
 model ResourceInsight is ExtensionResource<ResourceInsightProperties> {
   /**
-   * Name of ResourceInsights
+   * Name of resource insight
    */
   @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   @path
-  @key("ResourceInsightsName")
-  @segment("ResourceInsights")
+  @key("resourceInsightName")
+  @segment("resourceInsights")
   @visibility("read")
   name: string;
 }
