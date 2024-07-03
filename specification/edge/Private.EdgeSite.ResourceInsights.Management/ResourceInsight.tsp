@@ -12,16 +12,16 @@ using TypeSpec.OpenAPI;
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 namespace Private.EdgeSite;
 /**
- * A Microsoft.Edge connectivity status resource
+ *An Edge Aggregation resource for resource insights
  */
 model ResourceInsight is ExtensionResource<ResourceInsightProperties> {
   /**
-   * Name of ResourceInsights
+   * Name of resource insight
    */
   @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   @path
-  @key("ResourceInsightsName")
-  @segment("ResourceInsights")
+  @key("resourceInsightName")
+  @segment("resourceInsights")
   @visibility("read")
   name: string;
 }

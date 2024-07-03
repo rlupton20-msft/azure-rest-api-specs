@@ -49,7 +49,7 @@
         "tags": [
           "ResourceInsights"
         ],
-        "description": "List ResourceInsight resources by parent",
+        "description": "List ResourceInsights resources by parent",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -88,7 +88,7 @@
         "tags": [
           "ResourceInsights"
         ],
-        "description": "Get a ResourceInsight",
+        "description": "Get a ResourceInsights",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -122,6 +122,110 @@
         "x-ms-examples": {
           "ResourceInsights_Get_Insights": {
             "$ref": "./examples/ResourceInsights_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "ResourceInsights_CreateOrUpdate",
+        "tags": [
+          "ResourceInsights"
+        ],
+        "description": "Create a ResourceInsights",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "resourceInsightName",
+            "in": "path",
+            "description": "Name of resource insight",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResourceInsight"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ResourceInsight' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ResourceInsight"
+            }
+          },
+          "201": {
+            "description": "Resource 'ResourceInsight' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ResourceInsight"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ResourceInsights_Delete",
+        "tags": [
+          "ResourceInsights"
+        ],
+        "description": "Delete a ResourceInsights",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "resourceInsightName",
+            "in": "path",
+            "description": "Name of resource insight",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
