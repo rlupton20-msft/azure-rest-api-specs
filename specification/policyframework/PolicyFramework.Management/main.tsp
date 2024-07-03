@@ -52,28 +52,46 @@ model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
 }
 
 /**
- * The evaluation engine assignment type definition
+ * The evaluation engine policy assignment type definition
  */
-@doc("The evaluation engine assignment properties.")
-model EvaluationEngineAssignmentProperties {
+@doc("The evaluation engine policy assignment properties.")
+model EvaluationEnginePolicyAssignmentProperties {
   @doc("Provisioning State")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("The version of the evaluation engine assignment.")
+  @doc("The version of the evaluation engine policy assignment.")
   version: string;
-  // complete later with sample properties
+
+  @doc("The scopes of the evaluation engine policy assignment.")
+  scopes: string[];
+
+  @doc("The notScopes of the evaluation engine policy assignment.")
+  notScopes?: string[];
+
+  @doc("The description of the evaluation engine policy assignment.")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The metadata of the evaluation engine policy assignment.")
+  metadata?: {};
+
+  @doc("The corresponsing policy definition id for the policy assignment.")
+  policyDefinitionId: string;
+
+  @doc("The parameters of the evaluation engine policy assignment.")
+  parameters?: string;
 }
 
 @doc("The evaluation engine assignment")
 @parentResource(EvaluationEngine)
-model EvaluationEngineAssignment
-  is ProxyResource<EvaluationEngineAssignmentProperties> {
-  @key("assignmentName")
-  @segment("evaluationEngineAssignments")
+model EvaluationEnginePolicyAssignment
+  is ProxyResource<EvaluationEnginePolicyAssignmentProperties> {
+  @key("policyAssignmentName")
+  @segment("evaluationEnginePolicyAssignments")
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @doc("The name of the evaluation engine assignment.")
+  @doc("The name of the evaluation engine policy assignment.")
   name: string;
 }
 
@@ -88,7 +106,19 @@ model EvaluationEnginePolicyDefinitionProperties {
 
   @doc("The version of the evaluation engine policy definition.")
   version: string;
-  // complete later with sample properties
+
+  @doc("The description of the evaluation engine policy assignment.")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The parameters of the evaluation engine policy definition.")
+  parameters?: string;
+
+  @doc("The metadata of the evaluation engine policy definition.")
+  metadata?: {};
+
+  @doc("The evaluation engine policy logic - contains the actual if-else statements for the policy definition.")
+  policyLogic: string;
 }
 
 @doc("The evaluation engine policy definition")
@@ -196,7 +226,7 @@ model EvaluationActionRequest {
   location: string;
 
   @doc("The evaluation properties")
-  properties: string;
+  requestProperties: string;
 
   @doc("The evaluation scope")
   scope: string;
@@ -238,7 +268,7 @@ model ApplicabilityActionRequest {
   type: string;
 
   @doc("The applicability properties")
-  properties: string;
+  requestProperties: string;
 
   @doc("The applicability scope")
   scope: string;
@@ -370,15 +400,15 @@ interface EvaluationEngineOperations {
 }
 
 @armResourceOperations
-interface EvaluationEngineAssignmentOperations {
-  get is ArmResourceRead<EvaluationEngineAssignment>;
-  create is ArmResourceCreateOrReplaceSync<EvaluationEngineAssignment>;
+interface EvaluationEnginePolcicyAssignmentOperations {
+  get is ArmResourceRead<EvaluationEnginePolicyAssignment>;
+  create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyAssignment>;
   update is ArmResourcePatchSync<
-    EvaluationEngineAssignment,
-    EvaluationEngineAssignmentProperties
+    EvaluationEnginePolicyAssignment,
+    EvaluationEnginePolicyAssignmentProperties
   >;
-  delete is ArmResourceDeleteSync<EvaluationEngineAssignment>;
-  listByParent is ArmResourceListByParent<EvaluationEngineAssignment>;
+  delete is ArmResourceDeleteSync<EvaluationEnginePolicyAssignment>;
+  listByParent is ArmResourceListByParent<EvaluationEnginePolicyAssignment>;
 }
 
 @armResourceOperations
