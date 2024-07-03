@@ -45,9 +45,15 @@ model BillingContainerProperties {
 @armResourceOperations
 interface BillingContainers {
   get is ArmResourceRead<BillingContainer>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
+
+  // PUT is not allowed for end users, only for UserRP (unaffected by the removal).
+  // createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
+
   // we don't have updatable property today, when we have it uncomment the below run tsp compile .
   // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
+
+  // PUT is not allowed for end users, only for UserRP (unaffected by the removal).
+  // delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
+
   listByResourceGroup is ArmResourceListByParent<BillingContainer>;
 }
