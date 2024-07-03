@@ -66,12 +66,6 @@ model Workload is TrackedResource<WorkloadProperties> {
   @visibility("read", "create")
   @doc("The availability zones.")
   zones?: Array<string>;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
-  @added(Versions.`2024-05-01-preview`)
-  @visibility("read", "create")
-  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
-  sku?: Sku;
 }
 
 @armResourceOperations

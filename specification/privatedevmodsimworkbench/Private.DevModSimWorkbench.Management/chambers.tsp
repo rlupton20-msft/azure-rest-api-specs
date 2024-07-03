@@ -151,6 +151,11 @@ model ChamberProperties {
   @doc("Directory for the chamber data pipeline inbound. E.g. /mount/datapipeline/dataout")
   dataPipelineOutboundPath?: string;
 
+  @visibility("read", "create")
+  @doc("SKU name.")
+  @added(Versions.`2024-05-01-preview`)
+  sku: Sku;
+
   // This oldSku @added, @renamedFrom, @deleted is workaround for the missing opposite of @madeoptional
   @visibility("read", "create")
   @doc("SKU name.")
@@ -174,12 +179,6 @@ model Chamber is TrackedResource<ChamberProperties> {
   @visibility("read", "create")
   @doc("The availability zones.")
   zones?: Array<string>;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
-  @added(Versions.`2024-05-01-preview`)
-  @visibility("read", "create")
-  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
-  sku?: Sku;
 }
 
 @doc("Parameters for getUploadUri")
