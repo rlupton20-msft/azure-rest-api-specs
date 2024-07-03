@@ -22,7 +22,7 @@ model DstsServiceAccountResourceProperties {
   accountName: string;
 
   @doc("DSTS instance in which the account is created. This is case-insensitive. E.g. \"co2agg04-dsts.dsts.core.azure-test.net\" for dogfood.")
-  dstsInstance?: string;
+  dstsInstance?: string = "";
 
   @doc("Display Name of the account.")
   displayName?: string;
