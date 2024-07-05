@@ -61,96 +61,167 @@ union ProvisioningState {
 }
 
 /**
+ * Represents the various statuses a job can have throughout its lifecycle.
+ */
+union JobStatus {
+  string,
+
+  /**
+   * The job status has not been specified.
+   */
+  NotSpecified: "NotSpecified",
+
+  /**
+   * The job is currently undergoing validation.
+   */
+  ValidationInProgress: "ValidationInProgress",
+
+  /**
+   * The job has successfully passed validation.
+   */
+  ValidationSuccess: "ValidationSuccess",
+
+  /**
+   * The job has failed validation.
+   */
+  ValidationFailed: "ValidationFailed",
+
+  /**
+   * The job's deployment is currently in progress.
+   */
+  DeploymentInProgress: "DeploymentInProgress",
+
+  /**
+   * The job's deployment has failed.
+   */
+  DeploymentFailed: "DeploymentFailed",
+
+  /**
+   * The job has been successfully deployed.
+   */
+  DeploymentSuccess: "DeploymentSuccess",
+
+  /**
+   * The job status is invalid.
+   */
+  Invalid: "Invalid",
+
+  /**
+   * The job has succeeded.
+   */
+  Succeeded: "Succeeded",
+
+  /**
+   * The job has failed.
+   */
+  Failed: "Failed",
+
+  /**
+   * The job has been canceled.
+   */
+  Canceled: "Canceled",
+
+  /**
+   * The job is paused.
+   */
+  Paused: "Paused",
+
+  /**
+   * The job is scheduled to run.
+   */
+  Scheduled: "Scheduled",
+}
+
+/**
  * Deployment mode to trigger job.
  */
 union DeploymentMode {
-    string,
-  
-    /**
-     * Validate ECE action deployment for a cluster.
-     */
-    Validate: "Validate",
-  
-    /**
-     * Deploy ECE action deployment for a cluster.
-     */
-    Deploy: "Deploy",
-  }
+  string,
 
-  
+  /**
+   * Validate ECE action deployment for a cluster.
+   */
+  Validate: "Validate",
+
+  /**
+   * Deploy ECE action deployment for a cluster.
+   */
+  Deploy: "Deploy",
+}
+
 /**
  * Validation / deployment status details for Job.
  */
 model EceActionStatus {
-    /**
-     * Job status.
-     */
-    @visibility("read")
-    status?: string;
-  
-    /**
-     * List of steps of Edgedevice job.
-     */
-    @visibility("read")
-    @extension("x-ms-identifiers", ["name"])
-    steps?: Step[];
-  }
+  /**
+   * Job status.
+   */
+  @visibility("read")
+  status?: string;
+
+  /**
+   * List of steps of Edge device job.
+   */
+  @visibility("read")
+  @extension("x-ms-identifiers", ["name"])
+  steps?: Step[];
+}
 
 /**
  * Step details during job execution.
  */
 model Step {
-    /**
-     * Name of step.
-     */
-    @visibility("read")
-    name?: string;
-  
-    /**
-     * Description of step.
-     */
-    @visibility("read")
-    description?: string;
-  
-    /**
-     * FullStepIndex of step.
-     */
-    @visibility("read")
-    fullStepIndex?: string;
-  
-    /**
-     * Start time of step.
-     */
-    @visibility("read")
-    startTimeUtc?: string;
-  
-    /**
-     * End time of step.
-     */
-    @visibility("read")
-    endTimeUtc?: string;
-  
-    /**
-     * Status of step. Allowed values are 'Error', 'Success', 'InProgress'
-     */
-    @visibility("read")
-    status?: string;
-  
-    /**
-     * List of nested steps during job execution..
-     */
-    @visibility("read")
-    @extension("x-ms-identifiers", ["name"])
-    steps?: Step[];
-  
-    /**
-     * List of exceptions in job execution.
-     */
-    @visibility("read")
-    exception?: string[];
-  }
-  
   /**
+   * Name of step.
+   */
+  @visibility("read")
+  name?: string;
+
+  /**
+   * Description of step.
+   */
+  @visibility("read")
+  description?: string;
+
+  /**
+   * FullStepIndex of step.
+   */
+  @visibility("read")
+  fullStepIndex?: string;
+
+  /**
+   * Start time of step.
+   */
+  @visibility("read")
+  startTimeUtc?: string;
+
+  /**
+   * End time of step.
+   */
+  @visibility("read")
+  endTimeUtc?: string;
+
+  /**
+   * Status of step. Allowed values are 'Error', 'Success', 'InProgress'
+   */
+  @visibility("read")
+  status?: string;
+
+  /**
+   * List of nested steps during job execution..
+   */
+  @visibility("read")
+  @extension("x-ms-identifiers", ["name"])
+  steps?: Step[];
+
+  /**
+   * List of exceptions in job execution.
+   */
+  @visibility("read")
+  exception?: string[];
+}
+
+/**
  * The HostNetwork of a cluster.
  */
 model DeploymentHostNetwork {
@@ -172,7 +243,7 @@ model DeploymentHostNetwork {
   storageConnectivitySwitchless?: boolean;
 
   /**
-   * Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically.
+   * Optional parameter required only for 3 Nodes switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically.
    */
   enableStorageAutoIp?: boolean;
 }
@@ -214,7 +285,7 @@ model DeploymentIntents {
   /**
    * Set QoS PolicyOverrides for cluster.
    */
-  qosPolicyOverrides?: DeploymentQosPolicyOverrides;
+  qosPolicyOverrides?: QosPolicyOverrides;
 
   /**
    * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
@@ -245,26 +316,24 @@ model DeploymentVirtualSwitchConfigurationOverrides {
 /**
  * The QoSPolicyOverrides of a cluster.
  */
-model DeploymentQosPolicyOverrides {
+model QosPolicyOverrides {
   /**
    * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
    */
-  @encodedName("application/json", "priorityValue8021Action_Cluster")
-  priorityValue8021ActionCluster?: string;
-
   #suppress "@azure-tools/typespec-azure-core/casing-style" ""
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   */
-  @encodedName("application/json", "priorityValue8021Action_SMB")
-  priorityValue8021ActionSMB?: string;
+  priorityValue8021Action_Cluster?: string;
 
-  #suppress "@azure-tools/typespec-azure-core/casing-style" ""
   /**
    * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
    */
-  @encodedName("application/json", "bandwidthPercentage_SMB")
-  bandwidthPercentageSMB?: string;
+  #suppress "@azure-tools/typespec-azure-core/casing-style" ""
+  priorityValue8021Action_SMB?: string;
+
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   */
+  #suppress "@azure-tools/typespec-azure-core/casing-style" ""
+  bandwidthPercentage_SMB?: string;
 }
 
 /**
@@ -309,11 +378,10 @@ model DeploymentStorageNetworks {
   /**
    * List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["physicalNode"])
   #suppress "@azure-tools/typespec-azure-core/casing-style" ""
+  @OpenAPI.extension("x-ms-identifiers", ["physicalNode"])
   storageAdapterIPInfo?: DeploymentStorageAdapterIPInfo[];
 }
-
 
 /**
  * The StorageAdapter physical nodes of a cluster.

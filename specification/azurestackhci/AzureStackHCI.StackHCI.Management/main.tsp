@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 // import "./EdgeNodePool.tsp";
 import "./edgeDeviceJobs.tsp";
 import "./clusterJobs.tsp";
+// import "./gpus.tsp";
 // import "./clusters.tsp";
 // import "./edgeDevices.tsp";
 

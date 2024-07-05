@@ -3,7 +3,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "@typespec/rest";
 import "./hciCommon.tsp";
-// import "./clusters.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -14,8 +13,6 @@ using Azure.Core;
 @armProviderNamespace("Private.AzureStackHCI")
 namespace Private.AzureStackHCI;
 
-
-
 @doc("A Cluster")
 model Clusters is TrackedResource<ClusterProperties> {
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -24,7 +21,7 @@ model Clusters is TrackedResource<ClusterProperties> {
   @segment("clusters")
   @visibility("read")
   @path("/clusters/{clusterName}")
-  name: string
+  name: string;
 }
 @doc("A ClusterProperties")
 model ClusterProperties {
@@ -35,16 +32,14 @@ model ClusterProperties {
   provisioningState?: ProvisioningState;
 }
 
-
-
 // FIXME: ClusterJob has no properties property
 /**
  * Jobs resource
  */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 @doc("Cluster Jobs resource")
 @parentResource(Clusters)
 @discriminator("kind")
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 model ClusterJob is Azure.ResourceManager.ProxyResource<{}> {
   ...ResourceNameParameter<
     Resource = ClusterJob,
@@ -53,10 +48,10 @@ model ClusterJob is Azure.ResourceManager.ProxyResource<{}> {
     NamePattern = "^[a-zA-Z0-9-]{3,24}$"
   >;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   /**
    * Edge Solution type to support polymorphic resource.
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   @visibility("read", "create")
   kind: EdgeSolutionType;
 }
@@ -95,9 +90,9 @@ union EdgeSolutionType {
   string,
 
   /**
-   * Edge solution for Azure stack HCI edge devices.
+   * Edge solution for Windows based edge devices.
    */
-  AzureStackHCI: "AzureStackHCI",
+  Windows: "Windows",
 
   /**
    * Edge solution for Azure linux edge devices.
@@ -132,8 +127,6 @@ union EceSecrets {
   WitnessStorageKey: "WitnessStorageKey",
 }
 
-
-
 /**
  * ClusterJob Type supported.
  */
@@ -141,19 +134,14 @@ union AzureLinuxJobType {
   string,
 
   /**
-   * AddServer
+   * Job to add a server to the cluster.
    */
   AddServer: "AddServer",
 
   /**
-   * RepairServer
+   * Job to repair a server in the cluster.
    */
   RepairServer: "RepairServer",
-
-  /**
-   * EnableSsh
-   */
-  EnableSsh: "EnableSsh",
 }
 
 /**
@@ -163,58 +151,42 @@ union HciJobType {
   string,
 
   /**
-   * AddServer
+   * Job to add a server to the cluster.
    */
   AddServer: "AddServer",
 
   /**
-   * RepairServer
+   * Job to repair a server in the cluster.
    */
   RepairServer: "RepairServer",
 
   /**
-   * ResumeServer
+   * Job to resume a paused server in the cluster.
    */
   ResumeServer: "ResumeServer",
 
   /**
-   * PauseServer
+   * Job to pause an active server in the cluster.
    */
   PauseServer: "PauseServer",
 
   /**
-   * AddNetworkIntent
+   * Job to add a network intent to the cluster.
    */
   AddNetworkIntent: "AddNetworkIntent",
 
   /**
-   * SetInformation
+   * Job to set or update information in the cluster.
    */
   SetInformation: "SetInformation",
-}
-
-/**
- * Common ClusterJob Types supported.
- */
-union JobType {
-  string,
-
-  /**
-   * AddServer
-   */
-  AddServer: "AddServer",
-
-  /**
-   * RepairServer
-   */
-  RepairServer: "RepairServer",
 }
 
 /**
  * Properties for adding a server to the cluster.
  */
 model AddServerJobProperties {
-  ...ClusterJobProperties,
+  ...ClusterJobProperties;
+
   /**
    * Name of server to be added to the cluster.
    */
@@ -262,7 +234,7 @@ model ClusterJobProperties {
   deploymentMode?: DeploymentMode = DeploymentMode.Deploy;
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @extension("x-ms-mutability", ["create", "read"])
   arcNodeResourceIds?: string[];
@@ -277,7 +249,7 @@ model ClusterJobProperties {
    * Unique, immutable job id.
    */
   @visibility("read")
-  jobId?: string;
+  jobId?: uuid;
 
   /**
    * The UTC date and time at which the job started.
@@ -292,10 +264,10 @@ model ClusterJobProperties {
   endTimeUtc?: utcDateTime;
 
   /**
-   * Status of Cluster job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'
+   * Status of Cluster job.
    */
   @visibility("read")
-  status?: string;
+  status?: JobStatus;
 
   /**
    * Reported properties for job
@@ -331,11 +303,7 @@ model JobReportedProperties {
  * Properties for adding a server in Azure Linux cluster job.
  */
 model AzureLinuxAddServerJobProperties extends AzureLinuxClusterJobProperties {
-  ...AddServerJobProperties,
-   /**
-   * ssh user name.
-   */
-  sshUser: string;
+  ...AddServerJobProperties;
 
   /**
    * Job Type to support polymorphic resource.
@@ -346,13 +314,14 @@ model AzureLinuxAddServerJobProperties extends AzureLinuxClusterJobProperties {
 /**
  * Cluster Job properties
  */
-@discriminator("jobType") 
+@discriminator("jobType")
 @doc("Cluster Job properties")
-model AzureLinuxClusterJobProperties  {
-  ...ClusterJobProperties,
+model AzureLinuxClusterJobProperties {
+  ...ClusterJobProperties;
+
   @doc("Job Type to support polymorphic resource.")
   @extension("x-ms-mutability", ["create", "read"])
-  jobType: AzureLinuxJobType
+  jobType: AzureLinuxJobType;
 }
 
 /**
@@ -367,13 +336,14 @@ model AzureLinuxJob extends ClusterJob {
   /**
    * Edge Solution type to support polymorphic resource.
    */
-  kind: "AzureLinux";
+  kind: EdgeSolutionType.AzureLinux;
 }
 
 /**
  * Properties for repairing a server in the cluster.
  */
-model AzureLinuxRepairServerJobProperties extends AzureLinuxClusterJobProperties {
+model AzureLinuxRepairServerJobProperties
+  extends AzureLinuxClusterJobProperties {
   /**
    * Name of server to be repaired in cluster.
    */
@@ -386,20 +356,15 @@ model AzureLinuxRepairServerJobProperties extends AzureLinuxClusterJobProperties
   secrets?: EceDeploymentSecrets[];
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @visibility("read", "create")
   arcNodeResourceIds?: string[];
 
   /**
-   * ssh user name.
-   */
-  sshUser: string;
-
-  /**
    * ClusterJob Type to support polymorphic resource.
    */
-  jobType: "RepairServer";
+  jobType: AzureLinuxJobType.RepairServer;
 }
 
 /**
@@ -414,7 +379,7 @@ model AzureStackHciJob extends ClusterJob {
   /**
    * Edge Solution type to support polymorphic resource.
    */
-  kind: "AzureStackHCI";
+  kind: EdgeSolutionType.Windows;
 }
 
 /**
@@ -422,12 +387,12 @@ model AzureStackHciJob extends ClusterJob {
  */
 @discriminator("jobType")
 model HciClusterJobProperties {
-  ...ClusterJobProperties,
+  ...ClusterJobProperties;
+
   @doc("Job Type to support polymorphic resource.")
   @extension("x-ms-mutability", ["create", "read"])
-  jobType: HciJobType
+  jobType: HciJobType;
 }
-
 
 /**
  * Properties for adding network intent to a cluster.
@@ -442,12 +407,12 @@ model HciAddNetworkIntentJobProperties extends HciClusterJobProperties {
   /**
    * HostNetwork properties to set network intent.
    */
-  hostNetwork?: Record<unknown>;
+  hostNetwork?: DeploymentHostNetwork;
 
   /**
    * ClusterJob Type to support polymorphic resource.
    */
-  jobType: "AddNetworkIntent";
+  jobType: HciJobType.AddNetworkIntent;
 }
 
 /**
@@ -471,7 +436,7 @@ model HciAddServerJobProperties extends HciClusterJobProperties {
   secrets?: EceDeploymentSecrets[];
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @visibility("read", "create")
   arcNodeResourceIds?: string[];
@@ -479,7 +444,7 @@ model HciAddServerJobProperties extends HciClusterJobProperties {
   /**
    * Job Type to support polymorphic resource.
    */
-  jobType: "AddServer";
+  jobType: HciJobType.AddServer;
 }
 
 /**
@@ -492,7 +457,7 @@ model HciPauseServerJobProperties extends HciClusterJobProperties {
   serverName: string;
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @visibility("read", "create")
   arcNodeResourceIds?: string[];
@@ -500,7 +465,7 @@ model HciPauseServerJobProperties extends HciClusterJobProperties {
   /**
    * ClusterJob Type to support polymorphic resource.
    */
-  jobType: "PauseServer";
+  jobType: HciJobType.PauseServer;
 }
 
 /**
@@ -519,7 +484,7 @@ model HciRepairServerJobProperties extends HciClusterJobProperties {
   secrets?: EceDeploymentSecrets[];
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @visibility("read", "create")
   arcNodeResourceIds?: string[];
@@ -527,7 +492,7 @@ model HciRepairServerJobProperties extends HciClusterJobProperties {
   /**
    * ClusterJob Type to support polymorphic resource.
    */
-  jobType: "RepairServer";
+  jobType: HciJobType.RepairServer;
 }
 
 /**
@@ -540,7 +505,7 @@ model HciResumeServerJobProperties extends HciClusterJobProperties {
   serverName: string;
 
   /**
-   * List of ARM resource ids of Arc machines part of cluster for which job will be trigerred.
+   * List of Azure resource ids of Arc machines part of cluster for which job will be triggered.
    */
   @visibility("read", "create")
   arcNodeResourceIds?: string[];
@@ -548,7 +513,7 @@ model HciResumeServerJobProperties extends HciClusterJobProperties {
   /**
    * ClusterJob Type to support polymorphic resource.
    */
-  jobType: "ResumeServer";
+  jobType: HciJobType.ResumeServer;
 }
 
 /**
@@ -558,63 +523,53 @@ model HciSetInformationJobProperties extends HciClusterJobProperties {
   /**
    * Set to represent if the system is configured in a switchless or switched configuration.
    */
-  @encodedName("application/json", "Switchless")
   switchless?: boolean;
 
   /**
    * A string with a list of comma-separated name of the network adapters to use for the storage intent.
    */
-  @encodedName("application/json", "StorageIntentAdapters")
   storageIntentAdapters?: string;
 
   /**
    * A string with the name of the storage intent. If not provided a default one storage is used.
    */
-  @encodedName("application/json", "Name")
   name?: string;
 
   /**
    * A string with a list of comma-separated vlan ids to use which should map exactly and in order to the adapters provided in StorageIntentAdapters. If not provided the system uses the defaults set by Network ATC.
    */
-  @encodedName("application/json", "VlanId")
   vlanId?: string;
 
   /**
-   * A string with the size to be set for Jumb packet frame size for the storage adapters.
+   * A string with the size to be set for jumbo packet frame size for the storage adapters.
    */
-  @encodedName("application/json", "JumboPacket")
   jumboPacket?: string;
 
   /**
    * A string to be set to enabled or disabled to specify if network direct mode should be enabled/disabled.
    */
-  @encodedName("application/json", "NetworkDirect")
   networkDirect?: string;
 
   /**
    * A string that specifies the network direct technology to be used. Possible values are iWARP, RoCE and RoCEv2.
    */
-  @encodedName("application/json", "NetworkDirectTechnology")
   networkDirectTechnology?: string;
 
   /**
    * A string to specify the 802.1Q priority for the cluster.
    */
-  @encodedName("application/json", "PriorityValue8021Action_Cluster")
   priorityValue8021ActionCluster?: string;
 
   /**
    * A string to specify the 802.1Q priority for SMB.
    */
   #suppress "@azure-tools/typespec-azure-core/casing-style" ""
-  @encodedName("application/json", "PriorityValue8021Action_SMB")
   priorityValue8021ActionSMB?: string;
 
-  #suppress "@azure-tools/typespec-azure-core/casing-style" ""
   /**
    * A string to specify the bandwidth percentage to be used for SMB.
    */
-  @encodedName("application/json", "BandwidthPercentage_SMB")
+  #suppress "@azure-tools/typespec-azure-core/casing-style" ""
   bandwidthPercentageSMB?: string;
 
   /**
@@ -627,7 +582,8 @@ model HciSetInformationJobProperties extends HciClusterJobProperties {
  * Properties for pausing a server in the cluster.
  */
 model PauseServerJobProperties {
-  ...ClusterJobProperties,
+  ...ClusterJobProperties;
+
   /**
    * Trigger pause job for given server name in cluster.
    */
@@ -638,7 +594,8 @@ model PauseServerJobProperties {
  * Properties for repairing a server in the cluster.
  */
 model RepairServerJobProperties {
-  ...ClusterJobProperties,
+  ...ClusterJobProperties;
+
   /**
    * Name of server to be repaired in cluster.
    */
@@ -654,8 +611,9 @@ model RepairServerJobProperties {
 /**
  * Properties for resuming a server in the cluster.
  */
-model ResumeServerJobProperties  {
-  ...ClusterJobProperties,
+model ResumeServerJobProperties {
+  ...ClusterJobProperties;
+
   /**
    * Trigger resume job for given server name in cluster.
    */

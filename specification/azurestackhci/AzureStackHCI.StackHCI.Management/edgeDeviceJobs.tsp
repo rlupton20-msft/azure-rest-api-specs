@@ -6,12 +6,13 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./hciCommon.tsp";
-// import "./edgeDevices.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using Azure.Core;
+
 
 @doc("A EdgeDevice")
 @armProviderNamespace("Private.AzureStackHCI")
@@ -31,10 +32,10 @@ model EdgeDevice is Azure.ResourceManager.ExtensionResource<{}> {
 /**
  * Jobs resource
  */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 @doc("EdgeDevice Jobs resource")
 @parentResource(EdgeDevice)
 @discriminator("kind")
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 model EdgeDeviceJob is Azure.ResourceManager.ExtensionResource<{}> {
   ...ResourceNameParameter<
     Resource = EdgeDeviceJob,
@@ -144,30 +145,20 @@ union LogCollectionStatus {
 }
 
 /**
- * Job Type supported.
+ * Job Type supported by Azure Linux Edge Devices.
  */
 union AzureLinuxEdgeDeviceJobType {
   string,
 
   /**
-   * CollectLog
+   * Job to collect logs from the device.
    */
   CollectLog: "CollectLog",
 
   /**
-   * RemoteSupport
+   * Job to provide remote support to the device.
    */
   RemoteSupport: "RemoteSupport",
-
-  /**
-   * RemoteConnect
-   */
-  RemoteConnect: "RemoteConnect",
-
-  /**
-   * EnableSsh
-   */
-  EnableSsh: "EnableSsh",
 }
 
 /**
@@ -222,24 +213,14 @@ union HciEdgeDeviceJobType {
   string,
 
   /**
-   * CollectLog
+   * Job to collect logs from the device.
    */
   CollectLog: "CollectLog",
 
   /**
-   * RemoteSupport
+   * Job to provide remote support to the device.
    */
   RemoteSupport: "RemoteSupport",
-
-  /**
-   * RemoteConnect
-   */
-  RemoteConnect: "RemoteConnect",
-
-  /**
-   * RenameHostname
-   */
-  RenameHostname: "RenameHostname",
 }
 
 /**
@@ -249,17 +230,17 @@ union EdgeDeviceJobType {
   string,
 
   /**
-   * CollectLog
+   * Job to collect logs from the device.
    */
   CollectLog: "CollectLog",
 
   /**
-   * RemoteSupport
+   * Job to provide remote support to the device.
    */
   RemoteSupport: "RemoteSupport",
 
   /**
-   * RemoteConnect
+   * Job to establish a remote connection to the device.
    */
   RemoteConnect: "RemoteConnect",
 }
@@ -269,9 +250,9 @@ union EdgeDeviceJobType {
  */
 model AzureLinuxCollectLogJobProperties
   extends AzureLinuxEdgeDeviceJobProperties {
-  ...CollectLogJobProperties,
+  ...CollectLogJobProperties;
 
-   /**
+  /**
    * Job Type to support polymorphic resource.
    */
   jobType: AzureLinuxEdgeDeviceJobType.CollectLog;
@@ -302,7 +283,9 @@ model LogCollectionReportedProperties {
   /**
    * Details of the log collection session.
    */
-  logCollectionSessionDetails?: LogCollectionSession;
+  @visibility("read")
+  @extension("x-ms-identifiers", ["correlationId"])
+  logCollectionSessionDetails?: LogCollectionSession[];
 }
 
 /**
@@ -312,44 +295,45 @@ model LogCollectionSession {
   /**
    * The timestamp when log collection started, in ISO 8601 format.
    */
+  @visibility("read")
   startTime?: string;
 
   /**
    * The timestamp when log collection ended, in ISO 8601 format.
    */
+  @visibility("read")
   endTime?: string;
 
   /**
    * The total time logs were collected for, in ISO 8601 duration format.
    */
+  @visibility("read")
   timeCollected?: string;
 
   /**
    * The size of the collected logs in bytes.
    */
+  @visibility("read")
   logSize?: int32;
 
   /**
    * The status of the log collection session.
    */
+  @visibility("read")
   status?: LogCollectionStatus;
 
   /**
    * A unique identifier for correlating this log collection session with other operations or sessions.
    */
+  @visibility("read")
   correlationId?: string;
 }
 /**
- * Edgedevice job properties
+ * Edge device job properties
  */
 @discriminator("jobType")
 model AzureLinuxEdgeDeviceJobProperties {
   ...EdgeDeviceJobProperties;
-
-  /**
-   * Indicates whether SSH is enabled on the edge device.
-   */
-  sshEnabled?: boolean;
 
   @doc("Job Type to support polymorphic resource.")
   @extension("x-ms-mutability", ["create", "read"])
@@ -357,14 +341,13 @@ model AzureLinuxEdgeDeviceJobProperties {
 }
 
 /**
- * Edgedevice job properties
+ * Edge device job properties
  */
 model EdgeDeviceJobProperties {
   /**
    * Deployment mode to trigger job.
    */
   deploymentMode?: DeploymentMode;
-
 
   /**
    * Job provisioning state
@@ -376,7 +359,7 @@ model EdgeDeviceJobProperties {
    * Unique, immutable job id.
    */
   @visibility("read")
-  jobId?: string;
+  jobId?: uuid;
 
   /**
    * The UTC date and time at which the job started.
@@ -391,10 +374,10 @@ model EdgeDeviceJobProperties {
   endTimeUtc?: utcDateTime;
 
   /**
-   * Status of Edgedevice job. Allowed values are 'Failed', 'Success', 'Running', 'canceled'
+   * Status of Edge device job.
    */
   @visibility("read")
-  status?: string;
+  status?: JobStatus;
 
   /**
    * Reported properties for job
@@ -427,18 +410,18 @@ model EdgeDeviceJobReportedProperties {
 }
 
 /**
- * Edgedevice job for Azure Linux solution.
+ * Edge device job for Azure Linux solution.
  */
 model AzureLinuxEdgeDeviceJob extends EdgeDeviceJob {
   /**
-   * Edgedevice job properties
+   * Edge device job properties
    */
   properties: AzureLinuxEdgeDeviceJobProperties;
 
   /**
    * Edge Solution type to support polymorphic resource.
    */
-  kind: "AzureLinux";
+  kind: DeviceType.AzureLinux;
 }
 
 /**
@@ -446,7 +429,7 @@ model AzureLinuxEdgeDeviceJob extends EdgeDeviceJob {
  */
 model AzureLinuxRemoteSupportJobProperties
   extends AzureLinuxEdgeDeviceJobProperties {
-  ...RemoteSupportJobProperties,
+  ...RemoteSupportJobProperties;
 
   /**
    * Job Type to support polymorphic resource.
@@ -479,11 +462,14 @@ model RemoteSupportReportedProperties {
   /**
    * Optional settings for configuring the node for remote support.
    */
-  nodeSettings?: RemoteSupportNodeSettings;
+  @visibility("read")
+  @extension("x-ms-identifiers", ["arcResourceId"])
+  nodeSettings?: RemoteSupportNodeSettings[];
 
   /**
    * Details of the remote support session.
    */
+  @visibility("read")
   sessionDetails?: RemoteSupportSession;
 }
 
@@ -494,36 +480,43 @@ model RemoteSupportNodeSettings {
   /**
    * The resource ID of the Azure Arc enabled server.
    */
+  @visibility("read")
   arcResourceId?: string;
 
   /**
    * The state of the remote support node.
    */
+  @visibility("read")
   state?: string;
 
   /**
    * The timestamp when the node settings were created, in UTC.
    */
+  @visibility("read")
   createdAt?: utcDateTime;
 
   /**
    * The timestamp when the node settings were last updated, in UTC.
    */
+  @visibility("read")
   updatedAt?: utcDateTime;
 
   /**
    * The current connection status of the remote support session.
    */
+  @visibility("read")
   connectionStatus?: string;
 
   /**
    * The error message, if any, from the last connection attempt.
    */
+  @visibility("read")
   connectionErrorMessage?: string;
 
   /**
    * The location where the session transcript is stored.
    */
+  @visibility("read")
   transcriptLocation?: string;
 }
 
@@ -534,26 +527,31 @@ model RemoteSupportSession {
   /**
    * The start time of the remote support session, in UTC.
    */
+  @visibility("read")
   sessionStartTime?: utcDateTime;
 
   /**
    * The end time of the remote support session, in UTC.
    */
+  @visibility("read")
   sessionEndTime?: utcDateTime;
 
   /**
    * The name of the node for which the session was initiated.
    */
+  @visibility("read")
   nodeName?: string;
 
   /**
    * The duration of the session in minutes.
    */
+  @visibility("read")
   duration?: int32;
 
   /**
    * The level of access granted during the remote support session.
    */
+  @visibility("read")
   accessLevel?: RemoteSupportAccessLevel;
 }
 
@@ -574,11 +572,13 @@ model CollectLogJobProperties {
   /**
    * To date for log collection.
    */
+  @visibility("read")
   lastLogGenerated?: utcDateTime;
 
   /**
    * log collection job reported properties.
    */
+  @visibility("read")
   reportedProperties?: LogCollectionReportedProperties;
 }
 
@@ -586,32 +586,33 @@ model CollectLogJobProperties {
  * Represents the properties of an HCI Collect Log job.
  */
 model HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
-  ...CollectLogJobProperties,
+  ...CollectLogJobProperties;
 
-   /**
+  /**
    * Job Type to support polymorphic resource.
    */
   jobType: HciEdgeDeviceJobType.CollectLog;
 }
 
 /**
- * HCI Edgedevice job properties
+ * HCI Edge device job properties
  */
-@discriminator("jobType") 
-@doc("HCI Edgedevice job properties")
+@discriminator("jobType")
+@doc("HCI Edge device job properties")
 model HciEdgeDeviceJobProperties {
-  ...EdgeDeviceJobProperties,
+  ...EdgeDeviceJobProperties;
+
   @doc("Job Type to support polymorphic resource.")
   @extension("x-ms-mutability", ["create", "read"])
-  jobType: HciEdgeDeviceJobType
+  jobType: HciEdgeDeviceJobType;
 }
 
 /**
- * Edgedevice job for Azure Stack HCI solution.
+ * Edge device job for Azure Stack HCI solution.
  */
 model HciEdgeDeviceJob extends EdgeDeviceJob {
   /**
-   * HCI Edgedevice job properties
+   * HCI Edge device job properties
    */
   properties: HciEdgeDeviceJobProperties;
 
@@ -622,31 +623,10 @@ model HciEdgeDeviceJob extends EdgeDeviceJob {
 }
 
 /**
- * Represents the properties of a remote connect job for HCI.
- */
-model HciRemoteConnectJobProperties extends HciEdgeDeviceJobProperties {
-  /**
-   * user name.
-   */
-  userName: string;
-
-  /**
-   * password.
-   */
-  @secret
-  password: string;
-
-  /**
-   * Job Type to support polymorphic resource.
-   */
-  jobType: HciEdgeDeviceJobType.RemoteConnect;
-}
-
-/**
  * Represents the properties of a remote support job for HCI.
  */
 model HciRemoteSupportJobProperties extends HciEdgeDeviceJobProperties {
-  ...RemoteSupportJobProperties,
+  ...RemoteSupportJobProperties;
 
   /**
    * Job Type to support polymorphic resource.
@@ -676,5 +656,6 @@ model RemoteSupportJobProperties {
   /**
    * log collection job reported properties.
    */
+  @visibility("read")
   reportedProperties?: RemoteSupportReportedProperties;
 }
