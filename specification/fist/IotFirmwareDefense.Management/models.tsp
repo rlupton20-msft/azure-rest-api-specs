@@ -519,7 +519,7 @@ model FirmwareProperties {
   /**
    * The status of firmware scan.
    */
-  status?: Status = Status.Pending;
+  status?: Status;
 
   /**
    * A list of errors or other messages generated during firmware analysis
@@ -646,12 +646,6 @@ model SbomComponent {
   filePaths?: string[];
 
   /**
-   * File properties related to the component.
-   */
-  @extension("x-ms-identifiers", [])
-  relatedFiles?: SbomFileProperties[];
-
-  /**
    * The status of the last operation.
    */
   @visibility("read")
@@ -663,6 +657,11 @@ model SbomComponent {
  */
 @discriminator("summaryType")
 model SummaryResourceProperties {
+  /**
+   * The type of summary.
+   */
+  summaryType: SummaryType;
+
   /**
    * The status of the last operation.
    */
