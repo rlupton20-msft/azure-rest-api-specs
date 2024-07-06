@@ -6,7 +6,7 @@ using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 
-namespace Private.HybridContainerService;
+namespace Microsoft.HybridContainerService;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -578,7 +578,7 @@ model CloudProviderProfileInfraNetworkProfile {
       type: "Microsoft.AzureStackHCI/logicalNetworks";
     },
     {
-      type: "Private.HybridContainerService/virtualNetworks";
+      type: "Microsoft.HybridContainerService/virtualNetworks";
     }
   ]>[];
 }
@@ -942,7 +942,7 @@ model ListCredentialResponse {
   @visibility("read")
   resourceId?: Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.HybridContainerService/provisionedClusterInstances";
+      type: "Microsoft.HybridContainerService/provisionedClusterInstances";
     }
   ]>;
 
