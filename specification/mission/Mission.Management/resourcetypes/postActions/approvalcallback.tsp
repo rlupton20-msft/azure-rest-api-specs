@@ -15,6 +15,9 @@ model ApprovalCallbackRequest {
   @doc("Resource Id of the item being approved or declined")
   resourceId: string;
 
+  @doc("Resource reuest action indicating actin which need to be performed at post-action")
+  resourceRequestAction: "Approved" | "Declined" | "Create" | "Delete" | "Update" | "Reset" | string;
+
   @doc("Approval status indicating 'Approved' or 'Declined'")
   approvalStatus: "Approved" | "Declined" | string;
 }

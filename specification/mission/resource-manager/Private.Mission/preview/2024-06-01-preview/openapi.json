@@ -1844,6 +1844,66 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/enclaveConnections/{enclaveConnectionName}/approvalCallback": {
+      "post": {
+        "operationId": "EnclaveConnection_ApprovalCallback",
+        "tags": [
+          "EnclaveConnection"
+        ],
+        "description": "Upon getting desired approvals this faciliates actions on approvals",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "enclaveConnectionName",
+            "in": "path",
+            "description": "The name of the Enclave Connection Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "approvalCallbackRequest",
+            "in": "body",
+            "description": "Check approval callback request body.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EnclaveConnection_ApprovalCallback": {
+            "$ref": "./examples/EnclaveConnection_PostApprovalCallback.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/externalConnections": {
       "get": {
         "operationId": "ExternalConnections_ListByResourceGroup",
@@ -2718,57 +2778,6 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/approvalCallback": {
-      "post": {
-        "operationId": "VirtualEnclave_ApprovalCallback",
-        "tags": [
-          "VirtualEnclave"
-        ],
-        "description": "Upon getting desired approvals this faciliates actions on approvals",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "virtualEnclaveName",
-            "in": "path",
-            "description": "The name of the enclaveResource Resource",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
-          },
-          {
-            "name": "approvalCallbackRequest",
-            "in": "body",
-            "description": "Check approval callback request body.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalCallbackRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/enclaveEndpoints": {
@@ -3777,6 +3786,21 @@
           "type": "string",
           "description": "Resource Id of the item being approved or declined"
         },
+        "resourceRequestAction": {
+          "type": "string",
+          "description": "Resource reuest action indicating actin which need to be performed at post-action",
+          "enum": [
+            "Approved",
+            "Declined",
+            "Create",
+            "Delete",
+            "Update",
+            "Reset"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
         "approvalStatus": {
           "type": "string",
           "description": "Approval status indicating 'Approved' or 'Declined'",
@@ -3791,6 +3815,7 @@
       },
       "required": [
         "resourceId",
+        "resourceRequestAction",
         "approvalStatus"
       ]
     },
@@ -4269,48 +4294,6 @@
           "type": "string",
           "description": "Managed Address Space"
         }
-      }
-    },
-    "EnclaveApprovalState": {
-      "type": "string",
-      "description": "Specifies the enclave approval state",
-      "enum": [
-        "UnSpecified",
-        "PendingApproval",
-        "Approved",
-        "Declined",
-        "Timeout"
-      ],
-      "x-ms-enum": {
-        "name": "EnclaveApprovalState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "UnSpecified",
-            "value": "UnSpecified",
-            "description": "EnclaveApprovalState Type Un specified"
-          },
-          {
-            "name": "PendingApproval",
-            "value": "PendingApproval",
-            "description": "EnclaveApprovalState Type Pending Approval"
-          },
-          {
-            "name": "Approved",
-            "value": "Approved",
-            "description": "EnclaveApprovalState Type Approved"
-          },
-          {
-            "name": "Declined",
-            "value": "Declined",
-            "description": "EnclaveApprovalState Type Declined"
-          },
-          {
-            "name": "Timeout",
-            "value": "Timeout",
-            "description": "EnclaveApprovalState Type Timeout"
-          }
-        ]
       }
     },
     "EnclaveConnectionProperties": {
@@ -6000,11 +5983,6 @@
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
-          "readOnly": true
-        },
-        "enclaveApprovalState": {
-          "$ref": "#/definitions/EnclaveApprovalState",
-          "description": "Enclave Approval State.",
           "readOnly": true
         },
         "enclaveVirtualNetwork": {

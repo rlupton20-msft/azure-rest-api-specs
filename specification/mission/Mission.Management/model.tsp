@@ -216,19 +216,6 @@ interface VirtualEnclave {
     @bodyRoot
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
-
-  @autoRoute
-  @doc("Upon getting desired approvals this faciliates actions on approvals")
-  @armResourceAction(EnclaveResource)
-  @post
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  approvalCallback(
-    ...ResourceInstanceParameters<EnclaveResource>,
-
-    @doc("Check approval callback request body.")
-    @body
-    approvalCallbackRequest: ApprovalCallbackRequest,
-  ): ArmResponse<ApprovalCallbackResponse> | ErrorResponse;
 }
 
 @doc("Community Interface")
@@ -294,6 +281,19 @@ interface EnclaveConnection {
   delete is ArmResourceDeleteWithoutOkAsync<EnclaveConnectionResource>;
   listByParent is ArmResourceListByParent<EnclaveConnectionResource>;
   listBySubscription is ArmListBySubscription<EnclaveConnectionResource>;
+
+  @autoRoute
+  @doc("Upon getting desired approvals this faciliates actions on approvals")
+  @armResourceAction(EnclaveConnectionResource)
+  @post
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  approvalCallback(
+    ...ResourceInstanceParameters<EnclaveConnectionResource>,
+
+    @doc("Check approval callback request body.")
+    @body
+    approvalCallbackRequest: ApprovalCallbackRequest,
+  ): ArmResponse<ApprovalCallbackResponse> | ErrorResponse;
 }
 
 @added(Microsoft.Mission.Versions.v2023_08_01_preview)
