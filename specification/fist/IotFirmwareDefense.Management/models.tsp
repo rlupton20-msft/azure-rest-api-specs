@@ -187,7 +187,8 @@ model CryptoCertificate {
   /**
    * Name of the certificate.
    */
-  certificateName?: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" ""
+  name?: string;
 
   /**
    * Subject information of the certificate.
