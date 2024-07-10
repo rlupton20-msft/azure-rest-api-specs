@@ -525,7 +525,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Get a measurement endpoint condition`: {
-        $ref: "../../examples/measurementEndpointConditionsGet.json",
+        $ref: "../../examples/measurementEndpointConditionGet.json",
       },
     }
   )
@@ -561,7 +561,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Create or update a measurement endpoint condition`: {
-        $ref: "../../examples/measurementEndpointConditionsCreateOrUpdate.json",
+        $ref: "../../examples/measurementEndpointConditionCreateOrUpdate.json",
       },
     }
   )
@@ -600,7 +600,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Delete a measurement endpoint condition`: {
-        $ref: "../../examples/measurementEndpointConditionsDelete.json",
+        $ref: "../../examples/measurementEndpointConditionDelete.json",
       },
     }
   )
