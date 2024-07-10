@@ -21,14 +21,6 @@ using TypeSpec.OpenAPI;
 @versioned(Microsoft.ModSimWorkbench.Versions)
 namespace Microsoft.ModSimWorkbench;
 
-@doc("Chamber Sku.")
-@added(Versions.`2024-05-01-preview`)
-union Sku {
-  string,
-
-  @doc("Standard sku.")
-  Standard: "Standard",
-}
 @doc("Property to enable or disable")
 model EnableProperty {
   @doc("Enabled if true")
@@ -151,17 +143,20 @@ model ChamberProperties {
   @doc("Directory for the chamber data pipeline inbound. E.g. /mount/datapipeline/dataout")
   dataPipelineOutboundPath?: string;
 
-  @visibility("read", "create")
-  @doc("SKU name.")
-  @added(Versions.`2024-05-01-preview`)
-  sku: Sku;
-
-  // This oldSku @added, @renamedFrom, @deleted is workaround for the missing opposite of @madeoptional
-  @visibility("read", "create")
-  @doc("SKU name.")
   @removed(Versions.`2024-05-01-preview`)
+  // Song and dance to remove default in new API version.
   @renamedFrom(Versions.`2024-05-01-preview`, "sku")
+  @visibility("read", "create")
+  @doc("SKU name.")
   oldSku?: string = "Standard";
+
+  // TODO: Remove properties.sku and use top-level sku.name.
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Sku is a valid envelope property"
+  #deprecated "Use top-level sku.name"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("SKU name.")
+  sku?: string;
 }
 
 @doc("Chamber tracked resource.")
@@ -179,6 +174,12 @@ model Chamber is TrackedResource<ChamberProperties> {
   @visibility("read", "create")
   @doc("The availability zones.")
   zones?: Array<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  sku?: Azure.ResourceManager.Foundations.Sku;
 }
 
 @doc("Parameters for getUploadUri")

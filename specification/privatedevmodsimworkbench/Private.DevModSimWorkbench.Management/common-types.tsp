@@ -93,7 +93,6 @@ model PowerStateProperty {
 }
 
 @doc("The property for specifying capacity allocated.")
-@removed(Versions.`2024-05-01-preview`)
 model CapacityAllocatedProperty {
   @visibility("read", "create", "update")
   @doc("Provisioned size: Capacity allocated to the storage volume in terabytes.")
@@ -101,7 +100,6 @@ model CapacityAllocatedProperty {
 }
 
 @doc("The property for specifying capacity used.")
-@removed(Versions.`2024-05-01-preview`)
 model CapacityUsedProperty {
   @visibility("read")
   @doc("Capacity used in the storage volume in gigabytes.")
@@ -116,6 +114,7 @@ model StorageBaseProperties {
   ...CapacityAllocatedProperty;
   ...CapacityUsedProperty;
 
+  @removed(Versions.`2024-05-01-preview`)
   @visibility("read")
   @doc("Directory where the storage volume is mounted.")
   localMountPath?: string;
