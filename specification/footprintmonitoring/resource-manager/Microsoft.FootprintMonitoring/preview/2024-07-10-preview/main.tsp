@@ -14,11 +14,11 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
+@OpenAPI.extension(
+  "x-typespec-generated", true
+)
 @service({
   title: "Profiles",
-  @OpenAPI.extension(
-    "x-typespec-generated", true
-  )
   version: "2024-07-10-preview",
   description: "Microsoft Footprint active monitoring system REST API version 2024-07-03-preview",
   contact: {
