@@ -54,6 +54,9 @@
       "name": "VirtualNetworkAddresses"
     },
     {
+      "name": "SystemVersions"
+    },
+    {
       "name": "OracleSubscriptions"
     },
     {
@@ -85,15 +88,6 @@
     },
     {
       "name": "AutonomousDatabaseVersions"
-    },
-    {
-      "name": "OracleCloudAccount"
-    },
-    {
-      "name": "SystemVersions"
-    },
-    {
-      "name": "ProxyOracleSubscriptionOperations"
     }
   ],
   "paths": {
@@ -993,7 +987,7 @@
         },
         "x-ms-examples": {
           "List Exadata System Versions by the provided filter": {
-            "$ref": "./examples/systemVersions_listSystemVersions.json"
+            "$ref": "./examples/systemVersions_listByLocation.json"
           }
         },
         "x-ms-pageable": {
@@ -1039,6 +1033,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get Exadata System Version": {
+            "$ref": "./examples/systemVersions_get.json"
           }
         }
       }
@@ -1763,9 +1762,6 @@
           }
         },
         "x-ms-examples": {
-          "AutonomousDatabases_Get": {
-            "$ref": "./examples/autonomousDatabase_get.json"
-          },
           "Get Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_get.json"
           }
@@ -1839,12 +1835,6 @@
           }
         },
         "x-ms-examples": {
-          "AutonomousDatabases_CreateOrUpdate": {
-            "$ref": "./examples/autonomousDatabase_create.json"
-          },
-          "AutonomousDatabases_CreateOrUpdate_clone": {
-            "$ref": "./examples/autonomousDatabaseClone_create.json"
-          },
           "Create Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_create.json"
           },
@@ -2178,9 +2168,6 @@
           }
         },
         "x-ms-examples": {
-          "AutonomousDatabaseBackups_CreateOrUpdate": {
-            "$ref": "./examples/autonomousDatabaseBackup_create.json"
-          },
           "Create Autonomous Database Backup.": {
             "$ref": "./examples/autonomousDatabaseBackup_create.json"
           }
@@ -2409,9 +2396,6 @@
           }
         },
         "x-ms-examples": {
-          "AutonomousDatabases_Failover": {
-            "$ref": "./examples/autonomousDatabase_failover.json"
-          },
           "Perform failover action on Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_failover.json"
           }
@@ -2547,7 +2531,74 @@
         },
         "x-ms-examples": {
           "Perform restore action on Autonomous Database": {
-            "$ref": "./examples/autonomousDatabaseBackup_restore.json"
+            "$ref": "./examples/autonomousDatabase_restore.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/shrink": {
+      "post": {
+        "operationId": "AutonomousDatabases_Shrink",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "This operation shrinks the current allocated storage down to the current actual used data storage.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Perform shrink action on Autonomous Database": {
+            "$ref": "./examples/autonomousDatabase_shrink.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2622,9 +2673,6 @@
           }
         },
         "x-ms-examples": {
-          "AutonomousDatabases_Switchover": {
-            "$ref": "./examples/autonomousDatabase_switchover.json"
-          },
           "Perform switchover action on Autonomous Database": {
             "$ref": "./examples/autonomousDatabase_switchover.json"
           }
@@ -3654,9 +3702,6 @@
           }
         },
         "x-ms-examples": {
-          "DbNodes_Action": {
-            "$ref": "./examples/dbNodes_action.json"
-          },
           "VM actions on DbNodes of VM Cluster": {
             "$ref": "./examples/dbNodes_action.json"
           }
@@ -4167,7 +4212,7 @@
     },
     "AutonomousDatabaseBackupLifecycleState": {
       "type": "string",
-      "description": "AutonomousDatabaseBackupLifecycleState enum",
+      "description": "Autonomous database backup lifecycle state enum",
       "enum": [
         "Creating",
         "Active",
@@ -4182,27 +4227,27 @@
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "AutonomousDatabase backup Creating"
+            "description": "AutonomousDatabase backup is creating"
           },
           {
             "name": "Active",
             "value": "Active",
-            "description": "AutonomousDatabase backup Active"
+            "description": "AutonomousDatabase backup is active"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "AutonomousDatabase backup Deleting"
+            "description": "AutonomousDatabase backup is deleting"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "AutonomousDatabase backup Failed"
+            "description": "AutonomousDatabase backup is failed"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "AutonomousDatabase backup Updating"
+            "description": "AutonomousDatabase backup is updating"
           }
         ]
       }
@@ -4329,7 +4374,7 @@
     },
     "AutonomousDatabaseBackupType": {
       "type": "string",
-      "description": "AutonomousDatabaseBackupType enum",
+      "description": "Autonomous database backup type enum",
       "enum": [
         "Incremental",
         "Full",
@@ -4983,8 +5028,7 @@
           "type": "string",
           "description": "The Oracle Autonomous Database supported character sets.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         }
       },
       "required": [
@@ -5073,7 +5117,7 @@
     },
     "AutonomousDatabaseLifecycleState": {
       "type": "string",
-      "description": "AutonomousDatabaseLifecycleState enum",
+      "description": "Autonomous database lifecycle state enum",
       "enum": [
         "Provisioning",
         "Available",
@@ -5104,107 +5148,107 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Stopping",
             "value": "Stopping",
-            "description": "STOPPING value"
+            "description": "Indicates that resource in Stopping state"
           },
           {
             "name": "Stopped",
             "value": "Stopped",
-            "description": "STOPPED value"
+            "description": "Indicates that resource in Stopped state"
           },
           {
             "name": "Starting",
             "value": "Starting",
-            "description": "STARTING value"
+            "description": "Indicates that resource in Starting state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "Unavailable",
             "value": "Unavailable",
-            "description": "UNAVAILABLE value"
+            "description": "Indicates that resource in Unavailable state"
           },
           {
             "name": "RestoreInProgress",
             "value": "RestoreInProgress",
-            "description": "RESTORE_IN_PROGRESS value"
+            "description": "Indicates that resource in RestoreInProgress state"
           },
           {
             "name": "RestoreFailed",
             "value": "RestoreFailed",
-            "description": "RESTORE_FAILED value"
+            "description": "Indicates that resource in RestoreFailed state"
           },
           {
             "name": "BackupInProgress",
             "value": "BackupInProgress",
-            "description": "BACKUP_IN_PROGRESS value"
+            "description": "Indicates that resource in BackupInProgress state"
           },
           {
             "name": "ScaleInProgress",
             "value": "ScaleInProgress",
-            "description": "SCALE_IN_PROGRESS value"
+            "description": "Indicates that resource in ScaleInProgress state"
           },
           {
             "name": "AvailableNeedsAttention",
             "value": "AvailableNeedsAttention",
-            "description": "AVAILABLE_NEEDS_ATTENTION value"
+            "description": "Indicates that resource is available but needs attention"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource maintenance in progress state"
           },
           {
             "name": "Restarting",
             "value": "Restarting",
-            "description": "RESTARTING value"
+            "description": "Indicates that resource in Restarting state"
           },
           {
             "name": "Recreating",
             "value": "Recreating",
-            "description": "RECREATING value"
+            "description": "Indicates that resource in Recreating state"
           },
           {
             "name": "RoleChangeInProgress",
             "value": "RoleChangeInProgress",
-            "description": "ROLE_CHANGE_IN_PROGRESS value"
+            "description": "Indicates that resource role change in progress state"
           },
           {
             "name": "Upgrading",
             "value": "Upgrading",
-            "description": "UPGRADING value"
+            "description": "Indicates that resource in Upgrading state"
           },
           {
             "name": "Inaccessible",
             "value": "Inaccessible",
-            "description": "INACCESSIBLE value"
+            "description": "IIndicates that resource in Inaccessible state"
           },
           {
             "name": "Standby",
             "value": "Standby",
-            "description": "STANDBY value"
+            "description": "Indicates that resource in Standby state"
           }
         ]
       }
@@ -5274,8 +5318,7 @@
           "type": "string",
           "description": "The Oracle Autonomous Database supported national character sets.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         }
       },
       "required": [
@@ -5627,42 +5670,41 @@
           "type": "string",
           "description": "Supported Autonomous Db versions.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         },
         "dbWorkload": {
           "$ref": "#/definitions/WorkloadType",
-          "description": "The Autonomous Database workload type",
-          "readOnly": true
+          "description": "The Autonomous Database workload type"
         },
         "isDefaultForFree": {
           "type": "boolean",
-          "description": "True if this version of the Oracle Database software's default is free.",
-          "readOnly": true
+          "description": "True if this version of the Oracle Database software's default is free."
         },
         "isDefaultForPaid": {
           "type": "boolean",
-          "description": "True if this version of the Oracle Database software's default is paid.",
-          "readOnly": true
+          "description": "True if this version of the Oracle Database software's default is paid."
         },
         "isFreeTierEnabled": {
           "type": "boolean",
-          "description": "True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.",
-          "readOnly": true
+          "description": "True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases."
         },
         "isPaidEnabled": {
           "type": "boolean",
-          "description": "True if this version of the Oracle Database software has payments enabled.",
-          "readOnly": true
+          "description": "True if this version of the Oracle Database software has payments enabled."
         }
       },
       "required": [
-        "version"
+        "version",
+        "dbWorkload",
+        "isDefaultForFree",
+        "isDefaultForPaid",
+        "isFreeTierEnabled",
+        "isPaidEnabled"
       ]
     },
     "AutonomousMaintenanceScheduleType": {
       "type": "string",
-      "description": "AutonomousMaintenanceScheduleType enum.",
+      "description": "Autonomous database maintenance schedule type enum.",
       "enum": [
         "Early",
         "Regular"
@@ -5674,12 +5716,12 @@
           {
             "name": "Early",
             "value": "Early",
-            "description": "EARLY value"
+            "description": "Early maintenance schedule"
           },
           {
             "name": "Regular",
             "value": "Regular",
-            "description": "REGULAR value"
+            "description": "Regular maintenance schedule"
           }
         ]
       }
@@ -5746,7 +5788,7 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "Indicates that resource in Provisioning state"
           }
         ]
       },
@@ -5754,7 +5796,7 @@
     },
     "CloneType": {
       "type": "string",
-      "description": "CloneType enum",
+      "description": "Clone type enum",
       "enum": [
         "Full",
         "Metadata"
@@ -5766,12 +5808,12 @@
           {
             "name": "Full",
             "value": "Full",
-            "description": "FULL value"
+            "description": "Full clone"
           },
           {
             "name": "Metadata",
             "value": "Metadata",
-            "description": "METADATA value"
+            "description": "Metadata only"
           }
         ]
       }
@@ -5807,17 +5849,17 @@
           {
             "name": "Pending",
             "value": "Pending",
-            "description": "Pending value"
+            "description": "Pending - Initial state when Oracle cloud account is not configured"
           },
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "Provisioning - State when Oracle cloud account is being provisioned"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Available value"
+            "description": "Available - State when Oracle cloud account cloud linking is complete and it is available"
           }
         ]
       }
@@ -5878,37 +5920,37 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource maintenance in progress state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -6032,6 +6074,7 @@
         },
         "ociUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
           "readOnly": true
         },
@@ -6072,8 +6115,8 @@
           "readOnly": true
         },
         "dataStorageSizeInTbs": {
-          "type": "integer",
-          "format": "int32",
+          "type": "number",
+          "format": "double",
           "description": "The quantity of data in the database, in terabytes.",
           "readOnly": true
         },
@@ -6242,7 +6285,7 @@
     },
     "CloudVmClusterLifecycleState": {
       "type": "string",
-      "description": "CloudVmClusterLifecycleState enum",
+      "description": "Cloud VM Cluster lifecycle state enum",
       "enum": [
         "Provisioning",
         "Available",
@@ -6259,37 +6302,37 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource Maintenance in progress state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -6467,7 +6510,10 @@
           "description": "Operating system version of the image.",
           "minLength": 1,
           "maxLength": 255,
-          "readOnly": true
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "sshPublicKeys": {
           "type": "array",
@@ -6566,11 +6612,13 @@
         },
         "ociUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
           "readOnly": true
         },
         "nsgUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.",
           "readOnly": true
         },
@@ -6757,7 +6805,7 @@
     },
     "ComputeModel": {
       "type": "string",
-      "description": "ComputeModel enum",
+      "description": "Compute model enum",
       "enum": [
         "ECPU",
         "OCPU"
@@ -6769,12 +6817,12 @@
           {
             "name": "ECPU",
             "value": "ECPU",
-            "description": "ECPU value"
+            "description": "ECPU model type"
           },
           {
             "name": "OCPU",
             "value": "OCPU",
-            "description": "OCPU value"
+            "description": "OCPU model type"
           }
         ]
       }
@@ -6871,7 +6919,7 @@
     },
     "ConsumerGroup": {
       "type": "string",
-      "description": "ConsumerGroup enum.",
+      "description": "Consumer group enum.",
       "enum": [
         "High",
         "Medium",
@@ -6886,27 +6934,27 @@
           {
             "name": "High",
             "value": "High",
-            "description": "HIGH value"
+            "description": "High group"
           },
           {
             "name": "Medium",
             "value": "Medium",
-            "description": "MEDIUM value"
+            "description": "Medium group"
           },
           {
             "name": "Low",
             "value": "Low",
-            "description": "LOW value"
+            "description": "Low group"
           },
           {
             "name": "Tp",
             "value": "Tp",
-            "description": "TP value"
+            "description": "TP group"
           },
           {
             "name": "Tpurgent",
             "value": "Tpurgent",
-            "description": "TPURGENT value"
+            "description": "TPurgent group"
           }
         ]
       }
@@ -6928,7 +6976,7 @@
     },
     "DataBaseType": {
       "type": "string",
-      "description": "DataBaseType enum",
+      "description": "Database type enum",
       "enum": [
         "Regular",
         "Clone"
@@ -6940,12 +6988,12 @@
           {
             "name": "Regular",
             "value": "Regular",
-            "description": "REGULAR value"
+            "description": "Regular DB"
           },
           {
             "name": "Clone",
             "value": "Clone",
-            "description": "CLONE value"
+            "description": "Clone DB"
           }
         ]
       }
@@ -6973,7 +7021,7 @@
     },
     "DataSafeStatusType": {
       "type": "string",
-      "description": "DataSafeStatusType enum.",
+      "description": "DataSafe status type enum.",
       "enum": [
         "Registering",
         "Registered",
@@ -6988,34 +7036,34 @@
           {
             "name": "Registering",
             "value": "Registering",
-            "description": "REGISTERING value"
+            "description": "Registering status"
           },
           {
             "name": "Registered",
             "value": "Registered",
-            "description": "REGISTERED value"
+            "description": "Registered status"
           },
           {
             "name": "Deregistering",
             "value": "Deregistering",
-            "description": "DEREGISTERING value"
+            "description": "Deregistering status"
           },
           {
             "name": "NotRegistered",
             "value": "NotRegistered",
-            "description": "NOT_REGISTERED value"
+            "description": "NotRegistered status"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Failed status"
           }
         ]
       }
     },
     "DatabaseEditionType": {
       "type": "string",
-      "description": "DatabaseEditionType enum.",
+      "description": "Database edition type enum.",
       "enum": [
         "StandardEdition",
         "EnterpriseEdition"
@@ -7027,12 +7075,12 @@
           {
             "name": "StandardEdition",
             "value": "StandardEdition",
-            "description": "STANDARD_EDITION value"
+            "description": "Standard edition"
           },
           {
             "name": "EnterpriseEdition",
             "value": "EnterpriseEdition",
-            "description": "ENTERPRISE_EDITION value"
+            "description": "Enterprise edition"
           }
         ]
       }
@@ -7233,7 +7281,7 @@
           {
             "name": "VmdbRebootMigration",
             "value": "VmdbRebootMigration",
-            "description": "Provisioning value"
+            "description": "VMDB reboot migration maintenance type"
           }
         ]
       }
@@ -7244,132 +7292,130 @@
       "properties": {
         "ocid": {
           "$ref": "#/definitions/Ocid",
-          "description": "DbNode OCID",
-          "readOnly": true
+          "description": "DbNode OCID"
         },
         "additionalDetails": {
           "type": "string",
-          "description": "Additional information about the planned maintenance.",
-          "readOnly": true
+          "description": "Additional information about the planned maintenance."
         },
         "backupIpId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the backup IP address associated with the database node.",
-          "readOnly": true
+          "description": "The OCID of the backup IP address associated with the database node."
         },
         "backupVnic2Id": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the second backup VNIC.",
-          "readOnly": true
+          "description": "The OCID of the second backup VNIC."
         },
         "backupVnicId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the backup VNIC.",
-          "readOnly": true
+          "description": "The OCID of the backup VNIC."
         },
         "cpuCoreCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The number of CPU cores enabled on the Db node.",
-          "readOnly": true
+          "description": "The number of CPU cores enabled on the Db node."
         },
         "dbNodeStorageSizeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The allocated local node storage in GBs on the Db node.",
-          "readOnly": true
+          "description": "The allocated local node storage in GBs on the Db node."
         },
         "dbServerId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the Exacc Db server associated with the database node.",
-          "readOnly": true
+          "description": "The OCID of the Exacc Db server associated with the database node."
         },
         "dbSystemId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the DB system.",
-          "readOnly": true
+          "description": "The OCID of the DB system."
         },
         "faultDomain": {
           "type": "string",
           "description": "The name of the Fault Domain the instance is contained in.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         },
         "hostIpId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the host IP address associated with the database node.",
-          "readOnly": true
+          "description": "The OCID of the host IP address associated with the database node."
         },
         "hostname": {
           "type": "string",
-          "description": "The host name for the database node.",
-          "readOnly": true
+          "description": "The host name for the database node."
         },
         "lifecycleState": {
           "$ref": "#/definitions/DbNodeProvisioningState",
-          "description": "The current state of the database node.",
-          "readOnly": true
+          "description": "The current state of the database node."
         },
         "lifecycleDetails": {
           "type": "string",
-          "description": "Lifecycle details of Db Node.",
-          "readOnly": true
+          "description": "Lifecycle details of Db Node."
         },
         "maintenanceType": {
           "$ref": "#/definitions/DbNodeMaintenanceType",
-          "description": "The type of database node maintenance.",
-          "readOnly": true
+          "description": "The type of database node maintenance."
         },
         "memorySizeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The allocated memory in GBs on the Db node.",
-          "readOnly": true
+          "description": "The allocated memory in GBs on the Db node."
         },
         "softwareStorageSizeInGb": {
           "type": "integer",
           "format": "int32",
-          "description": "The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.",
-          "readOnly": true
+          "description": "The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems."
         },
         "timeCreated": {
           "type": "string",
           "format": "date-time",
-          "description": "The date and time that the database node was created.",
-          "readOnly": true
+          "description": "The date and time that the database node was created."
         },
         "timeMaintenanceWindowEnd": {
           "type": "string",
           "format": "date-time",
-          "description": "End date and time of maintenance window.",
-          "readOnly": true
+          "description": "End date and time of maintenance window."
         },
         "timeMaintenanceWindowStart": {
           "type": "string",
           "format": "date-time",
-          "description": "Start date and time of maintenance window.",
-          "readOnly": true
+          "description": "Start date and time of maintenance window."
         },
         "vnic2Id": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the second VNIC.",
-          "readOnly": true
+          "description": "The OCID of the second VNIC."
         },
         "vnicId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the VNIC.",
-          "readOnly": true
+          "description": "The OCID of the VNIC."
         },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
-          "description": "Azure resource provisioning state.",
-          "readOnly": true
+          "description": "Azure resource provisioning state."
         }
       },
       "required": [
         "ocid",
-        "dbSystemId"
+        "additionalDetails",
+        "backupIpId",
+        "backupVnic2Id",
+        "backupVnicId",
+        "cpuCoreCount",
+        "dbNodeStorageSizeInGbs",
+        "dbServerId",
+        "dbSystemId",
+        "faultDomain",
+        "hostIpId",
+        "hostname",
+        "lifecycleState",
+        "lifecycleDetails",
+        "maintenanceType",
+        "memorySizeInGbs",
+        "softwareStorageSizeInGb",
+        "timeCreated",
+        "timeMaintenanceWindowEnd",
+        "timeMaintenanceWindowStart",
+        "vnic2Id",
+        "vnicId",
+        "provisioningState"
       ]
     },
     "DbNodeProvisioningState": {
@@ -7393,47 +7439,47 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Stopping",
             "value": "Stopping",
-            "description": "STOPPING value"
+            "description": "Indicates that resource in Stopping state"
           },
           {
             "name": "Stopped",
             "value": "Stopped",
-            "description": "STOPPED value"
+            "description": "Indicates that resource in Stopped state"
           },
           {
             "name": "Starting",
             "value": "Starting",
-            "description": "STARTING value"
+            "description": "Indicates that resource in Starting state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -7507,7 +7553,7 @@
     },
     "DbServerPatchingStatus": {
       "type": "string",
-      "description": "Db Server patching status enum",
+      "description": "DB Server patching status enum",
       "enum": [
         "Scheduled",
         "MaintenanceInProgress",
@@ -7521,22 +7567,22 @@
           {
             "name": "Scheduled",
             "value": "Scheduled",
-            "description": "SCHEDULED value"
+            "description": "Patching scheduled"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Patching in progress"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Patching failed"
           },
           {
             "name": "Complete",
             "value": "Complete",
-            "description": "COMPLETE value"
+            "description": "Patching completed"
           }
         ]
       }
@@ -7688,32 +7734,32 @@
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "CREATING value"
+            "description": "Indicates that resource in Creating state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Unavailable",
             "value": "Unavailable",
-            "description": "UNAVAILABLE value"
+            "description": "Indicates that resource in Unavailable state"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "DELETING value"
+            "description": "Indicates that resource in Deleting state"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "DELETED value"
+            "description": "Indicates that resource in Deleted state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource maintenance in progress state"
           }
         ]
       }
@@ -7762,131 +7808,130 @@
           "type": "string",
           "description": "The family of the shape used for the DB system.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         },
         "availableCoreCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum number of CPU cores that can be enabled on the DB system for this shape.",
-          "readOnly": true
+          "description": "The maximum number of CPU cores that can be enabled on the DB system for this shape."
         },
         "minimumCoreCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum number of CPU cores that can be enabled on the DB system for this shape.",
-          "readOnly": true
+          "description": "The minimum number of CPU cores that can be enabled on the DB system for this shape."
         },
         "runtimeMinimumCoreCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The runtime minimum number of CPU cores that can be enabled on the DB system for this shape.",
-          "readOnly": true
+          "description": "The runtime minimum number of CPU cores that can be enabled on the DB system for this shape."
         },
         "coreCountIncrement": {
           "type": "integer",
           "format": "int32",
-          "description": "The discrete number by which the CPU core count for this shape can be increased or decreased.",
-          "readOnly": true
+          "description": "The discrete number by which the CPU core count for this shape can be increased or decreased."
         },
         "minStorageCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum number of Exadata storage servers available for the Exadata infrastructure.",
-          "readOnly": true
+          "description": "The minimum number of Exadata storage servers available for the Exadata infrastructure."
         },
         "maxStorageCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum number of Exadata storage servers available for the Exadata infrastructure.",
-          "readOnly": true
+          "description": "The maximum number of Exadata storage servers available for the Exadata infrastructure."
         },
         "availableDataStoragePerServerInTbs": {
           "type": "number",
           "format": "double",
-          "description": "The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.",
-          "readOnly": true
+          "description": "The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes."
         },
         "availableMemoryPerNodeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.",
-          "readOnly": true
+          "description": "The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes."
         },
         "availableDbNodePerNodeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.",
-          "readOnly": true
+          "description": "The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes."
         },
         "minCoreCountPerNode": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum number of CPU cores that can be enabled per node for this shape.",
-          "readOnly": true
+          "description": "The minimum number of CPU cores that can be enabled per node for this shape."
         },
         "availableMemoryInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum memory that can be enabled for this shape.",
-          "readOnly": true
+          "description": "The maximum memory that can be enabled for this shape."
         },
         "minMemoryPerNodeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum memory that need be allocated per node for this shape.",
-          "readOnly": true
+          "description": "The minimum memory that need be allocated per node for this shape."
         },
         "availableDbNodeStorageInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum Db Node storage that can be enabled for this shape.",
-          "readOnly": true
+          "description": "The maximum Db Node storage that can be enabled for this shape."
         },
         "minDbNodeStoragePerNodeInGbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum Db Node storage that need be allocated per node for this shape.",
-          "readOnly": true
+          "description": "The minimum Db Node storage that need be allocated per node for this shape."
         },
         "availableDataStorageInTbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum DATA storage that can be enabled for this shape.",
-          "readOnly": true
+          "description": "The maximum DATA storage that can be enabled for this shape."
         },
         "minDataStorageInTbs": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum data storage that need be allocated for this shape.",
-          "readOnly": true
+          "description": "The minimum data storage that need be allocated for this shape."
         },
         "minimumNodeCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum number of database nodes available for this shape.",
-          "readOnly": true
+          "description": "The minimum number of database nodes available for this shape."
         },
         "maximumNodeCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum number of database nodes available for this shape.",
-          "readOnly": true
+          "description": "The maximum number of database nodes available for this shape."
         },
         "availableCoreCountPerNode": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.",
-          "readOnly": true
+          "description": "The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes."
         }
       },
       "required": [
-        "availableCoreCount"
+        "shapeFamily",
+        "availableCoreCount",
+        "minimumCoreCount",
+        "runtimeMinimumCoreCount",
+        "coreCountIncrement",
+        "minStorageCount",
+        "maxStorageCount",
+        "availableDataStoragePerServerInTbs",
+        "availableMemoryPerNodeInGbs",
+        "availableDbNodePerNodeInGbs",
+        "minCoreCountPerNode",
+        "availableMemoryInGbs",
+        "minMemoryPerNodeInGbs",
+        "availableDbNodeStorageInGbs",
+        "minDbNodeStoragePerNodeInGbs",
+        "availableDataStorageInTbs",
+        "minDataStorageInTbs",
+        "minimumNodeCount",
+        "maximumNodeCount",
+        "availableCoreCountPerNode"
       ]
     },
     "DisasterRecoveryType": {
       "type": "string",
-      "description": "DisasterRecoveryType enum.",
+      "description": "Disaster recovery type enum.",
       "enum": [
         "Adg",
         "BackupBased"
@@ -7898,19 +7943,19 @@
           {
             "name": "Adg",
             "value": "Adg",
-            "description": "ADG value"
+            "description": "ADG type"
           },
           {
             "name": "BackupBased",
             "value": "BackupBased",
-            "description": "BACKUP_BASED value"
+            "description": "Backup based type"
           }
         ]
       }
     },
     "DiskRedundancy": {
       "type": "string",
-      "description": "DiskRedundancy enum",
+      "description": "Disk redundancy enum",
       "enum": [
         "High",
         "Normal"
@@ -7922,12 +7967,12 @@
           {
             "name": "High",
             "value": "High",
-            "description": "High value"
+            "description": "High redundancy"
           },
           {
             "name": "Normal",
             "value": "Normal",
-            "description": "Normal value"
+            "description": "Normal redundancy"
           }
         ]
       }
@@ -7974,58 +8019,53 @@
       "properties": {
         "ocid": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the view",
-          "readOnly": true
+          "description": "The OCID of the view"
         },
         "displayName": {
           "type": "string",
-          "description": "The display name of the view resource",
-          "readOnly": true
+          "description": "The display name of the view resource"
         },
         "isProtected": {
           "type": "boolean",
-          "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.",
-          "readOnly": true
+          "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed."
         },
         "lifecycleState": {
           "$ref": "#/definitions/DnsPrivateViewsLifecycleState",
-          "description": "Views lifecycleState",
-          "readOnly": true
+          "description": "Views lifecycleState"
         },
         "self": {
           "type": "string",
-          "description": "The canonical absolute URL of the resource.",
-          "readOnly": true
+          "description": "The canonical absolute URL of the resource."
         },
         "timeCreated": {
           "type": "string",
           "format": "date-time",
-          "description": "views timeCreated",
-          "readOnly": true
+          "description": "views timeCreated"
         },
         "timeUpdated": {
           "type": "string",
           "format": "date-time",
-          "description": "views timeCreated",
-          "readOnly": true
+          "description": "views timeUpdated"
         },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
-          "description": "Azure resource provisioning state.",
-          "readOnly": true
+          "description": "Azure resource provisioning state."
         }
       },
       "required": [
         "ocid",
+        "displayName",
         "isProtected",
+        "lifecycleState",
         "self",
         "timeCreated",
-        "timeUpdated"
+        "timeUpdated",
+        "provisioningState"
       ]
     },
     "DnsPrivateViewsLifecycleState": {
       "type": "string",
-      "description": "DnsPrivateViews lifecycle state enum",
+      "description": "DNS Private Views lifecycle state enum",
       "enum": [
         "Active",
         "Deleted",
@@ -8039,22 +8079,22 @@
           {
             "name": "Active",
             "value": "Active",
-            "description": "Active value"
+            "description": "DNS Private View is active"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "Deleted value"
+            "description": "DNS Private View is deleted"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "Deleting value"
+            "description": "DNS Private View is deleting"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "Updating value"
+            "description": "DNS Private View is updating"
           }
         ]
       }
@@ -8101,70 +8141,63 @@
       "properties": {
         "ocid": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the Zone",
-          "readOnly": true
+          "description": "The OCID of the Zone"
         },
         "isProtected": {
           "type": "boolean",
-          "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.",
-          "readOnly": true
+          "description": "A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed."
         },
         "lifecycleState": {
           "$ref": "#/definitions/DnsPrivateZonesLifecycleState",
-          "description": "Zones lifecycleState",
-          "readOnly": true
+          "description": "Zones lifecycleState"
         },
         "self": {
           "type": "string",
-          "description": "The canonical absolute URL of the resource.",
-          "readOnly": true
+          "description": "The canonical absolute URL of the resource."
         },
         "serial": {
           "type": "integer",
           "format": "int32",
-          "description": "The current serial of the zone. As seen in the zone's SOA record.",
-          "readOnly": true
+          "description": "The current serial of the zone. As seen in the zone's SOA record."
         },
         "version": {
           "type": "string",
-          "description": "Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.",
-          "readOnly": true
+          "description": "Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived."
         },
         "viewId": {
           "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.",
-          "readOnly": true
+          "description": "The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view."
         },
         "zoneType": {
           "$ref": "#/definitions/ZoneType",
-          "description": "The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.",
-          "readOnly": true
+          "description": "The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones."
         },
         "timeCreated": {
           "type": "string",
           "format": "date-time",
-          "description": "Zones timeCreated",
-          "readOnly": true
+          "description": "Zones timeCreated"
         },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
-          "description": "Azure resource provisioning state.",
-          "readOnly": true
+          "description": "Azure resource provisioning state."
         }
       },
       "required": [
         "ocid",
         "isProtected",
+        "lifecycleState",
         "self",
         "serial",
         "version",
+        "viewId",
         "zoneType",
-        "timeCreated"
+        "timeCreated",
+        "provisioningState"
       ]
     },
     "DnsPrivateZonesLifecycleState": {
       "type": "string",
-      "description": "DnsPrivateZones lifecycle state enum",
+      "description": "DNS Private Zones lifecycle state enum",
       "enum": [
         "Active",
         "Creating",
@@ -8179,27 +8212,27 @@
           {
             "name": "Active",
             "value": "Active",
-            "description": "Active value"
+            "description": "DNS Private Zones is active"
           },
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "Creating value"
+            "description": "DNS Private Zones is creating"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "Deleted value"
+            "description": "DNS Private Zones is deleted"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "Deleting value"
+            "description": "DNS Private Zones is deleting"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "Updating value"
+            "description": "DNS Private Zones is updating"
           }
         ]
       }
@@ -8292,7 +8325,7 @@
     },
     "GenerateType": {
       "type": "string",
-      "description": "GenerateType enum",
+      "description": "Generate type enum",
       "enum": [
         "Single",
         "All"
@@ -8304,12 +8337,12 @@
           {
             "name": "Single",
             "value": "Single",
-            "description": "SINGLE value"
+            "description": "Generate single"
           },
           {
             "name": "All",
             "value": "All",
-            "description": "ALL value"
+            "description": "Generate all"
           }
         ]
       }
@@ -8358,8 +8391,7 @@
           "type": "string",
           "description": "A valid Oracle Grid Infrastructure (GI) software version.",
           "minLength": 1,
-          "maxLength": 255,
-          "readOnly": true
+          "maxLength": 255
         }
       },
       "required": [
@@ -8368,7 +8400,7 @@
     },
     "HostFormatType": {
       "type": "string",
-      "description": "HostFormatType enum.",
+      "description": "Host format type enum.",
       "enum": [
         "Fqdn",
         "Ip"
@@ -8380,12 +8412,12 @@
           {
             "name": "Fqdn",
             "value": "Fqdn",
-            "description": "FQDN value"
+            "description": "FQDN format"
           },
           {
             "name": "Ip",
             "value": "Ip",
-            "description": "IP value"
+            "description": "IP format"
           }
         ]
       }
@@ -8404,19 +8436,19 @@
           {
             "name": "Retain",
             "value": "Retain",
-            "description": "Retain value"
+            "description": "Retain intent"
           },
           {
             "name": "Reset",
             "value": "Reset",
-            "description": "Reset value"
+            "description": "Reset intent"
           }
         ]
       }
     },
     "IormLifecycleState": {
       "type": "string",
-      "description": "IORMLifecycleState enum",
+      "description": "ORM lifecycle state enum",
       "enum": [
         "BootStrapping",
         "Enabled",
@@ -8431,27 +8463,27 @@
           {
             "name": "BootStrapping",
             "value": "BootStrapping",
-            "description": "BOOTSTRAPPING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "ENABLED value"
+            "description": "Indicates that resource in Enabled state"
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "DISABLED value"
+            "description": "Indicates that resource in Disabled state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -8470,12 +8502,12 @@
           {
             "name": "LicenseIncluded",
             "value": "LicenseIncluded",
-            "description": "LicenseIncluded value"
+            "description": "License included"
           },
           {
             "name": "BringYourOwnLicense",
             "value": "BringYourOwnLicense",
-            "description": "BringYourOwnLicense value"
+            "description": "Bring Your Own License"
           }
         ]
       }
@@ -8670,6 +8702,10 @@
         ]
       }
     },
+    "MsRpaasNewResourceHeader": {
+      "type": "object",
+      "description": "Header to distinguish between resource creation or update"
+    },
     "NsgCidr": {
       "type": "object",
       "description": "A rule for allowing inbound (INGRESS) IP packets",
@@ -8706,27 +8742,27 @@
           {
             "name": "LowLatency",
             "value": "LowLatency",
-            "description": "LOW_LATENCY value"
+            "description": "Low latency objective"
           },
           {
             "name": "HighThroughput",
             "value": "HighThroughput",
-            "description": "HIGH_THROUGHPUT value"
+            "description": "High throughput objective"
           },
           {
             "name": "Balanced",
             "value": "Balanced",
-            "description": "BALANCED value"
+            "description": "Balanced objective"
           },
           {
             "name": "Auto",
             "value": "Auto",
-            "description": "AUTO value"
+            "description": "Auto objective"
           },
           {
             "name": "Basic",
             "value": "Basic",
-            "description": "BASIC value"
+            "description": "Basic objective"
           }
         ]
       }
@@ -8739,7 +8775,7 @@
     },
     "OpenModeType": {
       "type": "string",
-      "description": "OpenModeType enum.",
+      "description": "Open mode type enum.",
       "enum": [
         "ReadOnly",
         "ReadWrite"
@@ -8751,19 +8787,19 @@
           {
             "name": "ReadOnly",
             "value": "ReadOnly",
-            "description": "READ_ONLY value"
+            "description": "ReadOnly mode"
           },
           {
             "name": "ReadWrite",
             "value": "ReadWrite",
-            "description": "READ_WRITE value"
+            "description": "ReadWrite mode"
           }
         ]
       }
     },
     "OperationsInsightsStatusType": {
       "type": "string",
-      "description": "OperationsInsightsStatusType enum.",
+      "description": "Operations Insights status type enum.",
       "enum": [
         "Enabling",
         "Enabled",
@@ -8779,32 +8815,32 @@
           {
             "name": "Enabling",
             "value": "Enabling",
-            "description": "ENABLING value"
+            "description": "Enabling status"
           },
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "ENABLED value"
+            "description": "Enabled status"
           },
           {
             "name": "Disabling",
             "value": "Disabling",
-            "description": "DISABLING value"
+            "description": "Disabling status"
           },
           {
             "name": "NotEnabled",
             "value": "NotEnabled",
-            "description": "NOT_ENABLED value"
+            "description": "NotEnabled status"
           },
           {
             "name": "FailedEnabling",
             "value": "FailedEnabling",
-            "description": "FAILED_ENABLING value"
+            "description": "FailedEnabling status"
           },
           {
             "name": "FailedDisabling",
             "value": "FailedDisabling",
-            "description": "FAILED_DISABLING value"
+            "description": "FailedDisabling status"
           }
         ]
       }
@@ -8991,7 +9027,7 @@
       "description": "The type used for update operations of the OracleSubscription.",
       "properties": {
         "plan": {
-          "$ref": "#/definitions/ResourcePlanTypeUpdate",
+          "$ref": "#/definitions/PlanUpdate",
           "description": "Details of the resource plan."
         },
         "properties": {
@@ -9028,7 +9064,7 @@
     },
     "PatchingMode": {
       "type": "string",
-      "description": "PatchingMode enum",
+      "description": "Patching mode enum",
       "enum": [
         "Rolling",
         "NonRolling"
@@ -9040,12 +9076,12 @@
           {
             "name": "Rolling",
             "value": "Rolling",
-            "description": "Rolling value"
+            "description": "Rolling patching"
           },
           {
             "name": "NonRolling",
             "value": "NonRolling",
-            "description": "Non Rolling value"
+            "description": "Non Rolling patching"
           }
         ]
       }
@@ -9064,7 +9100,7 @@
     },
     "PermissionLevelType": {
       "type": "string",
-      "description": "PermissionLevelType enum.",
+      "description": "Permission level type enum.",
       "enum": [
         "Restricted",
         "Unrestricted"
@@ -9076,14 +9112,40 @@
           {
             "name": "Restricted",
             "value": "Restricted",
-            "description": "RESTRICTED value"
+            "description": "Restricted permission level"
           },
           {
             "name": "Unrestricted",
             "value": "Unrestricted",
-            "description": "UNRESTRICTED value"
+            "description": "Unrestricted permission level"
           }
         ]
+      }
+    },
+    "PlanUpdate": {
+      "type": "object",
+      "description": "ResourcePlanTypeUpdate model definition",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user defined name of the 3rd Party Artifact that is being procured."
+        },
+        "publisher": {
+          "type": "string",
+          "description": "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic"
+        },
+        "product": {
+          "type": "string",
+          "description": "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. "
+        },
+        "promotionCode": {
+          "type": "string",
+          "description": "A publisher provided promotion code as provisioned in Data Market for the said product/artifact."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the desired product/artifact."
+        }
       }
     },
     "PortRange": {
@@ -9124,12 +9186,12 @@
           {
             "name": "NoPreference",
             "value": "NoPreference",
-            "description": "NoPreference value"
+            "description": "No preference"
           },
           {
             "name": "CustomPreference",
             "value": "CustomPreference",
-            "description": "CustomPreference value"
+            "description": "Custom preference"
           }
         ]
       }
@@ -9239,7 +9301,7 @@
     },
     "ProtocolType": {
       "type": "string",
-      "description": "ProtocolType enum.",
+      "description": "Protocol type enum.",
       "enum": [
         "TCP",
         "TCPS"
@@ -9251,12 +9313,12 @@
           {
             "name": "TCP",
             "value": "TCP",
-            "description": "TCP value"
+            "description": "TCP protocol"
           },
           {
             "name": "TCPS",
             "value": "TCPS",
-            "description": "TCPS value"
+            "description": "TCPS protocol"
           }
         ]
       }
@@ -9373,7 +9435,7 @@
     },
     "RefreshableModelType": {
       "type": "string",
-      "description": "RefreshableModelType enum",
+      "description": "Refreshable model type enum",
       "enum": [
         "Automatic",
         "Manual"
@@ -9385,19 +9447,19 @@
           {
             "name": "Automatic",
             "value": "Automatic",
-            "description": "AUTOMATIC value"
+            "description": "Automatic refreshable model type"
           },
           {
             "name": "Manual",
             "value": "Manual",
-            "description": "MANUAL value"
+            "description": "Manual refreshable model type"
           }
         ]
       }
     },
     "RefreshableStatusType": {
       "type": "string",
-      "description": "RefreshableStatusType enum.",
+      "description": "Refreshable status type enum.",
       "enum": [
         "Refreshing",
         "NotRefreshing"
@@ -9409,19 +9471,19 @@
           {
             "name": "Refreshing",
             "value": "Refreshing",
-            "description": "REFRESHING value"
+            "description": "Refreshing status"
           },
           {
             "name": "NotRefreshing",
             "value": "NotRefreshing",
-            "description": "NOT_REFRESHING value"
+            "description": "NotRefreshing status"
           }
         ]
       }
     },
     "RepeatCadenceType": {
       "type": "string",
-      "description": "RepeatCadenceType enum",
+      "description": "Repeat cadence type enum",
       "enum": [
         "OneTime",
         "Weekly",
@@ -9435,50 +9497,24 @@
           {
             "name": "OneTime",
             "value": "OneTime",
-            "description": "ONE_TIME value"
+            "description": "Repeat one time"
           },
           {
             "name": "Weekly",
             "value": "Weekly",
-            "description": "WEEKLY value"
+            "description": "Repeat weekly"
           },
           {
             "name": "Monthly",
             "value": "Monthly",
-            "description": "MONTHLY value"
+            "description": "Repeat monthly"
           },
           {
             "name": "Yearly",
             "value": "Yearly",
-            "description": "YEARLY value"
+            "description": "Repeat yearly"
           }
         ]
-      }
-    },
-    "ResourcePlanTypeUpdate": {
-      "type": "object",
-      "description": "ResourcePlanTypeUpdate model definition",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "A user defined name of the 3rd Party Artifact that is being procured."
-        },
-        "publisher": {
-          "type": "string",
-          "description": "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic"
-        },
-        "product": {
-          "type": "string",
-          "description": "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. "
-        },
-        "promotionCode": {
-          "type": "string",
-          "description": "A publisher provided promotion code as provisioned in Data Market for the said product/artifact."
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of the desired product/artifact."
-        }
       }
     },
     "RestoreAutonomousDatabaseDetails": {
@@ -9499,12 +9535,12 @@
       "type": "integer",
       "format": "int32",
       "description": "Retention period, in days, for backups.",
-      "minimum": 60,
+      "minimum": 90,
       "maximum": 2558
     },
     "RoleType": {
       "type": "string",
-      "description": "RoleType enum.",
+      "description": "Role type enum.",
       "enum": [
         "Primary",
         "Standby",
@@ -9519,27 +9555,27 @@
           {
             "name": "Primary",
             "value": "Primary",
-            "description": "PRIMARY value"
+            "description": "Primary role"
           },
           {
             "name": "Standby",
             "value": "Standby",
-            "description": "STANDBY value"
+            "description": "Standby role"
           },
           {
             "name": "DisabledStandby",
             "value": "DisabledStandby",
-            "description": "DISABLED_STANDBY value"
+            "description": "DisabledStandby role"
           },
           {
             "name": "BackupCopy",
             "value": "BackupCopy",
-            "description": "BACKUP_COPY value"
+            "description": "BackupCopy role"
           },
           {
             "name": "SnapshotStandby",
             "value": "SnapshotStandby",
-            "description": "SNAPSHOT_STANDBY value"
+            "description": "SnapshotStandby role"
           }
         ]
       }
@@ -9660,7 +9696,7 @@
     },
     "SessionModeType": {
       "type": "string",
-      "description": "SessionModeType enum.",
+      "description": "Session mode type enum.",
       "enum": [
         "Direct",
         "Redirect"
@@ -9672,19 +9708,19 @@
           {
             "name": "Direct",
             "value": "Direct",
-            "description": "DIRECT value"
+            "description": "Direct session mode"
           },
           {
             "name": "Redirect",
             "value": "Redirect",
-            "description": "REDIRECT value"
+            "description": "Redirect session mode"
           }
         ]
       }
     },
     "SourceType": {
       "type": "string",
-      "description": "SourceType enum.",
+      "description": "Source type enum.",
       "enum": [
         "None",
         "Database",
@@ -9701,37 +9737,37 @@
           {
             "name": "None",
             "value": "None",
-            "description": "NONE value"
+            "description": "None source"
           },
           {
             "name": "Database",
             "value": "Database",
-            "description": "DATABASE value"
+            "description": "Database source"
           },
           {
             "name": "BackupFromId",
             "value": "BackupFromId",
-            "description": "BACKUP_FROM_ID value"
+            "description": "Backup from ID source"
           },
           {
             "name": "BackupFromTimestamp",
             "value": "BackupFromTimestamp",
-            "description": "BACKUP_FROM_TIMESTAMP value"
+            "description": "Backup from timestamp source"
           },
           {
             "name": "CloneToRefreshable",
             "value": "CloneToRefreshable",
-            "description": "CLONE_TO_REFRESHABLE value"
+            "description": "Clone to refreshable source"
           },
           {
             "name": "CrossRegionDataguard",
             "value": "CrossRegionDataguard",
-            "description": "CROSS_REGION_DATAGUARD value"
+            "description": "Cross region dataguard source"
           },
           {
             "name": "CrossRegionDisasterRecovery",
             "value": "CrossRegionDisasterRecovery",
-            "description": "CROSS_REGION_DISASTER_RECOVERY value"
+            "description": "cross region disaster recovery source"
           }
         ]
       }
@@ -9750,7 +9786,7 @@
     },
     "SyntaxFormatType": {
       "type": "string",
-      "description": "SyntaxFormatType enum.",
+      "description": "Syntax format type enum.",
       "enum": [
         "Long",
         "Ezconnect",
@@ -9763,17 +9799,17 @@
           {
             "name": "Long",
             "value": "Long",
-            "description": "LONG value"
+            "description": "Long format"
           },
           {
             "name": "Ezconnect",
             "value": "Ezconnect",
-            "description": "EZCONNECT value"
+            "description": "Ezconnect format"
           },
           {
             "name": "Ezconnectplus",
             "value": "Ezconnectplus",
-            "description": "EZCONNECTPLUS value"
+            "description": "Ezconnectplus format"
           }
         ]
       }
@@ -9820,8 +9856,7 @@
       "properties": {
         "systemVersion": {
           "type": "string",
-          "description": "A valid Oracle System Version",
-          "readOnly": true
+          "description": "A valid Oracle System Version"
         }
       },
       "required": [
@@ -9852,7 +9887,7 @@
     },
     "TlsAuthenticationType": {
       "type": "string",
-      "description": "TlsAuthenticationType enum.",
+      "description": "TLS authentication type enum.",
       "enum": [
         "Server",
         "Mutual"
@@ -9864,19 +9899,19 @@
           {
             "name": "Server",
             "value": "Server",
-            "description": "SERVER value"
+            "description": "Server authentication"
           },
           {
             "name": "Mutual",
             "value": "Mutual",
-            "description": "MUTUAL value"
+            "description": "Mutual TLS"
           }
         ]
       }
     },
     "UpdateAction": {
       "type": "string",
-      "description": "UpdateAction enum",
+      "description": "Update action enum",
       "enum": [
         "RollingApply",
         "NonRollingApply",
@@ -9890,22 +9925,22 @@
           {
             "name": "RollingApply",
             "value": "RollingApply",
-            "description": "ROLLING_APPLY value"
+            "description": "Rolling apply action"
           },
           {
             "name": "NonRollingApply",
             "value": "NonRollingApply",
-            "description": "NON_ROLLING_APPLY value"
+            "description": "Non rolling apply action"
           },
           {
             "name": "PreCheck",
             "value": "PreCheck",
-            "description": "PRECHECK value"
+            "description": "Pre-check action"
           },
           {
             "name": "RollBack",
             "value": "RollBack",
-            "description": "ROLLBACK value"
+            "description": "Rollback action"
           }
         ]
       }
@@ -9960,12 +9995,12 @@
           {
             "name": "Succeeded",
             "value": "Succeeded",
-            "description": "Succeeded value"
+            "description": "Validation succeeded"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Failed value"
+            "description": "Validation failed"
           }
         ]
       },
@@ -10003,27 +10038,27 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Available value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "Terminating value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "Terminated value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Failed value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -10152,7 +10187,7 @@
     },
     "ZoneType": {
       "type": "string",
-      "description": "ZoneType enum",
+      "description": "Zone type enum",
       "enum": [
         "Primary",
         "Secondary"
@@ -10164,12 +10199,12 @@
           {
             "name": "Primary",
             "value": "Primary",
-            "description": "Primary value"
+            "description": "Primary zone"
           },
           {
             "name": "Secondary",
             "value": "Secondary",
-            "description": "Secondary value"
+            "description": "Secondary zone"
           }
         ]
       }
