@@ -41,8 +41,8 @@ model SubnetConfiguration {
   @visibility("read")
   id?: string;
 
-  @doc("Subnet mask.")
-  subnetMask: int32;
+  @doc("Network Prefix Size.")
+  networkPrefixSize: int32;
 
   @doc("Subnet delegation.")
   subnetDelegation?: string;
@@ -74,7 +74,7 @@ model EnclaveVirtualNetwork {
 
   @doc("Allow Subnet Communication.")
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  allowSubnetCommunication: boolean;
+  allowSubnetCommunication?: boolean;
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Connect to Azure Services (True or False).")
