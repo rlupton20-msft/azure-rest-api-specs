@@ -331,7 +331,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `List all measurement endpoints under a Footprint profile`: {
-        $ref: "../../examples/measurementEndpointsList.json",
+        $ref: "../../examples/measurementEndpointsListByProfile.json",
       },
     }
   )
