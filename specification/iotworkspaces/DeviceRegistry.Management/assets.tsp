@@ -300,28 +300,34 @@ union EventObservabilityMode {
 model AssetStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
   @extension("x-ms-identifiers", [])
+  @visibility("read")
   errors?: AssetStatusError[];
 
   @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
+  @visibility("read")
   version?: int32;
 
   @doc("Array of dataset statuses that describe the status of each dataset.")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
+  @visibility("read")
   datasets?: AssetStatusDataset[];
 
   @doc("Array of event statuses that describe the status of each event.")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
+  @visibility("read")
   events?: AssetStatusEvent[];
 }
 
 @doc("Defines the asset status error properties.")
 model AssetStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
+  @visibility("read")
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).")
+  @visibility("read")
   message?: string;
 }
 
@@ -329,9 +335,11 @@ model AssetStatusError {
 @added(Versions.v2024_07_01_preview)
 model AssetStatusDataset {
   @doc("The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information.")
+  @visibility("read")
   name: string;
 
   @doc("The message schema reference object.")
+  @visibility("read")
   messageSchemaReference?: MessageSchemaReference;
 }
 
@@ -339,9 +347,11 @@ model AssetStatusDataset {
 @added(Versions.v2024_07_01_preview)
 model AssetStatusEvent {
   @doc("The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information.")
+  @visibility("read")
   name: string;
 
   @doc("The message schema reference object.")
+  @visibility("read")
   messageSchemaReference?: MessageSchemaReference;
 }
 
@@ -349,12 +359,15 @@ model AssetStatusEvent {
 @added(Versions.v2024_07_01_preview)
 model MessageSchemaReference {
   @doc("The reference to the message schema registry namespace.")
+  @visibility("read")
   schemaRegistryNamespace: string;
 
   @doc("The reference to the message schema name.")
+  @visibility("read")
   schemaName: string;
 
   @doc("The reference to the message schema version.")
+  @visibility("read")
   schemaVersion: string;
 }
 
