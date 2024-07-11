@@ -22,7 +22,7 @@ model Catalog is TrackedResource<CatalogProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
   @path
   @key("catalogName")
   @segment("catalogs")

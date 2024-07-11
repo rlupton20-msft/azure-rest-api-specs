@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Azure Symphony",
-    "version": "2024-04-01-preview",
+    "version": "2024-08-01-preview",
     "description": "Azure Symphony Resource Provider.",
     "x-typespec-generated": [
       {
@@ -62,12 +62,6 @@
     },
     {
       "name": "SolutionVersions"
-    },
-    {
-      "name": "TargetVersions"
-    },
-    {
-      "name": "InstanceVersions"
     },
     {
       "name": "CatalogVersions"
@@ -1930,331 +1924,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/instances/{instanceName}/versions": {
-      "get": {
-        "operationId": "InstanceVersions_ListByInstance",
-        "tags": [
-          "InstanceVersions"
-        ],
-        "description": "Returns a collection of InstanceVersion resources belonging to an Instance resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "instanceName",
-            "in": "path",
-            "description": "Name of Instance.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/InstanceVersionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/instances/{instanceName}/versions/{versionName}": {
-      "get": {
-        "operationId": "InstanceVersions_Get",
-        "tags": [
-          "InstanceVersions"
-        ],
-        "description": "Returns details of specified InstanceVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "instanceName",
-            "in": "path",
-            "description": "Name of Instance.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "Name of InstanceVersion resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/InstanceVersion"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "InstanceVersions_CreateOrUpdate",
-        "tags": [
-          "InstanceVersions"
-        ],
-        "description": "Creates new or updates existing InstanceVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "instanceName",
-            "in": "path",
-            "description": "Name of Instance.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "Name of InstanceVersion resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/InstanceVersion"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'InstanceVersion' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/InstanceVersion"
-            }
-          },
-          "201": {
-            "description": "Resource 'InstanceVersion' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/InstanceVersion"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "InstanceVersions_Update",
-        "tags": [
-          "InstanceVersions"
-        ],
-        "description": "Updates existing InstanceVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "instanceName",
-            "in": "path",
-            "description": "Name of Instance.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "Name of InstanceVersion resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/InstanceVersionTagsUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/InstanceVersion"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "InstanceVersions_Delete",
-        "tags": [
-          "InstanceVersions"
-        ],
-        "description": "Deletes specified InstanceVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "instanceName",
-            "in": "path",
-            "description": "Name of Instance.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "Name of InstanceVersion resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/solutions": {
       "get": {
         "operationId": "Solutions_ListByResourceGroup",
@@ -3041,331 +2710,6 @@
           }
         }
       }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/targets/{targetName}/versions": {
-      "get": {
-        "operationId": "TargetVersions_ListByTarget",
-        "tags": [
-          "TargetVersions"
-        ],
-        "description": "Returns a collection of TargetVersion resources belonging to a Target resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "targetName",
-            "in": "path",
-            "description": "Name of target.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/TargetVersionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/targets/{targetName}/versions/{versionName}": {
-      "get": {
-        "operationId": "TargetVersions_Get",
-        "tags": [
-          "TargetVersions"
-        ],
-        "description": "Returns details of specified TargetVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "targetName",
-            "in": "path",
-            "description": "Name of target.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "The name of Azure API Center service.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/TargetVersion"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "TargetVersions_CreateOrUpdate",
-        "tags": [
-          "TargetVersions"
-        ],
-        "description": "Creates new or updates existing TargetVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "targetName",
-            "in": "path",
-            "description": "Name of target.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "The name of Azure API Center service.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TargetVersion"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'TargetVersion' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/TargetVersion"
-            }
-          },
-          "201": {
-            "description": "Resource 'TargetVersion' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/TargetVersion"
-            },
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "TargetVersions_Update",
-        "tags": [
-          "TargetVersions"
-        ],
-        "description": "Updates existing TargetVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "targetName",
-            "in": "path",
-            "description": "Name of target.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "The name of Azure API Center service.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TargetVersionTagsUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/TargetVersion"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "TargetVersions_Delete",
-        "tags": [
-          "TargetVersions"
-        ],
-        "description": "Deletes specified TargetVersion resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "targetName",
-            "in": "path",
-            "description": "Name of target.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
-          },
-          {
-            "name": "versionName",
-            "in": "path",
-            "description": "The name of Azure API Center service.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 90,
-            "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
     }
   },
   "definitions": {
@@ -4024,100 +3368,6 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
-        }
-      }
-    },
-    "InstanceTagsUpdate": {
-      "type": "object",
-      "description": "The type used for updating tags in Instance resources.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "InstanceTargetStatusProperties": {
-      "type": "object",
-      "description": "Defines a status for Target and Instance deployment",
-      "properties": {
-        "lastModified": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The lastModified of the Status"
-        },
-        "properties": {
-          "type": "object",
-          "description": "The state properties of the Status",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "lastModified"
-      ]
-    },
-    "InstanceVersion": {
-      "type": "object",
-      "description": "An InstanceVersion resource belonging to an Instance resource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/InstanceVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
-          "description": "Edge location of the resource.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "InstanceVersionListResult": {
-      "type": "object",
-      "description": "The response of a InstanceVersion list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The InstanceVersion items on this page",
-          "items": {
-            "$ref": "#/definitions/InstanceVersion"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "InstanceVersionProperties": {
-      "type": "object",
-      "description": "The properties of an InstanceVersion resource.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
         },
         "metadata": {
           "type": "object",
@@ -4156,9 +3406,9 @@
         "solution"
       ]
     },
-    "InstanceVersionTagsUpdate": {
+    "InstanceTagsUpdate": {
       "type": "object",
-      "description": "The type used for updating tags in InstanceVersion resources.",
+      "description": "The type used for updating tags in Instance resources.",
       "properties": {
         "tags": {
           "type": "object",
@@ -4168,6 +3418,27 @@
           }
         }
       }
+    },
+    "InstanceTargetStatusProperties": {
+      "type": "object",
+      "description": "Defines a status for Target and Instance deployment",
+      "properties": {
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The lastModified of the Status"
+        },
+        "properties": {
+          "type": "object",
+          "description": "The state properties of the Status",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "lastModified"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -4507,99 +3778,6 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
-        }
-      }
-    },
-    "TargetSelectorProperties": {
-      "type": "object",
-      "description": "Properties of the reference target.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the TargetVersion resource."
-        },
-        "selector": {
-          "type": "object",
-          "description": "The selector of the TargetVersion resource.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "TargetTagsUpdate": {
-      "type": "object",
-      "description": "The type used for updating tags in Target resources.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "TargetVersion": {
-      "type": "object",
-      "description": "A TargetVersion resource belonging to a Target resource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TargetVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
-          "description": "Edge location of the resource.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "extendedLocation"
-      ],
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "TargetVersionListResult": {
-      "type": "object",
-      "description": "The response of a TargetVersion list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The TargetVersion items on this page",
-          "items": {
-            "$ref": "#/definitions/TargetVersion"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "TargetVersionProperties": {
-      "type": "object",
-      "description": "The properties of a TargetVersion resource.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
         },
         "metadata": {
           "type": "object",
@@ -4654,9 +3832,26 @@
         }
       }
     },
-    "TargetVersionTagsUpdate": {
+    "TargetSelectorProperties": {
       "type": "object",
-      "description": "The type used for updating tags in TargetVersion resources.",
+      "description": "Properties of the reference target.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the TargetVersion resource."
+        },
+        "selector": {
+          "type": "object",
+          "description": "The selector of the TargetVersion resource.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TargetTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in Target resources.",
       "properties": {
         "tags": {
           "type": "object",

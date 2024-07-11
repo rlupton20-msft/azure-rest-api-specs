@@ -44,7 +44,7 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   @doc("The name of Azure API Center service.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
   @path
   @key("versionName")
   @segment("versions")
@@ -54,7 +54,7 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the CatalogVersion.")
   @visibility("read", "create")
-  extendedLocation: ExtendedLocation;
+  extendedLocation?: ExtendedLocation;
 }
 
 @armResourceOperations
@@ -62,11 +62,11 @@ interface CatalogVersions {
   @doc("Returns the details of the CatalogVersion.")
   get is Azure.ResourceManager.ArmResourceRead<CatalogVersion>;
   @doc("Creates new or updates a CatalogVersion.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<CatalogVersion>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<CatalogVersion>;
   @doc("Updates the existing CatalogVersion.")
-  update is ArmCustomPatchSync<CatalogVersion>;
+  update is ArmCustomPatchAsync<CatalogVersion>;
   @doc("Deletes the specified CatalogVersion.")
-  delete is ArmResourceDeleteSync<CatalogVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<CatalogVersion>;
   @doc("Lists CatalogVersions within a Catalog.")
   listByCatalog is ArmResourceListByParent<CatalogVersion>;
 }
