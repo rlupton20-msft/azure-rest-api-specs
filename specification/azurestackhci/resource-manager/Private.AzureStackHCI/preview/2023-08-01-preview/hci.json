@@ -3,7 +3,7 @@
   "info": {
     "title": "AzureStackHCI",
     "version": "2023-08-01-preview",
-    "description": "Azure Stack HCI service",
+    "description": "A EdgeDevice",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -44,9 +44,256 @@
     },
     {
       "name": "ClusterJobs"
+    },
+    {
+      "name": "Gpus"
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Private.AzureStackHCI/edgeDevices/{edgeDeviceName}/gpus": {
+      "get": {
+        "operationId": "Gpus_ListByEdgeDevice",
+        "tags": [
+          "Gpus"
+        ],
+        "description": "List Gpu resources by EdgeDevice",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeDeviceName",
+            "in": "path",
+            "description": "The name of the EdgeDevice",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/GpuListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gpus_ListByEdgeDevice": {
+            "$ref": "./examples/Gpus_ListByEdgeDevice_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.AzureStackHCI/edgeDevices/{edgeDeviceName}/gpus/{gpuName}": {
+      "get": {
+        "operationId": "Gpus_Get",
+        "tags": [
+          "Gpus"
+        ],
+        "description": "Get a Gpu",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeDeviceName",
+            "in": "path",
+            "description": "The name of the EdgeDevice",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "gpuName",
+            "in": "path",
+            "description": "The name of the Gpu",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Gpu"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gpus_Get": {
+            "$ref": "./examples/Gpus_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "Gpus_CreateOrUpdate",
+        "tags": [
+          "Gpus"
+        ],
+        "description": "Create a Gpu",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeDeviceName",
+            "in": "path",
+            "description": "The name of the EdgeDevice",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "gpuName",
+            "in": "path",
+            "description": "The name of the Gpu",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Gpu"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Gpu' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Gpu"
+            }
+          },
+          "201": {
+            "description": "Resource 'Gpu' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Gpu"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gpus_CreateOrUpdate": {
+            "$ref": "./examples/Gpus_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Gpus_Delete",
+        "tags": [
+          "Gpus"
+        ],
+        "description": "Delete a Gpu",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeDeviceName",
+            "in": "path",
+            "description": "The name of the EdgeDevice",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "gpuName",
+            "in": "path",
+            "description": "The name of the Gpu",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Gpus_Delete": {
+            "$ref": "./examples/Gpus_Delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/{resourceUri}/providers/Private.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs": {
       "get": {
         "operationId": "EdgeDeviceJobs_ListByEdgeDevice",
@@ -296,7 +543,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/clusters/{clusterName}/jobs": {
       "get": {
-        "operationId": "ClusterJobs_ListByClusters",
+        "operationId": "ClusterJobs_ListByCluster",
         "tags": [
           "ClusterJobs"
         ],
@@ -335,8 +582,8 @@
           }
         },
         "x-ms-examples": {
-          "ClusterJobs_ListByClusters": {
-            "$ref": "./examples/ClusterJobs_ListByClusters.json"
+          "ClusterJobs_ListByCluster": {
+            "$ref": "./examples/ClusterJobs_ListByCluster.json"
           }
         },
         "x-ms-pageable": {
@@ -610,7 +857,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -660,11 +907,6 @@
         "hostIpv4Address"
       ]
     },
-    "Azure.Core.uuid": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Universally Unique Identifier"
-    },
     "AzureLinuxAddServerJobProperties": {
       "type": "object",
       "description": "Properties for adding a server in Azure Linux cluster job.",
@@ -711,7 +953,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -813,7 +1055,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -923,7 +1165,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -1124,6 +1366,22 @@
       ],
       "x-ms-discriminator-value": "Windows"
     },
+    "Cluster": {
+      "type": "object",
+      "description": "A Cluster",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ClusterProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
     "ClusterJob": {
       "type": "object",
       "description": "Cluster Jobs resource",
@@ -1219,7 +1477,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -1258,22 +1516,6 @@
         }
       }
     },
-    "Clusters": {
-      "type": "object",
-      "description": "A Cluster",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ClusterProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
     "CollectLogJobProperties": {
       "type": "object",
       "description": "Represents the properties of a log collection job.",
@@ -1307,7 +1549,7 @@
     },
     "DeploymentAdapterPropertyOverrides": {
       "type": "object",
-      "description": "The AdapterPropertyOverrides of a cluster.",
+      "description": "The network adapter properties to override during deployment of a cluster.",
       "properties": {
         "jumboPacket": {
           "type": "string",
@@ -1431,19 +1673,19 @@
     },
     "DeploymentStorageAdapterIPInfo": {
       "type": "object",
-      "description": "The StorageAdapter physical nodes of a cluster.",
+      "description": "The storage network adapter info.",
       "properties": {
         "physicalNode": {
           "type": "string",
-          "description": "storage adapter physical node name."
+          "description": "physical node name."
         },
         "ipv4Address": {
           "type": "string",
-          "description": "The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster."
+          "description": "The IPv4 address assigned to network adapter used for storage."
         },
         "subnetMask": {
           "type": "string",
-          "description": "The SubnetMask address assigned to each storage adapter physical node on your Azure Stack HCI cluster."
+          "description": "The SubnetMask address assigned to network adapter used for storage."
         }
       }
     },
@@ -1487,48 +1729,6 @@
           "type": "string",
           "description": "Load Balancing Algorithm for Virtual Switch"
         }
-      }
-    },
-    "DeviceType": {
-      "type": "string",
-      "description": "Edge device type based on host OS installed.",
-      "enum": [
-        "HCI",
-        "WindowsServer",
-        "WindowsIoT",
-        "AzureLinux",
-        "UbuntuLinux"
-      ],
-      "x-ms-enum": {
-        "name": "DeviceType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Arc-enabled edge device with HCI OS."
-          },
-          {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Arc-enabled edge device with WindowsServer OS."
-          },
-          {
-            "name": "WindowsIoT",
-            "value": "WindowsIoT",
-            "description": "Arc-enabled edge device with WindowsIoT OS."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Arc-enabled edge device with AzureLinux OS."
-          },
-          {
-            "name": "UbuntuLinux",
-            "value": "UbuntuLinux",
-            "description": "Arc-enabled edge device with UbuntuLinux OS."
-          }
-        ]
       }
     },
     "EceActionStatus": {
@@ -1634,7 +1834,7 @@
           "x-ms-client-flatten": true
         },
         "kind": {
-          "$ref": "#/definitions/DeviceType",
+          "$ref": "#/definitions/EdgeDeviceKind",
           "description": "Edge Solution type to support polymorphic resource.",
           "x-ms-mutability": [
             "read",
@@ -1687,7 +1887,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -1767,6 +1967,48 @@
         ]
       }
     },
+    "EdgeDeviceKind": {
+      "type": "string",
+      "description": "Edge device type based on host OS installed.",
+      "enum": [
+        "HCI",
+        "WindowsServer",
+        "WindowsIoT",
+        "AzureLinux",
+        "UbuntuLinux"
+      ],
+      "x-ms-enum": {
+        "name": "EdgeDeviceKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HCI",
+            "value": "HCI",
+            "description": "Arc-enabled edge device with HCI OS."
+          },
+          {
+            "name": "WindowsServer",
+            "value": "WindowsServer",
+            "description": "Arc-enabled edge device with WindowsServer OS."
+          },
+          {
+            "name": "WindowsIoT",
+            "value": "WindowsIoT",
+            "description": "Arc-enabled edge device with WindowsIoT OS."
+          },
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "Arc-enabled edge device with AzureLinux OS."
+          },
+          {
+            "name": "UbuntuLinux",
+            "value": "UbuntuLinux",
+            "description": "Arc-enabled edge device with UbuntuLinux OS."
+          }
+        ]
+      }
+    },
     "EdgeSolutionType": {
       "type": "string",
       "description": "Edge solution type.",
@@ -1787,6 +2029,216 @@
             "name": "AzureLinux",
             "value": "AzureLinux",
             "description": "Edge solution for Azure linux edge devices."
+          }
+        ]
+      }
+    },
+    "Gpu": {
+      "type": "object",
+      "description": "Gpus resource",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        },
+        "kind": {
+          "$ref": "#/definitions/EdgeDeviceKind",
+          "description": "Edge Solution type to support polymorphic resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "discriminator": "kind",
+      "required": [
+        "kind"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "GpuDetails": {
+      "type": "object",
+      "description": "Represents the details of a GPU.",
+      "properties": {
+        "gpuId": {
+          "type": "string",
+          "description": "Represents the details of a GPU.",
+          "readOnly": true
+        },
+        "gpuName": {
+          "type": "string",
+          "description": "The name of the GPU.",
+          "readOnly": true
+        },
+        "gpuManufacturer": {
+          "type": "string",
+          "description": "The vendor of the GPU.",
+          "readOnly": true
+        },
+        "gpuModel": {
+          "type": "string",
+          "description": "The model of the GPU.",
+          "readOnly": true
+        },
+        "gpuStatus": {
+          "type": "string",
+          "description": "The status of the GPU.",
+          "readOnly": true
+        },
+        "gpuMode": {
+          "$ref": "#/definitions/GpuMode",
+          "description": "Specified by admin whether this GPU can be used as DDA, GPU-P, GPU-P with LM. Can only be updated when the GPU is not attached to any VM. ",
+          "readOnly": true
+        },
+        "partitionSizeGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Reported partition size (default: 0 for DDA) For e.g. 2, 4, etc. ",
+          "readOnly": true
+        },
+        "totalPartitions": {
+          "type": "integer",
+          "format": "int32",
+          "description": "This is the count of total partitions.",
+          "readOnly": true
+        },
+        "availablePartitions": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of available partitions.",
+          "readOnly": true
+        },
+        "assignedPartitions": {
+          "type": "integer",
+          "format": "int32",
+          "description": "This is the count of assigned partitions.",
+          "readOnly": true
+        },
+        "hostDriverVersion": {
+          "type": "string",
+          "description": "This is the host driver for the host on which GPU is assigned, only for DDA",
+          "readOnly": true
+        },
+        "availableEncoder": {
+          "type": "string",
+          "description": "It is the available processing power to encode video. ",
+          "readOnly": true
+        },
+        "availableDecoder": {
+          "type": "string",
+          "description": "It is the available processing power to decode video. ",
+          "readOnly": true
+        },
+        "availableVram": {
+          "type": "string",
+          "description": "It is a high-speed memory which drivers allow the GPU to borrow from system memory.",
+          "readOnly": true
+        },
+        "validPartitionCount": {
+          "type": "array",
+          "description": "IA set of valid partition counts that's predefined to configure. ",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "assignmentStatus": {
+          "type": "string",
+          "description": "This is the assignment status of the GPU.",
+          "readOnly": true
+        },
+        "workloads": {
+          "type": "array",
+          "description": "workload details to which GPU is assigned.",
+          "items": {
+            "$ref": "#/definitions/WorkloadDetails"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "workloadName"
+          ]
+        }
+      },
+      "required": [
+        "partitionSizeGb"
+      ]
+    },
+    "GpuListResult": {
+      "type": "object",
+      "description": "The response of a Gpu list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Gpu items on this page",
+          "items": {
+            "$ref": "#/definitions/Gpu"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "GpuMode": {
+      "type": "string",
+      "description": "GPU modes supported.",
+      "enum": [
+        "GPUP",
+        "DDA"
+      ],
+      "x-ms-enum": {
+        "name": "GpuMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "GPUP",
+            "value": "GPUP",
+            "description": "GPU-P mode."
+          },
+          {
+            "name": "DDA",
+            "value": "DDA",
+            "description": "DDA mode."
+          }
+        ]
+      }
+    },
+    "GpuVendorType": {
+      "type": "string",
+      "description": "GPU Vendor Type supported.",
+      "enum": [
+        "Nvidia",
+        "AMD",
+        "Intel"
+      ],
+      "x-ms-enum": {
+        "name": "GpuVendorType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Nvidia",
+            "value": "Nvidia",
+            "description": "Nvidia GPU."
+          },
+          {
+            "name": "AMD",
+            "value": "AMD",
+            "description": "AMD GPU."
+          },
+          {
+            "name": "Intel",
+            "value": "Intel",
+            "description": "Intel GPU."
           }
         ]
       }
@@ -1908,7 +2360,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -2018,7 +2470,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -2080,6 +2532,76 @@
             "description": "Job to provide remote support to the device."
           }
         ]
+      }
+    },
+    "HciGpu": {
+      "type": "object",
+      "description": "GPU properties for edge device with HCI OS installed.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/HciGpuProperties",
+          "description": "GPU properties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Gpu"
+        }
+      ],
+      "x-ms-discriminator-value": "HCI"
+    },
+    "HciGpuDesiredProperties": {
+      "type": "object",
+      "description": "Represents the desired properties of a GPU.",
+      "properties": {
+        "partitionSizeGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Desired partition size (default: 0 for DDA) For e.g. 2, 4, etc. across all nodes "
+        },
+        "gpuMode": {
+          "$ref": "#/definitions/GpuMode",
+          "description": "Specified by admin whether this GPU can be used as DDA, GPU-P, GPU-P with LM. Can only be updated when the GPU is not attached to any VM. "
+        }
+      }
+    },
+    "HciGpuProperties": {
+      "type": "object",
+      "description": "Represents the properties of a GPU.",
+      "properties": {
+        "nodeName": {
+          "type": "string",
+          "description": "The name of the node."
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/HciGpuReportedProperties",
+          "description": "GPU reported properties.",
+          "readOnly": true
+        },
+        "desiredProperties": {
+          "$ref": "#/definitions/HciGpuDesiredProperties",
+          "description": "GPU desired properties."
+        }
+      }
+    },
+    "HciGpuReportedProperties": {
+      "type": "object",
+      "description": "Represents the reported properties of a log collection job.",
+      "properties": {
+        "gpuDetails": {
+          "type": "array",
+          "description": "List of GPU details for this edge device.",
+          "items": {
+            "$ref": "#/definitions/GpuDetails"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "gpuId"
+          ]
+        }
       }
     },
     "HciJobType": {
@@ -2350,7 +2872,6 @@
         "DeploymentInProgress",
         "DeploymentFailed",
         "DeploymentSuccess",
-        "Invalid",
         "Succeeded",
         "Failed",
         "Canceled",
@@ -2395,11 +2916,6 @@
             "name": "DeploymentSuccess",
             "value": "DeploymentSuccess",
             "description": "The job has been successfully deployed."
-          },
-          {
-            "name": "Invalid",
-            "value": "Invalid",
-            "description": "The job status is invalid."
           },
           {
             "name": "Succeeded",
@@ -2502,7 +3018,7 @@
     },
     "LogCollectionStatus": {
       "type": "string",
-      "description": "The status of log collection.Represents the status of a log collection operation.",
+      "description": "Represents the status of a log collection operation.",
       "enum": [
         "None",
         "InProgress",
@@ -2583,7 +3099,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -2941,7 +3457,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -3032,7 +3548,7 @@
           "readOnly": true
         },
         "jobId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "Unique, immutable job id.",
           "readOnly": true
         },
@@ -3088,12 +3604,12 @@
         },
         "startTimeUtc": {
           "type": "string",
-          "description": "Start time of step.",
+          "description": "Start time in utc of step.",
           "readOnly": true
         },
         "endTimeUtc": {
           "type": "string",
-          "description": "End time of step.",
+          "description": "End time in utc of step.",
           "readOnly": true
         },
         "status": {
@@ -3118,6 +3634,45 @@
           "items": {
             "type": "string"
           },
+          "readOnly": true
+        }
+      }
+    },
+    "WorkloadDetails": {
+      "type": "object",
+      "description": "Represents the details of a workload.",
+      "properties": {
+        "workloadId": {
+          "type": "string",
+          "description": "workload Id to which GPU is assigned.",
+          "readOnly": true
+        },
+        "workloadName": {
+          "type": "string",
+          "description": "This gives information about workload name (VM/AKS) specifically the VM Name or AKS Name",
+          "readOnly": true
+        },
+        "workloadStatus": {
+          "type": "string",
+          "description": "This gives information about workload status, running or down",
+          "readOnly": true
+        },
+        "workloadType": {
+          "type": "string",
+          "description": "This tells if workload is VM, AKS, etc.",
+          "readOnly": true
+        },
+        "partitionId": {
+          "type": "array",
+          "description": "This is the unique partition ID for a workload using GPU-P.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "slotLocation": {
+          "type": "string",
+          "description": "This is the unique instance path for a workload using GPU-P.",
           "readOnly": true
         }
       }
