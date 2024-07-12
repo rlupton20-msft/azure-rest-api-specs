@@ -2,10 +2,12 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-azure-core";
+import "@typespec/versioning";
 import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.Symphony;
@@ -54,6 +56,7 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the CatalogVersion.")
   @visibility("read", "create")
+  @madeOptional(Versions.v2024_08_01_preview)
   extendedLocation?: ExtendedLocation;
 }
 
