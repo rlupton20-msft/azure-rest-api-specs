@@ -913,7 +913,7 @@ model MeasurementEndpointProperties {
   @minLength(0)
   @maxLength(1024)
   // TODO: confirm next line regex
-  @pattern("^[a-z0-9\\*]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,}(:[0-9]{1,5})?$")
+  @pattern("^[a-z0-9\\*]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?$")
   endpoint: string;
 
   @doc("The type of a measurement endpoint.")
