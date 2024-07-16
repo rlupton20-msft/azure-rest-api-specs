@@ -41,7 +41,8 @@ model DnsPrivateViewProperties {
   timeUpdated: utcDateTime;
 
   @doc("Azure resource provisioning state.")
-  provisioningState: ResourceProvisioningState;
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
 }
 
 @doc("DnsPrivateViews lifecycle state enum")

@@ -49,7 +49,8 @@ model DnsPrivateZoneProperties {
   timeCreated: utcDateTime;
 
   @doc("Azure resource provisioning state.")
-  provisioningState: ResourceProvisioningState;
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
 }
 
 @doc("DnsPrivateZones lifecycle state enum")

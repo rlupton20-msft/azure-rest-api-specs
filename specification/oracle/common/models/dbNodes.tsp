@@ -89,7 +89,8 @@ model DbNodeProperties {
   vnicId: Ocid;
 
   @doc("Azure resource provisioning state.")
-  provisioningState: ResourceProvisioningState;
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
 }
 
 @doc("The type of database node maintenance.")
