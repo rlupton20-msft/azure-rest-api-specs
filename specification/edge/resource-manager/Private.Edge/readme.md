@@ -27,7 +27,17 @@ These are the global settings for the edge.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: updates-package-2023-07-01-preview
+tag: package-2024-06-01-preview
+```
+
+### Tag: updates-package-2023-07-01-preview
+
+These settings apply only when `--tag=package-2024-06-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-06-01-preview'
+input-file:
+  - edge/preview/2023-07-01-preview/operations.json
+  - configurations/preview/2024-06-01-preview/configurations.json
 ```
 
 ### Tag: updates-package-2023-07-01-preview
@@ -36,8 +46,9 @@ These settings apply only when `--tag=updates-package-2023-07-01-preview` is spe
 
 ```yaml $(tag) == 'updates-package-2023-07-01-preview'
 input-file:
-  - preview/2023-07-01-preview/operations.json
+  - edge/preview/2023-07-01-preview/operations.json
 ```
+
 ---
 
 # Code Generation
@@ -76,4 +87,3 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
-
