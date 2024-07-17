@@ -14,10 +14,10 @@ using OpenAPI;
 namespace Microsoft.DeviceRegistry;
 
 @added(Versions.v2024_05_01_preview)
-@doc("billingContainer Model as ARM resource")
+@doc("billingContainer Model as Azure resource whose sole purpose is to keep track of billables resources under a subscription.")
 @subscriptionResource
 model BillingContainer is ProxyResource<BillingContainerProperties> {
-  @doc("Name of the billingContainer.")
+  @doc("Name of the billing container.")
   @key("billingContainerName")
   @segment("billingContainers")
   @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
@@ -26,9 +26,10 @@ model BillingContainer is ProxyResource<BillingContainerProperties> {
   @maxLength(64)
   name: string;
 
-  // etag not included in TrackedResource
+  // etag not included in ProxyResource
+  // Suppress linter false positive for etag properties not allowed at top level of ProxyResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Resource Tag")
+  @doc("Resource ETag")
   @visibility("read")
   etag?: string;
 }
@@ -45,13 +46,14 @@ model BillingContainerProperties {
 @armResourceOperations
 interface BillingContainers {
   get is ArmResourceRead<BillingContainer>;
-  // PUT is not allowed for end users, only for UserRP (unaffected by the removal).
+  listByResourceGroup is ArmResourceListByParent<BillingContainer>;
+
+  // PUT is not allowed for end users.
   // createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
 
-  // we don't have updatable property today, when we have it uncomment the below run tsp compile .
+  // PATCH is not allowed for end users. we don't have updatable property today.
   // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
 
-  // DELETE is not allowed for end users, only for UserRP (unaffected by the removal).
+  // DELETE is not allowed for end users.
   // delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
-  listByResourceGroup is ArmResourceListByParent<BillingContainer>;
 }

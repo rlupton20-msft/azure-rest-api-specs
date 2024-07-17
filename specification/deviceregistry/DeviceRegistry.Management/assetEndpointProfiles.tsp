@@ -147,6 +147,7 @@ model OwnCertificate {
 @added(Versions.v2024_07_01_preview)
 model AssetEndpointProfileStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
+  @visibility("read")
   @extension("x-ms-identifiers", [])
   errors?: AssetEndpointProfileStatusError[];
 }
@@ -155,9 +156,11 @@ model AssetEndpointProfileStatus {
 @added(Versions.v2024_07_01_preview)
 model AssetEndpointProfileStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
+  @visibility("read")
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
+  @visibility("read")
   message?: string;
 }
 
