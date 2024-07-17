@@ -55,4 +55,14 @@ interface ListActions {
   >(
     ...ResourceInstanceParameters<TResource, TBaseParameters>,
   ): ArmResponse<TResponse> | ArmAcceptedLroResponse | ErrorResponse;
+
+  @armResourceAction(TResource)
+  @get
+  op ArmResourceGetAction<
+    TResource extends Foundations.Resource,
+    TResponse,
+    TBaseParameters = BaseParameters<TResource>
+  >(
+    ...ResourceInstanceParameters<TResource, TBaseParameters>
+  ): ArmResponse<TResponse> | ErrorResponse;
 }
