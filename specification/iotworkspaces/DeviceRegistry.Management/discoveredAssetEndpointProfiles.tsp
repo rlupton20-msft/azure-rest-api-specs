@@ -41,7 +41,7 @@ model DiscoveredAssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;
 
-  @doc("Contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
+  @doc("Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
   additionalConfiguration?: string;
 
   @doc("List of supported authentication methods supported by the target server.")
@@ -51,11 +51,11 @@ model DiscoveredAssetEndpointProfileProperties {
   @doc("Defines the configuration for the connector type that is being used with the endpoint profile.")
   endpointProfileType: string;
 
-  @doc("Unique identifier used to detect changes in the asset endpoint profile.")
+  @doc("Identifier used to detect changes in the asset endpoint profile.")
   discoveryId: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
-  version: int32;
+  version: int64;
 
   @doc("Provisioning state of the resource.")
   @visibility("read")

@@ -37,15 +37,15 @@ model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
 @doc("Defines the discovered asset properties.")
 @added(Versions.v2024_07_01_preview)
 model DiscoveredAssetProperties {
-  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides datapoints for this asset. Must provide asset endpoint profile name.")
+  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
   assetEndpointProfileRef: string;
 
-  @doc("Unique identifier used to detect changes in the asset.")
+  @doc("Identifier used to detect changes in the asset.")
   discoveryId: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
-  version: int32;
+  version: int64;
 
   @doc("Asset manufacturer name.")
   manufacturer?: string;
@@ -54,7 +54,6 @@ model DiscoveredAssetProperties {
   manufacturerUri?: string;
 
   @doc("Asset model name.")
-  // `model` is a reserved keyname. Wrap in double quotes
   `model`?: string;
 
   @doc("Asset product code.")
@@ -81,7 +80,7 @@ model DiscoveredAssetProperties {
   @doc("Object that describes the default topic information for the asset.")
   defaultTopic?: Topic;
 
-  @doc("Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.")
+  @doc("Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.")
   @extension("x-ms-identifiers", [])
   datasets?: DiscoveredDataset[];
 
@@ -106,24 +105,24 @@ model DiscoveredDataset {
   @doc("Object that describes the topic information for the specific dataset.")
   topic?: Topic;
 
-  @doc("Array of datapoints that are part of the dataset. Each datapoint can have per-datapoint configuration.")
+  @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
   @extension("x-ms-identifiers", [])
-  datapoints?: DiscoveredDatapoint[];
+  dataPoints?: DiscoveredDataPoint[];
 }
 
-@doc("Defines the datapoint properties.")
+@doc("Defines the data point properties.")
 @added(Versions.v2024_07_01_preview)
-model DiscoveredDatapoint {
-  @doc("The name of the datapoint.")
+model DiscoveredDataPoint {
+  @doc("The name of the data point.")
   name: string;
 
   @doc("The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.")
   dataSource: string;
 
-  @doc("Stringified JSON that contains connector-specific configuration for the datapoint. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
-  datapointConfiguration?: string;
+  @doc("Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
+  dataPointConfiguration?: string;
 
-  @doc("Timestamp indicating when the datapoint was added or modified.")
+  @doc("UTC timestamp indicating when the data point was added or modified.")
   lastUpdatedOn?: utcDateTime;
 }
 
@@ -142,7 +141,7 @@ model DiscoveredEvent {
   @doc("Object that describes the topic information for the specific event.")
   topic?: Topic;
 
-  @doc("Timestamp indicating when the event was added or modified.")
+  @doc("UTC timestamp indicating when the event was added or modified.")
   lastUpdatedOn?: utcDateTime;
 }
 

@@ -56,19 +56,20 @@ model AssetProperties {
   @doc("Human-readable description of the asset.")
   description?: string;
 
-  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides datapoints for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.")
+  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.")
   @visibility("read", "create")
   @removed(Versions.v2024_07_01_preview)
   assetEndpointProfileUri: string;
 
-  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides datapoints for this asset. Must provide asset endpoint profile name.")
+  @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
   @added(Versions.v2024_07_01_preview)
   assetEndpointProfileRef: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
   @visibility("read")
-  version?: int32;
+  @typeChangedFrom(Versions.v2024_07_01_preview, int32)
+  version?: int64;
 
   @doc("Asset manufacturer name.")
   manufacturer?: string;
@@ -77,7 +78,6 @@ model AssetProperties {
   manufacturerUri?: string;
 
   @doc("Asset model name.")
-  // `model` is a reserved keyname. Wrap in double quotes
   `model`?: string;
 
   @doc("Asset product code.")
@@ -104,7 +104,7 @@ model AssetProperties {
   @added(Versions.v2024_07_01_preview)
   discoveredAssetRefs?: string[];
 
-  @doc("Stringified JSON that contains protocol-specific default configuration for all datapoints. Each datapoint can have its own configuration that overrides the default settings here.")
+  @doc("Stringified JSON that contains protocol-specific default configuration for all data points. Each data point can have its own configuration that overrides the default settings here.")
   @removed(Versions.v2024_07_01_preview)
   defaultDataPointsConfiguration?: string;
 
@@ -119,12 +119,12 @@ model AssetProperties {
   @added(Versions.v2024_07_01_preview)
   defaultTopic?: Topic;
 
-  @doc("Array of datapoints that are part of the asset. Each datapoint can reference an asset type capability and have per-datapoint configuration.")
+  @doc("Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration.")
   @removed(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
-  dataPoints?: Datapoint[];
+  dataPoints?: DataPoint[];
 
-  @doc("Array of datasets that are part of the asset. Each dataset describes the datapoints that make up the set.")
+  @doc("Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
   datasets?: Dataset[];
@@ -154,15 +154,14 @@ model Dataset {
   @doc("Object that describes the topic information for the specific dataset.")
   topic?: Topic;
 
-  @doc("Array of datapoints that are part of the dataset. Each datapoint can have per-datapoint configuration.")
+  @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
   @extension("x-ms-identifiers", [])
-  datapoints?: Datapoint[];
+  dataPoints?: DataPoint[];
 }
 
-@doc("Defines the datapoint properties.")
-@renamedFrom(Versions.v2024_07_01_preview, "DataPointBase")
-model DatapointBase {
-  @doc("The name of the datapoint.")
+@doc("Defines the data point properties.")
+model DataPointBase {
+  @doc("The name of the data point.")
   @madeRequired(Versions.v2024_07_01_preview)
   name: string;
 
@@ -173,26 +172,24 @@ model DatapointBase {
   @removed(Versions.v2024_07_01_preview)
   capabilityId?: string;
 
-  @doc("An indication of how the datapoint should be mapped to OpenTelemetry.")
+  @doc("An indication of how the data point should be mapped to OpenTelemetry.")
   @removed(Versions.v2024_07_01_preview)
   observabilityMode?: DataPointsObservabilityMode = DataPointsObservabilityMode.None;
 
-  @doc("Stringified JSON that contains connector-specific configuration for the datapoint. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
-  @renamedFrom(Versions.v2024_07_01_preview, "dataPointConfiguration")
-  datapointConfiguration?: string;
+  @doc("Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
+  dataPointConfiguration?: string;
 }
 
 // workaround done to define a default after breaking change on enum values
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
-@doc("Defines the datapoint properties.")
-@renamedFrom(Versions.v2024_07_01_preview, "DataPoint")
-model Datapoint extends DatapointBase {
-  @doc("An indication of how the datapoint should be mapped to OpenTelemetry.")
+@doc("Defines the data point properties.")
+model DataPoint extends DataPointBase {
+  @doc("An indication of how the data point should be mapped to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
-  observabilityMode?: DatapointsObservabilityMode = DatapointsObservabilityMode.None;
+  observabilityMode?: DataPointObservabilityMode = DataPointObservabilityMode.None;
 }
 
-@doc("Defines the datapoint observability mode.")
+@doc("Defines the data point observability mode.")
 @removed(Versions.v2024_07_01_preview)
 union DataPointsObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
@@ -213,9 +210,9 @@ union DataPointsObservabilityMode {
   string,
 }
 
-@doc("Defines the datapoint observability mode.")
+@doc("Defines the data point observability mode.")
 @added(Versions.v2024_07_01_preview)
-union DatapointsObservabilityMode {
+union DataPointObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "None",
 
@@ -299,24 +296,25 @@ union EventObservabilityMode {
 @doc("Defines the asset status properties.")
 model AssetStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @extension("x-ms-identifiers", [])
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   errors?: AssetStatusError[];
 
   @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
+  @typeChangedFrom(Versions.v2024_07_01_preview, int32)
   @visibility("read")
-  version?: int32;
+  version?: int64;
 
   @doc("Array of dataset statuses that describe the status of each dataset.")
+  @visibility("read")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
-  @visibility("read")
   datasets?: AssetStatusDataset[];
 
   @doc("Array of event statuses that describe the status of each event.")
+  @visibility("read")
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", [])
-  @visibility("read")
   events?: AssetStatusEvent[];
 }
 
@@ -358,15 +356,15 @@ model AssetStatusEvent {
 @doc("Defines the message schema reference properties.")
 @added(Versions.v2024_07_01_preview)
 model MessageSchemaReference {
-  @doc("The reference to the message schema registry namespace.")
+  @doc("The message schema registry namespace.")
   @visibility("read")
   schemaRegistryNamespace: string;
 
-  @doc("The reference to the message schema name.")
+  @doc("The message schema name.")
   @visibility("read")
   schemaName: string;
 
-  @doc("The reference to the message schema version.")
+  @doc("The message schema version.")
   @visibility("read")
   schemaVersion: string;
 }
