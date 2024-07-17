@@ -282,18 +282,10 @@ interface EnclaveConnection {
   listByParent is ArmResourceListByParent<EnclaveConnectionResource>;
   listBySubscription is ArmListBySubscription<EnclaveConnectionResource>;
 
-  @autoRoute
   @doc("Upon getting desired approvals this faciliates actions on approvals")
   @armResourceAction(EnclaveConnectionResource)
-  @post
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  approvalCallback(
-    ...ResourceInstanceParameters<EnclaveConnectionResource>,
-
-    @doc("Check approval callback request body.")
-    @body
-    approvalCallbackRequest: ApprovalCallbackRequest,
-  ): ArmResponse<ApprovalCallbackResponse> | ErrorResponse;
+  approvalCallback is ArmResourceActionAsync<EnclaveConnectionResource, ApprovalCallbackRequest, ApprovalCallbackResponse>;
 }
 
 @added(Microsoft.Mission.Versions.v2023_08_01_preview)
