@@ -2,16 +2,18 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-azure-core";
+import "@typespec/versioning";
 import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 namespace Private.Symphony;
 
-@doc("The properties of an InstanceVersion resource.")
-model InstanceVersionProperties {
+@doc("The properties of an Instance resource.")
+model InstanceProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -40,17 +42,15 @@ model InstanceVersionProperties {
   status?: InstanceTargetStatusProperties;
 }
 
-@doc("An InstanceVersion resource belonging to an Instance resource.")
-@resource("versions")
-@parentResource(Instance)
-model InstanceVersion is TrackedResource<InstanceVersionProperties> {
-  @doc("Name of InstanceVersion resource.")
+@doc("An Instance resource.")
+model Instance is TrackedResource<InstanceProperties> {
+  @doc("Name of Instance.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
   @path
-  @key("versionName")
-  @segment("versions")
+  @key("instanceName")
+  @segment("instances")
   name: string;
 
   // Extended location is not included in TrackedResource yet
@@ -61,15 +61,17 @@ model InstanceVersion is TrackedResource<InstanceVersionProperties> {
 }
 
 @armResourceOperations
-interface InstanceVersions {
-  @doc("Returns details of specified InstanceVersion resource.")
-  get is Azure.ResourceManager.ArmResourceRead<InstanceVersion>;
-  @doc("Creates new or updates existing InstanceVersion resource.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<InstanceVersion>;
-  @doc("Updates existing InstanceVersion resource.")
-  update is ArmCustomPatchAsync<InstanceVersion>;
-  @doc("Deletes specified InstanceVersion resource.")
-  delete is ArmResourceDeleteWithoutOkAsync<InstanceVersion>;
-  @doc("Returns a collection of InstanceVersion resources belonging to an Instance resource.")
-  listByInstance is ArmResourceListByParent<InstanceVersion>;
+interface Instances {
+  @doc("Returns details of specified Instance resource.")
+  get is ArmResourceRead<Instance>;
+  @doc("Creates new or updates existing Instance resource.")
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Instance>;
+  @doc("Updates existing Instance resource.")
+  update is ArmCustomPatchSync<Instance>;
+  @doc("Deletes specified Instance resource.")
+  delete is ArmResourceDeleteSync<Instance>;
+  @doc("Returns a collection of Instances resources within the resource group.")
+  listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Instance>;
+  @doc("Lists Instances resources within an Azure subscription.")
+  listBySubscription is ArmListBySubscription<Instance>;
 }

@@ -23,7 +23,7 @@ model Solution is TrackedResource<SolutionProperties> {
   @doc("Name of solution.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
   @path
   @key("solutionName")
   @segment("solutions")

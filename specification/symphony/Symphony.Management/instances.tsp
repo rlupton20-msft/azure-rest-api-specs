@@ -2,13 +2,11 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-azure-core";
-import "@typespec/versioning";
 import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using TypeSpec.Versioning;
 
 namespace Private.Symphony;
 
@@ -17,36 +15,6 @@ model InstanceProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The metadata information of the InstanceVersion resource.")
-  @added(Versions.v2024_08_01_preview)
-  metadata?: Record<string>;
-
-  @doc("The display name of the InstanceVersion resource.")
-  @added(Versions.v2024_08_01_preview)
-  displayName?: string;
-
-  @doc("The scope of the InstanceVersion resource.")
-  @added(Versions.v2024_08_01_preview)
-  scope?: string;
-
-  @doc("The SolutionVersion resource of the InstanceVersion resource.")
-  @added(Versions.v2024_08_01_preview)
-  solution: string;
-
-  @doc("Defines the Target the InstanceVersion resource will deploy to.")
-  @added(Versions.v2024_08_01_preview)
-  target?: TargetSelectorProperties;
-
-  @doc("The reconciliationPolicy of the InstanceVersion resource.")
-  @added(Versions.v2024_08_01_preview)
-  reconciliationPolicy?: ReconciliationPolicyProperties;
-
-  @doc("The status of the InstanceVersion.")
-  @visibility("read")
-  @added(Versions.v2024_08_01_preview)
-  status?: InstanceTargetStatusProperties;
 }
 
 @doc("An Instance resource.")
@@ -54,7 +22,7 @@ model Instance is TrackedResource<InstanceProperties> {
   @doc("Name of Instance.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
   @path
   @key("instanceName")
   @segment("instances")
