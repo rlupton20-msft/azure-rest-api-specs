@@ -37,8 +37,9 @@ interface operations {
     "x-ms-examples",
     {
       `List all operations available.`: {
-        $ref: "../../examples/operationsList.json",
+        $ref: "./examples/operationsList.json",
       },
+
     }
   )
   @OpenAPI.extension(
@@ -77,7 +78,7 @@ interface profiles {
     "x-ms-examples",
     {
       `List all Footprint profiles under a subscription.`: {
-        $ref: "../../examples/profilesListBySubscription.json",
+        $ref: "./examples/profilesListBySubscription.json",
       },
     }
   )
@@ -120,7 +121,7 @@ interface profiles {
     "x-ms-examples",
     {
       `List all profiles under a Resource Group.`: {
-        $ref: "../../examples/profilesListByResourceGroup.json",
+        $ref: "./examples/profilesListByResourceGroup.json",
       },
     }
   )
@@ -163,7 +164,7 @@ interface profiles {
     "x-ms-examples",
     {
       `Get the details of a Footprint profile.`: {
-        $ref: "../../examples/profilesGet.json",
+        $ref: "./examples/profilesGet.json",
       },
     }
   )
@@ -203,7 +204,7 @@ interface profiles {
     "x-ms-examples",
     {
       `Create or update a Footprint profile.`: {
-        $ref: "../../examples/profilesCreateOrUpdate.json",
+        $ref: "./examples/profilesCreateOrUpdate.json",
       },
     }
   )
@@ -246,7 +247,7 @@ interface profiles {
     "x-ms-examples",
     {
       `Delete a Footprint profile.`: {
-        $ref: "../../examples/profilesDelete.json",
+        $ref: "./examples/profilesDelete.json",
       },
     }
   )
@@ -285,7 +286,7 @@ interface profiles {
     "x-ms-examples",
     {
       `Update a Footprint profile.`: {
-        $ref: "../../examples/profilesUpdate.json",
+        $ref: "./examples/profilesUpdate.json",
       },
     }
   )
@@ -330,7 +331,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `List all the measurement endpoints under a Footprint profile.`: {
-        $ref: "../../examples/measurementEndpointsListByProfile.json",
+        $ref: "./examples/measurementEndpointsListByProfile.json",
       },
     }
   )
@@ -371,7 +372,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Get the details of a measurement endpoint.`: {
-        $ref: "../../examples/measurementEndpointsGet.json",
+        $ref: "./examples/measurementEndpointsGet.json",
       },
     }
   )
@@ -406,7 +407,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Create or update a measurement endpoint.`: {
-        $ref: "../../examples/measurementEndpointsCreateOrUpdate.json",
+        $ref: "./examples/measurementEndpointsCreateOrUpdate.json",
       },
     }
   )
@@ -452,7 +453,7 @@ interface measurementEndpoints {
     "x-ms-examples",
     {
       `Delete a measurement endpoint.`: {
-        $ref: "../../examples/measurementEndpointsDelete.json",
+        $ref: "./examples/measurementEndpointsDelete.json",
       },
     }
   )
@@ -486,7 +487,7 @@ interface measurementEndpointConditions {
     "x-ms-examples",
     {
       `List all conditions under a measurement endpoint.`: {
-        $ref: "../../examples/measurementEndpointConditionsListByEndpoint.json",
+        $ref: "./examples/measurementEndpointConditionsListByEndpoint.json",
       },
     }
   )
@@ -527,7 +528,7 @@ interface measurementEndpointConditions {
     "x-ms-examples",
     {
       `Get the details of a measurement endpoint condition.`: {
-        $ref: "../../examples/measurementEndpointConditionGet.json",
+        $ref: "./examples/measurementEndpointConditionGet.json",
       },
     }
   )
@@ -563,7 +564,7 @@ interface measurementEndpointConditions {
     "x-ms-examples",
     {
       `Create or update a measurement endpoint condition.`: {
-        $ref: "../../examples/measurementEndpointConditionCreateOrUpdate.json",
+        $ref: "./examples/measurementEndpointConditionCreateOrUpdate.json",
       },
     }
   )
@@ -603,7 +604,7 @@ interface measurementEndpointConditions {
     "x-ms-examples",
     {
       `Delete a measurement endpoint condition.`: {
-        $ref: "../../examples/measurementEndpointConditionDelete.json",
+        $ref: "./examples/measurementEndpointConditionDelete.json",
       },
     }
   )
@@ -639,7 +640,7 @@ interface experiments {
     "x-ms-examples",
     {
       `List all experiments under a Footprint profile.`: {
-        $ref: "../../examples/experimentsListByProfile.json",
+        $ref: "./examples/experimentsListByProfile.json",
       },
     }
   )
@@ -679,7 +680,7 @@ interface experiments {
     "x-ms-examples",
     {
       `Get the details of an experiment.`: {
-        $ref: "../../examples/experimentsGet.json",
+        $ref: "./examples/experimentsGet.json",
       },
     }
   )
@@ -714,7 +715,7 @@ interface experiments {
     "x-ms-examples",
     {
       `Create or update an experiment.`: {
-        $ref: "../../examples/experimentsCreateOrUpdate.json",
+        $ref: "./examples/experimentsCreateOrUpdate.json",
       },
     }
   )
@@ -752,7 +753,7 @@ interface experiments {
     "x-ms-examples",
     {
       `Delete an experiment.`: {
-        $ref: "../../examples/experimentsDelete.json",
+        $ref: "./examples/experimentsDelete.json",
       },
     }
   )
