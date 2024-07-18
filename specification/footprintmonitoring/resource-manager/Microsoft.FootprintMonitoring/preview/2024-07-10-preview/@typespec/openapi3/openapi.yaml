@@ -3,18 +3,19 @@ info:
   title: Profiles
   version: 2024-07-10-preview
 tags:
-  - name: Operations
-  - name: Profiles
-  - name: MeasurementEndpoints
-  - name: MeasurementEndpointConditions
-  - name: Experiments
+  - name: API Operations
+  - name: Footprint Profiles
+  - name: Footprint Measurement Endpoints
+  - name: Footprint Measurement Endpoint Conditions
+  - name: Footprint Experiments
 paths:
   /providers/Microsoft.FootprintMonitoring/operations:
     get:
       tags:
-        - Operations
+        - API Operations
       operationId: operations_list
-      description: List the operations for the provider
+      summary: Retrieves a list of available API operations under this Resource Provider.
+      description: Retrieves a list of available API operations.
       parameters:
         - name: api-version
           in: query
@@ -50,13 +51,13 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all operations available:
+        List all operations available.:
           $ref: ../../examples/operationsList.json
   /subscriptions/{subscriptionId}/providers/Microsoft.FootprintMonitoring/profiles:
     get:
       tags:
-        - Profiles
-      operationId: profiles_ListBySubscriptionId
+        - Footprint Profiles
+      operationId: profiles_ListBySubscription
       summary: Get all Footprint profiles under a subscription.
       description: Retrieves the information about all Footprint profiles under a subscription.
       parameters:
@@ -100,12 +101,12 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all profiles:
+        List all Footprint profiles under a subscription.:
           $ref: ../../examples/profilesListBySubscription.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles:
     get:
       tags:
-        - Profiles
+        - Footprint Profiles
       operationId: profiles_ListByResourceGroup
       summary: Get all Footprint profiles under a resource group.
       description: Retrieves the information about all Footprint profiles under a resource group.
@@ -156,12 +157,12 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all profiles:
+        List all profiles under a Resource Group.:
           $ref: ../../examples/profilesListByResourceGroup.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}:
     get:
       tags:
-        - Profiles
+        - Footprint Profiles
       operationId: profiles_get
       summary: Get a Footprint profile resource.
       description: Retrieves the information about a single Footprint profile.
@@ -216,11 +217,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Get a profile:
+        Get the details of a Footprint profile.:
           $ref: ../../examples/profilesGet.json
     put:
       tags:
-        - Profiles
+        - Footprint Profiles
       operationId: profiles_createOrUpdate
       summary: Creates or updates a Footprint profile resource.
       description: Creates or updates a Footprint profile with the specified properties.
@@ -281,18 +282,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       requestBody:
-        description: Footprint profile update parameters.
+        description: Footprint profile creation or update parameters.
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Profile'
       x-ms-examples:
-        Create or update a profile.:
+        Create or update a Footprint profile.:
           $ref: ../../examples/profilesCreateOrUpdate.json
     delete:
       tags:
-        - Profiles
+        - Footprint Profiles
       operationId: profiles_delete
       summary: Deletes a Footprint profile resource.
       description: Deletes an existing Footprint profile.
@@ -347,14 +348,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Delete a profile:
+        Delete a Footprint profile.:
           $ref: ../../examples/profilesDelete.json
     patch:
       tags:
-        - Profiles
+        - Footprint Profiles
       operationId: profiles_update
       summary: Updates a Footprint profile resource.
-      description: Updates an existing Footprint profile.
+      description: Updates an existing Footprint profile resource.
       parameters:
         - name: api-version
           in: query
@@ -406,19 +407,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       requestBody:
-        description: The profile properties.
+        description: Footprint profile update parameters.
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfilePatch'
       x-ms-examples:
-        Update a profile:
+        Update a Footprint profile.:
           $ref: ../../examples/profilesUpdate.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/experiments:
     get:
       tags:
-        - Experiments
+        - Footprint Experiments
       operationId: experiments_ListByProfile
       summary: Get all experiments under a Footprint profile.
       description: Retrieves the information about all experiments under a Footprint profile.
@@ -471,15 +472,15 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all experiments under a Footprint profile:
+        List all experiments under a Footprint profile.:
           $ref: ../../examples/experimentsListByProfile.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/experiments/{experimentName}:
     get:
       tags:
-        - Experiments
+        - Footprint Experiments
       operationId: experiments_get
-      summary: Get an experiment under a Footprint profile resource.
-      description: Retrieves the information about a single experiment under a Footprint profile.
+      summary: Get a Footprint experiment resource.
+      description: Retrieves the information about a single Footprint experiment.
       parameters:
         - name: api-version
           in: query
@@ -532,14 +533,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Get an experiment:
+        Get the details of an experiment.:
           $ref: ../../examples/experimentsGet.json
     put:
       tags:
-        - Experiments
+        - Footprint Experiments
       operationId: experiments_createOrUpdate
-      summary: Creates or updates an experiment under a Footprint profile resource.
-      description: Creates or updates an experiment under a Footprint profile with the specified properties.
+      summary: Creates or updates a Footprint experiment resource.
+      description: Creates or updates a Footprint experiment with the specified properties.
       parameters:
         - name: api-version
           in: query
@@ -604,11 +605,11 @@ paths:
             schema:
               $ref: '#/components/schemas/Experiment'
       x-ms-examples:
-        Create or update an experiment:
+        Create or update an experiment.:
           $ref: ../../examples/experimentsCreateOrUpdate.json
     delete:
       tags:
-        - Experiments
+        - Footprint Experiments
       operationId: experiments_delete
       summary: Deletes a Footprint experiment resource.
       description: Deletes an existing Footprint experiment.
@@ -664,14 +665,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Delete an experiment:
+        Delete an experiment.:
           $ref: ../../examples/experimentsDelete.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints:
     get:
       tags:
-        - MeasurementEndpoints
+        - Footprint Measurement Endpoints
       operationId: measurementEndpoints_ListByProfile
-      summary: Get all measurement endpoints under a profile.
+      summary: Get all measurement endpoints under a Footprint profile.
       description: Retrieves the information about all measurement endpoints under a Footprint profile.
       parameters:
         - name: api-version
@@ -723,12 +724,12 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all measurement endpoints under a Footprint profile:
+        List all the measurement endpoints under a Footprint profile.:
           $ref: ../../examples/measurementEndpointsListByProfile.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints/{measurementEndpointName}:
     get:
       tags:
-        - MeasurementEndpoints
+        - Footprint Measurement Endpoints
       operationId: measurementEndpoints_get
       summary: Get a measurement endpoint under a Footprint profile resource.
       description: Retrieves the information about a single measurement endpoint under a Footprint profile.
@@ -784,11 +785,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Get a measurement endpoint:
+        Get the details of a measurement endpoint.:
           $ref: ../../examples/measurementEndpointsGet.json
     put:
       tags:
-        - MeasurementEndpoints
+        - Footprint Measurement Endpoints
       operationId: measurementEndpoints_createOrUpdate
       summary: Creates or updates a single measurement endpoint under a Footprint profile resource.
       description: Creates or updates a single measurement endpoint under a Footprint profile with the specified properties.
@@ -850,17 +851,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       requestBody:
+        description: Footprint measurement endpoint creation or update parameters.
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MeasurementEndpoint'
       x-ms-examples:
-        Create or update a measurement endpoint:
+        Create or update a measurement endpoint.:
           $ref: ../../examples/measurementEndpointsCreateOrUpdate.json
     delete:
       tags:
-        - MeasurementEndpoints
+        - Footprint Measurement Endpoints
       operationId: measurementEndpoints_delete
       summary: Deletes a measurement endpoint under a Footprint profile resource.
       description: Deletes an existing measurement endpoint under a Footprint profile.
@@ -914,14 +916,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Delete a measurement endpoint:
+        Delete a measurement endpoint.:
           $ref: ../../examples/measurementEndpointsDelete.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints/{measurementEndpointName}/conditions:
     get:
       tags:
-        - MeasurementEndpointConditions
-      operationId: measurementEndpoints_listByMeasurementEndpoint
-      summary: Get all measurement endpoint conditions under a measurement endpoint.
+        - Footprint Measurement Endpoint Conditions
+      operationId: measurementEndpointConditions_listByMeasurementEndpoint
+      summary: Get all measurement endpoint conditions under a Footprint measurement endpoint.
       description: Retrieves the information about all measurement endpoint conditions under a Footprint measurement endpoint.
       parameters:
         - name: api-version
@@ -977,13 +979,13 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
       x-ms-examples:
-        List all measurement endpoint conditions under a measurement endpoint:
+        List all conditions under a measurement endpoint.:
           $ref: ../../examples/measurementEndpointConditionsListByEndpoint.json
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints/{measurementEndpointName}/conditions/{conditionName}:
     get:
       tags:
-        - MeasurementEndpointConditions
-      operationId: measurementEndpoints_getCondition
+        - Footprint Measurement Endpoint Conditions
+      operationId: measurementEndpointConditions_get
       summary: Get a measurement endpoint condition under a Footprint measurement endpoint resource.
       description: Retrieves the information about a single measurement endpoint condition under a Footprint measurement endpoint.
       parameters:
@@ -1043,14 +1045,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Get a measurement endpoint condition:
+        Get the details of a measurement endpoint condition.:
           $ref: ../../examples/measurementEndpointConditionGet.json
     put:
       tags:
-        - MeasurementEndpointConditions
-      operationId: measurementEndpoints_createOrUpdateCondition
-      summary: Creates or updates a single measurement endpoint condition under a Footprint measurement endpoint resource.
-      description: Creates or updates a single measurement endpoint condition under a Footprint measurement endpoint with the specified properties.
+        - Footprint Measurement Endpoint Conditions
+      operationId: measurementEndpointConditions_createOrUpdate
+      summary: Creates or updates a measurement endpoint condition under a Footprint measurement resource.
+      description: Creates or updates a measurement endpoint condition under a Footprint measurement with the specified properties.
       parameters:
         - name: api-version
           in: query
@@ -1114,18 +1116,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       requestBody:
+        description: Footprint measurement condition creation or update parameters.
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MeasurementEndpointCondition'
       x-ms-examples:
-        Create or update a measurement endpoint condition:
+        Create or update a measurement endpoint condition.:
           $ref: ../../examples/measurementEndpointConditionCreateOrUpdate.json
     delete:
       tags:
-        - MeasurementEndpointConditions
-      operationId: measurementEndpoints_deleteCondition
+        - Footprint Measurement Endpoint Conditions
+      operationId: measurementEndpointConditions_delete
       summary: Deletes a measurement endpoint condition under a Footprint measurement resource.
       description: Deletes an existing measurement endpoint condition under a Footprint measurement.
       parameters:
@@ -1205,7 +1208,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultErrorResponse'
       x-ms-examples:
-        Delete a measurement endpoint condition:
+        Delete a measurement endpoint condition.:
           $ref: ../../examples/measurementEndpointConditionDelete.json
 security:
   - azure_auth:
@@ -1252,7 +1255,7 @@ components:
       properties:
         name:
           type: string
-          description: Name of the Footprint experiment resource.
+          description: The name of the resource.
           readOnly: true
         properties:
           allOf:
@@ -1267,6 +1270,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/SubResource'
       description: A model representing the Footprint experiment.
+      title: Footprint Experiment
     ExperimentList:
       type: object
       properties:
@@ -1278,7 +1282,7 @@ components:
           readOnly: true
         nextLink:
           type: string
-          description: URL to get the next set of Footprint experiment objects.
+          description: URL to get the next set of Footprint experiment objects if there are any.
       description: Result of the request to list Footprint experiments. It contains a list of Footprint experiments objects and a URL link to get the next set of results.
     ExperimentNameParameter:
       type: object
@@ -1314,11 +1318,11 @@ components:
           title: Footprint Experiment Status
           readOnly: true
       description: A model representing the Footprint Experiment resource.
+      title: Footprint Experiment Properties
     MeasurementEndpoint:
       type: object
       required:
         - properties
-        - name
       properties:
         properties:
           allOf:
@@ -1330,8 +1334,14 @@ components:
           type: string
           description: The name of the resource.
           readOnly: true
+        type:
+          type: string
+          description: The type of the resource.
+          readOnly: true
       allOf:
         - $ref: '#/components/schemas/SubResource'
+      description: A model representing a Footprint measurement endpoint.
+      title: Footprint Measurement Endpoint
     MeasurementEndpointCondition:
       type: object
       required:
@@ -1339,7 +1349,8 @@ components:
       properties:
         name:
           type: string
-          description: Name of the Footprint measurement endpoint condition resource.
+          description: The name of the resource.
+          readOnly: true
         properties:
           allOf:
             - $ref: '#/components/schemas/MeasurementEndpointConditionProperties'
@@ -1352,7 +1363,7 @@ components:
           readOnly: true
       allOf:
         - $ref: '#/components/schemas/SubResource'
-      description: A model representing the Footprint Measurement Endpoint Condition resource.
+      description: A model representing the Footprint measurement endpoint condition.
       title: Footprint Measurement Endpoint Condition
     MeasurementEndpointConditionList:
       type: object
@@ -1361,10 +1372,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MeasurementEndpointCondition'
+          description: A collection of Footprint measurement endpoint conditions.
           readOnly: true
         nextLink:
           type: string
-          description: URL to get the next set of Footprint measurement endpoint condition objects.
+          description: URL to get the next set of Footprint measurement endpoint if there are any.
       description: Result of the request to list Footprint measurement endpoint conditions. It contains a list of Footprint measurement endpoint conditions objects and a URL link to get the next set of results.
     MeasurementEndpointConditionNameParameter:
       type: object
@@ -1432,7 +1444,7 @@ components:
           readOnly: true
         nextLink:
           type: string
-          description: URL to get the next set of Footprint measurement endpoint objects.
+          description: URL to get the next set of Footprint measurement endpoint objects if there are any.
       description: Result of the request to list Footprint measurement endpoints. It contains a list of Footprint measurement endpoints objects and a URL link to get the next set of results.
     MeasurementEndpointNameParameter:
       type: object
@@ -1460,6 +1472,7 @@ components:
           maxLength: 32
           pattern: '[a-f0-9]{32}'
           description: The id of a measurement endpoint.
+          title: Measurement Endpoint Id
           readOnly: true
         description:
           type: string
@@ -1555,12 +1568,8 @@ components:
     Profile:
       type: object
       required:
-        - location
         - properties
       properties:
-        location:
-          type: string
-          description: Name of the Footprint profile resource.
         properties:
           allOf:
             - $ref: '#/components/schemas/ProfileProperties'
@@ -1570,7 +1579,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/Resource'
       description: The Footprint profile resource.
-      title: Footprint profile.
+      title: Footprint Profile
     ProfileList:
       type: object
       properties:
@@ -1582,8 +1591,8 @@ components:
           readOnly: true
         nextLink:
           type: string
-          description: URL to get the next set of Footprint profile objects.
-      description: Result of the request to list Footprint profiles. It contains a list of Footprint profiles and a URL link to get the next set of results.
+          description: URL to get the next set of Footprint profile objects if there are any.
+      description: Result of the request to list Footprint profiles. It contains a list of Footprint profile objects and a URL link to get the next set of results.
     ProfileNameParameter:
       type: object
       required:
@@ -1618,7 +1627,7 @@ components:
         provisioningState:
           allOf:
             - $ref: '#/components/schemas/ProvisioningState'
-          description: The provisioned state of the resource
+          description: The provisioned state of the resource.
           x-ms-enum:
             name: ProvisioningState
             modelAsString: true
@@ -1626,7 +1635,7 @@ components:
         profileId:
           type: string
           description: The id of the Footprint profile.
-          title: The id of the Footprint profile.
+          title: Profile Id
           readOnly: true
         description:
           type: string
@@ -1662,14 +1671,14 @@ components:
           items:
             $ref: '#/components/schemas/MeasurementEndpoint'
           description: The endpoints which to perform measurements to.
-          title: MeasurementEndpoints
+          title: Measurement Endpoints
           readOnly: true
         reportingEndpoints:
           type: array
           items:
             type: string
           description: The endpoints which to upload measurements to.
-          title: Reporting Endpoings
+          title: Reporting Endpoints
         experiments:
           type: array
           items:
@@ -1678,6 +1687,7 @@ components:
           title: Experiments
           readOnly: true
       description: A model representing the Footprint profile resource.
+      title: Footprint Profile Properties
     ProvisioningState:
       type: string
       enum:
@@ -1716,7 +1726,7 @@ components:
         location:
           type: string
           description: Region where the Azure resource is located.
-          x-ms-mutable:
+          x-ms-mutability:
             - read
             - create
       description: An Azure resource.
@@ -1783,8 +1793,6 @@ components:
       title: Resource Provider's Available Operations
     SubResource:
       type: object
-      required:
-        - id
       properties:
         id:
           type: string
