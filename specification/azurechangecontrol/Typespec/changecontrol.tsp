@@ -37,7 +37,7 @@ model TimeWindow
 model TargetLink
 {
     @doc("target operation")
-    operation: ARMOperation;
+    operation: string;
 
     @doc("target resource id")
     resourceId: string;
