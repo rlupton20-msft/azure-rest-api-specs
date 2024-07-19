@@ -3,15 +3,9 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./CapabilityList.tsp";
 import "./Configuration.tsp";
-import "./DeploymentInstance.tsp";
-import "./DeploymentTarget.tsp";
 import "./DynamicConfiguration.tsp";
 import "./DynamicConfigurationVersion.tsp";
-import "./HelmUseCase.tsp";
-import "./TargetBinding.tsp";
-import "./UseCase.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
