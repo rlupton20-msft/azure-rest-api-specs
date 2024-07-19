@@ -3,7 +3,6 @@ import "@typespec/openapi3";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using OpenAPI;
@@ -17,7 +16,6 @@ using Azure.ResourceManager;
 @OpenAPI.extension("x-typespec-generated", true)
 @service({
   title: "Profiles",
-  version: "2024-07-10-preview",
   description: "Microsoft Footprint active monitoring system REST API version 2024-07-03-preview",
   contact: {
     name: "Map of The Internet (AFD) Team",
