@@ -109,7 +109,7 @@ model MeasurementEndpointProperties {
   @minLength(0)
   @maxLength(1024)
   // TODO: this is an issue
-  @pattern("^[a-z0-9\\*]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?$")
+  @pattern("^[a-z0-9\\*]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,}(:[0-9]{1,5})?$")
   endpoint: string;
 
   @doc("The type of a measurement endpoint.")
@@ -188,8 +188,9 @@ model MeasurementEndpointConditionProperties {
   @pattern("[a-f0-9]{32}")
   conditionId?: string;
 
-  // @doc("The type of a Footprint measurement endpoint condition.")
-  // type: Type;
+  @doc("The type of a Footprint measurement endpoint condition.")
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  type: Type;
 
   @doc("The variable of a Footprint measurement endpoint condition.")
   variable: string;
