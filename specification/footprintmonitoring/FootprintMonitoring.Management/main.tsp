@@ -188,8 +188,8 @@ model MeasurementEndpointConditionProperties {
   @pattern("[a-f0-9]{32}")
   conditionId?: string;
 
-  @doc("The type of a Footprint measurement endpoint condition.")
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
+  @doc("The type of a Footprint measurement endpoint condition.")
   type: Type;
 
   @doc("The variable of a Footprint measurement endpoint condition.")
