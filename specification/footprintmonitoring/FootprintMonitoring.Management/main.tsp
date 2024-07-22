@@ -1,906 +1,101 @@
 import "@typespec/http";
-import "@typespec/openapi3";
 import "@typespec/rest";
 import "@typespec/versioning";
+// import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@armProviderNamespace
-@OpenAPI.extension("x-typespec-generated", true)
+@armProviderNamespace("Microsoft.FootprintMonitoring")
 @service({
-  title: "Profiles",
-  description: "Microsoft Footprint active monitoring system REST API version 2024-07-03-preview",
-  contact: {
-    name: "Map of The Internet (AFD) Team",
-    url: "http://aka.ms/moiteams",
-    email: "moicore@microsoft.com",
-  },
+  title: "Microsoft.FootprintMonitoring",
 })
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+@doc("Microsoft Footprint active monitoring system REST API version 2024-07-10-preview.")
+@versioned(Versions)
+@armCommonTypesVersion(CommonTypes.Versions.v5)
 namespace Microsoft.FootprintMonitoring;
 
-@route("/providers/Microsoft.FootprintMonitoring/operations")
-interface operations {
-  @tag("API Operations")
-  @doc("Retrieves a list of available API operations.")
-  @summary("Retrieves a list of available API operations under this Resource Provider.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all operations available.`: {
-        $ref: "./examples/operationsList.json",
-      },
-
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  @get
-  list(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-  ): {
-    @doc("The request was successful; response contains the list of operations under Microsoft.FootprintMonitoring resource provider.")
-    @statusCode
-    statusCode: 200;
-
-    @body
-    body: ResourceProviderOperationList;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @doc("A response with a status and optional error describing the reason for the operation result.")
-    @body
-    body: DefaultErrorResponse;
-  };
+enum Versions {
+  @doc("2024-07-10-preview api version")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-07-10-preview`,
 }
 
-@route("/subscriptions/{subscriptionId}")
-interface profiles {
-  @tag("Footprint Profiles")
-  @summary("Get all Footprint profiles under a subscription.")
-  @doc("Retrieves the information about all Footprint profiles under a subscription.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all Footprint profiles under a subscription.`: {
-        $ref: "./examples/profilesListBySubscription.json",
-      },
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  // add /providers/Microsoft.FootprintMonitoring/profiles+
-  @route("/providers/Microsoft.FootprintMonitoring/profiles")
-  @get
-  ListBySubscription(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the Footprint profiles found.")
-    @body
-    body: ProfileList;
-  } | {
-    // all status codes except 200
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @doc("A response with a status and optional error describing the reason for the operation result.")
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @tag("Footprint Profiles")
-  @summary("Get all Footprint profiles under a resource group.")
-  @doc("Retrieves the information about all Footprint profiles under a resource group.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all profiles under a Resource Group.`: {
-        $ref: "./examples/profilesListByResourceGroup.json",
-      },
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  @route("/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles")
-  @get
-  ListByResourceGroup(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-
-    @doc("The resource group name.")
-    resourceGroupName: string,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @body
-    body: ProfileList;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}")
-  @tag("Footprint Profiles")
-  @summary("Get a Footprint profile resource.")
-  @doc("Retrieves the information about a single Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Get the details of a Footprint profile.`: {
-        $ref: "./examples/profilesGet.json",
-      },
-    }
-  )
-  @get
-  get(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-
-    @doc("The resource group name.")
-    resourceGroupName: ResourceGroupNameParameter,
-
-    @doc("The profile name.")
-    profileName: ProfileNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @body
-    @doc("The request was successful. The response contains the single Footprint profile's information.")
-    body: Profile;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}")
-  @tag("Footprint Profiles")
-  @summary("Creates or updates a Footprint profile resource.")
-  @doc("Creates or updates a Footprint profile with the specified properties.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Create or update a Footprint profile.`: {
-        $ref: "./examples/profilesCreateOrUpdate.json",
-      },
-    }
-  )
-  @put
-  createOrUpdate(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-
-    @doc("The resource group name.")
-    resourceGroupName: ResourceGroupNameParameter,
-
-    @doc("The profile name.")
-    profileName: ProfileNameParameter,
-
-    @doc("Footprint profile creation or update parameters.")
-    @body
-    parameters: Profile,
-  ): {
-    @statusCode
-    statusCode: 200 | 201;
-
-    @body
-    body: Profile;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}")
-  @tag("Footprint Profiles")
-  @summary("Deletes a Footprint profile resource.")
-  @doc("Deletes an existing Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Delete a Footprint profile.`: {
-        $ref: "./examples/profilesDelete.json",
-      },
-    }
-  )
-  @delete
-  delete(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-
-    @doc("The resource group name.")
-    resourceGroupName: ResourceGroupNameParameter,
-
-    @doc("The profile name.")
-    profileName: ProfileNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @body
-    body: Profile;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}")
-  @tag("Footprint Profiles")
-  @summary("Updates a Footprint profile resource.")
-  @doc("Updates an existing Footprint profile resource.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Update a Footprint profile.`: {
-        $ref: "./examples/profilesUpdate.json",
-      },
-    }
-  )
-  @patch
-  update(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @doc("The subscription id.")
-    subscriptionId: SubscriptionIdParameter,
-
-    @doc("The resource group name.")
-    resourceGroupName: ResourceGroupNameParameter,
-
-    @doc("The profile name.")
-    profileName: ProfileNameParameter,
-
-    @doc("Footprint profile update parameters.")
-    @body
-    parameters: ProfilePatch,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @body
-    body: Profile;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
+@doc("The Footprint profile resource.")
+model Profile is TrackedResource<ProfileProperties> {
+  @doc("Name of the Footprint profile resource.")
+  @minLength(3)
+  @maxLength(64)
+  @pattern("^[a-zA-Z0-9]")
+  @key("profileName")
+  @path
+  @segment("profiles")
+  name: string;
 }
 
-@route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints")
-interface measurementEndpoints {
-  @tag("Footprint Measurement Endpoints")
-  @summary("Get all measurement endpoints under a Footprint profile.")
-  @doc("Retrieves the information about all measurement endpoints under a Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all the measurement endpoints under a Footprint profile.`: {
-        $ref: "./examples/measurementEndpointsListByProfile.json",
-      },
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  @get
-  ListByProfile(
-    @doc("The API version to be used with the HTTP request.")
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the Footprint measurement endpoints found.")
-    @body
-    body: MeasurementEndpointList;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{measurementEndpointName}")
-  @tag("Footprint Measurement Endpoints")
-  @summary("Get a measurement endpoint under a Footprint profile resource.")
-  @doc("Retrieves the information about a single measurement endpoint under a Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Get the details of a measurement endpoint.`: {
-        $ref: "./examples/measurementEndpointsGet.json",
-      },
-    }
-  )
-  @get
-  get(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the single Footprint profile's measurement endpoint information.")
-    @body
-    body: MeasurementEndpoint;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{measurementEndpointName}")
-  @tag("Footprint Measurement Endpoints")
-  @summary("Creates or updates a single measurement endpoint under a Footprint profile resource.")
-  @doc("Creates or updates a single measurement endpoint under a Footprint profile with the specified properties.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Create or update a measurement endpoint.`: {
-        $ref: "./examples/measurementEndpointsCreateOrUpdate.json",
-      },
-    }
-  )
-  @put
-  createOrUpdate(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    @path
-    subscriptionId: SubscriptionIdParameter,
-
-    @path
-    resourceGroupName: ResourceGroupNameParameter,
-
-    @path
-    profileName: ProfileNameParameter,
-
-    @path
-    measurementEndpointName: MeasurementEndpointNameParameter,
-
-    @body // when specifying body the other parameters require explicit @path
-    @doc("Footprint measurement endpoint creation or update parameters.")
-    parameters: MeasurementEndpoint,
-  ): {
-    @statusCode
-    statusCode: 200 | 201;
-
-    @doc("The request was successful. The resource was created/updated and the response contains the updated Footprint measurement endpoint's information.")
-    @body
-    body: MeasurementEndpoint;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{measurementEndpointName}")
-  @tag("Footprint Measurement Endpoints")
-  @summary("Deletes a measurement endpoint under a Footprint profile resource.")
-  @doc("Deletes an existing measurement endpoint under a Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Delete a measurement endpoint.`: {
-        $ref: "./examples/measurementEndpointsDelete.json",
-      },
-    }
-  )
-  @delete
-  delete(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-  ): {
-    @doc("The request was successful. The resource was deleted.")
-    @statusCode
-    statusCode: 200 | 204;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-}
-
-@route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/measurementEndpoints/{measurementEndpointName}/conditions")
-interface measurementEndpointConditions {
-  @tag("Footprint Measurement Endpoint Conditions")
-  @summary("Get all measurement endpoint conditions under a Footprint measurement endpoint.")
-  @doc("Retrieves the information about all measurement endpoint conditions under a Footprint measurement endpoint.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all conditions under a measurement endpoint.`: {
-        $ref: "./examples/measurementEndpointConditionsListByEndpoint.json",
-      },
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  @get
-  listByMeasurementEndpoint(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the Footprint measurement endpoint conditions found.")
-    @body
-    body: MeasurementEndpointConditionList;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{conditionName}")
-  @tag("Footprint Measurement Endpoint Conditions")
-  @summary("Get a measurement endpoint condition under a Footprint measurement endpoint resource.")
-  @doc("Retrieves the information about a single measurement endpoint condition under a Footprint measurement endpoint.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Get the details of a measurement endpoint condition.`: {
-        $ref: "./examples/measurementEndpointConditionGet.json",
-      },
-    }
-  )
-  @get
-  get(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-    conditionName: MeasurementEndpointConditionNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the single measurement endpoint condition under a Footprint measurement's information.")
-    @body
-    body: MeasurementEndpointCondition;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{conditionName}")
-  @tag("Footprint Measurement Endpoint Conditions")
-  @summary("Creates or updates a measurement endpoint condition under a Footprint measurement resource.")
-  @doc("Creates or updates a measurement endpoint condition under a Footprint measurement with the specified properties.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Create or update a measurement endpoint condition.`: {
-        $ref: "./examples/measurementEndpointConditionCreateOrUpdate.json",
-      },
-    }
-  )
-  @put
-  createOrUpdate(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-    conditionName: MeasurementEndpointConditionNameParameter,
-
-    @body
-    @doc("Footprint measurement condition creation or update parameters.")
-    parameters: MeasurementEndpointCondition,
-  ): {
-    @statusCode
-    statusCode: 200 | 201;
-
-    @doc("The request was successful. The resource was updated and the response contains the updated measurement endpoint condition information under a Footprint measurement.")
-    @body
-    body: MeasurementEndpointCondition;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{conditionName}")
-  @tag("Footprint Measurement Endpoint Conditions")
-  @summary("Deletes a measurement endpoint condition under a Footprint measurement resource.")
-  @doc("Deletes an existing measurement endpoint condition under a Footprint measurement.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Delete a measurement endpoint condition.`: {
-        $ref: "./examples/measurementEndpointConditionDelete.json",
-      },
-    }
-  )
-  @delete
-  delete(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    measurementEndpointName: MeasurementEndpointNameParameter,
-    conditionName: MeasurementEndpointConditionNameParameter,
-  ): {
-    docs: ("The request was successful. The resource was deleted.");
-
-    @statusCode
-    statusCode: 200 | 204;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-}
-
-@route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/experiments")
-interface experiments {
-  @tag("Footprint Experiments")
-  @summary("Get all experiments under a Footprint profile.")
-  @doc("Retrieves the information about all experiments under a Footprint profile.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `List all experiments under a Footprint profile.`: {
-        $ref: "./examples/experimentsListByProfile.json",
-      },
-    }
-  )
-  @OpenAPI.extension(
-    "x-ms-pageable",
-    {
-      nextLinkName: "nextLink",
-    }
-  )
-  @get
-  ListByProfile(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the Footprint experiments found.")
-    @body
-    body: ExperimentList;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{experimentName}")
-  @tag("Footprint Experiments")
-  @summary("Get a Footprint experiment resource.")
-  @doc("Retrieves the information about a single Footprint experiment.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Get the details of an experiment.`: {
-        $ref: "./examples/experimentsGet.json",
-      },
-    }
-  )
-  @get
-  get(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    experimentName: string,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The response contains the single Footprint profile's experiment information.")
-    @body
-    body: Experiment;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{experimentName}")
-  @tag("Footprint Experiments")
-  @summary("Creates or updates a Footprint experiment resource.")
-  @doc("Creates or updates a Footprint experiment with the specified properties.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Create or update an experiment.`: {
-        $ref: "./examples/experimentsCreateOrUpdate.json",
-      },
-    }
-  )
-  @put
-  createOrUpdate(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    experimentName: string,
-
-    @body
-    parameters: Experiment,
-  ): {
-    @statusCode
-    statusCode: 200 | 201;
-
-    @doc("The request was successful. The resource was created/updated and the response contains the updated Footprint experiment's information.")
-    @body
-    body: Experiment;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-
-  @route("/{experimentName}")
-  @tag("Footprint Experiments")
-  @summary("Deletes a Footprint experiment resource.")
-  @doc("Deletes an existing Footprint experiment.")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      `Delete an experiment.`: {
-        $ref: "./examples/experimentsDelete.json",
-      },
-    }
-  )
-  @delete
-  delete(
-    @query
-    `api-version`: ApiVersionParameter,
-
-    subscriptionId: SubscriptionIdParameter,
-    resourceGroupName: ResourceGroupNameParameter,
-    profileName: ProfileNameParameter,
-    experimentName: string,
-  ): {
-    @statusCode
-    statusCode: 200;
-
-    @doc("The request was successful. The resource was deleted.")
-    @body
-    body: Experiment;
-  } | {
-    @statusCode statusCode: 404 | 500 | 503;
-
-    @body
-    body: DefaultErrorResponse;
-  };
-}
-
-// @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.FootprintMonitoring/profiles/{profileName}/experiments/{experimentName}")
-
-// Profile
 @doc("A model representing the Footprint profile resource.")
-@summary("Footprint Profile Properties")
 model ProfileProperties {
-  @doc("The provisioned state of the resource.")
+  @doc("The status of the last operation.")
   @visibility("read")
-  @OpenAPI.extension(
-    "x-ms-enum",
-    {
-      name: "ProvisioningState",
-      modelAsString: true,
-    }
-  )
-  provisioningState?: ProvisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("The id of the Footprint profile.")
   @visibility("read")
-  @summary("Profile Id")
   profileId?: string;
 
   @doc("The description of the Footprint profile.")
-  @summary("Profile Description")
   description?: string;
 
   @doc("The delay in milliseconds that the clients should wait for until they start performing measurements.")
-  @summary("Start Delay (ms)")
   @minValue(0)
   @maxValue(3600000)
   startDelayMilliseconds: int32;
 
   @doc("The URL where the script for the Footprint profile.")
   @visibility("read")
-  @summary("Profile Script URL")
   scriptUri?: string;
 
   @doc("The number of measurements to perform.")
-  @summary("Count of Measurements")
-  @minValue(0)
   measurementCount: int32;
 
   @doc("The default sampling percentage for cold path measurement storage.")
-  @summary("Cold Path Sampling Percentage")
   @minValue(0)
   @maxValue(100)
   coldPathSamplingPercentageRate?: float32;
 
   @doc("The endpoints which to perform measurements to.")
-  @summary("Measurement Endpoints")
   @visibility("read")
   measurementEndpoints?: Array<MeasurementEndpoint>;
 
   @doc("The endpoints which to upload measurements to.")
-  @summary("Reporting Endpoints")
   reportingEndpoints?: Array<string>;
 
   @doc("The experiments currently associated to this Footprint profile.")
-  @summary("Experiments")
   @visibility("read")
-  experiments?: Array<SubResource>;
-  // TODO: use experiements model
+  experiments?: Array<Experiment>;
 }
 
-@doc("The Footprint profile resource.")
-@summary("Footprint Profile")
-model Profile extends Resource {
-  @doc("Additional Footprint profile properties.")
-  @summary("Footprint profile additional properties.")
-  @OpenAPI.extension("x-ms-client-flatten", true)
-  properties: ProfileProperties;
-}
-
-@doc("Result of the request to list Footprint profiles. It contains a list of Footprint profile objects and a URL link to get the next set of results.")
-model ProfileList {
-  @visibility("read")
-  @doc("A collection of Footprint profiles.")
-  value?: Array<Profile>;
-
-  @doc("URL to get the next set of Footprint profile objects if there are any.")
-  nextLink?: string;
-}
-
-@doc("The model for patches on Footprint profile resources.")
-@summary("Footprint Profile Update Model")
-model ProfilePatch {
-  @doc("The tags for this resource.")
-  tags?: Record<string>;
-}
-
-// MeasurementEndpoint
-
-@doc("A model representing a Footprint measurement endpoint.")
-@summary("Footprint Measurement Endpoint")
-model MeasurementEndpoint extends SubResource {
-  // @doc("Name of the Footprint profile resource.")
-  // @minLength(5)
-  // @maxLength(64)
-  // @pattern("^[a-zA-Z0-9]")
-  // @key("measurementEndpointName")
-  // @path
-  // @segment("measurementEndpoints")
-  // name: string;
-  @doc("Additional Footprint measurement endpoint properties.")
-  @summary("Footprint measurement endpoint additional properties.")
-  @OpenAPI.extension("x-ms-client-flatten", true)
-  properties: MeasurementEndpointProperties;
-
-  @visibility("read")
-  @doc("The name of the resource.")
-  name?: string;
-
-  @visibility("read")
-  @doc("The type of the resource.")
-  type?: string;
+@doc("Name of the Footprint measurement endpoint resource.")
+@parentResource(Profile)
+model MeasurementEndpoint is ProxyResource<ProfileProperties> {
+  @doc("Name of the Footprint profile resource.")
+  @minLength(5)
+  @maxLength(64)
+  @pattern("^[a-zA-Z0-9]")
+  @key("measurementEndpointName")
+  @path
+  @segment("measurementEndpoints")
+  name: string;
 }
 
 @doc("A model representing the Footprint Measurement Endpoint resource.")
-@summary("Footprint Measurement Endpoint Properties")
 model MeasurementEndpointProperties {
   @doc("The id of a measurement endpoint.")
-  @summary("Measurement Endpoint Id")
   @visibility("read")
   @minLength(32)
   @maxLength(32)
@@ -908,406 +103,199 @@ model MeasurementEndpointProperties {
   endpointId?: string;
 
   @doc("The description of a measurement endpoint.")
-  @summary("Measurement Endpoint Description")
   description?: string;
 
   @doc("The value of a measurement endpoint.")
-  @summary("Measurement Endpoint")
   @minLength(0)
   @maxLength(1024)
-  // TODO: confirm next line regex
+  // TODO: this is an issue
   @pattern("^[a-z0-9\\*]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?$")
   endpoint: string;
 
   @doc("The type of a measurement endpoint.")
-  @summary("Measurement Endpoint Type")
   measurementType: int32;
 
   @doc("The weight of a measurement endpoint, higher weight means higher priority.")
-  @summary("Measurement Endpoint Weight")
   @minValue(0)
   @maxValue(2147483647)
   weight: int32;
 
   @doc("The id of an experiment that a measurement endpoint is part of.")
-  @summary("Measurement Endpoint Experiment Id")
   @minLength(32)
   @maxLength(32)
   @pattern("[a-f0-9]{32}")
   experimentId?: string;
 
   @doc("The path of the object that a measurement endpoint points to.")
-  @summary("Measurement Endpoint Object Path")
   @minLength(0)
   @maxLength(1024)
   @pattern("^/[a-zA-Z0-9-._~%!$&()*+,;=@/]*$")
   objectPath?: string;
 
-  @visibility("read")
   @doc("The conditions of a measurement endpoint.")
-  @summary("Measurement Endpoint Conditions")
-  // TODO: use MeasurementEndpointCondition model
-  conditions?: Array<SubResource>;
+  @visibility("read")
+  conditions?: Array<MeasurementEndpointCondition>;
 
   @doc("The start time that a measurement endpoint should be served.")
-  @summary("Measurement Endpoint Start Time")
-  startTimeUTC?: utcDateTime;
+  startTimeUtc?: utcDateTime;
 
   @doc("The end time that a measurement endpoint should be served.")
-  @summary("Measurement Endpoint End Time")
-  endTimeUTC?: utcDateTime;
+  endTimeUtc?: utcDateTime;
 
-  @doc("The sampling rate percentage for the hot path logging of a measurement endpoint.")
-  @summary("Measurement Endpoint Hot Path Sampling Rate")
+  @doc("The percentual sampling rate for the hot path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   hotPathSamplingPercentageRate?: float32;
 
-  @doc("The sampling rate percentage for the warm path logging of a measurement endpoint.")
-  @summary("Measurement Endpoint Warm Path Sampling Rate")
+  @doc("The percentual sampling rate for the warm path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   warmPathSamplingPercentageRate?: float32;
 
-  @doc("The sampling rate percentage for the cold path logging of a measurement endpoint.")
-  @summary("Measurement Endpoint Cold Path Sampling Rate")
+  @doc("The percentual sampling rate for the cold path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   coldPathSamplingPercentageRateOverride?: float32;
 
   @doc("The metadata of a measurement endpoint.")
-  @summary("Measurement Endpoint Metadata")
-  metadata?: string;
-}
-
-@doc("A model representing the Footprint measurement endpoint condition.")
-@summary("Footprint Measurement Endpoint Condition")
-model MeasurementEndpointCondition extends SubResource {
-  @visibility("read")
-  @doc("The name of the resource.")
-  // @minLength(5)
-  // @maxLength(64)
-  // @pattern("^[a-zA-Z0-9]")
-  name?: string;
-
-  @doc("Additional Footprint measurement endpoint condition properties.")
-  @summary("Footprint measurement endpoint condition additional properties.")
-  @OpenAPI.extension("x-ms-client-flatten", true)
-  properties: MeasurementEndpointConditionProperties;
-
-  @visibility("read")
-  @doc("The type of the resource.")
-  type?: string;
-}
-
-@doc("Result of the request to list Footprint measurement endpoint conditions. It contains a list of Footprint measurement endpoint conditions objects and a URL link to get the next set of results.")
-model MeasurementEndpointConditionList {
-  @visibility("read")
-  @doc("A collection of Footprint measurement endpoint conditions.")
-  value?: Array<MeasurementEndpointCondition>;
-
-  @doc("URL to get the next set of Footprint measurement endpoint if there are any.")
-  nextLink?: string;
+  metadata: string;
 }
 
 @doc("A model representing the Footprint Measurement Endpoint Condition resource.")
-@summary("Footprint Measurement Endpoint Condition Properties")
+@parentResource(MeasurementEndpoint)
+model MeasurementEndpointCondition
+  is ProxyResource<MeasurementEndpointConditionProperties> {
+  @doc("Name of the Footprint measurement endpoint condition resource.")
+  @minLength(5)
+  @maxLength(64)
+  @pattern("^[a-zA-Z0-9]")
+  @key("conditionName")
+  @path
+  @segment("conditions")
+  name: string;
+}
+
+@doc("A model representing the Footprint Measurement Endpoint Condition resource.")
 model MeasurementEndpointConditionProperties {
+  @doc("The status of the last operation.")
   @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
   @doc("The id of a Footprint measurement endpoint condition.")
-  @summary("Footprint Measurement Endpoint Condition Id")
+  @visibility("read")
   @minLength(32)
   @maxLength(32)
   @pattern("[a-f0-9]{32}")
   conditionId?: string;
 
-  @doc("The type of a Footprint measurement endpoint condition.")
-  @summary("Footprint Measurement Endpoint Condition Type")
-  @OpenAPI.extension(
-    "x-ms-enum",
-    {
-      name: "Type",
-      modelAsString: true,
-    }
-  )
-  type: Type;
+  // @doc("The type of a Footprint measurement endpoint condition.")
+  // type: Type;
 
   @doc("The variable of a Footprint measurement endpoint condition.")
-  @summary("Footprint Measurement Endpoint Condition Variable")
   variable: string;
 
   @doc("The operator of a Footprint measurement endpoint condition.")
-  @summary("Footprint Measurement Endpoint Condition Operator")
-  @OpenAPI.extension(
-    "x-ms-enum",
-    {
-      name: "Operator",
-      modelAsString: true,
-    }
-  )
   operator: Operator;
 
   @doc("The constant of a Footprint measurement endpoint condition.")
-  @summary("Footprint Measurement Endpoint Condition Constant")
   constant: string;
 }
 
-@doc("Result of the request to list Footprint measurement endpoints. It contains a list of Footprint measurement endpoints objects and a URL link to get the next set of results.")
-model MeasurementEndpointList {
-  @visibility("read")
-  @doc("A collection of Footprint measurement endpoints.")
-  value?: Array<MeasurementEndpoint>;
-
-  @doc("URL to get the next set of Footprint measurement endpoint objects if there are any.")
-  nextLink?: string;
+@doc("A model representing the Footprint experiment.")
+@parentResource(Profile)
+model Experiment is ProxyResource<ExperimentProperties> {
+  @doc("Name of the Footprint experiment resource.")
+  @minLength(3)
+  @maxLength(64)
+  @pattern("^[a-zA-Z0-9]")
+  @key("experimentName")
+  @path
+  @segment("experiments")
+  name: string;
 }
-// Experiment
 
 @doc("A model representing the Footprint Experiment resource.")
-@summary("Footprint Experiment Properties")
 model ExperimentProperties {
+  @doc("The status of the last operation.")
   @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
   @doc("The id of a Footprint experiment.")
-  @summary("Footprint Experiment Id")
+  @visibility("read")
   @minLength(32)
   @maxLength(32)
   @pattern("[a-f0-9]{32}")
   experimentId?: string;
 
   @doc("The description of a Footprint experiment.")
-  @summary("Footprint Experiment Description")
   description?: string;
 
-  @visibility("read")
   @doc("The status of a Footprint experiment.")
-  @summary("Footprint Experiment Status")
+  @visibility("read")
   status?: string;
 }
 
-@summary("Footprint Experiment")
-@doc("A model representing the Footprint experiment.")
-model Experiment extends SubResource {
-  @visibility("read")
-  @doc("The name of the resource.")
-  // @minLength(3)
-  // @maxLength(64)
-  // @pattern("^[a-zA-Z0-9]")
-  name?: string;
-
-  @doc("Additional Footprint experiment properties.")
-  @summary("Footprint experiment additional properties.")
-  @OpenAPI.extension("x-ms-client-flatten", true)
-  properties: ExperimentProperties;
-
-  @visibility("read")
-  @doc("The type of the resource.")
-  type?: string;
-}
-
-@doc("Result of the request to list Footprint experiments. It contains a list of Footprint experiments objects and a URL link to get the next set of results.")
-model ExperimentList {
-  @visibility("read")
-  @doc("A collection of Footprint experiments.")
-  value?: Array<Experiment>;
-
-  @doc("URL to get the next set of Footprint experiment objects if there are any.")
-  nextLink?: string;
-}
-
-// Definitions
-@summary("Default Error Response")
-@doc("The base response with an error.")
-model DefaultErrorResponse {
-  @doc("The error details, if any.")
-  error?: ErrorDefinition;
-}
-
-@summary("Error Definition")
-@doc("The details of an error.")
-model ErrorDefinition {
-  @doc("Service specific error code which serves as the substatus for the HTTP error code.")
-  @visibility("read")
-  code?: string;
-
-  @doc("Description of the error.")
-  @visibility("read")
-  message?: string;
-}
-
-@summary("Resource Provider's Available Operations")
-@doc("A list of operations and a URL nextLink to get the next set of results.")
-model ResourceProviderOperationList {
-  @doc("Resource provider operations list.")
-  value?: Array<ResourceProviderOperationDefinition>;
-
-  @visibility("read")
-  @doc("The URI that can be used to request the next page for list of Azure operations.")
-  nextLink?: string;
-}
-
-@summary("Resource Provider Operation")
-@doc("Describes the Resource Provider Operation.")
-model ResourceProviderOperationDefinition {
-  @summary("The operation's name.")
-  @doc("Resource provider operation name.")
-  name?: string;
-
-  @summary("The operation's properties.")
-  @doc("Resource provider display properties.")
-  display?: ResourceProviderOperationDisplay;
-}
-
-@summary("Resource Provider Operation Properties")
-@doc("Describes the properties of the Operation.")
-model ResourceProviderOperationDisplay {
-  @doc("Name of the resource provider.")
-  provider?: string;
-
-  @doc("Name of the resource type.")
-  resource?: string;
-
-  @doc("Name of the resource provider operation.")
-  operation?: string;
-
-  @doc("Description of the resource provider operation.")
-  description?: string;
-}
-
-@summary("Azure Resource")
-@doc("An Azure resource.")
-@OpenAPI.extension("x-ms-azure-resource", true)
-model Resource {
-  @visibility("read")
-  @doc("Fully qualified resource Id for the resource.")
-  id?: string;
-
-  @visibility("read")
-  @doc("The name of the resource.")
-  name?: string;
-
-  @visibility("read")
-  @doc("The type of the resource.")
-  type?: string;
-
-  @doc("Tags for the resource.")
-  // TODO: add additionalProperties
-  @OpenAPI.extension("x-ms-mutability", ["read", "create", "update"])
-  tags?: Record<string>;
-
-  @doc("Region where the Azure resource is located.")
-  @OpenAPI.extension("x-ms-mutability", ["read", "create"])
-  location?: string;
-}
-
-@doc("An Azure resource that is child to another Azure resource.")
-@OpenAPI.extension("x-ms-azure-resource", true)
-model SubResource {
-  @visibility("read")
-  @doc("Fully qualified resource Id for the resource.")
-  id?: string;
-}
-
-// Parameters
-
-// Enums
-
-@doc("The provisioning state of a resource.")
-@lroStatus
-enum ProvisioningState {
-  ResourceProvisioningState,
-
-  @doc("The resource is being provisioned")
-  Provisioning,
-
-  @doc("The resource is updating")
-  Updating,
-
-  @doc("The resource is being deleted")
-  Deleting,
-
-  @doc("The resource create request has been accepted")
-  Accepted,
-
-  @doc("The resource create request has been completed")
-  Succeeded,
-
-  @doc("The resource create request has failed")
-  Failed,
-}
-
 @doc("The type of a Footprint measurement endpoint condition.")
-enum Type {
-  RequestHeader,
+union Type {
+  @doc("The condition is a RequestHeader.")
+  RequestHeader: string,
 }
 
 @doc("The operator of a Footprint measurement endpoint condition.")
-enum Operator {
-  IsExactValue,
-  MatchValueIgnoreCasing,
-  ContainsValue,
-  ContainsValueIgnoreCasing,
-  DoesNotContainValue,
-  DoesNotContainValueIgnoreCasing,
+union Operator {
+  @doc("The condition is an exact value.")
+  IsExactValue: "IsExactValue",
+
+  @doc("The condition is a match value ignore casing.")
+  MatchValueIgnoreCasing: "MatchValueIgnoreCasing",
+
+  @doc("The condition is a contains value.")
+  ContainsValue: "ContainsValue",
+
+  @doc("The condition is a contains value ignore casing.")
+  ContainsValueIgnoreCasing: "ContainsValueIgnoreCasing",
+
+  @doc("The condition is a does not contain value.")
+  DoesNotContainValue: "DoesNotContainValue",
+
+  @doc("The condition is a does not contain value ignore casing.")
+  DoesNotContainValueIgnoreCasing: "DoesNotContainValueIgnoreCasing",
+
+  string,
 }
 
-// Parameters
-model ApiVersionParameter {
-  @visibility("read")
-  @doc("The API version to be used with the HTTP request.")
-  apiVersion: string;
+interface Operations extends Azure.ResourceManager.Operations {}
+
+@armResourceOperations
+interface Profiles {
+  get is ArmResourceRead<Profile>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Profile>;
+  update is ArmResourcePatchSync<Profile, ProfileProperties>;
+  delete is ArmResourceDeleteSync<Profile>;
+  listByResourceGroup is ArmResourceListByParent<Profile>;
+  listBySubscription is ArmListBySubscription<Profile>;
 }
 
-model SubscriptionIdParameter {
-  @visibility("read")
-  @doc("The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)")
-  subscriptionId: string;
+@armResourceOperations
+interface MeasurementEndpoints {
+  get is ArmResourceRead<MeasurementEndpoint>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<MeasurementEndpoint>;
+  delete is ArmResourceDeleteSync<MeasurementEndpoint>;
+  listByResourceGroup is ArmResourceListByParent<MeasurementEndpoint>;
 }
 
-model ResourceGroupNameParameter {
-  @visibility("read")
-  @doc("The name of the resource group.")
-  @minLength(1)
-  @maxLength(90)
-  @OpenAPI.extension("x-ms-parameter-location", "method")
-  resourceGroupName: string;
+@armResourceOperations
+interface MeasurementEndpointConditions {
+  get is ArmResourceRead<MeasurementEndpointCondition>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<MeasurementEndpointCondition>;
+  delete is ArmResourceDeleteSync<MeasurementEndpointCondition>;
+  listByResourceGroup is ArmResourceListByParent<MeasurementEndpointCondition>;
 }
 
-model ProfileNameParameter {
-  @visibility("read")
-  @doc("The name of the Footprint profile.")
-  @minLength(3)
-  @maxLength(64)
-  @pattern("^[a-zA-Z0-9]")
-  @OpenAPI.extension("x-ms-parameter-location", "method")
-  profileName: string;
-}
-
-model MeasurementEndpointNameParameter {
-  @visibility("read")
-  @doc("Name of the Footprint measurement endpoint resource.")
-  @minLength(5)
-  @maxLength(64)
-  @pattern("^[a-zA-Z0-9]")
-  @OpenAPI.extension("x-ms-parameter-location", "method")
-  measurementEndpointName: string;
-}
-
-model MeasurementEndpointConditionNameParameter {
-  @visibility("read")
-  @doc("Name of the Footprint measurement endpoint condition resource.")
-  @minLength(5)
-  @maxLength(64)
-  @pattern("^[a-zA-Z0-9]")
-  @OpenAPI.extension("x-ms-parameter-location", "method")
-  conditionName: string;
-}
-
-model ExperimentNameParameter {
-  @visibility("read")
-  @doc("Name of the Footprint experiment resource.")
-  @minLength(5)
-  @maxLength(64)
-  @pattern("^[a-zA-Z0-9]")
-  @OpenAPI.extension("x-ms-parameter-location", "method")
-  experimentName: string;
+@armResourceOperations
+interface Experiments {
+  get is ArmResourceRead<Experiment>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Experiment>;
+  delete is ArmResourceDeleteSync<Experiment>;
+  listByResourceGroup is ArmResourceListByParent<Experiment>;
 }
