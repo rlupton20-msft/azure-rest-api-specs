@@ -142,17 +142,17 @@ model MeasurementEndpointProperties {
   @doc("The end time that a measurement endpoint should be served.")
   endTimeUtc?: utcDateTime;
 
-  @doc("The percentual sampling rate for the hot path logging of a measurement endpoint.")
+  @doc("The sampling rate, in percent, for the hot path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   hotPathSamplingPercentageRate?: float32;
 
-  @doc("The percentual sampling rate for the warm path logging of a measurement endpoint.")
+  @doc("The sampling rate, in percent, for the warm path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   warmPathSamplingPercentageRate?: float32;
 
-  @doc("The percentual sampling rate for the cold path logging of a measurement endpoint.")
+  @doc("The sampling rate, in percent, for the cold path logging of a measurement endpoint.")
   @minValue(0)
   @maxValue(100)
   coldPathSamplingPercentageRateOverride?: float32;
