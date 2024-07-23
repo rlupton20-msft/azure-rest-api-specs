@@ -24,40 +24,57 @@ union DiagnosticDestination {
 
   @doc("DiagnosticDestination Type EnclaveOnly")
   EnclaveOnly: "EnclaveOnly",
-
+ 
   @doc("DiagnosticDestination Type Both")
   Both: "Both",
 
   string
 }
 
-@doc("Specifies the enclave approval state")
-union EnclaveApprovalState {
-  @doc("EnclaveApprovalState Type Un specified")
-  UnSpecified: "UnSpecified",
+@doc("Subnet Configuration")
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+model SubnetConfiguration {
+  @doc("Subnet name.")
+  name: string;
 
-  @doc("EnclaveApprovalState Type Pending Approval")
-  PendingApproval: "PendingApproval",
+  @doc("Subnet ID.")
+  @visibility("read")
+  id?: string;
 
-  @doc("EnclaveApprovalState Type Approved")
-  Approved: "Approved",
+  @doc("Network Prefix Size.")
+  networkPrefixSize: int32;
 
-  @doc("EnclaveApprovalState Type Declined")
-  Declined: "Declined",
+  @doc("Subnet delegation.")
+  subnetDelegation?: string;
 
-  @doc("EnclaveApprovalState Type Timeout")
-  Timeout: "Timeout",
+  @doc("Address prefix.")
+  @visibility("read")
+  addressPrefix?: string;
 
-  string,
+  @doc("Network security group ID.")
+  @visibility("read")
+  networkSecurityGroupId?: string;
 }
 
 @doc("Enclave Virtual Network Properties")
 model EnclaveVirtualNetwork {
+  @doc("Network Name.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  name?: string;
+
   @doc("Network Size.")
   networkSize: string;
 
   @doc("Custom CIDR Range.")
   customCidrRange?: string;
+
+  @doc("Subnet Configurations.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  subnetConfigurations?: SubnetConfiguration[];
+
+  @doc("Allow Subnet Communication.")
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  allowSubnetCommunication?: boolean;
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Connect to Azure Services (True or False).")
@@ -97,6 +114,29 @@ model EnclaveAddressSpaces {
   managedAddressSpace?: string;
 }
 
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Principal for Maintenance Mode")
+model Principal {
+  @doc("The object id associated with the principal")
+  id: string;
+
+  @doc("The type of the object id. We currently allow users, groups, and service principals")
+  type: "User" | "Group" | "ServicePrincipal" | string;
+}
+
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Maintenance Mode")
+model MaintenanceModeConfiguration {
+  @doc("Current mode of Maintenance Mode Configuration")
+  mode: "On" | "CanNotDelete" | "Off" | string;
+
+  @doc("The user, group or service principal object affected by Maintenance Mode")
+  principals?: Principal[];
+
+  @doc("Justification for entering or exiting Maintenance Mode")
+  justification?: "Networking" | "Governance" | "Off" | string;
+}
+
 @doc("Virtual Enclave Resource properties")
 model VirtualEnclaveProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -107,10 +147,6 @@ model VirtualEnclaveProperties {
   @doc("Provisioning State.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  @doc("Enclave Approval State.")
-  @visibility("read")
-  enclaveApprovalState?: EnclaveApprovalState,
 
   @doc("Virtual Network.")
   enclaveVirtualNetwork: EnclaveVirtualNetwork;
@@ -134,4 +170,9 @@ model VirtualEnclaveProperties {
   @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Managed resource group configuration.")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }

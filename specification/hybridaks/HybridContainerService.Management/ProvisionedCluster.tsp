@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Private.HybridContainerService;
+namespace Microsoft.HybridContainerService;
 /**
  * The provisioned cluster resource definition.
  */

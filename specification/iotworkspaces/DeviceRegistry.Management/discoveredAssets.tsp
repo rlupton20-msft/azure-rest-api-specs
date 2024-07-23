@@ -16,7 +16,7 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @doc("Discovered Asset definition.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   @doc("Discovered Asset name parameter.")
   @key("discoveredAssetName")
@@ -35,29 +35,28 @@ model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
 }
 
 @doc("Defines the discovered asset properties.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 model DiscoveredAssetProperties {
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
   assetEndpointProfileRef: string;
 
-  @doc("Unique identifier used to detect changes in the discovered asset.")
+  @doc("Identifier used to detect changes in the asset.")
   discoveryId: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
-  version: int32;
+  version: int64;
 
-  @doc("Discovered asset manufacturer name.")
+  @doc("Asset manufacturer name.")
   manufacturer?: string;
 
-  @doc("Discovered asset manufacturer URI.")
+  @doc("Asset manufacturer URI.")
   manufacturerUri?: string;
 
-  @doc("Discovered asset model name.")
-  // `model` is a reserved keyname. Wrap in double quotes
+  @doc("Asset model name.")
   `model`?: string;
 
-  @doc("Discovered asset product code.")
+  @doc("Asset product code.")
   productCode?: string;
 
   @doc("Revision number of the hardware.")
@@ -69,23 +68,23 @@ model DiscoveredAssetProperties {
   @doc("Reference to the documentation.")
   documentationUri?: string;
 
-  @doc("Discovered asset serial number.")
+  @doc("Asset serial number.")
   serialNumber?: string;
 
-  @doc("Protocol-specific JSON string that describes configuration for all data sets.")
-  defaultDataSetsConfiguration?: string;
+  @doc("Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.")
+  defaultDatasetsConfiguration?: string;
 
-  @doc("Protocol-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.")
+  @doc("Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.")
   defaultEventsConfiguration?: string;
 
-  @doc("Object that describes the default topic information for the discovered asset.")
+  @doc("Object that describes the default topic information for the asset.")
   defaultTopic?: Topic;
 
-  @doc("Array of data sets that are part of the discovered asset. Each data set spec describes the data points that make up the set.")
+  @doc("Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.")
   @extension("x-ms-identifiers", [])
-  dataSets?: DiscoveredDataSet[];
+  datasets?: DiscoveredDataset[];
 
-  @doc("Array of events that are part of the discovered asset. Each event can reference an asset type capability and have per-event configuration. See below for more details about the definition of the events element.")
+  @doc("Array of events that are part of the asset. Each event can have per-event configuration.")
   @extension("x-ms-identifiers", [])
   events?: DiscoveredEvent[];
 
@@ -94,70 +93,65 @@ model DiscoveredAssetProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Defines the data set spec properties.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
-model DiscoveredDataSet {
-  @doc("Name of the data set.")
+@doc("Defines the dataset properties.")
+@added(Versions.v2024_07_01_preview)
+model DiscoveredDataset {
+  @doc("Name of the dataset.")
   name: string;
 
-  @doc("Protocol-specific JSON string that describes configuration for the specific data set.")
-  dataSetConfiguration?: string;
+  @doc("Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.")
+  datasetConfiguration?: string;
 
-  @doc("Object that describes the topic information for the specific data set.")
+  @doc("Object that describes the topic information for the specific dataset.")
   topic?: Topic;
 
-  @doc("Array of data points that are part of the discovered asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element.")
+  @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
   @extension("x-ms-identifiers", [])
   dataPoints?: DiscoveredDataPoint[];
 }
 
 @doc("Defines the data point properties.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 model DiscoveredDataPoint {
-  @doc("The name of the discovered data point.")
+  @doc("The name of the data point.")
   name: string;
 
-  @doc("The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.")
+  @doc("The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.")
   dataSource: string;
 
-  @doc("Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
+  @doc("Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
   dataPointConfiguration?: string;
 
-  @doc("Timestamp indicating when the datapoint was added or modified.")
+  @doc("UTC timestamp indicating when the data point was added or modified.")
   lastUpdatedOn?: utcDateTime;
 }
 
 @doc("Defines the event properties.")
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 model DiscoveredEvent {
-  @doc("The name of the discovered event.")
+  @doc("The name of the event.")
   name: string;
 
-  @doc("The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the event on the asset.")
+  @doc("The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.")
   eventNotifier: string;
 
-  @doc("Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
+  @doc("Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
   eventConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific event.")
   topic?: Topic;
 
-  @doc("Timestamp indicating when the event was added or modified.")
+  @doc("UTC timestamp indicating when the event was added or modified.")
   lastUpdatedOn?: utcDateTime;
 }
 
 @armResourceOperations
-@added(global.Private.DeviceRegistry.Versions.v2024_07_01_preview)
+@added(Versions.v2024_07_01_preview)
 interface DiscoveredAssets {
   get is ArmResourceRead<DiscoveredAsset>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAsset>;
-
   update is ArmResourcePatchAsync<DiscoveredAsset, DiscoveredAssetProperties>;
-
   delete is ArmResourceDeleteWithoutOkAsync<DiscoveredAsset>;
-
   listByResourceGroup is ArmResourceListByParent<DiscoveredAsset>;
-
   listBySubscription is ArmListBySubscription<DiscoveredAsset>;
 }

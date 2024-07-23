@@ -43,10 +43,11 @@ model GovernedServiceItem {
   id?: string;
 
   @doc("service name")
+  @visibility("read")
   name?: string;
 
-  @doc("governance option for this service (Allow, Deny, Exception Only, or Not Applicable).")
-  option?: "Allow" | "Deny" | "Exception Only" | "Not Applicable" | string;
+  @doc("governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).")
+  option?: "Allow" | "Deny" | "ExceptionOnly" | "NotApplicable" | string;
 
   @doc("initiative enforcement (Enabled or Disabled).")
   enforcement?: "Enabled" | "Disabled" | string;

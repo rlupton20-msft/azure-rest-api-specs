@@ -11,7 +11,7 @@ namespace Private.AszLabHardware;
 @doc("A Server object which will be connected to a LabServer upon successful reservation")
 model Server is TrackedResource<ServerProperties> {
     @doc("The name of the Server")
-    @pattern("^[a-zA-Z0-9_-]{3,99}$")
+    @pattern("^[a-zA-Z0-9-]{3,24}$")
     @key("serverName")
     @segment("servers")
     @path

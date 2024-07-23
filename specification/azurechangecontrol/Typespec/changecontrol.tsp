@@ -37,7 +37,7 @@ model TimeWindow
 model TargetLink
 {
     @doc("target operation")
-    operation: ARMOperation;
+    operation: string;
 
     @doc("target resource id")
     resourceId: string;
@@ -56,10 +56,10 @@ model ChangeControlProperties {
     validityPeriod: TimeWindow;
 
     @doc("The external change reference.")
-    changeReference: string;
+    changeReference?: string;
 
     @doc("The external service reference.")
-    serviceReference: string;
+    serviceReference?: string;
 
     @doc("Linked change control targets")
     @OpenAPI.extension("x-ms-identifiers", [])

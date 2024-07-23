@@ -832,6 +832,62 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/checkAddressSpaceAvailability": {
+      "post": {
+        "operationId": "Community_CheckAddressSpaceAvailability",
+        "tags": [
+          "Community"
+        ],
+        "description": "Checks that the IP Address Space to be allocated for this Community is available.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "communityName",
+            "in": "path",
+            "description": "The name of the communityResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "checkAddressSpaceAvailabilityRequest",
+            "in": "body",
+            "description": "Check IP Address Space request body.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckAddressSpaceAvailabilityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CheckAddressSpaceAvailabilityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Community_CheckAddressSpaceAvailability": {
+            "$ref": "./examples/Community_PostCheckAddressSpaceAvailability.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/communityEndpoints": {
       "get": {
         "operationId": "CommunityEndpoints_ListByCommunityResource",
@@ -1788,6 +1844,80 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/enclaveConnections/{enclaveConnectionName}/approvalCallback": {
+      "post": {
+        "operationId": "EnclaveConnection_ApprovalCallback",
+        "tags": [
+          "EnclaveConnection"
+        ],
+        "description": "Upon getting desired approvals this faciliates actions on approvals",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "enclaveConnectionName",
+            "in": "path",
+            "description": "The name of the Enclave Connection Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalCallbackResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EnclaveConnection_ApprovalCallback": {
+            "$ref": "./examples/EnclaveConnection_PostApprovalCallback.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/externalConnections": {
       "get": {
         "operationId": "ExternalConnections_ListByResourceGroup",
@@ -2662,113 +2792,6 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/approvalCallback": {
-      "post": {
-        "operationId": "VirtualEnclave_ApprovalCallback",
-        "tags": [
-          "VirtualEnclave"
-        ],
-        "description": "Upon getting desired approvals this faciliates actions on approvals",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "virtualEnclaveName",
-            "in": "path",
-            "description": "The name of the enclaveResource Resource",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
-          },
-          {
-            "name": "approvalCallbackRequest",
-            "in": "body",
-            "description": "Check approval callback request body.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalCallbackRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/checkAddressSpaceAvailability": {
-      "post": {
-        "operationId": "VirtualEnclave_CheckAddressSpaceAvailability",
-        "tags": [
-          "VirtualEnclave"
-        ],
-        "description": "Checks that the IP Address Space to be allocated for this Virtual Enclave is available.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "virtualEnclaveName",
-            "in": "path",
-            "description": "The name of the enclaveResource Resource",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
-          },
-          {
-            "name": "checkAddressSpaceAvailabilityRequest",
-            "in": "body",
-            "description": "Check IP Address Space request body.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CheckAddressSpaceAvailabilityRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CheckAddressSpaceAvailabilityResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "VirtualEnclave_CheckAddressSpaceAvailability": {
-            "$ref": "./examples/VirtualEnclave_PostCheckAddressSpaceAvailability.json"
-          }
-        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/enclaveEndpoints": {
@@ -3771,11 +3794,24 @@
   "definitions": {
     "ApprovalCallbackRequest": {
       "type": "object",
-      "description": "Request to the action call to handle approval status",
+      "description": "Request body for calling post-action",
       "properties": {
         "resourceId": {
           "type": "string",
           "description": "Resource Id of the item being approved or declined"
+        },
+        "resourceRequestAction": {
+          "type": "string",
+          "description": "Resource request action indicating action which needed to be performed upon calling approval-callback post action",
+          "enum": [
+            "Create",
+            "Delete",
+            "Update",
+            "Reset"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
         "approvalStatus": {
           "type": "string",
@@ -3791,12 +3827,13 @@
       },
       "required": [
         "resourceId",
+        "resourceRequestAction",
         "approvalStatus"
       ]
     },
     "ApprovalCallbackResponse": {
       "type": "object",
-      "description": "Response after handling the approval status",
+      "description": "Response body after handling of approvalCallbackRequest",
       "properties": {
         "message": {
           "type": "string",
@@ -3894,6 +3931,10 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
           "readOnly": true
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection(True or False)."
         }
       },
       "required": [
@@ -3967,11 +4008,7 @@
         "properties": {
           "$ref": "#/definitions/CommunityEndpointProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4036,6 +4073,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection(True or False)."
         }
       }
     },
@@ -4086,11 +4127,7 @@
         "properties": {
           "$ref": "#/definitions/CommunityProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4333,11 +4370,7 @@
         "properties": {
           "$ref": "#/definitions/EnclaveConnectionProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4563,6 +4596,10 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
           "readOnly": true
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection(True or False)."
         }
       },
       "required": [
@@ -4624,11 +4661,7 @@
         "properties": {
           "$ref": "#/definitions/EnclaveEndpointProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4693,6 +4726,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection(True or False)."
         }
       }
     },
@@ -4703,11 +4740,7 @@
         "properties": {
           "$ref": "#/definitions/VirtualEnclaveProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4780,6 +4813,10 @@
         "managedResourceGroupConfiguration": {
           "$ref": "#/definitions/ManagedResourceGroupConfiguration",
           "description": "Managed resource group configuration."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
+          "description": "Maintenance Mode configuration."
         }
       }
     },
@@ -4787,6 +4824,10 @@
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
         "networkSize": {
           "type": "string",
           "description": "Network Size."
@@ -4794,6 +4835,17 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configurations.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          }
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Allow Subnet Communication."
         },
         "connectToAzureServices": {
           "type": "boolean",
@@ -4808,6 +4860,10 @@
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
         "networkSize": {
           "type": "string",
           "description": "Network Size."
@@ -4815,6 +4871,17 @@
         "customCidrRange": {
           "type": "string",
           "description": "Custom CIDR Range."
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configurations.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          }
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Allow Subnet Communication."
         },
         "connectToAzureServices": {
           "type": "boolean",
@@ -4898,11 +4965,7 @@
         "properties": {
           "$ref": "#/definitions/EndpointProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5024,11 +5087,7 @@
         "properties": {
           "$ref": "#/definitions/ExternalConnectionProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5195,16 +5254,17 @@
         },
         "name": {
           "type": "string",
-          "description": "service name"
+          "description": "service name",
+          "readOnly": true
         },
         "option": {
           "type": "string",
-          "description": "governance option for this service (Allow, Deny, Exception Only, or Not Applicable).",
+          "description": "governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).",
           "enum": [
             "Allow",
             "Deny",
-            "Exception Only",
-            "Not Applicable"
+            "ExceptionOnly",
+            "NotApplicable"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -5254,11 +5314,7 @@
         "properties": {
           "$ref": "#/definitions/InternalConnectionProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5496,6 +5552,83 @@
         ]
       }
     },
+    "MaintenanceModeConfiguration": {
+      "type": "object",
+      "description": "Maintenance Mode",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Current mode of Maintenance Mode Configuration",
+          "enum": [
+            "On",
+            "CanNotDelete",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "principals": {
+          "type": "array",
+          "description": "The user, group or service principal object affected by Maintenance Mode",
+          "items": {
+            "$ref": "#/definitions/Principal"
+          }
+        },
+        "justification": {
+          "type": "string",
+          "description": "Justification for entering or exiting Maintenance Mode",
+          "enum": [
+            "Networking",
+            "Governance",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "MaintenanceModeConfigurationUpdate": {
+      "type": "object",
+      "description": "Maintenance Mode",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Current mode of Maintenance Mode Configuration",
+          "enum": [
+            "On",
+            "CanNotDelete",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "principals": {
+          "type": "array",
+          "description": "The user, group or service principal object affected by Maintenance Mode",
+          "items": {
+            "$ref": "#/definitions/Principal"
+          }
+        },
+        "justification": {
+          "type": "string",
+          "description": "Justification for entering or exiting Maintenance Mode",
+          "enum": [
+            "Networking",
+            "Governance",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      }
+    },
     "ManagedResourceGroupConfiguration": {
       "type": "object",
       "description": "ManagedResourceGroup related properties",
@@ -5521,6 +5654,32 @@
           }
         ]
       }
+    },
+    "Principal": {
+      "type": "object",
+      "description": "Principal for Maintenance Mode",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The object id associated with the principal"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the object id. We currently allow users, groups, and service principals",
+          "enum": [
+            "User",
+            "Group",
+            "ServicePrincipal"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -5618,6 +5777,44 @@
         ]
       }
     },
+    "SubnetConfiguration": {
+      "type": "object",
+      "description": "Subnet Configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Subnet name."
+        },
+        "id": {
+          "type": "string",
+          "description": "Subnet ID.",
+          "readOnly": true
+        },
+        "networkPrefixSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Network Prefix Size."
+        },
+        "subnetDelegation": {
+          "type": "string",
+          "description": "Subnet delegation."
+        },
+        "addressPrefix": {
+          "type": "string",
+          "description": "Address prefix.",
+          "readOnly": true
+        },
+        "networkSecurityGroupId": {
+          "type": "string",
+          "description": "Network security group ID.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name",
+        "networkPrefixSize"
+      ]
+    },
     "TransitHubProperties": {
       "type": "object",
       "description": "Describes the properties of an Transit Hub.",
@@ -5651,11 +5848,7 @@
         "properties": {
           "$ref": "#/definitions/TransitHubProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5872,6 +6065,10 @@
         "managedResourceGroupConfiguration": {
           "$ref": "#/definitions/ManagedResourceGroupConfiguration",
           "description": "Managed resource group configuration."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfiguration",
+          "description": "Maintenance Mode configuration."
         }
       },
       "required": [
@@ -5900,14 +6097,14 @@
           "description": "Provisioning State.",
           "readOnly": true
         },
-        "managedResourceGroupConfiguration": {
-          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
+        "resourceGroupCollection": {
+          "type": "array",
+          "description": "List of resource group ids.",
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "managedResourceGroupConfiguration"
-      ]
+      }
     },
     "WorkloadResource": {
       "type": "object",
@@ -5916,11 +6113,7 @@
         "properties": {
           "$ref": "#/definitions/WorkloadProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5971,9 +6164,12 @@
       "type": "object",
       "description": "The updatable properties of the WorkloadResource.",
       "properties": {
-        "managedResourceGroupConfiguration": {
-          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
+        "resourceGroupCollection": {
+          "type": "array",
+          "description": "List of resource group ids.",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }

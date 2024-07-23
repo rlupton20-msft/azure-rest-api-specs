@@ -1,5 +1,6 @@
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.OracleDatabaseDev;
@@ -137,6 +138,7 @@ model SaasSubscriptionDetails {
   isFreeTrial?: boolean;
 }
 
+@added(Versions.v20240601_preview)
 @doc("Azure Subscriptions model")
 model AzureSubscriptions {
   @doc("Azure Subscription Ids to be updated")
@@ -154,23 +156,20 @@ model ActivationLinks {
   existingCloudAccountActivationLink?: string;
 }
 
-@doc("Lifecyclestate of Oracle Subscription enum")
-union OracleSubscriptionLifecycleState {
-@doc("Available - Successful Creation of Oracle Subscription")
-Available: "Available",
+@added(Versions.v20240601_preview)
+@doc("Add Subscription Operation state enum")
+union AddSubscriptionOperationState {
+@doc("Succeeded - State when Add Subscription operation succeeded")
+Succeeded: "Succeeded",
 
-@doc("Provisioning - State when Oracle Subscription is being provisioned")
-Provisioning: "Provisioning",
-
-@doc("Updating - State when Oracle Subscription is being Updated")
+@doc("Updating - State when Add Subscription operation is being Updated")
 Updating: "Updating",
 
-@doc("Failed - State when Oracle Subscription has failed")
+@doc("Failed - State when Add Subscription operation failed")
 Failed: "Failed",
 
 string,
 }
-
 
 @doc("Oracle Subscription resource model")
 model OracleSubscriptionProperties {
@@ -202,14 +201,17 @@ model OracleSubscriptionProperties {
   @visibility("update")
   intent?: Intent;
 
+  @added(Versions.v20240601_preview)
   @doc("Azure subscriptions to be added")
   @visibility("read")
   azureSubscriptionIds?: string[];
 
-  @doc("State of the Oracle subscription")
+  @added(Versions.v20240601_preview)
+  @doc("State of the add Azure subscription operation on Oracle subscription")
   @visibility("read")
-  oracleSubscriptionLifeCycleState?: OracleSubscriptionLifecycleState;
+  addSubscriptionOperationState?: AddSubscriptionOperationState;
 
+  @added(Versions.v20240601_preview)
   @doc("Status details of the last operation on Oracle subscription")
   @visibility("read")
   lastOperationStatusDetail?: string;

@@ -93,7 +93,6 @@ model PowerStateProperty {
 }
 
 @doc("The property for specifying capacity allocated.")
-@removed(Versions.`2024-05-01-preview`)
 model CapacityAllocatedProperty {
   @visibility("read", "create", "update")
   @doc("Provisioned size: Capacity allocated to the storage volume in terabytes.")
@@ -101,7 +100,6 @@ model CapacityAllocatedProperty {
 }
 
 @doc("The property for specifying capacity used.")
-@removed(Versions.`2024-05-01-preview`)
 model CapacityUsedProperty {
   @visibility("read")
   @doc("Capacity used in the storage volume in gigabytes.")
@@ -116,6 +114,7 @@ model StorageBaseProperties {
   ...CapacityAllocatedProperty;
   ...CapacityUsedProperty;
 
+  @removed(Versions.`2024-05-01-preview`)
   @visibility("read")
   @doc("Directory where the storage volume is mounted.")
   localMountPath?: string;
@@ -142,14 +141,14 @@ model ResultProperty {
 }
 
 @doc("Common interface for all tracked resources")
-interface ProxyResourceOperations<T extends ProxyResourceBase> {
+interface ProxyResourceOperations<T extends Azure.ResourceManager.Foundations.ProxyResource> {
   get is ArmResourceRead<T>;
   list is ArmResourceListByParent<T>;
 }
 
 @doc("Common interface for all tracked resources")
 interface BaseResourceOperations<
-  T extends TrackedResourceBase,
+  T extends Azure.ResourceManager.Foundations.TrackedResource,
   P extends TypeSpec.Reflection.Model,
   U extends TypeSpec.Reflection.Model = P
 > {
@@ -161,7 +160,7 @@ interface BaseResourceOperations<
 
 @doc("Common interface of all nested resources")
 interface NestedResourceOperations<
-  T extends TrackedResourceBase,
+  T extends Azure.ResourceManager.Foundations.TrackedResource,
   P extends TypeSpec.Reflection.Model,
   U extends TypeSpec.Reflection.Model = P
 > extends BaseResourceOperations<T, P, U> {
@@ -169,7 +168,7 @@ interface NestedResourceOperations<
 }
 
 @doc("Resource that can be restarted")
-interface Restartable<T extends ArmResource> {
+interface Restartable<T extends Azure.ResourceManager.Foundations.TrackedResource> {
   @doc("Start connector")
   start is ArmResourceActionAsync<T, void, never>;
 

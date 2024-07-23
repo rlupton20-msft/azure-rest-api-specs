@@ -277,6 +277,10 @@
               "$ref": "#/definitions/Workbench"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -593,6 +597,10 @@
               "$ref": "#/definitions/Chamber"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -949,6 +957,10 @@
               "$ref": "#/definitions/Connector"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -2742,6 +2754,10 @@
               "$ref": "#/definitions/Storage"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -3114,6 +3130,10 @@
               "$ref": "#/definitions/Workload"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -3687,6 +3707,10 @@
               "$ref": "#/definitions/SharedStorage"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -4054,7 +4078,22 @@
         "properties": {
           "$ref": "#/definitions/ChamberProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
+          "x-ms-client-flatten": true
+        },
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
             "create"
@@ -4124,17 +4163,14 @@
           "readOnly": true
         },
         "sku": {
-          "$ref": "#/definitions/Sku",
+          "type": "string",
           "description": "SKU name.",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         }
-      },
-      "required": [
-        "sku"
-      ]
+      }
     },
     "ChamberUpdate": {
       "type": "object",
@@ -4182,11 +4218,7 @@
         "properties": {
           "$ref": "#/definitions/ConnectorProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4472,11 +4504,7 @@
         "properties": {
           "$ref": "#/definitions/FileProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4654,11 +4682,7 @@
         "properties": {
           "$ref": "#/definitions/FileRequestProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5243,13 +5267,32 @@
         "properties": {
           "$ref": "#/definitions/SharedStorageProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
+          "x-ms-client-flatten": true
+        },
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          },
           "x-ms-mutability": [
             "read",
             "create"
           ]
+        },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
+      "required": [
+        "sku"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -5326,11 +5369,6 @@
           "description": "Capacity used in the storage volume in gigabytes.",
           "readOnly": true
         },
-        "localMountPath": {
-          "type": "string",
-          "description": "Directory where the storage volume is mounted.",
-          "readOnly": true
-        },
         "chambers": {
           "type": "array",
           "description": "List of Chambers connected to the shared storage.",
@@ -5358,14 +5396,22 @@
       },
       "required": [
         "capacityAllocated",
-        "chambers",
-        "performanceTier"
+        "chambers"
       ]
     },
     "SharedStorageUpdate": {
       "type": "object",
       "description": "The type used for update operations of the SharedStorage.",
       "properties": {
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",
@@ -5441,24 +5487,6 @@
         "enable"
       ]
     },
-    "Sku": {
-      "type": "string",
-      "description": "Chamber Sku.",
-      "enum": [
-        "Standard"
-      ],
-      "x-ms-enum": {
-        "name": "Sku",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Standard",
-            "value": "Standard",
-            "description": "Standard sku."
-          }
-        ]
-      }
-    },
     "Storage": {
       "type": "object",
       "description": "Storage tracked resource.",
@@ -5466,13 +5494,32 @@
         "properties": {
           "$ref": "#/definitions/StorageProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
+          "x-ms-client-flatten": true
+        },
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          },
           "x-ms-mutability": [
             "read",
             "create"
           ]
+        },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
+      "required": [
+        "sku"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -5555,11 +5602,6 @@
           "description": "Capacity used in the storage volume in gigabytes.",
           "readOnly": true
         },
-        "localMountPath": {
-          "type": "string",
-          "description": "Directory where the storage volume is mounted.",
-          "readOnly": true
-        },
         "performanceTier": {
           "$ref": "#/definitions/StoragePerformanceTier",
           "description": "Performance tier of the chamber storage.",
@@ -5571,14 +5613,22 @@
         }
       },
       "required": [
-        "capacityAllocated",
-        "performanceTier"
+        "capacityAllocated"
       ]
     },
     "StorageUpdate": {
       "type": "object",
       "description": "The type used for update operations of the Storage.",
       "properties": {
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",
@@ -5646,11 +5696,7 @@
         "properties": {
           "$ref": "#/definitions/WorkbenchProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5705,23 +5751,6 @@
             "read",
             "create"
           ]
-        },
-        "whiteLabelWorkbenchId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "White label workbench id.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Private.ContosoWorkbench/contosoWorkbenches"
-              }
-            ]
-          }
         }
       },
       "required": [
@@ -5758,23 +5787,6 @@
             "update",
             "create"
           ]
-        },
-        "whiteLabelWorkbenchId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "White label workbench id.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Private.ContosoWorkbench/contosoWorkbenches"
-              }
-            ]
-          }
         }
       }
     },
@@ -5785,20 +5797,25 @@
         "properties": {
           "$ref": "#/definitions/WorkloadProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         },
         "zones": {
           "type": "array",
-          "description": "The chamber workload zone.",
+          "description": "The availability zones.",
           "items": {
             "type": "string"
           },
           "x-ms-mutability": [
             "read",
+            "create"
+          ]
+        },
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
             "create"
           ]
         }
@@ -5881,6 +5898,15 @@
       "type": "object",
       "description": "The type used for update operations of the Workload.",
       "properties": {
+        "sku": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",

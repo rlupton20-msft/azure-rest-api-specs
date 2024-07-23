@@ -62,7 +62,7 @@ model SharedStorageProperties {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier;
+  performanceTier?: SharedStoragePerformanceTier; // TODO: Deprecate. Use sku.tier.
 
   // Workaround since there is no annotation for removing default.
   @removed(Versions.`2024-05-01-preview`)
@@ -78,7 +78,7 @@ model SharedStorageUpdateProperties {
 
   @visibility("update")
   @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier;
+  performanceTier?: SharedStoragePerformanceTier;
 }
 
 @doc("Shared storage tracked resource.")
@@ -90,6 +90,18 @@ model SharedStorage is TrackedResource<SharedStorageProperties> {
   @TypeSpec.Http.path
   @pattern("^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("The availability zones.")
+  zones?: Array<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create", "update")
+  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  sku: Azure.ResourceManager.Foundations.Sku;
 }
 
 @armResourceOperations

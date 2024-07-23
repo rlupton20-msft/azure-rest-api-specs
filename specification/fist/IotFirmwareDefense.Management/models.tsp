@@ -187,7 +187,8 @@ model CryptoCertificate {
   /**
    * Name of the certificate.
    */
-  certificateName?: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" ""
+  name?: string;
 
   /**
    * Subject information of the certificate.
@@ -406,7 +407,8 @@ model CveResult {
   /**
    * Name of the CVE.
    */
-  cveName?: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" ""
+  name?: string;
 
   /**
    * A single CVSS score to represent the CVE. If a V3 score is specified, then it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score.
@@ -519,7 +521,7 @@ model FirmwareProperties {
   /**
    * The status of firmware scan.
    */
-  status?: Status = Status.Pending;
+  status?: Status;
 
   /**
    * A list of errors or other messages generated during firmware analysis
@@ -646,12 +648,6 @@ model SbomComponent {
   filePaths?: string[];
 
   /**
-   * File properties related to the component.
-   */
-  @extension("x-ms-identifiers", [])
-  relatedFiles?: SbomFileProperties[];
-
-  /**
    * The status of the last operation.
    */
   @visibility("read")
@@ -663,6 +659,11 @@ model SbomComponent {
  */
 @discriminator("summaryType")
 model SummaryResourceProperties {
+  /**
+   * The type of summary.
+   */
+  summaryType: SummaryType;
+
   /**
    * The status of the last operation.
    */

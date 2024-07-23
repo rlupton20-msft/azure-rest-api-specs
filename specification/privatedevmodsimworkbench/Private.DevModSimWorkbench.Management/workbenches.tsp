@@ -35,17 +35,21 @@ model WorkbenchProperties {
   @doc("APP OIDC settings.")
   appOidc: AppOidc;
 
+  // #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Sku is a valid envelope property"
+  // TODO: Deprecate properties.sku in favor of top-level Sku (sku.name)
+  // #deprecated "Use top-level sku.name"
   @visibility("read", "create")
   @doc("SKU name.")
-  sku: string; // TODO: Change to enum with default
+  sku: string; //TODO: Deprecate. Use sku.tier.
 
-  @visibility("read", "create", "update")
-  @doc("White label workbench id.")
-  whiteLabelWorkbenchId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.ContosoWorkbench/contosoWorkbenches";
-    }
-  ]>;
+  // For white-label demo, un-comment below.
+  // @visibility("read", "create", "update")
+  // @doc("White label workbench id.")
+  // whiteLabelWorkbenchId?: Azure.Core.armResourceIdentifier<[
+  //   {
+  //     type: "Private.ContosoWorkbench/contosoWorkbenches";
+  //   }
+  // ]>;
 }
 
 @doc("Workbench tracked resource.")
@@ -56,6 +60,13 @@ model Workbench is TrackedResource<WorkbenchProperties> {
   @TypeSpec.Http.path
   @pattern("^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$")
   name: string;
+
+  // TODO: Add ARM-compliant top-level Sku by un-commenting below.
+  // #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  // @added(Versions.`2024-05-01-preview`)
+  // @visibility("read", "create")
+  // @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  // sku: Sku;
 }
 
 @armResourceOperations

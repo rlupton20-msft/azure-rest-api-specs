@@ -208,7 +208,7 @@ interface VirtualEnclave {
   @doc("Checks that the IP Address Space to be allocated for this Virtual Enclave is available.")
   @armResourceAction(EnclaveResource)
   @post
-  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
+  @removed(Microsoft.Mission.Versions.v2024_06_01_preview)
   checkAddressSpaceAvailability(
     ...ResourceInstanceParameters<EnclaveResource>,
 
@@ -216,19 +216,6 @@ interface VirtualEnclave {
     @bodyRoot
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
-
-  @autoRoute
-  @doc("Upon getting desired approvals this faciliates actions on approvals")
-  @armResourceAction(EnclaveResource)
-  @post
-  @added(Microsoft.Mission.Versions.v2024_01_01_preview)
-  approvalCallback(
-    ...ResourceInstanceParameters<EnclaveResource>,
-
-    @doc("Check approval callback request body.")
-    @body
-    approvalCallbackRequest: ApprovalCallbackRequest,
-  ): ArmResponse<ApprovalCallbackResponse> | ErrorResponse;
 }
 
 @doc("Community Interface")
@@ -240,6 +227,19 @@ interface Community {
   delete is ArmResourceDeleteWithoutOkAsync<CommunityResource>;
   listByParent is ArmResourceListByParent<CommunityResource>;
   listBySubscription is ArmListBySubscription<CommunityResource>;
+
+  @autoRoute
+  @doc("Checks that the IP Address Space to be allocated for this Community is available.")
+  @armResourceAction(CommunityResource)
+  @post
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  checkAddressSpaceAvailability(
+    ...ResourceInstanceParameters<CommunityResource>,
+
+    @doc("Check IP Address Space request body.")
+    @bodyRoot
+    checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
+  ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
 }
 
 @doc("Internal Connections")
@@ -281,6 +281,11 @@ interface EnclaveConnection {
   delete is ArmResourceDeleteWithoutOkAsync<EnclaveConnectionResource>;
   listByParent is ArmResourceListByParent<EnclaveConnectionResource>;
   listBySubscription is ArmListBySubscription<EnclaveConnectionResource>;
+
+  @doc("Upon getting desired approvals this faciliates actions on approvals")
+  @armResourceAction(EnclaveConnectionResource)
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  approvalCallback is ArmResourceActionAsync<EnclaveConnectionResource, ApprovalCallbackRequest, ApprovalCallbackResponse>;
 }
 
 @added(Microsoft.Mission.Versions.v2023_08_01_preview)

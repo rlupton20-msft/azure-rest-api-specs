@@ -30,24 +30,16 @@ openapi-subtype: providerHub
 tag: package-2024-01-10
 ```
 
-
 ### Tag: package-2024-01-10
 
 These settings apply only when `--tag=package-2024-01-10` is specified on the command line.
 
 ```yaml $(tag) == 'package-2024-01-10'
 input-file:
-  - Private.IoTFirmwareDefense/stable/2024-01-10/binaryHardeningResults.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/common.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/cryptoCertificates.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/cryptoKeys.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/cves.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/firmwares.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/operations.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/passwordHashes.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/sbomComponents.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/summaries.json
-  - Private.IoTFirmwareDefense/stable/2024-01-10/workspaces.json
+  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/iotfirmwaredefense.json
+
+suppressions:
+  - code: ResourceNameRestriction
 ```
 
 ### Tag: package-2023-09-01-preview

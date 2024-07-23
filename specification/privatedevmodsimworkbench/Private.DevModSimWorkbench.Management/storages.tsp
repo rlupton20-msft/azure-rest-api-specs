@@ -44,7 +44,7 @@ model StorageProperties {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("Performance tier of the chamber storage.")
-  performanceTier: StoragePerformanceTier;
+  performanceTier?: StoragePerformanceTier; // TODO: Deprecate. Use sku.tier.
 }
 
 @doc("Storage update properties.")
@@ -65,6 +65,18 @@ model Storage is TrackedResource<StorageProperties> {
   @TypeSpec.Http.path
   @pattern("^(?!-)(?!.*--)[a-zA-Z][A-Za-z0-9-]{0,63}(?<!-)$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("The availability zones.")
+  zones?: Array<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create", "update")
+  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  sku: Azure.ResourceManager.Foundations.Sku;
 }
 
 @armResourceOperations

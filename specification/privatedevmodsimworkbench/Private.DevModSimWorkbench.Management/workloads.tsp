@@ -33,7 +33,7 @@ model WorkloadProperties {
 
   @visibility("read", "create")
   @doc("The virtual machine size of the chamber workload. For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).<br/>The available chamber workload VM sizes depend on region.<br/>For a list of available sizes use these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/virtualmachinesizes/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes).*")
-  vmSize: string;
+  vmSize: string; // TODO: Deprecate this in favor of top-level sku.
 
   @visibility("read", "create")
   @doc("Application type.")
@@ -49,7 +49,6 @@ model WorkloadProperties {
   @visibility("read", "create")
   @doc("The chamber workload zone.")
   zones?: Array<string>;
-
 }
 
 @doc("Workload tracked resource.")
@@ -65,8 +64,14 @@ model Workload is TrackedResource<WorkloadProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Availability Zones are a valid envelope property"
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
-  @doc("The chamber workload zone.")
+  @doc("The availability zones.")
   zones?: Array<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create", "update")
+  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  sku?: Azure.ResourceManager.Foundations.Sku;
 }
 
 @armResourceOperations
