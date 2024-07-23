@@ -130,6 +130,7 @@ model QuotaProperties {
   freeTrial?: FreeTrialProperties;
 
   @doc("True/False indicating whether the subscription already exists for free trial or not.")
+  @visibility("read")
   isExisting?: boolean;
 
   @visibility("read")
