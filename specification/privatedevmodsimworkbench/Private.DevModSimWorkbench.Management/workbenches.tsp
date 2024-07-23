@@ -40,7 +40,7 @@ model WorkbenchProperties {
   // #deprecated "Use top-level sku.name"
   @visibility("read", "create")
   @doc("SKU name.")
-  sku: string; //TODO: Deprecate. Use sku.tier.
+  sku: string;
 
   // For white-label demo, un-comment below.
   // @visibility("read", "create", "update")
@@ -55,6 +55,7 @@ model WorkbenchProperties {
 @doc("Workbench tracked resource.")
 model Workbench is TrackedResource<WorkbenchProperties> {
   @doc("The name of the Workbench")
+  @visibility("read", "create")
   @segment("workbenches")
   @key("workbenchName")
   @TypeSpec.Http.path

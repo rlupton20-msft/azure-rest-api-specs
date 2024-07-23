@@ -32,8 +32,9 @@ model WorkloadProperties {
   ...RestartAtProperty;
 
   @visibility("read", "create")
+  @madeOptional(Versions.`2024-05-01-preview`)
   @doc("The virtual machine size of the chamber workload. For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).<br/>The available chamber workload VM sizes depend on region.<br/>For a list of available sizes use these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/virtualmachinesizes/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes).*")
-  vmSize: string; // TODO: Deprecate this in favor of top-level sku.
+  vmSize?: string; // TODO: Deprecated. Use top-level sku.
 
   @visibility("read", "create")
   @doc("Application type.")
@@ -55,6 +56,7 @@ model WorkloadProperties {
 @parentResource(Chamber)
 model Workload is TrackedResource<WorkloadProperties> {
   @doc("The name of the workload")
+  @visibility("read", "create")
   @segment("workloads")
   @key("workloadName")
   @TypeSpec.Http.path
@@ -71,7 +73,7 @@ model Workload is TrackedResource<WorkloadProperties> {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
-  sku?: Azure.ResourceManager.Foundations.Sku;
+  sku: Azure.ResourceManager.Foundations.Sku;
 }
 
 @armResourceOperations
