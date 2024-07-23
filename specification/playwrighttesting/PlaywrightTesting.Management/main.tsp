@@ -53,7 +53,7 @@ model AccountProperties {
   scalableExecution?: EnablementStatus = EnablementStatus.Enabled;
 
   @doc("When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.")
-  reporting?: EnablementStatus = EnablementStatus.Disabled;
+  reporting?: EnablementStatus = EnablementStatus.Enabled;
 
   @doc("When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs.")
   localAuth?: EnablementStatus = EnablementStatus.Disabled;
