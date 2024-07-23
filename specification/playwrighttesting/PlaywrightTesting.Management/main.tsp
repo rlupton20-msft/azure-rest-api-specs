@@ -129,9 +129,9 @@ model QuotaProperties {
   @doc("The subscription quota resource free-trial properties.")
   freeTrial?: FreeTrialProperties;
 
-  @doc("True/False indicating whether the subscription already exists for free trial or not.")
+  @doc("Indicates the offering type for the subscription.")
   @visibility("read")
-  isExisting?: boolean;
+  offeringType?: OfferingType;
 
   @visibility("read")
   @doc("The status of the last operation.")
@@ -207,6 +207,21 @@ enum FreeTrialState {
 
   @doc("The free-trial is Not Registered.")
   NotRegistered,
+}
+
+@doc("Offering type state.")
+enum OfferingType {
+  @doc("The offeringType is NotApplicable.")
+  NotApplicable,
+
+  @doc("The offeringType is PrivatePreview.")
+  PrivatePreview,
+
+  @doc("The offeringType is PublicPreview.")
+  PublicPreview,
+
+  @doc("The offeringType is GeneralAvailability.")
+  GeneralAvailability,
 }
 
 @armResourceOperations
