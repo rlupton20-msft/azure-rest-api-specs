@@ -45,6 +45,6 @@ interface DynamicConfigurations {
     @doc("List Dynamic Configuration Resources")
     listByParent is ArmResourceListByParent<DynamicConfiguration>;
 
-    @doc("Post request to resolve configuration for Dynamic Configuration Resource")
+    @doc("Post request to resolve configuration")
     resolveConfiguration is ArmResourceActionSync<DynamicConfiguration, void ,DynamicConfigurationProperties>;
 }
