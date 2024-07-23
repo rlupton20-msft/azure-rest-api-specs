@@ -37,7 +37,6 @@ model SchemaRegistryProperties {
   @visibility("read", "create")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @maxLength(32)
-  // namespace is a reserved keyname. Wrap in ` quotes
   `namespace`: string;
 
   @doc("Human-readable display name.")

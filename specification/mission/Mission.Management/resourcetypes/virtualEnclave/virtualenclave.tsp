@@ -115,13 +115,23 @@ model EnclaveAddressSpaces {
 }
 
 @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Principal for Maintenance Mode")
+model Principal {
+  @doc("The object id associated with the principal")
+  id: string;
+
+  @doc("The type of the object id. We currently allow users, groups, and service principals")
+  type: "User" | "Group" | "ServicePrincipal" | string;
+}
+
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("Maintenance Mode")
 model MaintenanceModeConfiguration {
-  @doc("Current status of Maintenance Mode")
-  status: "On" | "CanNotDelete" | "Off" | string;
+  @doc("Current mode of Maintenance Mode Configuration")
+  mode: "On" | "CanNotDelete" | "Off" | string;
 
   @doc("The user, group or service principal object affected by Maintenance Mode")
-  principalObjectIds?: string[];
+  principals?: Principal[];
 
   @doc("Justification for entering or exiting Maintenance Mode")
   justification?: "Networking" | "Governance" | "Off" | string;
@@ -164,5 +174,5 @@ model VirtualEnclaveProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Maintenance Mode configuration.")
-  maintenanceModeConfiguration: MaintenanceModeConfiguration;
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }

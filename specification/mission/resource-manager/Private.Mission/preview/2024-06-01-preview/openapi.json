@@ -1870,9 +1870,9 @@
             "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
           },
           {
-            "name": "approvalCallbackRequest",
+            "name": "body",
             "in": "body",
-            "description": "Check approval callback request body.",
+            "description": "The content of the action request",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ApprovalCallbackRequest"
@@ -1887,16 +1887,16 @@
             }
           },
           "202": {
-            "description": "Resource update request accepted.",
+            "description": "Resource operation accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -5259,12 +5259,12 @@
         },
         "option": {
           "type": "string",
-          "description": "governance option for this service (Allow, Deny, Exception Only, or Not Applicable).",
+          "description": "governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).",
           "enum": [
             "Allow",
             "Deny",
-            "Exception Only",
-            "Not Applicable"
+            "ExceptionOnly",
+            "NotApplicable"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -5556,9 +5556,9 @@
       "type": "object",
       "description": "Maintenance Mode",
       "properties": {
-        "status": {
+        "mode": {
           "type": "string",
-          "description": "Current status of Maintenance Mode",
+          "description": "Current mode of Maintenance Mode Configuration",
           "enum": [
             "On",
             "CanNotDelete",
@@ -5568,11 +5568,11 @@
             "modelAsString": true
           }
         },
-        "principalObjectIds": {
+        "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/Principal"
           }
         },
         "justification": {
@@ -5589,16 +5589,16 @@
         }
       },
       "required": [
-        "status"
+        "mode"
       ]
     },
     "MaintenanceModeConfigurationUpdate": {
       "type": "object",
       "description": "Maintenance Mode",
       "properties": {
-        "status": {
+        "mode": {
           "type": "string",
-          "description": "Current status of Maintenance Mode",
+          "description": "Current mode of Maintenance Mode Configuration",
           "enum": [
             "On",
             "CanNotDelete",
@@ -5608,11 +5608,11 @@
             "modelAsString": true
           }
         },
-        "principalObjectIds": {
+        "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/Principal"
           }
         },
         "justification": {
@@ -5654,6 +5654,32 @@
           }
         ]
       }
+    },
+    "Principal": {
+      "type": "object",
+      "description": "Principal for Maintenance Mode",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The object id associated with the principal"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the object id. We currently allow users, groups, and service principals",
+          "enum": [
+            "User",
+            "Group",
+            "ServicePrincipal"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -6047,8 +6073,7 @@
       },
       "required": [
         "enclaveVirtualNetwork",
-        "communityResourceId",
-        "maintenanceModeConfiguration"
+        "communityResourceId"
       ]
     },
     "VirtualEnclaveResourceId": {

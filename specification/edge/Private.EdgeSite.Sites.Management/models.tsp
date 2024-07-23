@@ -25,13 +25,6 @@ model SiteProperties {
     }
   ]>;
 
-  @doc("Configuration ArmId for Site resource")
-  configurationResourceId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.EdgeSite/Configurations";
-    }
-  ]>;
-
   @doc("Provisioning state of last operation")
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
@@ -49,13 +42,6 @@ model SiteUpdateProperties {
   addressResourceId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.EdgeOrder/addresses";
-    }
-  ]>;
-
-  @doc("Configuration ArmId for Site resource")
-  configurationResourceId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.EdgeSite/Configurations";
     }
   ]>;
 }

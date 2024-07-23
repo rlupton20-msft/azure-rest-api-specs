@@ -6,12 +6,24 @@ using TypeSpec.Versioning;
 
 namespace Private.DeviceRegistry;
 
+@doc("Topic retain types.")
+@added(Versions.v2024_07_01_preview)
+union TopicRetainType {
+  @doc("Retain the messages.")
+  Keep: "Keep",
+
+  @doc("Never retain messages.")
+  Never: "Never",
+
+  string,
+}
+
 @doc("Object that describes the topic information.")
 @added(Versions.v2024_07_01_preview)
 model Topic {
   @doc("The topic path for messages published to an MQTT broker.")
   path: string;
 
-  @doc("When set to true, messages published to an MQTT broker will have the retain flag set. Default: false.")
-  retain?: boolean = false;
+  @doc("When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'.")
+  retain?: TopicRetainType = TopicRetainType.Never;
 }
