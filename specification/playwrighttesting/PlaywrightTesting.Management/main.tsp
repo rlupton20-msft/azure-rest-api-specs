@@ -129,6 +129,9 @@ model QuotaProperties {
   @doc("The subscription quota resource free-trial properties.")
   freeTrial?: FreeTrialProperties;
 
+  @doc("True/False indicating whether the subscription already exists for free trial or not.")
+  isExisting?: boolean;
+
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
