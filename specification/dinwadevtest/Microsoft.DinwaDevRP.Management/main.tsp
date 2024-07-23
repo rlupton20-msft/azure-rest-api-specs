@@ -2,7 +2,6 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-#suppress "@azure-tools/typespec-autorest-canonical/unsupported-versioning-decorator" "Keep as warning."
 import "@azure-tools/typespec-azure-resource-manager";
 import "./employee.tsp";
 
@@ -23,7 +22,6 @@ namespace Microsoft.Contoso;
 /** The available API versions. */
 enum Versions {
   /** 2021-10-01-preview version */
-  #suppress "@azure-tools/typespec-autorest-canonical/unsupported-versioning-decorator" "Keep as warning."
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
