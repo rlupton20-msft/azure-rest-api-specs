@@ -13,7 +13,6 @@ using Azure.ResourceManager;
 @service({
   title: "Microsoft.SloTestRp",
 })
-
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.SloTestRp;
@@ -82,10 +81,10 @@ model SloTargets {
   @doc("SLO target value")
   @minValue(0)
   @maxValue(100)
-  targetValue : float32;
+  targetValue: float32;
 
   @doc("SLO target window")
-  targetWindow : string;
+  targetWindow: string;
 
   @doc("SLO target percentile")
   targetPercentile: string;
