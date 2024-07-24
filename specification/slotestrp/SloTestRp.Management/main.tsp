@@ -28,7 +28,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("An SLO resource")
-model Slo is ExtensionResource<SloProperties> {
+model SloResource is ExtensionResource<SloProperties> {
   @doc("The name of the SLO")
   @pattern("^[a-zA-Z0-9-]{3,128}$")
   @key("sloName")
@@ -109,10 +109,9 @@ model AccountMetadata {
   properties: {};
 }
 
-@armResourceOperations(Slo)
+@armResourceOperations(SloResource)
 interface Slos {
-  get is ArmResourceRead<Slo>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Slo>;
-  delete is ArmResourceDeleteSync<Slo>;
-  listByParent is ArmResourceListByParent<Slo>;
+  get is ArmResourceRead<SloResource>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<SloResource>;
+  delete is ArmResourceDeleteSync<SloResource>;
 }

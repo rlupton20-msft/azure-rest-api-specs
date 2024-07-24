@@ -46,47 +46,13 @@
     }
   ],
   "paths": {
-    "/{resourceUri}/providers/Microsoft.SloTestRp/slos": {
-      "get": {
-        "operationId": "Slos_List",
-        "tags": [
-          "Slos"
-        ],
-        "description": "List Slo resources by parent",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/SloListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/{resourceUri}/providers/Microsoft.SloTestRp/slos/{sloName}": {
       "get": {
         "operationId": "Slos_Get",
         "tags": [
           "Slos"
         ],
-        "description": "Get a Slo",
+        "description": "Get a SloResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -107,7 +73,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/Slo"
+              "$ref": "#/definitions/SloResource"
             }
           },
           "default": {
@@ -128,7 +94,7 @@
         "tags": [
           "Slos"
         ],
-        "description": "Create a Slo",
+        "description": "Create a SloResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -137,34 +103,26 @@
             "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
           },
           {
-            "name": "sloName",
-            "in": "path",
-            "description": "The name of the SLO",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,128}$"
-          },
-          {
             "name": "resource",
             "in": "body",
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Slo"
+              "$ref": "#/definitions/SloResource"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'Slo' update operation succeeded",
+            "description": "Resource 'SloResource' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/Slo"
+              "$ref": "#/definitions/SloResource"
             }
           },
           "201": {
-            "description": "Resource 'Slo' create operation succeeded",
+            "description": "Resource 'SloResource' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/Slo"
+              "$ref": "#/definitions/SloResource"
             },
             "headers": {
               "Azure-AsyncOperation": {
@@ -200,7 +158,7 @@
         "tags": [
           "Slos"
         ],
-        "description": "Delete a Slo",
+        "description": "Delete a SloResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -344,43 +302,6 @@
       },
       "readOnly": true
     },
-    "Slo": {
-      "type": "object",
-      "description": "An SLO resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SloProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "SloListResult": {
-      "type": "object",
-      "description": "The response of a Slo list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The Slo items on this page",
-          "items": {
-            "$ref": "#/definitions/Slo"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
     "SloProperties": {
       "type": "object",
       "description": "SLO Properties",
@@ -417,6 +338,22 @@
         "sloTarget",
         "sourceAccount",
         "destinationAccount"
+      ]
+    },
+    "SloResource": {
+      "type": "object",
+      "description": "An SLO resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SloProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "SloTargets": {
