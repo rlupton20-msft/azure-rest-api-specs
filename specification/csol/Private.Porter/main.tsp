@@ -7,15 +7,13 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-// @armProviderNamespace("Private.Porter")
 @armProviderNamespace
 @service({
   title: "Microsoft.CompositeSolutions",
 })
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-// @versioned(Microsoft.CompositeSolutions.Versions)
 @versioned(Versions)
-namespace Private.Porter;
+namespace Microsoft.CompositeSolutions;
 
 @doc("Supported API versions for the Microsoft.CompositeSolutions resource provider.")
 enum Versions {
@@ -38,7 +36,7 @@ model CompositeSolutionDefinition
   @path
   name: string;
 
-  ...ManagedServiceIdentity;
+  ...ManagedServiceIdentityProperty;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
@@ -52,22 +50,33 @@ model CompositeSolution is TrackedResource<CompositeSolutionProperties> {
   @path
   name: string;
 
-  ...ManagedServiceIdentity;
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
 union ProvisioningState {
+  /** Resource has been created. */
   Succeeded: "Succeeded",
+
+  /** Resource creation failed. */
   Failed: "Failed",
+
+  /** Resource creation was canceled. */
   Canceled: "Canceled",
 
-  // Add more values from ResourceProvisioningState as needed
+  /** The resource is being provisioned */
   Provisioning: "Provisioning",
 
+  /** The resource is updating */
   Updating: "Updating",
+
+  /** The resource is being deleted */
   Deleting: "Deleting",
+
+  /** The resource create request has been accepted */
   Accepted: "Accepted",
+
   string,
 }
 
@@ -94,11 +103,6 @@ model CompositeSolutionDefinitionProperties {
   @visibility("read")
   @doc("List of mixins used in the composite solution package")
   mixins?: Array<string>;
-
-  @visibility("read")
-  @doc("List of metadata objects")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  metadata?: Array<CrpMetadata>;
 }
 
 @doc("Metadata associated with the bundle")
@@ -134,7 +138,7 @@ model CompositeSolutionProperties {
   // TODO: Do we need this?
   @visibility("read")
   @doc("Bundle Outputs.")
-  outputs?: Array<string>;
+  outputs?: Array<string>; // TODO: Array or Record?
 
   @visibility("read", "create", "update")
   @doc("Bundle Friendly Name.")
@@ -176,7 +180,7 @@ model CompositeSolutionDefinitionPropertiesUpdate
   is OptionalProperties<UpdateableProperties<CompositeSolutionDefinitionProperties>>;
 
 model ManagedServiceIdentityUpdate
-  is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedIdentityProperties>>;
+  is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
 
 @doc("KeyVault Secret Reference")
 model KeyVaultSecretReference {
@@ -192,7 +196,9 @@ model ParameterValue {
   @doc("The parameter name")
   name: string;
 
-  //Object types cannot be built correctly. The value will be added in .NET code directly.
+  //TODO: "value is removed when generate Models because of a bug, but added back when generating openapi.json
+  /** Value of the Parameter */
+  value: {};
 }
 
 @doc("Parameter model")
@@ -232,35 +238,93 @@ model Parameter {
 
   @doc("Which Microsoft cloud(s) the parameter applies to")
   microsoftTargets: Array<string>;
+
+  @doc("Whether the property is read only")
+  readOnly: boolean;
+
+  @doc("Display name of the parameter")
+  displayName: string;
+
+  @doc("The default value of the parameter")
+  default?: {};
+
+  @doc("Allowed values")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  allowedValues?: Array<{}>;
 }
 
 @doc("Credential model")
 model Credential {
-  @doc("Name of Credential")
+  @doc("Credential name")
   name: string;
 
-  @doc("Is Required")
+  @doc("Whether the credential is required or not")
   isRequired: boolean;
 
-  @doc("Applicable Operations")
+  @doc("Which operations this credential applies to. If not specified, this credential applies to all operations.")
   applicableOperations: Array<string>;
+
+  @doc("Which Microsoft cloud(s) the parameter applies to")
+  microsoftTargets: Array<string>;
+
+  @doc("Description of the credential")
+  description?: string;
+
+  @doc("Display name of the parameter")
+  displayName: string;
+}
+
+@doc("Detailed Status Response")
+model DetailedStatusResponse {
+  @doc("Array of responses")
+  @visibility("read")
+  @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
+  value: Array<MixinDetailedStatus>;
+}
+
+@doc("Mixin Detailed Status")
+model MixinDetailedStatus {
+  /** Resource Id */
+  resourceId: string;
+
+  /** Item Name */
+  itemName: string;
+
+  /** Execution Status */
+  executionStatus: string;
+
+  /** Date */
+  dateTime: string;
+
+  /** Mixin Name */
+  mixinName: string;
+
+  /** Whether is active */
+  isActive: boolean;
+
+  /** Correlation Id to flow across all components */
+  correlationId: string;
+
+  /** Porter installation name */
+  installationName: string;
+
+  /** Porter namespace '-n' */
+  installationNameSpace: string;
+
+  /** Porter Correlation Id */ //TODO: Confirm how compares to correlation id above
+  porterCorrelationId: string;
+
+  /** CNAB revision */
+  cnabRevision: string;
 }
 
 @doc("The properties related to Bundle")
 model BundleProfile {
-  @doc("Repository is the OCI repository of the current bundle")
+  @doc("OCI repository of the current bundle")
   @visibility("read", "create")
   repository: string;
 
-  @doc("Version is the current version of the bundle.")
-  @visibility("read", "create", "update")
-  version: string;
-
-  @doc("Digest is the current digest of the bundle.")
-  @visibility("read", "create", "update")
-  digest?: string;
-
-  @doc("Tag is the OCI tag of the current bundle definition.")
+  @doc("OCI tag of the current bundle definition.")
   @visibility("read", "create", "update")
   tag?: string;
 }
@@ -273,6 +337,11 @@ interface CompositeSolutions {
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
+  detailedStatus is ArmResourceActionAsync<
+    CompositeSolution,
+    void,
+    DetailedStatusResponse
+  >;
 }
 
 @armResourceOperations(CompositeSolutionDefinition)
