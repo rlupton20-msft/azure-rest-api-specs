@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 })
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @versioned(Versions)
-namespace Microsoft.CompositeSolutions;
+namespace Private.Porter;
 
 @doc("Supported API versions for the Microsoft.CompositeSolutions resource provider.")
 enum Versions {
