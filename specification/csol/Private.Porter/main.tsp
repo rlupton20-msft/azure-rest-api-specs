@@ -7,7 +7,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace
+@armProviderNamespace("Private.Porter")
 @service({
   title: "Microsoft.CompositeSolutions",
 })
@@ -151,7 +151,7 @@ model CompositeSolutionProperties {
 
 /** Path request body for CompositeSolutionProperties */
 #suppress "@azure-tools/typespec-azure-resource-manager/patch-properties-correspond-to-put-properties" "Existing Template"
-model CompositeSolutionUpdate1 {
+model CompositeSolutionUpdate {
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 
   /** Updatable managed service identity */
@@ -333,7 +333,7 @@ model BundleProfile {
 interface CompositeSolutions {
   get is ArmResourceRead<CompositeSolution>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
-  update is ArmCustomPatchSync<CompositeSolution, CompositeSolutionUpdate1>;
+  update is ArmCustomPatchSync<CompositeSolution, CompositeSolutionUpdate>;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
