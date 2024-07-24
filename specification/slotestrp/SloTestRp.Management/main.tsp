@@ -61,9 +61,6 @@ model SloProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("The name of the SLO")
-  sloName: string;
-
   @doc("SLO category")
   sloCategory: string;
 
