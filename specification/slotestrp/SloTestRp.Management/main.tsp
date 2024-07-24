@@ -112,6 +112,6 @@ model AccountMetadata {
 @armResourceOperations(SloResource)
 interface Slos {
   get is ArmResourceRead<SloResource>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<SloResource>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<SloResource>;
   delete is ArmResourceDeleteSync<SloResource>;
 }
