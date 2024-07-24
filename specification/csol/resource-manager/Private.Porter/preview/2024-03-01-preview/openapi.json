@@ -549,6 +549,10 @@
               "$ref": "#/definitions/CompositeSolution"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -603,7 +607,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CompositeSolutionUpdate1"
+              "$ref": "#/definitions/CompositeSolutionUpdate"
             }
           }
         ],
@@ -687,92 +691,84 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Porter/compositeSolutions/{compositeSolutionName}/detailedStatus": {
+      "post": {
+        "operationId": "CompositeSolutions_DetailedStatus",
+        "tags": [
+          "CompositeSolutions"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "compositeSolutionName",
+            "in": "path",
+            "description": "The name of the composite solution",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DetailedStatusResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
     }
   },
   "definitions": {
-    "Azure.ResourceManager.Foundations.ManagedIdentityType": {
-      "type": "string",
-      "description": "The kind of managed identity assigned to this resource.",
-      "enum": [
-        "None",
-        "SystemAssigned",
-        "UserAssigned",
-        "SystemAssigned, UserAssigned"
-      ],
-      "x-ms-enum": {
-        "name": "ManagedIdentityType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "None",
-            "value": "None",
-            "description": "No managed identity."
-          },
-          {
-            "name": "SystemAssigned",
-            "value": "SystemAssigned",
-            "description": "System assigned managed identity."
-          },
-          {
-            "name": "UserAssigned",
-            "value": "UserAssigned",
-            "description": "User assigned managed identity."
-          },
-          {
-            "name": "SystemAndUserAssigned",
-            "value": "SystemAssigned, UserAssigned",
-            "description": "System and user assigned managed identity."
-          }
-        ]
-      }
-    },
-    "Azure.ResourceManager.Foundations.UserAssignedIdentity": {
-      "type": "object",
-      "description": "A managed identity assigned by the user.",
-      "properties": {
-        "clientId": {
-          "type": "string",
-          "description": "The active directory client identifier for this principal."
-        },
-        "principalId": {
-          "type": "string",
-          "description": "The active directory identifier for this principal."
-        }
-      }
-    },
     "BundleProfile": {
       "type": "object",
       "description": "The properties related to Bundle",
       "properties": {
         "repository": {
           "type": "string",
-          "description": "Repository is the OCI repository of the current bundle",
+          "description": "OCI repository of the current bundle",
           "x-ms-mutability": [
             "read",
-            "create"
-          ]
-        },
-        "version": {
-          "type": "string",
-          "description": "Version is the current version of the bundle.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "digest": {
-          "type": "string",
-          "description": "Digest is the current digest of the bundle.",
-          "x-ms-mutability": [
-            "read",
-            "update",
             "create"
           ]
         },
         "tag": {
           "type": "string",
-          "description": "Tag is the OCI tag of the current bundle definition.",
+          "description": "OCI tag of the current bundle definition.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -781,35 +777,16 @@
         }
       },
       "required": [
-        "repository",
-        "version"
+        "repository"
       ]
     },
     "BundleProfileUpdate": {
       "type": "object",
       "description": "The properties related to Bundle",
       "properties": {
-        "version": {
-          "type": "string",
-          "description": "Version is the current version of the bundle.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "digest": {
-          "type": "string",
-          "description": "Digest is the current digest of the bundle.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
         "tag": {
           "type": "string",
-          "description": "Tag is the OCI tag of the current bundle definition.",
+          "description": "OCI tag of the current bundle definition.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -824,12 +801,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CompositeSolutionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -848,12 +820,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CompositeSolutionDefinitionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -934,15 +901,6 @@
             "type": "string"
           },
           "readOnly": true
-        },
-        "metadata": {
-          "type": "array",
-          "description": "List of metadata objects",
-          "items": {
-            "$ref": "#/definitions/CrpMetadata"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -1149,7 +1107,7 @@
         }
       }
     },
-    "CompositeSolutionUpdate1": {
+    "CompositeSolutionUpdate": {
       "type": "object",
       "description": "Path request body for CompositeSolutionProperties",
       "properties": {
@@ -1176,24 +1134,41 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of Credential"
+          "description": "Credential name"
         },
         "isRequired": {
           "type": "boolean",
-          "description": "Is Required"
+          "description": "Whether the credential is required or not"
         },
         "applicableOperations": {
           "type": "array",
-          "description": "Applicable Operations",
+          "description": "Which operations this credential applies to. If not specified, this credential applies to all operations.",
           "items": {
             "type": "string"
           }
+        },
+        "microsoftTargets": {
+          "type": "array",
+          "description": "Which Microsoft cloud(s) the parameter applies to",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the credential"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the parameter"
         }
       },
       "required": [
         "name",
         "isRequired",
-        "applicableOperations"
+        "applicableOperations",
+        "microsoftTargets",
+        "displayName"
       ]
     },
     "CrpMetadata": {
@@ -1212,6 +1187,26 @@
       "required": [
         "schema",
         "mixin"
+      ]
+    },
+    "DetailedStatusResponse": {
+      "type": "object",
+      "description": "Detailed Status Response",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "Array of responses",
+          "items": {
+            "$ref": "#/definitions/MixinDetailedStatus"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        }
+      },
+      "required": [
+        "value"
       ]
     },
     "KeyVaultSecretReference": {
@@ -1237,17 +1232,86 @@
       "description": "The template for adding optional properties.",
       "properties": {
         "type": {
-          "$ref": "#/definitions/Azure.ResourceManager.Foundations.ManagedIdentityType",
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
           "description": "The type of managed identity assigned to this resource."
         },
         "userAssignedIdentities": {
           "type": "object",
           "description": "The identities assigned to this resource by the user.",
           "additionalProperties": {
-            "$ref": "#/definitions/Azure.ResourceManager.Foundations.UserAssignedIdentity"
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
           }
         }
       }
+    },
+    "MixinDetailedStatus": {
+      "type": "object",
+      "description": "Mixin Detailed Status",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id"
+        },
+        "itemName": {
+          "type": "string",
+          "description": "Item Name"
+        },
+        "executionStatus": {
+          "type": "string",
+          "description": "Execution Status"
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date"
+        },
+        "mixinName": {
+          "type": "string",
+          "description": "Mixin Name"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether is active"
+        },
+        "correlationId": {
+          "type": "string",
+          "description": "Correlation Id to flow across all components"
+        },
+        "installationName": {
+          "type": "string",
+          "description": "Porter installation name"
+        },
+        "installationNameSpace": {
+          "type": "string",
+          "description": "Porter namespace '-n'"
+        },
+        "porterCorrelationId": {
+          "type": "string",
+          "description": "Porter Correlation Id"
+        },
+        "cnabRevision": {
+          "type": "string",
+          "description": "CNAB revision"
+        }
+      },
+      "required": [
+        "resourceId",
+        "itemName",
+        "executionStatus",
+        "dateTime",
+        "mixinName",
+        "isActive",
+        "correlationId",
+        "installationName",
+        "installationNameSpace",
+        "porterCorrelationId",
+        "cnabRevision"
+      ]
     },
     "Parameter": {
       "type": "object",
@@ -1312,13 +1376,35 @@
           "items": {
             "type": "string"
           }
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "Whether the property is read only"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the parameter"
+        },
+        "default": {
+          "type": "object",
+          "description": "The default value of the parameter"
+        },
+        "allowedValues": {
+          "type": "array",
+          "description": "Allowed values",
+          "items": {
+            "type": "object"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
         "name",
         "isRequired",
         "applicableOperations",
-        "microsoftTargets"
+        "microsoftTargets",
+        "readOnly",
+        "displayName"
       ]
     },
     "ParameterValue": {
@@ -1328,10 +1414,15 @@
         "name": {
           "type": "string",
           "description": "The parameter name"
+        },
+        "value": {
+          "type": "object",
+          "description": "Value of the Parameter"
         }
       },
       "required": [
-        "name"
+        "name",
+        "value"
       ]
     },
     "ProvisioningState": {
@@ -1352,53 +1443,42 @@
         "values": [
           {
             "name": "Succeeded",
-            "value": "Succeeded"
+            "value": "Succeeded",
+            "description": "Resource has been created."
           },
           {
             "name": "Failed",
-            "value": "Failed"
+            "value": "Failed",
+            "description": "Resource creation failed."
           },
           {
             "name": "Canceled",
-            "value": "Canceled"
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
           },
           {
             "name": "Provisioning",
-            "value": "Provisioning"
+            "value": "Provisioning",
+            "description": "The resource is being provisioned"
           },
           {
             "name": "Updating",
-            "value": "Updating"
+            "value": "Updating",
+            "description": "The resource is updating"
           },
           {
             "name": "Deleting",
-            "value": "Deleting"
+            "value": "Deleting",
+            "description": "The resource is being deleted"
           },
           {
             "name": "Accepted",
-            "value": "Accepted"
+            "value": "Accepted",
+            "description": "The resource create request has been accepted"
           }
         ]
       },
       "readOnly": true
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Supported API versions for the Microsoft.CompositeSolutions resource provider.",
-      "enum": [
-        "2024-03-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2024_03_01_preview",
-            "value": "2024-03-01-preview",
-            "description": "The 2024-03-01-preview version."
-          }
-        ]
-      }
     }
   },
   "parameters": {}
