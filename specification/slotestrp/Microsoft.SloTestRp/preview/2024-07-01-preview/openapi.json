@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.SloTestRp",
-    "version": "2021-08-01-preview",
+    "version": "2024-07-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -48,6 +48,40 @@
   "paths": {
     "/{resourceUri}/providers/Microsoft.SloTestRp/slos": {
       "get": {
+        "operationId": "Slos_List",
+        "tags": [
+          "Slos"
+        ],
+        "description": "List Slo resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SloListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.SloTestRp/slos/{sloName}": {
+      "get": {
         "operationId": "Slos_Get",
         "tags": [
           "Slos"
@@ -81,11 +115,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "GetSlo": {
-            "$ref": "./examples/Slos_Get.json"
           }
         }
       },
@@ -151,61 +180,10 @@
             }
           }
         },
-        "x-ms-examples": {
-          "CreateSlo": {
-            "$ref": "./examples/Slos_CreateOrUpdate.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "Slos_Update",
-        "tags": [
-          "Slos"
-        ],
-        "description": "Update a Slo",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          },
-          {
-            "name": "sloName",
-            "in": "path",
-            "description": "The name of the SLO",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,128}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SloUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/Slo"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
       },
       "delete": {
         "operationId": "Slos_Delete",
@@ -301,24 +279,6 @@
         "properties"
       ]
     },
-    "AccountMetadataUpdate": {
-      "type": "object",
-      "description": "The Azure Monitor Workspace account metadata",
-      "properties": {
-        "resourceType": {
-          "type": "string",
-          "description": "Must be set to AMW. No other account types are supported in this version"
-        },
-        "resourceId": {
-          "type": "string",
-          "description": "AMW account's resource id chosen by customers"
-        },
-        "properties": {
-          "type": "object",
-          "description": "Dictionary of metadata specific to AMW workspace"
-        }
-      }
-    },
     "ProvisioningState": {
       "type": "string",
       "description": "The status of the current operation.",
@@ -388,6 +348,27 @@
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
+      ]
+    },
+    "SloListResult": {
+      "type": "object",
+      "description": "The response of a Slo list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Slo items on this page",
+          "items": {
+            "$ref": "#/definitions/Slo"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
       ]
     },
     "SloProperties": {
@@ -463,71 +444,6 @@
         "targetPercentile",
         "operator"
       ]
-    },
-    "SloTargetsUpdate": {
-      "type": "object",
-      "description": "SLO Target Properties",
-      "properties": {
-        "targetName": {
-          "type": "string",
-          "description": "SLO target name"
-        },
-        "targetValue": {
-          "type": "number",
-          "format": "float",
-          "description": "SLO target value",
-          "minimum": 0,
-          "maximum": 100
-        },
-        "targetWindow": {
-          "type": "string",
-          "description": "SLO target window"
-        },
-        "targetPercentile": {
-          "type": "string",
-          "description": "SLO target percentile"
-        },
-        "operator": {
-          "type": "string",
-          "description": "SLO target operator"
-        }
-      }
-    },
-    "SloUpdate": {
-      "type": "object",
-      "description": "The type used for update operations of the Slo.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SloUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "SloUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Slo.",
-      "properties": {
-        "sloName": {
-          "type": "string",
-          "description": "The name of the SLO"
-        },
-        "sloCategory": {
-          "type": "string",
-          "description": "SLO category"
-        },
-        "sloTarget": {
-          "$ref": "#/definitions/SloTargetsUpdate",
-          "description": "SLO target"
-        },
-        "sourceAccount": {
-          "$ref": "#/definitions/AccountMetadataUpdate",
-          "description": "The AMW account from where the metrics will originate"
-        },
-        "destinationAccount": {
-          "$ref": "#/definitions/AccountMetadataUpdate",
-          "description": "The AMW account to where the metrics will be sent"
-        }
-      }
     }
   },
   "parameters": {

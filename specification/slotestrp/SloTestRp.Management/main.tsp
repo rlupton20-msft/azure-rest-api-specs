@@ -20,7 +20,7 @@ namespace Microsoft.SloTestRp;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2021-08-01-preview`,
+  `2024-07-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -113,6 +113,6 @@ model AccountMetadata {
 interface Slos {
   get is ArmResourceRead<Slo>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Slo>;
-  update is ArmResourcePatchSync<Slo, SloProperties>;
   delete is ArmResourceDeleteSync<Slo>;
+  listByParent is ArmResourceListByParent<Slo>;
 }
