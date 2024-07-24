@@ -1,8 +1,8 @@
-# SLOTESTRP
+# SloTestRp
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for SLOTESTRP.
+This is the AutoRest configuration file for SloTestRp.
 
 ## Getting Started
 
@@ -36,5 +36,5 @@ These settings apply only when `--tag=package-2021-08-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2020-01-01-preview'
 input-file:
-  - Microsoft.SLOTESTRP/preview/2021-08-01-preview/openapi.json
+  - Microsoft.SloTestRp/preview/2021-08-01-preview/openapi.json
 ```

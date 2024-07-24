@@ -9,14 +9,14 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.SLOTESTRP")
+@armProviderNamespace("Microsoft.SloTestRp")
 @service({
-  title: "Microsoft.SLOTESTRP",
+  title: "Microsoft.SloTestRp",
 })
 
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Microsoft.SLOTESTRP;
+namespace Microsoft.SloTestRp;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -115,6 +115,4 @@ interface Slos {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Slo>;
   update is ArmResourcePatchSync<Slo, SloProperties>;
   delete is ArmResourceDeleteSync<Slo>;
-  listByResourceGroup is ArmResourceListByParent<Slo>;
-  listBySubscription is ArmListBySubscription<Slo>;
 }
