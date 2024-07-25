@@ -33,8 +33,8 @@ model HelmUseCaseProperties {
 
 @doc("Helm Use Case Resource")
 @parentResource(UseCase)
-model HelmUseCase is TrackedResource<HelmUseCaseProperties> {
-    ...ResourceNameParameter<HelmUseCase>;
+model HelmUseCase is ProxyResource<HelmUseCaseProperties> {
+  ...ResourceNameParameter<HelmUseCase>;
 }
 
 @armResourceOperations
