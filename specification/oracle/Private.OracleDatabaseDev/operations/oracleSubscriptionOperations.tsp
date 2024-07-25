@@ -18,7 +18,7 @@ interface OracleSubscriptions
     "./examples/oracleSubscriptions_listCloudAccountDetails.json",
     "List Cloud Account details for the Oracle Subscription"
   )
-  listCloudAccountDetails is ListActions.ArmResourceGetActionAsync<
+  listCloudAccountDetails is ListActions.ArmResourceGetAction<
     OracleSubscription<Foundations.Plan>,
     CloudAccountDetails
   >;
@@ -28,7 +28,7 @@ interface OracleSubscriptions
     "./examples/oracleSubscriptions_listSaasSubscriptionDetails.json",
     "List Saas Subscription details for the Oracle Subscription"
   )
-  listSaasSubscriptionDetails is ListActions.ArmResourceGetActionAsync<
+  listSaasSubscriptionDetails is ListActions.ArmResourceGetAction<
     OracleSubscription<Foundations.Plan>,
     SaasSubscriptionDetails
   >;
@@ -38,7 +38,7 @@ interface OracleSubscriptions
     "./examples/oracleSubscriptions_listActivationLinks.json",
     "List Activation Links for the Oracle Subscription"
   )
-  listActivationLinks is ListActions.ArmResourceGetActionAsync<
+  listActivationLinks is ListActions.ArmResourceGetAction<
     OracleSubscription<Foundations.Plan>,
     ActivationLinks
   >;
