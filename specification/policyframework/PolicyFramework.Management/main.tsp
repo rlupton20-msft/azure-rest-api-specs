@@ -38,7 +38,7 @@ model EvaluationEngineProperties {
   @doc("Provisioning State")
   @visibility("read")
   provisioningState?: ProvisioningState;
-  // complete later with sample properties
+  // TODO: complete later with sample properties
 }
 
 @doc("The evaluation engine")
@@ -164,15 +164,28 @@ union ProvisioningState {
 }
 
 /**
- * POST actions result
+ * POST actions compliance result
  */
 @doc("The result of the last accepted operation")
-union ActionResult {
+union ComplianceResult {
   @doc("The action succeeded")
   Compliant: "Compliant",
 
   @doc("The action failed")
   NonCompliant: "NonCompliant",
+
+  string,
+}
+/**
+ * POST actions applicability result
+ */
+@doc("The applicability result of the last accepted operation")
+union ApplicabilityResult {
+  @doc("The action succeeded")
+  Applicable: "Applicable",
+
+  @doc("The action failed")
+  NotApplicable: "NotApplicable",
 
   string,
 }
@@ -262,7 +275,7 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   effectConfiguration?: string;
 
   @doc("The evaluation result")
-  result: ActionResult;
+  result: ComplianceResult;
 }
 
 /**
@@ -305,7 +318,7 @@ model ApplicabilityActionResponse
   effectConfiguration?: string;
 
   @doc("The evaluation result")
-  result: ActionResult;
+  result: ApplicabilityResult;
 }
 
 /**
@@ -348,7 +361,7 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   effectConfiguration?: string;
 
   @doc("The evaluation result")
-  result: ActionResult;
+  result: ApplicabilityResult;
 }
 
 // NOTE(chrostow): This is a template for resource list actions that return synchronously with no request body. This which will be added to the library at some point.
@@ -406,7 +419,7 @@ interface EvaluationEngineOperations {
 }
 
 @armResourceOperations
-interface EvaluationEnginePolcicyAssignmentOperations {
+interface EvaluationEnginePolicyAssignmentOperations {
   get is ArmResourceRead<EvaluationEnginePolicyAssignment>;
   create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyAssignment>;
   update is ArmResourcePatchSync<
@@ -418,7 +431,7 @@ interface EvaluationEnginePolcicyAssignmentOperations {
 }
 
 @armResourceOperations
-interface PolicyDefinitionOperations {
+interface EvaluationEnginePolicyDefinitionOperations {
   get is ArmResourceRead<EvaluationEnginePolicyDefinition>;
   create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyDefinition>;
   update is ArmResourcePatchSync<
