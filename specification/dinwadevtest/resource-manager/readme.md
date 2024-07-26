@@ -57,6 +57,14 @@ suppressions:
     reason: Canonical version is valid
 ```
 
+### Suppression
+
+``` yaml
+directive:
+  - suppress: BodyTopLevelProperties
+    from: openapi.json
+```
+
 ---
 
 # Code Generation
