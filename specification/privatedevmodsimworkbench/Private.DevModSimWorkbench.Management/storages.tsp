@@ -26,40 +26,35 @@ union StoragePerformanceTier {
 
   @doc("Ultra tier.")
   Ultra: "Ultra",
-
-  @doc("Premium tier.")
-  Premium: "Premium",
 }
 
 @doc("Storage properties.")
 model StorageProperties {
   ...StorageBaseProperties;
 
-  @removed(Versions.`2024-05-01-preview`)
-  @renamedFrom(Versions.`2024-05-01-preview`, "performanceTier")
-  @visibility("read", "create")
-  @doc("Performance tier of the chamber storage.")
-  oldPerformanceTier: StoragePerformanceTier = StoragePerformanceTier.Standard;
+  // Notes for ARM reviewers:
+  //    1) performanceTier will be part of top-level sku. We don't want duplicate.
+  //    2) ARM team strongly advised up NOT to have defaults for properties.
+  //    3) Below is an attempt to no longer have performanceTier default in new API version. But it seems to make it not valid in PATCH, error: Additional properties not allowed: performanceTier
+  //    4) We don't have an SDK yet. Preview customers exclusively use Portal for creating/updating MSWB resources.
 
-  @added(Versions.`2024-05-01-preview`)
+  // @removed(Versions.`2024-05-01-preview`)
+  // @renamedFrom(Versions.`2024-05-01-preview`, "performanceTier")
+  // @visibility("read", "create")
+  // @doc("Performance tier of the chamber storage.")
+  // oldPerformanceTier: StoragePerformanceTier = StoragePerformanceTier.Standard;
+
+  // @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("Performance tier of the chamber storage.")
-  performanceTier?: StoragePerformanceTier; // TODO: Deprecate. Use sku.tier.
-}
-
-@doc("Storage update properties.")
-model StorageUpdateProperties {
-  ...StorageBaseProperties;
-
-  @visibility("update")
-  @doc("Performance tier of the chamber storage.")
-  performanceTier?: StoragePerformanceTier;
+  performanceTier?: StoragePerformanceTier; // TODO: Deprecated. Use top-level sku.
 }
 
 @doc("Storage tracked resource.")
 @parentResource(Chamber)
 model Storage is TrackedResource<StorageProperties> {
   @doc("The name of the storage")
+  @visibility("read", "create")
   @segment("storages")
   @key("storageName")
   @TypeSpec.Http.path
@@ -81,8 +76,4 @@ model Storage is TrackedResource<StorageProperties> {
 
 @armResourceOperations
 interface Storages
-  extends NestedResourceOperations<
-      Storage,
-      StorageProperties,
-      StorageUpdateProperties
-    > {}
+  extends NestedResourceOperations<Storage, StorageProperties> {}

@@ -149,21 +149,19 @@ interface ProxyResourceOperations<T extends Azure.ResourceManager.Foundations.Pr
 @doc("Common interface for all tracked resources")
 interface BaseResourceOperations<
   T extends Azure.ResourceManager.Foundations.TrackedResource,
-  P extends TypeSpec.Reflection.Model,
-  U extends TypeSpec.Reflection.Model = P
+  P extends TypeSpec.Reflection.Model
 > {
   get is ArmResourceRead<T>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<T>;
-  update is ArmResourcePatchAsync<T, U>;
+  update is ArmResourcePatchAsync<T, P>;
   delete is ArmResourceDeleteWithoutOkAsync<T>;
 }
 
 @doc("Common interface of all nested resources")
 interface NestedResourceOperations<
   T extends Azure.ResourceManager.Foundations.TrackedResource,
-  P extends TypeSpec.Reflection.Model,
-  U extends TypeSpec.Reflection.Model = P
-> extends BaseResourceOperations<T, P, U> {
+  P extends TypeSpec.Reflection.Model
+> extends BaseResourceOperations<T, P> {
   list is ArmResourceListByParent<T>;
 }
 

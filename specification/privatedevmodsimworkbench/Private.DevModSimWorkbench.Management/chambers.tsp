@@ -156,13 +156,14 @@ model ChamberProperties {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
   @doc("SKU name.")
-  sku?: string;
+  sku?: string; // TODO: Deprecated. Use top-level sku.
 }
 
 @doc("Chamber tracked resource.")
 @parentResource(Workbench)
 model Chamber is TrackedResource<ChamberProperties> {
   @doc("The name of the Chamber")
+  @visibility("read", "create")
   @segment("chambers")
   @key("chamberName")
   @TypeSpec.Http.path
