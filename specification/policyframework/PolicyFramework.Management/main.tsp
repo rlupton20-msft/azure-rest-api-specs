@@ -174,6 +174,9 @@ union ComplianceResult {
   @doc("The action failed")
   NonCompliant: "NonCompliant",
 
+  @doc("The Unknown result")
+  Unknown: "Unknown",
+
   string,
 }
 /**
@@ -186,6 +189,9 @@ union ApplicabilityResult {
 
   @doc("The action failed")
   NotApplicable: "NotApplicable",
+
+  @doc("The Unknown result")
+  Unknown: "Unknown",
 
   string,
 }
