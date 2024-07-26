@@ -65,11 +65,11 @@ interface Instances {
   @doc("Returns details of specified Instance resource.")
   get is ArmResourceRead<Instance>;
   @doc("Creates new or updates existing Instance resource.")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<Instance>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
   @doc("Updates existing Instance resource.")
-  update is ArmCustomPatchSync<Instance>;
+  update is ArmCustomPatchAsync<Instance>;
   @doc("Deletes specified Instance resource.")
-  delete is ArmResourceDeleteSync<Instance>;
+  delete is ArmResourceDeleteWithoutOkAsync<Instance>;
   @doc("Returns a collection of Instances resources within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Instance>;
   @doc("Lists Instances resources within an Azure subscription.")

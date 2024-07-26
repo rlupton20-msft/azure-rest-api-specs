@@ -75,11 +75,11 @@ interface Targets {
   @doc("Returns details of specified Target resource.")
   get is Azure.ResourceManager.ArmResourceRead<Target>;
   @doc("Creates new or updates existing Target resource.")
-  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceSync<Target>;
+  createOrUpdate is Azure.ResourceManager.ArmResourceCreateOrReplaceAsync<Target>;
   @doc("Updates existing Target resource.")
-  update is ArmCustomPatchSync<Target>;
+  update is ArmCustomPatchAsync<Target>;
   @doc("Deletes specified Target resource.")
-  delete is ArmResourceDeleteSync<Target>;
+  delete is ArmResourceDeleteWithoutOkAsync<Target>;
   @doc("Returns a collection of Target resources within the resource group.")
   listByResourceGroup is Azure.ResourceManager.ArmResourceListByParent<Target>;
   @doc("Lists Targets resources within an Azure subscription.")

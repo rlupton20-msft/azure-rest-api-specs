@@ -102,12 +102,12 @@ model CalculationResourceProperties {
   redisProfile?: RedisProfile;
 
   @visibility("read")
-  @doc("Profile of App Gateway Created.")
-  appGatewayProfile?: AppGatewayProfile;
-
-  @visibility("read")
   @doc("Profile of Monitoring Resource Created.")
   monitoringProfile?: MonitoringProfile;
+
+  @visibility("read")
+  @doc("Profile of Azure FrontDoor Resource Created.")
+  azureFrontDoorProfile?: AzureFrontDoorProfile;
 }
 
 @doc("The properties related to Storage Resource")
@@ -131,17 +131,6 @@ model MonitoringProfile {
   id?: string;
 }
 
-@doc("The properties related to Azure App Gateway Resource")
-model AppGatewayProfile {
-  @doc("Resource Id of App Gateway Resource")
-  @visibility("read")
-  id?: string;
-
-  @doc("Frontend IP of App Gateway Resource")
-  @visibility("read")
-  publicip?: string;
-}
-
 @doc("The properties related to App Service Resource")
 model AppServiceProfile {
   @doc("Resource Id of App service Resource")
@@ -155,6 +144,13 @@ model AkvProfile {
   @visibility("read")
   id?: string;
 }
+
+@doc("The properties related to Azure FrontDoor Resource")
+model AzureFrontDoorProfile {
+  @doc("Resource Id of AzureFrontDoor Resource")
+  @visibility("read")
+  id?: string;
+  }
 
 @armResourceOperations(CalculationResource)
 interface Calculations  {
