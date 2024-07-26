@@ -31,7 +31,7 @@ union ProxyOracleSubscriptionProvisioningState {
 model ProxyOracleSubscriptionProperties {
  
   @doc("Parent SubscriptionId")
-  @visibility("read")
+  @visibility("read", "update")
   parentSubscriptionId?: string;
 
   @doc("OracleSubscriptionProvisioningState provisioning state")

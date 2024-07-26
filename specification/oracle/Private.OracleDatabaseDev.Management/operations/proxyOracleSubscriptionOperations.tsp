@@ -14,7 +14,7 @@ namespace Private.OracleDatabaseDev;
 interface ProxyOracleSubscriptionOperations extends OracleSubscriptionLevelResource<ProxyOracleSubscription, ProxyOracleSubscriptionProperties> {
  
 @doc("get cloud account info API")
-@example(
+@Autorest.example(
     "./examples/OracleCloudAccount_get.json", 
     "Get oracle subscription details of azure subscription"
 )

@@ -256,7 +256,7 @@
         "tags": [
           "AutonomousDatabaseCharacterSets"
         ],
-        "description": "List AutonomousDatabaseCharacterSet resources by Location",
+        "description": "List AutonomousDatabaseCharacterSet resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -345,7 +345,7 @@
         "tags": [
           "AutonomousDatabaseNationalCharacterSets"
         ],
-        "description": "List AutonomousDatabaseNationalCharacterSet resources by Location",
+        "description": "List AutonomousDatabaseNationalCharacterSet resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -434,7 +434,7 @@
         "tags": [
           "AutonomousDatabaseVersions"
         ],
-        "description": "List AutonomousDbVersion resources by Location",
+        "description": "List AutonomousDbVersion resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -523,7 +523,7 @@
         "tags": [
           "OracleCloudAccount"
         ],
-        "description": "List OracleCloudAccountDetails resources by Location",
+        "description": "List OracleCloudAccountDetails resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -607,7 +607,7 @@
         "tags": [
           "DbSystemShapes"
         ],
-        "description": "List DbSystemShape resources by Location",
+        "description": "List DbSystemShape resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -696,7 +696,7 @@
         "tags": [
           "DnsPrivateViews"
         ],
-        "description": "List DnsPrivateView resources by Location",
+        "description": "List DnsPrivateView resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -787,7 +787,7 @@
         "tags": [
           "DnsPrivateZones"
         ],
-        "description": "List DnsPrivateZone resources by Location",
+        "description": "List DnsPrivateZone resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -876,7 +876,7 @@
         "tags": [
           "GiVersions"
         ],
-        "description": "List GiVersion resources by Location",
+        "description": "List GiVersion resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -965,7 +965,7 @@
         "tags": [
           "SystemVersions"
         ],
-        "description": "List SystemVersion resources by Location",
+        "description": "List SystemVersion resources by SubscriptionLocationResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2110,7 +2110,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups": {
       "get": {
-        "operationId": "AutonomousDatabaseBackups_ListByAutonomousDatabase",
+        "operationId": "AutonomousDatabaseBackups_ListByParent",
         "tags": [
           "AutonomousDatabaseBackups"
         ],
@@ -3112,7 +3112,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/dbServers": {
       "get": {
-        "operationId": "DbServers_ListByCloudExadataInfrastructure",
+        "operationId": "DbServers_ListByParent",
         "tags": [
           "DbServers"
         ],
@@ -3589,7 +3589,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/dbNodes": {
       "get": {
-        "operationId": "DbNodes_ListByCloudVmCluster",
+        "operationId": "DbNodes_ListByParent",
         "tags": [
           "DbNodes"
         ],
@@ -3917,7 +3917,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses": {
       "get": {
-        "operationId": "VirtualNetworkAddresses_ListByCloudVmCluster",
+        "operationId": "VirtualNetworkAddresses_ListByParent",
         "tags": [
           "VirtualNetworkAddresses"
         ],
@@ -4286,8 +4286,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AutonomousDatabaseBaseProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -4302,8 +4301,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AutonomousDatabaseBackupProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -4506,31 +4504,18 @@
     },
     "AutonomousDatabaseBackupUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the AutonomousDatabaseBackup.",
+      "description": "AutonomousDatabaseBackup resource definition",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/AutonomousDatabaseBackupUpdateProperties",
-          "x-ms-client-flatten": true
+          "$ref": "#/definitions/AutonomousDatabaseBackupProperties",
+          "description": "The resource-specific properties for this resource."
         }
-      }
-    },
-    "AutonomousDatabaseBackupUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the AutonomousDatabaseBackup.",
-      "properties": {
-        "retentionPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Retention period, in days, for long-term backups.",
-          "minimum": 60,
-          "maximum": 3650,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
-      }
+      ]
     },
     "AutonomousDatabaseBaseProperties": {
       "type": "object",
@@ -5105,8 +5090,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AutonomousDatabaseCharacterSetProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -5397,8 +5381,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AutonomousDatabaseNationalCharacterSetProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -5494,7 +5477,7 @@
         },
         "properties": {
           "$ref": "#/definitions/AutonomousDatabaseUpdateProperties",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       }
     },
@@ -5751,8 +5734,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AutonomousDbVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -6007,8 +5989,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CloudExadataInfrastructureProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "zones": {
           "type": "array",
@@ -6342,7 +6323,7 @@
         },
         "properties": {
           "$ref": "#/definitions/CloudExadataInfrastructureUpdateProperties",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       }
     },
@@ -6411,8 +6392,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CloudVmClusterProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -6861,7 +6841,7 @@
         },
         "properties": {
           "$ref": "#/definitions/CloudVmClusterUpdateProperties",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       }
     },
@@ -7322,8 +7302,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DbNodeProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -7626,8 +7605,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DbServerProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -7907,8 +7885,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DbSystemShapeProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -8122,8 +8099,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DnsPrivateViewProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -8250,8 +8226,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DnsPrivateZoneProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -8506,8 +8481,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/GiVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -9002,8 +8976,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/OracleCloudAccountProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -9061,8 +9034,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/OracleSubscriptionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "plan": {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Plan",
@@ -9203,7 +9175,7 @@
         },
         "properties": {
           "$ref": "#/definitions/OracleSubscriptionUpdateProperties",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       }
     },
@@ -9474,8 +9446,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ProxyOracleSubscriptionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -9512,7 +9483,10 @@
         "parentSubscriptionId": {
           "type": "string",
           "description": "Parent SubscriptionId",
-          "readOnly": true
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         },
         "provisioningState": {
           "$ref": "#/definitions/ProxyOracleSubscriptionProvisioningState",
@@ -9554,7 +9528,27 @@
     },
     "ProxyOracleSubscriptionUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the ProxyOracleSubscription."
+      "description": "The type used for update operations of the ProxyOracleSubscription.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ProxyOracleSubscriptionUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "ProxyOracleSubscriptionUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the ProxyOracleSubscription.",
+      "properties": {
+        "parentSubscriptionId": {
+          "type": "string",
+          "description": "Parent SubscriptionId",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        }
+      }
     },
     "RefreshableModelType": {
       "type": "string",
@@ -9969,8 +9963,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SystemVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -10163,8 +10156,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/VirtualNetworkAddressProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
