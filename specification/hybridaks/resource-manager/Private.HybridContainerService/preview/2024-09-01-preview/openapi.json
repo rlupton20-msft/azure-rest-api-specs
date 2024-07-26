@@ -1781,6 +1781,27 @@
         }
       }
     },
+    "AzureBlobWitnessProfile": {
+      "type": "object",
+      "description": "The witness settings of Azure Blob storage for 2-node support.",
+      "properties": {
+        "sasToken": {
+          "type": "string",
+          "description": "The SAS token to access the Azure Blob storage for 2-node witness settings.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBlob"
+    },
     "CloudProviderProfile": {
       "type": "object",
       "description": "The profile for the underlying cloud infrastructure provider for the provisioned cluster.",
@@ -1843,6 +1864,10 @@
         "controlPlaneEndpoint": {
           "$ref": "#/definitions/ControlPlaneProfileControlPlaneEndpoint",
           "description": "IP Address of the Kubernetes API server"
+        },
+        "witness": {
+          "$ref": "#/definitions/WitnessProfile",
+          "description": "The witness settings for 2-node support."
         }
       }
     },
@@ -1994,6 +2019,30 @@
           "description": "Provisioning state of the resource",
           "readOnly": true
         }
+      }
+    },
+    "KubernetesDistribution": {
+      "type": "string",
+      "description": "The kubernetes distribution",
+      "enum": [
+        "K8s",
+        "K3s"
+      ],
+      "x-ms-enum": {
+        "name": "KubernetesDistribution",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "K8s",
+            "value": "K8s",
+            "description": "K8s kubernetes distribution"
+          },
+          {
+            "name": "K3s",
+            "value": "K3s",
+            "description": "K3s kubernetes distribution"
+          }
+        ]
       }
     },
     "KubernetesPatchVersions": {
@@ -2310,6 +2359,30 @@
         }
       }
     },
+    "NetworkPolicy": {
+      "type": "string",
+      "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
+      "enum": [
+        "calico",
+        "cilium"
+      ],
+      "x-ms-enum": {
+        "name": "NetworkPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "calico",
+            "value": "calico",
+            "description": "Use the calico policy"
+          },
+          {
+            "name": "cilium",
+            "value": "cilium",
+            "description": "Use the cilium policy"
+          }
+        ]
+      }
+    },
     "NetworkProfile": {
       "type": "object",
       "description": "The network configuration profile for the provisioned cluster.",
@@ -2319,27 +2392,19 @@
           "description": "Profile of the HA Proxy load balancer."
         },
         "networkPolicy": {
-          "type": "string",
-          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
-          "default": "calico",
-          "enum": [
-            "calico"
-          ],
-          "x-ms-enum": {
-            "name": "NetworkPolicy",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "calico",
-                "value": "calico",
-                "description": "Use the calico policy"
-              }
-            ]
-          }
+          "$ref": "#/definitions/NetworkPolicy",
+          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'."
         },
         "podCidr": {
           "type": "string",
           "description": "A CIDR notation IP Address range from which to assign pod IPs."
+        },
+        "cniConfigurations": {
+          "type": "object",
+          "description": "CNI Configuration for different Container Network Interfaces.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -2353,6 +2418,16 @@
           "description": "Number of HA Proxy load balancer VMs. The default value is 0."
         }
       }
+    },
+    "NfsWitnessProfile": {
+      "type": "object",
+      "description": "The witness settings of NFS file share for 2-node support.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "NFS"
     },
     "OSSKU": {
       "type": "string",
@@ -2543,6 +2618,10 @@
         "kubernetesVersion": {
           "type": "string",
           "description": "The version of Kubernetes in use by the provisioned cluster."
+        },
+        "kubernetesDistribution": {
+          "$ref": "#/definitions/KubernetesDistribution",
+          "description": "The distribution of Kubernetes in use by the provisioned cluster."
         },
         "networkProfile": {
           "$ref": "#/definitions/NetworkProfile",
@@ -2879,6 +2958,34 @@
         ]
       },
       "readOnly": true
+    },
+    "SMBWitnessProfile": {
+      "type": "object",
+      "description": "The witness settings of SMB file share for 2-node support.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The user name of SMB file share for 2-node witness settings."
+        },
+        "password": {
+          "type": "string",
+          "description": "The password of SMB file share for the 2-node witness settings.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "required": [
+        "userName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "SMB"
     },
     "StorageProfile": {
       "type": "object",
@@ -3260,6 +3367,55 @@
           "description": "The size of the VM SKU",
           "readOnly": true
         }
+      }
+    },
+    "WitnessProfile": {
+      "type": "object",
+      "description": "The witness profile definition for 2-node support.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WitnessType",
+          "description": "The witness type value for 2-node support."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The witness endpoint value for 2-node support."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type",
+        "endpoint"
+      ]
+    },
+    "WitnessType": {
+      "type": "string",
+      "description": "The Enum value of the witness types for 2-node support.",
+      "enum": [
+        "NFS",
+        "SMB",
+        "AzureBlob"
+      ],
+      "x-ms-enum": {
+        "name": "WitnessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NFS",
+            "value": "NFS",
+            "description": "The witness type of NFS file share for 2-node support."
+          },
+          {
+            "name": "SMB",
+            "value": "SMB",
+            "description": "The witness type of SMB file share for 2-node support."
+          },
+          {
+            "name": "AzureBlob",
+            "value": "AzureBlob",
+            "description": "The witness type of Azure Blob storage for 2-node support."
+          }
+        ]
       }
     }
   },
