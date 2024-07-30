@@ -797,6 +797,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1185,6 +1188,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1517,6 +1523,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1809,6 +1818,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1850,7 +1862,7 @@
         "tags": [
           "EnclaveConnection"
         ],
-        "description": "Upon getting desired approvals this faciliates actions on approvals",
+        "description": "Callback that triggers on approval state change.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2175,6 +2187,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -2467,6 +2482,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -2759,6 +2777,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3091,6 +3112,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3423,6 +3447,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3755,6 +3782,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3815,10 +3845,10 @@
         },
         "approvalStatus": {
           "type": "string",
-          "description": "Approval status indicating 'Approved' or 'Declined'",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
           "enum": [
             "Approved",
-            "Declined"
+            "Rejected"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -3842,6 +3872,47 @@
       },
       "required": [
         "message"
+      ]
+    },
+    "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
       ]
     },
     "CheckAddressSpaceAvailabilityRequest": {
@@ -3934,12 +4005,37 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       },
       "required": [
         "ruleCollection"
       ]
+    },
+    "CommunityEndpointPropertiesUpdate": {
+      "type": "object",
+      "description": "Community Endpoint Resource properties",
+      "properties": {
+        "ruleCollection": {
+          "type": "array",
+          "description": "Community Endpoint Rule Collection.",
+          "items": {
+            "$ref": "#/definitions/CommunityEndpointDestinationRule"
+          },
+          "x-ms-identifiers": []
+        },
+        "resourceCollection": {
+          "type": "array",
+          "description": "List of resource ids created by community endpoint.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection (True or False)."
+        }
+      }
     },
     "CommunityEndpointProtocol": {
       "type": "string",
@@ -4040,45 +4136,19 @@
     },
     "CommunityEndpointResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the CommunityEndpointResource.",
+      "description": "CommunityEndpoint Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/CommunityEndpointResourceUpdateProperties",
+          "$ref": "#/definitions/CommunityEndpointPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "CommunityEndpointResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the CommunityEndpointResource.",
-      "properties": {
-        "ruleCollection": {
-          "type": "array",
-          "description": "Community Endpoint Rule Collection.",
-          "items": {
-            "$ref": "#/definitions/CommunityEndpointDestinationRule"
-          },
-          "x-ms-identifiers": []
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by community endpoint.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "approvalRequired": {
-          "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "CommunityProperties": {
       "type": "object",
@@ -4128,6 +4198,10 @@
           "$ref": "#/definitions/CommunityProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -4171,55 +4245,23 @@
     },
     "CommunityResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the CommunityResource.",
+      "description": "Community Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/CommunityResourceUpdateProperties",
+          "$ref": "#/definitions/CommunityProperties",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
-      }
-    },
-    "CommunityResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the CommunityResource.",
-      "properties": {
-        "addressSpace": {
-          "type": "string",
-          "description": "Address Space."
-        },
-        "dnsServers": {
-          "type": "array",
-          "description": "Dns Servers.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by communities.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "managedResourceGroupConfiguration": {
-          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
-        },
-        "governedServiceList": {
-          "type": "array",
-          "description": "List of services governed by a community.",
-          "items": {
-            "$ref": "#/definitions/GovernedServiceItem"
-          }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "DestinationEndpointResourceId": {
       "type": "string",
@@ -4363,6 +4405,43 @@
         "destinationEndpointId"
       ]
     },
+    "EnclaveConnectionPropertiesUpdate": {
+      "type": "object",
+      "description": "Enclave Connection Resource properties",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/EnclaveConnectionState",
+          "description": "The state of the enclaveConnection."
+        },
+        "communityResourceId": {
+          "$ref": "#/definitions/CommunityResourceId",
+          "description": "Community Resource Id."
+        },
+        "sourceResourceId": {
+          "$ref": "#/definitions/EnclaveConnectionSourceResourceId",
+          "description": "Source Resource Id."
+        },
+        "sourceCidr": {
+          "type": "string",
+          "description": "Source CIDR."
+        },
+        "ipGroup": {
+          "$ref": "#/definitions/IPGroupResourceId",
+          "description": "Source IP group Resource Id."
+        },
+        "destinationEndpointId": {
+          "$ref": "#/definitions/DestinationEndpointResourceId",
+          "description": "Destination Endpoint Resource Id."
+        },
+        "resourceCollection": {
+          "type": "array",
+          "description": "List of resource ids modified by enclave Connections.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "EnclaveConnectionResource": {
       "type": "object",
       "description": "EnclaveConnection Model Resource",
@@ -4402,57 +4481,19 @@
     },
     "EnclaveConnectionResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the EnclaveConnectionResource.",
+      "description": "EnclaveConnection Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/EnclaveConnectionResourceUpdateProperties",
+          "$ref": "#/definitions/EnclaveConnectionPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "EnclaveConnectionResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the EnclaveConnectionResource.",
-      "properties": {
-        "state": {
-          "$ref": "#/definitions/EnclaveConnectionState",
-          "description": "The state of the enclaveConnection."
-        },
-        "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
-        },
-        "sourceResourceId": {
-          "$ref": "#/definitions/EnclaveConnectionSourceResourceId",
-          "description": "Source Resource Id."
-        },
-        "sourceCidr": {
-          "type": "string",
-          "description": "Source CIDR."
-        },
-        "ipGroup": {
-          "$ref": "#/definitions/IPGroupResourceId",
-          "description": "Source IP group Resource Id."
-        },
-        "destinationEndpointId": {
-          "$ref": "#/definitions/DestinationEndpointResourceId",
-          "description": "Destination Endpoint Resource Id."
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids modified by enclave Connections.",
-          "items": {
-            "type": "string"
-          }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "EnclaveConnectionSourceResourceId": {
       "type": "string",
@@ -4599,12 +4640,37 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       },
       "required": [
         "ruleCollection"
       ]
+    },
+    "EnclaveEndpointPropertiesUpdate": {
+      "type": "object",
+      "description": "Enclave Endpoint Resource properties",
+      "properties": {
+        "ruleCollection": {
+          "type": "array",
+          "description": "Enclave Endpoint Rule Collection.",
+          "items": {
+            "$ref": "#/definitions/EnclaveEndpointDestinationRule"
+          },
+          "x-ms-identifiers": []
+        },
+        "resourceCollection": {
+          "type": "array",
+          "description": "List of resource ids created by community endpoint.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approvalRequired": {
+          "type": "boolean",
+          "description": "Whether approval is needed for the connection (True or False)."
+        }
+      }
     },
     "EnclaveEndpointProtocol": {
       "type": "string",
@@ -4693,45 +4759,19 @@
     },
     "EnclaveEndpointResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the EnclaveEndpointResource.",
+      "description": "EnclaveEndpoint Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/EnclaveEndpointResourceUpdateProperties",
+          "$ref": "#/definitions/EnclaveEndpointPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "EnclaveEndpointResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the EnclaveEndpointResource.",
-      "properties": {
-        "ruleCollection": {
-          "type": "array",
-          "description": "Enclave Endpoint Rule Collection.",
-          "items": {
-            "$ref": "#/definitions/EnclaveEndpointDestinationRule"
-          },
-          "x-ms-identifiers": []
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by community endpoint.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "approvalRequired": {
-          "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "EnclaveResource": {
       "type": "object",
@@ -4741,6 +4781,10 @@
           "$ref": "#/definitions/VirtualEnclaveProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -4772,53 +4816,23 @@
     },
     "EnclaveResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the EnclaveResource.",
+      "description": "Virtual Enclave Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/EnclaveResourceUpdateProperties",
+          "$ref": "#/definitions/VirtualEnclavePropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
-      }
-    },
-    "EnclaveResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the EnclaveResource.",
-      "properties": {
-        "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetworkUpdate",
-          "description": "Virtual Network."
-        },
-        "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
-        },
-        "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
-          "description": "Default Settings"
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by Virtual Enclave.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "managedResourceGroupConfiguration": {
-          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
-        },
-        "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
-          "description": "Maintenance Mode configuration."
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "EnclaveVirtualNetwork": {
       "type": "object",
@@ -5009,36 +5023,19 @@
     },
     "EndpointResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the EndpointResource.",
+      "description": "Endpoint Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/EndpointResourceUpdateProperties",
+          "$ref": "#/definitions/EndpointProperties",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "EndpointResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the EndpointResource.",
-      "properties": {
-        "endpointRuleCollection": {
-          "type": "array",
-          "description": "Endpoint Rule Collection.",
-          "items": {
-            "$ref": "#/definitions/EndpointRule"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "EndpointRule": {
       "type": "object",
@@ -5059,24 +5056,6 @@
         "protocol": {
           "$ref": "#/definitions/EndpointProtocol",
           "description": "Protocol. Options specified by Endpoint Protocol Enum."
-        }
-      }
-    },
-    "EndpointRuleBase": {
-      "type": "object",
-      "description": "Base Endpoint Rule Properties",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Endpoint Rule Name."
-        },
-        "destination": {
-          "type": "string",
-          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
-        },
-        "port": {
-          "type": "string",
-          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
         }
       }
     },
@@ -5162,56 +5141,9 @@
         "externalCidrs"
       ]
     },
-    "ExternalConnectionState": {
-      "type": "string",
-      "description": "Specifies the state of the externalConnection.",
-      "enum": [
-        "Pending",
-        "Approved",
-        "Active"
-      ],
-      "x-ms-enum": {
-        "name": "ExternalConnectionState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Pending",
-            "value": "Pending",
-            "description": "ExternalConnectionState Type Pending"
-          },
-          {
-            "name": "Approved",
-            "value": "Approved",
-            "description": "ExternalConnectionState Type Approved"
-          },
-          {
-            "name": "Active",
-            "value": "Active",
-            "description": "ExternalConnectionState Type Active"
-          }
-        ]
-      }
-    },
-    "ExternalConnectionUpdate": {
+    "ExternalConnectionPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the ExternalConnection.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/ExternalConnectionUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "ExternalConnectionUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the ExternalConnection.",
+      "description": "Describes the properties of an External Connection.",
       "properties": {
         "state": {
           "$ref": "#/definitions/ExternalConnectionState",
@@ -5244,12 +5176,58 @@
         }
       }
     },
+    "ExternalConnectionState": {
+      "type": "string",
+      "description": "Specifies the state of the externalConnection.",
+      "enum": [
+        "Pending",
+        "Approved",
+        "Active"
+      ],
+      "x-ms-enum": {
+        "name": "ExternalConnectionState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "ExternalConnectionState Type Pending"
+          },
+          {
+            "name": "Approved",
+            "value": "Approved",
+            "description": "ExternalConnectionState Type Approved"
+          },
+          {
+            "name": "Active",
+            "value": "Active",
+            "description": "ExternalConnectionState Type Active"
+          }
+        ]
+      }
+    },
+    "ExternalConnectionUpdate": {
+      "type": "object",
+      "description": "Describes an External Connection.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ExternalConnectionPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "GovernedServiceItem": {
       "type": "object",
       "description": "GovernedServiceItem Properties",
       "properties": {
         "id": {
-          "type": "string",
+          "$ref": "#/definitions/ServiceIdentifier",
           "description": "service id"
         },
         "name": {
@@ -5287,13 +5265,16 @@
         },
         "initiatives": {
           "type": "array",
-          "description": "initatives associated with this service",
+          "description": "initiatives associated with this service",
           "items": {
             "type": "string"
           },
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "id"
+      ]
     },
     "IPGroupResourceId": {
       "type": "string",
@@ -5401,6 +5382,50 @@
         "sourceCidrs"
       ]
     },
+    "InternalConnectionPropertiesUpdate": {
+      "type": "object",
+      "description": "Describes the properties of an Internal Connection.",
+      "properties": {
+        "connectionType": {
+          "$ref": "#/definitions/InternalConnectionType",
+          "description": "Specifies the type of internal connection. \n Possible values are:\n PrivateLink \n NetworkSecurityGroup"
+        },
+        "state": {
+          "$ref": "#/definitions/InternalConnectionState",
+          "description": "The state of the internalConnection."
+        },
+        "communityResourceId": {
+          "$ref": "#/definitions/CommunityResourceId",
+          "description": "Community Resource Id."
+        },
+        "destinationEnclaveId": {
+          "$ref": "#/definitions/VirtualEnclaveResourceId",
+          "description": "The destination enclave's resource ID."
+        },
+        "destinationEndpointId": {
+          "$ref": "#/definitions/EndpointResourceId",
+          "description": "The destination endpoint's resource ID."
+        },
+        "sourceEnclaveId": {
+          "$ref": "#/definitions/VirtualEnclaveResourceId",
+          "description": "The source enclave's resource ID."
+        },
+        "sourceCidrs": {
+          "type": "array",
+          "description": "The source CIDR IP addresses.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resourceCollection": {
+          "type": "array",
+          "description": "List of resource ids modified by internalConnections.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "InternalConnectionState": {
       "type": "string",
       "description": "Specifies the state of the internalConnection.",
@@ -5469,64 +5494,19 @@
     },
     "InternalConnectionUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the InternalConnection.",
+      "description": "Describes an Internal Connection.",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/InternalConnectionUpdateProperties",
+          "$ref": "#/definitions/InternalConnectionPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "InternalConnectionUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the InternalConnection.",
-      "properties": {
-        "connectionType": {
-          "$ref": "#/definitions/InternalConnectionType",
-          "description": "Specifies the type of internal connection. \n Possible values are:\n PrivateLink \n NetworkSecurityGroup"
-        },
-        "state": {
-          "$ref": "#/definitions/InternalConnectionState",
-          "description": "The state of the internalConnection."
-        },
-        "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
-        },
-        "destinationEnclaveId": {
-          "$ref": "#/definitions/VirtualEnclaveResourceId",
-          "description": "The destination enclave's resource ID."
-        },
-        "destinationEndpointId": {
-          "$ref": "#/definitions/EndpointResourceId",
-          "description": "The destination endpoint's resource ID."
-        },
-        "sourceEnclaveId": {
-          "$ref": "#/definitions/VirtualEnclaveResourceId",
-          "description": "The source enclave's resource ID."
-        },
-        "sourceCidrs": {
-          "type": "array",
-          "description": "The source CIDR IP addresses.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids modified by internalConnections.",
-          "items": {
-            "type": "string"
-          }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "KeyVaultResourceId": {
       "type": "string",
@@ -5643,18 +5623,6 @@
         }
       }
     },
-    "NsgResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Network/networkSecurityGroups"
-          }
-        ]
-      }
-    },
     "Principal": {
       "type": "object",
       "description": "Principal for Maintenance Mode",
@@ -5763,6 +5731,109 @@
             "description": "Provisioning State Type Updating"
           }
         ]
+      },
+      "readOnly": true
+    },
+    "ServiceIdentifier": {
+      "type": "string",
+      "description": "Identifier for governed services.",
+      "enum": [
+        "AKS",
+        "AppService",
+        "AzureFirewalls",
+        "ContainerRegistry",
+        "CosmosDB",
+        "DataConnectors",
+        "Insights",
+        "KeyVault",
+        "Logic",
+        "MicrosoftSQL",
+        "Monitoring",
+        "PostgreSQL",
+        "PrivateDNSZones",
+        "ServiceBus",
+        "Storage"
+      ],
+      "x-ms-enum": {
+        "name": "ServiceIdentifier",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AKS",
+            "value": "AKS",
+            "description": "Service identifier for AKS"
+          },
+          {
+            "name": "AppService",
+            "value": "AppService",
+            "description": "Service identifier for App Service"
+          },
+          {
+            "name": "AzureFirewalls",
+            "value": "AzureFirewalls",
+            "description": "Service identifier for Azure Firewalls"
+          },
+          {
+            "name": "ContainerRegistry",
+            "value": "ContainerRegistry",
+            "description": "Service identifier for Container Registry"
+          },
+          {
+            "name": "CosmosDB",
+            "value": "CosmosDB",
+            "description": "Service identifier for CosmosDB"
+          },
+          {
+            "name": "DataConnectors",
+            "value": "DataConnectors",
+            "description": "Service identifier for Data Connectors"
+          },
+          {
+            "name": "Insights",
+            "value": "Insights",
+            "description": "Service identifier for Insights"
+          },
+          {
+            "name": "KeyVault",
+            "value": "KeyVault",
+            "description": "Service identifier for Key Vault"
+          },
+          {
+            "name": "Logic",
+            "value": "Logic",
+            "description": "Service identifier for Logic"
+          },
+          {
+            "name": "MicrosoftSql",
+            "value": "MicrosoftSQL",
+            "description": "Service identifier for Microsoft SQL"
+          },
+          {
+            "name": "Monitoring",
+            "value": "Monitoring",
+            "description": "Service identifier for Monitoring"
+          },
+          {
+            "name": "PostgreSql",
+            "value": "PostgreSQL",
+            "description": "Service identifier for PostgreSQL"
+          },
+          {
+            "name": "PrivateDNSZones",
+            "value": "PrivateDNSZones",
+            "description": "Service identifier for Private DNS Zones"
+          },
+          {
+            "name": "ServiceBus",
+            "value": "ServiceBus",
+            "description": "Service identifier for Service Bus"
+          },
+          {
+            "name": "Storage",
+            "value": "Storage",
+            "description": "Service identifier for Storage"
+          }
+        ]
       }
     },
     "StorageAccountResourceId": {
@@ -5787,13 +5858,14 @@
         },
         "id": {
           "type": "string",
+          "format": "arm-id",
           "description": "Subnet ID.",
           "readOnly": true
         },
         "networkPrefixSize": {
           "type": "integer",
           "format": "int32",
-          "description": "Network Prefix Size."
+          "description": "Network prefix size."
         },
         "subnetDelegation": {
           "type": "string",
@@ -5806,6 +5878,7 @@
         },
         "networkSecurityGroupId": {
           "type": "string",
+          "format": "arm-id",
           "description": "Network security group ID.",
           "readOnly": true
         }
@@ -5892,41 +5965,19 @@
     },
     "TransitHubResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the TransitHubResource.",
+      "description": "TransitHub Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/TransitHubResourceUpdateProperties",
+          "$ref": "#/definitions/TransitHubProperties",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "TransitHubResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the TransitHubResource.",
-      "properties": {
-        "state": {
-          "$ref": "#/definitions/TransitHubState",
-          "description": "The state of the transitHub."
-        },
-        "transitOption": {
-          "$ref": "#/definitions/TransitOption",
-          "description": "The TransitOption of the transitHub."
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids modified by transitHubs.",
-          "items": {
-            "type": "string"
-          }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "TransitHubState": {
       "type": "string",
@@ -6069,12 +6120,53 @@
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfiguration",
           "description": "Maintenance Mode configuration."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
         }
       },
       "required": [
         "enclaveVirtualNetwork",
         "communityResourceId"
       ]
+    },
+    "VirtualEnclavePropertiesUpdate": {
+      "type": "object",
+      "description": "Virtual Enclave Resource properties",
+      "properties": {
+        "enclaveVirtualNetwork": {
+          "$ref": "#/definitions/EnclaveVirtualNetworkUpdate",
+          "description": "Virtual Network."
+        },
+        "communityResourceId": {
+          "$ref": "#/definitions/CommunityResourceId",
+          "description": "Community Resource Id."
+        },
+        "enclaveDefaultSettings": {
+          "$ref": "#/definitions/EnclaveDefaultSettings",
+          "description": "Default Settings"
+        },
+        "resourceCollection": {
+          "type": "array",
+          "description": "List of resource ids created by Virtual Enclave.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "managedResourceGroupConfiguration": {
+          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
+          "description": "Managed resource group configuration."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
+          "description": "Maintenance Mode configuration."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
+        }
+      }
     },
     "VirtualEnclaveResourceId": {
       "type": "string",
@@ -6145,33 +6237,19 @@
     },
     "WorkloadResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the WorkloadResource.",
+      "description": "Workload Model Resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
-          "$ref": "#/definitions/WorkloadResourceUpdateProperties",
+          "$ref": "#/definitions/WorkloadProperties",
+          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
-      }
-    },
-    "WorkloadResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the WorkloadResource.",
-      "properties": {
-        "resourceGroupCollection": {
-          "type": "array",
-          "description": "List of resource group ids.",
-          "items": {
-            "type": "string"
-          }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     }
   },
   "parameters": {}

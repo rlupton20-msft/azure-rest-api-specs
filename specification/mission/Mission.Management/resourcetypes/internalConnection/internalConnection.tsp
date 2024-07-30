@@ -23,12 +23,16 @@ union InternalConnectionType {
   @doc("InternalConnectionType Type NetworkSecurityGroup.")
   NetworkSecurityGroup: "NetworkSecurityGroup",
 
-  string
+  string,
 }
 
 @doc("Specifies the state of the internalConnection.")
 union InternalConnectionState {
-  @renamedFrom(Microsoft.Mission.Versions.v2023_08_01_preview, "Pending")
+  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
+  @doc("InternalConnectionState Type Pending")
+  Pending: "Pending",
+
+  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("InternalConnectionState Type Pending Approval")
   PendingApproval: "PendingApproval",
 
@@ -46,7 +50,7 @@ union InternalConnectionState {
   @doc("InternalConnectionState Type Failed")
   Failed: "Failed",
 
-  string
+  string,
 }
 
 @doc("Describes the properties of an Internal Connection.")

@@ -26,7 +26,7 @@ union ExternalConnectionState {
   @doc("ExternalConnectionState Type Active")
   Active: "Active",
 
-  string
+  string,
 }
 
 @doc("Describes the properties of an External Connection.")
