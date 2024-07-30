@@ -1264,13 +1264,28 @@
           "description": "Azure Resource Manager metadata containing createdBy and modifiedBy information.",
           "readOnly": true
         },
-        "scope": {
-          "type": "string",
-          "description": "The applicability scope"
+        "scopes": {
+          "type": "array",
+          "description": "The applicability scope",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notScopes": {
+          "type": "array",
+          "description": "The applicability notScopes",
+          "items": {
+            "type": "string"
+          }
         },
         "parameters": {
-          "type": "string",
+          "type": "object",
           "description": "The applicability parameters"
+        },
+        "description": {
+          "type": "string",
+          "description": "The applicability response description",
+          "pattern": "^[a-zA-Z0-9 ]{3,250}$"
         },
         "policyDefinitionId": {
           "type": "string",
@@ -1294,11 +1309,11 @@
         },
         "result": {
           "$ref": "#/definitions/ApplicabilityResult",
-          "description": "The evaluation result"
+          "description": "The applicability result"
         }
       },
       "required": [
-        "scope",
+        "scopes",
         "applicabilityRule",
         "effectRule",
         "result"
@@ -1340,12 +1355,12 @@
           {
             "name": "Applicable",
             "value": "Applicable",
-            "description": "The action succeeded"
+            "description": "Found to be applicable"
           },
           {
             "name": "NotApplicable",
             "value": "NotApplicable",
-            "description": "The action failed"
+            "description": "Found to not be applicable"
           },
           {
             "name": "Unknown",
@@ -1370,12 +1385,12 @@
           {
             "name": "Compliant",
             "value": "Compliant",
-            "description": "The action succeeded"
+            "description": "The resource is compliant"
           },
           {
             "name": "NonCompliant",
             "value": "NonCompliant",
-            "description": "The action failed"
+            "description": "The resource is non-compliant"
           },
           {
             "name": "Unknown",
@@ -1441,13 +1456,28 @@
           "description": "Azure Resource Manager metadata containing createdBy and modifiedBy information.",
           "readOnly": true
         },
-        "scope": {
-          "type": "string",
-          "description": "The evaluation scope"
+        "scopes": {
+          "type": "array",
+          "description": "The evaluation scopes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notScopes": {
+          "type": "array",
+          "description": "The evaluation notScopes",
+          "items": {
+            "type": "string"
+          }
         },
         "parameters": {
-          "type": "string",
+          "type": "object",
           "description": "the evaluation parameters"
+        },
+        "description": {
+          "type": "string",
+          "description": "The evaluation response description",
+          "pattern": "^[a-zA-Z0-9 ]{3,250}$"
         },
         "policyDefinitionId": {
           "type": "string",
@@ -1475,7 +1505,7 @@
         }
       },
       "required": [
-        "scope",
+        "scopes",
         "applicabilityRule",
         "effectRule",
         "result"
@@ -1824,8 +1854,20 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State",
           "readOnly": true
+        },
+        "scopeConfiguration": {
+          "type": "object",
+          "description": "The scope configuration of the evaluation engine."
+        },
+        "regoConfig": {
+          "type": "object",
+          "description": "The rego configuration of the evaluation engine."
         }
-      }
+      },
+      "required": [
+        "scopeConfiguration",
+        "regoConfig"
+      ]
     },
     "EvaluationEngineUpdate": {
       "type": "object",
@@ -1837,6 +1879,24 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "properties": {
+          "$ref": "#/definitions/EvaluationEngineUpdateProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EvaluationEngineUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the EvaluationEngine.",
+      "properties": {
+        "scopeConfiguration": {
+          "type": "object",
+          "description": "The scope configuration of the evaluation engine."
+        },
+        "regoConfig": {
+          "type": "object",
+          "description": "The rego configuration of the evaluation engine."
         }
       }
     },
@@ -2018,12 +2078,27 @@
           "description": "Azure Resource Manager metadata containing createdBy and modifiedBy information.",
           "readOnly": true
         },
-        "scope": {
+        "scopes": {
+          "type": "array",
+          "description": "The transpile scope",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notScopes": {
+          "type": "array",
+          "description": "The transpile notScopes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
           "type": "string",
-          "description": "The transpile scope"
+          "description": "The transpile response description",
+          "pattern": "^[a-zA-Z0-9 ]{3,250}$"
         },
         "parameters": {
-          "type": "string",
+          "type": "object",
           "description": "The transpile parameters"
         },
         "policyDefinitionId": {
@@ -2048,11 +2123,11 @@
         },
         "result": {
           "$ref": "#/definitions/ApplicabilityResult",
-          "description": "The evaluation result"
+          "description": "The applicability result"
         }
       },
       "required": [
-        "scope",
+        "scopes",
         "applicabilityRule",
         "effectRule",
         "result"

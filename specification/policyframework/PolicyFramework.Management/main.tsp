@@ -38,7 +38,12 @@ model EvaluationEngineProperties {
   @doc("Provisioning State")
   @visibility("read")
   provisioningState?: ProvisioningState;
-  // TODO: complete later with sample properties
+
+  @doc("The scope configuration of the evaluation engine.")
+  scopeConfiguration: {};
+
+  @doc("The rego configuration of the evaluation engine.")
+  regoConfig: {};
 }
 
 @doc("The evaluation engine")
@@ -168,10 +173,10 @@ union ProvisioningState {
  */
 @doc("The result of the last accepted operation")
 union ComplianceResult {
-  @doc("The action succeeded")
+  @doc("The resource is compliant")
   Compliant: "Compliant",
 
-  @doc("The action failed")
+  @doc("The resource is non-compliant")
   NonCompliant: "NonCompliant",
 
   @doc("The Unknown result")
@@ -184,10 +189,10 @@ union ComplianceResult {
  */
 @doc("The applicability result of the last accepted operation")
 union ApplicabilityResult {
-  @doc("The action succeeded")
+  @doc("Found to be applicable")
   Applicable: "Applicable",
 
-  @doc("The action failed")
+  @doc("Found to not be applicable")
   NotApplicable: "NotApplicable",
 
   @doc("The Unknown result")
@@ -259,11 +264,18 @@ model EvaluationActionRequest {
 
 @doc("The evaluation action response")
 model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
-  @doc("The evaluation scope")
-  scope: string;
+  @doc("The evaluation scopes")
+  scopes: string[];
+
+  @doc("The evaluation notScopes")
+  notScopes?: string[];
 
   @doc("the evaluation parameters")
-  parameters?: string;
+  parameters?: {};
+
+  @doc("The evaluation response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The evaluation policy definition id")
   policyDefinitionId?: string;
@@ -303,10 +315,17 @@ model ApplicabilityActionRequest {
 model ApplicabilityActionResponse
   is Azure.ResourceManager.Foundations.Resource {
   @doc("The applicability scope")
-  scope: string;
+  scopes: string[];
+
+  @doc("The applicability notScopes")
+  notScopes?: string[];
 
   @doc("The applicability parameters")
-  parameters?: string;
+  parameters?: {};
+
+  @doc("The applicability response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The applicability policy definition id")
   policyDefinitionId?: string;
@@ -323,7 +342,7 @@ model ApplicabilityActionResponse
   @doc("The applicability effect configuration")
   effectConfiguration?: string;
 
-  @doc("The evaluation result")
+  @doc("The applicability result")
   result: ApplicabilityResult;
 }
 
@@ -346,10 +365,17 @@ model TranspileActionRequest {
 @doc("The transpile action response")
 model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile scope")
-  scope: string;
+  scopes: string[];
+
+  @doc("The transpile notScopes")
+  notScopes?: string[];
+
+  @doc("The transpile response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The transpile parameters")
-  parameters?: string;
+  parameters?: {};
 
   @doc("The transpile policy definition id")
   policyDefinitionId?: string;
@@ -366,7 +392,7 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile effect configuration")
   effectConfiguration?: string;
 
-  @doc("The evaluation result")
+  @doc("The applicability result")
   result: ApplicabilityResult;
 }
 
