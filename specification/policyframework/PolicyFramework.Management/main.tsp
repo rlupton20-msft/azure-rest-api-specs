@@ -117,7 +117,7 @@ model EvaluationEnginePolicyDefinitionProperties {
   description?: string;
 
   @doc("The parameters of the evaluation engine policy definition.")
-  parameters?: string;
+  parameters?: {};
 
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
