@@ -18,6 +18,7 @@ import "./resourcetypes/enclaveConnection/enclaveConnection.tsp";
 import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
 import "./resourcetypes/postActions/approvalcallback.tsp";
+import "./resourcetypes/approvals/approvals.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -169,6 +170,16 @@ model CommunityEndpointResource
   @path
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
   @doc("The name of the Community Endpoint Resource")
+  name: string;
+}
+
+@doc("Approvals Model Resource")
+model ApprovalsResource is ExtensionResource<ApprovalsProperties> {
+  @key("approvalsName")
+  @segment("approvals")
+  @path
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
+  @doc("The name of the approvals resource.")
   name: string;
 }
 
@@ -330,4 +341,13 @@ interface ExternalConnections {
   delete is ArmResourceDeleteWithoutOkAsync<ExternalConnection>;
   listByParent is ArmResourceListByParent<ExternalConnection>;
   listBySubscription is ArmListBySubscription<ExternalConnection>;
+}
+
+@doc("Approvals Interface")
+@armResourceOperations
+interface Approvals {
+  get is ArmResourceRead<ApprovalsResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalsResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;
+  listByParent is ArmResourceListByParent<ApprovalsResource>;
 }
