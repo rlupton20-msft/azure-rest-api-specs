@@ -20,6 +20,8 @@ namespace Microsoft.SloTestRp;
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2024-07-01-preview`,
+
+  `2024-08-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -95,14 +97,11 @@ model SloTargets {
 
 @doc("The Azure Monitor Workspace account metadata")
 model AccountMetadata {
-  @doc("Must be set to AMW. No other account types are supported in this version")
-  resourceType: string;
-
-  @doc("AMW account's resource id chosen by customers")
+  @doc("ARM resource id for the AMW")
   resourceId: string;
 
-  @doc("Dictionary of metadata specific to AMW workspace")
-  properties: {};
+  @doc("ARM Id for the MSI")
+  identity: string;
 }
 
 @armResourceOperations(SloResource)
