@@ -280,6 +280,77 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/{resourceUri}/providers/Private.Mission/approvals/{approvalsName}/approvalInitiatorCallback": {
+      "post": {
+        "operationId": "Approvals_ApprovalInitiatorCallback",
+        "tags": [
+          "Approvals"
+        ],
+        "description": "Upon recieving approval or rejection from approver, this faciliates actions on approvals resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalsName",
+            "in": "path",
+            "description": "The name of the approvals resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalInitiatorCallbackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalInitiatorCallbackResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Approvals_ApprovalInitiatorCallback": {
+            "$ref": "./examples/Approvals_PostApprovalInitiatorCallback.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/providers/Private.Mission/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -3954,7 +4025,7 @@
       "properties": {
         "resourceId": {
           "type": "string",
-          "description": "Resource Id of the item being approved or declined"
+          "description": "Resource Id of the item being approved or rejected"
         },
         "resourceRequestAction": {
           "type": "string",
@@ -3971,10 +4042,10 @@
         },
         "approvalStatus": {
           "type": "string",
-          "description": "Approval status indicating 'Approved' or 'Declined'",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
           "enum": [
             "Approved",
-            "Declined"
+            "Rejected"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -3988,6 +4059,39 @@
       ]
     },
     "ApprovalCallbackResponse": {
+      "type": "object",
+      "description": "Response body after handling of approvalCallbackRequest",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Confirmation message indicating the result of the operation."
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
+    "ApprovalInitiatorCallbackRequest": {
+      "type": "object",
+      "description": "Request body for calling post-action",
+      "properties": {
+        "approvalStatus": {
+          "type": "string",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
+          "enum": [
+            "Approved",
+            "Rejected"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "approvalStatus"
+      ]
+    },
+    "ApprovalInitiatorCallbackResponse": {
       "type": "object",
       "description": "Response body after handling of approvalCallbackRequest",
       "properties": {

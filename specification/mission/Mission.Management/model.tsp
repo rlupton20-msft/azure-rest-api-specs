@@ -19,6 +19,7 @@ import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
 import "./resourcetypes/postActions/approvalcallback.tsp";
 import "./resourcetypes/approvals/approvals.tsp";
+import "./resourcetypes/postActions/approvalinitiatorcallback.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -350,4 +351,9 @@ interface Approvals {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalsResource>;
   delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;
   listByParent is ArmResourceListByParent<ApprovalsResource>;
+  
+  @doc("Upon recieving approval or rejection from approver, this faciliates actions on approvals resource")
+  @armResourceAction(ApprovalsResource)
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  approvalInitiatorCallback is ArmResourceActionAsync<ApprovalsResource, ApprovalInitiatorCallbackRequest, ApprovalInitiatorCallbackResponse>;
 }
