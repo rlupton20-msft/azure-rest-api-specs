@@ -20,7 +20,8 @@ namespace Microsoft.SloTestRp;
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2024-07-01-preview`,
-  `2024-08-01-preview`
+
+  `2024-08-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
