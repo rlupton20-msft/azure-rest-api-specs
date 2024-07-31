@@ -19,6 +19,20 @@ interface VirtualNetworkAddresses
     "List Virtual Network Addresses by VM Cluster"
   )
   listByParent is ArmResourceListByParent<VirtualNetworkAddress>;
+
+  @Autorest.example(
+    "./examples/virtualNetworkAddresses_attach.json",
+    "Attach Virtual Network Addresses of VM Cluster"
+  )
+  @added(Versions.v20240701_preview)
+  attach is ArmResourceActionAsync<VirtualNetworkAddress, VirtualNetworkAddressProperties, VirtualNetworkAddress>;
+
+  @Autorest.example(
+    "./examples/virtualNetworkAddresses_detach.json",
+    "Detach Virtual Network Addresses of VM Cluster"
+  )
+  @added(Versions.v20240701_preview)
+  detach is ArmResourceActionAsync<VirtualNetworkAddress, void, VirtualNetworkAddress>;
 }
 
 @@Autorest.example(VirtualNetworkAddresses.createOrUpdate,
