@@ -43,16 +43,16 @@ input-file:
 
 ### Tag: package-preview-2023-05-PrivateRP
 
-These settings apply only when `--tag=package-preview-2023-05` is specified on the command line.
+These settings apply only when `--tag=package-preview-2023-05-PrivateRP` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2023-05'
+```yaml $(tag) == 'package-preview-2023-05-PrivateRP'
 input-file:
   - Private.Access/preview/2023-05-24-preview/openapi.json
 ```
 
 ### Tag: package-2024-02-24-preview
 
-These settings apply only when `--tag=package-2024-02-24` is specified on the command line.
+These settings apply only when `--tag=package-2024-02-24-preview` is specified on the command line.
 
 ``` yaml $(tag) == 'package-2024-02-24-preview'
 input-file:
@@ -61,9 +61,9 @@ input-file:
 
 ### Tag: package-2024-02-24-preview-PrivateRP
 
-These settings apply only when `--tag=package-2024-02-24` is specified on the command line.
+These settings apply only when `--tag=package-2024-02-24-preview-PrivateRP` is specified on the command line.
 
-``` yaml $(tag) == 'package-2024-02-24-preview'
+``` yaml $(tag) == 'package-2024-02-24-preview-PrivateRP'
 input-file:
   - Private.Access/preview/2024-02-24-preview/openapi.json
 ```
