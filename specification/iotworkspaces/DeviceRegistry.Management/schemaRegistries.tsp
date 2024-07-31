@@ -24,6 +24,8 @@ model SchemaRegistry is TrackedResource<SchemaRegistryProperties> {
   @minLength(3)
   @maxLength(63)
   name: string;
+
+  ...ManagedSystemAssignedIdentityProperty;
 }
 
 @added(Versions.v2024_07_01_preview)
@@ -52,8 +54,6 @@ model SchemaRegistryProperties {
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  ...ManagedSystemAssignedIdentityProperty;
 }
 
 @added(Versions.v2024_07_01_preview)

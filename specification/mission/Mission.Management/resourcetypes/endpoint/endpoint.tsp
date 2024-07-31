@@ -37,7 +37,7 @@ union EndpointProtocol {
   @doc("EndpointProtocol Type AH")
   AH: "AH",
 
-  string
+  string,
 }
 
 @doc("EndpointRule Properties")

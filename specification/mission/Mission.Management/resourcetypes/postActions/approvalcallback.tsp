@@ -9,7 +9,6 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-// Define a model for the approval callback request
 @doc("Request body for calling post-action")
 model ApprovalCallbackRequest {
   @doc("Resource Id of the item being approved or rejected")
@@ -22,7 +21,6 @@ model ApprovalCallbackRequest {
   approvalStatus: "Approved" | "Rejected" | string;
 }
 
-// Define a model for the approval callback response
 @doc("Response body after handling of approvalCallbackRequest")
 model ApprovalCallbackResponse {
   @doc("Confirmation message indicating the result of the operation.")

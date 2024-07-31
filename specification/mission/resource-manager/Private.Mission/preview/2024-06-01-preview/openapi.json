@@ -1069,6 +1069,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1452,6 +1455,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -1779,6 +1785,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -2066,6 +2075,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -2107,7 +2119,7 @@
         "tags": [
           "EnclaveConnection"
         ],
-        "description": "Upon getting desired approvals this faciliates actions on approvals",
+        "description": "Callback that triggers on approval state change.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2427,6 +2439,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -2714,6 +2729,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3001,6 +3019,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3328,6 +3349,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3655,6 +3679,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -3982,6 +4009,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
@@ -4193,6 +4223,29 @@
         "value"
       ]
     },
+    "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
+      }
+    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
@@ -4301,7 +4354,7 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       },
       "required": [
@@ -4329,7 +4382,7 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       }
     },
@@ -4435,7 +4488,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CommunityEndpointPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4490,7 +4544,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CommunityProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -4538,7 +4597,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CommunityProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -4768,7 +4832,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EnclaveConnectionPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4922,7 +4987,7 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       },
       "required": [
@@ -4950,7 +5015,7 @@
         },
         "approvalRequired": {
           "type": "boolean",
-          "description": "Whether approval is needed for the connection(True or False)."
+          "description": "Whether approval is needed for the connection (True or False)."
         }
       }
     },
@@ -5044,7 +5109,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EnclaveEndpointPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5059,7 +5125,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/VirtualEnclaveProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -5095,7 +5166,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/VirtualEnclavePropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -5296,7 +5372,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EndpointProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5324,24 +5401,6 @@
         "protocol": {
           "$ref": "#/definitions/EndpointProtocol",
           "description": "Protocol. Options specified by Endpoint Protocol Enum."
-        }
-      }
-    },
-    "EndpointRuleBase": {
-      "type": "object",
-      "description": "Base Endpoint Rule Properties",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Endpoint Rule Name."
-        },
-        "destination": {
-          "type": "string",
-          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
-        },
-        "port": {
-          "type": "string",
-          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
         }
       }
     },
@@ -5497,7 +5556,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ExternalConnectionPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5511,7 +5571,7 @@
       "description": "GovernedServiceItem Properties",
       "properties": {
         "id": {
-          "type": "string",
+          "$ref": "#/definitions/ServiceIdentifier",
           "description": "service id"
         },
         "name": {
@@ -5549,13 +5609,16 @@
         },
         "initiatives": {
           "type": "array",
-          "description": "initatives associated with this service",
+          "description": "initiatives associated with this service",
           "items": {
             "type": "string"
           },
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "id"
+      ]
     },
     "IPGroupResourceId": {
       "type": "string",
@@ -5778,7 +5841,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/InternalConnectionPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5902,18 +5966,6 @@
         }
       }
     },
-    "NsgResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Network/networkSecurityGroups"
-          }
-        ]
-      }
-    },
     "Principal": {
       "type": "object",
       "description": "Principal for Maintenance Mode",
@@ -6022,6 +6074,109 @@
             "description": "Provisioning State Type Updating"
           }
         ]
+      },
+      "readOnly": true
+    },
+    "ServiceIdentifier": {
+      "type": "string",
+      "description": "Identifier for governed services.",
+      "enum": [
+        "AKS",
+        "AppService",
+        "AzureFirewalls",
+        "ContainerRegistry",
+        "CosmosDB",
+        "DataConnectors",
+        "Insights",
+        "KeyVault",
+        "Logic",
+        "MicrosoftSQL",
+        "Monitoring",
+        "PostgreSQL",
+        "PrivateDNSZones",
+        "ServiceBus",
+        "Storage"
+      ],
+      "x-ms-enum": {
+        "name": "ServiceIdentifier",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AKS",
+            "value": "AKS",
+            "description": "Service identifier for AKS"
+          },
+          {
+            "name": "AppService",
+            "value": "AppService",
+            "description": "Service identifier for App Service"
+          },
+          {
+            "name": "AzureFirewalls",
+            "value": "AzureFirewalls",
+            "description": "Service identifier for Azure Firewalls"
+          },
+          {
+            "name": "ContainerRegistry",
+            "value": "ContainerRegistry",
+            "description": "Service identifier for Container Registry"
+          },
+          {
+            "name": "CosmosDB",
+            "value": "CosmosDB",
+            "description": "Service identifier for CosmosDB"
+          },
+          {
+            "name": "DataConnectors",
+            "value": "DataConnectors",
+            "description": "Service identifier for Data Connectors"
+          },
+          {
+            "name": "Insights",
+            "value": "Insights",
+            "description": "Service identifier for Insights"
+          },
+          {
+            "name": "KeyVault",
+            "value": "KeyVault",
+            "description": "Service identifier for Key Vault"
+          },
+          {
+            "name": "Logic",
+            "value": "Logic",
+            "description": "Service identifier for Logic"
+          },
+          {
+            "name": "MicrosoftSql",
+            "value": "MicrosoftSQL",
+            "description": "Service identifier for Microsoft SQL"
+          },
+          {
+            "name": "Monitoring",
+            "value": "Monitoring",
+            "description": "Service identifier for Monitoring"
+          },
+          {
+            "name": "PostgreSql",
+            "value": "PostgreSQL",
+            "description": "Service identifier for PostgreSQL"
+          },
+          {
+            "name": "PrivateDNSZones",
+            "value": "PrivateDNSZones",
+            "description": "Service identifier for Private DNS Zones"
+          },
+          {
+            "name": "ServiceBus",
+            "value": "ServiceBus",
+            "description": "Service identifier for Service Bus"
+          },
+          {
+            "name": "Storage",
+            "value": "Storage",
+            "description": "Service identifier for Storage"
+          }
+        ]
       }
     },
     "RequestMetadata": {
@@ -6064,13 +6219,14 @@
         },
         "id": {
           "type": "string",
+          "format": "arm-id",
           "description": "Subnet ID.",
           "readOnly": true
         },
         "networkPrefixSize": {
           "type": "integer",
           "format": "int32",
-          "description": "Network Prefix Size."
+          "description": "Network prefix size."
         },
         "subnetDelegation": {
           "type": "string",
@@ -6083,6 +6239,7 @@
         },
         "networkSecurityGroupId": {
           "type": "string",
+          "format": "arm-id",
           "description": "Network security group ID.",
           "readOnly": true
         }
@@ -6172,7 +6329,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/TransitHubProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -6322,6 +6480,10 @@
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfiguration",
           "description": "Maintenance Mode configuration."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
         }
       },
       "required": [
@@ -6359,6 +6521,10 @@
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
           "description": "Maintenance Mode configuration."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
         }
       }
     },
@@ -6434,7 +6600,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/WorkloadProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [

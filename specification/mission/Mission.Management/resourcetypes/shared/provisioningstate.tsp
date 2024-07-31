@@ -41,6 +41,7 @@ union ProvisioningState {
   Running: "Running",
 
   @doc("Provisioning State Type Updating")
-  Updating: "Updating"
+  Updating: "Updating",
 
+  string,
 }

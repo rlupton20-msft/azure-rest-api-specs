@@ -31,7 +31,7 @@ union TransitHubState {
   @doc("TransitHubState Type Failed")
   Failed: "Failed",
 
-  string
+  string,
 }
 
 @doc("Specifies the type of the transitOption.")
@@ -45,7 +45,7 @@ union TransitOptionType {
   @doc("TransitOptionType Peering")
   Peering: "Peering",
 
-  string
+  string,
 }
 
 @doc("TransitOptionParams Properties")
