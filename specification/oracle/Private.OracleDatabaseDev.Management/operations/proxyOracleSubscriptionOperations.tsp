@@ -16,7 +16,7 @@ interface ProxyOracleSubscriptionOperations
         > {
     @doc("get cloud account info API")
     @Autorest.example(
-        "./examples/OracleCloudAccount_get.json",
+        "./examples/oracleCloudAccount_get.json",
         "Get oracle subscription details of azure subscription"
     )
     getCloudAccountInfo is ListActions.ArmResourceGetActionAsync<
