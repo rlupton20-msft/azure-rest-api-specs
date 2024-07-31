@@ -10,7 +10,10 @@ namespace Private.OracleDatabaseDev;
 @armResourceOperations
 interface DbNodes extends OracleReadOnlyResource<DbNode> {
   // TODO: Swagger generator bug, cannot be extracted to interface
-  @Autorest.example("./examples/dbNodes_listByParent.json", "List DbNodes by VM Cluster")
+  @Autorest.example(
+    "./examples/dbNodes_listByParent.json",
+    "List DbNodes by VM Cluster"
+  )
   listByParent is ArmResourceListByParent<DbNode>;
 
   @doc("VM actions on DbNode of VM Cluster by the provided filter")
