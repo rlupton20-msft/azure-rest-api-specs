@@ -20,6 +20,8 @@ import "./resourcetypes/enclaveConnection/enclaveConnection.tsp";
 import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
 import "./resourcetypes/postActions/approvalcallback.tsp";
+import "./resourcetypes/approvals/approvals.tsp";
+import "./resourcetypes/postActions/approvalinitiatorcallback.tsp";
 
 using Azure.ClientGenerator.Core;
 using Azure.Core;
@@ -201,6 +203,16 @@ model CommunityEndpointResource
   @path
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
   @doc("The name of the Community Endpoint Resource")
+  name: string;
+}
+
+@doc("Approvals Model Resource")
+model ApprovalsResource is ExtensionResource<ApprovalsProperties> {
+  @key("approvalsName")
+  @segment("approvals")
+  @path
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
+  @doc("The name of the approvals resource.")
   name: string;
 }
 
@@ -403,4 +415,16 @@ interface ExternalConnections {
   delete is ArmResourceDeleteAsync<ExternalConnection>;
   listByResourceGroup is ArmResourceListByParent<ExternalConnection>;
   listBySubscription is ArmListBySubscription<ExternalConnection>;
+
+@doc("Approvals Interface")
+@armResourceOperations
+interface Approvals {
+  get is ArmResourceRead<ApprovalsResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalsResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;
+  listByParent is ArmResourceListByParent<ApprovalsResource>;
+  @doc("Upon recieving approval or rejection from approver, this faciliates actions on approvals resource")
+  @armResourceAction(ApprovalsResource)
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  approvalInitiatorCallback is ArmResourceActionAsync<ApprovalsResource, ApprovalInitiatorCallbackRequest, ApprovalInitiatorCallbackResponse>;
 }
