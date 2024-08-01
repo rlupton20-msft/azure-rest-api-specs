@@ -660,7 +660,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations": {
       "get": {
-        "operationId": "LandingZoneConfigurationOperations_ListByLandingZoneAccountResource",
+        "operationId": "LandingZoneConfigurationOperations_ListByResourceGroup",
         "tags": [
           "LandingZoneConfigurationOperations"
         ],
@@ -1133,7 +1133,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneRegistrations": {
       "get": {
-        "operationId": "LandingZoneRegistrationOperations_ListByLandingZoneAccountResource",
+        "operationId": "LandingZoneRegistrationOperations_ListByResourceGroup",
         "tags": [
           "LandingZoneRegistrationOperations"
         ],
@@ -1439,6 +1439,29 @@
             "description": "This status is set when the landing zone configuration is no longer in use."
           }
         ]
+      }
+    },
+    "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
       }
     },
     "Azure.ResourceManager.ResourceProvisioningState": {
@@ -1918,8 +1941,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/LandingZoneAccountResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -1961,15 +1983,33 @@
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing zone account.",
           "readOnly": true
+        },
+        "storageAccount": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The storage account that will host the generated slz code.",
+          "minLength": 3,
+          "maxLength": 24,
+          "pattern": "^[a-z0-9]+$",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
         }
-      }
+      },
+      "required": [
+        "storageAccount"
+      ]
     },
     "LandingZoneAccountResourceUpdate": {
       "type": "object",
       "description": "The type used for update operations of the LandingZoneAccountResource.",
       "properties": {
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
           "description": "The managed service identities assigned to this resource."
         },
         "tags": {
@@ -1977,6 +2017,31 @@
           "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/LandingZoneAccountResourceUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "LandingZoneAccountResourceUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the LandingZoneAccountResource.",
+      "properties": {
+        "storageAccount": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The storage account that will host the generated slz code.",
+          "minLength": 3,
+          "maxLength": 24,
+          "pattern": "^[a-z0-9]+$",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
           }
         }
       }
@@ -1987,8 +2052,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/LandingZoneConfigurationResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2166,19 +2230,9 @@
         "azureBastionCreationOption"
       ]
     },
-    "LandingZoneConfigurationResourceUpdate": {
+    "LandingZoneConfigurationResourcePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the LandingZoneConfigurationResource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LandingZoneConfigurationResourceUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "LandingZoneConfigurationResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the LandingZoneConfigurationResource.",
+      "description": "The properties of landing zone configuration resource type.",
       "properties": {
         "ddosProtectionCreationOption": {
           "$ref": "#/definitions/ResourceCreationOptions",
@@ -2305,6 +2359,21 @@
         }
       }
     },
+    "LandingZoneConfigurationResourceUpdate": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LandingZoneConfigurationResourcePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
     "LandingZoneManagementGroupProperties": {
       "type": "object",
       "description": "Landing zone management group properties.",
@@ -2333,8 +2402,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/LandingZoneRegistrationResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2403,19 +2471,9 @@
         "existingLandingZoneConfigurationId"
       ]
     },
-    "LandingZoneRegistrationResourceUpdate": {
+    "LandingZoneRegistrationResourcePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the LandingZoneRegistrationResource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LandingZoneRegistrationResourceUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "LandingZoneRegistrationResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the LandingZoneRegistrationResource.",
+      "description": "The properties of landing zone registration resource type.",
       "properties": {
         "existingTopLevelMgId": {
           "type": "string",
@@ -2442,6 +2500,21 @@
           }
         }
       }
+    },
+    "LandingZoneRegistrationResourceUpdate": {
+      "type": "object",
+      "description": "The Landing Zone registration resource type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LandingZoneRegistrationResourcePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "ManagementGroupProperties": {
       "type": "object",
@@ -2587,8 +2660,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/TransparencyLogProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2665,19 +2737,9 @@
         "emailCultures"
       ]
     },
-    "TransparencyLogUpdate": {
+    "TransparencyLogPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the TransparencyLog.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TransparencyLogUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "TransparencyLogUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the TransparencyLog.",
+      "description": "The properties of the Transparency Log resource type.",
       "properties": {
         "emailCultures": {
           "type": "array",
@@ -2713,6 +2775,21 @@
           }
         }
       }
+    },
+    "TransparencyLogUpdate": {
+      "type": "object",
+      "description": "The Transparency Log resource type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TransparencyLogPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "UpdateAuthoringStatusRequest": {
       "type": "object",

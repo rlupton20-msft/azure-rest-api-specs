@@ -10,4 +10,14 @@ model LandingZoneAccountResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone account.")
   provisioningState?: ResourceProvisioningState;
+
+  @doc("The storage account that will host the generated slz code.")
+  @minLength(3)
+  @maxLength(24)
+  @pattern("^[a-z0-9]+$")
+  storageAccount: armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+    }
+  ]>;
 }
