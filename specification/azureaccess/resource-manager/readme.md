@@ -2,7 +2,9 @@
 
 This is the AutoRest configuration file for azureaccess.
 
-> see <https://aka.ms/autorest>
+<!-- Need to disable the linter for the next line so it doesn't mess up the "magic string" -->
+<!-- markdownlint-disable-next-line -->
+> see https://aka.ms/autorest
 
 ## Getting Started
 
@@ -36,16 +38,34 @@ These settings apply only when `--tag=package-preview-2023-05` is specified on t
 
 ```yaml $(tag) == 'package-preview-2023-05'
 input-file:
-  - preview/2023-05-24-preview/openapi.json
+  - Microsoft.Access/preview/2023-05-24-preview/openapi.json
+```
+
+### Tag: package-preview-2023-05-PrivateRP
+
+These settings apply only when `--tag=package-preview-2023-05-PrivateRP` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2023-05-PrivateRP'
+input-file:
+  - Private.Access/preview/2023-05-24-preview/openapi.json
 ```
 
 ### Tag: package-2024-02-24-preview
 
-These settings apply only when `--tag=package-2024-02-24` is specified on the command line.
+These settings apply only when `--tag=package-2024-02-24-preview` is specified on the command line.
 
 ``` yaml $(tag) == 'package-2024-02-24-preview'
 input-file:
-  - preview/2024-02-24-preview/openapi.json
+  - Microsoft.Access/preview/2024-02-24-preview/openapi.json
+```
+
+### Tag: package-2024-02-24-preview-PrivateRP
+
+These settings apply only when `--tag=package-2024-02-24-preview-PrivateRP` is specified on the command line.
+
+``` yaml $(tag) == 'package-2024-02-24-preview-PrivateRP'
+input-file:
+  - Private.Access/preview/2024-02-24-preview/openapi.json
 ```
 
 ---
