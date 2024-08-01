@@ -248,18 +248,8 @@ union PolicyDefinitionsEffect {
  */
 @doc("The evaluation action request")
 model EvaluationActionRequest {
-  @doc("The evaluation type")
-  type: string;
-
-  @doc("The location of the evaluation")
-  @visibility("create", "read")
-  location: string;
-
-  @doc("The evaluation properties")
-  requestProperties: string;
-
-  @doc("The evaluation scope")
-  scope: string;
+  @doc("The evaluation request payload")
+  resourcePayload: {};
 }
 
 @doc("The evaluation action response")
@@ -281,10 +271,10 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   policyDefinitionId?: string;
 
   @doc("The evaluation applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The evaluation effect rule")
-  effectRule: string;
+  effectRule?: string;
 
   @doc("The evaluation effect")
   effect?: PolicyDefinitionsEffect;
@@ -301,14 +291,8 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
  */
 @doc("The applicability action request")
 model ApplicabilityActionRequest {
-  @doc("The applicability type")
-  type: string;
-
-  @doc("The applicability properties")
-  requestProperties: string;
-
-  @doc("The applicability scope")
-  scope: string;
+  @doc("The applicability request payload")
+  resourcePayload: {};
 }
 
 @doc("The applicability action response")
@@ -331,10 +315,10 @@ model ApplicabilityActionResponse
   policyDefinitionId?: string;
 
   @doc("The applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The applicability effect rule")
-  effectRule: string;
+  effectRule?: string;
 
   @doc("The applicability effect")
   effect?: PolicyDefinitionsEffect;
@@ -351,15 +335,8 @@ model ApplicabilityActionResponse
  */
 @doc("The transpile action request")
 model TranspileActionRequest {
-  @doc("The transpile type")
-  type: string;
-
-  @doc("The transpile location")
-  @visibility("create", "read")
-  location: string;
-
-  @doc("The transpile request scope")
-  scope: string;
+  @doc("The applicability request payload")
+  resourcePayload: {};
 }
 
 @doc("The transpile action response")
@@ -381,7 +358,7 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   policyDefinitionId?: string;
 
   @doc("The transpile rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The transpile effect rule")
   effectRule: string;
