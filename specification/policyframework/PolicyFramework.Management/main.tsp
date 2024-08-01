@@ -271,10 +271,10 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   policyDefinitionId?: string;
 
   @doc("The evaluation applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The evaluation effect rule")
-  effectRule: string;
+  effectRule?: string;
 
   @doc("The evaluation effect")
   effect?: PolicyDefinitionsEffect;
@@ -315,10 +315,10 @@ model ApplicabilityActionResponse
   policyDefinitionId?: string;
 
   @doc("The applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The applicability effect rule")
-  effectRule: string;
+  effectRule?: string;
 
   @doc("The applicability effect")
   effect?: PolicyDefinitionsEffect;
@@ -358,7 +358,7 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   policyDefinitionId?: string;
 
   @doc("The transpile rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
   @doc("The transpile effect rule")
   effectRule: string;
