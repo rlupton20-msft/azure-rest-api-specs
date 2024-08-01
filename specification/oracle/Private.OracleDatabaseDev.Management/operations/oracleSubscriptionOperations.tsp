@@ -52,18 +52,18 @@ interface OracleSubscriptions
   addAzureSubscriptions is ArmResourceActionNoResponseContentAsync<
     OracleSubscription<Foundations.Plan>,
     AzureSubscriptions
- >;
+  >;
 
- @added(Versions.v20240601_preview)
- @doc("Remove Azure Subscriptions")
- @Autorest.example(
-   "./examples/oracleSubscriptions_removeAzureSubscriptions.json",
-   "Remove Azure Subscriptions from the OracleSubscription"
- )
- removeAzureSubscriptions is ArmResourceActionNoResponseContentAsync<
-  OracleSubscription<Foundations.Plan>,
-  AzureSubscriptions
->;
+  @added(Versions.v20240601_preview)
+  @doc("Remove Azure Subscriptions")
+  @Autorest.example(
+    "./examples/oracleSubscriptions_removeAzureSubscriptions.json",
+    "Remove Azure Subscriptions from the OracleSubscription"
+  )
+  removeAzureSubscriptions is ArmResourceActionNoResponseContentAsync<
+    OracleSubscription<Foundations.Plan>,
+    AzureSubscriptions
+  >;
 
   /**
    * @dev Update a resource using the asynchronous call pattern.

@@ -2,7 +2,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 
-namespace Private.OracleDatabaseDev;;
+namespace Private.OracleDatabaseDev;
 
 @singleton
 @subscriptionResource
@@ -24,12 +24,11 @@ union ProxyOracleSubscriptionProvisioningState {
   string,
 }
 
-/** 
+/**
  * The properties of ProxyOracleSubscription
-*/
+ */
 @doc("The properties of ProxyOracleSubscription")
 model ProxyOracleSubscriptionProperties {
- 
   @doc("Parent SubscriptionId")
   @visibility("read", "update")
   parentSubscriptionId?: string;
@@ -37,5 +36,4 @@ model ProxyOracleSubscriptionProperties {
   @doc("OracleSubscriptionProvisioningState provisioning state")
   @visibility("read")
   provisioningState?: ProxyOracleSubscriptionProvisioningState;
- 
 }

@@ -60,11 +60,11 @@ interface ListActions {
   @armResourceAction(TResource)
   @armResourceList(TResource)
   @get
-  op ArmResourceGetAction<
+  ArmResourceGetAction<
     TResource extends Foundations.Resource,
     TResponse,
     TBaseParameters = BaseParameters<TResource>
   >(
-    ...ResourceInstanceParameters<TResource, TBaseParameters>
+    ...ResourceInstanceParameters<TResource, TBaseParameters>,
   ): ArmResponse<TResponse> | ErrorResponse;
 }

@@ -159,16 +159,16 @@ model ActivationLinks {
 @added(Versions.v20240601_preview)
 @doc("Add Subscription Operation state enum")
 union AddSubscriptionOperationState {
-@doc("Succeeded - State when Add Subscription operation succeeded")
-Succeeded: "Succeeded",
+  @doc("Succeeded - State when Add Subscription operation succeeded")
+  Succeeded: "Succeeded",
 
-@doc("Updating - State when Add Subscription operation is being Updated")
-Updating: "Updating",
+  @doc("Updating - State when Add Subscription operation is being Updated")
+  Updating: "Updating",
 
-@doc("Failed - State when Add Subscription operation failed")
-Failed: "Failed",
+  @doc("Failed - State when Add Subscription operation failed")
+  Failed: "Failed",
 
-string,
+  string,
 }
 
 @doc("Oracle Subscription resource model")
