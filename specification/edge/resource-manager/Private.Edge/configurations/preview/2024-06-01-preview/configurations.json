@@ -670,7 +670,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/dynamicConfigurationVersions": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions": {
       "get": {
         "operationId": "DynamicConfigurationVersions_ListByDynamicConfiguration",
         "tags": [
@@ -728,7 +728,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/dynamicConfigurationVersions/{dynamicConfigurationVersionName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}": {
       "get": {
         "operationId": "DynamicConfigurationVersions_Get",
         "tags": [
@@ -1012,64 +1012,27 @@
           }
         }
       }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/resolveConfiguration": {
-      "post": {
-        "operationId": "DynamicConfigurations_ResolveConfiguration",
-        "tags": [
-          "DynamicConfigurations"
-        ],
-        "description": "Post request to resolve configuration",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "dynamicConfigurationName",
-            "in": "path",
-            "description": "The name of the DynamicConfiguration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/DynamicConfigurationProperties"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "DynamicConfigurations_ResolveConfiguration": {
-            "$ref": "./examples/DynamicConfigurations_ResolveConfiguration_MaximumSet_Gen.json"
-          }
-        }
-      }
     }
   },
   "definitions": {
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -1107,8 +1070,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ConfigurationProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -1138,6 +1100,30 @@
         "value"
       ]
     },
+    "ConfigurationModel": {
+      "type": "string",
+      "description": "Available configuration models",
+      "enum": [
+        "Application",
+        "Common"
+      ],
+      "x-ms-enum": {
+        "name": "ConfigurationModel",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Application",
+            "value": "Application",
+            "description": "Configuration model Application"
+          },
+          {
+            "name": "Common",
+            "value": "Common",
+            "description": "Configuration model Common"
+          }
+        ]
+      }
+    },
     "ConfigurationProperties": {
       "type": "object",
       "description": "Configuration Properties",
@@ -1156,26 +1142,9 @@
         "timezone"
       ]
     },
-    "ConfigurationUpdate": {
+    "ConfigurationPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the Configuration.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/ConfigurationUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "ConfigurationUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Configuration.",
+      "description": "Configuration Properties",
       "properties": {
         "timezone": {
           "type": "string",
@@ -1183,14 +1152,52 @@
         }
       }
     },
+    "ConfigurationType": {
+      "type": "string",
+      "description": "Available configuration types",
+      "enum": [
+        "Shared",
+        "Hierarchy"
+      ],
+      "x-ms-enum": {
+        "name": "ConfigurationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Shared",
+            "value": "Shared",
+            "description": "Configuration type Shared"
+          },
+          {
+            "name": "Hierarchy",
+            "value": "Hierarchy",
+            "description": "Configuration type Hierarchy"
+          }
+        ]
+      }
+    },
+    "ConfigurationUpdate": {
+      "type": "object",
+      "description": "Configuration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConfigurationPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "DynamicConfiguration": {
       "type": "object",
       "description": "Dynamic Configuration Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/DynamicConfigurationProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -1228,29 +1235,31 @@
           "type": "string",
           "description": "Current Version of dynamic configuration"
         },
+        "dynamicConfigurationType": {
+          "$ref": "#/definitions/ConfigurationType",
+          "description": "Type of dynamic configuration",
+          "readOnly": true
+        },
+        "dynamicConfigurationModel": {
+          "$ref": "#/definitions/ConfigurationModel",
+          "description": "Type of dynamic configuration model",
+          "readOnly": true
+        },
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
           "readOnly": true
         }
       },
       "required": [
-        "currentVersion"
+        "currentVersion",
+        "dynamicConfigurationType",
+        "dynamicConfigurationModel"
       ]
     },
-    "DynamicConfigurationUpdate": {
+    "DynamicConfigurationPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the DynamicConfiguration.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/DynamicConfigurationUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "DynamicConfigurationUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the DynamicConfiguration.",
+      "description": "Dynamic Configuration Properties",
       "properties": {
         "currentVersion": {
           "type": "string",
@@ -1258,14 +1267,28 @@
         }
       }
     },
+    "DynamicConfigurationUpdate": {
+      "type": "object",
+      "description": "Dynamic Configuration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DynamicConfigurationPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
     "DynamicConfigurationVersion": {
       "type": "object",
       "description": "Dynamic Configuration Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/DynamicConfigurationVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -1304,7 +1327,7 @@
           "description": "Values of configuration version"
         },
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
           "readOnly": true
         }
@@ -1313,25 +1336,73 @@
         "values"
       ]
     },
-    "DynamicConfigurationVersionUpdate": {
+    "DynamicConfigurationVersionPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the DynamicConfigurationVersion.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/DynamicConfigurationVersionUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "DynamicConfigurationVersionUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the DynamicConfigurationVersion.",
+      "description": "Dynamic Configuration Properties",
       "properties": {
         "values": {
           "type": "string",
           "description": "Values of configuration version"
         }
       }
+    },
+    "DynamicConfigurationVersionUpdate": {
+      "type": "object",
+      "description": "Dynamic Configuration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DynamicConfigurationVersionPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "Provisioning state of resource",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Initialized",
+        "InProgress"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Initialized",
+            "value": "Initialized",
+            "description": "Resource Provisioning is initialized"
+          },
+          {
+            "name": "Inprogress",
+            "value": "InProgress",
+            "description": "Resource Provisioning is in progress"
+          }
+        ]
+      },
+      "readOnly": true
     }
   },
   "parameters": {}

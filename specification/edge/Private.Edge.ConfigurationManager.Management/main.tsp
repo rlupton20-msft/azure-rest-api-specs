@@ -4,11 +4,15 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./CapabilityList.tsp";
-import "./DeploymentInstance.tsp";
 import "./DeploymentTarget.tsp";
-import "./HelmUseCase.tsp";
-import "./TargetBinding.tsp";
-import "./UseCase.tsp";
+import "./Schema.tsp";
+import "./SchemaVersion.tsp";
+import "./SchemaReference.tsp";
+import "./Solution.tsp";
+import "./SolutionBinding.tsp";
+import "./SolutionBindingConfiguration.tsp";
+import "./SolutionInstance.tsp";
+import "./SolutionVersion.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -18,7 +22,6 @@ using Azure.ResourceManager;
 
 /** Private.Edge Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
-
 @armProviderNamespace
 @service({
   title: "Private.Edge",

@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./DynamicConfiguration.tsp";
+import "../Private.Edge.ConfigurationManager.Management/ProvisioningState.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -17,37 +18,39 @@ namespace Private.Edge;
 
 @doc("Dynamic Configuration Properties")
 model DynamicConfigurationVersionProperties {
-    @doc("Values of configuration version")
-    values: string;
+  @doc("Values of configuration version")
+  values: string;
 
-    @doc("Provisioning state of resource")
-    @visibility("read")
-    provisioningState?: ResourceProvisioningState;
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
 }
 
 @doc("Dynamic Configuration Resource")
 @parentResource(DynamicConfiguration)
-model DynamicConfigurationVersion is ProxyResource<DynamicConfigurationVersionProperties> {
-    ...ResourceNameParameter<DynamicConfigurationVersion>;
+@resource("versions")
+model DynamicConfigurationVersion
+  is ProxyResource<DynamicConfigurationVersionProperties> {
+  ...ResourceNameParameter<DynamicConfigurationVersion>;
 }
 
 @armResourceOperations
 interface DynamicConfigurationVersions {
-    @doc("Get a Dynamic Configuration Version Resource")
-    get is ArmResourceRead<DynamicConfigurationVersion>;
+  @doc("Get a Dynamic Configuration Version Resource")
+  get is ArmResourceRead<DynamicConfigurationVersion>;
 
-    @doc("Create or update a Dynamic Configuration Version Resource")
-    createOrUpdate is ArmResourceCreateOrReplaceAsync<DynamicConfigurationVersion>;
+  @doc("Create or update a Dynamic Configuration Version Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DynamicConfigurationVersion>;
 
-    @doc("update a Dynamic Configuration Version Resource")
-    update is ArmResourcePatchSync<
-        DynamicConfigurationVersion,
-        DynamicConfigurationVersionProperties
-    >;
+  @doc("update a Dynamic Configuration Version Resource")
+  update is ArmResourcePatchSync<
+    DynamicConfigurationVersion,
+    DynamicConfigurationVersionProperties
+  >;
 
-    @doc("Delete a Dynamic Configuration Version Resource")
-    delete is ArmResourceDeleteSync<DynamicConfigurationVersion>;
+  @doc("Delete a Dynamic Configuration Version Resource")
+  delete is ArmResourceDeleteSync<DynamicConfigurationVersion>;
 
-    @doc("List Dynamic Configuration Version Resource")
-    listByParent is ArmResourceListByParent<DynamicConfigurationVersion>;
+  @doc("List Dynamic Configuration Version Resource")
+  listByDynamicConfiguration is ArmResourceListByParent<DynamicConfigurationVersion>;
 }

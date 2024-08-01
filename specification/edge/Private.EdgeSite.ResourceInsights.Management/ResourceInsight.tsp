@@ -42,7 +42,6 @@ interface ResourceInsights {
     ArmAsyncOperationHeader & Azure.Core.Foundations.RetryAfterHeader
   >;
 
-  
   /**
    * Delete a ResourceInsights
    */
