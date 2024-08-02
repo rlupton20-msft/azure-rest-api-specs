@@ -179,7 +179,7 @@
         "tags": [
           "BillingContainers"
         ],
-        "description": "List BillingContainer resources by subscription",
+        "description": "List BillingContainer resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1270,8 +1270,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AssetProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -1297,8 +1296,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AssetEndpointProfileProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -1375,26 +1373,9 @@
         "targetAddress"
       ]
     },
-    "AssetEndpointProfileUpdate": {
+    "AssetEndpointProfilePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the AssetEndpointProfile.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/AssetEndpointProfileUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "AssetEndpointProfileUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the AssetEndpointProfile.",
+      "description": "Defines the Asset Endpoint Profile properties.",
       "properties": {
         "targetAddress": {
           "type": "string",
@@ -1414,6 +1395,21 @@
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
         }
       }
+    },
+    "AssetEndpointProfileUpdate": {
+      "type": "object",
+      "description": "Asset Endpoint Profile definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AssetEndpointProfilePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "AssetListResult": {
       "type": "object",
@@ -1559,64 +1555,9 @@
         "assetEndpointProfileUri"
       ]
     },
-    "AssetStatus": {
+    "AssetPropertiesUpdate": {
       "type": "object",
-      "description": "Defines the asset status properties.",
-      "properties": {
-        "errors": {
-          "type": "array",
-          "description": "Array object to transfer and persist errors that originate from the Edge.",
-          "items": {
-            "$ref": "#/definitions/AssetStatusError"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
-        },
-        "version": {
-          "type": "integer",
-          "format": "int32",
-          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
-          "readOnly": true
-        }
-      }
-    },
-    "AssetStatusError": {
-      "type": "object",
-      "description": "Defines the asset status error properties.",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
-          "readOnly": true
-        },
-        "message": {
-          "type": "string",
-          "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).",
-          "readOnly": true
-        }
-      }
-    },
-    "AssetUpdate": {
-      "type": "object",
-      "description": "The type used for update operations of the Asset.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/AssetUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "AssetUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Asset.",
+      "description": "Defines the asset properties.",
       "properties": {
         "assetType": {
           "type": "string",
@@ -1697,14 +1638,84 @@
         }
       }
     },
+    "AssetStatus": {
+      "type": "object",
+      "description": "Defines the asset status properties.",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "description": "Array object to transfer and persist errors that originate from the Edge.",
+          "items": {
+            "$ref": "#/definitions/AssetStatusError"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32",
+          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
+          "readOnly": true
+        }
+      }
+    },
+    "AssetStatusError": {
+      "type": "object",
+      "description": "Defines the asset status error properties.",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).",
+          "readOnly": true
+        }
+      }
+    },
+    "AssetUpdate": {
+      "type": "object",
+      "description": "Asset definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AssetPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "BillingContainer": {
       "type": "object",
       "description": "billingContainer Model as Azure resource whose sole purpose is to keep track of billables resources under a subscription.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/BillingContainerProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "etag": {
           "type": "string",
@@ -1875,8 +1886,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DeviceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "etag": {
           "type": "string",
@@ -2060,26 +2070,9 @@
         }
       }
     },
-    "DeviceUpdate": {
+    "DevicePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the Device.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/DeviceUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "DeviceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Device.",
+      "description": "Defines the device properties.",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -2100,6 +2093,21 @@
           "additionalProperties": {}
         }
       }
+    },
+    "DeviceUpdate": {
+      "type": "object",
+      "description": "Device Model as ARM resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DevicePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "Endpoint": {
       "type": "object",
