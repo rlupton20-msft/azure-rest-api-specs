@@ -123,10 +123,10 @@ model EvaluationEnginePolicyDefinitionProperties {
   metadata?: {};
 
   @doc("Set of 0+ conditions in specified language that returns boolean")
-  applicabilityConditions?: string;
+  applicabilityRule?: string;
 
-  @doc("Set of 1+ conditions in specified language that returns boolean")
-  complianceConditions: string;
+  @doc("Set of 1+ rules in specified language that returns boolean")
+  complianceRule: string;
 
   @doc("Templatized effect following structure/syntax as defined in effect config of engine")
   effect?: {};
@@ -273,8 +273,8 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The evaluation applicability rule")
   applicabilityRule?: string;
 
-  @doc("The evaluation effect rule")
-  effectRule?: string;
+  @doc("The evaluation compliance rule")
+  complianceRule?: string;
 
   @doc("The evaluation effect")
   effect?: PolicyDefinitionsEffect;
@@ -317,8 +317,8 @@ model ApplicabilityActionResponse
   @doc("The applicability rule")
   applicabilityRule?: string;
 
-  @doc("The applicability effect rule")
-  effectRule?: string;
+  @doc("The applicability compliance rule")
+  complianceRule?: string;
 
   @doc("The applicability effect")
   effect?: PolicyDefinitionsEffect;
@@ -360,8 +360,8 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile rule")
   applicabilityRule?: string;
 
-  @doc("The transpile effect rule")
-  effectRule: string;
+  @doc("The transpile compliance rule")
+  complianceRule: string;
 
   @doc("The transpile effect")
   effect?: PolicyDefinitionsEffect;
