@@ -518,7 +518,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Throttling/accounts/{accountName}/categories": {
       "get": {
-        "operationId": "Categories_ListByAccount",
+        "operationId": "Categories_ListByParent",
         "tags": [
           "Categories"
         ],
@@ -556,11 +556,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Categories_ListByAccount": {
-            "$ref": "./examples/Categories_ListByAccount.json"
           }
         },
         "x-ms-pageable": {
@@ -878,8 +873,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AccountProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -934,33 +928,30 @@
         "authentication"
       ]
     },
-    "AccountUpdate": {
+    "AccountPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the Account.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-typespec-name": "Record<string>"
-        },
-        "properties": {
-          "$ref": "#/definitions/AccountUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "AccountUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Account.",
+      "description": "Account properties",
       "properties": {
         "authentication": {
           "$ref": "#/definitions/AuthenticationProperties",
           "description": "Account authentication properties"
         }
       }
+    },
+    "AccountUpdate": {
+      "type": "object",
+      "description": "Throttling account",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AccountPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "AuthenticationProperties": {
       "type": "object",
@@ -997,6 +988,25 @@
       "format": "uuid",
       "description": "Universally Unique Identifier"
     },
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-typespec-name": "Record<string>"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "AzureActiveDirectoryProperties": {
       "type": "object",
       "description": "AzureAD-based authentication properties",
@@ -1021,8 +1031,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CategoryProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -1094,27 +1103,9 @@
         "minDecisionDuration"
       ]
     },
-    "CategoryUpdate": {
+    "CategoryPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the Category.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-typespec-name": "Record<string>"
-        },
-        "properties": {
-          "$ref": "#/definitions/CategoryUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "CategoryUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Category.",
+      "description": "Category properties",
       "properties": {
         "threshold": {
           "type": "integer",
@@ -1140,6 +1131,21 @@
           "description": "Minimal decision duration"
         }
       }
+    },
+    "CategoryUpdate": {
+      "type": "object",
+      "description": "Throttling category",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CategoryPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "CertificateProperties": {
       "type": "object",
