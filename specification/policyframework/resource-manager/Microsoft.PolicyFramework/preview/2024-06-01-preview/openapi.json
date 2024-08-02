@@ -1285,16 +1285,16 @@
           "type": "string",
           "description": "The applicability rule"
         },
-        "effectRule": {
+        "complianceRule": {
           "type": "string",
-          "description": "The applicability effect rule"
+          "description": "The applicability compliance rule"
         },
         "effect": {
-          "$ref": "#/definitions/PolicyDefinitionsEffect",
+          "type": "string",
           "description": "The applicability effect"
         },
         "effectConfiguration": {
-          "type": "string",
+          "type": "object",
           "description": "The applicability effect configuration"
         },
         "result": {
@@ -1456,16 +1456,16 @@
           "type": "string",
           "description": "The evaluation applicability rule"
         },
-        "effectRule": {
+        "complianceRule": {
           "type": "string",
-          "description": "The evaluation effect rule"
+          "description": "The evaluation compliance rule"
         },
         "effect": {
-          "$ref": "#/definitions/PolicyDefinitionsEffect",
+          "type": "string",
           "description": "The evaluation effect"
         },
         "effectConfiguration": {
-          "type": "string",
+          "type": "object",
           "description": "The evaluation effect configuration"
         },
         "result": {
@@ -1750,22 +1750,25 @@
           "type": "object",
           "description": "The metadata of the evaluation engine policy definition."
         },
-        "applicabilityConditions": {
+        "applicabilityRule": {
           "type": "string",
-          "description": "Set of 0+ conditions in specified language that returns boolean"
+          "description": "Set of conditions in specified language that returns boolean"
         },
-        "complianceConditions": {
+        "complianceRule": {
           "type": "string",
-          "description": "Set of 1+ conditions in specified language that returns boolean"
+          "description": "Set of conditions in specified language that returns boolean"
         },
         "effect": {
+          "type": "string",
+          "description": "The evaluation engine policy definition effect."
+        },
+        "effectConfiguration": {
           "type": "object",
-          "description": "Templatized effect following structure/syntax as defined in effect config of engine"
+          "description": "The configuration for the effect for the policy definition."
         }
       },
       "required": [
-        "version",
-        "complianceConditions"
+        "version"
       ]
     },
     "EvaluationEnginePolicyDefinitionUpdate": {
@@ -1799,17 +1802,21 @@
           "type": "object",
           "description": "The metadata of the evaluation engine policy definition."
         },
-        "applicabilityConditions": {
+        "applicabilityRule": {
           "type": "string",
-          "description": "Set of 0+ conditions in specified language that returns boolean"
+          "description": "Set of conditions in specified language that returns boolean"
         },
-        "complianceConditions": {
+        "complianceRule": {
           "type": "string",
-          "description": "Set of 1+ conditions in specified language that returns boolean"
+          "description": "Set of conditions in specified language that returns boolean"
         },
         "effect": {
+          "type": "string",
+          "description": "The evaluation engine policy definition effect."
+        },
+        "effectConfiguration": {
           "type": "object",
-          "description": "Templatized effect following structure/syntax as defined in effect config of engine"
+          "description": "The configuration for the effect for the policy definition."
         }
       }
     },
@@ -1865,84 +1872,6 @@
           "type": "object",
           "description": "The rego configuration of the evaluation engine."
         }
-      }
-    },
-    "PolicyDefinitionsEffect": {
-      "type": "string",
-      "description": "The policy definitions effect",
-      "enum": [
-        "addToNetworkGroup",
-        "append",
-        "audit",
-        "auditIfNotExists",
-        "deny",
-        "denyAction",
-        "deployIfNotExists",
-        "disabled",
-        "manual",
-        "modify",
-        "mutate"
-      ],
-      "x-ms-enum": {
-        "name": "PolicyDefinitionsEffect",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AddToNetworkGroup",
-            "value": "addToNetworkGroup",
-            "description": "The add to network group effect"
-          },
-          {
-            "name": "Append",
-            "value": "append",
-            "description": "The append effect"
-          },
-          {
-            "name": "Audit",
-            "value": "audit",
-            "description": "The audit effect"
-          },
-          {
-            "name": "AuditIfNotExists",
-            "value": "auditIfNotExists",
-            "description": "The audit if not exists effect"
-          },
-          {
-            "name": "Deny",
-            "value": "deny",
-            "description": "The deny effect"
-          },
-          {
-            "name": "DenyAction",
-            "value": "denyAction",
-            "description": "The deny action effect"
-          },
-          {
-            "name": "DeployIfNotExists",
-            "value": "deployIfNotExists",
-            "description": "The deploy if not exists effect"
-          },
-          {
-            "name": "Disabled",
-            "value": "disabled",
-            "description": "The disabled effect"
-          },
-          {
-            "name": "Manual",
-            "value": "manual",
-            "description": "The manual effect"
-          },
-          {
-            "name": "Modify",
-            "value": "modify",
-            "description": "The modify effect"
-          },
-          {
-            "name": "Mutate",
-            "value": "mutate",
-            "description": "The mutate effect"
-          }
-        ]
       }
     },
     "ProvisioningState": {
@@ -2062,16 +1991,16 @@
           "type": "string",
           "description": "The transpile rule"
         },
-        "effectRule": {
+        "complianceRule": {
           "type": "string",
-          "description": "The transpile effect rule"
+          "description": "The transpile compliance rule"
         },
         "effect": {
-          "$ref": "#/definitions/PolicyDefinitionsEffect",
+          "type": "string",
           "description": "The transpile effect"
         },
         "effectConfiguration": {
-          "type": "string",
+          "type": "object",
           "description": "The transpile effect configuration"
         },
         "result": {
@@ -2081,7 +2010,6 @@
       },
       "required": [
         "scopes",
-        "effectRule",
         "result"
       ]
     },

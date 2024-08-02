@@ -122,14 +122,17 @@ model EvaluationEnginePolicyDefinitionProperties {
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
 
-  @doc("Set of 0+ conditions in specified language that returns boolean")
-  applicabilityConditions?: string;
+  @doc("Set of conditions in specified language that returns boolean")
+  applicabilityRule?: string;
 
-  @doc("Set of 1+ conditions in specified language that returns boolean")
-  complianceConditions: string;
+  @doc("Set of conditions in specified language that returns boolean")
+  complianceRule?: string;
 
-  @doc("Templatized effect following structure/syntax as defined in effect config of engine")
-  effect?: {};
+  @doc("The evaluation engine policy definition effect.")
+  effect?: string;
+
+  @doc("The configuration for the effect for the policy definition.")
+  effectConfiguration?: {};
 }
 
 @doc("The evaluation engine policy definition")
@@ -202,48 +205,6 @@ union ApplicabilityResult {
 }
 
 /**
- * POST actions effect
- *  retrieved from the Azure Policy definitions effect
- */
-@doc("The policy definitions effect")
-union PolicyDefinitionsEffect {
-  @doc("The add to network group effect")
-  AddToNetworkGroup: "addToNetworkGroup",
-
-  @doc("The append effect")
-  Append: "append",
-
-  @doc("The audit effect")
-  Audit: "audit",
-
-  @doc("The audit if not exists effect")
-  AuditIfNotExists: "auditIfNotExists",
-
-  @doc("The deny effect")
-  Deny: "deny",
-
-  @doc("The deny action effect")
-  DenyAction: "denyAction",
-
-  @doc("The deploy if not exists effect")
-  DeployIfNotExists: "deployIfNotExists",
-
-  @doc("The disabled effect")
-  Disabled: "disabled",
-
-  @doc("The manual effect")
-  Manual: "manual",
-
-  @doc("The modify effect")
-  Modify: "modify",
-
-  @doc("The mutate effect")
-  Mutate: "mutate",
-
-  string,
-}
-
-/**
  * Evaluation POST request and response
  */
 @doc("The evaluation action request")
@@ -273,14 +234,14 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The evaluation applicability rule")
   applicabilityRule?: string;
 
-  @doc("The evaluation effect rule")
-  effectRule?: string;
+  @doc("The evaluation compliance rule")
+  complianceRule?: string;
 
   @doc("The evaluation effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The evaluation effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
   @doc("The evaluation result")
   result: ComplianceResult;
@@ -317,14 +278,14 @@ model ApplicabilityActionResponse
   @doc("The applicability rule")
   applicabilityRule?: string;
 
-  @doc("The applicability effect rule")
-  effectRule?: string;
+  @doc("The applicability compliance rule")
+  complianceRule?: string;
 
   @doc("The applicability effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The applicability effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
   @doc("The applicability result")
   result: ApplicabilityResult;
@@ -360,14 +321,14 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile rule")
   applicabilityRule?: string;
 
-  @doc("The transpile effect rule")
-  effectRule: string;
+  @doc("The transpile compliance rule")
+  complianceRule?: string;
 
   @doc("The transpile effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The transpile effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
   @doc("The applicability result")
   result: ApplicabilityResult;
