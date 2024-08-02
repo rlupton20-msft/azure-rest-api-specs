@@ -12,9 +12,6 @@ model LandingZoneAccountResourceProperties {
   provisioningState?: ResourceProvisioningState;
 
   @doc("The storage account that will host the generated slz code.")
-  @minLength(3)
-  @maxLength(24)
-  @pattern("^[a-z0-9]+$")
   storageAccount: armResourceIdentifier<[
     {
       type: "Microsoft.Storage/storageAccounts";
