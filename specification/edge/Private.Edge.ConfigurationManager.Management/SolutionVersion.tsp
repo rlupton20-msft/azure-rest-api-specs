@@ -34,6 +34,9 @@ union SolutionVersionType {
   @doc("Helm solution version")
   Helm: "Helm",
 
+  @doc("Dummy value for testing")
+  Dummy: "Dummy",
+
   string,
 }
 
@@ -57,6 +60,21 @@ model HelmSolution extends SolutionVersion {
 
   @doc("Kind of solution version")
   kind: SolutionVersionType.Helm;
+}
+
+@doc("Dummy Use Case Properties")
+model DummySolution extends SolutionVersion {
+  @doc("Kind of solution version")
+  kind: SolutionVersionType.Dummy;
+
+  @doc("Dummy property for testing")
+  properties: DummyModel;
+}
+
+@doc("Dummy model for testing")
+model DummyModel {
+  @doc("Dummy property for testing")
+  dummyProperty: string;
 }
 
 @armResourceOperations

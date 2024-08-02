@@ -1885,7 +1885,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SolutionInstanceProperties"
+              "$ref": "#/definitions/SolutionInstance"
             }
           }
         ],
@@ -1953,7 +1953,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SolutionInstanceProperties"
+              "$ref": "#/definitions/SolutionInstance"
             }
           }
         ],
@@ -3312,8 +3312,7 @@
       "required": [
         "hierarchyType",
         "configurationId"
-      ],
-      "readOnly": true
+      ]
     },
     "ConfigurationModel": {
       "type": "string",
@@ -3337,8 +3336,7 @@
             "description": "Configuration model Common"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "ConfigurationType": {
       "type": "string",
@@ -3362,8 +3360,7 @@
             "description": "Configuration type Hierarchy"
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "DeploymentTarget": {
       "type": "object",
@@ -3405,6 +3402,14 @@
       "type": "object",
       "description": "Deployment Target Properties",
       "properties": {
+        "testProperty": {
+          "$ref": "#/definitions/testunion",
+          "description": "Dummy property for testing"
+        },
+        "testProperty2": {
+          "$ref": "#/definitions/testunion2",
+          "description": "Dummy property for testing"
+        },
         "displayName": {
           "type": "string",
           "description": "Display Name of deployment target"
@@ -3428,6 +3433,7 @@
         }
       },
       "required": [
+        "testProperty",
         "displayName",
         "customLocation",
         "capabilities"
@@ -3437,6 +3443,14 @@
       "type": "object",
       "description": "Deployment Target Properties",
       "properties": {
+        "testProperty": {
+          "$ref": "#/definitions/testunion",
+          "description": "Dummy property for testing"
+        },
+        "testProperty2": {
+          "$ref": "#/definitions/testunion2",
+          "description": "Dummy property for testing"
+        },
         "displayName": {
           "type": "string",
           "description": "Display Name of deployment target"
@@ -3469,6 +3483,38 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "DummyModel": {
+      "type": "object",
+      "description": "Dummy model for testing",
+      "properties": {
+        "dummyProperty": {
+          "type": "string",
+          "description": "Dummy property for testing"
+        }
+      },
+      "required": [
+        "dummyProperty"
+      ]
+    },
+    "DummySolution": {
+      "type": "object",
+      "description": "Dummy Use Case Properties",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DummyModel",
+          "description": "Dummy property for testing"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/SolutionVersion"
+        }
+      ],
+      "x-ms-discriminator-value": "Dummy"
     },
     "HelmSolution": {
       "type": "object",
@@ -4251,7 +4297,8 @@
       "type": "string",
       "description": "Available solution version types",
       "enum": [
-        "Helm"
+        "Helm",
+        "Dummy"
       ],
       "x-ms-enum": {
         "name": "SolutionVersionType",
@@ -4261,6 +4308,11 @@
             "name": "Helm",
             "value": "Helm",
             "description": "Helm solution version"
+          },
+          {
+            "name": "Dummy",
+            "value": "Dummy",
+            "description": "Dummy value for testing"
           }
         ]
       }
@@ -4305,8 +4357,67 @@
             "description": "Solution Instance is undeployed"
           }
         ]
-      },
-      "readOnly": true
+      }
+    },
+    "testunion": {
+      "type": "string",
+      "description": "Dummy model for testing",
+      "enum": [
+        "test1",
+        "test2",
+        "test3"
+      ],
+      "x-ms-enum": {
+        "name": "testunion",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "test1",
+            "value": "test1",
+            "description": "test1 description"
+          },
+          {
+            "name": "test2",
+            "value": "test2",
+            "description": "test2 description"
+          },
+          {
+            "name": "test3",
+            "value": "test3",
+            "description": "test3 description"
+          }
+        ]
+      }
+    },
+    "testunion2": {
+      "type": "string",
+      "description": "Dummy model for testing",
+      "enum": [
+        "test1",
+        "test2",
+        "test3"
+      ],
+      "x-ms-enum": {
+        "name": "testunion2",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "test4",
+            "value": "test1",
+            "description": "test1 description"
+          },
+          {
+            "name": "test5",
+            "value": "test2",
+            "description": "test2 description"
+          },
+          {
+            "name": "test6",
+            "value": "test3",
+            "description": "test3 description"
+          }
+        ]
+      }
     }
   },
   "parameters": {

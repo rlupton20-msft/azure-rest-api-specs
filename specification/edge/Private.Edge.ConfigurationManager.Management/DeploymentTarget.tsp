@@ -16,8 +16,42 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
+@doc("Dummy model for testing")
+union testunion {
+  @doc("test1 description")
+  test1: "test1",
+
+  @doc("test2 description")
+  test2: "test2",
+
+  @doc("test3 description")
+  test3: "test3",
+
+  string
+}
+
+@doc("Dummy model for testing")
+union testunion2 {
+  @doc("test1 description")
+  test4: "test1",
+
+  @doc("test2 description")
+  test5: "test2",
+
+  @doc("test3 description")
+  test6: "test3",
+
+  string
+}
+
 @doc("Deployment Target Properties")
 model DeploymentTargetProperties {
+  @doc("Dummy property for testing")
+  testProperty: testunion;
+
+  @doc("Dummy property for testing")
+  testProperty2?: testunion2;
+
   @doc("Display Name of deployment target")
   displayName: string;
 
