@@ -12,23 +12,6 @@ using Azure.Core;
 
 @armProviderNamespace("Private.AzureStackHCI")
 namespace Private.AzureStackHCI;
-
-@doc("A Cluster")
-model Cluster is TrackedResource<ClusterProperties> {
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("clusterName")
-  @doc("Name of Cluster")
-  @segment("clusters")
-  @visibility("read")
-  @path("/clusters/{clusterName}")
-  name: string;
-}
-@doc("A ClusterProperties")
-model ClusterProperties {
-  @doc("The provisioning state of the cluster.")
-  @visibility("read")
-  provisioningState?: ProvisioningState;
-}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 @doc("Cluster Jobs resource")
 @parentResource(Cluster)
@@ -59,23 +42,12 @@ interface ClusterJobs {
   delete is ArmResourceDeleteWithoutOkAsync<ClusterJob>;
 
   @doc("List ClusterJob resources by Clusters")
-  listByClusters is ArmResourceListByParent<ClusterJob>;
+  listByCluster is ArmResourceListByParent<ClusterJob>;
 }
 
 @@doc(ClusterJob.name, "Name of ClusterJob");
 
 ////////////////////models////////////////////
-
-@doc("Edge solution type.")
-union EdgeSolutionType {
-  string,
-
-  @doc("Edge solution for Windows based edge devices.")
-  Windows: "Windows",
-
-  @doc("Edge solution for Azure linux edge devices.")
-  AzureLinux: "AzureLinux",
-}
 
 @doc("Secret names allowed for Enterprise Cloud Engine (ECE) deployment.")
 union EceSecrets {

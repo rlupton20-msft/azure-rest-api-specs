@@ -64,24 +64,6 @@ interface EdgeDeviceJobs {
 
 ///////////////////models///////////
 
-@doc("Represents the status of a log collection operation.")
-union LogCollectionStatus {
-  @doc("A custom status provided as a string.")
-  string,
-
-  @doc("Indicates that no log collection operation has been initiated.")
-  None: "None",
-
-  @doc("Indicates that the log collection operation is currently in progress.")
-  InProgress: "InProgress",
-
-  @doc("Indicates that the log collection operation has failed.")
-  Failed: "Failed",
-
-  @doc("Indicates that the log collection operation has completed successfully.")
-  Succeeded: "Succeeded",
-}
-
 @doc("Job Type supported by Azure Linux Edge Devices.")
 union AzureLinuxEdgeDeviceJobType {
   string,
@@ -91,33 +73,6 @@ union AzureLinuxEdgeDeviceJobType {
 
   @doc("Job to provide remote support to the device.")
   RemoteSupport: "RemoteSupport",
-}
-
-@doc("Defines the level of remote support access granted.")
-union RemoteSupportAccessLevel {
-  @doc("A custom access level provided as a string.")
-  string,
-
-  @doc("No remote support access is granted.")
-  None: "None",
-
-  @doc("Access is limited to diagnostics information only.")
-  Diagnostics: "Diagnostics",
-
-  @doc("Access includes diagnostics information and the ability to perform repairs.")
-  DiagnosticsAndRepair: "DiagnosticsAndRepair",
-}
-
-@doc("Defines the type of remote support action to be performed on an edge device.")
-union RemoteSupportType {
-  @doc("A custom action type provided as a string.")
-  string,
-
-  @doc("Enables remote support for the edge device.")
-  Enable: "Enable",
-
-  @doc("Revokes previously granted remote support access for the edge device.")
-  Revoke: "Revoke",
 }
 
 @doc("Job Type supported.")

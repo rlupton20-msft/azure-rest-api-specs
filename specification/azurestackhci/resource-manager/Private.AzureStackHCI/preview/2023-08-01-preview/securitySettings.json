@@ -417,7 +417,7 @@
         }
       }
     },
-    "WindowsSecuritySettingsProperties": {
+    "SecurityProperties": {
       "type": "object",
       "description": "Security properties of the resource",
       "properties": {
@@ -452,7 +452,7 @@
       "description": "Security settings proxy resource",
       "properties": {
         "kind": {
-          "$ref": "./hciCommon.json#/definitions/ClusterKind",
+          "$ref": "./hciCommon.json#/definitions/EdgeSolutionType",
           "description": "Cluster kind to support polymorphic resource.",
           "x-ms-mutability": [
             "create",
@@ -476,7 +476,7 @@
       "properties": {
         "properties": {
           "description": "properties for Cluster deployment configuration.",
-          "$ref": "#/definitions/WindowsSecuritySettingsProperties"
+          "$ref": "#/definitions/SecurityProperties"
         }
       },
       "allOf": [
@@ -485,6 +485,22 @@
         }
       ],
       "x-ms-discriminator-value": "Windows"
+    },
+    "AzureLinuxSecuritySetting": {
+      "type": "object",
+      "description": "Deployment Configuration for Windows-based Cluster deployment.",
+      "properties": {
+        "properties": {
+          "description": "properties for Cluster deployment configuration.",
+          "$ref": "#/definitions/SecurityProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecuritySetting"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
     },
     "SecuritySettingListResult": {
       "type": "object",

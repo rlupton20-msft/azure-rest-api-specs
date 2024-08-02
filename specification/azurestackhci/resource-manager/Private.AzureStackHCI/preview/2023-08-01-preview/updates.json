@@ -328,7 +328,7 @@
           "description": "The geo-location where the resource lives"
         },
         "kind": {
-          "$ref": "./hciCommon.json#/definitions/ClusterKind",
+          "$ref": "./hciCommon.json#/definitions/EdgeSolutionType",
           "description": "Cluster kind to support polymorphic resource.",
           "x-ms-mutability": [
             "create",
@@ -347,7 +347,7 @@
       "properties": {
         "properties": {
           "description": "properties for Cluster deployment configuration.",
-          "$ref": "#/definitions/WindowsUpdateProperties"
+          "$ref": "#/definitions/UpdateProperties"
         }
       },
       "allOf": [
@@ -357,7 +357,23 @@
       ],
       "x-ms-discriminator-value": "Windows"
     },
-    "WindowsUpdateProperties": {
+    "AzureLinuxUpdate": {
+      "type": "object",
+      "description": "Deployment Configuration for Windows-based Cluster deployment.",
+      "properties": {
+        "properties": {
+          "description": "properties for Cluster deployment configuration.",
+          "$ref": "#/definitions/UpdateProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Update"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
+    },
+    "UpdateProperties": {
       "description": "Details of a singular Update in HCI Cluster",
       "type": "object",
       "properties": {
