@@ -24,11 +24,11 @@ model SchemaProperties {
 
   @doc("Type of configuration")
   @visibility("read")
-  configurationType: ConfigurationType;
+  configurationType?: ConfigurationType;
 
   @doc("Type of configuration model")
   @visibility("read")
-  configurationModel: ConfigurationModel;
+  configurationModel?: ConfigurationModel;
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -36,7 +36,7 @@ model SchemaProperties {
 }
 
 @doc("Schema Resource")
-@resource("schema")
+@resource("schemas")
 model Schema is TrackedResource<SchemaProperties> {
   ...ResourceNameParameter<Schema>;
 }

@@ -40,7 +40,7 @@ model SolutionProperties {
   @doc("List of configuration links")
   @visibility("read")
   @extension("x-ms-identifiers", [])
-  configurationLinks: ConfigurationLink[];
+  configurationLinks?: ConfigurationLink[];
 
   @doc("Provisioning state of resource")
   @visibility("read")

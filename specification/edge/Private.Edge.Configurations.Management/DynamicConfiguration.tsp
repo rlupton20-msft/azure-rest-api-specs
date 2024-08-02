@@ -25,11 +25,11 @@ model DynamicConfigurationProperties {
 
   @doc("Type of dynamic configuration")
   @visibility("read")
-  dynamicConfigurationType: ConfigurationType;
+  dynamicConfigurationType?: ConfigurationType;
 
   @doc("Type of dynamic configuration model")
   @visibility("read")
-  dynamicConfigurationModel: ConfigurationModel;
+  dynamicConfigurationModel?: ConfigurationModel;
 
   @doc("Provisioning state of resource")
   @visibility("read")

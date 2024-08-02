@@ -46,7 +46,7 @@ model SolutionInstanceProperties {
 
   @doc("State of solution instance")
   @visibility("read")
-  state: State;
+  state?: State;
 
   @doc("Provisioning state of resource")
   @visibility("read")
