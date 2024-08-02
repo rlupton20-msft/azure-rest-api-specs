@@ -122,10 +122,10 @@ model EvaluationEnginePolicyDefinitionProperties {
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
 
-  @doc("Set of rules in specified language that returns boolean")
+  @doc("Set of conditions in specified language that returns boolean")
   applicabilityRule?: string;
 
-  @doc("Set of rules in specified language that returns boolean")
+  @doc("Set of conditions in specified language that returns boolean")
   complianceRule?: string;
 
   @doc("The evaluation engine policy definition effect.")
