@@ -122,7 +122,7 @@ model EvaluationEnginePolicyDefinitionProperties {
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
 
-  @doc("Set of conditions in specified language that returns boolean")
+  @doc("Set of rules in specified language that returns boolean")
   applicabilityRule?: string;
 
   @doc("Set of rules in specified language that returns boolean")
@@ -322,7 +322,7 @@ model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   applicabilityRule?: string;
 
   @doc("The transpile compliance rule")
-  complianceRule: string;
+  complianceRule?: string;
 
   @doc("The transpile effect")
   effect?: string;
