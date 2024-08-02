@@ -128,12 +128,10 @@ model AccountProperties {
 model AuthenticationProperties {
   @doc("Certificate-based authentication properties")
   @extension("x-ms-identifiers", ["subjectName"])
-  @minItems(1)
   certificates?: CertificateProperties[];
 
   @doc("AzureAD-based authentication properties")
   @extension("x-ms-identifiers", ["objectId"])
-  @minItems(1)
   azureActiveDirectory?: AzureActiveDirectoryProperties[];
 }
 
