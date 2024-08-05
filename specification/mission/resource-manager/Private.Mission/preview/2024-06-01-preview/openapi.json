@@ -77,40 +77,6 @@
     }
   ],
   "paths": {
-    "/{resourceUri}/providers/Private.Mission/approvals": {
-      "get": {
-        "operationId": "Approvals_ListByParent",
-        "tags": [
-          "Approvals"
-        ],
-        "description": "List ApprovalsResource resources by parent",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalsResourceListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/{resourceUri}/providers/Private.Mission/approvals/{approvalsName}": {
       "get": {
         "operationId": "Approvals_Get",
@@ -222,6 +188,75 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "Approvals_Update",
+        "tags": [
+          "Approvals"
+        ],
+        "description": "Update a ApprovalsResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalsName",
+            "in": "path",
+            "description": "The name of the approvals resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalsResourceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalsResource"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Approvals_Update": {
+            "$ref": "./examples/Approvals_Update.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
       "delete": {
         "operationId": "Approvals_Delete",
         "tags": [
@@ -280,13 +315,13 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/{resourceUri}/providers/Private.Mission/approvals/{approvalsName}/approvalInitiatorCallback": {
+    "/{resourceUri}/providers/Private.Mission/approvals/{approvalsName}/initiatorCallback": {
       "post": {
-        "operationId": "Approvals_ApprovalInitiatorCallback",
+        "operationId": "Approvals_InitiatorCallback",
         "tags": [
           "Approvals"
         ],
-        "description": "Upon recieving approval or rejection from approver, this faciliates actions on approvals resource",
+        "description": "Upon receiving approval or rejection from approver, this facilitates actions on approvals resource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -308,7 +343,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ApprovalInitiatorCallbackRequest"
+              "$ref": "#/definitions/InitiatorCallbackRequest"
             }
           }
         ],
@@ -316,7 +351,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalInitiatorCallbackResponse"
+              "$ref": "#/definitions/InitiatorCallbackResponse"
             }
           },
           "202": {
@@ -341,7 +376,7 @@
           }
         },
         "x-ms-examples": {
-          "Approvals_ApprovalInitiatorCallback": {
+          "Approvals_InitiatorCallback": {
             "$ref": "./examples/Approvals_PostApprovalInitiatorCallback.json"
           }
         },
@@ -819,7 +854,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities": {
       "get": {
-        "operationId": "Community_ListByParent",
+        "operationId": "Community_ListByResourceGroup",
         "tags": [
           "Community"
         ],
@@ -847,6 +882,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Community_ListByResourceGroup": {
+            "$ref": "./examples/Community_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -1165,7 +1205,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/communityEndpoints": {
       "get": {
-        "operationId": "CommunityEndpoints_ListByParent",
+        "operationId": "CommunityEndpoints_ListByCommunityResource",
         "tags": [
           "CommunityEndpoints"
         ],
@@ -1201,6 +1241,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "CommunityEndpoints_ListByCommunityResource": {
+            "$ref": "./examples/CommunityEndpoints_ListByCommunityResource.json"
           }
         },
         "x-ms-pageable": {
@@ -1495,7 +1540,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/transitHubs": {
       "get": {
-        "operationId": "TransitHub_ListByParent",
+        "operationId": "TransitHub_ListByCommunityResource",
         "tags": [
           "TransitHub"
         ],
@@ -1531,6 +1576,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TransitHub_ListByCommunityResource": {
+            "$ref": "./examples/TransitHub_ListByCommunityResource.json"
           }
         },
         "x-ms-pageable": {
@@ -1825,7 +1875,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/enclaveConnections": {
       "get": {
-        "operationId": "EnclaveConnection_ListByParent",
+        "operationId": "EnclaveConnection_ListByResourceGroup",
         "tags": [
           "EnclaveConnection"
         ],
@@ -1853,6 +1903,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "EnclaveConnection_ListByResourceGroup": {
+            "$ref": "./examples/EnclaveConnection_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -2189,7 +2244,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/externalConnections": {
       "get": {
-        "operationId": "ExternalConnections_ListByParent",
+        "operationId": "ExternalConnections_ListByResourceGroup",
         "tags": [
           "ExternalConnections"
         ],
@@ -2217,6 +2272,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ExternalConnections_ListByResourceGroup": {
+            "$ref": "./examples/ExternalConnections_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -2479,7 +2539,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/internalConnections": {
       "get": {
-        "operationId": "InternalConnections_ListByParent",
+        "operationId": "InternalConnections_ListByResourceGroup",
         "tags": [
           "InternalConnections"
         ],
@@ -2507,6 +2567,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "InternalConnections_ListByResourceGroup": {
+            "$ref": "./examples/InternalConnections_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -2769,7 +2834,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves": {
       "get": {
-        "operationId": "VirtualEnclave_ListByParent",
+        "operationId": "VirtualEnclave_ListByResourceGroup",
         "tags": [
           "VirtualEnclave"
         ],
@@ -2797,6 +2862,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_ListByResourceGroup": {
+            "$ref": "./examples/VirtualEnclave_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -3059,7 +3129,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/enclaveEndpoints": {
       "get": {
-        "operationId": "EnclaveEndpoints_ListByParent",
+        "operationId": "EnclaveEndpoints_ListByEnclaveResource",
         "tags": [
           "EnclaveEndpoints"
         ],
@@ -3095,6 +3165,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "EnclaveEndpoints_ListByEnclaveResource": {
+            "$ref": "./examples/EnclaveEndpoints_ListByEnclaveResource.json"
           }
         },
         "x-ms-pageable": {
@@ -3389,7 +3464,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/endpoints": {
       "get": {
-        "operationId": "Endpoint_ListByParent",
+        "operationId": "Endpoint_ListByEnclaveResource",
         "tags": [
           "Endpoint"
         ],
@@ -3425,6 +3500,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Endpoint_ListByEnclaveResource": {
+            "$ref": "./examples/Endpoint_ListByEnclaveResource.json"
           }
         },
         "x-ms-pageable": {
@@ -3719,7 +3799,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/workloads": {
       "get": {
-        "operationId": "Workload_ListByParent",
+        "operationId": "Workload_ListByEnclaveResource",
         "tags": [
           "Workload"
         ],
@@ -3755,6 +3835,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Workload_ListByEnclaveResource": {
+            "$ref": "./examples/Workload_ListByEnclaveResource.json"
           }
         },
         "x-ms-pageable": {
@@ -4101,39 +4186,6 @@
         "message"
       ]
     },
-    "ApprovalInitiatorCallbackRequest": {
-      "type": "object",
-      "description": "Request body for calling post-action",
-      "properties": {
-        "approvalStatus": {
-          "type": "string",
-          "description": "Approval status indicating 'Approved' or 'Rejected'",
-          "enum": [
-            "Approved",
-            "Rejected"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      },
-      "required": [
-        "approvalStatus"
-      ]
-    },
-    "ApprovalInitiatorCallbackResponse": {
-      "type": "object",
-      "description": "Response body after handling of approvalCallbackRequest",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Confirmation message indicating the result of the operation."
-        }
-      },
-      "required": [
-        "message"
-      ]
-    },
     "ApprovalStatus": {
       "type": "string",
       "description": "Approval Status Enum",
@@ -4187,13 +4239,32 @@
         }
       }
     },
+    "ApprovalsPropertiesUpdate": {
+      "type": "object",
+      "description": "Approvals Resource Properties",
+      "properties": {
+        "parent1": {
+          "type": "string",
+          "description": "Parameter for optimizing query results"
+        },
+        "parent2": {
+          "type": "string",
+          "description": "Parameter for optimizing query results"
+        },
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadataUpdate",
+          "description": "Request metadata for the approval request."
+        }
+      }
+    },
     "ApprovalsResource": {
       "type": "object",
       "description": "Approvals Model Resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ApprovalsProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4202,25 +4273,20 @@
         }
       ]
     },
-    "ApprovalsResourceListResult": {
+    "ApprovalsResourceUpdate": {
       "type": "object",
-      "description": "The response of a ApprovalsResource list operation.",
+      "description": "Approvals Model Resource",
       "properties": {
-        "value": {
-          "type": "array",
-          "description": "The ApprovalsResource items on this page",
-          "items": {
-            "$ref": "#/definitions/ApprovalsResource"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
+        "properties": {
+          "$ref": "#/definitions/ApprovalsPropertiesUpdate",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
-      "required": [
-        "value"
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate": {
@@ -4452,7 +4518,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CommunityEndpointProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -4796,7 +4863,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EnclaveConnectionProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5073,7 +5141,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EnclaveEndpointProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5324,7 +5393,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EndpointProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5410,7 +5480,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ExternalConnectionProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -5632,13 +5703,47 @@
         ]
       }
     },
+    "InitiatorCallbackRequest": {
+      "type": "object",
+      "description": "Request body for calling post-action",
+      "properties": {
+        "approvalStatus": {
+          "type": "string",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
+          "enum": [
+            "Approved",
+            "Rejected"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "approvalStatus"
+      ]
+    },
+    "InitiatorCallbackResponse": {
+      "type": "object",
+      "description": "Response body after handling of approvalCallbackRequest",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Confirmation message indicating the result of the operation."
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
     "InternalConnection": {
       "type": "object",
       "description": "Describes an Internal Connection.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/InternalConnectionProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -6077,6 +6182,38 @@
       },
       "readOnly": true
     },
+    "RequestMetadata": {
+      "type": "object",
+      "description": "Request Metadata for approvals request.",
+      "properties": {
+        "resourceAction": {
+          "type": "string",
+          "description": "Resource Action of the item being approved or declined."
+        },
+        "approvalStatus": {
+          "$ref": "#/definitions/ApprovalStatus",
+          "description": "Approval status."
+        }
+      },
+      "required": [
+        "resourceAction",
+        "approvalStatus"
+      ]
+    },
+    "RequestMetadataUpdate": {
+      "type": "object",
+      "description": "Request Metadata for approvals request.",
+      "properties": {
+        "resourceAction": {
+          "type": "string",
+          "description": "Resource Action of the item being approved or declined."
+        },
+        "approvalStatus": {
+          "$ref": "#/definitions/ApprovalStatus",
+          "description": "Approval status."
+        }
+      }
+    },
     "ServiceIdentifier": {
       "type": "string",
       "description": "Identifier for governed services.",
@@ -6179,24 +6316,6 @@
         ]
       }
     },
-    "RequestMetadata": {
-      "type": "object",
-      "description": "Request Metadata for approvals request.",
-      "properties": {
-        "resourceAction": {
-          "type": "string",
-          "description": "Resource Action of the item being approved or declined."
-        },
-        "approvalStatus": {
-          "$ref": "#/definitions/ApprovalStatus",
-          "description": "Approval status."
-        }
-      },
-      "required": [
-        "resourceAction",
-        "approvalStatus"
-      ]
-    },
     "StorageAccountResourceId": {
       "type": "string",
       "format": "arm-id",
@@ -6281,7 +6400,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/TransitHubProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -6564,7 +6684,8 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/WorkloadProperties",
-          "description": "The resource-specific properties for this resource."
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [

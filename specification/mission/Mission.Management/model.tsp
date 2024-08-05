@@ -21,7 +21,7 @@ import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
 import "./resourcetypes/postActions/approvalcallback.tsp";
 import "./resourcetypes/approvals/approvals.tsp";
-import "./resourcetypes/postActions/approvalinitiatorcallback.tsp";
+import "./resourcetypes/postActions/initiatorcallback.tsp";
 
 using Azure.ClientGenerator.Core;
 using Azure.Core;
@@ -206,6 +206,8 @@ model CommunityEndpointResource
   name: string;
 }
 
+
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("Approvals Model Resource")
 model ApprovalsResource is ExtensionResource<ApprovalsProperties> {
   @key("approvalsName")
@@ -415,16 +417,20 @@ interface ExternalConnections {
   delete is ArmResourceDeleteAsync<ExternalConnection>;
   listByResourceGroup is ArmResourceListByParent<ExternalConnection>;
   listBySubscription is ArmListBySubscription<ExternalConnection>;
+}
 
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("Approvals Interface")
 @armResourceOperations
 interface Approvals {
   get is ArmResourceRead<ApprovalsResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalsResource>;
-  delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;
-  listByParent is ArmResourceListByParent<ApprovalsResource>;
-  @doc("Upon recieving approval or rejection from approver, this faciliates actions on approvals resource")
+  update is ArmResourcePatchAsync<
+    ApprovalsResource,
+    ApprovalsProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;  
+  @doc("Upon receiving approval or rejection from approver, this facilitates actions on approvals resource")
   @armResourceAction(ApprovalsResource)
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  approvalInitiatorCallback is ArmResourceActionAsync<ApprovalsResource, ApprovalInitiatorCallbackRequest, ApprovalInitiatorCallbackResponse>;
+  initiatorCallback is ArmResourceActionAsync<ApprovalsResource, InitiatorCallbackRequest, InitiatorCallbackResponse>;
 }
