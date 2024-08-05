@@ -22,7 +22,7 @@ model Campaign is TrackedResource<CampaignProperties> {
   @doc("The name of the campaign.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]+(\\.[a-z0-9]+)*$")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
   @path
   @key("campaignName")
   @segment("campaigns")
