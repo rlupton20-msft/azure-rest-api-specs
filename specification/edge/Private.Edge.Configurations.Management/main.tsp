@@ -6,6 +6,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./Configuration.tsp";
 import "./DynamicConfiguration.tsp";
 import "./DynamicConfigurationVersion.tsp";
+import "./ArcGatewayConfiguration.tsp";
+import "./TimeServerConfiguration.tsp";
+import "./ConnectivityConfiguration.tsp";
+import "./NetworkConfiguration.tsp";
+import "./SecurityConfiguration.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

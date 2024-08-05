@@ -16,6 +16,19 @@ To see additional help and options, run:
 
 For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
 
+
+---
+## Suppression
+
+``` yaml
+directive:
+  - suppress: BodyTopLevelProperties
+    reason: The BodyTopLevelProperties rule is mistakenly flagging paged responses #722
+  - suppress: OperationsAPIImplementation
+    from: sites.json
+    reason: RP is in PrivatePreview and no SDK has been released yet. Microsoft.Edge RP consist of multiple resources which are owned/maintained by different teams, so we follow folder structure for Service Group (explained here https://github.com/Azure/azure-rest-api-specs-pr/tree/RPSaaSMaster?tab=readme-ov-file#folder-structure-for-service-group). We do have operations api exposed from common-location/folder (https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/edge/resource-manager/Microsoft.Edge/edge/preview/2024-02-01-preview/operations.json#L46C5-L46C43) so every resource need not expose it separately. There has been open issue [Avocado] Support service group folder scenario azure-sdk-tools#6201 for the same.
+```
+
 ---
 
 ## Configuration
@@ -38,6 +51,7 @@ These settings apply only when `--tag=package-2024-06-01-preview` is specified o
 input-file:
   - configurations/preview/2024-06-01-preview/configurations.json
   - configurationmanager/preview/2024-06-01-preview/configurationmanager.json
+  - sites/preview/2024-06-01-preview/Sites.json
 ```
 
 ### Tag: updates-package-2023-07-01-preview
