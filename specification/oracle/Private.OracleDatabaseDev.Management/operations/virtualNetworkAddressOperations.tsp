@@ -25,14 +25,22 @@ interface VirtualNetworkAddresses
     "Attach Virtual Network Addresses of VM Cluster"
   )
   @added(Versions.v20240701_preview)
-  attach is ArmResourceActionAsync<VirtualNetworkAddress, VirtualNetworkAddressProperties, VirtualNetworkAddress>;
+  attach is ArmResourceActionAsync<
+    VirtualNetworkAddress,
+    VirtualNetworkAddressProperties,
+    VirtualNetworkAddress
+  >;
 
   @Autorest.example(
     "./examples/virtualNetworkAddresses_detach.json",
     "Detach Virtual Network Addresses of VM Cluster"
   )
   @added(Versions.v20240701_preview)
-  detach is ArmResourceActionAsync<VirtualNetworkAddress, void, VirtualNetworkAddress>;
+  detach is ArmResourceActionAsync<
+    VirtualNetworkAddress,
+    void,
+    VirtualNetworkAddress
+  >;
 }
 
 @@Autorest.example(VirtualNetworkAddresses.createOrUpdate,

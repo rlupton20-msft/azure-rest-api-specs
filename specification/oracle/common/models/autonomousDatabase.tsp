@@ -16,374 +16,378 @@ namespace Private.OracleDatabaseDev;
 @doc("The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25']")
 scalar aclString extends string;
 
-@doc("AutonomousDatabaseLifecycleState enum")
+@doc("Autonomous database lifecycle state enum")
 union AutonomousDatabaseLifecycleState {
-  @doc("PROVISIONING value")
+  @doc("Indicates that resource in Provisioning state")
   Provisioning: "Provisioning",
 
-  @doc("AVAILABLE value")
+  @doc("Indicates that resource in Available state")
   Available: "Available",
 
-  @doc("STOPPING value")
+  @doc("Indicates that resource in Stopping state")
   Stopping: "Stopping",
 
-  @doc("STOPPED value")
+  @doc("Indicates that resource in Stopped state")
   Stopped: "Stopped",
 
-  @doc("STARTING value")
+  @doc("Indicates that resource in Starting state")
   Starting: "Starting",
 
-  @doc("TERMINATING value")
+  @doc("Indicates that resource in Terminating state")
   Terminating: "Terminating",
 
-  @doc("TERMINATED value")
+  @doc("Indicates that resource in Terminated state")
   Terminated: "Terminated",
 
-  @doc("UNAVAILABLE value")
+  @doc("Indicates that resource in Unavailable state")
   Unavailable: "Unavailable",
 
-  @doc("RESTORE_IN_PROGRESS value")
+  @doc("Indicates that resource in RestoreInProgress state")
   RestoreInProgress: "RestoreInProgress",
 
-  @doc("RESTORE_FAILED value")
+  @doc("Indicates that resource in RestoreFailed state")
   RestoreFailed: "RestoreFailed",
 
-  @doc("BACKUP_IN_PROGRESS value")
+  @doc("Indicates that resource in BackupInProgress state")
   BackupInProgress: "BackupInProgress",
 
-  @doc("SCALE_IN_PROGRESS value")
+  @doc("Indicates that resource in ScaleInProgress state")
   ScaleInProgress: "ScaleInProgress",
 
-  @doc("AVAILABLE_NEEDS_ATTENTION value")
+  @doc("Indicates that resource is available but needs attention")
   AvailableNeedsAttention: "AvailableNeedsAttention",
 
-  @doc("UPDATING value")
+  @doc("Indicates that resource in Updating state")
   Updating: "Updating",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Indicates that resource maintenance in progress state")
   MaintenanceInProgress: "MaintenanceInProgress",
 
-  @doc("RESTARTING value")
+  @doc("Indicates that resource in Restarting state")
   Restarting: "Restarting",
 
-  @doc("RECREATING value")
+  @doc("Indicates that resource in Recreating state")
   Recreating: "Recreating",
 
-  @doc("ROLE_CHANGE_IN_PROGRESS value")
+  @doc("Indicates that resource role change in progress state")
   RoleChangeInProgress: "RoleChangeInProgress",
 
-  @doc("UPGRADING value")
+  @doc("Indicates that resource in Upgrading state")
   Upgrading: "Upgrading",
 
-  @doc("INACCESSIBLE value")
+  @doc("IIndicates that resource in Inaccessible state")
   Inaccessible: "Inaccessible",
 
-  @doc("STANDBY value")
+  @doc("Indicates that resource in Standby state")
   Standby: "Standby",
 
   string,
 }
 
-@doc("RefreshableModelType enum")
+@doc("Refreshable model type enum")
 union RefreshableModelType {
-  @doc("AUTOMATIC value")
+  @doc("Automatic refreshable model type")
   Automatic: "Automatic",
 
-  @doc("MANUAL value")
+  @doc("Manual refreshable model type")
   Manual: "Manual",
 
   string,
 }
 
-@doc("RepeatCadenceType enum")
+@doc("Repeat cadence type enum")
 union RepeatCadenceType {
-  @doc("ONE_TIME value")
+  @doc("Repeat one time")
   OneTime: "OneTime",
 
-  @doc("WEEKLY value")
+  @doc("Repeat weekly")
   Weekly: "Weekly",
 
-  @doc("MONTHLY value")
+  @doc("Repeat monthly")
   Monthly: "Monthly",
 
-  @doc("YEARLY value")
+  @doc("Repeat yearly")
   Yearly: "Yearly",
 
   string,
 }
 
-@doc("DataBaseType enum")
+@doc("Database type enum")
 union DataBaseType {
-  @doc("REGULAR value")
+  @doc("Regular DB")
   Regular: "Regular",
 
-  @doc("CLONE value")
+  @doc("Clone DB")
   Clone: "Clone",
+
+  @added(Versions.v20240801_preview)
+  @doc("Clone DB from backup timestamp")
+  CloneFromBackupTimestamp: "CloneFromBackupTimestamp",
 
   string,
 }
 
-@doc("ComputeModel enum")
+@doc("Compute model enum")
 union ComputeModel {
-  @doc("ECPU value")
+  @doc("ECPU model type")
   ECPU: "ECPU",
 
-  @doc("OCPU value")
+  @doc("OCPU model type")
   OCPU: "OCPU",
 
   string,
 }
 
-@doc("CloneType enum")
+@doc("Clone type enum")
 union CloneType {
-  @doc("FULL value")
+  @doc("Full clone")
   Full: "Full",
 
-  @doc("METADATA value")
+  @doc("Metadata only")
   Metadata: "Metadata",
 
   string,
 }
 
-@doc("AutonomousMaintenanceScheduleType enum.")
+@doc("Autonomous database maintenance schedule type enum.")
 union AutonomousMaintenanceScheduleType {
-  @doc("EARLY value")
+  @doc("Early maintenance schedule")
   Early: "Early",
 
-  @doc("REGULAR value")
+  @doc("Regular maintenance schedule")
   Regular: "Regular",
 
   string,
 }
 
-@doc("SourceType enum.")
+@doc("Source type enum.")
 union SourceType {
-  @doc("NONE value")
+  @doc("None source")
   None: "None",
 
-  @doc("DATABASE value")
+  @doc("Database source")
   Database: "Database",
 
-  @doc("BACKUP_FROM_ID value")
+  @doc("Backup from ID source")
   BackupFromId: "BackupFromId",
 
-  @doc("BACKUP_FROM_TIMESTAMP value")
+  @doc("Backup from timestamp source")
   BackupFromTimestamp: "BackupFromTimestamp",
 
-  @doc("CLONE_TO_REFRESHABLE value")
+  @doc("Clone to refreshable source")
   CloneToRefreshable: "CloneToRefreshable",
 
-  @doc("CROSS_REGION_DATAGUARD value")
+  @doc("Cross region dataguard source")
   CrossRegionDataguard: "CrossRegionDataguard",
 
-  @doc("CROSS_REGION_DISASTER_RECOVERY value")
+  @doc("cross region disaster recovery source")
   CrossRegionDisasterRecovery: "CrossRegionDisasterRecovery",
 
   string,
 }
 
-@doc("TlsAuthenticationType enum.")
+@doc("TLS authentication type enum.")
 union TlsAuthenticationType {
-  @doc("SERVER value")
+  @doc("Server authentication")
   Server: "Server",
 
-  @doc("MUTUAL value")
+  @doc("Mutual TLS")
   Mutual: "Mutual",
 
   string,
 }
 
-@doc("SyntaxFormatType enum.")
+@doc("Syntax format type enum.")
 union SyntaxFormatType {
-  @doc("LONG value")
+  @doc("Long format")
   Long: "Long",
 
-  @doc("EZCONNECT value")
+  @doc("Ezconnect format")
   Ezconnect: "Ezconnect",
 
-  @doc("EZCONNECTPLUS value")
+  @doc("Ezconnectplus format")
   Ezconnectplus: "Ezconnectplus",
 
   string,
 }
 
-@doc("SessionModeType enum.")
+@doc("Session mode type enum.")
 union SessionModeType {
-  @doc("DIRECT value")
+  @doc("Direct session mode")
   Direct: "Direct",
 
-  @doc("REDIRECT value")
+  @doc("Redirect session mode")
   Redirect: "Redirect",
 
   string,
 }
 
-@doc("ProtocolType enum.")
+@doc("Protocol type enum.")
 union ProtocolType {
-  @doc("TCP value")
+  @doc("TCP protocol")
   TCP: "TCP",
 
-  @doc("TCPS value")
+  @doc("TCPS protocol")
   TCPS: "TCPS",
 
   string,
 }
 
-@doc("HostFormatType enum.")
+@doc("Host format type enum.")
 union HostFormatType {
-  @doc("FQDN value")
+  @doc("FQDN format")
   Fqdn: "Fqdn",
 
-  @doc("IP value")
+  @doc("IP format")
   Ip: "Ip",
 
   string,
 }
 
-@doc("ConsumerGroup enum.")
+@doc("Consumer group enum.")
 union ConsumerGroup {
-  @doc("HIGH value")
+  @doc("High group")
   High: "High",
 
-  @doc("MEDIUM value")
+  @doc("Medium group")
   Medium: "Medium",
 
-  @doc("LOW value")
+  @doc("Low group")
   Low: "Low",
 
-  @doc("TP value")
+  @doc("TP group")
   Tp: "Tp",
 
-  @doc("TPURGENT value")
+  @doc("TPurgent group")
   Tpurgent: "Tpurgent",
 
   string,
 }
 
-@doc("DataSafeStatusType enum.")
+@doc("DataSafe status type enum.")
 union DataSafeStatusType {
-  @doc("REGISTERING value")
+  @doc("Registering status")
   Registering: "Registering",
 
-  @doc("REGISTERED value")
+  @doc("Registered status")
   Registered: "Registered",
 
-  @doc("DEREGISTERING value")
+  @doc("Deregistering status")
   Deregistering: "Deregistering",
 
-  @doc("NOT_REGISTERED value")
+  @doc("NotRegistered status")
   NotRegistered: "NotRegistered",
 
-  @doc("FAILED value")
+  @doc("Failed status")
   Failed: "Failed",
 
   string,
 }
 
-@doc("PermissionLevelType enum.")
+@doc("Permission level type enum.")
 union PermissionLevelType {
-  @doc("RESTRICTED value")
+  @doc("Restricted permission level")
   Restricted: "Restricted",
 
-  @doc("UNRESTRICTED value")
+  @doc("Unrestricted permission level")
   Unrestricted: "Unrestricted",
 
   string,
 }
 
-@doc("DatabaseEditionType enum.")
+@doc("Database edition type enum.")
 union DatabaseEditionType {
-  @doc("STANDARD_EDITION value")
+  @doc("Standard edition")
   StandardEdition: "StandardEdition",
 
-  @doc("ENTERPRISE_EDITION value")
+  @doc("Enterprise edition")
   EnterpriseEdition: "EnterpriseEdition",
 
   string,
 }
 
-@doc("OpenModeType enum.")
+@doc("Open mode type enum.")
 union OpenModeType {
-  @doc("READ_ONLY value")
+  @doc("ReadOnly mode")
   ReadOnly: "ReadOnly",
 
-  @doc("READ_WRITE value")
+  @doc("ReadWrite mode")
   ReadWrite: "ReadWrite",
 
   string,
 }
 
-@doc("OperationsInsightsStatusType enum.")
+@doc("Operations Insights status type enum.")
 union OperationsInsightsStatusType {
-  @doc("ENABLING value")
+  @doc("Enabling status")
   Enabling: "Enabling",
 
-  @doc("ENABLED value")
+  @doc("Enabled status")
   Enabled: "Enabled",
 
-  @doc("DISABLING value")
+  @doc("Disabling status")
   Disabling: "Disabling",
 
-  @doc("NOT_ENABLED value")
+  @doc("NotEnabled status")
   NotEnabled: "NotEnabled",
 
-  @doc("FAILED_ENABLING value")
+  @doc("FailedEnabling status")
   FailedEnabling: "FailedEnabling",
 
-  @doc("FAILED_DISABLING value")
+  @doc("FailedDisabling status")
   FailedDisabling: "FailedDisabling",
 
   string,
 }
 
-@doc("RoleType enum.")
+@doc("Role type enum.")
 union RoleType {
-  @doc("PRIMARY value")
+  @doc("Primary role")
   Primary: "Primary",
 
-  @doc("STANDBY value")
+  @doc("Standby role")
   Standby: "Standby",
 
-  @doc("DISABLED_STANDBY value")
+  @doc("DisabledStandby role")
   DisabledStandby: "DisabledStandby",
 
-  @doc("BACKUP_COPY value")
+  @doc("BackupCopy role")
   BackupCopy: "BackupCopy",
 
-  @doc("SNAPSHOT_STANDBY value")
+  @doc("SnapshotStandby role")
   SnapshotStandby: "SnapshotStandby",
 
   string,
 }
 
-@doc("RefreshableStatusType enum.")
+@doc("Refreshable status type enum.")
 union RefreshableStatusType {
-  @doc("REFRESHING value")
+  @doc("Refreshing status")
   Refreshing: "Refreshing",
 
-  @doc("NOT_REFRESHING value")
+  @doc("NotRefreshing status")
   NotRefreshing: "NotRefreshing",
 
   string,
 }
 
-@doc("DisasterRecoveryType enum.")
+@doc("Disaster recovery type enum.")
 union DisasterRecoveryType {
-  @doc("ADG value")
+  @doc("ADG type")
   Adg: "Adg",
 
-  @doc("BACKUP_BASED value")
+  @doc("Backup based type")
   BackupBased: "BackupBased",
 
   string,
 }
 
-@doc("GenerateType enum")
+@doc("Generate type enum")
 union GenerateType {
-  @doc("SINGLE value")
+  @doc("Generate single")
   Single: "Single",
 
-  @doc("ALL value")
+  @doc("Generate all")
   All: "All",
 
   string,
@@ -628,6 +632,34 @@ model AutonomousDatabaseCloneProperties
   @doc("The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database.")
   @visibility("read", "update")
   timeUntilReconnectCloneEnabled?: string;
+}
+
+@added(Versions.v20240801_preview)
+@doc("Autonomous Database From Backup Timestamp resource model.")
+model AutonomousDatabaseFromBackupTimestampProperties
+  extends AutonomousDatabaseBaseProperties {
+  @doc("Database type to be created.")
+  dataBaseType: DataBaseType.CloneFromBackupTimestamp;
+
+  @doc("The source of the database.")
+  @visibility("create")
+  source: SourceType.BackupFromTimestamp;
+
+  @doc("The ID of the source Autonomous Database that you will clone to create a new Autonomous Database.")
+  @visibility("create", "read")
+  sourceId: AutonomousDatabaseId;
+
+  @doc("The Autonomous Database clone type.")
+  @visibility("create")
+  cloneType: CloneType;
+
+  @doc("The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.")
+  @visibility("create")
+  timestamp?: string;
+
+  @doc("Clone from latest available backup timestamp.")
+  @visibility("create")
+  useLatestAvailableBackupTimeStamp?: boolean;
 }
 
 @discriminator("dataBaseType")

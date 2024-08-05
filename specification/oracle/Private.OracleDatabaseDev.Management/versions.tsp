@@ -13,5 +13,8 @@ enum Versions {
   v20240601_preview: "2024-06-01-preview",
 
   @doc("2024-07-01-preview")
-  v20240701_preview: "2024-07-01-preview"
+  v20240701_preview: "2024-07-01-preview",
+
+  @doc("2024-08-01-preview")
+  v20240801_preview: "2024-08-01-preview",
 }
