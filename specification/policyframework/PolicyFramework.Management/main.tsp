@@ -39,11 +39,17 @@ model EvaluationEngineProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("The evaluation engine target.")
+  target: string;
+
   @doc("The scope configuration of the evaluation engine.")
   scopeConfiguration: {};
 
   @doc("The rego configuration of the evaluation engine.")
   regoConfig: {};
+
+  @doc("The effects of the evaluation engine.")
+  effects: {};
 }
 
 @doc("The evaluation engine")
