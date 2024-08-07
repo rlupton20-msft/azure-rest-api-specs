@@ -196,6 +196,7 @@ model ActivationStatusProperties {
   nextStage?: string;
 
   @doc("The errorMessage of the ActivationStatus")
+  @removed(Versions.v2024_08_01_preview)
   errorMessage?: string;
 
   @doc("The activationGeneration of the ActivationStatus")
