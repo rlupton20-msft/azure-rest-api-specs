@@ -638,6 +638,29 @@ model AutonomousDatabaseCloneProperties
   timeUntilReconnectCloneEnabled?: string;
 }
 
+@added(Versions.v20241001_preview)
+@doc("Autonomous Database Cross Region Disaster Recovery resource model.")
+model AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
+  @doc("Database type to be created.")
+  dataBaseType: DataBaseType.CrossRegionDisasterRecovery;
+
+  @doc("The source of the database.")
+  @visibility("create", "read")
+  source?: SourceType.CrossRegionDisasterRecovery;
+  
+  @doc("The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association.")
+  @visibility("create", "read")
+  sourceId: AutonomousDatabaseId;
+  
+  @doc("Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
+  @visibility("create", "read")
+  remoteDisasterRecoveryType: DisasterRecoveryType;
+
+  @doc("If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.")
+  @visibility("create", "read")
+  isReplicateAutomaticBackups?: boolean;
+}
+
 @added(Versions.v20240801_preview)
 @doc("Autonomous Database From Backup Timestamp resource model.")
 model AutonomousDatabaseFromBackupTimestampProperties
