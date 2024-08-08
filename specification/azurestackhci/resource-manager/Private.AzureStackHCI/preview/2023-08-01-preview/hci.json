@@ -953,7 +953,7 @@
             "description": "Details of the HCI cluster.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ClusterPatch"
+              "$ref": "#/definitions/Cluster"
             }
           }
         ],
@@ -2449,11 +2449,16 @@
       "type": "object",
       "description": "Cluster details.",
       "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The resource-specific properties for this resource."
+        },
         "kind": {
           "$ref": "#/definitions/EdgeSolutionType",
           "description": "Edge Solution type to support polymorphic resource.",
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         },
@@ -2812,29 +2817,8 @@
           }
         },
         "kind": {
-          "type": "string",
-          "description": "Edge Solution type to support polymorphic resource.",
-          "default": "Windows",
-          "enum": [
-            "Windows",
-            "AzureLinux"
-          ],
-          "x-ms-enum": {
-            "name": "EdgeSolutionType",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Windows",
-                "value": "Windows",
-                "description": "Edge solution for Windows based edge devices."
-              },
-              {
-                "name": "AzureLinux",
-                "value": "AzureLinux",
-                "description": "Edge solution for Azure linux edge devices."
-              }
-            ]
-          }
+          "$ref": "#/definitions/EdgeSolutionType",
+          "description": "Edge Solution type to support polymorphic resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",

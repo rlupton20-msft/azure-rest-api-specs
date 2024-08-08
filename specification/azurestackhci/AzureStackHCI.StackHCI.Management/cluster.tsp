@@ -14,6 +14,7 @@ using Azure.Core;
 namespace Private.AzureStackHCI;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
+#suppress "@azure-tools/typespec-azure-resource-manager/empty-updateable-properties" ""
 @doc("Cluster details.")
 @discriminator("kind")
 model Cluster is Azure.ResourceManager.TrackedResource<{}> {
@@ -26,7 +27,7 @@ model Cluster is Azure.ResourceManager.TrackedResource<{}> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   @doc("Edge Solution type to support polymorphic resource.")
-  @visibility("read", "create")
+  @visibility("read", "create", "update")
   kind: EdgeSolutionType;
 
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
@@ -42,7 +43,7 @@ interface Clusters {
 
   @doc("Update an HCI cluster.")
   @parameterVisibility
-  update is ArmCustomPatchSync<Cluster, ClusterPatch>;
+  update is ArmCustomPatchSync<Cluster, Cluster>;
 
   @doc("Delete an HCI cluster.")
   delete is ArmResourceDeleteWithoutOkAsync<Cluster>;
@@ -349,7 +350,7 @@ model ClusterPatch {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   @doc("Edge Solution type to support polymorphic resource.")
-  kind?: EdgeSolutionType = EdgeSolutionType.Windows;
+  kind: EdgeSolutionType;
 
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
