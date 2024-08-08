@@ -2351,6 +2351,40 @@
         ]
       }
     },
+    "AzureLinuxProvisioningRequest": {
+      "type": "object",
+      "description": "Azure Linux provisioning request.",
+      "properties": {
+        "osProfile": {
+          "$ref": "#/definitions/OsProfile",
+          "description": "Operating system profile."
+        },
+        "userConfiguration": {
+          "$ref": "#/definitions/UserConfiguration",
+          "description": "User configuration."
+        },
+        "onboardingConfiguration": {
+          "$ref": "#/definitions/OnboardingConfiguration",
+          "description": "Onboarding configuration."
+        },
+        "deviceConfiguration": {
+          "$ref": "#/definitions/DeviceConfiguration",
+          "description": "Device configuration."
+        }
+      },
+      "required": [
+        "osProfile",
+        "userConfiguration",
+        "onboardingConfiguration",
+        "deviceConfiguration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvisioningRequest"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
+    },
     "AzureLinuxRemoteSupportJobProperties": {
       "type": "object",
       "description": "Represents the properties of an Azure Linux Remote Support job.",
@@ -2425,6 +2459,116 @@
         }
       ],
       "x-ms-discriminator-value": "RepairServer"
+    },
+    "AzureLinuxRoeEdgeDeviceJob": {
+      "type": "object",
+      "description": "Edge device job for Azure Linux restricted operating environment solution.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureLinuxRoeEdgeDeviceJobProperties",
+          "description": "Edge device job properties for restricted operating environment"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceJob"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinuxRoe"
+    },
+    "AzureLinuxRoeEdgeDeviceJobProperties": {
+      "type": "object",
+      "description": "Azure linux edge device job properties in restricted operating environment",
+      "properties": {
+        "deploymentMode": {
+          "$ref": "#/definitions/DeploymentMode",
+          "description": "Deployment mode to trigger job."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Job provisioning state",
+          "readOnly": true
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Unique, immutable job id.",
+          "readOnly": true
+        },
+        "startTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job started.",
+          "readOnly": true
+        },
+        "endTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC date and time at which the job completed.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/JobStatus",
+          "description": "Status of Edge device job.",
+          "readOnly": true
+        },
+        "reportedProperties": {
+          "$ref": "#/definitions/EdgeDeviceJobReportedProperties",
+          "description": "Reported properties for job",
+          "readOnly": true
+        },
+        "jobType": {
+          "$ref": "#/definitions/AzureLinuxRoeEdgeDeviceJobType",
+          "description": "Job Type to support polymorphic resource.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        }
+      },
+      "discriminator": "jobType",
+      "required": [
+        "jobType"
+      ]
+    },
+    "AzureLinuxRoeEdgeDeviceJobType": {
+      "type": "string",
+      "description": "Job Type supported by Azure Linux Edge Devices in Restricted operating environment.",
+      "enum": [
+        "ProvisionOs"
+      ],
+      "x-ms-enum": {
+        "name": "AzureLinuxRoeEdgeDeviceJobType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ProvisionOs",
+            "value": "ProvisionOs",
+            "description": "Job to provision operating system in the device."
+          }
+        ]
+      }
+    },
+    "AzureLinuxRoeProvisionOsJobProperties": {
+      "type": "object",
+      "description": "Represents the properties of an Azure Linux restricted operating environment Provision Os job.",
+      "properties": {
+        "provisioningRequest": {
+          "$ref": "#/definitions/ProvisioningRequest",
+          "description": "Os Provisioning request."
+        }
+      },
+      "required": [
+        "provisioningRequest"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureLinuxRoeEdgeDeviceJobProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "ProvisionOs"
     },
     "AzureStackHciJob": {
       "type": "object",
@@ -3371,6 +3515,67 @@
         }
       }
     },
+    "DeviceConfiguration": {
+      "type": "object",
+      "description": "Device configuration.",
+      "properties": {
+        "network": {
+          "$ref": "#/definitions/NetworkConfiguration",
+          "description": "Network configuration."
+        },
+        "webProxy": {
+          "$ref": "#/definitions/WebProxyConfiguration",
+          "description": "Web proxy configuration."
+        },
+        "time": {
+          "$ref": "#/definitions/TimeConfiguration",
+          "description": "Time configuration."
+        }
+      }
+    },
+    "DeviceLogCollectionStatus": {
+      "type": "string",
+      "description": "Represents the status of a log collection operation.",
+      "enum": [
+        "NotStarted",
+        "Running",
+        "Failed",
+        "Succeeded",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "DeviceLogCollectionStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NotStarted",
+            "value": "NotStarted",
+            "description": "Log collection operation has not been initiated."
+          },
+          {
+            "name": "Running",
+            "value": "Running",
+            "description": "Indicates that the log collection operation is currently running."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that the log collection operation has failed."
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Indicates that the log collection operation has completed successfully."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Indicates that the log collection operation has completed successfully."
+          }
+        ]
+      },
+      "readOnly": true
+    },
     "DeviceMetadata": {
       "type": "object",
       "description": "EdgeDevice Metadata resource",
@@ -3679,7 +3884,8 @@
         "WindowsServer",
         "WindowsIoT",
         "AzureLinux",
-        "UbuntuLinux"
+        "UbuntuLinux",
+        "AzureLinuxRoe"
       ],
       "x-ms-enum": {
         "name": "EdgeDeviceKind",
@@ -3709,6 +3915,11 @@
             "name": "UbuntuLinux",
             "value": "UbuntuLinux",
             "description": "Arc-enabled edge device with UbuntuLinux OS."
+          },
+          {
+            "name": "AzureLinuxRoe",
+            "value": "AzureLinuxRoe",
+            "description": "Arc-enabled edge device with Azure Linux restricted operating environment."
           }
         ]
       }
@@ -4596,6 +4807,39 @@
       ],
       "x-ms-discriminator-value": "SetInformation"
     },
+    "HybridComputeMachineOnboardingConfiguration": {
+      "type": "object",
+      "description": "Represents properties for hybrid compute machine onboarding resource.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the resource."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID of the resource."
+        },
+        "arcVirtualMachineId": {
+          "type": "string",
+          "description": "Azure Arc virtual machine ID."
+        }
+      },
+      "required": [
+        "resourceId",
+        "location",
+        "arcVirtualMachineId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/OnboardingConfiguration"
+        }
+      ],
+      "x-ms-discriminator-value": "HybridComputeMachine"
+    },
     "ImdsAttestation": {
       "type": "string",
       "description": "IMDS attestation status of the cluster.",
@@ -4616,6 +4860,48 @@
             "name": "Enabled",
             "value": "Enabled",
             "description": "IMDS attestation is enabled."
+          }
+        ]
+      }
+    },
+    "IpAddressRange": {
+      "type": "object",
+      "description": "IP address range configuration.",
+      "properties": {
+        "startIp": {
+          "type": "string",
+          "description": "Start IP address."
+        },
+        "endIp": {
+          "type": "string",
+          "description": "End IP address."
+        }
+      },
+      "required": [
+        "startIp",
+        "endIp"
+      ]
+    },
+    "IpAssignmentType": {
+      "type": "string",
+      "description": "IP assignment types",
+      "enum": [
+        "Automatic",
+        "Manual"
+      ],
+      "x-ms-enum": {
+        "name": "IpAssignmentType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Automatic",
+            "value": "Automatic",
+            "description": "Automatic IP assignment"
+          },
+          {
+            "name": "Manual",
+            "value": "Manual",
+            "description": "Manual IP assignment"
           }
         ]
       }
@@ -4921,7 +5207,7 @@
           "readOnly": true
         },
         "status": {
-          "$ref": "#/definitions/LogCollectionStatus",
+          "$ref": "#/definitions/DeviceLogCollectionStatus",
           "description": "The status of the log collection session.",
           "readOnly": true
         },
@@ -4999,6 +5285,63 @@
         ]
       }
     },
+    "NetworkAdapter": {
+      "type": "object",
+      "description": "Network adapter configuration.",
+      "properties": {
+        "ipAssignmentType": {
+          "$ref": "#/definitions/IpAssignmentType",
+          "description": "Type of IP assignment."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "IP address."
+        },
+        "ipAddressRange": {
+          "$ref": "#/definitions/IpAddressRange",
+          "description": "IP address range."
+        },
+        "gateway": {
+          "type": "string",
+          "description": "Gateway id."
+        },
+        "subnetMask": {
+          "type": "string",
+          "description": "Subnet mask."
+        },
+        "dnsAddressArray": {
+          "type": "array",
+          "description": "Array of DNS addresses.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vlanId": {
+          "type": "string",
+          "description": "VLAN ID for the network setup."
+        }
+      },
+      "required": [
+        "ipAssignmentType"
+      ]
+    },
+    "NetworkConfiguration": {
+      "type": "object",
+      "description": "Network configuration.",
+      "properties": {
+        "networkAdapters": {
+          "type": "array",
+          "description": "List of network adapters.",
+          "items": {
+            "$ref": "#/definitions/NetworkAdapter"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "networkAdapters"
+      ]
+    },
     "OemActivation": {
       "type": "string",
       "description": "OEM activation status of the cluster.",
@@ -5021,6 +5364,64 @@
             "description": "OEM activation is enabled."
           }
         ]
+      }
+    },
+    "OnboardingConfiguration": {
+      "type": "object",
+      "description": "Onboarding configuration.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/OnboardingResourceType",
+          "description": "Type of the onboarding resource to support polymorphic resource.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "OnboardingResourceType": {
+      "type": "string",
+      "description": "Onboarding resource type.",
+      "enum": [
+        "HybridComputeMachine"
+      ],
+      "x-ms-enum": {
+        "name": "OnboardingResourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HybridComputeMachine",
+            "value": "HybridComputeMachine",
+            "description": "Hybrid Compute Machine."
+          }
+        ]
+      }
+    },
+    "OsProfile": {
+      "type": "object",
+      "description": "Operating system profile.",
+      "properties": {
+        "osName": {
+          "type": "string",
+          "description": "Name of the operating system."
+        },
+        "osType": {
+          "type": "string",
+          "description": "Type of the operating system."
+        },
+        "osVersion": {
+          "type": "string",
+          "description": "Version of the operating system."
+        },
+        "osImageUrl": {
+          "type": "string",
+          "description": "URL of the operating system image."
+        }
       }
     },
     "PartitionDetails": {
@@ -5169,6 +5570,42 @@
           "readOnly": true
         }
       }
+    },
+    "ProvisioningOsType": {
+      "type": "string",
+      "description": "Represents the provisioning operating system type.",
+      "enum": [
+        "AzureLinux"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningOsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureLinux",
+            "value": "AzureLinux",
+            "description": "AzureLinux OS."
+          }
+        ]
+      }
+    },
+    "ProvisioningRequest": {
+      "type": "object",
+      "description": "Represents a provisioning request.",
+      "properties": {
+        "target": {
+          "$ref": "#/definitions/ProvisioningOsType",
+          "description": "Target operating system to support polymorphic resource.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        }
+      },
+      "discriminator": "target",
+      "required": [
+        "target"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -5325,11 +5762,6 @@
       "type": "object",
       "description": "Represents the settings of a remote support node.",
       "properties": {
-        "arcResourceId": {
-          "type": "string",
-          "description": "The resource ID of the Azure Arc enabled server.",
-          "readOnly": true
-        },
         "state": {
           "type": "string",
           "description": "The state of the remote support node.",
@@ -5356,11 +5788,6 @@
           "type": "string",
           "description": "The error message, if any, from the last connection attempt.",
           "readOnly": true
-        },
-        "transcriptLocation": {
-          "type": "string",
-          "description": "The location where the session transcript is stored.",
-          "readOnly": true
         }
       }
     },
@@ -5385,20 +5812,20 @@
           "readOnly": true
         },
         "nodeSettings": {
-          "type": "array",
+          "$ref": "#/definitions/RemoteSupportNodeSettings",
           "description": "Optional settings for configuring the node for remote support.",
+          "readOnly": true
+        },
+        "sessionDetails": {
+          "type": "array",
+          "description": "Details of the remote support session.",
           "items": {
-            "$ref": "#/definitions/RemoteSupportNodeSettings"
+            "$ref": "#/definitions/RemoteSupportSession"
           },
           "readOnly": true,
           "x-ms-identifiers": [
-            "arcResourceId"
+            "sessionId"
           ]
-        },
-        "sessionDetails": {
-          "$ref": "#/definitions/RemoteSupportSession",
-          "description": "Details of the remote support session.",
-          "readOnly": true
         }
       }
     },
@@ -5436,6 +5863,11 @@
       "type": "object",
       "description": "Represents a remote support session.",
       "properties": {
+        "sessionId": {
+          "type": "string",
+          "description": "Unique session Id.",
+          "readOnly": true
+        },
         "sessionStartTime": {
           "type": "string",
           "format": "date-time",
@@ -5448,20 +5880,14 @@
           "description": "The end time of the remote support session, in UTC.",
           "readOnly": true
         },
-        "nodeName": {
-          "type": "string",
-          "description": "The name of the node for which the session was initiated.",
-          "readOnly": true
-        },
-        "duration": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The duration of the session in minutes.",
-          "readOnly": true
-        },
         "accessLevel": {
           "$ref": "#/definitions/RemoteSupportAccessLevel",
           "description": "The level of access granted during the remote support session.",
+          "readOnly": true
+        },
+        "transcriptLocation": {
+          "type": "string",
+          "description": "The location where the session transcript is stored.",
           "readOnly": true
         }
       }
@@ -5940,6 +6366,24 @@
         }
       }
     },
+    "TimeConfiguration": {
+      "type": "object",
+      "description": "Time configuration.",
+      "properties": {
+        "primaryTimeServer": {
+          "type": "string",
+          "description": "Primary NTP server."
+        },
+        "secondaryTimeServer": {
+          "type": "string",
+          "description": "Secondary NTP server."
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "Time zone."
+        }
+      }
+    },
     "UploadCertificateRequest": {
       "type": "object",
       "description": "Request model for uploading certificates.",
@@ -5947,6 +6391,50 @@
         "properties": {
           "$ref": "#/definitions/RawCertificateData",
           "description": "Raw certificate data."
+        }
+      }
+    },
+    "UserConfiguration": {
+      "type": "object",
+      "description": "User configuration.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "Name of the user."
+        },
+        "secretType": {
+          "type": "string",
+          "description": "Type of the secret used for authentication."
+        },
+        "secretLocation": {
+          "type": "string",
+          "description": "Location of the secret used for authentication."
+        }
+      },
+      "required": [
+        "userName",
+        "secretType",
+        "secretLocation"
+      ]
+    },
+    "WebProxyConfiguration": {
+      "type": "object",
+      "description": "Web proxy configuration.",
+      "properties": {
+        "connectionUri": {
+          "type": "string",
+          "description": "Connection URI of the web proxy."
+        },
+        "port": {
+          "type": "string",
+          "description": "Port of the web proxy."
+        },
+        "bypassList": {
+          "type": "array",
+          "description": "Bypass list for the web proxy.",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

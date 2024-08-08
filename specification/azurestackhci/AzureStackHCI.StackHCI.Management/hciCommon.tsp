@@ -273,6 +273,9 @@ union EdgeDeviceKind {
 
   @doc("Arc-enabled edge device with UbuntuLinux OS.")
   UbuntuLinux: "UbuntuLinux",
+
+  @doc("Arc-enabled edge device with Azure Linux restricted operating environment.")
+  AzureLinuxRoe: "AzureLinuxRoe", 
 }
 
 @doc("Defines the level of remote support access granted.")
