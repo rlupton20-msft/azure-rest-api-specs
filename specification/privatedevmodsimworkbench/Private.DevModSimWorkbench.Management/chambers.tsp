@@ -180,7 +180,7 @@ model Chamber is TrackedResource<ChamberProperties> {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create")
   @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
-  sku?: Azure.ResourceManager.Foundations.Sku;
+  sku?: ChamberSku;
 }
 
 @doc("Parameters for getUploadUri")

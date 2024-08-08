@@ -45,7 +45,7 @@ model WorkbenchProperties {
   // #deprecated "Use top-level sku.name"
   @visibility("read", "create")
   @doc("SKU name.")
-  sku: string;
+  sku?: string;
 
   // For white-label demo, un-comment below.
   // @visibility("read", "create", "update")
