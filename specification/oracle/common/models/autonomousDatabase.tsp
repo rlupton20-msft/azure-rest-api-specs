@@ -1069,9 +1069,13 @@ model DisasterRecoveryConfigurationDetails {
 @added(Versions.v20241001_preview)
 @doc("The object holds details about a peer Autonomous Database for Oracle Autonomous Database.")
 model AutonomousDatabasePeerProperties {
-   @doc("The name of the region where this peer Autonomous Database clone exists.")
+   @doc("The name of the region where this peer Autonomous Database exists.")
    @visibility("read")
    region?: string;
+
+   @doc("Azure resource provisioning state.")
+   @visibility("read")
+   provisioningState?: AzureResourceProvisioningState;
 }
 
 @added(Versions.v20241001_preview)
