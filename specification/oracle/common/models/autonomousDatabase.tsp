@@ -640,18 +640,19 @@ model AutonomousDatabaseCloneProperties
 
 @added(Versions.v20241001_preview)
 @doc("Autonomous Database Cross Region Disaster Recovery resource model.")
-model AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
+model AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  extends AutonomousDatabaseBaseProperties {
   @doc("Database type to be created.")
   dataBaseType: DataBaseType.CrossRegionDisasterRecovery;
 
   @doc("The source of the database.")
   @visibility("create", "read")
   source?: SourceType.CrossRegionDisasterRecovery;
-  
+
   @doc("The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association.")
   @visibility("create", "read")
   sourceId: AutonomousDatabaseId;
-  
+
   @doc("Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
   @visibility("create", "read")
   remoteDisasterRecoveryType: DisasterRecoveryType;
@@ -795,7 +796,7 @@ model AutonomousDatabaseBaseProperties {
   @doc("The date and time the Disaster Recovery role was switched for the standby Autonomous Database.")
   @visibility("read")
   timeDisasterRecoveryRoleChanged?: utcDateTime;
-  
+
   @added(Versions.v20241001_preview)
   @doc("Indicates remote disaster recovery configuration")
   @visibility("read")
@@ -1055,27 +1056,27 @@ model AutonomousDatabaseWalletFile {
 model DisasterRecoveryConfigurationDetails {
   @doc("Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
   disasterRecoveryType?: DisasterRecoveryType;
-  
+
   @doc("Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.")
   timeSnapshotStandbyEnabledTill?: utcDateTime;
-  
+
   @doc("Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.")
   isSnapshotStandby?: boolean;
-  
+
   @doc("If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.")
   isReplicateAutomaticBackups?: boolean;
-} 
-  
+}
+
 @added(Versions.v20241001_preview)
 @doc("The object holds details about a peer Autonomous Database for Oracle Autonomous Database.")
 model AutonomousDatabasePeerProperties {
-   @doc("The name of the region where this peer Autonomous Database exists.")
-   @visibility("read")
-   region?: string;
+  @doc("The name of the region where this peer Autonomous Database exists.")
+  @visibility("read")
+  region?: string;
 
-   @doc("Azure resource provisioning state.")
-   @visibility("read")
-   provisioningState?: AzureResourceProvisioningState;
+  @doc("Azure resource provisioning state.")
+  @visibility("read")
+  provisioningState?: AzureResourceProvisioningState;
 }
 
 @added(Versions.v20241001_preview)

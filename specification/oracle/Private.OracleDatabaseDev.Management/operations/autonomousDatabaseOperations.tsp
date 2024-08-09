@@ -77,8 +77,7 @@ interface AutonomousDatabases
 //OCI ListAutonomousDatabasePeers API doc: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabasePeers
 @added(Versions.v20241001_preview)
 @armResourceOperations(AutonomousDatabase)
-interface AutonomousDatabasePeers
-  {
+interface AutonomousDatabasePeers {
   @Autorest.example(
     "./examples/autonomousDatabasePeers_listByParent.json",
     "List Autonomous Database Peers by Autonomous Database."
