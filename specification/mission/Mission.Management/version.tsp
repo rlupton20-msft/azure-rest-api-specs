@@ -5,7 +5,7 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @versioned(Microsoft.Mission.Versions)
-@doc("Private Mission Resource Provider management API.")
+@doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 @doc("Supported API versions for the Microsoft.Mission resource provider.")
