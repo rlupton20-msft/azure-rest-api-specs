@@ -21,7 +21,8 @@ import "./resourcetypes/communityEndpoint/communityEndpoint.tsp";
 import "./resourcetypes/enclaveEndpoint/enclaveEndpoint.tsp";
 import "./resourcetypes/postActions/approvalcallback.tsp";
 import "./resourcetypes/approvals/approvals.tsp";
-import "./resourcetypes/postActions/approvalinitiatorcallback.tsp";
+import "./resourcetypes/postActions/initiatorcallback.tsp";
+import "./resourcetypes/postActions/approvaldeletioncallback.tsp";
 
 using Azure.ClientGenerator.Core;
 using Azure.Core;
@@ -206,9 +207,11 @@ model CommunityEndpointResource
   name: string;
 }
 
-@doc("Approvals Model Resource")
-model ApprovalsResource is ExtensionResource<ApprovalsProperties> {
-  @key("approvalsName")
+
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Approval Model Resource")
+model ApprovalResource is ExtensionResource<ApprovalProperties> {
+  @key("approvalName")
   @segment("approvals")
   @path
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
@@ -365,6 +368,14 @@ interface EnclaveConnection {
     ApprovalCallbackRequest,
     ApprovalCallbackResponse
   >;
+  @doc("Callback that triggers on approval deletion state change.")
+  @armResourceAction(EnclaveConnectionResource)
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  approvalDeletionCallback is ArmResourceActionAsync<
+    EnclaveConnectionResource,
+    ApprovalDeletionCallbackRequest,
+    ApprovalDeletionCallbackResponse
+  >;
 }
 
 @added(Microsoft.Mission.Versions.v2023_08_01_preview)
@@ -415,16 +426,20 @@ interface ExternalConnections {
   delete is ArmResourceDeleteAsync<ExternalConnection>;
   listByResourceGroup is ArmResourceListByParent<ExternalConnection>;
   listBySubscription is ArmListBySubscription<ExternalConnection>;
+}
 
-@doc("Approvals Interface")
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Approval Interface")
 @armResourceOperations
-interface Approvals {
-  get is ArmResourceRead<ApprovalsResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalsResource>;
-  delete is ArmResourceDeleteWithoutOkAsync<ApprovalsResource>;
-  listByParent is ArmResourceListByParent<ApprovalsResource>;
-  @doc("Upon recieving approval or rejection from approver, this faciliates actions on approvals resource")
-  @armResourceAction(ApprovalsResource)
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  approvalInitiatorCallback is ArmResourceActionAsync<ApprovalsResource, ApprovalInitiatorCallbackRequest, ApprovalInitiatorCallbackResponse>;
+interface Approval {
+  get is ArmResourceRead<ApprovalResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalResource>;
+  update is ArmResourcePatchAsync<
+    ApprovalResource,
+    ApprovalProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;  
+  @doc("Upon receiving approval or rejection from approver, this facilitates actions on approval resource")
+  @armResourceAction(ApprovalResource)
+  initiatorCallback is ArmResourceActionAsync<ApprovalResource, InitiatorCallbackRequest, InitiatorCallbackResponse>;
 }
