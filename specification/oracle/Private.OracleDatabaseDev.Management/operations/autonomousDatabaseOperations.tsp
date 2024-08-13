@@ -3,6 +3,7 @@ import "./commons.tsp";
 
 using Azure.ResourceManager;
 using Autorest;
+using TypeSpec.Versioning;
 namespace Private.OracleDatabaseDev;
 
 @armResourceOperations(AutonomousDatabase)
@@ -58,6 +59,30 @@ interface AutonomousDatabases
     RestoreAutonomousDatabaseDetails,
     AutonomousDatabase
   >;
+
+  //OCI ChangeDisasterRecoveryConfiguration API doc: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ChangeDisasterRecoveryConfiguration
+  @added(Versions.v20241001_preview)
+  @doc("Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database")
+  @Autorest.example(
+    "./examples/autonomousDatabase_changeDisasterRecoveryConfiguration.json",
+    "Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database"
+  )
+  changeDisasterRecoveryConfiguration is ArmResourceActionAsync<
+    AutonomousDatabase,
+    DisasterRecoveryConfigurationDetails,
+    AutonomousDatabase
+  >;
+}
+
+//OCI ListAutonomousDatabasePeers API doc: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabasePeers
+@added(Versions.v20241001_preview)
+@armResourceOperations(AutonomousDatabase)
+interface AutonomousDatabasePeers {
+  @Autorest.example(
+    "./examples/autonomousDatabasePeers_listByParent.json",
+    "List Autonomous Database Peers by Autonomous Database."
+  )
+  listByParent is ArmResourceListByParent<AutonomousDatabasePeer>;
 }
 
 @@Autorest.example(AutonomousDatabases.listBySubscription,
