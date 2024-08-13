@@ -409,6 +409,30 @@ model NetworkProfile {
    * A CIDR notation IP Address range from which to assign pod IPs.
    */
   podCidr?: string;
+
+  /**
+   * An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.
+   */
+  vnetSubnetId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AzureStackHCI/logicalNetworks";
+    },
+    {
+      type: "Microsoft.HybridContainerService/virtualNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l2Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l3Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/trunkedNetworks";
+    }
+  ]>;
 }
 
 /**
@@ -579,6 +603,18 @@ model CloudProviderProfileInfraNetworkProfile {
     },
     {
       type: "Microsoft.HybridContainerService/virtualNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l2Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l3Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/trunkedNetworks";
     }
   ]>[];
 }
