@@ -285,6 +285,9 @@
         "x-ms-examples": {
           "ProvisionedClusters_List": {
             "$ref": "./examples/ProvisionedClusters_List_MaximumSet_Gen.json"
+          },
+          "ProvisionedClusters_List_LinuxBaremetal": {
+            "$ref": "./examples/ProvisionedClusters_ListLinuxBaremetal.json"
           }
         },
         "x-ms-pageable": {
@@ -324,6 +327,9 @@
         "x-ms-examples": {
           "ProvisionedClusters_Get": {
             "$ref": "./examples/ProvisionedClusters_Get_MaximumSet_Gen.json"
+          },
+          "ProvisionedClusters_Get_LinuxBaremetal": {
+            "$ref": "./examples/ProvisionedClusters_GetLinuxBaremetal.json"
           }
         }
       },
@@ -2008,6 +2014,30 @@
         }
       }
     },
+    "KubernetesDistribution": {
+      "type": "string",
+      "description": "The kubernetes distribution",
+      "enum": [
+        "K8s",
+        "K3s"
+      ],
+      "x-ms-enum": {
+        "name": "KubernetesDistribution",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "K8s",
+            "value": "K8s",
+            "description": "K8s kubernetes distribution"
+          },
+          {
+            "name": "K3s",
+            "value": "K3s",
+            "description": "K3s kubernetes distribution"
+          }
+        ]
+      }
+    },
     "KubernetesPatchVersions": {
       "type": "object",
       "description": "Kubernetes Patch Version profile",
@@ -2322,6 +2352,30 @@
         }
       }
     },
+    "NetworkPolicy": {
+      "type": "string",
+      "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
+      "enum": [
+        "calico",
+        "cilium"
+      ],
+      "x-ms-enum": {
+        "name": "NetworkPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "calico",
+            "value": "calico",
+            "description": "Use the calico policy"
+          },
+          {
+            "name": "cilium",
+            "value": "cilium",
+            "description": "Use the cilium policy"
+          }
+        ]
+      }
+    },
     "NetworkProfile": {
       "type": "object",
       "description": "The network configuration profile for the provisioned cluster.",
@@ -2331,23 +2385,8 @@
           "description": "Profile of the HA Proxy load balancer."
         },
         "networkPolicy": {
-          "type": "string",
-          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
-          "default": "calico",
-          "enum": [
-            "calico"
-          ],
-          "x-ms-enum": {
-            "name": "NetworkPolicy",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "calico",
-                "value": "calico",
-                "description": "Use the calico policy"
-              }
-            ]
-          }
+          "$ref": "#/definitions/NetworkPolicy",
+          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'."
         },
         "podCidr": {
           "type": "string",
@@ -2582,6 +2621,10 @@
         "kubernetesVersion": {
           "type": "string",
           "description": "The version of Kubernetes in use by the provisioned cluster."
+        },
+        "kubernetesDistribution": {
+          "$ref": "#/definitions/KubernetesDistribution",
+          "description": "The distribution of Kubernetes in use by the provisioned cluster."
         },
         "networkProfile": {
           "$ref": "#/definitions/NetworkProfile",
@@ -2930,6 +2973,20 @@
         "nfsCsiDriver": {
           "$ref": "#/definitions/StorageProfileNfsCSIDriver",
           "description": "NFS CSI Driver settings for the storage profile."
+        },
+        "localPathProvisionerDriver": {
+          "$ref": "#/definitions/StorageProfileLocalPathDriver",
+          "description": "Local Path Provisioner Driver settings for the storage profile."
+        }
+      }
+    },
+    "StorageProfileLocalPathDriver": {
+      "type": "object",
+      "description": "Local Path Provisioner Driver settings for the storage profile.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -2939,8 +2996,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable NFS CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -2950,8 +3006,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable SMB CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
