@@ -10,11 +10,11 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
-
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @armProviderNamespace
 @service({
   title: "Edge device Jobs",
-  version: "2023-12-01-preview",
+  version: "2023-08-01-preview",
 })
 @doc("Edge device Jobs")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -183,11 +183,11 @@ enum EdgeDeviceJobType {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-@doc("Jobs resource")
+@doc("EdgeDevice Jobs resource")
 @parentResource(EdgeDevice)
 @discriminator("kind")
-model Job is ProxyResource<JobProperties> {
-  @doc("Name of Job")
+model EdgeDeviceJob is ProxyResource<JobProperties> {
+  @doc("Name of EdgeDevice Job")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @segment("jobs")
   @key("jobsName")
@@ -279,10 +279,10 @@ enum LogCollectionStatus
 model RemoteSupportJobProperties extends JobProperties{
 
   @doc("Remote support access level.")
-  accesslevel: RemoteSupportAccessLevel,
+  accessLevel: RemoteSupportAccessLevel,
 
   @doc("Remote support expiration timestamp.")
-  expirationTimeStamp: utcDateTime,
+  expirationTimestamp: utcDateTime,
 
   @doc("Remote support type.")
   type: RemoteSupportType,
@@ -294,7 +294,7 @@ model RemoteSupportJobProperties extends JobProperties{
 model RemoteSupportReportedProperties{
   ... JobReportedProperties,
   nodeSettings?: RemoteSupportNodeSettings,
-  SessionDetails?: RemoteSupportSession
+  sessionDetails?: RemoteSupportSession
 }
 
 model RemoteSupportNodeSettings{
@@ -311,9 +311,9 @@ model RemoteSupportSession
 {
     sessionStartTime?: utcDateTime,
     sessionEndTime?: utcDateTime,
-    NodeName?: string,
-    Duration?: int32,
-    AccessLevel?: RemoteSupportAccessLevel
+    nodeName?: string,
+    duration?: int32,
+    accessLevel?: RemoteSupportAccessLevel
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +324,7 @@ model RemoteSupportSession
 ////////define all AzureStack HCI jobs in below section///////
 ////////////////////////////////////////////////////////////////////////////////
 @doc("Edgedevice job for Azure Stack HCI solution.")
-model HciEdgeDeviceJob extends Job{
+model HciEdgeDeviceJob extends EdgeDeviceJob{
   kind: DeviceType.HCI,
   properties: HciEdgeDeviceJobProperties
 }
@@ -381,7 +381,7 @@ model HciRemoteConnectJobProperties extends HciEdgeDeviceJobProperties{
 ////////Start AzureLinux jobs///////
 ////////////////////////////////////////////////////////////////////////////////
 @doc("Edgedevice job for Azure Linux solution.")
-model AzureLinuxEdgeDeviceJob extends Job{
+model AzureLinuxEdgeDeviceJob extends EdgeDeviceJob{
   kind: DeviceType.AzureLinux,
   properties: AzureLinuxEdgeDeviceJobProperties
 }
@@ -416,14 +416,17 @@ model AzureLinuxRemoteSupportJobProperties extends AzureLinuxEdgeDeviceJobProper
   jobType: AzureLinuxEdgeDeviceJobType.RemoteSupport
 }
 
+
+
+
 ////////end AzureLinux jobs///////
 ////////////////////////////////////////////////////////////////////////////////
 
 // interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
-interface Jobs {
-  get is ArmResourceRead<Job>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Job>;
-  delete is ArmResourceDeleteWithoutOkAsync<Job>;
-  listByParent is ArmResourceListByParent<Job>;
+interface EdgeDeviceJobs {
+  get is ArmResourceRead<EdgeDeviceJob>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeDeviceJob>;
+  delete is ArmResourceDeleteWithoutOkAsync<EdgeDeviceJob>;
+  listByParent is ArmResourceListByParent<EdgeDeviceJob>;
 }

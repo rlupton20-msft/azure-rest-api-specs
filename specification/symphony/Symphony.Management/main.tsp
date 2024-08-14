@@ -7,6 +7,7 @@ import "./solutions.tsp";
 import "./targets.tsp";
 import "./instances.tsp";
 import "./campaigns.tsp";
+import "./common.tsp";
 import "./activations.tsp";
 import "./catalogs.tsp";
 import "./solutionVersions.tsp";
@@ -29,10 +30,3 @@ using Azure.ResourceManager;
 @doc("Azure Symphony Resource Provider.")
 @Azure.ResourceManager.armCommonTypesVersion("v5")
 namespace Private.Symphony;
-
-@doc("Versions info.")
-enum Versions {
-  /** 2024-04-01-preview preview version */
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-04-01-preview`,
-}

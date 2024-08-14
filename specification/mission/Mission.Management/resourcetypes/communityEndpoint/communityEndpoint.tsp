@@ -43,7 +43,7 @@ union CommunityEndpointProtocol {
   @doc("CommunityEndpointProtocol Type HTTP")
   HTTP: "HTTP",
 
-  string
+  string,
 }
 
 @doc("Destination Type Enum")
@@ -60,7 +60,7 @@ union DestinationType {
   @doc("DestinationType Type PrivateNetwork")
   PrivateNetwork: "PrivateNetwork",
 
-  string
+  string,
 }
 
 #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -119,4 +119,8 @@ model CommunityEndpointProperties {
   @doc("Provisioning State.")
   @visibility("read")
   provisioningState?: ProvisioningState;
+
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Whether approval is needed for the connection (True or False).")
+  approvalRequired?: boolean;
 }

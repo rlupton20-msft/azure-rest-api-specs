@@ -19,21 +19,18 @@ using Azure.Core;
 
 namespace Microsoft.Access;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Suppress error until we transition to using ResourceSkuProperty."
 @doc("An Encrypted Transport Device Resource")
 @parentResource(Circuit)
 @added(Versions.v2024_02_24_preview)
 model Device is TrackedResource<DeviceProperties> {
-  @doc("The name of the Access Point")
+  @doc("The name of the Encrypted Transport Device")
   @key("deviceName")
   @segment("devices")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
   @path
   name: string;
 
-  @doc("The billing sku type.")
-  @visibility("read")
-  sku?: ResourceSkuType;
+  ...ResourceSkuProperty;
 }
 
 @doc("Encrypted Transport Device Properties.")

@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Private.HybridContainerService;
+namespace Microsoft.HybridContainerService;
 /**
  * Defines the hybridIdentityMetadata.
  */

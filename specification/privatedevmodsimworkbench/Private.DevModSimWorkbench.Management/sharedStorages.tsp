@@ -44,47 +44,26 @@ model ConnectedChamber {
     }
   ]>;
 }
-@doc("Shared storage properties common between create and update.")
-@access(Access.internal)
-model SharedStorageBaseProperties {
+
+@doc("Shared storage properties.")
+model SharedStorageProperties {
   ...StorageBaseProperties;
 
   @visibility("read", "create", "update")
   @doc("List of Chambers connected to the shared storage.")
   @extension("x-ms-identifiers", ["id"])
   chambers: Array<ConnectedChamber>;
-}
 
-@doc("Shared storage properties.")
-model SharedStorageProperties {
-  ...SharedStorageBaseProperties;
-
-  @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
-  @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier;
-
-  // Workaround since there is no annotation for removing default.
-  @removed(Versions.`2024-05-01-preview`)
-  @renamedFrom(Versions.`2024-05-01-preview`, "performanceTier")
-  @visibility("read", "create")
-  @doc("Performance tier of the shared storage.")
-  oldPerformanceTier: SharedStoragePerformanceTier = SharedStoragePerformanceTier.Standard;
-}
-
-@doc("Shared storage update properties.")
-model SharedStorageUpdateProperties {
-  ...SharedStorageBaseProperties;
-
-  @visibility("update")
-  @doc("Performance tier of the shared storage.")
-  performanceTier: SharedStoragePerformanceTier;
+  @doc("Performance tier of the chamber storage.")
+  performanceTier?: SharedStoragePerformanceTier; // TODO: Deprecated. Use top-level sku.
 }
 
 @doc("Shared storage tracked resource.")
 @parentResource(Workbench)
 model SharedStorage is TrackedResource<SharedStorageProperties> {
   @doc("The name of the shared storage")
+  @visibility("read", "create")
   @segment("sharedStorages")
   @key("sharedStorageName")
   @TypeSpec.Http.path
@@ -96,12 +75,14 @@ model SharedStorage is TrackedResource<SharedStorageProperties> {
   @visibility("read", "create")
   @doc("The availability zones.")
   zones?: Array<string>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Sku is a valid envelope property"
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create", "update")
+  @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
+  sku: StorageSku;
 }
 
 @armResourceOperations
 interface SharedStorages
-  extends NestedResourceOperations<
-      SharedStorage,
-      SharedStorageProperties,
-      SharedStorageUpdateProperties
-    > {}
+  extends NestedResourceOperations<SharedStorage, SharedStorageProperties> {}

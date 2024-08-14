@@ -6,9 +6,11 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+import "./resourcetypes/approvals/approvals.tsp";
 import "./resourcetypes/community/community.tsp";
 import "./resourcetypes/virtualEnclave/virtualenclave.tsp";
 import "./resourcetypes/workload/workload.tsp";
+import "./resourcetypes/catalog/catalog.tsp";
 import "./resourcetypes/endpoint/endpoint.tsp";
 import "./resourcetypes/internalConnection/internalConnection.tsp";
 import "./resourcetypes/externalConnection/externalConnection.tsp";
@@ -31,7 +33,6 @@ using TypeSpec.Versioning;
 })
 @versioned(Microsoft.Mission.Versions)
 @doc("Private Mission Resource Provider management API.")
-@armCommonTypesVersion("v5")
 namespace Microsoft.Mission;
 
 interface Operations extends Azure.ResourceManager.Operations {}

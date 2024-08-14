@@ -1,0 +1,83 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "./Configuration.tsp";
+import "./Commons.tsp";
+
+using TypeSpec.OpenAPI;
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
+
+namespace Private.Edge;
+
+@armResourceOperations
+interface ConnectivityConfigurations {
+  get is ArmResourceRead<ConnectivityConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ConnectivityConfiguration>;
+  update is ArmResourcePatchSync<
+    ConnectivityConfiguration,
+    ConnectivityConfigurationProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<ConnectivityConfiguration>;
+  listByResourceGroup is ArmResourceListByParent<ConnectivityConfiguration>;
+  listBySubscription is ArmListBySubscription<ConnectivityConfiguration>;
+}
+
+@doc("ConnectivityConfiguration Resource")
+@parentResource(Configuration)
+model ConnectivityConfiguration
+  is ProxyResource<ConnectivityConfigurationProperties> {
+  ...ResourceNameParameter<
+    ConnectivityConfiguration,
+    NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+  >;
+}
+
+@doc("ConnectivityConfigurationProperties Properties")
+model ConnectivityConfigurationProperties {
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
+  @doc("Usecase of this configuration")
+  usecase: Usecase;
+
+  // TODO - check if this is supposed to be string or some other build-in type.
+  @doc("timezone value")
+  timezone: string;
+
+  @doc("Connectivity type")
+  connectivityType: ConnectivityType;
+
+  @doc("Configuration for NTP Server. If the choice is set-to Custom then only need to set value for this.")
+  proxyConfiguration?: ProxyConfiguration;
+}
+
+@doc("Connectivity Types")
+union ConnectivityType {
+  @doc("Connectivity type as Public")
+  Public: "Public",
+
+  @doc("Connectivity type as Proxy")
+  Proxy: "Proxy",
+
+  string,
+}
+
+@doc("Proxy Configuration")
+model ProxyConfiguration {
+  @doc("Proxy Url")
+  url: url;
+
+  @doc("Proxy port")
+  port: int32;
+
+  @doc("Bypass urls from proxy")
+  bypassUrls: url[];
+}

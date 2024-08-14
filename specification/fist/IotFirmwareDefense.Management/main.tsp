@@ -24,7 +24,6 @@ using TypeSpec.Versioning;
  */
 #suppress "@azure-tools/typespec-azure-core/casing-style" ""
 @armProviderNamespace
-@useAuth(AadOauth2Auth<["user_impersonation"]>)
 @service({
   title: "Iot Firmware Defense",
 })
@@ -37,9 +36,9 @@ namespace Microsoft.IoTFirmwareDefense;
  */
 enum Versions {
   /**
-   * The 2024-04-26-preview API version.
+   * The 2024-01-10 API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_04_26_preview: "2024-04-26-preview",
+  v2024_01_10: "2024-01-10",
 }

@@ -37,7 +37,7 @@ union EnclaveEndpointProtocol {
   @doc("EndpointProtocol Type AH")
   AH: "AH",
 
-  string
+  string,
 }
 
 #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -84,4 +84,8 @@ model EnclaveEndpointProperties {
   @doc("Provisioning State.")
   @visibility("read")
   provisioningState?: ProvisioningState;
+
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Whether approval is needed for the connection (True or False).")
+  approvalRequired?: boolean;
 }

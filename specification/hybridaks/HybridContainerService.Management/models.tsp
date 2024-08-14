@@ -6,7 +6,7 @@ using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 
-namespace Private.HybridContainerService;
+namespace Microsoft.HybridContainerService;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -16,6 +16,9 @@ interface Operations extends Azure.ResourceManager.Operations {}
 union NetworkPolicy {
   /** Use the calico policy */
   calico: "calico",
+
+  /** Use the cilium policy */
+  cilium: "cilium",
 
   string,
 }
@@ -245,6 +248,23 @@ union ProvisioningState {
 }
 
 /**
+ * The kubernetes distribution
+ */
+union KubernetesDistribution {
+  string,
+
+  /**
+   * K8s kubernetes distribution
+   */
+  K8s: "K8s",
+
+  /**
+   * K3s kubernetes distribution
+   */
+  K3s: "K3s",
+}
+
+/**
  * Properties of the provisioned cluster.
  */
 model ProvisionedClusterProperties {
@@ -262,6 +282,11 @@ model ProvisionedClusterProperties {
    * The version of Kubernetes in use by the provisioned cluster.
    */
   kubernetesVersion?: string;
+
+  /**
+   * The distribution of Kubernetes in use by the provisioned cluster.
+   */
+  kubernetesDistribution?: KubernetesDistribution;
 
   /**
    * The network configuration profile for the provisioned cluster.
@@ -401,14 +426,38 @@ model NetworkProfile {
   loadBalancerProfile?: NetworkProfileLoadBalancerProfile;
 
   /**
-   * Network policy used for building Kubernetes network. Possible values include: 'calico'.
+   * Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'.
    */
-  networkPolicy?: NetworkPolicy = NetworkPolicy.calico;
+  networkPolicy?: NetworkPolicy;
 
   /**
    * A CIDR notation IP Address range from which to assign pod IPs.
    */
   podCidr?: string;
+
+  /**
+   * An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.
+   */
+  vnetSubnetId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AzureStackHCI/logicalNetworks";
+    },
+    {
+      type: "Microsoft.HybridContainerService/virtualNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l2Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l3Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/trunkedNetworks";
+    }
+  ]>;
 }
 
 /**
@@ -434,6 +483,11 @@ model StorageProfile {
    * NFS CSI Driver settings for the storage profile.
    */
   nfsCsiDriver?: StorageProfileNfsCSIDriver;
+
+  /**
+   * Local Path Provisioner Driver settings for the storage profile.
+   */
+  localPathProvisionerDriver?: StorageProfileLocalPathDriver;
 }
 
 /**
@@ -442,9 +496,9 @@ model StorageProfile {
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
 model StorageProfileSmbCSIDriver {
   /**
-   * Indicates whether to enable SMB CSI Driver. The default value is true.
+   * Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal.
    */
-  enabled?: boolean = true;
+  enabled?: boolean;
 }
 
 /**
@@ -453,9 +507,19 @@ model StorageProfileSmbCSIDriver {
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
 model StorageProfileNfsCSIDriver {
   /**
-   * Indicates whether to enable NFS CSI Driver. The default value is true.
+   * Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal.
    */
-  enabled?: boolean = true;
+  enabled?: boolean;
+}
+
+/**
+ * Local Path Provisioner Driver settings for the storage profile.
+ */
+model StorageProfileLocalPathDriver {
+  /**
+   * Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal.
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -578,7 +642,19 @@ model CloudProviderProfileInfraNetworkProfile {
       type: "Microsoft.AzureStackHCI/logicalNetworks";
     },
     {
-      type: "Private.HybridContainerService/virtualNetworks";
+      type: "Microsoft.HybridContainerService/virtualNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l2Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/l3Networks";
+    },
+    {
+      type: "Microsoft.NetworkCloud/trunkedNetworks";
     }
   ]>[];
 }
@@ -942,7 +1018,7 @@ model ListCredentialResponse {
   @visibility("read")
   resourceId?: Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.HybridContainerService/provisionedClusterInstances";
+      type: "Microsoft.HybridContainerService/provisionedClusterInstances";
     }
   ]>;
 

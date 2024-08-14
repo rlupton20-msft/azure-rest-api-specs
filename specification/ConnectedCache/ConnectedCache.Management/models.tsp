@@ -35,6 +35,9 @@ enum OsType {
 
   /** cache node installs on Linux Operating system */
   Linux,
+
+  /** cache node install based on Eflow (one of the previous versions) */
+  Eflow,
 }
 
 @doc("Cache node resource Bgp review state as integer")
@@ -65,9 +68,13 @@ enum ConfigurationState {
 enum ProxyRequired {
   /** Proxy is not required in setup */
   None,
-
   /** proxy is required in setup */
   Required,
+  /** proxy is enabled in setup */
+  Enabled,
+  /** proxy is disabled in setup */
+  Disabled
+
 }
 
 @doc("Customer resource transit states")
@@ -525,6 +532,7 @@ model CacheNodeEntity {
   @doc("Cache node resource Mcc Container Id Uri.")
   @visibility("read")
   imageUri?: string;
+
 }
 
 @doc("Model representing cache node for connected cache resource")
@@ -582,17 +590,61 @@ model AdditionalCacheNodeProperties {
   @doc("Operating system of the cache node")
   osType?: OsType;
 
-  @doc("Update Cycle Type")
+  @doc("Operating system of the cache node install")
+  installType?: OsType;
+
+  @doc("Auto Update Ring Type which is slow or fast etc.")
+  @visibility("read")
   updateCycleType?: CycleType;
 
-  @doc("Auto update or fast update version")
-  autoUpdateVersion?: string;
-
   @doc("Update related information details")
+  @visibility("read")
   updateInfoDetails?: string;
+  
+  @doc("Customer requested date time for mcc install of update cycle")
+  @visibility("read")
+  updateRequestedDateTime?: utcDateTime; 
 
-  @doc("customer requested date time for mcc install of update cycle")
-  updateRequestedDateTime?: utcDateTime;
+  @doc("Auto Update Ring Type which is slow or fast etc.")
+  autoUpdateRingType?: CycleType;
+
+  @doc("Auto update version that is pending to update on mcc cachenode")
+  autoUpdatePendingVersion?: string; 
+
+  @doc("Auto Update status details from the backend after applying the new version details")
+  @visibility("read")
+  autoUpdateLastAppliedStatus?: string;
+
+  @doc("Last applied auto update state for mcc install of auto update cycle")
+  @visibility("read")
+  autoUpdateLastAppliedState?: string; 
+
+  @doc("Auto update last applied date time of mcc install")
+  @visibility("read")
+  autoUpdateLastAppliedDateTime?: utcDateTime;
+  
+  @doc("Auto update last triggered date time of mcc install")
+  @visibility("read")
+  autoUpdateLastTriggeredDateTime?: utcDateTime;
+
+  @doc("Customer requested date time for mcc install of auto update cycle")
+  autoUpdatePreferredDateTime?: utcDateTime;
+
+  @doc("Customer requested week of month for mcc install of auto update cycle")
+  @minValue(1)
+  @maxValue(5)
+  autoUpdateRequestedWeek? : int32;
+
+  @doc("Customer requested day of week for mcc install of auto update cycle")
+  @minValue(1)
+  @maxValue(7)
+  autoUpdateRequestedDay? : int32;
+
+  @doc("Customer requested Time of the day for mcc install of auto update cycle")
+  autoUpdateRequestedTime? : int32;
+
+  @doc("FQDN(fully qualified domain name) value of the mcc cachenode")
+  cacheNodeFqdn?: string;
 
   @doc("Optional property #1 of Mcc response object")
   optionalProperty1?: string;

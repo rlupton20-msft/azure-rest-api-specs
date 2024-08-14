@@ -13,7 +13,7 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@doc("Device Model as ARM resource")
+@doc("Device Model as ARM resource.")
 model Device is TrackedResource<DeviceProperties> {
   @doc("Name of the device.")
   @key("deviceName")
@@ -26,7 +26,7 @@ model Device is TrackedResource<DeviceProperties> {
 
   // etag not included in TrackedResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Resource Tag")
+  @doc("Resource Tag.")
   @visibility("read")
   etag?: string;
 }
@@ -57,7 +57,6 @@ model DeviceProperties {
 
   @doc("Hardware model name.")
   @visibility("read")
-  // `model` is a reserved keyname. Wrap in double quotes
   `model`?: string;
 
   @doc("operating system name.")
@@ -107,10 +106,9 @@ model DeviceEndpoints {
   unassigned?: Endpoint[];
 }
 
-@doc("Endpoints related to the device")
+@doc("Connection endpoint url a device can use to connect to a service.")
 model Endpoint {
   @doc("Type of connection endpoint.")
-  // `type` is a reserved keyname. Wrap in double quotes
   type?: string;
 
   @doc("Fully qualified domain name.")
@@ -120,14 +118,9 @@ model Endpoint {
 @armResourceOperations
 interface Devices {
   get is ArmResourceRead<Device>;
-
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
-
   update is ArmResourcePatchAsync<Device, DeviceProperties>;
-
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
-
   listByResourceGroup is ArmResourceListByParent<Device>;
-
   listBySubscription is ArmListBySubscription<Device>;
 }

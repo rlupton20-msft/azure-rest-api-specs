@@ -9,18 +9,19 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-// Define a model for the approval request
-@doc("Request to the action call to handle approval status")
+@doc("Request body for calling post-action")
 model ApprovalCallbackRequest {
-  @doc("Resource Id of the item being approved or declined")
+  @doc("Resource Id of the item being approved or rejected")
   resourceId: string;
 
-  @doc("Approval status indicating 'Approved' or 'Declined'")
-  approvalStatus: "Approved" | "Declined" | string;
+  @doc("Resource request action indicating action which needed to be performed upon calling approval-callback post action")
+  resourceRequestAction: "Create" | "Delete" | "Update" | "Reset" | string;
+
+  @doc("Approval status indicating 'Approved' or 'Rejected'")
+  approvalStatus: "Approved" | "Rejected" | string;
 }
 
-// Define a model for the approval response
-@doc("Response after handling the approval status")
+@doc("Response body after handling of approvalCallbackRequest")
 model ApprovalCallbackResponse {
   @doc("Confirmation message indicating the result of the operation.")
   message: string;

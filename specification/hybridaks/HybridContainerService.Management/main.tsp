@@ -17,7 +17,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 /**
- * The Private.HybridContainerService Rest API spec.
+ * The Microsoft.HybridContainerService Rest API spec.
  */
 @armProviderNamespace
 @service({
@@ -25,16 +25,16 @@ using TypeSpec.Versioning;
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Private.HybridContainerService;
+namespace Microsoft.HybridContainerService;
 
 /**
  * The available API versions.
  */
 enum Versions {
   /**
-   * The 2024-06-01-preview API version.
+   * The 2024-09-01-preview API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_06_01_preview: "2024-06-01-preview",
+  v2024_09_01_preview: "2024-09-01-preview",
 }
