@@ -27,7 +27,7 @@ These are the global settings for the awsconnector.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-12-01-preview
+tag: package-2024-12-01
 ```
 
 ### Tag: package-2023-12-01-preview
@@ -38,6 +38,17 @@ These settings apply only when `--tag=package-2023-12-01-preview` is specified o
 input-file:
   - Microsoft.AwsConnector/preview/2023-12-01-preview/s3Bucket.json
   - Microsoft.AwsConnector/preview/2023-12-01-preview/operations.json
+```
+
+### Tag: package-2024-12-01
+
+These settings apply only when `--tag=package-2024-12-01` is specified on the command line.
+
+``` yaml $(tag) == 'package-2024-12-01'
+input-file:
+  - Microsoft.AwsConnector/stable/2024-12-01/accessAnalyzerAnalyzer.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2FlowLog.json
+  - Microsoft.AwsConnector/stable/2024-12-01/operations.json
 ```
 
 ## Suppression
