@@ -25,17 +25,22 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the sovereign.
 
 ```yaml
+title: Microsoft.Sovereign
 openapi-type: arm
-tag: package-2023-04-01-privatepreview
+openapi-subtype: rpaas
+tag: package-2023-09-28-preview
 ```
 
-### Tag: package-2023-04-01-privatepreview
+### Tag: package-2023-09-28-preview
 
-These settings apply only when `--tag=package-2023-04-01-privatepreview` is specified on the command line.
+These settings apply only when `--tag=package-2023-09-28-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-04-01-privatepreview'
+```yaml $(tag) == 'package-2023-09-28-preview'
 input-file:
-  - Microsoft.Sovereign/preview/2023-04-01-privatepreview/sovereign.json
+  - Microsoft.Sovereign/preview/2023-09-28-preview/sovereign.json
+suppressions:    
+  - code: TopLevelResourcesListBySubscription
+    reason: The resource types in the Microsoft.Sovereign resource provider are tenant level, so subscription list operation is not valid.
 ```
 
 ---

@@ -27,16 +27,16 @@ These are the global settings for the azureimagetestingforlinux.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-01-31-preview
+tag: package-2023-08-01-preview
 ```
 
-### Tag: package-2023-01-31-preview
+### Tag: package-2023-08-01-preview
 
-These settings apply only when `--tag=package-2023-01-31-preview` is specified on the command line.
+These settings apply only when `--tag=package-2023-08-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-01-31-preview'
+```yaml $(tag) == 'package-2023-08-01-preview'
 input-file:
-  - Microsoft.AzureImageTestingForLinux/preview/2023-01-31-preview/azureimagetestingforlinux.json
+  - Microsoft.AzureImageTestingForLinux/preview/2023-08-01-preview/azureimagetestingforlinux.json
 ```
 
 ---

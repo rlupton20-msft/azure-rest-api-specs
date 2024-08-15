@@ -321,6 +321,9 @@
             "$ref": "./examples/FileSystems_Update_MaximumSet_Gen.json"
           }
         },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
         "x-ms-long-running-operation": true
       },
       "delete": {
@@ -454,6 +457,11 @@
           "type": "string",
           "description": "Delegated subnet id for Vnet injection"
         },
+        "delegatedSubnetCidr": {
+          "type": "string",
+          "description": "Domain range for the delegated subnet",
+          "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}/(16|24)$"
+        },
         "user": {
           "$ref": "#/definitions/User",
           "description": "User Details"
@@ -477,7 +485,8 @@
         "provisioningState",
         "user",
         "initialCapacity",
-        "delegatedSubnetId"
+        "delegatedSubnetId",
+        "delegatedSubnetCidr"
       ]
     },
     "FileSystemResourceUpdate": {

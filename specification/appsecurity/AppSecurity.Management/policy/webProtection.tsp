@@ -1,5 +1,3 @@
-import "./managedRules.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -11,7 +9,7 @@ namespace Microsoft.AppSecurity;
 model WebProtection {
   @doc("Describes the managedRules structure")
   @extension("x-ms-identifiers", ["ruleSetType", "ruleSetVersion"])
-  @minItems(1)
-  @maxItems(10)
+  @minItems(MinManagedRulesCount)
+  @maxItems(MaxManagedRulesCount)
   managedRules: ManagedRuleSet[];
 }

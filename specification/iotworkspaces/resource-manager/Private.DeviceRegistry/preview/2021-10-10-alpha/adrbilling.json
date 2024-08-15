@@ -1,0 +1,224 @@
+{
+  "x-generator": "NSwag v13.16.0.0 (NJsonSchema v10.7.1.0 (Newtonsoft.Json v12.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure Device Registry Scale Resource",
+    "version": "2021-10-10-alpha"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/adrBillings": {
+      "get": {
+        "tags": [
+          "adrBillings"
+        ],
+        "operationId": "List_adrBillings_Subscription",
+        "description": "List all adrBillings in a subscription.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/adrBilligsResponseList"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/adrBillings/{adrBillingName}": {
+      "put": {
+        "tags": [
+          "RootadrBilling"
+        ],
+        "operationId": "Create_Or_Replace_adrBilling",
+        "description": "Create a new device or replace an existing ARM device.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AdrBillingNameParameter"
+          },
+          {
+            "name": "adrBilling",
+            "in": "body",
+            "required": true,
+            "description": "Resource create parameters.",
+            "schema": {
+              "$ref": "#/definitions/adrBilling"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/adrBilling"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "RootadrBilling"
+        ],
+        "operationId": "Update_adrBilling",
+        "description": "Update specific ARM adrBilling properties.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AdrBillingNameParameter"
+          },
+          {
+            "name": "adrBilling",
+            "in": "body",
+            "required": true,
+            "description": "Resource Patch parameters.",
+            "schema": {
+              "$ref": "#/definitions/adrBilling"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "RootadrBilling"
+        ],
+        "operationId": "Delete_adrBilling",
+        "description": "Delete a adrBilling.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AdrBillingNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "RootadrBilling"
+        ],
+        "operationId": "Read_adrBilling",
+        "description": "Retrieve a single adrBilling.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AdrBillingNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/adrBilling"
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "AdrBillingNameParameter": {
+      "name": "adrBillingName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 3
+    }
+  },
+  "definitions": {
+    "adrBilligsResponseList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/adrBilling"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      },
+      "description": "List of ARM Devices."
+    },
+    "adrBilling": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/adrBillingProperties",
+          "description": "Resource properties."
+        }
+      }
+    },
+    "adrBillingProperties": {
+      "description": "Defines the adr Billing properties.",
+      "type": "object",
+      "properties": {
+        "adrBillingId": {
+          "description": "Unique identifier for this resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the adrBilling."
+        },
+        "adrBillingName": {
+          "type": "string",
+          "description": "Name of the group."
+        },
+        "adrResourceCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Membership rule for dynamic group."
+        }
+      }
+    }
+  }
+}

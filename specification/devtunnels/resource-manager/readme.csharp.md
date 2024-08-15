@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.DevTunnels
-  output-folder: $(csharp-sdks-folder)/devtunnels/management/Microsoft.DevTunnels/GeneratedProtocol
+  namespace: Private.DevTunnels
+  output-folder: $(csharp-sdks-folder)/devtunnels/management/Private.DevTunnels/GeneratedProtocol
 ```

@@ -26,11 +26,4 @@ input-file:
   - examples/GetDstsServiceClientIdentity.json
   - examples/GetDstsServiceClientIdentityUnderResourceGroup.json
   - examples/PatchDstsServiceClientIdentity.json
-  - serviceTypeEnablement.json
-  - examples/CreateServiceTypeEnablement.json
-  - examples/DeleteServiceTypeEnablement.json
-  - examples/GetAllServiceTypeEnablement.json
-  - examples/GetServiceTypeEnablement.json
-  - examples/GetServiceTypeEnablementInResourceGroup.json
-  - examples/PatchServiceTypeEnablement.json
 ```

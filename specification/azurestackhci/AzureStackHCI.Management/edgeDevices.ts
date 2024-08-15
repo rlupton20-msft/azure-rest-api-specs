@@ -19,7 +19,7 @@ using OpenAPI;
 })
 @doc("Azure Arc-enabled Edge Device.")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-namespace Private.AzureStackHCI;
+namespace Microsoft.AzureStackHCI;
 
 @doc("Edge device resource")
 model EdgeDevice is ExtensionResource<EdgeDeviceProperties> {
@@ -127,7 +127,8 @@ model ValidateResponse{
 @armResourceOperations
 interface EdgeDevices {
   get is ArmResourceRead<EdgeDevice>;
-  createOrUpdate is ArmResourceCreateOrUpdateSync<EdgeDevice>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeDevice>;
   delete is ArmResourceDeleteAsync<EdgeDevice>;
+  listByParent is ArmResourceListByParent<EdgeDevice>;
   validate is ArmResourceActionAsync<EdgeDevice, ValidateRequest, ValidateResponse>;
 }

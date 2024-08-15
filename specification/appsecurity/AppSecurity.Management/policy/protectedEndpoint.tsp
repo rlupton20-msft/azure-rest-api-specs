@@ -7,14 +7,18 @@ using OpenAPI;
 namespace Microsoft.AppSecurity;
 
 @doc("Protected endpoint definition")
-@discriminator("applicationType")
+@discriminator("endpointType")
 model ProtectedEndpoint {
+  @doc("Defines the endpoint type")
+  endpointType: EndpointType;
+
   @doc("Fully qualified ARM ID of the endpoint to protect")
   endpointId: ProtectedEndpointId;
 
   @doc("The status of the last attachment operation between the policy and the endpoint")
   @visibility("read")
-  attachmentState?: ProvisioningState;
+  @knownValues(ProvisioningState)
+  attachmentState?: string;
 
   @doc("Azure Resource Manager metadata containing createdBy and modifiedBy information")
   @visibility("read")
@@ -23,14 +27,14 @@ model ProtectedEndpoint {
 
 @doc("Defines a custom rule condition of type Ip")
 model ApplicationGatewayProtectedEndpoint extends ProtectedEndpoint {
-  @doc("Defines the operation type")
-  applicationType: "ApplicationGateway";
+  @doc("Defines the endpoint type")
+  endpointType: EndpointType.ApplicationGateway;
 }
 
 @doc("Defines a custom rule condition of type Ip")
 model FrontDoorProtectedEndpoint extends ProtectedEndpoint {
-  @doc("Defines the operation type")
-  applicationType: "FrontDoor";
+  @doc("Defines the endpoint type")
+  endpointType: EndpointType.FrontDoor;
 }
 
 scalar ProtectedEndpointId

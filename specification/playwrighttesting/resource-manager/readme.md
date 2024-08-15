@@ -18,6 +18,25 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ---
 
+## Suppression
+
+```yaml $(suppression)
+directive:
+  - suppress: ResourceNameRestriction
+    from:
+      - playwrighttesting.json
+    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
+  - suppress: ProvisioningStateMustBeReadOnly
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as the visibility is set to read in the TypeSpec already.
+  - suppress: DeleteResponseCode
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as default operations are generated from the TrackedResourceOperations in the TypeSpec.
+```
+---
+
 ## Configuration
 
 ### Basic Information
@@ -25,18 +44,47 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the playwrighttesting.
 
 ```yaml
+title: PlaywrightTestingClient
+description: Azure Playwright testing management service
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2022-09-01-preview
+tag: package-2024-08-01-preview
 ```
 
-### Tag: package-2022-09-01-preview
+### Tag: package-2024-08-01-preview
 
-These settings apply only when `--tag=package-2022-09-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-08-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2022-09-01-preview'
+```yaml $(tag) == 'package-2024-08-01-preview'
 input-file:
-  - Microsoft.PlaywrightTesting/preview/2022-09-01-preview/playwrighttesting.json
+  - Microsoft.AzurePlaywrightService/preview/2024-08-01-preview/playwrighttesting.json
+```
+
+### Tag: package-2024-02-01-preview
+
+These settings apply only when `--tag=package-2024-02-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-02-01-preview'
+input-file:
+  - Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/playwrighttesting.json
+```
+
+### Tag: package-2024-01-01-preview
+
+These settings apply only when `--tag=package-2024-01-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-01-01-preview'
+input-file:
+  - Microsoft.AzurePlaywrightService/preview/2024-01-01-preview/playwrighttesting.json
+```
+
+### Tag: package-2023-10-01-preview
+
+These settings apply only when `--tag=package-2023-10-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-10-01-preview'
+input-file:
+  - Microsoft.AzurePlaywrightService/preview/2023-10-01-preview/playwrighttesting.json
 ```
 
 ---
@@ -52,9 +100,15 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go-track2
+  - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
+  - repo: azure-resource-manager-schemas
+  - repo: azure-cli-extensions
+  - repo: azure-powershell
 ```
+## Az
+
+See configuration in [readme.az.md](./readme.az.md)
 
 ## Go
 
@@ -71,3 +125,7 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
+
+## Java
+
+See configuration in [readme.java.md](./readme.java.md)

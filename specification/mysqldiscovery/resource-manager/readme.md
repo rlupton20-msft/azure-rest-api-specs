@@ -2,7 +2,7 @@
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for ｍysqldiscovery.
+This is the AutoRest configuration file for mysqldiscovery.
 
 ## Getting Started
 
@@ -22,26 +22,26 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the ｍysqldiscovery.
+These are the global settings for the mysqldiscovery.
 
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-05-23-preview
+tag: package-2023-09-30-preview
 ```
 
-### Tag: package-2023-05-23-preview
+### Tag: package-2023-09-30-preview
 
-These settings apply only when `--tag=package-2023-05-23-preview` is specified on the command line.
+These settings apply only when `--tag=package-2023-09-30-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-05-23-preview'
+```yaml $(tag) == 'package-2023-09-30-preview'
 input-file:
-  - Microsoft.MysqlDiscovery/preview/2023-05-23-preview/mysqldiscovery.json
+  - Private.MySQLDiscovery/preview/2023-09-30-preview/mysqldiscovery.json
 ```
 
 ---
 
-## Code Generation
+# Code Generation
 
 ## Swagger to SDK
 
@@ -50,11 +50,11 @@ This is not used by Autorest itself.
 
 ```yaml $(swagger-to-sdk)
 swagger-to-sdk:
+  - repo: azure-sdk-for-python-track2
+  - repo: azure-sdk-for-java
+  - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
-    after_scripts:
-      - bundle install && rake arm:regen_all_profiles['azure_mgmt_mysqldiscovery']
 ```
-
 
 ## Go
 
@@ -63,10 +63,6 @@ See configuration in [readme.go.md](./readme.go.md)
 ## Python
 
 See configuration in [readme.python.md](./readme.python.md)
-
-## Ruby
-
-See configuration in [readme.ruby.md](./readme.ruby.md)
 
 ## TypeScript
 

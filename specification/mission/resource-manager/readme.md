@@ -25,19 +25,84 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the mission.
 
 ```yaml
+title: missionClient
 openapi-type: arm
-tag: package-2022-06-01-preview
+openapi-subtype: rpaas
+tag: package-private-2024-06-01-preview
 ```
+### Tag: package-2024-06-01-preview
+These settings apply only when `--tag=package-private-2024-06-01-preview` is specified on the command line.
 
-### Tag: package-2022-06-01-preview
-
-These settings apply only when `--tag=package-2022-06-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-06-01-preview'
+```yaml $(tag) == 'package-private-2024-06-01-preview'
 input-file:
-  - Microsoft.Mission/preview/2022-06-01-preview/virtualenclave.json
+  - Private.Mission/preview/2024-06-01-preview/openapi.json
 ```
+---
+### Tag: package-2024-01-01-preview
+These settings apply only when `--tag=package-private-2024-01-01-preview` is specified on the command line.
 
+```yaml $(tag) == 'package-private-2024-01-01-preview'
+input-file:
+  - Private.Mission/preview/2024-01-01-preview/openapi.json
+```
+---
+### Tag: package-2023-11-01-preview
+
+These settings apply only when `--tag=package-private-2023-11-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-private-2023-11-01-preview'
+input-file:
+  - Private.Mission/preview/2023-11-01-preview/openapi.json
+```
+---
+### Tag: package-2023-08-01-preview
+
+These settings apply only when `--tag=package-private-2023-08-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-private-2023-08-01-preview'
+input-file:
+  - Private.Mission/preview/2023-08-01-preview/openapi.json
+```
+---
+
+### Tag: package-2023-02-01-preview
+
+These settings apply only when `--tag=package-2023-02-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-02-01-preview'
+input-file:
+  - Microsoft.Mission/preview/2023-02-01-preview/openapi.json
+```
+---
+
+### Tag: package-2022-12-07-preview
+
+These settings apply only when `--tag=package-2022-12-07-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-12-07-preview'
+input-file:
+  - Microsoft.Mission/preview/2022-12-07-preview/openapi.json
+```
+---
+
+### Tag: package-2022-10-31-preview
+
+These settings apply only when `--tag=package-2022-10-31-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-10-31-preview'
+input-file:
+  - Microsoft.Mission/preview/2022-10-31-preview/openapi.json
+```
+---
+
+### Tag: package-2022-08-02-preview
+
+These settings apply only when `--tag=package-2022-08-02-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-08-02-preview'
+input-file:
+  - Microsoft.Mission/preview/2022-08-02-preview/openapi.json
+```
 ---
 
 # Code Generation
@@ -51,11 +116,10 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions
-  - repo: azure-powershell
 ```
 ## Az
 

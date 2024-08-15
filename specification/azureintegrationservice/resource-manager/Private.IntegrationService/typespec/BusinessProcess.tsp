@@ -17,7 +17,7 @@ model BusinessProcessStage {
     description?: string;
 
     @doc("The properties within the properties of the business process stage.")
-    properties?: Record<BusinessProcessStagePropertyType>;
+    properties?: Record<string>;
 
     @doc("The property to keep track of stages before current in the business process stage.")
     stagesBefore?: string[];
@@ -35,31 +35,7 @@ model BusinessProcessMappingItem {
     operationName?: string;
 
     @doc("The mapping item operation type of the business process.")
-    operationType?: FlowOperationType;
-}
-
-@doc("The status of the current operation.")
-enum BusinessProcessStagePropertyType {
-    integer,
-    string,
-}
-
-@doc("The properties of the draft business process.")
-model DraftBusinessProcess {
-    @doc("The boolean value indicating if the draft business process is deployed.")
-    isDeployed?: boolean;
-
-    @doc("The draft business process identifier.")
-    identifier?: BusinessProcessIdentifier;
-
-    @doc("The business process stages.")
-    businessProcessStages?: Record<BusinessProcessStage>;
-
-    @doc("The business process mapping.")
-    businessProcessMapping?: Record<BusinessProcessMappingItem>;
-
-    @doc("The tracking profile for the business process.")
-    trackingProfiles?: Record<TrackingProfileDefinition>;
+    operationType?: string;
 }
 
 @doc("The properties of business process.")
@@ -68,11 +44,18 @@ model BusinessProcessProperties {
     @doc("The status of the last operation.")
     provisioningState?: ProvisioningState;
 
+    @visibility("read")
+    @doc("The version of the business process.")
+    version?: string;
+
     @doc("The description of the business process.")
     description?: string;
 
-    @doc("The draft business process.")
-    draftBusinessProcess?: DraftBusinessProcess;
+    @doc("The table name of the business process.")
+    tableName?: string;
+
+    @doc("The tracking data store reference name.")
+    trackingDataStoreReferenceName?: string;
 
     @doc("The business process identifier.")
     identifier?: BusinessProcessIdentifier;
@@ -82,7 +65,4 @@ model BusinessProcessProperties {
 
     @doc("The business process mapping.")
     businessProcessMapping?: Record<BusinessProcessMappingItem>;
-
-    @doc("The tracking data store reference name.")
-    trackingDataStoreReferenceName?: string;
 }

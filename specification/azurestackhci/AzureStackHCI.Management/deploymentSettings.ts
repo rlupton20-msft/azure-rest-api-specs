@@ -29,6 +29,14 @@ model Clusters is TrackedResource<ClusterProperties> {
   name: string;
 }
 
+@doc("The deployment mode of deployment settings for a cluster.")
+enum DeploymentMode {
+  @doc("Validate deployment settings for cluster.")
+  Validate,
+  @doc("Deploy cluster using  deployment settings.")
+  Deploy
+}
+
 @doc("A ClusterProperties")
 model ClusterProperties {
 }
@@ -49,6 +57,13 @@ model DeploymentSettingsProperties {
   @doc("DeploymentSetting provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState,
+
+  @doc("ARM resource ids of Arc machines to be part of cluster.")
+  @extension("x-ms-identifiers", [])
+  "arcNodeResourceIds" : string[],
+
+  @doc("Deployment mode can have values 'validate' or 'deploy'.")
+  "deploymentMode" : DeploymentMode = DeploymentMode.Deploy,
 
   @doc("Scale units will contains list of deploymentdata")
   @extension("x-ms-identifiers", [])
@@ -145,123 +160,66 @@ model ReportedProperties {
 
 @doc("The ValidationStatus of AzureStackHCI Cluster.")
 model ValidationStatus {
-  @doc("List of actions of AzureStackHCI Cluster Deployment.")
+  @doc("Status of AzureStackHCI Cluster Deployment.")
+  @visibility("read")
+  status?: string,
+
+  @doc("List of steps of AzureStackHCI Cluster Deployment.")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  action?: Action[]
+  steps?: Step[]
 }
 
 @doc("The DeploymentStatus of AzureStackHCI Cluster.")
 model DeploymentStatus {
-  @doc("List of actions of AzureStackHCI Cluster Deployment.")
-  @extension("x-ms-identifiers", [])
+  @doc("Status of AzureStackHCI Cluster Deployment.")
   @visibility("read")
-  action?: Action[]
-}
+  status?: string,
 
-@doc("The Action of AzureStackHCI Cluster.")
-model Action {
   @doc("List of steps of AzureStackHCI Cluster Deployment.")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  steps?: Step[],
-  @doc("type of action.")
-  @visibility("read")
-  type?: string,
-  @doc("Start time of action.")
-  @visibility("read")
-  startTimeUtc?: utcDateTime,
-  @doc("End time of action.")
-  @visibility("read")
-  endTimeUtc?: utcDateTime,
-   @doc("Status of action. Allowed values are 'Error', 'Success', 'InProgress'")
-  @visibility("read")
-  status?: string,
+  steps?: Step[]
 }
+
 
 @doc("The Step of AzureStackHCI Cluster.")
 model Step {
   @doc("Name of step.")
   @visibility("read")
   name?: string,
+
   @doc("Description of step.")
   @visibility("read")
-  descriptions?: string,
-  @doc("Index of step.")
-  @visibility("read")
-  index?: string,
+  description?: string,
+
    @doc("FullStepIndex of step.")
    @visibility("read")
   fullStepIndex?: string,
-  @doc("List of tasks performed for step.")
-  @extension("x-ms-identifiers", [])
+
+ 
+ @doc("Start time of step.")
   @visibility("read")
-  task?: Task[],
- @doc("Start time of action.")
-  @visibility("read")
-  startTimeUtc?: utcDateTime,
+  startTimeUtc?: string,
+
   @doc("End time of step.")
   @visibility("read")
-  endTimeUtc?: utcDateTime,
+  endTimeUtc?: string,
+
     @doc("Status of step. Allowed values are 'Error', 'Success', 'InProgress'")
   @visibility("read")
-  status?: string
-}
-
-@doc("The Step of AzureStackHCI Cluster.")
-model Task {
-  @doc("Evaluaton status of task.")
-  @visibility("read")
-  evaluation?: Evaluation,
-  @doc("Exception status of task.")
-  @visibility("read")
-  exception?: Exception,
-  @doc("Rolepath of task.")
-  @visibility("read")
-  rolePath?: string,
-  @doc("Interface Type of task.")
-  @visibility("read")
-  interfaceType?: string,
-  @doc("Start time of task.")
-  @visibility("read")
-  startTimeUtc?: utcDateTime,
-  @doc("End time of task.")
-  @visibility("read")
-  endTimeUtc?: utcDateTime,
-  @doc("Status of task. Allowed values are 'Error', 'Success', 'InProgress'")
-  @visibility("read")
   status?: string,
-  @doc("action if required.")
-  @visibility("read")
-  action?: Action,
-  @doc("retry attempts.")
-  @visibility("read")
-  retryAttempt?: string
-}
 
-@doc("The Exception of AzureStackHCI Cluster.")
-model Exception {
-  @doc("Exception message")
+  @doc("List of nested steps of AzureStackHCI Cluster Deployment.")
+  @extension("x-ms-identifiers", [])
   @visibility("read")
-  message?: string,
-  @doc("exception raised for machine name.")
-  @visibility("read")
-  machineName?: string,
-  @doc("stack trace for exception.")
-  @visibility("read")
-  stackTrace?: string,
-  @doc("raw exception details.")
-  @visibility("read")
-  raw?: string
-}
+  steps?: Step[],
 
-@doc("The Evaluation of AzureStackHCI Cluster.")
-model Evaluation {
-  @doc("Evaluation message")
+  @doc("List of exceptions in AzureStackHCI Cluster Deployment.")
+  @extension("x-ms-identifiers", [])
   @visibility("read")
-  message?: string
+  exception?: string[]
 }
-
 
 @doc("The SecuritySettings of AzureStackHCI Cluster.")
 model SecuritySettings {
@@ -327,8 +285,6 @@ model Storage {
 
 @doc("The InfrastructureNetwork of a AzureStackHCI Cluster.")
 model InfrastructureNetwork {
-  @doc("Only supported value in version 2210 is 0.")
-  vlanId: string,
   @doc("Subnet mask that matches the provided IP address space.")
   subnetMask: string,
   @doc("Default gateway that should be used for the provided IP address space.")
@@ -364,7 +320,10 @@ model HostNetwork {
 
   @doc("List of StorageNetworks config to deploy AzureStackHCI Cluster.")
   @extension("x-ms-identifiers", [])
-  "storageNetworks": StorageNetworks[]
+  "storageNetworks": StorageNetworks[],
+  
+  @doc("storageConnectivitySwitchless for AzureStackHCI Cluster.")
+  "storageConnectivitySwitchless": boolean
 }
 
 @doc("The Intents of a cluster.")

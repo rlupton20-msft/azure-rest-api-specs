@@ -35,3 +35,12 @@ enum EnabledState {
   @doc("The object is disabled")
   Disabled,
 }
+
+@doc("The type of the endpoint")
+enum EndpointType {
+  @doc("application gateway endpoints, which are under Microsoft.Network/applicationGateways")
+  ApplicationGateway,
+
+  @doc("FrontDoor endpoints, which are under Microsoft.Cdn/profiles")
+  FrontDoor,
+}

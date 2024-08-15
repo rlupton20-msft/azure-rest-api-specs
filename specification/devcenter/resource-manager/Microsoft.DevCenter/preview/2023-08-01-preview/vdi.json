@@ -1082,6 +1082,10 @@
         "stopOnDisconnect": {
           "description": "Stop on disconnect configuration settings for Dev Boxes created in this pool.",
           "$ref": "#/definitions/StopOnDisconnectConfiguration"
+        },
+        "singleSignOnStatus": {
+          "description": "Indicates whether Dev Boxes in this pool are created with single sign on enabled. The also requires that single sign on be enabled on the tenant.",
+          "$ref": "#/definitions/SingleSignOnStatus"
         }
       }
     },
@@ -1177,6 +1181,18 @@
       ],
       "x-ms-enum": {
         "name": "LocalAdminStatus",
+        "modelAsString": true
+      }
+    },
+    "SingleSignOnStatus": {
+      "description": "SingleSignOn (SSO) enable or disable status. Indicates whether Dev Boxes in the Pool will have SSO enabled or disabled.",
+      "type": "string",
+      "enum": [
+        "Disabled",
+        "Enabled"
+      ],
+      "x-ms-enum": {
+        "name": "SingleSignOnStatus",
         "modelAsString": true
       }
     },
@@ -1302,7 +1318,22 @@
     },
     "CatalogResourceValidationErrorDetails": {
       "type": "object",
-      "description": "Catalog resource validation error details",
+      "description": "List of validator error details. Populated when changes are made to the resource or its dependent resources that impact the validity of the Catalog resource.",
+      "properties": {
+        "errors": {
+          "description": "Errors associated with resources synchronized from the catalog.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CatalogErrorDetails"
+          },
+          "x-ms-identifiers": [],
+          "readOnly": true
+        }
+      }
+    },
+    "CatalogErrorDetails": {
+      "type": "object",
+      "description": "Catalog error details",
       "properties": {
         "code": {
           "type": "string",
@@ -1786,7 +1817,10 @@
       "required": true,
       "type": "string",
       "description": "Name of the pool.",
-      "x-ms-parameter-location": "method"
+      "x-ms-parameter-location": "method",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+      "minLength": 3,
+      "maxLength": 63
     },
     "NetworkConnectionName": {
       "name": "networkConnectionName",
@@ -1794,7 +1828,10 @@
       "required": true,
       "type": "string",
       "description": "Name of the Network Connection that can be applied to a Pool.",
-      "x-ms-parameter-location": "method"
+      "x-ms-parameter-location": "method",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+      "minLength": 3,
+      "maxLength": 63
     },
     "ScheduleNameParameter": {
       "name": "scheduleName",

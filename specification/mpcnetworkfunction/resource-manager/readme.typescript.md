@@ -6,8 +6,8 @@ Please also specify `--typescript-sdks-folder=<path to root folder of your azure
 ```yaml $(typescript)
 typescript:
   azure-arm: true
-  package-name: "mobileCore"
-  output-folder: "$(typescript-sdks-folder)/packages/mobileCore"
+  package-name: "@azure/arm-mpcnetworkfunction"
+  output-folder: "$(typescript-sdks-folder)/sdk/mpcnetworkfunction/arm-mpcnetworkfunction"
   payload-flattening-threshold: 1
   generate-metadata: true
 ```

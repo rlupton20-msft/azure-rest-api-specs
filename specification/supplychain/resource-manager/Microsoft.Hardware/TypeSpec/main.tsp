@@ -33,48 +33,45 @@ model Order is TrackedResource<OrderProperties> {
 @doc("Forward Order")
 model OrderProperties {
   @doc("Customer PurchaseOrder")
-  purchaseOrder?: PurchaseOrder;
+  customerOrder?: CustomerOrder;
 
   @doc("Type of action Pre-Fulfill/Fulfill")
   @visibility("read")
   action?:string;
 
   @doc("Order status")
-  @visibility("read")
   status?: OrderStatus;
 
   @doc("Order line details")
   @OpenAPI.extension("x-ms-identifiers",["id"])
   orderLines:OrderLine[];
 
-  @doc("Currency")
-  @visibility("read")
+  @doc("Billing Information")
+  billingInformation?:BillingInformation;
+
+  @doc("Currency for the order")
   currency?:string;
 
   @doc("Market - country code for Order")
-  @visibility("read")
   market?:string;
 
   @doc("Language - language code for Order")
-  @visibility("read")
   language?:string;
 
   @doc("Reservation for order if applicable")
-  @visibility("read")
   reservationId?:string;
 
-  @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
 
 @doc("Customer PurchaseOrder")
-model PurchaseOrder {
+model CustomerOrder {
   @doc("Customer PurchaseOrder Id")
   id: string;
 
-  @doc("Customer PurchaseOrder Date")
-  createdDateTime: plainDate;
+  @doc("Customer PurchaseOrder Date Time")
+  createdDateTime: utcDateTime;
 }
 
 @doc("Billing Details for Order")
@@ -95,7 +92,7 @@ model OrderLine {
   @visibility("read")
   status?: OrderLineStatus;
   
-  @doc("Order line date")
+  @doc("Order line created date time")
   @visibility("read")
   createdDateTime?: utcDateTime;
   
@@ -105,6 +102,9 @@ model OrderLine {
   @doc("order line Product")
   product: Product;
   
+  @doc("order line fulfillment instructions")
+  lineFulfillmentInstruction?: LineFulfillmentInstruction;
+
   @doc("line level Price")
   price:Price;
 
@@ -112,18 +112,22 @@ model OrderLine {
   shipTo: ShipTo;
 
   @doc("Shipping Method")
-  shippingMethod: ShippingMethod;
+  shippingMethod?: ShippingMethod;
 
-  @doc(" Requested Delivery Date")
-  requestedDeliveryDate:plainDate;
+  @doc("Requested Delivery Date Time")
+  requestedDeliveryDateTime?:utcDateTime;
 
-  @doc("Estimated Deliver Date")
-  @visibility("read")
-  estimatedDeliverDateTime?:plainDate;
+  @doc("Cancellation Reason")
+  cancellationReason?:string;
 
-  @doc("Estimated Shipped Date")
-  @visibility("read")
-  estimatedShippedDateTime?:plainDate;
+  @doc("Cancelled By User details")
+  cancelledBy?:string;
+
+  @doc("Estimated Delivery Date Time")
+  estimatedDeliveryDateTime?:utcDateTime;
+
+  @doc("Estimated Shipped Date Time")
+  estimatedShippedDateTime?:utcDateTime;
 }
 
 @doc("Order Line Qty")
@@ -153,20 +157,27 @@ model Product {
   type:ProductIdType;
 }
 
+@doc("Order line fulfillment instructions")
+model LineFulfillmentInstruction {
+  @doc("Device line referred to by the warranty line.")
+  referenceDeviceLine?: int64;
+
+  @doc("Serial Numbers")
+  serialNumbers?: int64[];
+}
+
 @doc("Order line Price")
 model Price {
   @doc("Price per Unit")
   unitAmount: float64;
 
   @doc("Shipping Cost for the line")
-  shippingCost: float64;
+  shippingCost?: float64;
 
   @doc("Tax for this line")
-  @visibility("read")
   taxes?: Tax[];
 
   @doc("Fees for this line")
-  @visibility("read")
   @OpenAPI.extension("x-ms-identifiers",["type"])
   fees?: Fee[];
 }
@@ -174,7 +185,7 @@ model Price {
 @doc("Fee model")
 model Fee{
   @doc("Fee charged")
-  feeAmount: float64;
+  amount: float64;
 
   @doc("Fee Type")
   type: FeeType;
@@ -187,6 +198,21 @@ model Tax{
   
   @doc("Tax Type")
   type: TaxType;
+
+  @doc("Categorization of the taxation system")
+  class?: string;
+  
+  @doc("Specific title assigned to the tax entity")
+  name?: string;
+
+  @doc("Level of governing authority")
+  jurisdictionEntity?: string;
+
+  @doc("Name of the jurisdiction")
+  jurisdictionName?: string;
+
+  @doc("Tax Rate")
+  rate?: float64;
 }
 
 @doc("ShipTo Id")
@@ -226,23 +252,31 @@ enum ProductIdType{
   UPN,
   @doc("Product, SKU, Availability in Big-Catalog")
   PSA,
-  @doc("MS Product Identitier (3x5 SKU)")
-  MS
+  @doc("MS Product Identifier (3x5 SKU)")
+  FulfillmentProductId
 }
 
 @doc("Shipping Method")
 enum ShippingMethod{
   @doc("Ground shipping")
   Ground,
-  @doc("OverNight shipping")
-  OverNight
+  @doc("Two day shipping")
+  TwoDay,
+  @doc("Three day shipping")
+  ThreeDay,
+  @doc("Sustainable shipping")
+  Sustainable,
+  @doc("Street date shipping")
+  StreetDate,
+  @doc("APO FPO shipping")
+  ApoFpo
 }
 
 @doc("shipToId Type")
 enum ShipToIdType{
-  @doc("MCAPI Business Location")
+  @doc("Modern Commerce API Business Location")
   BusinessLocation,
-  @doc("Parnter ExternalId")
+  @doc("Partner External-Id")
   ExternalId
 }
 
@@ -270,6 +304,16 @@ enum OrderStatus{
   Confirmed,
   @doc("Order is PartiallyConfirmed")
   PartiallyConfirmed,
+  @doc("Order is pending cancellation")
+  PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
+  @doc("Order is Ready to Ship cannot be cancelled")
+  PendingShipment,
   @doc("Order is PartiallyShipped")
   PartiallyShipped,
   @doc("Order is Shipped")
@@ -286,6 +330,16 @@ enum OrderLineStatus{
   Confirmed,
   @doc("Order is PartiallyConfirmed")
   PartiallyConfirmed,
+  @doc("Order is pending cancellation")
+  PendingCancel,
+  @doc("Order is Ready to Provision cannot be cancelled")
+  PendingProvisioning,
+  @doc("Order is PartiallyProvisioned")
+  PartiallyProvisioned,
+  @doc("Order is Provisioned")
+  Provisioned,
+  @doc("Order is Ready to Ship cannot be cancelled")
+  PendingShipment,
   @doc("Order is PartiallyShipped")
   PartiallyShipped,
   @doc("Order is Shipped")
@@ -299,4 +353,30 @@ enum ProvisioningState {
   @doc("Order is pending")
   Pending
 
+}
+
+alias DefaultProviderNamespace = {
+  @path
+  @TypeSpec.Rest.segment("providers")
+  @doc("The provider namespace for the resource.")
+  provider: "Microsoft.Hardware";
+};
+
+@armResourceOperations
+interface OrderPreviewInterface {
+@armResourceCollectionAction
+  @armProviderNameValue
+  @doc("Implements orderPreview operations")
+  @Autorest.example("./examples/Orders_Preview.json","OrderPreview")
+  @TypeSpec.Rest.action("orderPreview")
+  @post
+  op orderPreview(
+    ...SubscriptionIdParameter,
+    ...DefaultProviderNamespace,
+    ...ApiVersionParameter,
+
+    @doc("The orderPreview request")
+    @body
+    body: Order,
+  ): Order | ErrorResponse;
 }

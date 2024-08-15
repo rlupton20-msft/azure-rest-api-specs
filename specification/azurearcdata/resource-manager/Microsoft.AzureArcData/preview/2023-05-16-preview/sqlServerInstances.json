@@ -207,7 +207,7 @@
         },
         "monitoring": {
           "description": "The monitoring configuration.",
-          "$ref":  "#/definitions/Monitoring"
+          "$ref": "#/definitions/Monitoring"
         }
       },
       "required": [
@@ -230,6 +230,13 @@
         "sqlInstanceIds": {
           "type": "array",
           "description": "The ARM IDs of the Arc SQL Server resources, belonging to the current server's Failover cluster.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hostNames": {
+          "type": "array",
+          "description": "The host names which are part of the SQL FCI resource group.",
           "items": {
             "type": "string"
           }
@@ -291,13 +298,17 @@
           "format": "int32"
         },
         "differentialBackupHours": {
-          "type": "integer",
-          "description": "The value indicating the hours between differential backups.",
+          "description": "The differential backup interval in hours.",
           "enum": [
             12,
             24
           ],
-          "format": "int32"
+          "type": "integer",
+          "format": "int32",
+          "x-ms-enum": {
+            "name": "differentialBackupHours",
+            "modelAsString": false
+          }
         },
         "transactionLogBackupMinutes": {
           "type": "integer",
@@ -306,8 +317,7 @@
           "maximum": 60,
           "format": "int32"
         }
-      },
-      "additionalProperties": {}
+      }
     },
     "Monitoring": {
       "description": "The monitoring configuration.",

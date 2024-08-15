@@ -1,0 +1,206 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Edge Sites",
+    "version": "2023-08-01-privatepreview",
+    "description": "Azure Edge Sites Resource Provider management API."
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Private.EdgeSite/siteAwareResourceTypes/default": {
+      "get": {
+        "tags": [
+          "SiteAwareResourceTypes"
+        ],
+        "operationId": "SiteAwareResourceTypes_List",
+        "description": "Get Site Aware Resource Types",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SiteAwareResourceTypes"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Show All Site Aware Resource Types": {
+            "$ref": "./examples/GetSiteAwareResourceTypes.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of a resource.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "The resource is being provisioned"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The resource is updating"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The resource is being deleted"
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource create request has been accepted"
+          }
+        ]
+      }
+    },
+    "SiteAwareResourceTypes": {
+      "description": "Name of Resource Type which recognizes Sites and displays capabilities.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SiteAwareResourceTypesProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SiteAwareResourceTypesProperties": {
+      "description": "SiteAwareResourceTypes API Properties",
+      "type": "object",
+      "properties": {
+        "supportedResourceTypes": {
+          "description": "Details for each SiteAwareResourceType",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SiteAwareResourceTypesDetails"
+          },
+          "x-ms-identifiers": [
+            "resourceType"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "SiteAwareResourceTypesDetails": {
+      "description": "The properties of the site Resource Types which support Sites operations and can be displayed under this view.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "Portal Display Name",
+          "type": "string",
+          "readOnly": true
+        },
+        "resourceType": {
+          "description": "Name of the operation.",
+          "type": "string",
+          "readOnly": true
+        },
+        "availabilityStatus": {
+          "description": "Distinguishes whether RP is already supported or coming soon.",
+          "type": "string",
+          "enum": [
+            "ComingSoon",
+            "Supported"
+          ],
+          "x-ms-enum": {
+            "name": "availabilityStatus",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "supportedCapabilities": {
+          "description": "Aggregation Capabilities",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "readOnly": true
+          },
+          "readOnly": true
+        }
+      }
+    }
+  }
+}

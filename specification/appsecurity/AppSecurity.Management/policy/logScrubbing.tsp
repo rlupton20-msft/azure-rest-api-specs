@@ -2,6 +2,10 @@ using OpenAPI;
 
 namespace Microsoft.AppSecurity;
 
+alias MinScrubbingRuleSelectorLength = 1;
+alias MaxScrubbingRuleSelectorLength = 128;
+alias MaxScrubbingRulesCount = 100;
+
 @doc("Supported variable types for scrubbing rules")
 enum ScrubbingRuleMatchVariable {
   @doc("The request headers to be scrubbed")
@@ -44,8 +48,8 @@ model ScrubbingRule {
   selectorMatchOperator: ScrubbingRuleSelectorMatchOperator;
 
   @doc("When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to")
-  @minLength(1)
-  @maxLength(128)
+  @minLength(MinScrubbingRuleSelectorLength)
+  @maxLength(MaxScrubbingRuleSelectorLength)
   selector: string;
 }
 
@@ -56,6 +60,6 @@ model LogScrubbing {
 
   @doc("The rules that are applied to the logs for scrubbing")
   @extension("x-ms-identifiers", [])
-  @maxItems(100)
+  @maxItems(MaxScrubbingRulesCount)
   scrubbingRules: ScrubbingRule[];
 }

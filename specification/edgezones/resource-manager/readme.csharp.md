@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.EdgeZonesV2
+  namespace: Microsoft.EdgeZones
   output-folder: $(csharp-sdks-folder)/edgezones/management/Microsoft.EdgeZones/GeneratedProtocol
 ```

@@ -16,12 +16,12 @@
     "application/json"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.deviceregistry/assets/{assetName}/relationships": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets/{assetName}/relationships": {
       "get": {
         "tags": [
           "NestedResource"
         ],
-        "operationId": "Asset_Relationship_List",
+        "operationId": "AssetRelationship_List",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -42,16 +42,22 @@
             "schema": {
               "$ref": "#/definitions/RelationshipList"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.deviceregistry/assets/{assetName}/relationships/{relationshipName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets/{assetName}/relationships/{relationshipName}": {
       "put": {
         "tags": [
           "NestedResource"
         ],
-        "operationId": "Asset_Relationship_Create",
+        "operationId": "AssetRelationship_Create",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -85,6 +91,19 @@
             "schema": {
               "$ref": "#/definitions/Relationship"
             }
+          },
+          "201": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       },
@@ -92,7 +111,7 @@
         "tags": [
           "NestedResource"
         ],
-        "operationId": "Asset_Relationship_Update",
+        "operationId": "AssetRelationship_Update",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -115,7 +134,7 @@
             "required": true,
             "description": "Resource patch parameters.",
             "schema": {
-              "$ref": "#/definitions/Relationship"
+              "$ref": "#/definitions/RelationshipPatchPayload"
             }
           }
         ],
@@ -126,6 +145,12 @@
             "schema": {
               "$ref": "#/definitions/Relationship"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       },
@@ -133,7 +158,8 @@
         "tags": [
           "NestedResource"
         ],
-        "operationId": "Asset_Relationship_Delete",
+        "operationId": "AssetRelationship_Delete",
+        "x-ms-long-running-operation": true,
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -152,8 +178,22 @@
           }
         ],
         "responses": {
-          "200": {
+          "202": {
+            "description": "",
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            }
+          },
+          "204": {
             "description": ""
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       },
@@ -161,7 +201,7 @@
         "tags": [
           "NestedResource"
         ],
-        "operationId": "Asset_Relationship_Get",
+        "operationId": "AssetRelationship_Get",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -184,6 +224,12 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/Relationship"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -196,6 +242,7 @@
       "in": "path",
       "required": true,
       "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9]$",
       "maxLength": 64,
       "minLength": 3
     },
@@ -204,6 +251,7 @@
       "in": "path",
       "required": true,
       "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9]$",
       "maxLength": 64,
       "minLength": 3
     }
@@ -223,6 +271,27 @@
         }
       },
       "description": "List of Asset relationships."
+    },
+    "RelationshipPatchPayload": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "properties": {
+          "$ref": "#/definitions/RelationshipProperties",
+          "description": "Asset relationship properties."
+        }
+      }
     },
     "Relationship": {
       "type": "object",
@@ -264,6 +333,7 @@
               }
             }
           },
+          "x-ms-identifiers": [],
           "description": "Set of relationships from this asset (defined by the asset type). One common relationship type is a component (part-of) reference."
         }
       }

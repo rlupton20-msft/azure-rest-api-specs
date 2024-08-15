@@ -32,6 +32,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
@@ -63,6 +69,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
@@ -107,6 +119,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "x-nullable": false,
             "description": "Device is created successfully.",
@@ -157,6 +175,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Device is updated successfully.",
             "schema": {
@@ -202,6 +226,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Device deletion is successful."
           },
@@ -237,6 +267,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
@@ -360,6 +396,25 @@
           "type": "boolean",
           "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD."
         },
+        "endpoints": {
+          "type": "object",
+          "required": [
+            "assigned"
+          ],
+          "properties": {
+            "assigned": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            }
+          }
+        },
         "attributes": {
           "type": "object",
           "additionalProperties": {}
@@ -459,16 +514,60 @@
             }
           }
         },
+        "endpoints": {
+          "type": "object",
+          "required": [
+            "assigned"
+          ],
+          "properties": {
+            "assigned": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            },
+            "unassigned": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            }
+          }
+        },
         "attributes": {
           "type": "object",
           "additionalProperties": {}
+        },
+        "provisioningState": {
+          "description": "Provisioning state of the resource.",
+          "type": "string",
+          "readOnly": true
         }
       }
     },
-    "ProvisioningState": {
-      "type": "string",
-      "description": "Provisioning state of the resource.",
-      "readOnly": true
+    "Endpoint": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of connection endpoint."
+        },
+        "address": {
+          "type": "string",
+          "description": "Fully qualified domain name."
+        }
+      }
     }
   }
 }

@@ -2,7 +2,8 @@ import "./webProtection.tsp";
 import "./botProtection.tsp";
 import "./policySettings.tsp";
 import "./protectedEndpoint.tsp";
-import "./customRules.tsp";
+import "./customRules/customRule.tsp";
+import "./managedRulesCustomization.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -12,18 +13,25 @@ using OpenAPI;
 
 namespace Microsoft.AppSecurity;
 
-@doc("The Policy properties")
+alias MinResourceNameLength = 1;
+alias MaxResourceNameLength = 128;
+alias MaxProtectedEndpointsCount = 100;
+alias MaxCustomRulesCount = 100;
+alias MinManagedRulesCount = 1;
+alias MaxManagedRulesCount = 10;
+
+@doc("The policy properties")
 model PolicyProperties {
   @doc("The status of the last operation")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   @doc("Global settings for the policy")
-  policySettings: PolicySettings;
+  policySettings?: PolicySettings;
 
   @doc("The list of endpoints this policy protects")
   @extension("x-ms-identifiers", ["endpointId"])
-  @maxItems(100)
+  @maxItems(MaxProtectedEndpointsCount)
   protectedEndpoints?: ProtectedEndpoint[];
 
   @doc("Rules for scrubbing sensitive log fields")
@@ -31,7 +39,7 @@ model PolicyProperties {
 
   @doc("User defined rules")
   @extension("x-ms-identifiers", ["name"])
-  @maxItems(100) // AppGW custom rules limitation is 100
+  @maxItems(MaxCustomRulesCount) // AppGW custom rules limitation is 100
   customRules?: CustomRule[];
 
   @doc("Describes the web protection policy")
@@ -39,35 +47,36 @@ model PolicyProperties {
 
   @doc("Describes the bot protection policy")
   botProtection?: BotProtection;
+
+  @doc("Customization for managed rules (including exclusions and overrides)")
+  managedRulesCustomization?: ManagedRulesCustomization;
 }
 
 @doc("Policy resource definition")
 model Policy is TrackedResource<PolicyProperties> {
-  //@pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the policy")
   @segment("policies") // Path segment
   @key("policyName")
   @path
-  @minLength(1)
-  @maxLength(128)
+  @minLength(MinResourceNameLength)
+  @maxLength(MaxResourceNameLength)
   name: string;
+
   // ...ResourceSku;
+
+  ...EntityTag;
 }
 
-@doc("Request or response body of endpoints attachment/detachment operation")
-model ProtectedEndpointList {
-  @maxItems(100)
-  @extension("x-ms-identifiers", ["endpointId"])
-  @doc("List of endpoints to attach/detach to the policy, or that are currently protected by the policy")
-  protectedEndpoints: ProtectedEndpoint[];
-}
-
+// See recommendations for ARM resource operations at <https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-operations>
 @armResourceOperations
 interface Policies {
   get is ArmResourceRead<Policy>;
   listByParent is ArmResourceListByParent<Policy>;
   listBySubscription is ArmListBySubscription<Policy>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Policy>;
-  update is ArmResourcePatchAsync<Policy, PolicyProperties>;
-  delete is ArmResourceDeleteAsync<Policy>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Policy>;
+  // Although ARM recommends providing update (PATCH) support for all top-level properties, if LRO update is required it must be implemented with POST.
+  // See <https://github.com/microsoft/api-guidelines/blob/15fefbaf192b73523c247b29c2266dc432fc90a4/azure/Guidelines.md?plain=1#L854>
+  update is ArmTagsPatchSync<Policy>;
+  delete is ArmResourceDeleteWithoutOkAsync<Policy>;
 }

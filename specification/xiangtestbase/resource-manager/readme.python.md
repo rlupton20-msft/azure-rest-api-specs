@@ -6,13 +6,15 @@ Please also specify `--python-sdks-folder=<path to the root directory of your az
 ``` yaml $(python)
 azure-arm: true
 license-header: MICROSOFT_MIT_NO_VERSION
-package-name: azure-mgmt-xiangtestbase
-namespace: azure.mgmt.xiangtestbase
+package-name: azure-mgmt-testbase
+no-namespace-folders: true
 package-version: 1.0.0b1
-clear-output-folder: true
 ```
 
-``` yaml $(python)
-no-namespace-folders: true
-output-folder: $(python-sdks-folder)/xiangtestbase/azure-mgmt-xiangtestbase/azure/mgmt/xiangtestbase
+``` yaml $(python-mode) == 'update'
+output-folder: $(python-sdks-folder)/testbase/azure-mgmt-testbase/azure/mgmt/testbase
+```
+``` yaml $(python-mode) == 'create'
+basic-setup-py: true
+output-folder: $(python-sdks-folder)/testbase/azure-mgmt-testbase
 ```

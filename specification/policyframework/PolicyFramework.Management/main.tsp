@@ -1,0 +1,419 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
+using TypeSpec.OpenAPI;
+
+/** Microsoft.PolicyFramework Resource Provider management API. */
+@armProviderNamespace
+@service({
+  title: "Microsoft.PolicyFramework Resource Provider Management Service",
+})
+@versioned(Versions)
+namespace Microsoft.PolicyFramework;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+/** PolicyFramework RP API versions. */
+enum Versions {
+  /** 2024-06-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_06_01_preview: "2024-06-01-preview",
+}
+
+/**
+ * The evaluation engine type definition
+ */
+@doc("The evaluation engine properties.")
+model EvaluationEngineProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The evaluation engine target.")
+  target: string;
+
+  @doc("The scope configuration of the evaluation engine.")
+  scopeConfiguration: {};
+
+  @doc("The rego configuration of the evaluation engine.")
+  regoConfig: {};
+
+  @doc("The effects of the evaluation engine.")
+  effects: {};
+}
+
+@doc("The evaluation engine")
+model EvaluationEngine is TrackedResource<EvaluationEngineProperties> {
+  @key("evaluationEngineName")
+  @segment("evaluationEngines")
+  @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("The name of the evaluation engine.")
+  name: string;
+}
+
+/**
+ * The evaluation engine policy assignment type definition
+ */
+@doc("The evaluation engine policy assignment properties.")
+model EvaluationEnginePolicyAssignmentProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The version of the evaluation engine policy assignment.")
+  version: string;
+
+  @doc("The scopes of the evaluation engine policy assignment.")
+  scopes: string[];
+
+  @doc("The notScopes of the evaluation engine policy assignment.")
+  notScopes?: string[];
+
+  @doc("The description of the evaluation engine policy assignment.")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The metadata of the evaluation engine policy assignment.")
+  metadata?: {};
+
+  @doc("The corresponding policy definition id for the policy assignment.")
+  policyDefinitionId: string;
+
+  @doc("The parameters of the evaluation engine policy assignment.")
+  parameters?: string;
+}
+
+@doc("The evaluation engine assignment")
+@parentResource(EvaluationEngine)
+model EvaluationEnginePolicyAssignment
+  is ProxyResource<EvaluationEnginePolicyAssignmentProperties> {
+  @key("policyAssignmentName")
+  @segment("evaluationEnginePolicyAssignments")
+  @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("The name of the evaluation engine policy assignment.")
+  name: string;
+}
+
+/**
+ * The evaluation engine policy type definition
+ */
+@doc("The evaluation engine policy definition properties.")
+model EvaluationEnginePolicyDefinitionProperties {
+  @doc("Provisioning State")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The version of the evaluation engine policy definition.")
+  version: string;
+
+  @doc("The description of the evaluation engine policy definition.")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The parameters of the evaluation engine policy definition.")
+  parameters?: {};
+
+  @doc("The metadata of the evaluation engine policy definition.")
+  metadata?: {};
+
+  @doc("Set of conditions in specified language that returns boolean")
+  applicabilityRule?: string;
+
+  @doc("Set of conditions in specified language that returns boolean")
+  complianceRule?: string;
+
+  @doc("The evaluation engine policy definition effect.")
+  effect?: string;
+
+  @doc("The configuration for the effect for the policy definition.")
+  effectConfiguration?: {};
+}
+
+@doc("The evaluation engine policy definition")
+@parentResource(EvaluationEngine)
+model EvaluationEnginePolicyDefinition
+  is ProxyResource<EvaluationEnginePolicyDefinitionProperties> {
+  @key("policyName")
+  @segment("evaluationEnginePolicyDefinitions")
+  @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("The name of the evaluation engine policy definition.")
+  name: string;
+}
+
+/**
+ * Provisioning State information
+ */
+@lroStatus
+@doc("The provisioning state of the last accepted operation")
+union ProvisioningState {
+  ResourceProvisioningState, // include standard provisioning states
+
+  @doc("Resource is creating")
+  Creating: "Creating",
+
+  @doc("Resource is updating")
+  Updating: "Updating",
+
+  @doc("Resource is deleting")
+  Deleting: "Deleting",
+
+  @doc("Resource succeeded")
+  Succeeded: "Succeeded",
+
+  @doc("Resource failed")
+  Failed: "Failed",
+}
+
+/**
+ * POST actions compliance result
+ */
+@doc("The result of the last accepted operation")
+union ComplianceResult {
+  @doc("The resource is compliant")
+  Compliant: "Compliant",
+
+  @doc("The resource is non-compliant")
+  NonCompliant: "NonCompliant",
+
+  @doc("The Unknown result")
+  Unknown: "Unknown",
+
+  string,
+}
+/**
+ * POST actions applicability result
+ */
+@doc("The applicability result of the last accepted operation")
+union ApplicabilityResult {
+  @doc("Found to be applicable")
+  Applicable: "Applicable",
+
+  @doc("Found to not be applicable")
+  NotApplicable: "NotApplicable",
+
+  @doc("The Unknown result")
+  Unknown: "Unknown",
+
+  string,
+}
+
+/**
+ * Evaluation POST request and response
+ */
+@doc("The evaluation action request")
+model EvaluationActionRequest {
+  @doc("The evaluation request payload")
+  resourcePayload: {};
+}
+
+@doc("The evaluation action response")
+model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
+  @doc("The evaluation scopes")
+  scopes: string[];
+
+  @doc("The evaluation notScopes")
+  notScopes?: string[];
+
+  @doc("the evaluation parameters")
+  parameters?: {};
+
+  @doc("The evaluation response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The evaluation policy definition id")
+  policyDefinitionId?: string;
+
+  @doc("The evaluation applicability rule")
+  applicabilityRule?: string;
+
+  @doc("The evaluation compliance rule")
+  complianceRule?: string;
+
+  @doc("The evaluation effect")
+  effect?: string;
+
+  @doc("The evaluation effect configuration")
+  effectConfiguration?: {};
+
+  @doc("The evaluation result")
+  result: ComplianceResult;
+}
+
+/**
+ * Evaluate Applicability POST request and response
+ */
+@doc("The applicability action request")
+model ApplicabilityActionRequest {
+  @doc("The applicability request payload")
+  resourcePayload: {};
+}
+
+@doc("The applicability action response")
+model ApplicabilityActionResponse
+  is Azure.ResourceManager.Foundations.Resource {
+  @doc("The applicability scope")
+  scopes: string[];
+
+  @doc("The applicability notScopes")
+  notScopes?: string[];
+
+  @doc("The applicability parameters")
+  parameters?: {};
+
+  @doc("The applicability response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The applicability policy definition id")
+  policyDefinitionId?: string;
+
+  @doc("The applicability rule")
+  applicabilityRule?: string;
+
+  @doc("The applicability compliance rule")
+  complianceRule?: string;
+
+  @doc("The applicability effect")
+  effect?: string;
+
+  @doc("The applicability effect configuration")
+  effectConfiguration?: {};
+
+  @doc("The applicability result")
+  result: ApplicabilityResult;
+}
+
+/**
+ * Transpile POST request and response
+ */
+@doc("The transpile action request")
+model TranspileActionRequest {
+  @doc("The applicability request payload")
+  resourcePayload: {};
+}
+
+@doc("The transpile action response")
+model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
+  @doc("The transpile scope")
+  scopes: string[];
+
+  @doc("The transpile notScopes")
+  notScopes?: string[];
+
+  @doc("The transpile response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
+
+  @doc("The transpile parameters")
+  parameters?: {};
+
+  @doc("The transpile policy definition id")
+  policyDefinitionId?: string;
+
+  @doc("The transpile rule")
+  applicabilityRule?: string;
+
+  @doc("The transpile compliance rule")
+  complianceRule?: string;
+
+  @doc("The transpile effect")
+  effect?: string;
+
+  @doc("The transpile effect configuration")
+  effectConfiguration?: {};
+
+  @doc("The applicability result")
+  result: ApplicabilityResult;
+}
+
+// NOTE(chrostow): This is a template for resource list actions that return synchronously with no request body. This which will be added to the library at some point.
+/**
+ * Custom operations template for the evaluation engine actions - POST
+ */
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "This is a template"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a template"
+@extension("x-ms-long-running-operation", true)
+@extension(
+  "x-ms-long-running-operation-options",
+  {
+    `final-state-via`: "location",
+  }
+)
+@autoRoute
+@armResourceAction(TResource)
+@post
+op ArmResourceListActionAsync<
+  TResource extends Azure.ResourceManager.Foundations.Resource,
+  TRequest extends {},
+  TResponse extends Azure.ResourceManager.Foundations.Resource,
+  TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
+>(
+  ...ResourceInstanceParameters<TResource, TBaseParameters>,
+
+  @doc("The request body")
+  @bodyRoot
+  request: TRequest,
+): ArmResponse<TResponse> | ArmAcceptedLroResponse | ErrorResponse;
+
+@armResourceOperations(EvaluationEngine)
+interface EvaluationEngineOperations {
+  get is ArmResourceRead<EvaluationEngine>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EvaluationEngine>;
+  update is ArmResourcePatchAsync<EvaluationEngine, EvaluationEngineProperties>;
+  delete is ArmResourceDeleteSync<EvaluationEngine>;
+  listByResourceGroup is ArmResourceListByParent<EvaluationEngine>;
+  listBySubscription is ArmListBySubscription<EvaluationEngine>;
+  evaluate is ArmResourceListActionAsync<
+    EvaluationEngine,
+    EvaluationActionRequest,
+    ResourceListResult<EvaluationActionResponse>
+  >;
+  checkApplicability is ArmResourceListActionAsync<
+    EvaluationEngine,
+    ApplicabilityActionRequest,
+    ResourceListResult<ApplicabilityActionResponse>
+  >;
+  transpile is ArmResourceListActionAsync<
+    EvaluationEngine,
+    TranspileActionRequest,
+    ResourceListResult<TranspileActionResponse>
+  >;
+}
+
+@armResourceOperations
+interface EvaluationEnginePolicyAssignmentOperations {
+  get is ArmResourceRead<EvaluationEnginePolicyAssignment>;
+  create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyAssignment>;
+  update is ArmResourcePatchSync<
+    EvaluationEnginePolicyAssignment,
+    EvaluationEnginePolicyAssignmentProperties
+  >;
+  delete is ArmResourceDeleteSync<EvaluationEnginePolicyAssignment>;
+  listByParent is ArmResourceListByParent<EvaluationEnginePolicyAssignment>;
+}
+
+@armResourceOperations
+interface EvaluationEnginePolicyDefinitionOperations {
+  get is ArmResourceRead<EvaluationEnginePolicyDefinition>;
+  create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyDefinition>;
+  update is ArmResourcePatchSync<
+    EvaluationEnginePolicyDefinition,
+    EvaluationEnginePolicyDefinitionProperties
+  >;
+  delete is ArmResourceDeleteSync<EvaluationEnginePolicyDefinition>;
+  listByParent is ArmResourceListByParent<EvaluationEnginePolicyDefinition>;
+}

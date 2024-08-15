@@ -3,12 +3,7 @@
   "info": {
     "title": "Deployment Settings",
     "version": "2023-08-01-preview",
-    "description": "Azure Stack HCI Deployment Settings.",
-    "x-typespec-generated": [
-      {
-        "emitter": "@azure-tools/typespec-autorest"
-      }
-    ]
+    "description": "Azure Stack HCI Deployment Settings."
   },
   "schemes": [
     "https"
@@ -62,11 +57,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "clusterName",
-            "in": "path",
-            "description": "Name of Cluster",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/ClusterNameParameter"
           }
         ],
         "responses": {
@@ -84,8 +75,8 @@
           }
         },
         "x-ms-examples": {
-          "Get DeploymentSetting": {
-            "$ref": "./examples/GetDeploymentSettings.json"
+          "List Deployment Settings": {
+            "$ref": "./examples/ListDeploymentSettingsByCluster.json"
           }
         },
         "x-ms-pageable": {
@@ -111,11 +102,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "clusterName",
-            "in": "path",
-            "description": "Name of Cluster",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/ClusterNameParameter"
           },
           {
             "name": "deploymentSettingsName",
@@ -140,6 +127,11 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get Deployment Settings": {
+            "$ref": "./examples/GetDeploymentSettings.json"
+          }
         }
       },
       "put": {
@@ -159,11 +151,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "clusterName",
-            "in": "path",
-            "description": "Name of Cluster",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/ClusterNameParameter"
           },
           {
             "name": "deploymentSettingsName",
@@ -186,22 +174,21 @@
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Resource 'DeploymentSetting' update operation succeeded",
             "schema": {
               "$ref": "#/definitions/DeploymentSetting"
             }
           },
-          "202": {
-            "description": "Resource operation accepted.",
+          "201": {
+            "description": "Resource 'DeploymentSetting' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DeploymentSetting"
+            },
             "headers": {
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -213,7 +200,7 @@
           }
         },
         "x-ms-examples": {
-          "Create DeploymentSetting": {
+          "Create Deployment Settings": {
             "$ref": "./examples/PutDeploymentSettings.json"
           }
         },
@@ -239,11 +226,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "clusterName",
-            "in": "path",
-            "description": "Name of Cluster",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/ClusterNameParameter"
           },
           {
             "name": "deploymentSettingsName",
@@ -281,7 +264,7 @@
           }
         },
         "x-ms-examples": {
-          "Delete DeploymentSetting": {
+          "Delete Deployment Settings": {
             "$ref": "./examples/DeleteDeploymentSettings.json"
           }
         },
@@ -309,11 +292,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "clusterName",
-            "in": "path",
-            "description": "Name of Cluster",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/ClusterNameParameter"
           },
           {
             "name": "deploymentSettingsName",
@@ -325,7 +304,7 @@
             "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "name": "body",
+            "name": "DeploymentRequest",
             "in": "body",
             "description": "The content of the action request",
             "required": true,
@@ -375,43 +354,6 @@
     }
   },
   "definitions": {
-    "Action": {
-      "type": "object",
-      "description": "The Action of AzureStackHCI Cluster.",
-      "properties": {
-        "steps": {
-          "type": "array",
-          "description": "List of steps of AzureStackHCI Cluster Deployment.",
-          "items": {
-            "$ref": "#/definitions/Step"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
-        },
-        "type": {
-          "type": "string",
-          "description": "type of action.",
-          "readOnly": true
-        },
-        "startTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Start time of action.",
-          "readOnly": true
-        },
-        "endTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "End time of action.",
-          "readOnly": true
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of action. Allowed values are 'Error', 'Success', 'InProgress'",
-          "readOnly": true
-        }
-      }
-    },
     "AdapterPropertyOverrides": {
       "type": "object",
       "description": "The AdapterPropertyOverrides of a cluster.",
@@ -473,7 +415,7 @@
         },
         "scaleUnits": {
           "type": "array",
-          "description": "Scale units will contains list of deploymentdata",
+          "description": "Scale units will contains list of deployment data",
           "items": {
             "$ref": "#/definitions/ScaleUnits"
           },
@@ -486,7 +428,7 @@
     },
     "DeploymentData": {
       "type": "object",
-      "description": "The DeploymentData of AzureStackHCI Cluster.",
+      "description": "The Deployment data of AzureStackHCI Cluster.",
       "properties": {
         "securitySettings": {
           "$ref": "#/definitions/SecuritySettings",
@@ -523,7 +465,7 @@
         },
         "physicalNodes": {
           "type": "array",
-          "description": "list of perhysicalNodes config to deploy AzureStackHCI Cluster.",
+          "description": "list of physical nodes config to deploy AzureStackHCI Cluster.",
           "items": {
             "$ref": "#/definitions/PhysicalNodes"
           },
@@ -535,12 +477,11 @@
         },
         "adouPath": {
           "type": "string",
-          "description": "The path to the Active Directory Organizational Unit (ADOU) container object prepared for the deployment. "
+          "description": "The path to the Active Directory Organizational Unit container object prepared for the deployment. "
         },
         "secretsLocation": {
           "type": "string",
-          "description": "The URI to the keyvault / secret store.",
-          "x-ms-secret": true
+          "description": "The URI to the keyvault / secret store."
         },
         "optionalServices": {
           "$ref": "#/definitions/OptionalServices",
@@ -630,7 +571,7 @@
         },
         "deploymentConfiguration": {
           "$ref": "#/definitions/DeploymentConfiguration",
-          "description": "Scale units will contains list of deploymentdata",
+          "description": "Scale units will contains list of deployment data",
           "x-ms-identifiers": []
         },
         "reportedProperties": {
@@ -647,51 +588,19 @@
       "type": "object",
       "description": "The DeploymentStatus of AzureStackHCI Cluster.",
       "properties": {
-        "action": {
+        "status": {
+          "type": "string",
+          "description": "Status of AzureStackHCI Cluster Deployment.",
+          "readOnly": true
+        },
+        "steps": {
           "type": "array",
-          "description": "List of actions of AzureStackHCI Cluster Deployment.",
+          "description": "List of steps of AzureStackHCI Cluster Deployment.",
           "items": {
-            "$ref": "#/definitions/Action"
+            "$ref": "#/definitions/Step"
           },
           "readOnly": true,
           "x-ms-identifiers": []
-        }
-      }
-    },
-    "Evaluation": {
-      "type": "object",
-      "description": "The Evaluation of AzureStackHCI Cluster.",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Evaluation message",
-          "readOnly": true
-        }
-      }
-    },
-    "Exception": {
-      "type": "object",
-      "description": "The Exception of AzureStackHCI Cluster.",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Exception message",
-          "readOnly": true
-        },
-        "machineName": {
-          "type": "string",
-          "description": "exception raised for machine name.",
-          "readOnly": true
-        },
-        "stackTrace": {
-          "type": "string",
-          "description": "stack trace for exception.",
-          "readOnly": true
-        },
-        "raw": {
-          "type": "string",
-          "description": "raw exception details.",
-          "readOnly": true
         }
       }
     },
@@ -714,21 +623,22 @@
             "$ref": "#/definitions/StorageNetworks"
           },
           "x-ms-identifiers": []
+        },
+        "storageConnectivitySwitchless": {
+          "type": "boolean",
+          "description": "storage Connectivity Switchless for AzureStackHCI Cluster."
         }
       },
       "required": [
         "intents",
-        "storageNetworks"
+        "storageNetworks",
+        "storageConnectivitySwitchless"
       ]
     },
     "InfrastructureNetwork": {
       "type": "object",
       "description": "The InfrastructureNetwork of a AzureStackHCI Cluster.",
       "properties": {
-        "vlanId": {
-          "type": "string",
-          "description": "Only supported value in version 2210 is 0."
-        },
         "subnetMask": {
           "type": "string",
           "description": "Subnet mask that matches the provided IP address space."
@@ -754,7 +664,6 @@
         }
       },
       "required": [
-        "vlanId",
         "subnetMask",
         "gateway",
         "ipPools",
@@ -974,9 +883,9 @@
       "type": "object",
       "description": "The DeploymentStatus of AzureStackHCI Cluster.",
       "properties": {
-        "validatonStatus": {
+        "validationStatus": {
           "$ref": "#/definitions/ValidationStatus",
-          "description": "validaton status of AzureStackHCI Cluster Deployment.",
+          "description": "validation status of AzureStackHCI Cluster Deployment.",
           "readOnly": true
         },
         "deploymentStatus": {
@@ -988,7 +897,7 @@
     },
     "ScaleUnits": {
       "type": "object",
-      "description": "Scale units will contains list of deploymentdata",
+      "description": "Scale units will contains list of deployment data",
       "properties": {
         "deploymentData": {
           "$ref": "#/definitions/DeploymentData",
@@ -1009,7 +918,7 @@
       "properties": {
         "hvciProtection": {
           "type": "boolean",
-          "description": "By default, Hypervisor-protected Code Integrity (HVCI) is enabled on your Azure HCI cluster.",
+          "description": "By default, Hypervisor-protected Code Integrity is enabled on your Azure HCI cluster.",
           "default": true
         },
         "drtmProtection": {
@@ -1080,39 +989,23 @@
           "description": "Name of step.",
           "readOnly": true
         },
-        "descriptions": {
+        "description": {
           "type": "string",
           "description": "Description of step.",
           "readOnly": true
         },
-        "index": {
-          "type": "string",
-          "description": "Index of step.",
-          "readOnly": true
-        },
         "fullStepIndex": {
           "type": "string",
-          "description": "FullStepIndex of step.",
+          "description": "fullStepIndex of step.",
           "readOnly": true
-        },
-        "task": {
-          "type": "array",
-          "description": "List of tasks performed for step.",
-          "items": {
-            "$ref": "#/definitions/Task"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
         },
         "startTimeUtc": {
           "type": "string",
-          "format": "date-time",
-          "description": "Start time of action.",
+          "description": "Start time of step.",
           "readOnly": true
         },
         "endTimeUtc": {
           "type": "string",
-          "format": "date-time",
           "description": "End time of step.",
           "readOnly": true
         },
@@ -1120,6 +1013,24 @@
           "type": "string",
           "description": "Status of step. Allowed values are 'Error', 'Success', 'InProgress'",
           "readOnly": true
+        },
+        "steps": {
+          "type": "array",
+          "description": "List of nested steps of AzureStackHCI Cluster Deployment.",
+          "items": {
+            "$ref": "#/definitions/Step"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "exception": {
+          "type": "array",
+          "description": "List of exceptions in AzureStackHCI Cluster Deployment.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
         }
       }
     },
@@ -1160,68 +1071,20 @@
         "vlanId"
       ]
     },
-    "Task": {
-      "type": "object",
-      "description": "The Step of AzureStackHCI Cluster.",
-      "properties": {
-        "evaluation": {
-          "$ref": "#/definitions/Evaluation",
-          "description": "Evaluaton status of task.",
-          "readOnly": true
-        },
-        "exception": {
-          "$ref": "#/definitions/Exception",
-          "description": "Exception status of task.",
-          "readOnly": true
-        },
-        "rolePath": {
-          "type": "string",
-          "description": "Rolepath of task.",
-          "readOnly": true
-        },
-        "interfaceType": {
-          "type": "string",
-          "description": "Interface Type of task.",
-          "readOnly": true
-        },
-        "startTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Start time of task.",
-          "readOnly": true
-        },
-        "endTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "End time of task.",
-          "readOnly": true
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of task. Allowed values are 'Error', 'Success', 'InProgress'",
-          "readOnly": true
-        },
-        "action": {
-          "$ref": "#/definitions/Action",
-          "description": "action if required.",
-          "readOnly": true
-        },
-        "retryAttempt": {
-          "type": "string",
-          "description": "retry attempts.",
-          "readOnly": true
-        }
-      }
-    },
     "ValidationStatus": {
       "type": "object",
       "description": "The ValidationStatus of AzureStackHCI Cluster.",
       "properties": {
-        "action": {
+        "status": {
+          "type": "string",
+          "description": "Status of AzureStackHCI Cluster Deployment.",
+          "readOnly": true
+        },
+        "steps": {
           "type": "array",
-          "description": "List of actions of AzureStackHCI Cluster Deployment.",
+          "description": "List of steps of AzureStackHCI Cluster Deployment.",
           "items": {
-            "$ref": "#/definitions/Action"
+            "$ref": "#/definitions/Step"
           },
           "readOnly": true,
           "x-ms-identifiers": []
@@ -1243,5 +1106,14 @@
       }
     }
   },
-  "parameters": {}
+  "parameters": {
+    "ClusterNameParameter": {
+      "name": "clusterName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the cluster.",
+      "x-ms-parameter-location": "method"
+    }
+  }
 }

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2023-03-01",
+    "version": "2023-08-01-preview",
     "title": "AzureStackHCI",
     "description": "Azure Stack HCI management service"
   },
@@ -706,9 +706,42 @@
         "enabled": {
           "type": "boolean",
           "description": "True indicates ARC connectivity is enabled"
+        },
+        "serviceConfigurations": {
+          "type": "array",
+          "description": "Service configurations associated with the connectivity resource. They are only processed by the server if 'enabled' property is set to 'true'.",
+          "items": {
+            "$ref": "#/definitions/ServiceConfiguration"
+          }
         }
       },
       "additionalProperties": false
+    },
+    "ServiceConfiguration": {
+      "type": "object",
+      "description": "Service configuration details",
+      "required": [
+        "serviceName",
+        "port"
+      ],
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "Name of the service.",
+          "enum": [
+            "WAC"
+          ],
+          "x-ms-enum": {
+            "name": "serviceName",
+            "modelAsString": true
+          }
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The port on which service is enabled."
+        }
+      }
     },
     "PasswordCredential": {
       "type": "object",

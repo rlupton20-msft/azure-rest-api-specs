@@ -5,9 +5,12 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./common.tsp";
-import "./policy/customRules.tsp";
+import "./managedRuleSetManifest/managedRuleSetManifest.tsp";
+import "./policy/customRules/customRule.tsp";
+import "./policy/customRules/matchCondition.tsp";
 import "./policy/logScrubbing.tsp";
 import "./policy/managedRules.tsp";
+import "./policy/managedRulesCustomization.tsp";
 import "./policy/policySettings.tsp";
 import "./policy/webProtection.tsp";
 import "./policy/botProtection.tsp";
@@ -26,6 +29,7 @@ using OpenAPI;
 @service({
   title: "Microsoft.AppSecurity",
 })
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @versioned(Versions)
 namespace Microsoft.AppSecurity;
 

@@ -11,7 +11,7 @@ namespace Microsoft.AppSecurity;
 model BotProtection {
   @doc("Describes the managedRules structure")
   @extension("x-ms-identifiers", ["ruleSetType", "ruleSetVersion"])
-  @minItems(1)
-  @maxItems(10)
+  @minItems(MinManagedRulesCount)
+  @maxItems(MaxManagedRulesCount)
   managedRules: ManagedRuleSet[];
 }

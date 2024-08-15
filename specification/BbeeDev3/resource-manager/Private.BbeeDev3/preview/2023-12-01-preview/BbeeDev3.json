@@ -54,10 +54,10 @@
   "paths": {
     "/{resourceUri}/providers/Private.BbeeDev3/deviceProvisioningStates": {
       "get": {
+        "operationId": "DeviceProvisioningStates_List",
         "tags": [
           "DeviceProvisioningStates"
         ],
-        "operationId": "DeviceProvisioningStates_List",
         "description": "List DeviceProvisioningState resources by parent",
         "parameters": [
           {
@@ -81,6 +81,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "DeviceProvisioningStates_List": {
+            "$ref": "./examples/DeviceProvisioningStates_List.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -88,10 +93,10 @@
     },
     "/{resourceUri}/providers/Private.BbeeDev3/deviceProvisioningStates/default": {
       "get": {
+        "operationId": "DeviceProvisioningStates_Get",
         "tags": [
           "DeviceProvisioningStates"
         ],
-        "operationId": "DeviceProvisioningStates_Get",
         "description": "Get a DeviceProvisioningState",
         "parameters": [
           {
@@ -114,13 +119,18 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "DeviceProvisioningStates_Get": {
+            "$ref": "./examples/DeviceProvisioningStates_Get.json"
+          }
         }
       },
       "put": {
+        "operationId": "DeviceProvisioningStates_CreateOrUpdate",
         "tags": [
           "DeviceProvisioningStates"
         ],
-        "operationId": "DeviceProvisioningStates_CreateOrUpdate",
         "description": "Create a DeviceProvisioningState",
         "parameters": [
           {
@@ -132,8 +142,8 @@
           {
             "name": "resource",
             "in": "body",
-            "required": true,
             "description": "Resource create parameters.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/DeviceProvisioningState"
             }
@@ -141,20 +151,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Resource create or update operation completed successfully.",
+            "description": "Resource 'DeviceProvisioningState' update operation succeeded",
             "schema": {
               "$ref": "#/definitions/DeviceProvisioningState"
             }
           },
           "201": {
-            "description": "ARM create operation completed successfully.",
-            "headers": {
-              "Retry-After": {
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status.",
-                "type": "integer",
-                "format": "int32"
-              }
-            },
+            "description": "Resource 'DeviceProvisioningState' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/DeviceProvisioningState"
             }
@@ -166,16 +169,60 @@
             }
           }
         },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        "x-ms-examples": {
+          "DeviceProvisioningStates_CreateOrUpdate": {
+            "$ref": "./examples/DeviceProvisioningStates_CreateOrUpdate.json"
+          }
+        }
       },
-      "delete": {
+      "patch": {
+        "operationId": "DeviceProvisioningStates_Update",
         "tags": [
           "DeviceProvisioningStates"
         ],
+        "description": "Update a DeviceProvisioningState",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceProvisioningStateUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceProvisioningState"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DeviceProvisioningStates_Update": {
+            "$ref": "./examples/DeviceProvisioningStates_Update.json"
+          }
+        }
+      },
+      "delete": {
         "operationId": "DeviceProvisioningStates_Delete",
+        "tags": [
+          "DeviceProvisioningStates"
+        ],
         "description": "Delete a DeviceProvisioningState",
         "parameters": [
           {
@@ -198,53 +245,20 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
-        }
-      },
-      "patch": {
-        "tags": [
-          "DeviceProvisioningStates"
-        ],
-        "operationId": "DeviceProvisioningStates_Update",
-        "description": "Update a DeviceProvisioningState",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "required": true,
-            "description": "The resource properties to be updated.",
-            "schema": {
-              "$ref": "#/definitions/DeviceProvisioningStateUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/DeviceProvisioningState"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
+        },
+        "x-ms-examples": {
+          "DeviceProvisioningStates_Delete": {
+            "$ref": "./examples/DeviceProvisioningStates_Delete.json"
           }
         }
       }
     },
     "/providers/Private.BbeeDev3/operations": {
       "get": {
+        "operationId": "Operations_List",
         "tags": [
           "Operations"
         ],
-        "operationId": "Operations_List",
         "description": "List the operations for the provider",
         "parameters": [
           {
@@ -265,6 +279,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Operations_List": {
+            "$ref": "./examples/Operations_List.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -272,10 +291,10 @@
     },
     "/subscriptions/{subscriptionId}/providers/Private.BbeeDev3/provisioningResources": {
       "get": {
+        "operationId": "ProvisioningResources_ListBySubscription",
         "tags": [
           "ProvisioningResources"
         ],
-        "operationId": "ProvisioningResources_ListBySubscription",
         "description": "List ProvisioningResource resources by subscription ID",
         "parameters": [
           {
@@ -299,6 +318,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ProvisioningResources_ListBySubscription": {
+            "$ref": "./examples/ProvisioningResources_ListBySubscription.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -306,10 +330,10 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/provisioningResources": {
       "get": {
+        "operationId": "ProvisioningResources_ListByResourceGroup",
         "tags": [
           "ProvisioningResources"
         ],
-        "operationId": "ProvisioningResources_ListByResourceGroup",
         "description": "List ProvisioningResource resources by resource group",
         "parameters": [
           {
@@ -336,6 +360,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ProvisioningResources_ListByResourceGroup": {
+            "$ref": "./examples/ProvisioningResources_ListByResourceGroup.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -343,10 +372,10 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/provisioningResources/{provisioningResourceName}": {
       "get": {
+        "operationId": "ProvisioningResources_Get",
         "tags": [
           "ProvisioningResources"
         ],
-        "operationId": "ProvisioningResources_Get",
         "description": "Get a ProvisioningResource",
         "parameters": [
           {
@@ -361,10 +390,11 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           }
         ],
         "responses": {
@@ -388,10 +418,10 @@
         }
       },
       "put": {
+        "operationId": "ProvisioningResources_CreateOrUpdate",
         "tags": [
           "ProvisioningResources"
         ],
-        "operationId": "ProvisioningResources_CreateOrUpdate",
         "description": "Create a ProvisioningResource",
         "parameters": [
           {
@@ -406,16 +436,17 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "resource",
             "in": "body",
-            "required": true,
             "description": "Resource create parameters.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/ProvisioningResource"
             }
@@ -423,22 +454,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Resource create or update operation completed successfully.",
+            "description": "Resource 'ProvisioningResource' update operation succeeded",
             "schema": {
               "$ref": "#/definitions/ProvisioningResource"
             }
           },
           "201": {
-            "description": "ARM create operation completed successfully.",
-            "headers": {
-              "Retry-After": {
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status.",
-                "type": "integer",
-                "format": "int32"
-              }
-            },
+            "description": "Resource 'ProvisioningResource' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/ProvisioningResource"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -449,7 +480,7 @@
           }
         },
         "x-ms-examples": {
-          "CreateProvisioningResource": {
+          "ProvisioningResources_CreateOrUpdate": {
             "$ref": "./examples/ProvisioningResources_CreateOrUpdate.json"
           }
         },
@@ -458,51 +489,11 @@
         },
         "x-ms-long-running-operation": true
       },
-      "delete": {
-        "tags": [
-          "ProvisioningResources"
-        ],
-        "operationId": "ProvisioningResources_Delete",
-        "description": "Delete a ProvisioningResource",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "provisioningResourceName",
-            "in": "path",
-            "required": true,
-            "description": "The name of the employee",
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
-          },
-          "204": {
-            "description": "Resource deleted successfully."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
       "patch": {
+        "operationId": "ProvisioningResources_Update",
         "tags": [
           "ProvisioningResources"
         ],
-        "operationId": "ProvisioningResources_Update",
         "description": "Update a ProvisioningResource",
         "parameters": [
           {
@@ -517,16 +508,17 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "properties",
             "in": "body",
-            "required": true,
             "description": "The resource properties to be updated.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/ProvisioningResourceUpdate"
             }
@@ -545,15 +537,81 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "ProvisioningResources_Update": {
+            "$ref": "./examples/ProvisioningResources_Update.json"
+          }
         }
+      },
+      "delete": {
+        "operationId": "ProvisioningResources_Delete",
+        "tags": [
+          "ProvisioningResources"
+        ],
+        "description": "Delete a ProvisioningResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "provisioningResourceName",
+            "in": "path",
+            "description": "The name of the Provisioning Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ProvisioningResources_Delete": {
+            "$ref": "./examples/ProvisioningResources_Delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/provisioningResources/{provisioningResourceName}/provisioningPolicies": {
       "get": {
+        "operationId": "ProvisioningPolicies_ListByProvisioningResource",
         "tags": [
           "ProvisioningPolicies"
         ],
-        "operationId": "ProvisioningPolicies_ListByProvisioningResource",
         "description": "List ProvisioningPolicy resources by ProvisioningResource",
         "parameters": [
           {
@@ -568,10 +626,11 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           }
         ],
         "responses": {
@@ -588,6 +647,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ProvisioningPolicies_ListByProvisioningResource": {
+            "$ref": "./examples/ProvisioningPolicies_ListByProvisioningResource.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -595,10 +659,10 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/provisioningResources/{provisioningResourceName}/provisioningPolicies/{provisioningPolicyName}": {
       "get": {
+        "operationId": "ProvisioningPolicies_Get",
         "tags": [
           "ProvisioningPolicies"
         ],
-        "operationId": "ProvisioningPolicies_Get",
         "description": "Get a ProvisioningPolicy",
         "parameters": [
           {
@@ -613,18 +677,20 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "provisioningPolicyName",
             "in": "path",
+            "description": "The name of the Provisioning Policy tracked resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           }
         ],
         "responses": {
@@ -640,13 +706,18 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "ProvisioningPolicies_Get": {
+            "$ref": "./examples/ProvisioningPolicies_Get.json"
+          }
         }
       },
       "put": {
+        "operationId": "ProvisioningPolicies_CreateOrUpdate",
         "tags": [
           "ProvisioningPolicies"
         ],
-        "operationId": "ProvisioningPolicies_CreateOrUpdate",
         "description": "Create a ProvisioningPolicy",
         "parameters": [
           {
@@ -661,24 +732,26 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "provisioningPolicyName",
             "in": "path",
+            "description": "The name of the Provisioning Policy tracked resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "resource",
             "in": "body",
-            "required": true,
             "description": "Resource create parameters.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/ProvisioningPolicy"
             }
@@ -686,22 +759,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Resource create or update operation completed successfully.",
+            "description": "Resource 'ProvisioningPolicy' update operation succeeded",
             "schema": {
               "$ref": "#/definitions/ProvisioningPolicy"
             }
           },
           "201": {
-            "description": "ARM create operation completed successfully.",
-            "headers": {
-              "Retry-After": {
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status.",
-                "type": "integer",
-                "format": "int32"
-              }
-            },
+            "description": "Resource 'ProvisioningPolicy' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/ProvisioningPolicy"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -711,16 +784,103 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ProvisioningPolicies_CreateOrUpdate": {
+            "$ref": "./examples/ProvisioningPolicies_CreateOrUpdate.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       },
-      "delete": {
+      "patch": {
+        "operationId": "ProvisioningPolicies_Update",
         "tags": [
           "ProvisioningPolicies"
         ],
+        "description": "Update a ProvisioningPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "provisioningResourceName",
+            "in": "path",
+            "description": "The name of the Provisioning Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "provisioningPolicyName",
+            "in": "path",
+            "description": "The name of the Provisioning Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProvisioningPolicyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ProvisioningPolicy"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ProvisioningPolicies_Update": {
+            "$ref": "./examples/ProvisioningPolicies_Update.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
         "operationId": "ProvisioningPolicies_Delete",
+        "tags": [
+          "ProvisioningPolicies"
+        ],
         "description": "Delete a ProvisioningPolicy",
         "parameters": [
           {
@@ -735,18 +895,20 @@
           {
             "name": "provisioningResourceName",
             "in": "path",
+            "description": "The name of the Provisioning Resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           },
           {
             "name": "provisioningPolicyName",
             "in": "path",
+            "description": "The name of the Provisioning Policy tracked resource.",
             "required": true,
-            "description": "The name of the employee",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$"
           }
         ],
         "responses": {
@@ -762,228 +924,136 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
-        }
-      },
-      "patch": {
-        "tags": [
-          "ProvisioningPolicies"
-        ],
-        "operationId": "ProvisioningPolicies_Update",
-        "description": "Update a ProvisioningPolicy",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "provisioningResourceName",
-            "in": "path",
-            "required": true,
-            "description": "The name of the employee",
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "provisioningPolicyName",
-            "in": "path",
-            "required": true,
-            "description": "The name of the employee",
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "required": true,
-            "description": "The resource properties to be updated.",
-            "schema": {
-              "$ref": "#/definitions/ProvisioningPolicyUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ARM operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ProvisioningPolicy"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
+        },
+        "x-ms-examples": {
+          "ProvisioningPolicies_Delete": {
+            "$ref": "./examples/ProvisioningPolicies_Delete.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "AllocationEndpoint": {
+    "AllocatedEndpoint": {
       "type": "object",
+      "description": "Representation of a previously allocated endpoint",
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the endpoint"
-        },
-        "resourceId": {
-          "type": "string",
-          "description": "Resource id of the endpoint"
-        },
-        "weight": {
-          "type": "number",
-          "format": "double",
-          "description": "Weight of the endpoint"
-        },
-        "region": {
-          "type": "string",
-          "description": "Region of the endpoint"
-        }
-      },
-      "description": "Endpoint",
-      "required": [
-        "name",
-        "resourceId"
-      ]
-    },
-    "AllocationRule": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the allocation rule"
-        },
-        "type": {
-          "$ref": "#/definitions/AllocationType",
-          "description": "Type of the allocation rule"
+          "description": "Name of the endpoint."
         },
         "endpointType": {
           "$ref": "#/definitions/EndpointType",
-          "description": "Type of endpoint"
+          "description": "Type of the endpoint."
         },
-        "endpoints": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AllocationEndpoint"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ],
-          "description": "List of endpoints",
-          "x-typespec-name": "AllocationEndpoint[]"
+        "hostName": {
+          "type": "string",
+          "description": "Hostname of the endpoint."
         }
       },
-      "description": "The allocation rule",
       "required": [
         "name",
-        "type",
-        "endpointType"
+        "endpointType",
+        "hostName"
+      ]
+    },
+    "AllocationEndpoint": {
+      "type": "object",
+      "description": "Allocation endpoint.",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/AllocationEndpointResourceId",
+          "description": "Resource id of the endpoint."
+        },
+        "hostName": {
+          "type": "string",
+          "description": "host name of the endpoint."
+        }
+      },
+      "required": [
+        "resourceId",
+        "hostName"
+      ]
+    },
+    "AllocationEndpointResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an ARM resource.",
+      "pattern": "^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+)$",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.EventGrid/namespaces"
+          }
+        ]
+      }
+    },
+    "AllocationRule": {
+      "type": "object",
+      "description": "The allocation rule.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the allocation rule."
+        },
+        "endpointType": {
+          "$ref": "#/definitions/EndpointType",
+          "description": "Type of endpoint."
+        },
+        "type": {
+          "$ref": "#/definitions/AllocationType",
+          "description": "Type of the allocation rule."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "name",
+        "endpointType",
+        "type"
       ]
     },
     "AllocationType": {
       "type": "string",
-      "description": "Type of allocation rule",
+      "description": "Type of allocation rule.",
       "enum": [
-        "Static",
-        "GeoBased",
-        "Weighted"
+        "EvenlyDistributed"
       ],
       "x-ms-enum": {
         "name": "AllocationType",
         "modelAsString": true,
         "values": [
           {
-            "name": "Static",
-            "value": "Static",
-            "description": "Static allocation of a single endpoint."
-          },
-          {
-            "name": "GeoBased",
-            "value": "GeoBased",
-            "description": "Allocation based on geo-location."
-          },
-          {
-            "name": "Weighted",
-            "value": "Weighted",
-            "description": "Allocation based on weight."
+            "name": "EvenlyDistributed",
+            "value": "EvenlyDistributed",
+            "description": "Evenly distributed allocation."
           }
         ]
       }
     },
-    "BootstrapAuthenticationDetails": {
-      "type": "object",
-      "properties": {
-        "primaryCert": {
-          "type": "string",
-          "description": "The primary certificate",
-          "format": "password",
-          "x-ms-secret": true
-        },
-        "secondaryCert": {
-          "type": "string",
-          "description": "The secondary certificate",
-          "format": "password",
-          "x-ms-secret": true
-        }
-      },
-      "description": "The authentication details for bootstrap",
-      "required": [
-        "primaryCert"
-      ]
-    },
-    "BootstrapAuthenticationDetailsUpdate": {
-      "type": "object",
-      "properties": {
-        "primaryCert": {
-          "type": "string",
-          "description": "The primary certificate",
-          "format": "password",
-          "x-ms-secret": true
-        },
-        "secondaryCert": {
-          "type": "string",
-          "description": "The secondary certificate",
-          "format": "password",
-          "x-ms-secret": true
-        }
-      },
-      "description": "The authentication details for bootstrap"
-    },
     "BootstrapAuthenticationRule": {
       "type": "object",
+      "description": "The authentication rule for bootstrap.",
       "properties": {
         "type": {
           "$ref": "#/definitions/BootstrapAuthenticationType",
-          "description": "The type of authentication rule"
-        },
-        "details": {
-          "$ref": "#/definitions/BootstrapAuthenticationDetails",
-          "description": "The authentication details"
+          "description": "The type of authentication rule."
         }
       },
-      "description": "The authentication rule for bootstrap",
+      "discriminator": "type",
       "required": [
         "type"
       ]
     },
     "BootstrapAuthenticationRuleUpdate": {
       "type": "object",
+      "description": "The authentication rule for bootstrap.",
       "properties": {
         "type": {
           "$ref": "#/definitions/BootstrapAuthenticationType",
-          "description": "The type of authentication rule"
-        },
-        "details": {
-          "$ref": "#/definitions/BootstrapAuthenticationDetailsUpdate",
-          "description": "The authentication details"
+          "description": "The type of authentication rule."
         }
       },
-      "description": "The authentication rule for bootstrap"
+      "discriminator": "type"
     },
     "BootstrapAuthenticationType": {
       "type": "string",
@@ -1009,112 +1079,184 @@
         ]
       }
     },
+    "CaConfig": {
+      "type": "object",
+      "description": "The configuration for setting up a CA.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "System-generated value for referencing the CA.",
+          "readOnly": true
+        },
+        "properties": {
+          "$ref": "#/definitions/CertificateProperties",
+          "description": "Certificate properties."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "CaConfigUpdate": {
+      "type": "object",
+      "description": "The configuration for setting up a CA.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CertificatePropertiesUpdate",
+          "description": "Certificate properties."
+        }
+      }
+    },
+    "CertPolicyConfig": {
+      "type": "object",
+      "description": "The configuration for setting up a policy.",
+      "properties": {
+        "validityPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The validity period in days."
+        }
+      },
+      "required": [
+        "validityPeriodInDays"
+      ]
+    },
+    "CertPolicyConfigUpdate": {
+      "type": "object",
+      "description": "The configuration for setting up a policy.",
+      "properties": {
+        "validityPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The validity period in days."
+        }
+      }
+    },
     "CertificateIssuanceRule": {
       "type": "object",
+      "description": "Certificate issuance configurations.",
       "properties": {
-        "intermediateCertificateAuthority": {
-          "type": "string",
-          "description": "ICA - IntermediateCertificateAuthority name"
+        "issuingAuthority": {
+          "$ref": "#/definitions/SupportedIssuingAuthority",
+          "description": "The type of authority for cert issuance."
+        },
+        "certificateAuthorityConfiguration": {
+          "$ref": "#/definitions/CaConfig",
+          "description": "The configuration to set up an ICA."
+        },
+        "leafCertificateConfiguration": {
+          "$ref": "#/definitions/CertPolicyConfig",
+          "description": "The leaf certificate configuration."
         },
         "renewalInterval": {
           "type": "integer",
           "format": "int32",
-          "description": "Cert renewal interval"
+          "description": "Cert renewal interval."
         }
       },
-      "description": "Certificate issuance configurations",
       "required": [
-        "intermediateCertificateAuthority",
+        "issuingAuthority",
+        "certificateAuthorityConfiguration",
+        "leafCertificateConfiguration",
         "renewalInterval"
       ]
     },
     "CertificateIssuanceRuleUpdate": {
       "type": "object",
+      "description": "Certificate issuance configurations.",
       "properties": {
-        "intermediateCertificateAuthority": {
-          "type": "string",
-          "description": "ICA - IntermediateCertificateAuthority name"
+        "issuingAuthority": {
+          "$ref": "#/definitions/SupportedIssuingAuthority",
+          "description": "The type of authority for cert issuance."
+        },
+        "certificateAuthorityConfiguration": {
+          "$ref": "#/definitions/CaConfigUpdate",
+          "description": "The configuration to set up an ICA."
+        },
+        "leafCertificateConfiguration": {
+          "$ref": "#/definitions/CertPolicyConfigUpdate",
+          "description": "The leaf certificate configuration."
         },
         "renewalInterval": {
           "type": "integer",
           "format": "int32",
-          "description": "Cert renewal interval"
+          "description": "Cert renewal interval."
+        }
+      }
+    },
+    "CertificateProperties": {
+      "type": "object",
+      "description": "Certificate properties.",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/SupportedKeyType",
+          "description": "Crypto type: RSA or EC."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Certificate subject.",
+          "readOnly": true
+        },
+        "validityPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "System-assigned validity period.",
+          "minimum": 365,
+          "maximum": 366,
+          "readOnly": true
+        },
+        "validityNotBefore": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Certificate is valid not before this date. Format ISO8601. Generated based on on validity period.",
+          "readOnly": true
+        },
+        "validityNotAfter": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Certificate is valid not after this date. Format ISO8601. Generated based on validity period.",
+          "readOnly": true
         }
       },
-      "description": "Certificate issuance configurations"
+      "required": [
+        "keyType"
+      ]
+    },
+    "CertificatePropertiesUpdate": {
+      "type": "object",
+      "description": "Certificate properties.",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/SupportedKeyType",
+          "description": "Crypto type: RSA or EC."
+        }
+      }
     },
     "DeviceEndpoint": {
       "type": "object",
+      "description": "The device endpoint.",
       "properties": {
-        "description": {
+        "hostName": {
           "type": "string",
-          "description": "Description of the Endpoint",
-          "readOnly": true
-        },
-        "hostname": {
-          "type": "string",
-          "description": "Hostname of the Endpoint",
+          "description": "Hostname of the Endpoint.",
           "readOnly": true
         }
-      },
-      "description": "The device endpoint"
+      }
     },
     "DeviceEndpoints": {
       "type": "object",
+      "description": "Device endpoints.",
       "properties": {
         "default": {
           "$ref": "#/definitions/DeviceEndpoint",
-          "description": "The default endpoint"
+          "description": "The default endpoint.",
+          "readOnly": true
         }
-      },
-      "description": "Device endpoints.",
-      "required": [
-        "default"
-      ]
-    },
-    "DeviceIdentityInfo": {
-      "type": "object",
-      "properties": {
-        "uuid": {
-          "type": "boolean",
-          "description": "If uuid need to be returned"
-        },
-        "accessTokenUrl": {
-          "type": "boolean",
-          "description": "If accessTokenUrl need to be returned"
-        },
-        "externalDeviceId": {
-          "type": "boolean",
-          "description": "If externalDeviceId need to be returned"
-        }
-      },
-      "description": "The identity info to return to device",
-      "required": [
-        "uuid",
-        "accessTokenUrl",
-        "externalDeviceId"
-      ]
-    },
-    "DeviceIdentityInfoUpdate": {
-      "type": "object",
-      "properties": {
-        "uuid": {
-          "type": "boolean",
-          "description": "If uuid need to be returned"
-        },
-        "accessTokenUrl": {
-          "type": "boolean",
-          "description": "If accessTokenUrl need to be returned"
-        },
-        "externalDeviceId": {
-          "type": "boolean",
-          "description": "If externalDeviceId need to be returned"
-        }
-      },
-      "description": "The identity info to return to device"
+      }
     },
     "DeviceProvisioningState": {
       "type": "object",
+      "description": "The provisioning state of a device.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/DeviceProvisioningStateProperties",
@@ -1126,7 +1268,6 @@
           ]
         }
       },
-      "description": "The provisioning state of a device.",
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
@@ -1135,35 +1276,38 @@
     },
     "DeviceProvisioningStateListResult": {
       "type": "object",
+      "description": "The response of a DeviceProvisioningState list operation.",
       "properties": {
         "value": {
           "type": "array",
+          "description": "The DeviceProvisioningState items on this page",
           "items": {
             "$ref": "#/definitions/DeviceProvisioningState"
-          },
-          "description": "The DeviceProvisioningState items on this page",
-          "x-typespec-name": "DeviceProvisioningState[]"
+          }
         },
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "x-typespec-name": "TypeSpec.Rest.ResourceLocation"
+          "description": "The link to the next page of items"
         }
       },
-      "description": "The response of a DeviceProvisioningState list operation.",
       "required": [
         "value"
       ]
     },
     "DeviceProvisioningStateProperties": {
       "type": "object",
+      "description": "Details of the DeviceProvisioningState",
       "properties": {
         "registrationId": {
           "type": "string",
           "description": "Unique identifier for the device. Allow alphanumeric and '-', '.', '_', ':' only. Last character can only be alphanumeric and '-'",
+          "maxLength": 128,
           "pattern": "^([a-z0-9-._:]{0,127}[a-z0-9-])$",
-          "maxLength": 128
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "onboardingStatus": {
           "$ref": "#/definitions/OnboardingStatus",
@@ -1183,13 +1327,23 @@
           "$ref": "#/definitions/ProvisioningPolicyResourceId",
           "description": "The provisioning policy resource id"
         },
+        "allocatedEndpoints": {
+          "type": "array",
+          "description": "Array of previously allocated endpoints",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/AllocatedEndpoint"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
         }
       },
-      "description": "Details of the DeviceProvisioningState",
       "required": [
         "registrationId",
         "onboardingStatus",
@@ -1198,23 +1352,18 @@
     },
     "DeviceProvisioningStateUpdate": {
       "type": "object",
+      "description": "The type used for update operations of the DeviceProvisioningState.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/DeviceProvisioningStateUpdateProperties",
           "x-ms-client-flatten": true
         }
-      },
-      "description": "The type used for update operations of the DeviceProvisioningState."
+      }
     },
     "DeviceProvisioningStateUpdateProperties": {
       "type": "object",
+      "description": "The updatable properties of the DeviceProvisioningState.",
       "properties": {
-        "registrationId": {
-          "type": "string",
-          "description": "Unique identifier for the device. Allow alphanumeric and '-', '.', '_', ':' only. Last character can only be alphanumeric and '-'",
-          "pattern": "^([a-z0-9-._:]{0,127}[a-z0-9-])$",
-          "maxLength": 128
-        },
         "onboardingStatus": {
           "$ref": "#/definitions/OnboardingStatus",
           "description": "Onboarding status of the resource this DeviceProvisioningState extends",
@@ -1232,79 +1381,193 @@
         "provisioningPolicyResourceId": {
           "$ref": "#/definitions/ProvisioningPolicyResourceId",
           "description": "The provisioning policy resource id"
+        },
+        "allocatedEndpoints": {
+          "type": "array",
+          "description": "Array of previously allocated endpoints",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/AllocatedEndpoint"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        }
+      }
+    },
+    "DeviceRegistryProvisioningPolicyResourceDetails": {
+      "type": "object",
+      "description": "Details of the ProvisioningService Device Registry ProvisioningPolicy.",
+      "properties": {
+        "operationalIdentityInfo": {
+          "$ref": "#/definitions/IdentityInfo",
+          "description": "Identity information."
+        },
+        "resourceMetadata": {
+          "$ref": "#/definitions/ResourceMetadata",
+          "description": "Resource metadata."
         }
       },
-      "description": "The updatable properties of the DeviceProvisioningState."
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.DeviceRegistry/devices"
+    },
+    "DeviceRegistryProvisioningPolicyResourceDetailsUpdate": {
+      "type": "object",
+      "description": "Details of the ProvisioningService Device Registry ProvisioningPolicy.",
+      "properties": {
+        "operationalIdentityInfo": {
+          "$ref": "#/definitions/IdentityInfoUpdate",
+          "description": "Identity information."
+        },
+        "resourceMetadata": {
+          "$ref": "#/definitions/ResourceMetadata",
+          "description": "Resource metadata."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.DeviceRegistry/devices"
+    },
+    "DiscoveryBootstrapAuthenticationRule": {
+      "type": "object",
+      "description": "The Discovery-based authentication rule for bootstrapping.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BootstrapAuthenticationRule"
+        }
+      ],
+      "x-ms-discriminator-value": "Discovery"
+    },
+    "DiscoveryBootstrapAuthenticationRuleUpdate": {
+      "type": "object",
+      "description": "The Discovery-based authentication rule for bootstrapping.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "Discovery"
+    },
+    "DiscoveryProvisioningPolicyResourceDetails": {
+      "type": "object",
+      "description": "Details of the ProvisioningService Discovery ProvisioningPolicy.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.HybridCompute/machines"
+    },
+    "DiscoveryProvisioningPolicyResourceDetailsUpdate": {
+      "type": "object",
+      "description": "Details of the ProvisioningService Discovery ProvisioningPolicy.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.HybridCompute/machines"
     },
     "EndpointType": {
       "type": "string",
-      "description": "Type of the endpoint",
+      "description": "Type of the endpoint.",
       "enum": [
-        "AzureEventGridBroker"
+        "Microsoft.EventGrid/namespaces"
       ],
       "x-ms-enum": {
         "name": "EndpointType",
         "modelAsString": true,
         "values": [
           {
-            "name": "AzureEventGridBroker",
-            "value": "AzureEventGridBroker",
-            "description": "Azure event grid broker"
+            "name": "MicrosoftEventGridNamespace",
+            "value": "Microsoft.EventGrid/namespaces",
+            "description": "Azure event grid broker."
           }
         ]
       }
     },
+    "EvenlyDistributedAllocationRule": {
+      "type": "object",
+      "description": "The allocation rule for evenly distributed allocation type.",
+      "properties": {
+        "endpoints": {
+          "type": "array",
+          "description": "List of endpoints for evenly distributed allocation type.",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/definitions/AllocationEndpoint"
+          },
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        }
+      },
+      "required": [
+        "endpoints"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AllocationRule"
+        }
+      ],
+      "x-ms-discriminator-value": "EvenlyDistributed"
+    },
     "IdentityInfo": {
       "type": "object",
+      "description": "The information related to device identity.",
       "properties": {
         "certificateIssuance": {
           "$ref": "#/definitions/CertificateIssuanceRule",
-          "description": "Certificate issuance settings"
+          "description": "Certificate issuance settings."
         },
         "deviceTemplateId": {
           "type": "string",
-          "description": "Device template id"
+          "description": "Guid of the device template.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
-        "staticGroup": {
+        "staticGroupId": {
           "type": "string",
-          "description": "AAD group name for static group"
-        },
-        "identityInfoForDevice": {
-          "$ref": "#/definitions/DeviceIdentityInfo",
-          "description": "The identity info to return to device"
+          "description": "Guid for static AAD group."
         }
       },
-      "description": "The information related to device identity"
+      "required": [
+        "deviceTemplateId",
+        "staticGroupId"
+      ]
     },
     "IdentityInfoUpdate": {
       "type": "object",
+      "description": "The information related to device identity.",
       "properties": {
         "certificateIssuance": {
           "$ref": "#/definitions/CertificateIssuanceRuleUpdate",
-          "description": "Certificate issuance settings"
+          "description": "Certificate issuance settings."
         },
-        "deviceTemplateId": {
+        "staticGroupId": {
           "type": "string",
-          "description": "Device template id"
-        },
-        "staticGroup": {
-          "type": "string",
-          "description": "AAD group name for static group"
-        },
-        "identityInfoForDevice": {
-          "$ref": "#/definitions/DeviceIdentityInfoUpdate",
-          "description": "The identity info to return to device"
+          "description": "Guid for static AAD group."
         }
-      },
-      "description": "The information related to device identity"
+      }
     },
     "JitRule": {
       "type": "object",
+      "description": "The rule for Just-in-time connection.",
       "properties": {
-        "region": {
-          "type": "string",
-          "description": "The region",
-          "minLength": 1
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The priority of the policy. Should be greater than 0."
         },
         "subscriptionId": {
           "type": "string",
@@ -1313,26 +1576,26 @@
         },
         "resourceGroupName": {
           "type": "string",
-          "description": "The name of the resource group. The name is case insensitive.",
-          "pattern": "^[-\\w\\._\\(\\)]+$",
+          "description": "The case insensitive name of the target resource group.",
           "minLength": 1,
-          "maxLength": 90
+          "maxLength": 90,
+          "pattern": "^[-\\w\\._\\(\\)]+$"
         }
       },
-      "description": "The rule for Just-in-time connection",
       "required": [
-        "region",
+        "priority",
         "subscriptionId",
         "resourceGroupName"
       ]
     },
     "JitRuleUpdate": {
       "type": "object",
+      "description": "The rule for Just-in-time connection.",
       "properties": {
-        "region": {
-          "type": "string",
-          "description": "The region",
-          "minLength": 1
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The priority of the policy. Should be greater than 0."
         },
         "subscriptionId": {
           "type": "string",
@@ -1341,13 +1604,12 @@
         },
         "resourceGroupName": {
           "type": "string",
-          "description": "The name of the resource group. The name is case insensitive.",
-          "pattern": "^[-\\w\\._\\(\\)]+$",
+          "description": "The case insensitive name of the target resource group.",
           "minLength": 1,
-          "maxLength": 90
+          "maxLength": 90,
+          "pattern": "^[-\\w\\._\\(\\)]+$"
         }
-      },
-      "description": "The rule for Just-in-time connection"
+      }
     },
     "OnboardingStatus": {
       "type": "string",
@@ -1381,6 +1643,7 @@
     },
     "ProvisioningPolicy": {
       "type": "object",
+      "description": "A provisioning policy resource.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ProvisioningPolicyProperties",
@@ -1392,7 +1655,6 @@
           ]
         }
       },
-      "description": "A provisioning policy resource",
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
@@ -1401,39 +1663,41 @@
     },
     "ProvisioningPolicyListResult": {
       "type": "object",
+      "description": "The response of a ProvisioningPolicy list operation.",
       "properties": {
         "value": {
           "type": "array",
+          "description": "The ProvisioningPolicy items on this page",
           "items": {
             "$ref": "#/definitions/ProvisioningPolicy"
-          },
-          "description": "The ProvisioningPolicy items on this page",
-          "x-typespec-name": "ProvisioningPolicy[]"
+          }
         },
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "x-typespec-name": "TypeSpec.Rest.ResourceLocation"
+          "description": "The link to the next page of items"
         }
       },
-      "description": "The response of a ProvisioningPolicy list operation.",
       "required": [
         "value"
       ]
     },
     "ProvisioningPolicyProperties": {
       "type": "object",
+      "description": "Details of the ProvisioningService ProvisioningPolicy.",
       "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the policy"
+        },
+        "status": {
+          "type": "boolean",
+          "description": "The policy status"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
-        },
-        "priority": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The priority of the policy. Should be greater than 0."
         },
         "bootstrapAuthentication": {
           "$ref": "#/definitions/BootstrapAuthenticationRule",
@@ -1441,65 +1705,145 @@
         },
         "allocations": {
           "type": "array",
+          "description": "Allocation rules.",
+          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/AllocationRule"
           },
           "x-ms-identifiers": [
             "name"
-          ],
-          "description": "Allocation rules.",
-          "x-typespec-name": "AllocationRule[]"
+          ]
         },
-        "provisioning": {
-          "$ref": "#/definitions/ProvisioningRule",
-          "description": "The device provisioning rule."
+        "jit": {
+          "$ref": "#/definitions/JitRule",
+          "description": "Just-in-time rule to create the device resource."
+        },
+        "resourceDetails": {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails",
+          "description": "Further details about the policy resource"
         }
       },
-      "description": "Details of the ProvisioningService ProvisioningPolicy.",
       "required": [
-        "priority",
+        "status",
         "bootstrapAuthentication",
-        "provisioning"
+        "resourceDetails"
       ]
+    },
+    "ProvisioningPolicyPropertiesUpdate": {
+      "type": "object",
+      "description": "The template for adding optional properties.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the policy"
+        },
+        "status": {
+          "type": "boolean",
+          "description": "The policy status"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "bootstrapAuthentication": {
+          "$ref": "#/definitions/BootstrapAuthenticationRule",
+          "description": "The bootstrap authentication rule."
+        },
+        "allocations": {
+          "type": "array",
+          "description": "Allocation rules.",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/AllocationRule"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
+        "jit": {
+          "$ref": "#/definitions/JitRule",
+          "description": "Just-in-time rule to create the device resource."
+        },
+        "resourceDetails": {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetails",
+          "description": "Further details about the policy resource"
+        }
+      }
+    },
+    "ProvisioningPolicyResourceDetails": {
+      "type": "object",
+      "description": "Common further details about the policy resource",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ProvisioningResourceType",
+          "description": "Type of the resource being provisioned."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "ProvisioningPolicyResourceDetailsUpdate": {
+      "type": "object",
+      "description": "Common further details about the policy resource",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ProvisioningResourceType",
+          "description": "Type of the resource being provisioned."
+        }
+      },
+      "discriminator": "type"
     },
     "ProvisioningPolicyResourceId": {
       "type": "string",
-      "description": "A type definition that refers the id to an ARM resource.",
       "format": "arm-id",
+      "description": "A type definition that refers the id to an ARM resource.",
+      "pattern": "^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/provisioningResources/(.+?)/provisioningPolicies/(.+)$",
       "x-ms-arm-id-details": {
         "allowedResources": [
           {
             "type": "Private.BbeeDev3/ProvisioningResources/ProvisioningPolicies"
           }
         ]
-      },
-      "pattern": "^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/provisioningResources/(.+?)/provisioningPolicies/(.+)$"
+      }
     },
     "ProvisioningPolicyUpdate": {
       "type": "object",
+      "description": "The type used for update operations of the ProvisioningPolicy.",
       "properties": {
         "tags": {
           "type": "object",
+          "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
-          },
-          "description": "Resource tags.",
-          "x-typespec-name": "Record<string>"
+          }
         },
         "properties": {
           "$ref": "#/definitions/ProvisioningPolicyUpdateProperties",
           "x-ms-client-flatten": true
         }
-      },
-      "description": "The type used for update operations of the ProvisioningPolicy."
+      }
     },
     "ProvisioningPolicyUpdateProperties": {
       "type": "object",
+      "description": "The updatable properties of the ProvisioningPolicy.",
       "properties": {
-        "priority": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The priority of the policy. Should be greater than 0."
+        "description": {
+          "type": "string",
+          "description": "Description of the policy"
+        },
+        "status": {
+          "type": "boolean",
+          "description": "The policy status"
         },
         "bootstrapAuthentication": {
           "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate",
@@ -1507,24 +1851,28 @@
         },
         "allocations": {
           "type": "array",
+          "description": "Allocation rules.",
+          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/AllocationRule"
           },
           "x-ms-identifiers": [
             "name"
-          ],
-          "description": "Allocation rules.",
-          "x-typespec-name": "AllocationRule[]"
+          ]
         },
-        "provisioning": {
-          "$ref": "#/definitions/ProvisioningRuleUpdate",
-          "description": "The device provisioning rule."
+        "jit": {
+          "$ref": "#/definitions/JitRuleUpdate",
+          "description": "Just-in-time rule to create the device resource."
+        },
+        "resourceDetails": {
+          "$ref": "#/definitions/ProvisioningPolicyResourceDetailsUpdate",
+          "description": "Further details about the policy resource"
         }
-      },
-      "description": "The updatable properties of the ProvisioningPolicy."
+      }
     },
     "ProvisioningResource": {
       "type": "object",
+      "description": "A provisioning resource.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ProvisioningResourceProperties",
@@ -1536,7 +1884,6 @@
           ]
         }
       },
-      "description": "A provisioning resource",
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
@@ -1545,29 +1892,28 @@
     },
     "ProvisioningResourceListResult": {
       "type": "object",
+      "description": "The response of a ProvisioningResource list operation.",
       "properties": {
         "value": {
           "type": "array",
+          "description": "The ProvisioningResource items on this page",
           "items": {
             "$ref": "#/definitions/ProvisioningResource"
-          },
-          "description": "The ProvisioningResource items on this page",
-          "x-typespec-name": "ProvisioningResource[]"
+          }
         },
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "x-typespec-name": "TypeSpec.Rest.ResourceLocation"
+          "description": "The link to the next page of items"
         }
       },
-      "description": "The response of a ProvisioningResource list operation.",
       "required": [
         "value"
       ]
     },
     "ProvisioningResourceProperties": {
       "type": "object",
+      "description": "Details of the EdgeProvisioning ProvisioningResource.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1576,98 +1922,84 @@
         },
         "deviceEndpoints": {
           "$ref": "#/definitions/DeviceEndpoints",
-          "description": "The provisioning service endpoints",
+          "description": "The provisioning service endpoints.",
           "readOnly": true
+        },
+        "enableOperationalCertificates": {
+          "type": "boolean",
+          "description": "Selecting 'yes' will enable a Microsoft managed PKI to issue certificates. Setting up of the CA and policies for certificate management will be while defining the bumblebee provisioning policy.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
-      "description": "Details of the EdgeProvisioning ProvisioningResource."
+      "required": [
+        "enableOperationalCertificates"
+      ]
     },
     "ProvisioningResourceType": {
       "type": "string",
-      "description": "Type of resource being provisioned",
+      "description": "Type of resource being provisioned.",
       "enum": [
-        "AzureIoTDevice",
-        "ArcEnabledDevice"
+        "Microsoft.DeviceRegistry/devices",
+        "Microsoft.HybridCompute/machines"
       ],
       "x-ms-enum": {
         "name": "ProvisioningResourceType",
         "modelAsString": true,
         "values": [
           {
-            "name": "AzureIoTDevice",
-            "value": "AzureIoTDevice",
-            "description": "Azure device registry device"
+            "name": "DeviceRegistryDevice",
+            "value": "Microsoft.DeviceRegistry/devices",
+            "description": "Azure device registry device. Microsoft.DeviceRegistry/devices"
           },
           {
-            "name": "ArcEnabledDevice",
-            "value": "ArcEnabledDevice",
-            "description": "Arc enabled device."
+            "name": "HybridComputeMachine",
+            "value": "Microsoft.HybridCompute/machines",
+            "description": "Arc enabled device. Microsoft.HybridCompute/machines"
           }
         ]
       }
     },
     "ProvisioningResourceUpdate": {
       "type": "object",
+      "description": "The type used for update operations of the ProvisioningResource.",
       "properties": {
         "tags": {
           "type": "object",
+          "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
-          },
-          "description": "Resource tags.",
-          "x-typespec-name": "Record<string>"
+          }
         }
-      },
-      "description": "The type used for update operations of the ProvisioningResource."
+      }
     },
     "ProvisioningRule": {
       "type": "object",
+      "description": "The provisioning rule.",
       "properties": {
         "type": {
           "$ref": "#/definitions/ProvisioningResourceType",
-          "description": "Type of the resource being provisioned"
+          "description": "Type of the resource being provisioned."
         },
         "jit": {
           "$ref": "#/definitions/JitRule",
           "description": "Just-in-time rule to create the device resource."
         },
-        "identityInfo": {
+        "operationalIdentityInfo": {
           "$ref": "#/definitions/IdentityInfo",
-          "description": "Identity information"
+          "description": "Identity information."
         },
         "resourceMetadata": {
           "type": "string",
-          "description": "Resource metadata",
+          "description": "Resource metadata.",
           "maxLength": 200
         }
       },
-      "description": "The provisioning rule",
       "required": [
         "type"
       ]
-    },
-    "ProvisioningRuleUpdate": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/ProvisioningResourceType",
-          "description": "Type of the resource being provisioned"
-        },
-        "jit": {
-          "$ref": "#/definitions/JitRuleUpdate",
-          "description": "Just-in-time rule to create the device resource."
-        },
-        "identityInfo": {
-          "$ref": "#/definitions/IdentityInfoUpdate",
-          "description": "Identity information"
-        },
-        "resourceMetadata": {
-          "type": "string",
-          "description": "Resource metadata",
-          "maxLength": 200
-        }
-      },
-      "description": "The provisioning rule"
     },
     "ProvisioningState": {
       "type": "string",
@@ -1676,7 +2008,7 @@
         "Succeeded",
         "Failed",
         "Canceled",
-        "Activating",
+        "Creating",
         "Updating",
         "Deleting"
       ],
@@ -1700,21 +2032,147 @@
             "description": "Resource creation was canceled."
           },
           {
-            "name": "Activating",
-            "value": "Activating",
-            "description": "The activating state"
+            "name": "Creating",
+            "value": "Creating",
+            "description": "Resource is being created."
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "The updating state"
+            "description": "Resource is being updated."
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "The deleting state"
+            "description": "Resource is being deleted."
           }
         ]
+      }
+    },
+    "ResourceMetadata": {
+      "type": "object",
+      "description": "Resource metadata",
+      "properties": {
+        "customAttributes": {
+          "description": "Custom attributes",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
+    },
+    "SupportedIssuingAuthority": {
+      "type": "string",
+      "description": "Supported issuing authority.",
+      "enum": [
+        "FirstParty"
+      ],
+      "x-ms-enum": {
+        "name": "SupportedIssuingAuthority",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "FirstParty",
+            "value": "FirstParty",
+            "description": "First party cert issuance."
+          }
+        ]
+      }
+    },
+    "SupportedKeyType": {
+      "type": "string",
+      "description": "Supported key types.",
+      "enum": [
+        "ECC"
+      ],
+      "x-ms-enum": {
+        "name": "SupportedKeyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ECC",
+            "value": "ECC",
+            "description": "Indicate the ECC key type."
+          }
+        ]
+      }
+    },
+    "X509BootstrapAuthenticationRule": {
+      "type": "object",
+      "description": "The x509-based authentication rule for bootstrapping.",
+      "properties": {
+        "primaryCertificate": {
+          "$ref": "#/definitions/X509Certificate",
+          "description": "The primary certificate. B64 x509 cert"
+        },
+        "secondaryCertificate": {
+          "$ref": "#/definitions/X509Certificate",
+          "description": "The secondary certificate."
+        }
+      },
+      "required": [
+        "primaryCertificate"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BootstrapAuthenticationRule"
+        }
+      ],
+      "x-ms-discriminator-value": "X509"
+    },
+    "X509BootstrapAuthenticationRuleUpdate": {
+      "type": "object",
+      "description": "The x509-based authentication rule for bootstrapping.",
+      "properties": {
+        "primaryCertificate": {
+          "$ref": "#/definitions/X509CertificateUpdate",
+          "description": "The primary certificate. B64 x509 cert"
+        },
+        "secondaryCertificate": {
+          "$ref": "#/definitions/X509CertificateUpdate",
+          "description": "The secondary certificate."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BootstrapAuthenticationRuleUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "X509"
+    },
+    "X509Certificate": {
+      "type": "object",
+      "description": "X509 Certificate.",
+      "properties": {
+        "certificate": {
+          "type": "string",
+          "description": "The certificate."
+        },
+        "thumbprint": {
+          "type": "string",
+          "description": "Thumbprint extracted from the certificate.",
+          "readOnly": true
+        },
+        "expiryDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiry date for the certificate.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "certificate"
+      ]
+    },
+    "X509CertificateUpdate": {
+      "type": "object",
+      "description": "X509 Certificate.",
+      "properties": {
+        "certificate": {
+          "type": "string",
+          "description": "The certificate."
+        }
       }
     }
   },
@@ -1722,11 +2180,11 @@
     "Azure.ResourceManager.ResourceUriParameter": {
       "name": "resourceUri",
       "in": "path",
-      "required": true,
       "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
       "type": "string",
-      "x-ms-skip-url-encoding": true,
-      "x-ms-parameter-location": "method"
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
     }
   }
 }

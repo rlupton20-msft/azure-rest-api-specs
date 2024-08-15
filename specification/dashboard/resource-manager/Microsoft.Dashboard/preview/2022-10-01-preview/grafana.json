@@ -702,7 +702,7 @@
           "GrafanaResource"
         ],
         "summary": "Retrieve enterprise add-on details information",
-        "operationId": "EnterpriseDetails_Post",
+        "operationId": "Grafana_CheckEnterpriseDetails",
         "consumes": [
           "application/json"
         ],
@@ -744,12 +744,12 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/queryPluginCatalog": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/fetchAvailablePlugins": {
       "post": {
         "tags": [
           "GrafanaPlugin"
         ],
-        "operationId": "Grafana_QueryPluginCatalog",
+        "operationId": "Grafana_FetchAvailablePlugins",
         "produces": [
           "application/json"
         ],
@@ -771,7 +771,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/GrafanaCatalogPluginQueryResponse"
+              "$ref": "#/definitions/GrafanaAvailablePluginListResponse"
             }
           },
           "default": {
@@ -785,61 +785,15 @@
           "nextLinkName": "nextLink"
         },
         "x-ms-examples": {
-          "Grafana_QueryPluginCatalog": {
-            "$ref": "./examples/Grafana_QueryPluginCatalog.json"
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/queryPreinstalledPlugins": {
-      "post": {
-        "tags": [
-          "GrafanaPlugin"
-        ],
-        "operationId": "Grafana_QueryPreinstalledPlugins",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/WorkspaceNameParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/GrafanaPluginQueryResponse"
-            }
-          },
-          "default": {
-            "description": "Default error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "Grafana_QueryPreinstalledPlugins": {
-            "$ref": "./examples/Grafana_QueryPreinstalledPlugins.json"
+          "Grafana_FetchAvailablePlugins": {
+            "$ref": "./examples/Grafana_FetchAvailablePlugins.json"
           }
         }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints": {
       "get": {
+        "summary": "List all managed private endpoints of a grafana resource.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
@@ -887,6 +841,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints": {
       "post": {
+        "summary": "Refresh and sync managed private endpoints of a grafana resource to latest state.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
@@ -937,6 +892,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}": {
       "get": {
+        "summary": "Get a specific managed private endpoint of a grafana resource.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
@@ -982,6 +938,7 @@
         }
       },
       "put": {
+        "summary": "Create or update a managed private endpoint for a grafana resource.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
@@ -1009,6 +966,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
+            "description": "The managed private endpoint to be created or updated.",
             "in": "body",
             "name": "requestBodyParameters",
             "required": true,
@@ -1019,7 +977,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK. Successfully create a managed private endpoint for Grafana resource.",
+            "description": "OK. Successfully created a managed private endpoint for Grafana resource.",
             "schema": {
               "$ref": "#/definitions/ManagedPrivateEndpointModel"
             }
@@ -1054,10 +1012,11 @@
         }
       },
       "patch": {
+        "summary": "Update a managed private endpoint for an existing grafana resource.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
-        "operationId": "ManagedPrivateEndpoints_Patch",
+        "operationId": "ManagedPrivateEndpoints_Update",
         "consumes": [
           "application/json"
         ],
@@ -1081,6 +1040,7 @@
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
           {
+            "description": "Properties that can be updated to an existing managed private endpoint.",
             "in": "body",
             "name": "requestBodyParameters",
             "required": true,
@@ -1126,6 +1086,7 @@
         }
       },
       "delete": {
+        "summary": "Delete a managed private endpoint for a grafana resource.",
         "tags": [
           "ManagedPrivateEndpoints"
         ],
@@ -1322,11 +1283,15 @@
           "$ref": "#/definitions/GrafanaConfigurations"
         },
         "grafanaPlugins": {
-          "description": "Installed plugin list of the Grafana instance. Key is plugin id.",
+          "description": "Installed plugin list of the Grafana instance. Key is plugin id, value is plugin definition.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/GrafanaPlugin"
           }
+        },
+        "grafanaMajorVersion": {
+          "description": "The major Grafana software version to target.",
+          "type": "string"
         }
       }
     },
@@ -1385,9 +1350,14 @@
         },
         "grafanaPlugins": {
           "type": "object",
+          "description": "Update of Grafana plugin. Key is plugin id, value is plugin definition. If plugin definition is null, plugin with given plugin id will be removed. Otherwise, given plugin will be installed.",
           "additionalProperties": {
             "$ref": "#/definitions/GrafanaPlugin"
           }
+        },
+        "grafanaMajorVersion": {
+          "description": "The major Grafana software version to target.",
+          "type": "string"
         }
       }
     },
@@ -1732,8 +1702,8 @@
         }
       }
     },
-    "GrafanaCatalogPlugin": {
-      "description": "Plugin of Grafana catalog",
+    "GrafanaAvailablePlugin": {
+      "description": "Available plugins of grafana",
       "type": "object",
       "properties": {
         "pluginId": {
@@ -1741,30 +1711,20 @@
           "type": "string",
           "readOnly": true
         },
-        "pluginName": {
+        "name": {
           "description": "Grafana plugin display name",
-          "type": "string",
-          "readOnly": true
-        },
-        "pluginDescription": {
-          "description": "Grafana plugin description",
-          "type": "string",
-          "readOnly": true
-        },
-        "pluginCategory": {
-          "description": "Grafana plugin catetory. E.g., enterprise, active",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "GrafanaCatalogPluginQueryResponse": {
+    "GrafanaAvailablePluginListResponse": {
       "type": "object",
       "properties": {
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/GrafanaCatalogPlugin"
+            "$ref": "#/definitions/GrafanaAvailablePlugin"
           }
         },
         "nextLink": {
@@ -1783,34 +1743,24 @@
         }
       }
     },
-    "GrafanaPluginQueryResponse": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/GrafanaPlugin"
-          }
-        },
-        "nextLink": {
-          "type": "string"
-        }
-      }
-    },
     "SaasSubscriptionDetails": {
       "description": "SaaS subscription details of a Grafana instance",
       "type": "object",
       "properties": {
         "planId": {
+          "description": "The plan Id of the SaaS subscription.",
           "type": "string"
         },
         "offerId": {
+          "description": "The offer Id of the SaaS subscription.",
           "type": "string"
         },
         "publisherId": {
+          "description": "The publisher Id of the SaaS subscription.",
           "type": "string"
         },
         "term": {
+          "description": "The billing term of the SaaS Subscription.",
           "$ref": "#/definitions/SubscriptionTerm"
         }
       }
@@ -1820,6 +1770,7 @@
       "type": "object",
       "properties": {
         "termUnit": {
+          "description": "The unit of the billing term.",
           "type": "string"
         },
         "startDate": {
@@ -1844,7 +1795,15 @@
         },
         "grafanaResourceId": {
           "description": "Resource Id of the Grafana resource which is doing the trial.",
-          "type": "string"
+          "type": "string",
+          "format": "arm-id",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Dashboard/grafana"
+              }
+            ]
+          }
         },
         "trialStartAt": {
           "description": "The date and time in UTC of when the trial starts.",
@@ -1984,6 +1943,7 @@
       }
     },
     "ManagedPrivateEndpointModelListResponse": {
+      "description": "The list of managed private endpoints of a grafana resource",
       "type": "object",
       "properties": {
         "value": {
@@ -1998,6 +1958,7 @@
       }
     },
     "ManagedPrivateEndpointConnectionState": {
+      "description": "The state of managed private endpoint connection.",
       "type": "object",
       "properties": {
         "status": {
@@ -2012,6 +1973,7 @@
       }
     },
     "ManagedPrivateEndpointConnectionStatus": {
+      "description": "The approval/rejection status of managed private endpoint connection.",
       "enum": [
         "Pending",
         "Approved",

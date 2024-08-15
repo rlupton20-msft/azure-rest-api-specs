@@ -1,0 +1,20 @@
+{
+  "parameters": {
+    "subscriptionId": "f5bcc1d9-23af-4ae9-aca1-041d0f593a63",
+    "api-version": "2023-04-01-preview",
+    "GenerateAWSTemplateRequest ": {
+      "connectorId": "connector1",
+      "solutionTypes": [
+        {
+          "solutionType": "Microsoft.MDC",
+          "solutionSettings": {}
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "body": "{\"AWSTemplateFormatVersion\":\"2010-09-09\",\"Description\":\"IAMRoletosetreadpermissionsforAzureAssetManagementinventory\",\"Parameters\":{\"AssetManagementRoleName\":{\"Type\":\"String\",\"Description\":\"ProvidearoleARNnameAzureAssetManagementforServersoffering\",\"AllowedPattern\":\"[-_a-zA-Z0-9]+\",\"Default\":\"AssetManagement\"},\"PublicCloudConnectorAzureTenantId\":{\"Type\":\"String\",\"Description\":\"TheAzuretenantIDinwhichthepublicCloudConnectorsresourceiscreated.\",\"MinLength\":36,\"MaxLength\":36,\"AllowedPattern\":\"^[0-9a-zA-Z-]*$\",\"ConstraintDescription\":\"PleaseenteravalidAzuretenantID,whichshouldbea36-characterstringcontainingonlyalphanumericcharactersandhyphens.\"}},\"Resources\":{\"MicrosoftOIDCProvider\":{\"Description\":\"Identityproviderresourceusingforauthenticationwiththerequiredthumprintlistandtheissuerurl\",\"Type\":\"AWS::IAM::OIDCProvider\",\"Properties\":{\"ClientIdList\":[\"api://eaa3803a-9232-4e62-b8b9-64138c3d3229\"],\"ThumbprintList\":[\"626d44e704d1ceabe3bf0d53397464ac8080142c\"],\"Url\":\"https://sts.windows-ppe.net/f686d426-8d16-42db-81b7-ab578e110ccd/\"}},\"AssetManagementRole\":{\"Type\":\"AWS::IAM::Role\",\"Properties\":{\"Description\":\"Assetmanagementrole\",\"ManagedPolicyArns\":[],\"AssumeRolePolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Federated\":{\"Fn::Sub\":\"arn:aws:iam::${AWS::AccountId}:oidc-provider/sts.windows-ppe.net/f686d426-8d16-42db-81b7-ab578e110ccd/\"}},\"Action\":\"sts:AssumeRoleWithWebIdentity\",\"Condition\":{\"StringEquals\":{\"sts.windows-ppe.net/f686d426-8d16-42db-81b7-ab578e110ccd/:aud\":\"api://eaa3803a-9232-4e62-b8b9-64138c3d3229\",\"sts.windows-ppe.net/f686d426-8d16-42db-81b7-ab578e110ccd/:sub\":\"17d41d2f-b5fe-4299-808b-f1c51a8875d0\",\"sts:RoleSessionName\":{\"Fn::Sub\":\"AzureUserTenant_${PublicCloudConnectorAzureTenantId}\"}}}}]},\"Policies\":[{\"PolicyName\":\"AssetManagement\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"GetEC2Information\",\"Effect\":\"Allow\",\"Action\":[\"ec2:Describe*\"],\"Resource\":\"*\"},{\"Sid\":\"GetLambdaInformation\",\"Effect\":\"Allow\",\"Action\":[\"lambda:ListFunctions\",\"lambda:ListTags\"],\"Resource\":\"*\"}]}}],\"RoleName\":{\"Ref\":\"AssetManagementRoleName\"}}}},\"Outputs\":{\"AssetManagementRoleARN\":{\"Value\":{\"Fn::GetAtt\":[\"AssetManagementRole\",\"Arn\"]},\"Description\":\"RoleARNforAzureArcServersoffering\"}}}"
+    }
+  }
+}

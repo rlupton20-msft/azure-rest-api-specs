@@ -2,6 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "IoT Workspaces Assets Resource Provider",
+    "description": "Asset resource type.",
     "version": "2022-05-21-preview"
   },
   "host": "management.azure.com",
@@ -20,7 +21,7 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "List_Assets_Subscription",
+        "operationId": "Assets_ListBySubscription",
         "description": "List all assets in a subscription.",
         "parameters": [
           {
@@ -54,7 +55,7 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "List_Assets_In_ResourceGroup",
+        "operationId": "Assets_ListByResourceGroup",
         "description": "List all assets in a resource group.",
         "parameters": [
           {
@@ -91,8 +92,9 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "Create_Or_Update_Asset",
-        "description": "Create a new asset or update an existing asset.",
+        "operationId": "Assets_CreateOrReplace",
+        "description": "Create a new asset or replace an existing asset.",
+        "x-ms-long-running-operation": true,
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -110,23 +112,23 @@
             "name": "asset",
             "in": "body",
             "required": true,
-            "description": "Resource create parameters.",
+            "description": "Resource create or replace parameters.",
             "schema": {
-              "$ref": "#/definitions/AssetCreateOrUpdate"
+              "$ref": "#/definitions/Asset"
             }
           }
         ],
         "responses": {
           "200": {
             "x-nullable": false,
-            "description": "Created or updated Asset.",
+            "description": "Asset is created or updated (replaced) successfully.",
             "schema": {
               "$ref": "#/definitions/Asset"
             }
           },
           "201": {
             "x-nullable": false,
-            "description": "Async operation to create or update the Asset.",
+            "description": "Async operation to create or update (replace) the Asset.",
             "schema": {
               "$ref": "#/definitions/Asset"
             }
@@ -143,8 +145,9 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "Update_Asset",
+        "operationId": "Assets_Update",
         "description": "Update specific asset properties.",
+        "x-ms-long-running-operation": true,
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -162,22 +165,27 @@
             "name": "asset",
             "in": "body",
             "required": true,
-            "description": "Resource Patch parameters.",
+            "description": "Resource Update parameters.",
             "schema": {
-              "$ref": "#/definitions/Asset"
+              "$ref": "#/definitions/AssetPatchPayload"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Patched Asset.",
+            "description": "Updated Asset.",
             "schema": {
               "$ref": "#/definitions/Asset"
             }
           },
-          "201": {
+          "202": {
             "x-nullable": false,
-            "description": "Async operation to patch the Asset.",
+            "description": "Async operation to update the Asset.",
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            },
             "schema": {
               "$ref": "#/definitions/Asset"
             }
@@ -194,8 +202,9 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "Delete_Asset",
+        "operationId": "Assets_Delete",
         "description": "Delete an asset.",
+        "x-ms-long-running-operation": true,
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -212,6 +221,11 @@
         ],
         "responses": {
           "202": {
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            },
             "description": "Async operation to delete the Asset."
           },
           "204": {
@@ -229,7 +243,7 @@
         "tags": [
           "Assets"
         ],
-        "operationId": "Read_Asset.",
+        "operationId": "Assets_Get",
         "description": "Retrieve a single asset.",
         "parameters": [
           {
@@ -260,71 +274,6 @@
           }
         }
       }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.IoTWorkspaces/locations/{location}/operationStatuses/{operationId}": {
-      "get": {
-        "tags": [
-          "Assets"
-        ],
-        "operationId": "Get_Operation_Status",
-        "description": "Returns the current status of an async operation.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/LocationParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/OperationIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Requested operation status.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationStatusResult"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/providers/Microsoft.IoTWorkspaces/operations": {
-      "get": {
-        "description": "Returns list of operations.",
-        "operationId": "Operation_List",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of Operations returned if request was successful.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationListResult"
-            }
-          },
-          "default": {
-            "description": "Error response returned if request was unsuccessful.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
     }
   },
   "parameters": {
@@ -334,6 +283,7 @@
       "in": "path",
       "required": true,
       "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9]$",
       "maxLength": 64,
       "minLength": 3
     }
@@ -346,7 +296,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Asset"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nextLink": {
           "type": "string"
@@ -365,7 +316,21 @@
           "description": "Asset resource properties."
         },
         "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
+          "type": "object",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          },
           "description": "The extended location."
         }
       },
@@ -373,48 +338,30 @@
         {
           "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
         }
-      ]
-    },
-    "AssetCreateOrUpdate": {
-      "type": "object",
-      "required": [
-        "extendedLocation"
       ],
+      "description": "Asset definition."
+    },
+    "AssetPatchPayload": {
+      "type": "object",
       "properties": {
-        "properties": {
-          "required": [
-            "connectivityProfileUri"
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
           ],
+          "description": "Resource tags."
+        },
+        "properties": {
           "$ref": "#/definitions/AssetProperties",
           "description": "Asset resource properties."
-        },
-        "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location."
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "ExtendedLocation": {
-      "type": "object",
-      "x-ms-mutability": [
-        "read",
-        "create"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "The extended location type."
-        },
-        "name": {
-          "type": "string",
-          "description": "The extended location name."
-        }
-      }
+      "description": "Asset definition for Patch operation."
     },
     "AssetProperties": {
       "description": "Defines the asset properties.",
@@ -423,7 +370,6 @@
         "uuid": {
           "type": "string",
           "description": "Globally unique, immutable, non-reusable id.",
-          "format": "uuid",
           "readOnly": true
         },
         "assetType": {
@@ -460,6 +406,7 @@
         },
         "version": {
           "type": "integer",
+          "format": "int32",
           "description": "An integer that is incremented each time the resource is modified.",
           "readOnly": true
         },
@@ -531,9 +478,37 @@
                   "none",
                   "counter",
                   "gauge",
-                  "histogram"
+                  "histogram",
+                  "log"
                 ],
-                "description": "An indication of how the data point should be mapped to OpenTelemetry (none, histogram, gauge, counter, etc.)."
+                "x-ms-enum": {
+                  "name": "DataPointsObservabilityMode",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "None",
+                      "value": "none"
+                    },
+                    {
+                      "name": "Counter",
+                      "value": "counter"
+                    },
+                    {
+                      "name": "Gauge",
+                      "value": "gauge"
+                    },
+                    {
+                      "name": "Histogram",
+                      "value": "histogram"
+                    },
+                    {
+                      "name": "Log",
+                      "value": "log"
+                    }
+                  ]
+                },
+                "default": "none",
+                "description": "An indication of how the data point should be mapped to OpenTelemetry."
               },
               "dataPointConfiguration": {
                 "type": "object",
@@ -542,6 +517,7 @@
               }
             }
           },
+          "x-ms-identifiers": [],
           "description": "Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration. See below for more details for the definition of the dataPoints element."
         },
         "events": {
@@ -549,16 +525,16 @@
           "items": {
             "type": "object",
             "required": [
-              "eventSource"
+              "eventNotifier"
             ],
             "properties": {
               "name": {
                 "type": "string",
                 "description": "The name of the event."
               },
-              "eventSource": {
+              "eventNotifier": {
                 "type": "string",
-                "description": "The address of the source of the event in the asset (e.g. URL) so that a client can access the event on the asset."
+                "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
               },
               "capabilityId": {
                 "type": "string",
@@ -568,11 +544,24 @@
                 "type": "string",
                 "enum": [
                   "none",
-                  "counter",
-                  "gauge",
-                  "histogram"
+                  "log"
                 ],
-                "description": "An indication of how the event should be mapped to OpenTelemetry (none, histogram, gauge, counter, etc.)."
+                "x-ms-enum": {
+                  "name": "EventsObservabilityMode",
+                  "modelAsString": true,
+                  "values": [
+                    {
+                      "name": "None",
+                      "value": "none"
+                    },
+                    {
+                      "name": "Log",
+                      "value": "log"
+                    }
+                  ]
+                },
+                "default": "none",
+                "description": "An indication of how the event should be mapped to OpenTelemetry."
               },
               "eventConfiguration": {
                 "type": "object",
@@ -581,6 +570,7 @@
               }
             }
           },
+          "x-ms-identifiers": [],
           "description": "Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration. See below for more details about the definition of the events element."
         },
         "status": {
@@ -594,6 +584,7 @@
                 "properties": {
                   "code": {
                     "type": "integer",
+                    "format": "int32",
                     "description": "Error code for classification of errors (ex: 400, 404, 500, etc.)."
                   },
                   "message": {
@@ -602,10 +593,12 @@
                   }
                 }
               },
+              "x-ms-identifiers": [],
               "description": "Array object to transfer and persist errors that originate from the Edge."
             },
             "version": {
               "type": "integer",
+              "format": "int32",
               "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version."
             }
           },

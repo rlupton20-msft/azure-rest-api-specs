@@ -15,7 +15,7 @@ using OpenAPI;
 @armProviderNamespace("Microsoft.Monitor")
 @service({
     title: "Azure Monitor Workspaces Control Plane API",
-    version: "2023-04-03",
+    version: "2023-10-01",
   })
 @doc("Provides operations for working with Azure Monitor Workspaces")
 @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)

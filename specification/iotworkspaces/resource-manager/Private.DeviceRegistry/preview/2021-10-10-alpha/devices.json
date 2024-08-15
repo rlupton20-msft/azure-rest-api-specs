@@ -1,8 +1,8 @@
 {
-  "x-generator": "NSwag v13.16.0.0 (NJsonSchema v10.7.1.0 (Newtonsoft.Json v12.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Azure Device Registry Resource Provider Service for Ali",
+    "title": "Azure Device Registry",
+    "description": "Microsoft Azure Device Registry resource provider.",
     "version": "2021-10-10-alpha"
   },
   "host": "management.azure.com",
@@ -21,7 +21,7 @@
         "tags": [
           "Devices"
         ],
-        "operationId": "List_Devices_Subscription",
+        "operationId": "Devices_ListBySubscription",
         "description": "List all devices in a subscription.",
         "parameters": [
           {
@@ -32,11 +32,25 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
               "$ref": "#/definitions/DeviceResponseList"
             }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List Devices in Subscription": {
+            "$ref": "./examples/devices/List_Devices_Subscription.json"
           }
         }
       }
@@ -44,9 +58,9 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.deviceregistry/devices": {
       "get": {
         "tags": [
-          "RootDevice"
+          "Devices"
         ],
-        "operationId": "List_Devices_In_ResourceGroup",
+        "operationId": "Devices_ListByResourceGroup",
         "description": "List all devices in a resource group.",
         "parameters": [
           {
@@ -60,6 +74,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
@@ -69,16 +89,22 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List Devices in Resource Group": {
+            "$ref": "./examples/devices/List_Devices_ResourceGroup.json"
+          }
         }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/private.deviceregistry/devices/{deviceName}": {
       "put": {
         "tags": [
-          "RootDevice"
+          "Devices"
         ],
-        "operationId": "Create_Or_Replace_Device",
         "description": "Create a new device or replace an existing device.",
+        "operationId": "Devices_CreateOrReplace",
+        "x-ms-long-running-operation": true,
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -103,6 +129,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "x-nullable": false,
             "description": "Device is created successfully.",
@@ -117,14 +149,35 @@
               "$ref": "#/definitions/Device"
             }
           }
+        },
+        "x-ms-examples": {
+          "Create a Device With External Device Id": {
+            "$ref": "./examples/devices/Create_Device_With_ExternalDeviceId.json"
+          },
+          "Create a Device Without External Device Id": {
+            "$ref": "./examples/devices/Create_Device_Without_ExternalDeviceId.json"
+          },
+          "Create a Device With Custom Attributes": {
+            "$ref": "./examples/devices/Create_Device_With_Attributes.json"
+          },
+          "Create a Device With Endpoints": {
+            "$ref": "./examples/devices/Create_Device_With_Endpoints.json"
+          },
+          "Remove an assigned endpoint": {
+            "$ref": "./examples/devices/Update_Device_With_New_Endpoints.json"
+          }
         }
       },
       "patch": {
         "tags": [
-          "RootDevice"
+          "Devices"
         ],
-        "operationId": "Update_Device",
         "description": "Update specific device properties.",
+        "operationId": "Devices_Update",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -149,16 +202,46 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
-            "description": ""
+            "description": "Device is updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "202": {
+            "description": "Async operation to update device is Accepted.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Patch a Device": {
+            "$ref": "./examples/devices/Update_Device.json"
           }
         }
       },
       "delete": {
         "tags": [
-          "RootDevice"
+          "Devices"
         ],
-        "operationId": "Delete_Device",
+        "operationId": "Devices_Delete",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
         "description": "Delete a device.",
         "parameters": [
           {
@@ -175,16 +258,36 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
-            "description": ""
+            "description": "Device deletion is successful."
+          },
+          "202": {
+            "description": "Async operation to delete the device is created.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a Device": {
+            "$ref": "./examples/devices/Delete_Device.json"
           }
         }
       },
       "get": {
         "tags": [
-          "RootDevice"
+          "Devices"
         ],
-        "operationId": "Read_Device.",
+        "operationId": "Devices_Get",
         "description": "Retrieve a single device.",
         "parameters": [
           {
@@ -201,21 +304,29 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "",
             "schema": {
               "$ref": "#/definitions/Device"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get a Device": {
+            "$ref": "./examples/devices/Get_Device.json"
+          }
         }
       }
     },
     "/subscriptions/{subscriptionId}/providers/private.deviceregistry/locations/{location}/operationStatuses/{operationId}": {
       "get": {
-        "tags": [
-          "RootDevice"
-        ],
-        "operationId": "Get_Operation_Status",
+        "operationId": "OperationStatus_Get",
         "description": "Returns the current status of an async operation.",
         "parameters": [
           {
@@ -244,13 +355,18 @@
               "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get operation status": {
+            "$ref": "./examples/Get_OperationStatus.json"
+          }
         }
       }
     },
     "/providers/private.deviceregistry/operations": {
       "get": {
         "description": "Returns list of operations.",
-        "operationId": "Operation_List",
+        "operationId": "Operations_List",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
@@ -272,6 +388,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Get list of Operations": {
+            "$ref": "./examples/List_Operations.json"
+          }
         }
       }
     }
@@ -279,6 +400,7 @@
   "parameters": {
     "deviceNameParameter": {
       "name": "deviceName",
+      "description": "Name of the device.",
       "in": "path",
       "required": true,
       "type": "string",
@@ -326,6 +448,25 @@
           "type": "boolean",
           "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD."
         },
+        "endpoints": {
+          "type": "object",
+          "required": [
+            "assigned"
+          ],
+          "properties": {
+            "assigned": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            }
+          }
+        },
         "attributes": {
           "type": "object",
           "additionalProperties": {}
@@ -337,8 +478,14 @@
       }
     },
     "Device": {
+      "description": "Device Model as ARM resource",
       "type": "object",
       "properties": {
+        "etag": {
+          "type": "string",
+          "description": "Resource Tag",
+          "readOnly": true
+        },
         "properties": {
           "$ref": "#/definitions/DeviceProperties",
           "description": "Resource properties."
@@ -355,7 +502,7 @@
       "type": "object",
       "properties": {
         "uuid": {
-          "description": "Unique identifier for this resource.",
+          "description": "Gets a unique identifier for this resource.",
           "type": "string",
           "readOnly": true
         },
@@ -365,18 +512,20 @@
           "default": true
         },
         "externalDeviceId": {
-          "description": "Device Id provided by customer.",
+          "type": "string",
           "x-ms-mutability": [
             "read",
             "create"
-          ]
+          ],
+          "description": "Gets the device Id provided by customer."
         },
         "deviceTemplateId": {
-          "description": "TemplateID used to create this device.",
+          "type": "string",
           "x-ms-mutability": [
             "read",
             "create"
-          ]
+          ],
+          "description": "Device Template Id used to create a device."
         },
         "deviceGroupId": {
           "type": "string",
@@ -401,29 +550,6 @@
           "type": "string",
           "description": "operating system version."
         },
-        "endpoints": {
-          "type": "object",
-          "required": [
-            "assigned"
-          ],
-          "properties": {
-            "assigned": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Endpoint",
-                "description": "Resource properties."
-              }
-            },
-            "unassigned": {
-              "type": "array",
-              "readOnly": true,
-              "items": {
-                "$ref": "#/definitions/Endpoint",
-                "description": "Resource properties."
-              }
-            }
-          }
-        },
         "identity": {
           "description": "Identity for the resource.",
           "type": "object",
@@ -440,13 +566,44 @@
             }
           }
         },
+        "endpoints": {
+          "type": "object",
+          "required": [
+            "assigned"
+          ],
+          "properties": {
+            "assigned": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            },
+            "unassigned": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/definitions/Endpoint",
+                "description": "Resource properties."
+              },
+              "x-ms-identifiers": [
+                "type",
+                "address"
+              ]
+            }
+          }
+        },
         "attributes": {
           "type": "object",
           "additionalProperties": {}
         },
         "provisioningState": {
-          "type": "string",
           "description": "Provisioning state of the resource.",
+          "type": "string",
           "readOnly": true
         }
       }

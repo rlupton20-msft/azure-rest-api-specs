@@ -1199,6 +1199,58 @@
         "deprecated": false
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/GenerateAWSTemplate": {
+      "post": {
+        "tags": [
+          "GenerateAWSTemplate"
+        ],
+        "description": "Retrieve AWS Cloud Formation template",
+        "operationId": "GenerateAWSTemplateRP_GET",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Generated AWS CFT Template": {
+            "$ref": "./examples/GenerateAWSTemplateRP_GET.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "GenerateAWSTemplateRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateAWSTemplateRequest"
+            },
+            "description": "ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cloud formation template for specified solution types.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSEC2": {
       "get": {
         "tags": [
@@ -1483,7 +1535,7 @@
             "$ref": "./examples/EC2Stop.json"
           }
         },
-        "parameters":[
+        "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
           },
@@ -2674,6 +2726,22 @@
           "x-ms-enum": {
             "name": "type",
             "modelAsString": true
+          }
+        }
+      }
+    },
+    "GenerateAWSTemplateRequest": {
+      "type": "object",
+      "properties": {
+        "connectorId": {
+          "type": "string",
+          "description": "The name of public cloud connector."
+        },
+        "solutionTypes": {
+          "type": "array",
+          "description": "The list of solution types and their settings.",
+          "items": {
+            "$ref": "#/definitions/SolutionConfigurationProperties"
           }
         }
       }
