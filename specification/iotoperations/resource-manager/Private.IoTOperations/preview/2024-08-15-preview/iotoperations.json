@@ -1843,6 +1843,33 @@
         "x-ms-examples": {
           "DataflowEndpoint_CreateOrUpdate": {
             "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_ADLSv2": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_ADLSv2.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_ADX": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_ADX.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_AIO": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_AIO.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_EventGrid": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_EventGrid.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_EventHub": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_EventHub.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_Fabric": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_Fabric.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_Kafka": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_Kafka.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_LocalStorage": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_LocalStorage.json"
+          },
+          "DataflowEndpoint_CreateOrUpdate_MQTT": {
+            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_MQTT.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2113,6 +2140,12 @@
         "x-ms-examples": {
           "DataflowProfile_CreateOrUpdate": {
             "$ref": "./examples/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "DataflowProfile_CreateOrUpdate_Minimal": {
+            "$ref": "./examples/DataflowProfile_CreateOrUpdate_Minimal.json"
+          },
+          "DataflowProfile_CreateOrUpdate_Multi": {
+            "$ref": "./examples/DataflowProfile_CreateOrUpdate_Multi.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2413,6 +2446,21 @@
         "x-ms-examples": {
           "Dataflow_CreateOrUpdate": {
             "$ref": "./examples/Dataflow_CreateOrUpdate_MaximumSet_Gen.json"
+          },
+          "Dataflow_CreateOrUpdate_ComplexContextualization": {
+            "$ref": "./examples/Dataflow_CreateOrUpdate_ComplexContextualization.json"
+          },
+          "Dataflow_CreateOrUpdate_ComplexEventHub": {
+            "$ref": "./examples/Dataflow_CreateOrUpdate_ComplexEventHub.json"
+          },
+          "Dataflow_CreateOrUpdate_FilterToTopic": {
+            "$ref": "./examples/Dataflow_CreateOrUpdate_FilterToTopic.json"
+          },
+          "Dataflow_CreateOrUpdate_SimpleEventGrid": {
+            "$ref": "./examples/Dataflow_CreateOrUpdate_SimpleEventGrid.json"
+          },
+          "Dataflow_CreateOrUpdate_SimpleFabric": {
+            "$ref": "./examples/Dataflow_CreateOrUpdate_SimpleFabric.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2505,14 +2553,14 @@
     }
   },
   "definitions": {
-    "AccessTokeMethod": {
+    "AccessTokenMethod": {
       "type": "string",
       "description": "Access Token Method",
       "enum": [
         "AccessToken"
       ],
       "x-ms-enum": {
-        "name": "AccessTokeMethod",
+        "name": "AccessTokenMethod",
         "modelAsString": true,
         "values": [
           {
@@ -2527,13 +2575,17 @@
       "type": "object",
       "description": "The properties of an ADR instance.",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the ADR service is enabled."
+        "state": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "This determines if the ADR service is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "enabled"
+        "state"
       ]
     },
     "AdvancedSettings": {
@@ -2579,13 +2631,17 @@
       "type": "object",
       "description": "The properties of an AKRI instance.",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the AKRI service is enabled."
+        "state": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "This determines if the AKRI service is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "enabled"
+        "state"
       ]
     },
     "AnonymousMethod": {
@@ -2735,7 +2791,7 @@
       "enum": [
         "Custom",
         "ServiceAccountToken",
-        "x509Certificate"
+        "X509"
       ],
       "x-ms-enum": {
         "name": "BrokerAuthenticationMethod",
@@ -2752,8 +2808,8 @@
             "description": "ServiceAccountToken authentication configuration."
           },
           {
-            "name": "x509Certificate",
-            "value": "x509Certificate",
+            "name": "X509",
+            "value": "X509",
             "description": "X.509 authentication configuration."
           }
         ]
@@ -3584,32 +3640,26 @@
         }
       }
     },
-    "CloudEventMappingType": {
+    "CloudEventAttributeType": {
       "type": "string",
       "description": "How to map events to the cloud.",
       "enum": [
-        "PassThrough",
-        "Always",
-        "Never"
+        "Propagate",
+        "CreateOrRemap"
       ],
       "x-ms-enum": {
-        "name": "CloudEventMappingType",
+        "name": "CloudEventAttributeType",
         "modelAsString": true,
         "values": [
           {
-            "name": "PassThrough",
-            "value": "PassThrough",
-            "description": "PassThrough type"
+            "name": "Propagate",
+            "value": "Propagate",
+            "description": "Propagate type"
           },
           {
-            "name": "Always",
-            "value": "Always",
-            "description": "Always type"
-          },
-          {
-            "name": "Never",
-            "value": "Never",
-            "description": "Never type"
+            "name": "CreateOrRemap",
+            "value": "CreateOrRemap",
+            "description": "CreateOrRemap type"
           }
         ]
       }
@@ -3631,14 +3681,10 @@
           "description": "The properties of the connectors instance."
         },
         "dataflows": {
-          "$ref": "#/definitions/DataFlowInstanceProperties",
+          "$ref": "#/definitions/DataflowInstanceProperties",
           "description": "The properties of the dataflows instance."
         },
-        "mqttbroker": {
-          "$ref": "#/definitions/MqttBrokerInstanceProperties",
-          "description": "The properties of the device provisioning instance."
-        },
-        "schemaregistry": {
+        "schemaRegistry": {
           "$ref": "#/definitions/SchemaRegistryInstanceProperties",
           "description": "The properties of the device provisioning instance."
         }
@@ -3648,81 +3694,22 @@
       "type": "object",
       "description": "The properties of a  Connector instance.",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the Connector service is enabled."
+        "state": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "This determines if the Connector service is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "enabled"
+        "state"
       ]
     },
     "DataExplorerAuthMethod": {
       "$ref": "#/definitions/ManagedIdentityMethod",
       "x-nullable": false
-    },
-    "DataFlowEndpointFabricOneLakeAuthentication": {
-      "type": "object",
-      "description": "Microsoft Fabric endpoint. Authentication properties. NOTE - Only one method is supported for one entry",
-      "properties": {
-        "method": {
-          "$ref": "#/definitions/FabricOneLakeAuthMethod",
-          "description": "Mode of Authentication."
-        },
-        "systemAssignedManagedIdentitySettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationSystemAssignedManagedIdentity",
-          "description": "System-assigned managed identity authentication."
-        },
-        "userAssignedManagedIdentitySettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationUserAssignedManagedIdentity",
-          "description": "User-assigned managed identity authentication."
-        }
-      },
-      "required": [
-        "method"
-      ]
-    },
-    "DataFlowEndpointKafkaAuthentication": {
-      "type": "object",
-      "description": "Kafka endpoint Authentication properties. NOTE - only authentication property is allowed per entry",
-      "properties": {
-        "method": {
-          "$ref": "#/definitions/KafkaAuthMethod",
-          "description": "Mode of Authentication."
-        },
-        "systemAssignedManagedIdentitySettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationSystemAssignedManagedIdentity",
-          "description": "System-assigned managed identity authentication."
-        },
-        "userAssignedManagedIdentitySettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationUserAssignedManagedIdentity",
-          "description": "User-assigned managed identity authentication."
-        },
-        "saslSettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationSasl",
-          "description": "SASL authentication."
-        },
-        "x509CertificateSettings": {
-          "$ref": "#/definitions/DataflowEndpointAuthenticationX509",
-          "description": "X.509 certificate authentication."
-        }
-      },
-      "required": [
-        "method"
-      ]
-    },
-    "DataFlowInstanceProperties": {
-      "type": "object",
-      "description": "The properties of an DataFlow instance.",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the DataFlow service is enabled."
-        }
-      },
-      "required": [
-        "enabled"
-      ]
     },
     "DataLakeStorageAuthMethod": {
       "type": "string",
@@ -4037,10 +4024,7 @@
           "type": "string",
           "description": "Audience of the service to authenticate against. Optional; defaults to the audience for Service host configuration."
         }
-      },
-      "required": [
-        "audience"
-      ]
+      }
     },
     "DataflowEndpointAuthenticationUserAssignedManagedIdentity": {
       "type": "object",
@@ -4061,7 +4045,6 @@
       },
       "required": [
         "clientId",
-        "scope",
         "tenantId"
       ]
     },
@@ -4180,7 +4163,7 @@
       "description": "Microsoft Fabric endpoint properties",
       "properties": {
         "authentication": {
-          "$ref": "#/definitions/DataFlowEndpointFabricOneLakeAuthentication",
+          "$ref": "#/definitions/DataflowEndpointFabricOneLakeAuthentication",
           "description": "Authentication configuration. NOTE - only one authentication property is allowed per entry."
         },
         "names": {
@@ -4206,6 +4189,27 @@
         "names",
         "oneLakePathType",
         "host"
+      ]
+    },
+    "DataflowEndpointFabricOneLakeAuthentication": {
+      "type": "object",
+      "description": "Microsoft Fabric endpoint. Authentication properties. NOTE - Only one method is supported for one entry",
+      "properties": {
+        "method": {
+          "$ref": "#/definitions/FabricOneLakeAuthMethod",
+          "description": "Mode of Authentication."
+        },
+        "systemAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationSystemAssignedManagedIdentity",
+          "description": "System-assigned managed identity authentication."
+        },
+        "userAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationUserAssignedManagedIdentity",
+          "description": "User-assigned managed identity authentication."
+        }
+      },
+      "required": [
+        "method"
       ]
     },
     "DataflowEndpointFabricOneLakeNames": {
@@ -4255,7 +4259,7 @@
       "description": "Kafka endpoint properties",
       "properties": {
         "authentication": {
-          "$ref": "#/definitions/DataFlowEndpointKafkaAuthentication",
+          "$ref": "#/definitions/DataflowEndpointKafkaAuthentication",
           "description": "Authentication configuration. NOTE - only authentication property is allowed per entry."
         },
         "consumerGroupId": {
@@ -4404,14 +4408,13 @@
           "$ref": "#/definitions/TlsProperties",
           "description": "TLS configuration."
         },
-        "cloudEventMapping": {
-          "$ref": "#/definitions/CloudEventMappingType",
+        "cloudEventAttributes": {
+          "$ref": "#/definitions/CloudEventAttributeType",
           "description": "Cloud event mapping config."
         }
       },
       "required": [
-        "authentication",
-        "tls"
+        "authentication"
       ]
     },
     "DataflowEndpointKafkaAcks": {
@@ -4443,6 +4446,35 @@
           }
         ]
       }
+    },
+    "DataflowEndpointKafkaAuthentication": {
+      "type": "object",
+      "description": "Kafka endpoint Authentication properties. NOTE - only authentication property is allowed per entry",
+      "properties": {
+        "method": {
+          "$ref": "#/definitions/KafkaAuthMethod",
+          "description": "Mode of Authentication."
+        },
+        "systemAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationSystemAssignedManagedIdentity",
+          "description": "System-assigned managed identity authentication."
+        },
+        "userAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationUserAssignedManagedIdentity",
+          "description": "User-assigned managed identity authentication."
+        },
+        "saslSettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationSasl",
+          "description": "SASL authentication."
+        },
+        "x509CertificateSettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationX509",
+          "description": "X.509 certificate authentication."
+        }
+      },
+      "required": [
+        "method"
+      ]
     },
     "DataflowEndpointKafkaBatching": {
       "type": "object",
@@ -4684,8 +4716,8 @@
           "$ref": "#/definitions/TlsProperties",
           "description": "TLS configuration."
         },
-        "cloudEventMapping": {
-          "$ref": "#/definitions/CloudEventMappingType",
+        "cloudEventAttributes": {
+          "$ref": "#/definitions/CloudEventAttributeType",
           "description": "Cloud event mapping config."
         }
       },
@@ -4809,6 +4841,23 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "DataflowInstanceProperties": {
+      "type": "object",
+      "description": "The properties of an Dataflow instance.",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "This determines if the Dataflow service is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "state"
       ]
     },
     "DataflowMappingType": {
@@ -5305,8 +5354,8 @@
           }
         },
         "identity": {
-          "$ref": "#/definitions/ManagedServiceIdentityUpdate",
-          "description": "The properties of the Instance identity to be updated."
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       }
     },
@@ -5332,16 +5381,6 @@
           "type": "string",
           "description": "The reference to the Schema Registry for this AIO Instance.",
           "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
-        },
-        "serviceAccounts": {
-          "type": "array",
-          "description": "The service accounts to be used for federated credentials.",
-          "default": [],
-          "items": {
-            "$ref": "#/definitions/ServiceAccountProperties"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
         },
         "components": {
           "$ref": "#/definitions/Components",
@@ -5410,7 +5449,7 @@
         "SystemAssignedManagedIdentity",
         "UserAssignedManagedIdentity",
         "Sasl",
-        "x509Certificate",
+        "X509Certificate",
         "Anonymous"
       ],
       "x-ms-enum": {
@@ -5433,8 +5472,8 @@
             "description": "Sasl Option"
           },
           {
-            "name": "x509Certificate",
-            "value": "x509Certificate",
+            "name": "X509Certificate",
+            "value": "X509Certificate",
             "description": "x509Certificate Option"
           },
           {
@@ -5468,23 +5507,6 @@
       },
       "required": [
         "kind",
-        "name"
-      ]
-    },
-    "KubernetesReferenceKnownType": {
-      "type": "object",
-      "description": "Kubernetes reference with known type",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name is the name of resource being referenced"
-        },
-        "namespace": {
-          "type": "string",
-          "description": "Namespace is the namespace of the resource being referenced. This field is required when the resource has a namespace."
-        }
-      },
-      "required": [
         "name"
       ]
     },
@@ -5608,29 +5630,6 @@
         ]
       }
     },
-    "ManagedServiceIdentityUpdate": {
-      "type": "object",
-      "description": "The template for adding optional properties.",
-      "properties": {
-        "type": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
-          "description": "The type of managed identity assigned to this resource."
-        },
-        "userAssignedIdentities": {
-          "type": "object",
-          "description": "The identities assigned to this resource by the user.",
-          "additionalProperties": {
-            "allOf": [
-              {
-                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
-              }
-            ],
-            "type": "object",
-            "x-nullable": true
-          }
-        }
-      }
-    },
     "MetricProperties": {
       "type": "object",
       "description": "Metric properties",
@@ -5670,7 +5669,7 @@
         "SystemAssignedManagedIdentity",
         "UserAssignedManagedIdentity",
         "Sasl",
-        "x509Certificate",
+        "X509Certificate",
         "Anonymous"
       ],
       "x-ms-enum": {
@@ -5693,8 +5692,8 @@
             "description": "Sasl Option"
           },
           {
-            "name": "x509Certificate",
-            "value": "x509Certificate",
+            "name": "X509Certificate",
+            "value": "X509Certificate",
             "description": "x509Certificate Option"
           },
           {
@@ -5704,19 +5703,6 @@
           }
         ]
       }
-    },
-    "MqttBrokerInstanceProperties": {
-      "type": "object",
-      "description": "The properties of an MQTT Broker instance.",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the MQTT Broker service is enabled."
-        }
-      },
-      "required": [
-        "enabled"
-      ]
     },
     "MqttRetainType": {
       "type": "string",
@@ -6108,13 +6094,17 @@
       "type": "object",
       "description": "The properties of a Schema Registry instance.",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "This determines if the Schema Registry service is enabled."
+        "state": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "This determines if the Schema Registry service is enabled.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "enabled"
+        "state"
       ]
     },
     "SelfCheck": {
@@ -6202,24 +6192,6 @@
           "maximum": 300
         }
       }
-    },
-    "ServiceAccountProperties": {
-      "type": "object",
-      "description": "The properties of a Service Account.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the service account."
-        },
-        "namespace": {
-          "type": "string",
-          "description": "The namespace of the service account."
-        }
-      },
-      "required": [
-        "name",
-        "namespace"
-      ]
     },
     "ServiceType": {
       "type": "string",
@@ -6694,7 +6666,7 @@
       "description": "X509 Certificate Authentication properties.",
       "properties": {
         "secretRef": {
-          "$ref": "#/definitions/KubernetesReferenceKnownType",
+          "type": "string",
           "description": "Kubernetes secret containing an X.509 client certificate. This is a reference to the secret through an identifying name, not the secret itself."
         }
       },
@@ -6706,15 +6678,15 @@
       "type": "string",
       "description": "x509 Certificate Method",
       "enum": [
-        "x509Certificate"
+        "X509Certificate"
       ],
       "x-ms-enum": {
         "name": "x509CertificateMethod",
         "modelAsString": true,
         "values": [
           {
-            "name": "x509Certificate",
-            "value": "x509Certificate",
+            "name": "X509Certificate",
+            "value": "X509Certificate",
             "description": "x509Certificate Option"
           }
         ]

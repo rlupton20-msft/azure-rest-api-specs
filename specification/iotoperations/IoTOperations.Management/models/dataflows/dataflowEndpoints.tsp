@@ -141,13 +141,13 @@ model DataflowEndpointDataLakeStorageAuthentication {
 @doc("DataflowEndpoint Data Lake Storage Authentication Method properties")
 union DataLakeStorageAuthMethod {
   ManagedIdentityMethod,
-  AccessTokeMethod,
+  AccessTokenMethod,
 }
 
 @doc("Microsoft Fabric endpoint properties")
 model DataflowEndpointFabricOneLake {
   @doc("Authentication configuration. NOTE - only one authentication property is allowed per entry.")
-  authentication: DataFlowEndpointFabricOneLakeAuthentication;
+  authentication: DataflowEndpointFabricOneLakeAuthentication;
 
   @doc("Names of the workspace and lakehouse.")
   names: DataflowEndpointFabricOneLakeNames;
@@ -164,7 +164,7 @@ model DataflowEndpointFabricOneLake {
 }
 
 @doc("Microsoft Fabric endpoint. Authentication properties. NOTE - Only one method is supported for one entry")
-model DataFlowEndpointFabricOneLakeAuthentication {
+model DataflowEndpointFabricOneLakeAuthentication {
   @doc("Mode of Authentication.")
   method: FabricOneLakeAuthMethod;
 
@@ -200,7 +200,7 @@ union DataflowEndpointFabricPathType {
 @doc("Kafka endpoint properties")
 model DataflowEndpointKafka {
   @doc("Authentication configuration. NOTE - only authentication property is allowed per entry.")
-  authentication: DataFlowEndpointKafkaAuthentication;
+  authentication: DataflowEndpointKafkaAuthentication;
 
   @doc("Consumer group ID.")
   consumerGroupId?: string;
@@ -224,14 +224,14 @@ model DataflowEndpointKafka {
   partitionStrategy?: DataflowEndpointKafkaPartitionStrategy = DataflowEndpointKafkaPartitionStrategy.Default;
 
   @doc("TLS configuration.")
-  tls: TlsProperties;
+  tls?: TlsProperties = #{ mode: OperationalMode.Enabled };
 
   @doc("Cloud event mapping config.")
-  cloudEventMapping?: CloudEventMappingType;
+  cloudEventAttributes?: CloudEventAttributeType;
 }
 
 @doc("Kafka endpoint Authentication properties. NOTE - only authentication property is allowed per entry")
-model DataFlowEndpointKafkaAuthentication {
+model DataflowEndpointKafkaAuthentication {
   @doc("Mode of Authentication.")
   method: KafkaAuthMethod;
 
@@ -365,7 +365,7 @@ model DataflowEndpointMqtt {
   tls?: TlsProperties = #{ mode: OperationalMode.Enabled };
 
   @doc("Cloud event mapping config.")
-  cloudEventMapping?: CloudEventMappingType;
+  cloudEventAttributes?: CloudEventAttributeType;
 }
 
 @doc("Mqtt endpoint Authentication properties. NOTE - only authentication property is allowed per entry.")
@@ -402,15 +402,12 @@ union MqttRetainType {
 }
 
 @doc("How to map events to the cloud.")
-union CloudEventMappingType {
+union CloudEventAttributeType {
   string,
 
-  @doc("PassThrough type")
-  PassThrough: "PassThrough",
+  @doc("Propagate type")
+  Propagate: "Propagate",
 
-  @doc("Always type")
-  Always: "Always",
-
-  @doc("Never type")
-  Never: "Never",
+  @doc("CreateOrRemap type")
+  CreateOrRemap: "CreateOrRemap",
 }

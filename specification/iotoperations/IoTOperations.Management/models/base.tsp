@@ -142,15 +142,6 @@ union BrokerProtocolType {
   WebSockets: "WebSockets",
 }
 
-@doc("Kubernetes reference with known type")
-model KubernetesReferenceKnownType {
-  @doc("Name is the name of resource being referenced")
-  name: string;
-
-  @doc("Namespace is the namespace of the resource being referenced. This field is required when the resource has a namespace.")
-  `namespace`?: string;
-}
-
 @doc("Kubernetes reference")
 model KubernetesReference {
   ...LocalKubernetesReference;
@@ -198,7 +189,7 @@ alias SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity";
 alias UserAssignedManagedIdentity = "UserAssignedManagedIdentity";
 alias AccessToken = "AccessToken";
 alias Sasl = "Sasl";
-alias x509Certificate = "x509Certificate";
+alias X509Certificate = "X509Certificate";
 alias Anonymous = "Anonymous";
 
 @doc("Managed Identity Method")
@@ -213,7 +204,7 @@ union ManagedIdentityMethod {
 }
 
 @doc("Access Token Method")
-union AccessTokeMethod {
+union AccessTokenMethod {
   string,
 
   @doc("AccessToken Option")
@@ -233,7 +224,7 @@ union x509CertificateMethod {
   string,
 
   @doc("x509Certificate Option")
-  x509Certificate: x509Certificate,
+  X509Certificate: X509Certificate,
 }
 
 @doc("x509 Certificate Method")
