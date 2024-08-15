@@ -32,7 +32,7 @@ model JitPolicySetProperties {
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)
-@doc("Policy.")
+@doc("JIT Policy.")
 model Policy {
   @doc("The unique identifier for the policy (unique per cloud per service)")
   policyInvariableId: int64;
