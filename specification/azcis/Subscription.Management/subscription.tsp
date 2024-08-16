@@ -90,7 +90,7 @@ model SubscriptionResourceProperties {
   @extension("x-ms-identifiers", [])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
-  @doc("Provisioning state.")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: SubscriptionProvisioningState;
 }
