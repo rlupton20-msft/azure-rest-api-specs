@@ -24,8 +24,7 @@ interface SecurityConfigurations {
     SecurityConfigurationProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<SecurityConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<SecurityConfiguration>;
-  listBySubscription is ArmListBySubscription<SecurityConfiguration>;
+  listByConfiguration is ArmResourceListByParent<SecurityConfiguration>;
 }
 
 @doc("SecurityConfiguration Resource")

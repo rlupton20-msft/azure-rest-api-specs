@@ -49,6 +49,5 @@ interface ArcGatewayConfigurations {
     ArcGatewayConfigurationProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ArcGatewayConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<ArcGatewayConfiguration>;
-  listBySubscription is ArmListBySubscription<ArcGatewayConfiguration>;
+  listByConfiguration is ArmResourceListByParent<ArcGatewayConfiguration>;
 }

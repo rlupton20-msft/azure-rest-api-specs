@@ -20,31 +20,21 @@ namespace Private.Edge;
 interface NetworkConfigurations {
   get is ArmResourceRead<NetworkConfiguration>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<NetworkConfiguration>;
-  /*
-  * TODO: Uncomment the following operation once the operation is implemented, 
   update is ArmResourcePatchSync<
     NetworkConfiguration,
     NetworkConfigurationProperties
   >;
-  */
   delete is ArmResourceDeleteWithoutOkAsync<NetworkConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<NetworkConfiguration>;
-  listBySubscription is ArmListBySubscription<NetworkConfiguration>;
+  listByConfiguration is ArmResourceListByParent<NetworkConfiguration>;
 }
 
 @doc("NetworkConfiguration Resource")
 @parentResource(Configuration)
-@discriminator("kind")
 model NetworkConfiguration is ProxyResource<NetworkConfigurationProperties> {
   ...ResourceNameParameter<
     NetworkConfiguration,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
   >;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Exposing various kinds of NetworkConfigurations via NetworkConfigurationKind"
-  @doc("Specifies NetworkConfiguration kind")
-  @visibility("read", "create")
-  kind: NetworkConfigurationKind;
 }
 
 @doc("NetworkConfiguration Properties")
@@ -55,23 +45,6 @@ model NetworkConfigurationProperties {
 
   @doc("Usecase of this configuration")
   usecase: Usecase;
-
-  @doc("Common name for network interface")
-  commonName?: string;
-}
-
-@doc("NetworkConfiguration for LAN")
-model LanNetworkConfiguration {
-  @doc("NetworkConfigurationProperties for LAN")
-  properties: LanNetworkConfigurationProperties;
-
-  @doc("NetworkConfiguration kind as LAN")
-  kind: NetworkConfigurationKind.LAN;
-}
-
-@doc("NetworkConfigurationProperties for LAN")
-model LanNetworkConfigurationProperties {
-  ...NetworkConfigurationProperties;
 
   @doc("IP Assignment")
   ipAssignments: IpAssignment;

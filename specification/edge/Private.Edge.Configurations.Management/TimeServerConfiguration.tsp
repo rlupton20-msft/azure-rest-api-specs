@@ -25,8 +25,7 @@ interface TimeServerConfigurations {
     TimeServerConfigurationProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<TimeServerConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<TimeServerConfiguration>;
-  listBySubscription is ArmListBySubscription<TimeServerConfiguration>;
+  listByConfiguration is ArmResourceListByParent<TimeServerConfiguration>;
 }
 
 @doc("TimeServerConfiguration Resource")

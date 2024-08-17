@@ -25,8 +25,7 @@ interface ConnectivityConfigurations {
     ConnectivityConfigurationProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ConnectivityConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<ConnectivityConfiguration>;
-  listBySubscription is ArmListBySubscription<ConnectivityConfiguration>;
+  listByConfiguration is ArmResourceListByParent<ConnectivityConfiguration>;
 }
 
 @doc("ConnectivityConfiguration Resource")

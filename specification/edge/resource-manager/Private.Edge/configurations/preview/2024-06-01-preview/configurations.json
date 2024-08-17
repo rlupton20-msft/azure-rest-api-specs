@@ -43,6 +43,9 @@
       "name": "Configurations"
     },
     {
+      "name": "ConfigurationReferences"
+    },
+    {
       "name": "DynamicConfigurations"
     },
     {
@@ -65,6 +68,168 @@
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Private.Edge/configurationReferences/default": {
+      "get": {
+        "operationId": "ConfigurationReferences_Get",
+        "tags": [
+          "ConfigurationReferences"
+        ],
+        "description": "Get a ConfigurationReference",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigurationReferences_Get": {
+            "$ref": "./examples/ConfigurationReferences_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "ConfigurationReferences_CreateOrUpdate",
+        "tags": [
+          "ConfigurationReferences"
+        ],
+        "description": "Create a ConfigurationReference",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReference"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ConfigurationReference' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReference"
+            }
+          },
+          "201": {
+            "description": "Resource 'ConfigurationReference' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigurationReferences_CreateOrUpdate": {
+            "$ref": "./examples/ConfigurationReferences_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "ConfigurationReferences_Update",
+        "tags": [
+          "ConfigurationReferences"
+        ],
+        "description": "Update a ConfigurationReference",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReferenceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigurationReferences_Update": {
+            "$ref": "./examples/ConfigurationReferences_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ConfigurationReferences_Delete",
+        "tags": [
+          "ConfigurationReferences"
+        ],
+        "description": "Delete a ConfigurationReference",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigurationReferences_Delete": {
+            "$ref": "./examples/ConfigurationReferences_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations": {
       "get": {
         "operationId": "Configurations_ListBySubscription",
@@ -97,216 +262,6 @@
         "x-ms-examples": {
           "Configurations_ListBySubscription": {
             "$ref": "./examples/Configurations_ListBySubscription_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations/{configurationName}/arcGatewayConfigurations": {
-      "get": {
-        "operationId": "ArcGatewayConfigurations_ListBySubscription",
-        "tags": [
-          "ArcGatewayConfigurations"
-        ],
-        "description": "List ArcGatewayConfiguration resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ArcGatewayConfigurationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations/{configurationName}/connectivityConfigurations": {
-      "get": {
-        "operationId": "ConnectivityConfigurations_ListBySubscription",
-        "tags": [
-          "ConnectivityConfigurations"
-        ],
-        "description": "List ConnectivityConfiguration resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ConnectivityConfigurationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations/{configurationName}/networkConfigurations": {
-      "get": {
-        "operationId": "NetworkConfigurations_ListBySubscription",
-        "tags": [
-          "NetworkConfigurations"
-        ],
-        "description": "List NetworkConfiguration resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/NetworkConfigurationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations/{configurationName}/securityConfigurations": {
-      "get": {
-        "operationId": "SecurityConfigurations_ListBySubscription",
-        "tags": [
-          "SecurityConfigurations"
-        ],
-        "description": "List SecurityConfiguration resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/SecurityConfigurationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Edge/configurations/{configurationName}/timeServerConfigurations": {
-      "get": {
-        "operationId": "TimeServerConfigurations_ListBySubscription",
-        "tags": [
-          "TimeServerConfigurations"
-        ],
-        "description": "List TimeServerConfiguration resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "configurationName",
-            "in": "path",
-            "description": "The name of the Configuration",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/TimeServerConfigurationListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
           }
         },
         "x-ms-pageable": {
@@ -594,7 +549,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/arcGatewayConfigurations": {
       "get": {
-        "operationId": "ArcGatewayConfigurations_ListByResourceGroup",
+        "operationId": "ArcGatewayConfigurations_ListByConfiguration",
         "tags": [
           "ArcGatewayConfigurations"
         ],
@@ -630,6 +585,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ArcGatewayConfigurations_ListByConfiguration": {
+            "$ref": "./examples/ArcGatewayConfigurations_ListByConfiguration_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -683,6 +643,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ArcGatewayConfigurations_Get": {
+            "$ref": "./examples/ArcGatewayConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -759,6 +724,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ArcGatewayConfigurations_CreateOrUpdate": {
+            "$ref": "./examples/ArcGatewayConfigurations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -818,6 +788,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ArcGatewayConfigurations_Update": {
+            "$ref": "./examples/ArcGatewayConfigurations_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -879,6 +854,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ArcGatewayConfigurations_Delete": {
+            "$ref": "./examples/ArcGatewayConfigurations_Delete_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -887,7 +867,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/connectivityConfigurations": {
       "get": {
-        "operationId": "ConnectivityConfigurations_ListByResourceGroup",
+        "operationId": "ConnectivityConfigurations_ListByConfiguration",
         "tags": [
           "ConnectivityConfigurations"
         ],
@@ -923,6 +903,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ConnectivityConfigurations_ListByConfiguration": {
+            "$ref": "./examples/ConnectivityConfigurations_ListByConfiguration_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -976,6 +961,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ConnectivityConfigurations_Get": {
+            "$ref": "./examples/ConnectivityConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1052,6 +1042,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ConnectivityConfigurations_CreateOrUpdate": {
+            "$ref": "./examples/ConnectivityConfigurations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -1112,6 +1107,11 @@
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "ConnectivityConfigurations_Update": {
+            "$ref": "./examples/ConnectivityConfigurations_Update_MaximumSet_Gen.json"
+          }
         }
       },
       "delete": {
@@ -1170,6 +1170,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ConnectivityConfigurations_Delete": {
+            "$ref": "./examples/ConnectivityConfigurations_Delete_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1826,7 +1831,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/networkConfigurations": {
       "get": {
-        "operationId": "NetworkConfigurations_ListByResourceGroup",
+        "operationId": "NetworkConfigurations_ListByConfiguration",
         "tags": [
           "NetworkConfigurations"
         ],
@@ -1862,6 +1867,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "NetworkConfigurations_ListByConfiguration": {
+            "$ref": "./examples/NetworkConfigurations_ListByConfiguration_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1915,6 +1925,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "NetworkConfigurations_Get": {
+            "$ref": "./examples/NetworkConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1991,10 +2006,77 @@
             }
           }
         },
+        "x-ms-examples": {
+          "NetworkConfigurations_CreateOrUpdate": {
+            "$ref": "./examples/NetworkConfigurations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "NetworkConfigurations_Update",
+        "tags": [
+          "NetworkConfigurations"
+        ],
+        "description": "Update a NetworkConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "networkConfigurationName",
+            "in": "path",
+            "description": "The name of the NetworkConfiguration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NetworkConfigurationUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NetworkConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "NetworkConfigurations_Update": {
+            "$ref": "./examples/NetworkConfigurations_Update_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "NetworkConfigurations_Delete",
@@ -2054,6 +2136,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "NetworkConfigurations_Delete": {
+            "$ref": "./examples/NetworkConfigurations_Delete_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -2062,7 +2149,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/securityConfigurations": {
       "get": {
-        "operationId": "SecurityConfigurations_ListByResourceGroup",
+        "operationId": "SecurityConfigurations_ListByConfiguration",
         "tags": [
           "SecurityConfigurations"
         ],
@@ -2098,6 +2185,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "SecurityConfigurations_ListByConfiguration": {
+            "$ref": "./examples/SecurityConfigurations_ListByConfiguration_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -2151,6 +2243,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "SecurityConfigurations_Get": {
+            "$ref": "./examples/SecurityConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -2227,6 +2324,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "SecurityConfigurations_CreateOrUpdate": {
+            "$ref": "./examples/SecurityConfigurations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -2286,6 +2388,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "SecurityConfigurations_Update": {
+            "$ref": "./examples/SecurityConfigurations_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -2347,6 +2454,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "SecurityConfigurations_Delete": {
+            "$ref": "./examples/SecurityConfigurations_Delete_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -2355,7 +2467,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/timeServerConfigurations": {
       "get": {
-        "operationId": "TimeServerConfigurations_ListByResourceGroup",
+        "operationId": "TimeServerConfigurations_ListByConfiguration",
         "tags": [
           "TimeServerConfigurations"
         ],
@@ -2391,6 +2503,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TimeServerConfigurations_ListByConfiguration": {
+            "$ref": "./examples/TimeServerConfigurations_ListByConfiguration_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -2444,6 +2561,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TimeServerConfigurations_Get": {
+            "$ref": "./examples/TimeServerConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -2520,6 +2642,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "TimeServerConfigurations_CreateOrUpdate": {
+            "$ref": "./examples/TimeServerConfigurations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -2580,6 +2707,11 @@
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "TimeServerConfigurations_Update": {
+            "$ref": "./examples/TimeServerConfigurations_Update_MaximumSet_Gen.json"
+          }
         }
       },
       "delete": {
@@ -2638,6 +2770,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TimeServerConfigurations_Delete": {
+            "$ref": "./examples/TimeServerConfigurations_Delete_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2859,6 +2996,62 @@
           "readOnly": true
         }
       }
+    },
+    "ConfigurationReference": {
+      "type": "object",
+      "description": "ConfigurationReference Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConfigurationReferenceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ConfigurationReferenceProperties": {
+      "type": "object",
+      "description": "Properties for ConfigurationReference Resource",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "configurationResourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ArmId of Configuration resource",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Edge/Configurations"
+              },
+              {
+                "type": "Private.Edge/Configurations"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ConfigurationReferenceUpdate": {
+      "type": "object",
+      "description": "ConfigurationReference Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConfigurationReferenceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "ConfigurationType": {
       "type": "string",
@@ -3242,6 +3435,24 @@
         ]
       }
     },
+    "IpAssignmentUpdate": {
+      "type": "object",
+      "description": "IP Assignment",
+      "properties": {
+        "ipAssignmentType": {
+          "$ref": "#/definitions/IpAssignmentType",
+          "description": "IpAssignment Type"
+        },
+        "ipv4": {
+          "$ref": "#/definitions/Ipv4Update",
+          "description": "IP V4"
+        },
+        "ipv6": {
+          "$ref": "#/definitions/Ipv6",
+          "description": "IP V6"
+        }
+      }
+    },
     "Ipv4": {
       "type": "object",
       "description": "Ip V4",
@@ -3297,60 +3508,53 @@
         "endIp"
       ]
     },
+    "Ipv4AddressRangeUpdate": {
+      "type": "object",
+      "description": "AddressRange for IP V4",
+      "properties": {
+        "startIp": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "startIp of Address range"
+        },
+        "endIp": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "endIp of Address range"
+        }
+      }
+    },
+    "Ipv4Update": {
+      "type": "object",
+      "description": "Ip V4",
+      "properties": {
+        "addressRange": {
+          "$ref": "#/definitions/Ipv4AddressRangeUpdate",
+          "description": "AddressRange for IPv4"
+        },
+        "subnetMask": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "Subnet mask for IPv4"
+        },
+        "defaultGateway": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "Default gateway for IPv4"
+        },
+        "dnsServers": {
+          "type": "array",
+          "description": "DNS Servers IPs for IPv4",
+          "items": {
+            "$ref": "#/definitions/Azure.Core.ipV4Address"
+          }
+        },
+        "vLanId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "vLanId for the network interface"
+        }
+      }
+    },
     "Ipv6": {
       "type": "object",
       "description": "Ip v6"
-    },
-    "LanNetworkConfiguration": {
-      "type": "object",
-      "description": "NetworkConfiguration for LAN",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LanNetworkConfigurationProperties",
-          "description": "NetworkConfigurationProperties for LAN"
-        },
-        "kind": {
-          "type": "string",
-          "description": "NetworkConfiguration kind as LAN",
-          "enum": [
-            "LAN"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          }
-        }
-      },
-      "required": [
-        "properties",
-        "kind"
-      ]
-    },
-    "LanNetworkConfigurationProperties": {
-      "type": "object",
-      "description": "NetworkConfigurationProperties for LAN",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "usecase": {
-          "$ref": "#/definitions/Usecase",
-          "description": "Usecase of this configuration"
-        },
-        "commonName": {
-          "type": "string",
-          "description": "Common name for network interface"
-        },
-        "ipAssignments": {
-          "$ref": "#/definitions/IpAssignment",
-          "description": "IP Assignment"
-        }
-      },
-      "required": [
-        "usecase",
-        "ipAssignments"
-      ]
     },
     "NetworkConfiguration": {
       "type": "object",
@@ -3359,20 +3563,8 @@
         "properties": {
           "$ref": "#/definitions/NetworkConfigurationProperties",
           "description": "The resource-specific properties for this resource."
-        },
-        "kind": {
-          "$ref": "#/definitions/NetworkConfigurationKind",
-          "description": "Specifies NetworkConfiguration kind",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
         }
       },
-      "discriminator": "kind",
-      "required": [
-        "kind"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -3437,13 +3629,43 @@
           "$ref": "#/definitions/Usecase",
           "description": "Usecase of this configuration"
         },
-        "commonName": {
-          "type": "string",
-          "description": "Common name for network interface"
+        "ipAssignments": {
+          "$ref": "#/definitions/IpAssignment",
+          "description": "IP Assignment"
         }
       },
       "required": [
-        "usecase"
+        "usecase",
+        "ipAssignments"
+      ]
+    },
+    "NetworkConfigurationPropertiesUpdate": {
+      "type": "object",
+      "description": "NetworkConfiguration Properties",
+      "properties": {
+        "usecase": {
+          "$ref": "#/definitions/Usecase",
+          "description": "Usecase of this configuration"
+        },
+        "ipAssignments": {
+          "$ref": "#/definitions/IpAssignmentUpdate",
+          "description": "IP Assignment"
+        }
+      }
+    },
+    "NetworkConfigurationUpdate": {
+      "type": "object",
+      "description": "NetworkConfiguration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NetworkConfigurationPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "NtpConfigurationChoice": {
@@ -3830,5 +4052,15 @@
       }
     }
   },
-  "parameters": {}
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
 }
