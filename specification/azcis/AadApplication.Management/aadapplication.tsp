@@ -37,9 +37,25 @@ model AadApplicationResourceProperties {
   @doc("List of the certificates paths for an AAD Application resource.")
   certificates?: Array<string>;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: AadApplicationProvisioningState;
+
+  @doc("Result data of the resource provisioning.")
+  @visibility("read")
+  resultData?: AadApplicationResultData;
+}
+
+@doc("Result data of the resource provisioning.")
+model AadApplicationResultData {
+  @doc("Application ID.")
+  applicationId?: string;
+
+  @doc("Object ID.")
+  objectId?: string;
+
+  @doc("Service Principal Object ID.")
+  servicePrincipalObjectId?: string;
 }
 
 @doc("AadApplication Resource")

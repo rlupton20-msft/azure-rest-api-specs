@@ -56,7 +56,7 @@ model SubscriptionResourceProperties {
   @doc("Maximum number of storage accounts allowed for the subscription.")
   maxStorageAccountCount?: string;
 
-  @doc("Additional Azure RBAC roles to be added to the subscription to be provisioned (ex. roleId1;roleId2).")
+  @doc("Additional Azure RBAC roles to be added to the subscription to be provisioned (ex. [{role1...},{role2...}]).")
   customRoles?: string;
 
   @doc("True to disable RBAC role check, False otherwise.")
@@ -90,7 +90,7 @@ model SubscriptionResourceProperties {
   @extension("x-ms-identifiers", [])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
-  @doc("Provisioning state.")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: SubscriptionProvisioningState;
 }
