@@ -47,10 +47,6 @@ model ConnectivityConfigurationProperties {
   @doc("Usecase of this configuration")
   usecase: Usecase;
 
-  // TODO - check if this is supposed to be string or some other build-in type.
-  @doc("timezone value")
-  timezone: string;
-
   @doc("Connectivity type")
   connectivityType: ConnectivityType;
 

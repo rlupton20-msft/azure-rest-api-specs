@@ -3141,10 +3141,6 @@
           "$ref": "#/definitions/Usecase",
           "description": "Usecase of this configuration"
         },
-        "timezone": {
-          "type": "string",
-          "description": "timezone value"
-        },
         "connectivityType": {
           "$ref": "#/definitions/ConnectivityType",
           "description": "Connectivity type"
@@ -3156,7 +3152,6 @@
       },
       "required": [
         "usecase",
-        "timezone",
         "connectivityType"
       ]
     },
@@ -3167,10 +3162,6 @@
         "usecase": {
           "$ref": "#/definitions/Usecase",
           "description": "Usecase of this configuration"
-        },
-        "timezone": {
-          "type": "string",
-          "description": "timezone value"
         },
         "connectivityType": {
           "$ref": "#/definitions/ConnectivityType",
@@ -3823,19 +3814,55 @@
       "type": "object",
       "description": "Reference to the secret",
       "properties": {
+        "keyvaultResourceId": {
+          "type": "string",
+          "description": "resourceId to the keyvault"
+        },
         "secretName": {
           "type": "string",
           "description": "name of the secret"
         },
-        "keyvaultResourceId": {
+        "secretType": {
+          "$ref": "#/definitions/SecretType",
+          "description": "type of the secret"
+        },
+        "vaultUri": {
           "type": "string",
-          "description": "resourceId to the keyvault"
+          "format": "uri",
+          "description": "vaultUri of the keyvault",
+          "readOnly": true
         }
       },
       "required": [
+        "keyvaultResourceId",
         "secretName",
-        "keyvaultResourceId"
+        "secretType",
+        "vaultUri"
       ]
+    },
+    "SecretType": {
+      "type": "string",
+      "description": "Type of secrets supported",
+      "enum": [
+        "secret",
+        "certificate"
+      ],
+      "x-ms-enum": {
+        "name": "SecretType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Secret",
+            "value": "secret",
+            "description": "Type Secret"
+          },
+          {
+            "name": "Certificate",
+            "value": "certificate",
+            "description": "Type Certificate"
+          }
+        ]
+      }
     },
     "SecurityConfiguration": {
       "type": "object",

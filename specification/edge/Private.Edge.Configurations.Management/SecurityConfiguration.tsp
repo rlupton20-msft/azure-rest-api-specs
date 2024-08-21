@@ -49,9 +49,27 @@ model SecurityConfigurationProperties {
 
 @doc("Reference to the secret")
 model SecretReference {
+  @doc("resourceId to the keyvault")
+  keyvaultResourceId: string;
+
   @doc("name of the secret")
   secretName: string;
 
-  @doc("resourceId to the keyvault")
-  keyvaultResourceId: string;
+  @doc("type of the secret")
+  secretType: SecretType;
+
+  @doc("vaultUri of the keyvault")
+  @visibility("read")
+  vaultUri: url;
+}
+
+@doc("Type of secrets supported")
+union SecretType {
+  @doc("Type Secret")
+  Secret: "secret",
+
+  @doc("Type Certificate")
+  Certificate: "certificate",
+
+  string,
 }
