@@ -41,7 +41,7 @@ model InstancePatchModel {
 @doc("The properties of the Instance resource.")
 model InstanceProperties {
   @doc("Detailed description of the Instance.")
-  description?: string;
+  description: string;
 
   @doc("The status of the last operation.")
   @visibility("read")
