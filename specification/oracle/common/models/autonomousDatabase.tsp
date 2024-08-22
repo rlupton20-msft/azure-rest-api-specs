@@ -653,6 +653,14 @@ model AutonomousDatabaseCrossRegionDisasterRecoveryProperties
   @visibility("create", "read")
   sourceId: AutonomousDatabaseId;
 
+  @doc("The name of the region where source Autonomous Database exists.")
+  @visibility("create", "read")
+  sourceLocation: string;
+  
+  @doc("The source database ocid")
+  @visibility("create", "read")
+  sourceOcid: Ocid;
+
   @doc("Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
   @visibility("create", "read")
   remoteDisasterRecoveryType: DisasterRecoveryType;
@@ -1054,6 +1062,14 @@ model AutonomousDatabaseWalletFile {
 @added(Versions.v20241001_preview)
 @doc("Configurations of a Disaster Recovery Details")
 model DisasterRecoveryConfigurationDetails {
+  @doc("Location of the source database.")
+  @visibility("create", "read")
+  sourceLocation: string;
+
+  @doc("Ocid of the source database.")
+  @visibility("create", "read")
+  sourceOcid: Ocid;
+
   @doc("Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
   disasterRecoveryType?: DisasterRecoveryType;
 
