@@ -1801,6 +1801,78 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/catalogs/{catalogName}/versions/{versionName}/evalExpression": {
+      "post": {
+        "operationId": "CatalogVersions_EvalExpression",
+        "tags": [
+          "CatalogVersions"
+        ],
+        "description": "Evaluate the CatalogVersion's properties",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "catalogName",
+            "in": "path",
+            "description": "The name of Azure API Center service.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 90,
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+          },
+          {
+            "name": "versionName",
+            "in": "path",
+            "description": "The name of Azure API Center service.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 90,
+            "pattern": "^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EvalExpressionResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Symphony/instances": {
       "get": {
         "operationId": "Instances_ListByResourceGroup",
@@ -2975,8 +3047,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ActivationProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3093,6 +3164,37 @@
         }
       }
     },
+    "Azure.ResourceManager.ResourceProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of a resource type.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "ResourceProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          }
+        ]
+      },
+      "readOnly": true
+    },
     "BindingProperties": {
       "type": "object",
       "description": "Defines a binding for a provider.",
@@ -3124,8 +3226,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CampaignProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3196,8 +3297,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CampaignVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3280,8 +3380,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CatalogProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3368,8 +3467,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CatalogVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3502,6 +3600,50 @@
         "type"
       ]
     },
+    "EvalExpressionResponse": {
+      "type": "object",
+      "description": "The expression evaluation result response.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation Id",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation Name",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Provisioning state of the expression evaluation resource",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/EvalExpressionResponseError",
+          "description": "Error listing the expression evaluation response."
+        },
+        "properties": {
+          "type": "object",
+          "description": "Properties of the expression evaluation response.",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "EvalExpressionResponseError": {
+      "type": "object",
+      "description": "The error listing the kubeconfig credential response.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        }
+      }
+    },
     "ExtendedLocation": {
       "type": "object",
       "description": "Extended location is an extension of Azure locations. They provide a way to use their Azure ARC enabled Kubernetes clusters as target locations for deploying Azure services instances.",
@@ -3526,8 +3668,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/InstanceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3727,8 +3868,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SolutionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3799,8 +3939,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SolutionVersionProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",
@@ -3968,8 +4107,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/TargetProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
           "$ref": "#/definitions/ExtendedLocation",

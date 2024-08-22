@@ -60,6 +60,55 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   extendedLocation?: ExtendedLocation;
 }
 
+/**
+ * The expression evaluation result response.
+ */
+model EvalExpressionResponse {
+  /**
+   * Operation Id
+   */
+  @visibility("read")
+  id?: string;
+
+  /**
+   * Operation Name
+   */
+  @visibility("read")
+  name?: string;
+
+  /**
+   * Provisioning state of the expression evaluation resource
+   */
+  @visibility("read")
+  status?: ResourceProvisioningState;
+
+  /**
+   * Error listing the expression evaluation response.
+   */
+  error?: EvalExpressionResponseError;
+
+  /**
+   * Properties of the expression evaluation response.
+   */
+  properties?: Record<unknown>;
+}
+
+/**
+ * The error listing the kubeconfig credential response.
+ */
+model EvalExpressionResponseError {
+  /**
+   * The error code.
+   */
+  code?: string;
+
+  /**
+   * The error message.
+   */
+  message?: string;
+}
+
+
 @armResourceOperations
 interface CatalogVersions {
   @doc("Returns the details of the CatalogVersion.")
@@ -72,4 +121,7 @@ interface CatalogVersions {
   delete is ArmResourceDeleteWithoutOkAsync<CatalogVersion>;
   @doc("Lists CatalogVersions within a Catalog.")
   listByCatalog is ArmResourceListByParent<CatalogVersion>;
+  @doc("Evaluate the CatalogVersion's properties")
+  @added(Versions.v2024_08_01_preview)
+  evalExpression is ArmResourceActionAsync<CatalogVersion, void, EvalExpressionResponse>;
 }
