@@ -656,7 +656,7 @@ model AutonomousDatabaseCrossRegionDisasterRecoveryProperties
   @doc("The name of the region where source Autonomous Database exists.")
   @visibility("create", "read")
   sourceLocation: string;
-  
+
   @doc("The source database ocid")
   @visibility("create", "read")
   sourceOcid: Ocid;
