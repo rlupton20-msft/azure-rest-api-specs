@@ -15,4 +15,3 @@ import "./autonomousDatabaseNationalCharacterSetOperations.tsp";
 import "./autonomousDatabaseVersionOperations.tsp";
 import "./oracleCloudAccountOperations.tsp";
 import "./systemVersionOperations.tsp";
-import "./proxyOracleSubscriptionOperations.tsp";
