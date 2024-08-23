@@ -115,13 +115,13 @@ model AwsEc2FlowLogProperties {
 @doc("LogDestinationType enum")
 union LogDestinationType {
   @doc("LogDestinationType enum cloud-watch-logs")
-  CLOUDWATCHLOGS: "cloud-watch-logs",
+  CloudWatchLogs: "cloud-watch-logs",
 
   @doc("LogDestinationType enum kinesis-data-firehose")
-  KINESISDATAFIREHOSE: "kinesis-data-firehose",
+  KinesisDataFirehose: "kinesis-data-firehose",
 
   @doc("LogDestinationType enum s3")
-  S3: "s3",
+  s3: "s3",
 
   string,
 }
@@ -159,16 +159,16 @@ model DestinationOptionsModelProperties {
 @doc("ResourceType enum")
 union ResourceType {
   @doc("ResourceType enum NetworkInterface")
-  NETWORKINTERFACE: "NetworkInterface",
+  NetworkInterface: "NetworkInterface",
 
   @doc("ResourceType enum Subnet")
-  SUBNET: "Subnet",
+  Subnet: "Subnet",
 
   @doc("ResourceType enum TransitGateway")
-  TRANSITGATEWAY: "TransitGateway",
+  TransitGateway: "TransitGateway",
 
   @doc("ResourceType enum TransitGatewayAttachment")
-  TRANSITGATEWAYATTACHMENT: "TransitGatewayAttachment",
+  TransitGatewayAttachment: "TransitGatewayAttachment",
 
   @doc("ResourceType enum VPC")
   VPC: "VPC",
@@ -192,10 +192,10 @@ model Tag {
 @doc("FileFormat enum")
 union FileFormat {
   @doc("FileFormat enum parquet")
-  PARQUET: "parquet",
+  parquet: "parquet",
 
   @doc("FileFormat enum plain-text")
-  PLAINTEXT: "plain-text",
+  PlainText: "plain-text",
 
   string,
 }

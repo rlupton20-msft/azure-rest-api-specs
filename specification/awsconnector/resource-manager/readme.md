@@ -130,13 +130,85 @@ These settings apply only when `--tag=package-2024-12-01` is specified on the co
 ``` yaml $(tag) == 'package-2024-12-01'
 input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/accessAnalyzerAnalyzer.json
+  - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayRestApi.json
+  - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayStage.json
+  - Microsoft.AwsConnector/stable/2024-12-01/applicationAutoScalingScalableTarget.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStack.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStackSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudTrailTrail.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudWatchAlarm.json
+  - Microsoft.AwsConnector/stable/2024-12-01/dynamoDBTable.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2FlowLog.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Image.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2Instance.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2InstanceStatus.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Ipam.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2KeyPair.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2NetworkAcl.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2NetworkInterface.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Region.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Reservation.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2RouteTable.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2SecurityGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Snapshot.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2Subnet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2Volume.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2Vpc.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2VPCEndpoint.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ec2VPCPeeringConnection.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ecrRepository.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ecsCluster.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ecsService.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ecsTaskDefinition.json
+  - Microsoft.AwsConnector/stable/2024-12-01/efsFileSystem.json
+  - Microsoft.AwsConnector/stable/2024-12-01/efsMountTarget.json
+  - Microsoft.AwsConnector/stable/2024-12-01/eksCluster.json
+  - Microsoft.AwsConnector/stable/2024-12-01/eksNodegroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticBeanstalkEnvironment.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2Listener.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2LoadBalancer.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2TargetGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticsearchDomain.json
+  - Microsoft.AwsConnector/stable/2024-12-01/guardDutyDetector.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamInstanceProfile.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamManagedPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamServerCertificate.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamUserPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamVirtualMFADevice.json
+  - Microsoft.AwsConnector/stable/2024-12-01/kmsKey.json
+  - Microsoft.AwsConnector/stable/2024-12-01/lambdaFunction.json
+  - Microsoft.AwsConnector/stable/2024-12-01/licenseManagerLicense.json
+  - Microsoft.AwsConnector/stable/2024-12-01/lightsailBucket.json
+  - Microsoft.AwsConnector/stable/2024-12-01/lightsailInstance.json
+  - Microsoft.AwsConnector/stable/2024-12-01/logsLogGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/logsLogStream.json
+  - Microsoft.AwsConnector/stable/2024-12-01/logsMetricFilter.json
+  - Microsoft.AwsConnector/stable/2024-12-01/logsSubscriptionFilter.json
+  - Microsoft.AwsConnector/stable/2024-12-01/macieAllowList.json
+  - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewall.json
+  - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewallPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallRuleGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/openSearchServiceDomain.json
   - Microsoft.AwsConnector/stable/2024-12-01/operations.json
+  - Microsoft.AwsConnector/stable/2024-12-01/organizationsAccount.json
+  - Microsoft.AwsConnector/stable/2024-12-01/organizationsOrganization.json
+  - Microsoft.AwsConnector/stable/2024-12-01/rdsDBCluster.json
+  - Microsoft.AwsConnector/stable/2024-12-01/rdsDBInstance.json
+  - Microsoft.AwsConnector/stable/2024-12-01/rdsEventSubscription.json
+  - Microsoft.AwsConnector/stable/2024-12-01/redshiftCluster.json
+  - Microsoft.AwsConnector/stable/2024-12-01/redshiftClusterParameterGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/route53HostedZone.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3AccessPoint.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3Bucket.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3BucketPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerApp.json
+  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerDevice.json
+  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerImage.json
+  - Microsoft.AwsConnector/stable/2024-12-01/snsTopic.json
+  - Microsoft.AwsConnector/stable/2024-12-01/sqsQueue.json
+  - Microsoft.AwsConnector/stable/2024-12-01/wafv2IPSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACLAssociation.json
 ```
 
 ## Suppression
@@ -165,12 +237,85 @@ directive:
     reason: Workaround for Known Issue BodyTopLevelProperties check is failing https://github.com/Azure/azure-openapi-validator/issues/722 
     from:
       - accessAnalyzerAnalyzer.json
+      - apiGatewayRestApi.json
+      - apiGatewayStage.json
+      - applicationAutoScalingScalableTarget.json
+      - cloudFormationStack.json
+      - cloudFormationStackSet.json
+      - cloudTrailTrail.json
+      - cloudWatchAlarm.json
+      - dynamoDBTable.json
       - ec2FlowLog.json
       - ec2Image.json
+      - ec2Instance.json
+      - ec2InstanceStatus.json
       - ec2Ipam.json
+      - ec2KeyPair.json
+      - ec2NetworkAcl.json
+      - ec2NetworkInterface.json
       - ec2Region.json
       - ec2Reservation.json
+      - ec2RouteTable.json
+      - ec2SecurityGroup.json
       - ec2Snapshot.json
+      - ec2Subnet.json
+      - ec2Volume.json
+      - ec2Vpc.json
+      - ec2VPCEndpoint.json
+      - ec2VPCPeeringConnection.json
+      - ecrRepository.json
+      - ecsCluster.json
+      - ecsService.json
+      - ecsTaskDefinition.json
+      - efsFileSystem.json
+      - efsMountTarget.json
+      - eksCluster.json
+      - eksNodegroup.json
+      - elasticBeanstalkEnvironment.json
+      - elasticLoadBalancingV2Listener.json
+      - elasticLoadBalancingV2LoadBalancer.json
+      - elasticLoadBalancingV2TargetGroup.json
+      - elasticsearchDomain.json
+      - guardDutyDetector.json
+      - iamGroup.json
+      - iamInstanceProfile.json
+      - iamManagedPolicy.json
+      - iamServerCertificate.json
+      - iamUserPolicy.json
+      - iamVirtualMFADevice.json
+      - kmsKey.json
+      - lambdaFunction.json
+      - licenseManagerLicense.json
+      - lightsailBucket.json
+      - lightsailInstance.json
+      - logsLogGroup.json
+      - logsLogStream.json
+      - logsMetricFilter.json
+      - logsSubscriptionFilter.json
+      - macieAllowList.json
+      - networkFirewallFirewall.json
+      - networkFirewallFirewallPolicy.json
+      - networkFirewallRuleGroup.json
+      - openSearchServiceDomain.json
+      - operations.json
+      - organizationsAccount.json
+      - organizationsOrganization.json
+      - rdsDBCluster.json
+      - rdsDBInstance.json
+      - rdsEventSubscription.json
+      - redshiftCluster.json
+      - redshiftClusterParameterGroup.json
+      - route53HostedZone.json
+      - s3AccessPoint.json
+      - s3Bucket.json
+      - s3BucketPolicy.json
+      - sageMakerApp.json
+      - sageMakerDevice.json
+      - sageMakerImage.json
+      - snsTopic.json
+      - sqsQueue.json
+      - wafv2IPSet.json
+      - wafv2WebACLAssociation.json
 ```
 
 ---
