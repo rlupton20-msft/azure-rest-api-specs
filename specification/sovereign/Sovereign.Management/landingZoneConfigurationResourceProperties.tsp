@@ -107,9 +107,9 @@ model LandingZoneConfigurationResourceProperties {
 @doc("The properties of managed identity.")
 model ManagedIdentityProperties{
   @doc("The type of managed identity.")
-  type:ManagedIdentityType;
+  type:ManagedIdentityResourceType;
   @doc("The resource id of the managed identity.")
-  managedIdentityId?: armResourceIdentifier<[
+  userAssignedIdentityResourceId?: armResourceIdentifier<[
     {
       type: "Microsoft.ManagedIdentity/userAssignedIdentities";
     }]>;
@@ -117,11 +117,11 @@ model ManagedIdentityProperties{
 
 @added(Versions.Preview20241031)
 @doc("The authoring status for a landing zone configuration.")
-union ManagedIdentityType {
+union ManagedIdentityResourceType {
   @doc("System assigned managed identity.")
   SystemAssigned: "SystemAssigned",
 
-  @doc("This status is set when the configuration changes are complete and the configuration is ready for code generation")
+  @doc("User assigned managed identity.")
   UserAssigned: "UserAssigned",
 
   string,
