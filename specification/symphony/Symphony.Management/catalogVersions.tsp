@@ -21,7 +21,7 @@ model CatalogVersionProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
   @doc("The properties of the CatalogVersion.")
-  properties: Record<unknown>;
+  properties?: Record<unknown>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
   @doc("The metadata of the CatalogVersion.")
@@ -32,7 +32,7 @@ model CatalogVersionProperties {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
   @doc("The catalogType of the CatalogVersion.")
-  catalogType: string;
+  catalogType?: string;
 
   @doc("The status of the CatalogVersion.")
   @visibility("read")
@@ -60,51 +60,35 @@ model CatalogVersion is TrackedResource<CatalogVersionProperties> {
   extendedLocation?: ExtendedLocation;
 }
 
-/**
- * The expression evaluation result response.
- */
+@doc("The expression evaluation result response.")
+@added(Versions.v2024_08_01_preview)
 model EvalExpressionResponse {
-  /**
-   * Operation Id
-   */
+  @doc("Operation Id")
   @visibility("read")
   id?: string;
 
-  /**
-   * Operation Name
-   */
+  @doc("Operation Name")
   @visibility("read")
   name?: string;
 
-  /**
-   * Provisioning state of the expression evaluation resource
-   */
+  @doc("Provisioning state of the expression evaluation resource")
   @visibility("read")
   status?: ResourceProvisioningState;
 
-  /**
-   * Error listing the expression evaluation response.
-   */
+  @doc("Error listing the expression evaluation response.")
   error?: EvalExpressionResponseError;
 
-  /**
-   * Properties of the expression evaluation response.
-   */
+  @doc("Properties of the expression evaluation response.")
   properties?: Record<unknown>;
 }
 
-/**
- * The error listing the kubeconfig credential response.
- */
+@doc("The error listing the kubeconfig credential response.")
+@added(Versions.v2024_08_01_preview)
 model EvalExpressionResponseError {
-  /**
-   * The error code.
-   */
+  @doc("The error code.")
   code?: string;
 
-  /**
-   * The error message.
-   */
+  @doc("The error message.")
   message?: string;
 }
 
