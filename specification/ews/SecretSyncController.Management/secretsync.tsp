@@ -8,8 +8,8 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.SecretSyncController")
-namespace Microsoft.SecretSyncController;
+@armProviderNamespace("Private.SecretSyncController")
+namespace Private.SecretSyncController;
 
 @doc("The SecretSync resource.")
 model SecretSync is TrackedResource<SecretSyncProperties> {
