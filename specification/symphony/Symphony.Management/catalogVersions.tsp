@@ -82,7 +82,7 @@ model EvalExpressionResponse {
   properties?: Record<unknown>;
 }
 
-@doc("The error listing the kubeconfig credential response.")
+@doc("The error evaluating the expression response")
 @added(Versions.v2024_08_01_preview)
 model EvalExpressionResponseError {
   @doc("The error code.")
