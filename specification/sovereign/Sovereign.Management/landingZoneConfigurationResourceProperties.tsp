@@ -9,7 +9,7 @@ namespace Microsoft.Sovereign;
 model LandingZoneConfigurationResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: provisioningState;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Handled in code."
   @visibility("read")
@@ -97,6 +97,34 @@ model LandingZoneConfigurationResourceProperties {
   @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
   @OpenAPI.extension("x-ms-identifiers", [])
   tags?: Tags[];
+
+  @added(Versions.Preview20241031)
+  @doc("The managed identity to be tied to this landing zone configuration")
+  managedIdentity: ManagedIdentityProperties;
+}
+
+@added(Versions.Preview20241031)
+@doc("The properties of managed identity.")
+model ManagedIdentityProperties{
+  @doc("The type of managed identity.")
+  type:ManagedIdentityType;
+  @doc("The resource id of the managed identity.")
+  managedIdentityId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities";
+    }]>;
+}
+
+@added(Versions.Preview20241031)
+@doc("The authoring status for a landing zone configuration.")
+union ManagedIdentityType {
+  @doc("System assigned managed identity.")
+  SystemAssigned: "SystemAssigned",
+
+  @doc("This status is set when the configuration changes are complete and the configuration is ready for code generation")
+  UserAssigned: "UserAssigned",
+
+  string,
 }
 
 @doc("The details associated with tags.")

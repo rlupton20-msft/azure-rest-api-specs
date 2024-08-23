@@ -879,13 +879,31 @@
               "$ref": "#/definitions/LandingZoneConfigurationResource"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "LandingZoneConfigurationOperations_Delete",
@@ -986,13 +1004,31 @@
               "$ref": "#/definitions/CreateLandingZoneConfigurationCopyResponse"
             }
           },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations/{landingZoneConfigurationName}/generateLandingZone": {
@@ -1122,13 +1158,31 @@
               "$ref": "#/definitions/UpdateAuthoringStatusResponse"
             }
           },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneRegistrations": {
@@ -1352,13 +1406,31 @@
               "$ref": "#/definitions/LandingZoneRegistrationResource"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "LandingZoneRegistrationOperations_Delete",
@@ -1980,7 +2052,7 @@
       "description": "The properties of landing zone account resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing zone account.",
           "readOnly": true
         },
@@ -2081,7 +2153,7 @@
       "description": "The properties of landing zone configuration resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing zone configuration.",
           "readOnly": true
         },
@@ -2212,6 +2284,10 @@
             "$ref": "#/definitions/Tags"
           },
           "x-ms-identifiers": []
+        },
+        "managedIdentity": {
+          "$ref": "#/definitions/ManagedIdentityProperties",
+          "description": "The managed identity to be tied to this landing zone configuration"
         }
       },
       "required": [
@@ -2221,7 +2297,8 @@
         "gatewaySubnetCidrBlock",
         "logRetentionInDays",
         "hubNetworkCidrBlock",
-        "azureBastionCreationOption"
+        "azureBastionCreationOption",
+        "managedIdentity"
       ]
     },
     "LandingZoneConfigurationResourcePropertiesUpdate": {
@@ -2350,6 +2427,10 @@
             "$ref": "#/definitions/Tags"
           },
           "x-ms-identifiers": []
+        },
+        "managedIdentity": {
+          "$ref": "#/definitions/ManagedIdentityPropertiesUpdate",
+          "description": "The managed identity to be tied to this landing zone configuration"
         }
       }
     },
@@ -2431,7 +2512,7 @@
       "description": "The properties of landing zone registration resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing Zone registration resource type.",
           "readOnly": true
         },
@@ -2509,6 +2590,77 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "ManagedIdentityProperties": {
+      "type": "object",
+      "description": "The properties of managed identity.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedIdentityType",
+          "description": "The type of managed identity."
+        },
+        "managedIdentityId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the managed identity.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ManagedIdentityPropertiesUpdate": {
+      "type": "object",
+      "description": "The properties of managed identity.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedIdentityType",
+          "description": "The type of managed identity."
+        },
+        "managedIdentityId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the managed identity.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ManagedIdentityType": {
+      "type": "string",
+      "description": "The authoring status for a landing zone configuration.",
+      "enum": [
+        "SystemAssigned",
+        "UserAssigned"
+      ],
+      "x-ms-enum": {
+        "name": "ManagedIdentityType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SystemAssigned",
+            "value": "SystemAssigned",
+            "description": "System assigned managed identity."
+          },
+          {
+            "name": "UserAssigned",
+            "value": "UserAssigned",
+            "description": "This status is set when the configuration changes are complete and the configuration is ready for code generation"
+          }
+        ]
+      }
     },
     "ManagementGroupProperties": {
       "type": "object",
@@ -2815,6 +2967,54 @@
         "landingZoneConfigurationName",
         "authoringStatus"
       ]
+    },
+    "provisioningState": {
+      "type": "string",
+      "description": "The custom provisioning state.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Creating",
+        "Updating",
+        "Deleting"
+      ],
+      "x-ms-enum": {
+        "name": "provisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Creating",
+            "value": "Creating",
+            "description": "The state of the resource when creating"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The state of the resource when updating"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The state of the resource when deleting"
+          }
+        ]
+      }
     }
   },
   "parameters": {}

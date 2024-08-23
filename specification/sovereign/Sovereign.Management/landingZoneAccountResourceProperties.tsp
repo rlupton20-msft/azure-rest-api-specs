@@ -9,7 +9,7 @@ namespace Microsoft.Sovereign;
 model LandingZoneAccountResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone account.")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: provisioningState;
 
   @doc("The storage account that will host the generated slz code.")
   storageAccount: armResourceIdentifier<[

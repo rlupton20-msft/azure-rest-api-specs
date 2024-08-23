@@ -153,7 +153,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Creates the landing zone configuration.")
   create is ArmResourceCreateOrUpdateAsync<LandingZoneConfigurationResource>;
   @doc("Updates the landing zone configuration.")
-  update is ArmResourcePatchSync<
+  update is ArmResourcePatchAsync<
     LandingZoneConfigurationResource,
     LandingZoneConfigurationResourceProperties
   >;
@@ -178,7 +178,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Provides a mechanism to update the authoring status.")
   @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfigurationResource)
-  updateAuthoringStatus is ArmResourceActionSync<
+  updateAuthoringStatus is ArmResourceActionAsync<
     LandingZoneConfigurationResource,
     UpdateAuthoringStatusRequest,
     UpdateAuthoringStatusResponse
@@ -188,7 +188,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Provides a mechanism to create a copy of the landing zone configuration.")
   @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfigurationResource)
-  createCopy is ArmResourceActionSync<
+  createCopy is ArmResourceActionAsync<
     LandingZoneConfigurationResource,
     CreateLandingZoneConfigurationCopyRequest,
     CreateLandingZoneConfigurationCopyResponse
@@ -218,7 +218,7 @@ interface LandingZoneRegistrationOperations {
   @doc("Creates the landing zone registration.")
   create is ArmResourceCreateOrUpdateAsync<LandingZoneRegistrationResource>;
   @doc("Updates the landing zone registration.")
-  update is ArmResourcePatchSync<
+  update is ArmResourcePatchAsync<
     LandingZoneRegistrationResource,
     LandingZoneRegistrationResourceProperties
   >;
