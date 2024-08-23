@@ -14,7 +14,7 @@ union OracleSubscriptionProvisioningState {
 @singleton
 @subscriptionResource
 @doc("OracleSubscription resource definition")
-@friendlyName("OracleSubscription")
+@friendlyName("OracleSubscription", ResourcePlanType)
 model OracleSubscription<ResourcePlanType>
   is ProxyResource<OracleSubscriptionProperties> {
   @doc("OracleSubscription name")
