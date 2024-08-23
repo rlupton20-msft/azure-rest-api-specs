@@ -68,7 +68,7 @@
     }
   ],
   "paths": {
-    "/{resourceUri}/providers/Private.Edge/configurationReferences/default": {
+    "/{resourceUri}/providers/Private.Edge/configurationReferences/{configurationReferenceName}": {
       "get": {
         "operationId": "ConfigurationReferences_Get",
         "tags": [
@@ -81,6 +81,14 @@
           },
           {
             "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "configurationReferenceName",
+            "in": "path",
+            "description": "The name of the ConfigurationReference",
+            "required": true,
+            "type": "string",
+            "pattern": "^default$"
           }
         ],
         "responses": {
@@ -115,6 +123,14 @@
           },
           {
             "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "configurationReferenceName",
+            "in": "path",
+            "description": "The name of the ConfigurationReference",
+            "required": true,
+            "type": "string",
+            "pattern": "^default$"
           },
           {
             "name": "resource",
@@ -166,6 +182,14 @@
             "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
           },
           {
+            "name": "configurationReferenceName",
+            "in": "path",
+            "description": "The name of the ConfigurationReference",
+            "required": true,
+            "type": "string",
+            "pattern": "^default$"
+          },
+          {
             "name": "properties",
             "in": "body",
             "description": "The resource properties to be updated.",
@@ -207,6 +231,14 @@
           },
           {
             "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "configurationReferenceName",
+            "in": "path",
+            "description": "The name of the ConfigurationReference",
+            "required": true,
+            "type": "string",
+            "pattern": "^default$"
           }
         ],
         "responses": {
@@ -3909,6 +3941,10 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
+        "usecase": {
+          "$ref": "#/definitions/Usecase",
+          "description": "Usecase of this configuration"
+        },
         "secretReferences": {
           "type": "array",
           "description": "References for the secrets from keyvaults",
@@ -3921,6 +3957,7 @@
         }
       },
       "required": [
+        "usecase",
         "secretReferences"
       ]
     },
@@ -3928,6 +3965,10 @@
       "type": "object",
       "description": "SecurityConfiguration Properties",
       "properties": {
+        "usecase": {
+          "$ref": "#/definitions/Usecase",
+          "description": "Usecase of this configuration"
+        },
         "secretReferences": {
           "type": "array",
           "description": "References for the secrets from keyvaults",

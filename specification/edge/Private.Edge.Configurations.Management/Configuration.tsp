@@ -48,7 +48,6 @@ interface Configurations {
 }
 
 @doc("ConfigurationReference Resource")
-@singleton("default")
 model ConfigurationReference
   is ExtensionResource<ConfigurationReferenceProperties> {
   ...ResourceNameParameter<ConfigurationReference, NamePattern = "^default$">;
