@@ -284,6 +284,8 @@ directive:
       - elasticLoadBalancingV2LoadBalancer.json
       - elasticLoadBalancingV2TargetGroup.json
       - elasticsearchDomain.json
+      - emrCluster.json
+      - emrClusterSummary.json
       - guardDutyDetector.json
       - iamGroup.json
       - iamInstanceProfile.json
@@ -329,6 +331,8 @@ directive:
       - snsSubscription.json
       - snsTopic.json
       - sqsQueue.json
+      - ssmParameter.json
+      - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
       - wafv2WebACLAssociation.json
       - wafWebACL.json
