@@ -119,7 +119,7 @@ union DependencyOfOrigins {
   @doc("The relationship was explicitly created by a user.")
   UserExplicitlyCreated: "UserExplicitlyCreated",
 
-  string
+  string,
 }
 
 @doc("dependencyOf relationship properties.")
@@ -150,7 +150,7 @@ union ServiceGroupMemberOrigins {
   @doc("The relationship was explicitly created by a user.")
   UserExplicitlyCreated: "UserExplicitlyCreated",
 
-  string
+  string,
 }
 
 @doc("ServiceGroupMember relationship properties.")
