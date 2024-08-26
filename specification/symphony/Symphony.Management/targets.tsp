@@ -55,6 +55,10 @@ model TargetProperties {
   @added(Versions.v2024_08_01_preview)
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
+  @doc("The running state for the TargetVersion resource.")
+  @added(Versions.v2024_08_01_preview)
+  isDryRun?: boolean;
+
   @doc("The status of the TargetVersion.")
   @visibility("read")
   @added(Versions.v2024_08_01_preview)

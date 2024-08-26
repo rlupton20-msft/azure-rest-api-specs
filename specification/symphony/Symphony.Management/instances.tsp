@@ -44,6 +44,10 @@ model InstanceProperties {
   @added(Versions.v2024_08_01_preview)
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
+  @doc("The running state for the InstanceVersion resource.")
+  @added(Versions.v2024_08_01_preview)
+  isDryRun?: boolean;
+
   @doc("The status of the InstanceVersion.")
   @visibility("read")
   @added(Versions.v2024_08_01_preview)
