@@ -13,7 +13,7 @@ namespace Private.IoTOperations;
  */
 @doc("Instance broker resource")
 @parentResource(BrokerResource)
-model BrokerListenerResource is ProxyResource<BrokerListenerProperties> {
+model BrokerListenerResource is TrackedResource<BrokerListenerProperties> {
   @doc("Name of Instance broker listener resource")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @key("listenerName")
@@ -23,7 +23,7 @@ model BrokerListenerResource is ProxyResource<BrokerListenerProperties> {
   @segment("listeners")
   name: string;
 
-  // Extended location is not included in ProxyResource yet
+  // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
   @visibility("read", "create")

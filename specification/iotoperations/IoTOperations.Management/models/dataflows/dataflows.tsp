@@ -15,7 +15,7 @@ namespace Private.IoTOperations;
  */
 @doc("Instance dataflowProfile dataflow resource")
 @parentResource(DataflowProfileResource)
-model DataflowResource is ProxyResource<DataflowProperties> {
+model DataflowResource is TrackedResource<DataflowProperties> {
   @doc("Name of Instance dataflowProfile dataflow resource")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @key("dataflowName")
@@ -25,7 +25,7 @@ model DataflowResource is ProxyResource<DataflowProperties> {
   @segment("dataflows")
   name: string;
 
-  // Extended location is not included in ProxyResource yet
+  // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
   @visibility("read", "create")
