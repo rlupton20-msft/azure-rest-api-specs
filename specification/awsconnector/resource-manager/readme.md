@@ -279,8 +279,11 @@ directive:
       - efsMountTarget.json
       - eksCluster.json
       - eksNodegroup.json
+      - elasticBeanstalkConfigurationTemplate.json
       - elasticBeanstalkEnvironment.json
+      - elasticLoadBalancingLoadBalancer.json
       - elasticLoadBalancingV2Listener.json
+      - elasticLoadBalancingV2ListenerRule.json
       - elasticLoadBalancingV2LoadBalancer.json
       - elasticLoadBalancingV2TargetGroup.json
       - elasticsearchDomain.json
@@ -340,7 +343,6 @@ directive:
 ```
 
 ---
-
 # Code Generation
 
 ## Swagger to SDK
