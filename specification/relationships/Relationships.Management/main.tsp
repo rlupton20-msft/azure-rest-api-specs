@@ -29,10 +29,6 @@ enum Versions {
  * Base relationship types definitions
  */
 
-alias ServiceExplicitlyCreated = "ServiceExplicitlyCreated";
-
-alias UserExplicitlyCreated = "UserExplicitlyCreated";
-
 @doc("Provides information about the origin of a relationship.")
 model RelationshipOriginInformation<TOrigin = string> {
   @doc("Identifies the origin type of the relationship.")
@@ -69,6 +65,7 @@ model RelationshipTarget {
   tenant?: string;
 }
 
+@doc("The provisioning state of the resource.")
 @lroStatus
 union ProvisioningState {
   ResourceProvisioningState,
@@ -117,10 +114,12 @@ model BaseRelationshipProperties<TOrigin> {
 @doc("The possible origins of a dependencyOf relationship.")
 union DependencyOfOrigins {
   @doc("The relationship was explicitly created by a system.")
-  serviceExplicitlyCreated: ServiceExplicitlyCreated,
+  ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
 
   @doc("The relationship was explicitly created by a user.")
-  userExplicitlyCreated: UserExplicitlyCreated,
+  UserExplicitlyCreated: "UserExplicitlyCreated",
+
+  string
 }
 
 @doc("dependencyOf relationship properties.")
@@ -146,10 +145,12 @@ model DependencyOfRelationship
 @doc("The possible origins of a ServiceGroupMember relationship.")
 union ServiceGroupMemberOrigins {
   @doc("The relationship was explicitly created by a system.")
-  serviceExplicitlyCreated: ServiceExplicitlyCreated,
+  ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
 
   @doc("The relationship was explicitly created by a user.")
-  userExplicitlyCreated: UserExplicitlyCreated,
+  UserExplicitlyCreated: "UserExplicitlyCreated",
+
+  string
 }
 
 @doc("ServiceGroupMember relationship properties.")
