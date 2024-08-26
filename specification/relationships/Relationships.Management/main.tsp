@@ -1,7 +1,5 @@
-import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -10,7 +8,6 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
 @service({
@@ -54,27 +51,55 @@ model RelationshipMetadata {
   targetType: string;
 }
 
-/** The provisioning state of a resource. */
-@lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+@doc("The source of a relationship.")
+model RelationshipSource {
+  @doc("The resource id of the relationship source.")
+  id: string;
 
-  /** The relationship is being provisioned */
-  Provisioning,
+  @doc("The tenant of the relationship source.")
+  tenant: string;
+}
+
+@doc("The target of a relationship.")
+model RelationshipTarget {
+  @doc("The resource id of the relationship target.")
+  id: string;
+
+  @doc("The tenant of the relationship target.")
+  tenant?: string;
+}
+
+@lroStatus
+union ProvisioningState {
+  ResourceProvisioningState,
+
+  /** The resource is being provisioned. */
+  Provisioning: "Provisioning",
+
+  /** The resource is being updated. */
+  Updating: "Updating",
+
+  /** The resource is being deleted. */
+  Deleting: "Deleting",
+
+  /** The resource provisioning request has been accepted. */
+  Accepted: "Accepted",
+
+  string,
 }
 
 @doc("Base relationship properties.")
 model BaseRelationshipProperties<TOrigin> {
   @doc("The source of the current relationship.")
   @visibility("read")
-  sourceId: string;
+  source: RelationshipSource;
 
   @doc("The target of the current relationship.")
-  targetId: string;
+  target: RelationshipTarget;
 
   @doc("Metadata about the relationship.")
   @visibility("read")
-  relationshipMetadata: RelationshipMetadata;
+  metadata: RelationshipMetadata;
 
   @doc("Information about the origin of the relationship.")
   @visibility("read")
@@ -149,16 +174,16 @@ model ServiceGroupMemberRelationship
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-interface Relationships<TRelationship extends ArmResource> {
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<TRelationship>;
-  get is ArmResourceRead<TRelationship>;
-  delete is ArmResourceDeleteSync<TRelationship>;
+@armResourceOperations
+interface DependencyOfRelationships {
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DependencyOfRelationship>;
+  get is ArmResourceRead<DependencyOfRelationship>;
+  delete is ArmResourceDeleteWithoutOkAsync<DependencyOfRelationship>;
 }
 
 @armResourceOperations
-interface DependencyOfRelationships
-  extends Relationships<DependencyOfRelationship> {}
-
-@armResourceOperations
-interface ServiceGroupMemberRelationships
-  extends Relationships<ServiceGroupMemberRelationship> {}
+interface ServiceGroupMemberRelationships {
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ServiceGroupMemberRelationship>;
+  get is ArmResourceRead<ServiceGroupMemberRelationship>;
+  delete is ArmResourceDeleteWithoutOkAsync<ServiceGroupMemberRelationship>;
+}

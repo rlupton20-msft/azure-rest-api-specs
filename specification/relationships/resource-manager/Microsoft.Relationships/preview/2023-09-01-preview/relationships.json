@@ -137,6 +137,10 @@
               "$ref": "#/definitions/DependencyOfRelationship"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -184,8 +188,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -201,7 +216,11 @@
           "DependencyOfRelationships_Delete": {
             "$ref": "./examples/DependencyOfRelationships_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}": {
@@ -291,6 +310,10 @@
               "$ref": "#/definitions/ServiceGroupMemberRelationship"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -338,8 +361,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -355,7 +389,11 @@
           "ServiceGroupMemberRelationships_Delete": {
             "$ref": "./examples/ServiceGroupMemberRelationships_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/providers/Microsoft.Relationships/operations": {
@@ -426,12 +464,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DependencyOfRelationshipProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -444,16 +477,16 @@
       "type": "object",
       "description": "dependencyOf relationship properties.",
       "properties": {
-        "sourceId": {
-          "type": "string",
+        "source": {
+          "$ref": "#/definitions/RelationshipSource",
           "description": "The source of the current relationship.",
           "readOnly": true
         },
-        "targetId": {
-          "type": "string",
+        "target": {
+          "$ref": "#/definitions/RelationshipTarget",
           "description": "The target of the current relationship."
         },
-        "relationshipMetadata": {
+        "metadata": {
           "$ref": "#/definitions/RelationshipMetadata",
           "description": "Metadata about the relationship.",
           "readOnly": true
@@ -480,20 +513,22 @@
         }
       },
       "required": [
-        "sourceId",
-        "targetId",
-        "relationshipMetadata",
+        "source",
+        "target",
+        "metadata",
         "originInformation"
       ]
     },
     "ProvisioningState": {
       "type": "string",
-      "description": "The provisioning state of a resource.",
       "enum": [
         "Succeeded",
         "Failed",
         "Canceled",
-        "Provisioning"
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
@@ -517,7 +552,22 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "The relationship is being provisioned"
+            "description": "The resource is being provisioned."
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The resource is being updated."
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The resource is being deleted."
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource provisioning request has been accepted."
           }
         ]
       }
@@ -540,6 +590,41 @@
       "required": [
         "sourceType",
         "targetType"
+      ]
+    },
+    "RelationshipSource": {
+      "type": "object",
+      "description": "The source of a relationship.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The resource id of the relationship source."
+        },
+        "tenant": {
+          "type": "string",
+          "description": "The tenant of the relationship source."
+        }
+      },
+      "required": [
+        "id",
+        "tenant"
+      ]
+    },
+    "RelationshipTarget": {
+      "type": "object",
+      "description": "The target of a relationship.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The resource id of the relationship target."
+        },
+        "tenant": {
+          "type": "string",
+          "description": "The tenant of the relationship target."
+        }
+      },
+      "required": [
+        "id"
       ]
     },
     "ServiceGroupMemberOrigins": {
@@ -572,12 +657,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ServiceGroupMemberRelationshipProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -590,16 +670,16 @@
       "type": "object",
       "description": "ServiceGroupMember relationship properties.",
       "properties": {
-        "sourceId": {
-          "type": "string",
+        "source": {
+          "$ref": "#/definitions/RelationshipSource",
           "description": "The source of the current relationship.",
           "readOnly": true
         },
-        "targetId": {
-          "type": "string",
+        "target": {
+          "$ref": "#/definitions/RelationshipTarget",
           "description": "The target of the current relationship."
         },
-        "relationshipMetadata": {
+        "metadata": {
           "$ref": "#/definitions/RelationshipMetadata",
           "description": "Metadata about the relationship.",
           "readOnly": true
@@ -626,29 +706,11 @@
         }
       },
       "required": [
-        "sourceId",
-        "targetId",
-        "relationshipMetadata",
+        "source",
+        "target",
+        "metadata",
         "originInformation"
       ]
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Relationships RP API Versions",
-      "enum": [
-        "2023-09-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "2023-09-01-preview",
-            "value": "2023-09-01-preview",
-            "description": "2023-09-01-preview version"
-          }
-        ]
-      }
     }
   },
   "parameters": {
