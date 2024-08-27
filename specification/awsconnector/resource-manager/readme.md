@@ -248,6 +248,7 @@ directive:
       - cloudWatchAlarm.json
       - codeBuildSourceCredential.json
       - daxCluster.json
+      - dmsReplicationInstance.json
       - dynamoDBContinuousBackupsDescription.json
       - dynamoDBTable.json
       - ec2AccountAttribute.json
@@ -290,10 +291,16 @@ directive:
       - emrCluster.json
       - emrClusterSummary.json
       - guardDutyDetector.json
+      - iamAccessKey.json
       - iamGroup.json
+      - iamGroupPolicy.json
       - iamInstanceProfile.json
       - iamManagedPolicy.json
+      - iamPasswordPolicy.json
+      - iamPolicyVersion.json
+      - iamRolePolicy.json
       - iamServerCertificate.json
+      - iamUser.json
       - iamUserPolicy.json
       - iamVirtualMFADevice.json
       - kmsAlias.json
@@ -323,6 +330,7 @@ directive:
       - redshiftCluster.json
       - redshiftClusterParameterGroup.json
       - route53HostedZone.json
+      - route53RecordSet.json
       - s3AccessPoint.json
       - s3Bucket.json
       - s3BucketPolicy.json
@@ -331,6 +339,7 @@ directive:
       - sageMakerImage.json
       - sageMakerNotebookInstance.json
       - secretsManagerResourcePolicy.json
+      - secretsManagerSecret.json
       - snsSubscription.json
       - snsTopic.json
       - sqsQueue.json
