@@ -258,6 +258,7 @@ directive:
       - ec2Image.json
       - ec2Instance.json
       - ec2InstanceStatus.json
+      - ec2InstanceTypeInfo.json
       - ec2Ipam.json
       - ec2KeyPair.json
       - ec2NetworkAcl.json
@@ -329,6 +330,7 @@ directive:
       - rdsExportTask.json
       - redshiftCluster.json
       - redshiftClusterParameterGroup.json
+      - route53DomainsDomainSummary.json
       - route53HostedZone.json
       - route53RecordSet.json
       - s3AccessPoint.json
@@ -343,6 +345,7 @@ directive:
       - snsSubscription.json
       - snsTopic.json
       - sqsQueue.json
+      - ssmInstanceInformation.json
       - ssmParameter.json
       - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
