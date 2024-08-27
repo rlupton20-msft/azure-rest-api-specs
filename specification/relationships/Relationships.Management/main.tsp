@@ -36,24 +36,19 @@ model RelationshipOriginInformation<TOrigin = string> {
   relationshipOriginType: TOrigin;
 }
 
-@doc("Provides information about the relationship properties.")
-model RelationshipMetadata {
-  @doc("The type of the relationship source resource.")
-  @visibility("read")
-  sourceType: string;
-
-  @doc("The type of the relationship target resource.")
-  @visibility("read")
-  targetType: string;
-}
-
 @doc("The source of a relationship.")
 model RelationshipSource {
   @doc("The resource id of the relationship source.")
+  @visibility("read")
   id: string;
 
   @doc("The tenant of the relationship source.")
+  @visibility("read")
   tenant: string;
+
+  @doc("The type of the relationship source.")
+  @visibility("read")
+  type: string;
 }
 
 @doc("The target of a relationship.")
@@ -63,6 +58,10 @@ model RelationshipTarget {
 
   @doc("The tenant of the relationship target.")
   tenant?: string;
+
+  @doc("the type of the relationship target.")
+  @visibility("read")
+  type: string;
 }
 
 @doc("The provisioning state of the resource.")
@@ -93,10 +92,6 @@ model BaseRelationshipProperties<TOrigin> {
 
   @doc("The target of the current relationship.")
   target: RelationshipTarget;
-
-  @doc("Metadata about the relationship.")
-  @visibility("read")
-  metadata: RelationshipMetadata;
 
   @doc("Information about the origin of the relationship.")
   @visibility("read")
@@ -139,7 +134,7 @@ model DependencyOfRelationship
 }
 
 /*
- * ServiceGroupMember relationship type definition
+ * serviceGroupMember relationship type definition
  */
 
 @doc("The possible origins of a ServiceGroupMember relationship.")
