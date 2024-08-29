@@ -246,6 +246,7 @@ directive:
       - cloudFormationStackSet.json
       - cloudTrailTrail.json
       - cloudWatchAlarm.json
+      - codeBuildProject.json
       - codeBuildSourceCredential.json
       - daxCluster.json
       - dmsReplicationInstance.json
@@ -281,6 +282,7 @@ directive:
       - efsMountTarget.json
       - eksCluster.json
       - eksNodegroup.json
+      - elasticBeanstalkApplication.json
       - elasticBeanstalkConfigurationTemplate.json
       - elasticBeanstalkEnvironment.json
       - elasticLoadBalancingLoadBalancer.json
@@ -299,6 +301,7 @@ directive:
       - iamManagedPolicy.json
       - iamPasswordPolicy.json
       - iamPolicyVersion.json
+      - iamRole.json
       - iamRolePolicy.json
       - iamServerCertificate.json
       - iamUser.json
@@ -336,6 +339,7 @@ directive:
       - s3AccessPoint.json
       - s3Bucket.json
       - s3BucketPolicy.json
+      - s3MultiRegionAccessPointPolicy.json
       - sageMakerApp.json
       - sageMakerDevice.json
       - sageMakerImage.json
@@ -349,6 +353,7 @@ directive:
       - ssmParameter.json
       - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
+      - wafv2LoggingConfiguration.json
       - wafv2WebACLAssociation.json
       - wafWebACL.json
       - wafWebACLSummary.json
