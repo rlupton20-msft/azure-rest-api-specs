@@ -36,9 +36,13 @@ model GenericGenevaActionsResourceProperties {
   @extension("x-ms-identifiers", [])
   parameters?: Array<Parameter>;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: GenericGenevaActionsProvisioningState;
+
+  @doc("Resource event argument result; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  genericGenevaActionsOpResult?: string;
 }
 
 @doc("genericGenevaActions Resource")

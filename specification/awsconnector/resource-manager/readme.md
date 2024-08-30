@@ -237,18 +237,29 @@ directive:
     reason: Workaround for Known Issue BodyTopLevelProperties check is failing https://github.com/Azure/azure-openapi-validator/issues/722 
     from:
       - accessAnalyzerAnalyzer.json
+      - acmCertificateSummary.json
       - apiGatewayRestApi.json
       - apiGatewayStage.json
       - applicationAutoScalingScalableTarget.json
+      - certificateManagerCertificate.json
       - cloudFormationStack.json
       - cloudFormationStackSet.json
       - cloudTrailTrail.json
       - cloudWatchAlarm.json
+      - codeBuildProject.json
+      - codeBuildSourceCredential.json
+      - daxCluster.json
+      - dmsReplicationInstance.json
+      - dynamoDBContinuousBackupsDescription.json
       - dynamoDBTable.json
+      - ec2AccountAttribute.json
+      - ec2Address.json
+      - ec2CreateVolumePermission.json
       - ec2FlowLog.json
       - ec2Image.json
       - ec2Instance.json
       - ec2InstanceStatus.json
+      - ec2InstanceTypeInfo.json
       - ec2Ipam.json
       - ec2KeyPair.json
       - ec2NetworkAcl.json
@@ -271,18 +282,32 @@ directive:
       - efsMountTarget.json
       - eksCluster.json
       - eksNodegroup.json
+      - elasticBeanstalkApplication.json
+      - elasticBeanstalkConfigurationTemplate.json
       - elasticBeanstalkEnvironment.json
+      - elasticLoadBalancingLoadBalancer.json
       - elasticLoadBalancingV2Listener.json
+      - elasticLoadBalancingV2ListenerRule.json
       - elasticLoadBalancingV2LoadBalancer.json
       - elasticLoadBalancingV2TargetGroup.json
       - elasticsearchDomain.json
+      - emrCluster.json
+      - emrClusterSummary.json
       - guardDutyDetector.json
+      - iamAccessKey.json
       - iamGroup.json
+      - iamGroupPolicy.json
       - iamInstanceProfile.json
       - iamManagedPolicy.json
+      - iamPasswordPolicy.json
+      - iamPolicyVersion.json
+      - iamRole.json
+      - iamRolePolicy.json
       - iamServerCertificate.json
+      - iamUser.json
       - iamUserPolicy.json
       - iamVirtualMFADevice.json
+      - kmsAlias.json
       - kmsKey.json
       - lambdaFunction.json
       - licenseManagerLicense.json
@@ -292,6 +317,7 @@ directive:
       - logsLogStream.json
       - logsMetricFilter.json
       - logsSubscriptionFilter.json
+      - macie2JobSummary.json
       - macieAllowList.json
       - networkFirewallFirewall.json
       - networkFirewallFirewallPolicy.json
@@ -302,24 +328,38 @@ directive:
       - organizationsOrganization.json
       - rdsDBCluster.json
       - rdsDBInstance.json
+      - rdsDBSnapshotAttributesResult.json
       - rdsEventSubscription.json
+      - rdsExportTask.json
       - redshiftCluster.json
       - redshiftClusterParameterGroup.json
+      - route53DomainsDomainSummary.json
       - route53HostedZone.json
+      - route53RecordSet.json
       - s3AccessPoint.json
       - s3Bucket.json
       - s3BucketPolicy.json
+      - s3MultiRegionAccessPointPolicy.json
       - sageMakerApp.json
       - sageMakerDevice.json
       - sageMakerImage.json
+      - sageMakerNotebookInstance.json
+      - secretsManagerResourcePolicy.json
+      - secretsManagerSecret.json
+      - snsSubscription.json
       - snsTopic.json
       - sqsQueue.json
+      - ssmInstanceInformation.json
+      - ssmParameter.json
+      - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
+      - wafv2LoggingConfiguration.json
       - wafv2WebACLAssociation.json
+      - wafWebACL.json
+      - wafWebACLSummary.json
 ```
 
 ---
-
 # Code Generation
 
 ## Swagger to SDK

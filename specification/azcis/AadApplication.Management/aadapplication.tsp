@@ -41,20 +41,16 @@ model AadApplicationResourceProperties {
   @visibility("read")
   provisioningState?: AadApplicationProvisioningState;
 
-  @doc("Result data of the resource provisioning.")
-  @visibility("read")
-  resultData?: AadApplicationResultData;
-}
-
-@doc("Result data of the resource provisioning.")
-model AadApplicationResultData {
-  @doc("Application ID.")
+  @doc("Application ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   applicationId?: string;
 
-  @doc("Object ID.")
+  @doc("Object ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   objectId?: string;
 
-  @doc("Service Principal Object ID.")
+  @doc("Service Principal Object ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   servicePrincipalObjectId?: string;
 }
 

@@ -1003,6 +1003,27 @@
         }
       ]
     },
+    "NamespaceIdentity": {
+      "type": "object",
+      "description": "The backing MI identity for the namespace used for authentication to other services.",
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "description": "Principal id for the namespace resource.",
+          "readOnly": true
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant id for the AAD tenant.",
+          "readOnly": true
+        },
+        "identityUrl": {
+          "type": "string",
+          "description": "The URL to the data plane of MSI for NameSpace resource.",
+          "readOnly": true
+        }
+      }
+    },
     "NamespaceListResult": {
       "type": "object",
       "description": "The response of a Namespace list operation.",
@@ -1028,10 +1049,50 @@
       "type": "object",
       "description": "Defines the container Namespace proprties.",
       "properties": {
+        "adrStateEnabled": {
+          "type": "boolean",
+          "description": "Indicates if the adr state is enabled or not.",
+          "default": false
+        },
+        "adrStateEndpoint": {
+          "type": "string",
+          "description": "Indicates the adr state endpoint."
+        },
+        "namespaceIdentity": {
+          "$ref": "#/definitions/NamespaceIdentity",
+          "description": "Identity for the resource."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DeviceEndpoints",
+          "description": "Property bag containing the device's unassigned and assigned endpoints."
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of the resource.",
           "readOnly": true
+        }
+      }
+    },
+    "NamespacePropertiesUpdate": {
+      "type": "object",
+      "description": "Defines the container registry proprties.",
+      "properties": {
+        "adrStateEnabled": {
+          "type": "boolean",
+          "description": "Indicates if the adr state is enabled or not.",
+          "default": false
+        },
+        "adrStateEndpoint": {
+          "type": "string",
+          "description": "Indicates the adr state endpoint."
+        },
+        "namespaceIdentity": {
+          "$ref": "#/definitions/NamespaceIdentity",
+          "description": "Identity for the resource."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DeviceEndpointsUpdate",
+          "description": "Property bag containing the device's unassigned and assigned endpoints."
         }
       }
     },
@@ -1040,7 +1101,7 @@
       "description": "Namespace definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/NamespaceProperties",
+          "$ref": "#/definitions/NamespacePropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         },
         "identity": {

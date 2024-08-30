@@ -12,9 +12,8 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.SustainabilityServices")
 @service({
-  title: "Microsoft.SustainabilityServices"
+  title: "Microsoft.SustainabilityServices",
 })
-
 @versioned(Microsoft.SustainabilityServices.Versions)
 namespace Microsoft.SustainabilityServices;
 
@@ -25,7 +24,6 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_10_01_preview: "2024-10-01-preview",
 }
-
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -38,28 +36,38 @@ model CalculationResource is TrackedResource<CalculationResourceProperties> {
   @key("calculationResourceName")
   @segment("calculations")
   @path
+  @visibility("read")
   name: string;
 
-  ...ManagedServiceIdentity;
-  ...ResourceSku;
+  ...ManagedServiceIdentityProperty;
+  ...ResourceSkuProperty;
 }
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  string,
 
-  @doc("Initial provisioning in progress")
-  Provisioning,
+  /** Resource has been created. */
+  Succeeded: "Succeeded",
 
-  @doc("Update in progress")
-  Updating,
+  /** Resource creation failed. */
+  Failed: "Failed",
 
-  @doc("Deletion in progress")
-  Deleting,
+  /** Resource creation was canceled. */
+  Canceled: "Canceled",
 
-  @doc("Change accepted for processing")
-  Accepted,
+  /** Initial provisioning in progress */
+  Provisioning: "Provisioning",
+
+  /** Update in progress */
+  Updating: "Updating",
+
+  /** Deletion in progress */
+  Deleting: "Deleting",
+
+  /** Change accepted for processing */
+  Accepted: "Accepted",
 }
 
 @doc("Details of the SustainabilityServices Calculations.")
@@ -79,7 +87,7 @@ model CalculationResourceProperties {
 
   @doc("DDoS Protection Plan")
   @visibility("read", "create")
-  ddosplan?: string;
+  ddosPlan?: string;
 
   @visibility("read")
   @doc("Service Url")
@@ -150,13 +158,16 @@ model AzureFrontDoorProfile {
   @doc("Resource Id of AzureFrontDoor Resource")
   @visibility("read")
   id?: string;
-  }
+}
 
 @armResourceOperations(CalculationResource)
-interface Calculations  {
+interface Calculations {
   get is ArmResourceRead<CalculationResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CalculationResource>;
-  update is ArmResourcePatchAsync<CalculationResource, CalculationResourceProperties>;
+  update is ArmCustomPatchAsync<
+    CalculationResource,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<CalculationResource,CalculationResourceProperties>
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<CalculationResource>;
   listByResourceGroup is ArmResourceListByParent<CalculationResource>;
   listBySubscription is ArmListBySubscription<CalculationResource>;
