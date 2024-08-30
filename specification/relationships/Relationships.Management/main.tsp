@@ -32,36 +32,10 @@ enum Versions {
 @doc("Provides information about the origin of a relationship.")
 model RelationshipOriginInformation<TOrigin = string> {
   @doc("Identifies the origin type of the relationship.")
-  @visibility("read")
   relationshipOriginType: TOrigin;
-}
 
-@doc("The source of a relationship.")
-model RelationshipSource {
-  @doc("The resource id of the relationship source.")
-  @visibility("read")
-  id: string;
-
-  @doc("The tenant of the relationship source.")
-  @visibility("read")
-  tenant: string;
-
-  @doc("The type of the relationship source.")
-  @visibility("read")
-  type: string;
-}
-
-@doc("The target of a relationship.")
-model RelationshipTarget {
-  @doc("The resource id of the relationship target.")
-  id: string;
-
-  @doc("The tenant of the relationship target.")
-  tenant?: string;
-
-  @doc("the type of the relationship target.")
-  @visibility("read")
-  type: string;
+  @doc("The name of the discovery engine that created the relationship.")
+  discoveryEngine?: string
 }
 
 @doc("The provisioning state of the resource.")
@@ -86,15 +60,17 @@ union ProvisioningState {
 
 @doc("Base relationship properties.")
 model BaseRelationshipProperties<TOrigin> {
-  @doc("The source of the current relationship.")
+  @doc("The relationship source resource id.")
   @visibility("read")
-  source: RelationshipSource;
+  sourceId: string;
 
-  @doc("The target of the current relationship.")
-  target: RelationshipTarget;
+  @doc("The relationship target resource id.")
+  targetId: string;
+
+  @doc("The relationship target tenant id.")
+  targetTenant?: string;
 
   @doc("Information about the origin of the relationship.")
-  @visibility("read")
   originInformation: RelationshipOriginInformation<TOrigin>;
 
   @doc("The provisioning state of the relationship.")
@@ -111,8 +87,14 @@ union DependencyOfOrigins {
   @doc("The relationship was explicitly created by a system.")
   ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
 
+  @doc("The relationship was discovered by a system-created rule.")
+  SystemDiscoveredByRule: "SystemDiscoveredByRule",
+
   @doc("The relationship was explicitly created by a user.")
   UserExplicitlyCreated: "UserExplicitlyCreated",
+
+  @doc("The relationship was discovered by a user-created rule.")
+  UserDiscoveredByRule: "UserDiscoveredByRule",
 
   string,
 }
@@ -142,8 +124,14 @@ union ServiceGroupMemberOrigins {
   @doc("The relationship was explicitly created by a system.")
   ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
 
+  @doc("The relationship was discovered by a system-created rule.")
+  SystemDiscoveredByRule: "SystemDiscoveredByRule",
+
   @doc("The relationship was explicitly created by a user.")
   UserExplicitlyCreated: "UserExplicitlyCreated",
+
+  @doc("The relationship was discovered by a user-created rule.")
+  UserDiscoveredByRule: "UserDiscoveredByRule",
 
   string,
 }
