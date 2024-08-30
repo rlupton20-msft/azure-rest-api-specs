@@ -35,7 +35,7 @@ model RelationshipOriginInformation<TOrigin = string> {
   relationshipOriginType: TOrigin;
 
   @doc("The name of the discovery engine that created the relationship.")
-  discoveryEngine?: string
+  discoveryEngine?: string;
 }
 
 @doc("The provisioning state of the resource.")
