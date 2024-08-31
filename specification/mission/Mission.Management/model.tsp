@@ -434,6 +434,7 @@ interface ExternalConnections {
 interface Approval {
   get is ArmResourceRead<ApprovalResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalResource>;
+  listByParent is ArmResourceListByParent<ApprovalResource>;
   update is ArmResourcePatchAsync<
     ApprovalResource,
     ApprovalProperties
