@@ -14,6 +14,7 @@ using Autorest;
 namespace Microsoft.AzureCis;
 
 @doc("PublishConfigValuesResource properties")
+@removed(Versions.v2024_08_31_preview)
 model PublishConfigValuesResourceProperties {
   @doc("The array of config whose value needs to be published.")
   @extension("x-ms-identifiers", [])
@@ -28,6 +29,7 @@ model PublishConfigValuesResourceProperties {
 }
 
 @doc("publishConfigValues Resource")
+@removed(Versions.v2024_08_31_preview)
 model PublishConfigValuesResource
   is ProxyResource<PublishConfigValuesResourceProperties> {
   @doc("The name of resource.")
@@ -40,6 +42,7 @@ model PublishConfigValuesResource
 }
 
 @doc("The config whose value needs to be published.")
+@removed(Versions.v2024_08_31_preview)
 model PublishValue {
   @doc("The unique name in CloudSprout whose value needs to be published.")
   moniker: string;
@@ -52,6 +55,7 @@ model PublishValue {
 }
 
 @doc("Scope. Optional.")
+@removed(Versions.v2024_08_31_preview)
 model Scope {
   @doc("GeoType. The valid value is Cloud.")
   geoType: string;
@@ -61,6 +65,7 @@ model Scope {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
+@removed(Versions.v2024_08_31_preview)
 @armResourceOperations
 interface PublishConfigValues {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<PublishConfigValuesResource>;
