@@ -34,4 +34,3 @@ union SharedConfigValuesProvisioningState {
   @doc("Accepted State")
   Accepted: "Accepted",
 }
-
