@@ -86,13 +86,32 @@ model SubscriptionResourceProperties {
   @doc("Ev2 Service Group of an existing subscription which is created by Ev2.")
   ev2ServiceGroup?: string;
 
-  @doc("DsmsRootFolders of SubscriptionManagement.")
+  @doc("DSMS Root Folders of SubscriptionManagement.")
   @extension("x-ms-identifiers", [])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: SubscriptionProvisioningState;
+
+  @doc("List of Subscription IDs; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  subscriptionId?: Array<string>;
+
+  @doc("List of RBAC Roles; a part of provisioning ResultData output.")
+  @extension("x-ms-identifiers", [])
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  rbacRoles?: Array<RbacRole>;
+  
+  @doc("List of ARM Features; a part of provisioning ResultData output.")
+  @extension("x-ms-identifiers", [])
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  armFeatures?: Array<ArmFeatureRegistration>;
+  
+  @doc("List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.")
+  @extension("x-ms-identifiers", [])
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  dsmsRootFolderWhitelists?: Array<DsmsFolderWhitelist>;
 }
 
 @doc("Subscription resource.")
@@ -107,6 +126,39 @@ model SubscriptionResource
   name: string;
 }
 
+@doc("ARM Feature registration.")
+model ArmFeatureRegistration {
+  @doc("Resource Provider namespace.")
+  resourceProviderNamespace: string;
+
+  @doc("Feature name.")
+  featureName: string;
+}
+
+@doc("DSMS Root Folder Whitelist.")
+model DsmsFolderWhitelist {
+  @doc("DSMS Root Folder path.")
+  folderPath: string;
+
+  @doc("DSMS Whitelist type.")
+  whitelistType: string;
+}
+
+@doc("RBAC Role.")
+model RbacRole {
+  @doc("Tenant id.")
+  tenantId: string;
+
+  @doc("Object id.")
+  objectId: string;
+
+  @doc("RoleDefinition id.")
+  roleDefinitionId: string;
+
+  @doc("Principal Type.")
+  principalType: string;
+}
+
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface Subscription {
@@ -114,13 +166,4 @@ interface Subscription {
   get is ArmResourceRead<SubscriptionResource>;
   listByResourceGroup is ArmResourceListByParent<SubscriptionResource>;
   listBySubscription is ArmListBySubscription<SubscriptionResource>;
-}
-
-@doc("Dsms folder whitelist object model.")
-model DsmsFolderWhitelist {
-  @doc("Dsms root folder path.")
-  folderPath: string;
-
-  @doc("Dsms whitelist type.")
-  whitelistType: string;
 }

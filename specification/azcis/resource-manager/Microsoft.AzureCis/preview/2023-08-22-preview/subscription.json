@@ -288,22 +288,68 @@
     }
   },
   "definitions": {
+    "ArmFeatureRegistration": {
+      "type": "object",
+      "description": "ARM Feature registration.",
+      "properties": {
+        "resourceProviderNamespace": {
+          "type": "string",
+          "description": "Resource Provider namespace."
+        },
+        "featureName": {
+          "type": "string",
+          "description": "Feature name."
+        }
+      },
+      "required": [
+        "resourceProviderNamespace",
+        "featureName"
+      ]
+    },
     "DsmsFolderWhitelist": {
       "type": "object",
-      "description": "Dsms folder whitelist object model.",
+      "description": "DSMS Root Folder Whitelist.",
       "properties": {
         "folderPath": {
           "type": "string",
-          "description": "Dsms root folder path."
+          "description": "DSMS Root Folder path."
         },
         "whitelistType": {
           "type": "string",
-          "description": "Dsms whitelist type."
+          "description": "DSMS Whitelist type."
         }
       },
       "required": [
         "folderPath",
         "whitelistType"
+      ]
+    },
+    "RbacRole": {
+      "type": "object",
+      "description": "RBAC Role.",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant id."
+        },
+        "objectId": {
+          "type": "string",
+          "description": "Object id."
+        },
+        "roleDefinitionId": {
+          "type": "string",
+          "description": "RoleDefinition id."
+        },
+        "principalType": {
+          "type": "string",
+          "description": "Principal Type."
+        }
+      },
+      "required": [
+        "tenantId",
+        "objectId",
+        "roleDefinitionId",
+        "principalType"
       ]
     },
     "SubscriptionProvisioningState": {
@@ -481,7 +527,7 @@
         },
         "dsmsFolderWhitelists": {
           "type": "array",
-          "description": "DsmsRootFolders of SubscriptionManagement.",
+          "description": "DSMS Root Folders of SubscriptionManagement.",
           "items": {
             "$ref": "#/definitions/DsmsFolderWhitelist"
           },
@@ -491,6 +537,41 @@
           "$ref": "#/definitions/SubscriptionProvisioningState",
           "description": "Provisioning status of the resource.",
           "readOnly": true
+        },
+        "subscriptionId": {
+          "type": "array",
+          "description": "List of Subscription IDs; a part of provisioning ResultData output.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "rbacRoles": {
+          "type": "array",
+          "description": "List of RBAC Roles; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/RbacRole"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "armFeatures": {
+          "type": "array",
+          "description": "List of ARM Features; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/ArmFeatureRegistration"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "dsmsRootFolderWhitelists": {
+          "type": "array",
+          "description": "List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/DsmsFolderWhitelist"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
         }
       },
       "required": [
