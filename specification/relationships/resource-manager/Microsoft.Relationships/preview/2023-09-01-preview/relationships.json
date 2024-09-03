@@ -434,41 +434,45 @@
     }
   },
   "definitions": {
-    "DependencyOfOrigins": {
-      "type": "string",
-      "description": "The possible origins of a dependencyOf relationship.",
-      "enum": [
-        "ServiceExplicitlyCreated",
-        "SystemDiscoveredByRule",
-        "UserExplicitlyCreated",
-        "UserDiscoveredByRule"
-      ],
-      "x-ms-enum": {
-        "name": "DependencyOfOrigins",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "ServiceExplicitlyCreated",
-            "value": "ServiceExplicitlyCreated",
-            "description": "The relationship was explicitly created by a system."
-          },
-          {
-            "name": "SystemDiscoveredByRule",
-            "value": "SystemDiscoveredByRule",
-            "description": "The relationship was discovered by a system-created rule."
-          },
-          {
-            "name": "UserExplicitlyCreated",
-            "value": "UserExplicitlyCreated",
-            "description": "The relationship was explicitly created by a user."
-          },
-          {
-            "name": "UserDiscoveredByRule",
-            "value": "UserDiscoveredByRule",
-            "description": "The relationship was discovered by a user-created rule."
-          }
-        ]
-      }
+    "BaseRelationshipProperties": {
+      "type": "object",
+      "description": "Base relationship properties.",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "description": "The relationship source resource id.",
+          "readOnly": true
+        },
+        "targetId": {
+          "type": "string",
+          "description": "The relationship target resource id."
+        },
+        "targetTenant": {
+          "type": "string",
+          "description": "The relationship target tenant id."
+        },
+        "originInformation": {
+          "$ref": "#/definitions/RelationshipOriginInformation",
+          "description": "Information about the origin of the relationship.",
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the relationship.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "sourceId",
+        "targetId",
+        "originInformation",
+        "metadata"
+      ]
     },
     "DependencyOfRelationship": {
       "type": "object",
@@ -503,21 +507,14 @@
           "description": "The relationship target tenant id."
         },
         "originInformation": {
-          "type": "object",
+          "$ref": "#/definitions/RelationshipOriginInformation",
           "description": "Information about the origin of the relationship.",
-          "properties": {
-            "relationshipOriginType": {
-              "$ref": "#/definitions/DependencyOfOrigins",
-              "description": "Identifies the origin type of the relationship."
-            },
-            "discoveryEngine": {
-              "type": "string",
-              "description": "The name of the discovery engine that created the relationship."
-            }
-          },
-          "required": [
-            "relationshipOriginType"
-          ]
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -528,7 +525,8 @@
       "required": [
         "sourceId",
         "targetId",
-        "originInformation"
+        "originInformation",
+        "metadata"
       ]
     },
     "ProvisioningState": {
@@ -585,9 +583,48 @@
         ]
       }
     },
-    "ServiceGroupMemberOrigins": {
+    "RelationshipMetadata": {
+      "type": "object",
+      "description": "Provides information about the relationship properties.",
+      "properties": {
+        "sourceType": {
+          "type": "string",
+          "description": "The type of the relationship source resource.",
+          "readOnly": true
+        },
+        "targetType": {
+          "type": "string",
+          "description": "The type of the relationship target resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "sourceType",
+        "targetType"
+      ]
+    },
+    "RelationshipOriginInformation": {
+      "type": "object",
+      "description": "Provides information about the origin of a relationship.",
+      "properties": {
+        "relationshipOriginType": {
+          "$ref": "#/definitions/RelationshipOrigins",
+          "description": "Identifies the origin type of the relationship.",
+          "readOnly": true
+        },
+        "discoveryEngine": {
+          "type": "string",
+          "description": "The name of the discovery engine that created the relationship.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "relationshipOriginType"
+      ]
+    },
+    "RelationshipOrigins": {
       "type": "string",
-      "description": "The possible origins of a ServiceGroupMember relationship.",
+      "description": "The possible origins ofa relationship.",
       "enum": [
         "ServiceExplicitlyCreated",
         "SystemDiscoveredByRule",
@@ -595,7 +632,7 @@
         "UserDiscoveredByRule"
       ],
       "x-ms-enum": {
-        "name": "ServiceGroupMemberOrigins",
+        "name": "RelationshipOrigins",
         "modelAsString": true,
         "values": [
           {
@@ -654,21 +691,14 @@
           "description": "The relationship target tenant id."
         },
         "originInformation": {
-          "type": "object",
+          "$ref": "#/definitions/RelationshipOriginInformation",
           "description": "Information about the origin of the relationship.",
-          "properties": {
-            "relationshipOriginType": {
-              "$ref": "#/definitions/ServiceGroupMemberOrigins",
-              "description": "Identifies the origin type of the relationship."
-            },
-            "discoveryEngine": {
-              "type": "string",
-              "description": "The name of the discovery engine that created the relationship."
-            }
-          },
-          "required": [
-            "relationshipOriginType"
-          ]
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -679,7 +709,8 @@
       "required": [
         "sourceId",
         "targetId",
-        "originInformation"
+        "originInformation",
+        "metadata"
       ]
     }
   },

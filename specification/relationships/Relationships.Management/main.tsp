@@ -29,12 +29,42 @@ enum Versions {
  * Base relationship types definitions
  */
 
+@doc("Provides information about the relationship properties.")
+model RelationshipMetadata {
+  @doc("The type of the relationship source resource.")
+  @visibility("read")
+  sourceType: string;
+
+  @doc("The type of the relationship target resource.")
+  @visibility("read")
+  targetType: string;
+}
+
+@doc("The possible origins ofa relationship.")
+union RelationshipOrigins {
+  @doc("The relationship was explicitly created by a system.")
+  ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
+
+  @doc("The relationship was discovered by a system-created rule.")
+  SystemDiscoveredByRule: "SystemDiscoveredByRule",
+
+  @doc("The relationship was explicitly created by a user.")
+  UserExplicitlyCreated: "UserExplicitlyCreated",
+
+  @doc("The relationship was discovered by a user-created rule.")
+  UserDiscoveredByRule: "UserDiscoveredByRule",
+
+  string,
+}
+
 @doc("Provides information about the origin of a relationship.")
-model RelationshipOriginInformation<TOrigin = string> {
+model RelationshipOriginInformation {
   @doc("Identifies the origin type of the relationship.")
-  relationshipOriginType: TOrigin;
+  @visibility("read")
+  relationshipOriginType: RelationshipOrigins;
 
   @doc("The name of the discovery engine that created the relationship.")
+  @visibility("read")
   discoveryEngine?: string;
 }
 
@@ -59,7 +89,7 @@ union ProvisioningState {
 }
 
 @doc("Base relationship properties.")
-model BaseRelationshipProperties<TOrigin> {
+model BaseRelationshipProperties {
   @doc("The relationship source resource id.")
   @visibility("read")
   sourceId: string;
@@ -71,7 +101,12 @@ model BaseRelationshipProperties<TOrigin> {
   targetTenant?: string;
 
   @doc("Information about the origin of the relationship.")
-  originInformation: RelationshipOriginInformation<TOrigin>;
+  @visibility("read")
+  originInformation: RelationshipOriginInformation;
+
+  @doc("Metadata about the relationship.")
+  @visibility("read")
+  metadata: RelationshipMetadata;
 
   @doc("The provisioning state of the relationship.")
   @visibility("read")
@@ -82,26 +117,9 @@ model BaseRelationshipProperties<TOrigin> {
  * dependencyOf relationship type definition
  */
 
-@doc("The possible origins of a dependencyOf relationship.")
-union DependencyOfOrigins {
-  @doc("The relationship was explicitly created by a system.")
-  ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
-
-  @doc("The relationship was discovered by a system-created rule.")
-  SystemDiscoveredByRule: "SystemDiscoveredByRule",
-
-  @doc("The relationship was explicitly created by a user.")
-  UserExplicitlyCreated: "UserExplicitlyCreated",
-
-  @doc("The relationship was discovered by a user-created rule.")
-  UserDiscoveredByRule: "UserDiscoveredByRule",
-
-  string,
-}
-
 @doc("dependencyOf relationship properties.")
 model DependencyOfRelationshipProperties
-  is BaseRelationshipProperties<DependencyOfOrigins>;
+  is BaseRelationshipProperties;
 
 @doc("Defines a dependencyOf relationship resource.")
 model DependencyOfRelationship
@@ -119,26 +137,9 @@ model DependencyOfRelationship
  * serviceGroupMember relationship type definition
  */
 
-@doc("The possible origins of a ServiceGroupMember relationship.")
-union ServiceGroupMemberOrigins {
-  @doc("The relationship was explicitly created by a system.")
-  ServiceExplicitlyCreated: "ServiceExplicitlyCreated",
-
-  @doc("The relationship was discovered by a system-created rule.")
-  SystemDiscoveredByRule: "SystemDiscoveredByRule",
-
-  @doc("The relationship was explicitly created by a user.")
-  UserExplicitlyCreated: "UserExplicitlyCreated",
-
-  @doc("The relationship was discovered by a user-created rule.")
-  UserDiscoveredByRule: "UserDiscoveredByRule",
-
-  string,
-}
-
 @doc("ServiceGroupMember relationship properties.")
 model ServiceGroupMemberRelationshipProperties
-  is BaseRelationshipProperties<ServiceGroupMemberOrigins>;
+  is BaseRelationshipProperties;
 
 @doc("Defines a ServiceGroupMember relationship resource.")
 model ServiceGroupMemberRelationship
