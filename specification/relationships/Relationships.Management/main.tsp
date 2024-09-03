@@ -118,8 +118,7 @@ model BaseRelationshipProperties {
  */
 
 @doc("dependencyOf relationship properties.")
-model DependencyOfRelationshipProperties
-  is BaseRelationshipProperties;
+model DependencyOfRelationshipProperties is BaseRelationshipProperties;
 
 @doc("Defines a dependencyOf relationship resource.")
 model DependencyOfRelationship
@@ -138,8 +137,7 @@ model DependencyOfRelationship
  */
 
 @doc("ServiceGroupMember relationship properties.")
-model ServiceGroupMemberRelationshipProperties
-  is BaseRelationshipProperties;
+model ServiceGroupMemberRelationshipProperties is BaseRelationshipProperties;
 
 @doc("Defines a ServiceGroupMember relationship resource.")
 model ServiceGroupMemberRelationship
