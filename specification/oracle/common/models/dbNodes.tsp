@@ -59,10 +59,10 @@ model DbNodeProperties {
   hostname: string;
 
   @doc("The current state of the database node.")
-  lifecycleState: DbNodeProvisioningState;
+  lifecycleState?: DbNodeProvisioningState;
 
   @doc("Lifecycle details of Db Node.")
-  lifecycleDetails: string;
+  lifecycleDetails?: string;
 
   @doc("The type of database node maintenance.")
   maintenanceType: DbNodeMaintenanceType;
