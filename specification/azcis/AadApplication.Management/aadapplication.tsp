@@ -37,6 +37,9 @@ model AadApplicationResourceProperties {
   @doc("List of the certificates paths for an AAD Application resource.")
   certificates?: Array<string>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: AadApplicationProvisioningState;
