@@ -137,6 +137,10 @@
               "$ref": "#/definitions/DependencyOfRelationship"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -184,8 +188,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -201,7 +216,11 @@
           "DependencyOfRelationships_Delete": {
             "$ref": "./examples/DependencyOfRelationships_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}": {
@@ -291,6 +310,10 @@
               "$ref": "#/definitions/ServiceGroupMemberRelationship"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -338,8 +361,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -355,7 +389,11 @@
           "ServiceGroupMemberRelationships_Delete": {
             "$ref": "./examples/ServiceGroupMemberRelationships_Delete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/providers/Microsoft.Relationships/operations": {
@@ -396,29 +434,45 @@
     }
   },
   "definitions": {
-    "DependencyOfOrigins": {
-      "type": "string",
-      "description": "The possible origins of a dependencyOf relationship.",
-      "enum": [
-        "ServiceExplicitlyCreated",
-        "UserExplicitlyCreated"
-      ],
-      "x-ms-enum": {
-        "name": "DependencyOfOrigins",
-        "modelAsString": false,
-        "values": [
-          {
-            "name": "serviceExplicitlyCreated",
-            "value": "ServiceExplicitlyCreated",
-            "description": "The relationship was explicitly created by a system."
-          },
-          {
-            "name": "userExplicitlyCreated",
-            "value": "UserExplicitlyCreated",
-            "description": "The relationship was explicitly created by a user."
-          }
-        ]
-      }
+    "BaseRelationshipProperties": {
+      "type": "object",
+      "description": "Base relationship properties.",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "description": "The relationship source resource id.",
+          "readOnly": true
+        },
+        "targetId": {
+          "type": "string",
+          "description": "The relationship target resource id."
+        },
+        "targetTenant": {
+          "type": "string",
+          "description": "The relationship target tenant id."
+        },
+        "originInformation": {
+          "$ref": "#/definitions/RelationshipOriginInformation",
+          "description": "Information about the origin of the relationship.",
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the relationship.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "sourceId",
+        "targetId",
+        "originInformation",
+        "metadata"
+      ]
     },
     "DependencyOfRelationship": {
       "type": "object",
@@ -426,12 +480,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DependencyOfRelationshipProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -446,31 +495,25 @@
       "properties": {
         "sourceId": {
           "type": "string",
-          "description": "The source of the current relationship.",
+          "description": "The relationship source resource id.",
           "readOnly": true
         },
         "targetId": {
           "type": "string",
-          "description": "The target of the current relationship."
+          "description": "The relationship target resource id."
         },
-        "relationshipMetadata": {
-          "$ref": "#/definitions/RelationshipMetadata",
-          "description": "Metadata about the relationship.",
-          "readOnly": true
+        "targetTenant": {
+          "type": "string",
+          "description": "The relationship target tenant id."
         },
         "originInformation": {
-          "type": "object",
+          "$ref": "#/definitions/RelationshipOriginInformation",
           "description": "Information about the origin of the relationship.",
-          "properties": {
-            "relationshipOriginType": {
-              "$ref": "#/definitions/DependencyOfOrigins",
-              "description": "Identifies the origin type of the relationship.",
-              "readOnly": true
-            }
-          },
-          "required": [
-            "relationshipOriginType"
-          ],
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
           "readOnly": true
         },
         "provisioningState": {
@@ -482,18 +525,21 @@
       "required": [
         "sourceId",
         "targetId",
-        "relationshipMetadata",
-        "originInformation"
+        "originInformation",
+        "metadata"
       ]
     },
     "ProvisioningState": {
       "type": "string",
-      "description": "The provisioning state of a resource.",
+      "description": "The provisioning state of the resource.",
       "enum": [
         "Succeeded",
         "Failed",
         "Canceled",
-        "Provisioning"
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
@@ -517,7 +563,22 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "The relationship is being provisioned"
+            "description": "The resource is being provisioned."
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The resource is being updated."
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The resource is being deleted."
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource provisioning request has been accepted."
           }
         ]
       }
@@ -542,26 +603,57 @@
         "targetType"
       ]
     },
-    "ServiceGroupMemberOrigins": {
+    "RelationshipOriginInformation": {
+      "type": "object",
+      "description": "Provides information about the origin of a relationship.",
+      "properties": {
+        "relationshipOriginType": {
+          "$ref": "#/definitions/RelationshipOrigins",
+          "description": "Identifies the origin type of the relationship.",
+          "readOnly": true
+        },
+        "discoveryEngine": {
+          "type": "string",
+          "description": "The name of the discovery engine that created the relationship.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "relationshipOriginType"
+      ]
+    },
+    "RelationshipOrigins": {
       "type": "string",
-      "description": "The possible origins of a ServiceGroupMember relationship.",
+      "description": "The possible origins ofa relationship.",
       "enum": [
         "ServiceExplicitlyCreated",
-        "UserExplicitlyCreated"
+        "SystemDiscoveredByRule",
+        "UserExplicitlyCreated",
+        "UserDiscoveredByRule"
       ],
       "x-ms-enum": {
-        "name": "ServiceGroupMemberOrigins",
-        "modelAsString": false,
+        "name": "RelationshipOrigins",
+        "modelAsString": true,
         "values": [
           {
-            "name": "serviceExplicitlyCreated",
+            "name": "ServiceExplicitlyCreated",
             "value": "ServiceExplicitlyCreated",
             "description": "The relationship was explicitly created by a system."
           },
           {
-            "name": "userExplicitlyCreated",
+            "name": "SystemDiscoveredByRule",
+            "value": "SystemDiscoveredByRule",
+            "description": "The relationship was discovered by a system-created rule."
+          },
+          {
+            "name": "UserExplicitlyCreated",
             "value": "UserExplicitlyCreated",
             "description": "The relationship was explicitly created by a user."
+          },
+          {
+            "name": "UserDiscoveredByRule",
+            "value": "UserDiscoveredByRule",
+            "description": "The relationship was discovered by a user-created rule."
           }
         ]
       }
@@ -572,12 +664,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/ServiceGroupMemberRelationshipProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -592,31 +679,25 @@
       "properties": {
         "sourceId": {
           "type": "string",
-          "description": "The source of the current relationship.",
+          "description": "The relationship source resource id.",
           "readOnly": true
         },
         "targetId": {
           "type": "string",
-          "description": "The target of the current relationship."
+          "description": "The relationship target resource id."
         },
-        "relationshipMetadata": {
-          "$ref": "#/definitions/RelationshipMetadata",
-          "description": "Metadata about the relationship.",
-          "readOnly": true
+        "targetTenant": {
+          "type": "string",
+          "description": "The relationship target tenant id."
         },
         "originInformation": {
-          "type": "object",
+          "$ref": "#/definitions/RelationshipOriginInformation",
           "description": "Information about the origin of the relationship.",
-          "properties": {
-            "relationshipOriginType": {
-              "$ref": "#/definitions/ServiceGroupMemberOrigins",
-              "description": "Identifies the origin type of the relationship.",
-              "readOnly": true
-            }
-          },
-          "required": [
-            "relationshipOriginType"
-          ],
+          "readOnly": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/RelationshipMetadata",
+          "description": "Metadata about the relationship.",
           "readOnly": true
         },
         "provisioningState": {
@@ -628,27 +709,9 @@
       "required": [
         "sourceId",
         "targetId",
-        "relationshipMetadata",
-        "originInformation"
+        "originInformation",
+        "metadata"
       ]
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Relationships RP API Versions",
-      "enum": [
-        "2023-09-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "2023-09-01-preview",
-            "value": "2023-09-01-preview",
-            "description": "2023-09-01-preview version"
-          }
-        ]
-      }
     }
   },
   "parameters": {
