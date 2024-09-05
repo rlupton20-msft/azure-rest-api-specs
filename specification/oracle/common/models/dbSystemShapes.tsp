@@ -30,22 +30,22 @@ model DbSystemShapeProperties {
   minimumCoreCount: int32;
 
   @doc("The runtime minimum number of CPU cores that can be enabled on the DB system for this shape.")
-  runtimeMinimumCoreCount: int32;
+  runtimeMinimumCoreCount?: int32;
 
   @doc("The discrete number by which the CPU core count for this shape can be increased or decreased.")
-  coreCountIncrement: int32;
+  coreCountIncrement?: int32;
 
   @doc("The minimum number of Exadata storage servers available for the Exadata infrastructure.")
-  minStorageCount: int32;
+  minStorageCount?: int32;
 
   @doc("The maximum number of Exadata storage servers available for the Exadata infrastructure.")
-  maxStorageCount: int32;
+  maxStorageCount?: int32;
 
   @doc("The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.")
-  availableDataStoragePerServerInTbs: float64;
+  availableDataStoragePerServerInTbs?: float64;
 
   @doc("The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.")
-  availableMemoryPerNodeInGbs: int32;
+  availableMemoryPerNodeInGbs?: int32;
 
   @doc("The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.")
   availableDbNodePerNodeInGbs: int32;
@@ -54,22 +54,22 @@ model DbSystemShapeProperties {
   minCoreCountPerNode: int32;
 
   @doc("The maximum memory that can be enabled for this shape.")
-  availableMemoryInGbs: int32;
+  availableMemoryInGbs?: int32;
 
   @doc("The minimum memory that need be allocated per node for this shape.")
-  minMemoryPerNodeInGbs: int32;
+  minMemoryPerNodeInGbs?: int32;
 
   @doc("The maximum Db Node storage that can be enabled for this shape.")
-  availableDbNodeStorageInGbs: int32;
+  availableDbNodeStorageInGbs?: int32;
 
   @doc("The minimum Db Node storage that need be allocated per node for this shape.")
-  minDbNodeStoragePerNodeInGbs: int32;
+  minDbNodeStoragePerNodeInGbs?: int32;
 
   @doc("The maximum DATA storage that can be enabled for this shape.")
   availableDataStorageInTbs: int32;
 
   @doc("The minimum data storage that need be allocated for this shape.")
-  minDataStorageInTbs: int32;
+  minDataStorageInTbs?: int32;
 
   @doc("The minimum number of database nodes available for this shape.")
   minimumNodeCount: int32;
