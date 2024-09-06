@@ -26,6 +26,9 @@ model DnsNamespaceManagerCnameRecordSetResourceProperties {
   @doc("Gets or sets the owning team's ServiceTree Id and Contact Email")
   recordSetOwner: RecordSetOwner;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: DnsNamespaceManagerProvisioningState;

@@ -25,6 +25,9 @@ model DnsNamespaceManagerUpdateSrvRecordSetResourceProperties {
   @doc("Gets or sets the domain name")
   dnsZoneName: string;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: DnsNamespaceManagerProvisioningState;
