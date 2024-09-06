@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -27,7 +28,7 @@ model DnsNamespaceManagerCnameRecordSetResourceProperties {
   recordSetOwner: RecordSetOwner;
 
   @doc("The Azure location.")
-  azureLocation?: string;
+  azureLocation?: azureLocation;
 
   @doc("Provisioning state")
   @visibility("read")

@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -96,7 +97,7 @@ model ApplicationAccount {
   applicationClientIdentity?: ApplicationClientIdentity;
 
   @doc("The Azure location.")
-  azureLocation?: string;
+  azureLocation?: azureLocation;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)
@@ -150,7 +151,7 @@ model ApplicationGroup {
   applicationClientIdentity?: ApplicationClientIdentity;
 
   @doc("The Azure location.")
-  azureLocation?: string;
+  azureLocation?: azureLocation;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)

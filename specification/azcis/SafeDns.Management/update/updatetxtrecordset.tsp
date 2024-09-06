@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -26,7 +27,7 @@ model DnsNamespaceManagerUpdateTxtRecordSetResourceProperties {
   dnsZoneName: string;
 
   @doc("The Azure location.")
-  azureLocation?: string;
+  azureLocation?: azureLocation;
 
   @doc("Provisioning state")
   @visibility("read")

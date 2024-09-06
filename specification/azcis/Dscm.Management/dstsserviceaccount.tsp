@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -49,7 +50,7 @@ model DstsServiceAccountResourceProperties {
   accountTags?: Array<string>;
 
   @doc("The Azure location.")
-  azureLocation?: string;
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")
