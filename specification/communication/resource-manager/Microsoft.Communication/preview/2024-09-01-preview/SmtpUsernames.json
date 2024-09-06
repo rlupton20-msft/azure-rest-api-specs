@@ -51,7 +51,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success. The collection of SuppressionListAddresses for a SuppressionList.",
+            "description": "Success. The collection of SmtpUsername resources.",
             "schema": {
               "$ref": "#/definitions/SmtpUsernameResourceCollection"
             }
@@ -70,13 +70,13 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "Get all SuppressionListAddresses resources for a SuppressionList resource.": {
-            "$ref": "./examples/suppressionLists/getAddresses.json"
+          "Get all SmtpUsername resources for a CommunicationService resource.": {
+            "$ref": "./examples/smtpUsername/getAddresses.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/smtpUsernames/{smtpUsernameId}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/smtpUsernames/{smtpUsername}": {
       "get": {
         "description": "Get a SmtpUsernameResource.",
         "operationId": "SmtpUsernameResource_Get",
@@ -98,12 +98,12 @@
             "$ref": "#/parameters/CommunicationServiceName"
           },
           {
-            "$ref": "#/parameters/SmtpUsernameId"
+            "$ref": "#/parameters/SmtpUsername"
           }
         ],
         "responses": {
           "200": {
-            "description": "Success. The suppression list address object.",
+            "description": "Success. The smtp username object.",
             "schema": {
               "$ref": "#/definitions/SmtpUsernameResources"
             }
@@ -119,8 +119,8 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "Get a SuppressionListAddress resource.": {
-            "$ref": "./examples/suppressionLists/getAddress.json"
+          "Get a SmtpUsername resource.": {
+            "$ref": "./examples/smtpUsername/getAddress.json"
           }
         }
       },
@@ -145,7 +145,7 @@
             "$ref": "#/parameters/CommunicationServiceName"
           },
           {
-            "$ref": "#/parameters/SmtpUsernameId"
+            "$ref": "#/parameters/SmtpUsername"
           },
           {
             "name": "parameters",
@@ -181,7 +181,7 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "CreateOrUpdate SuppressionListAddress resource": {
+          "CreateOrUpdate SmtpUsername resource": {
             "$ref": "./examples/smtpUsername/createOrUpdateAddress.json"
           }
         }
@@ -207,7 +207,7 @@
             "$ref": "#/parameters/CommunicationServiceName"
           },
           {
-            "$ref": "#/parameters/SmtpUsernameId"
+            "$ref": "#/parameters/SmtpUsername"
           }
         ],
         "responses": {
@@ -225,8 +225,8 @@
           }
         },
         "x-ms-examples": {
-          "Delete a SuppressionListAddress resource.": {
-            "$ref": "./examples/suppressionLists/deleteAddress.json"
+          "Delete a SmtpUsername resource.": {
+            "$ref": "./examples/smtpUsername/deleteAddress.json"
           }
         }
       }
@@ -244,17 +244,17 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SmtpUsernameProperties",
-          "description": "The properties of a SuppressionList resource.",
+          "description": "The properties of a SmtpUsername resource.",
           "x-ms-client-flatten": true
         }
       }
     },
     "SmtpUsernameResourceCollection": {
-      "description": "Collection of addresses in a suppression list. Response will include a nextLink if response contains more pages.",
+      "description": "Collection of SmtpUsername resources. Response will include a nextLink if response contains more pages.",
       "type": "object",
       "properties": {
         "value": {
-          "description": "List of suppressed email addresses.",
+          "description": "List of SmtpUsername resources.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/SmtpUsernameResources"
@@ -270,11 +270,6 @@
       "description": "A class that describes the properties of a SmtpUsername resource.",
       "type": "object",
       "properties": {
-        "smtpUsernameId": {
-          "description": "ID for the SMTP username",
-          "type": "string",
-          "readOnly": true
-        },
         "username": {
           "description": "The SMTP username. Could be free form or in the email address format.",
           "type": "string",
@@ -282,6 +277,11 @@
         },
         "entraApplicationId": {
           "description": "The application Id for the linked Entra Application.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tenantId": {
+          "description": "The tenant of the linked Entra Application.",
           "type": "string",
           "readOnly": true
         },
@@ -294,10 +294,10 @@
     }
   },
   "parameters": {
-    "SmtpUsernameId": {
-      "name": "smtpUsernameId",
+    "SmtpUsername": {
+      "name": "smtpUsername",
       "in": "path",
-      "description": "The unique Id of the SmtpUsernameResource.",
+      "description": "The name of the SmtpUsernameResource.",
       "minLength": 1,
       "maxLength": 253,
       "required": true,
