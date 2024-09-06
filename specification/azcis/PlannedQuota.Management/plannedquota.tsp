@@ -29,8 +29,8 @@ model PlannedQuotaResourceProperties {
   @doc("Plan version")
   planVersion?: string;
 
-  @doc("Planned Quota region")
-  region?: string;
+  @doc("The Azure location.")
+  azureLocation: string;
 
   @doc("Property bindings")
   @extension("x-ms-identifiers", [])
