@@ -106,6 +106,9 @@ model DsmsCertificateProperties {
   @doc("Block ninety day enforcement")
   blockNinetyDayEnforcement?: boolean;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: CertificateProvisioningState;
