@@ -2086,7 +2086,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/NetworkConfigurationUpdate"
+              "$ref": "#/definitions/NetworkConfigurationPatch"
             }
           }
         ],
@@ -3458,24 +3458,6 @@
         ]
       }
     },
-    "IpAssignmentUpdate": {
-      "type": "object",
-      "description": "IP Assignment",
-      "properties": {
-        "ipAssignmentType": {
-          "$ref": "#/definitions/IpAssignmentType",
-          "description": "IpAssignment Type"
-        },
-        "ipv4": {
-          "$ref": "#/definitions/Ipv4Update",
-          "description": "IP V4"
-        },
-        "ipv6": {
-          "$ref": "#/definitions/Ipv6",
-          "description": "IP V6"
-        }
-      }
-    },
     "Ipv4": {
       "type": "object",
       "description": "Ip V4",
@@ -3531,53 +3513,56 @@
         "endIp"
       ]
     },
-    "Ipv4AddressRangeUpdate": {
-      "type": "object",
-      "description": "AddressRange for IP V4",
-      "properties": {
-        "startIp": {
-          "$ref": "#/definitions/Azure.Core.ipV4Address",
-          "description": "startIp of Address range"
-        },
-        "endIp": {
-          "$ref": "#/definitions/Azure.Core.ipV4Address",
-          "description": "endIp of Address range"
-        }
-      }
-    },
-    "Ipv4Update": {
-      "type": "object",
-      "description": "Ip V4",
-      "properties": {
-        "addressRange": {
-          "$ref": "#/definitions/Ipv4AddressRangeUpdate",
-          "description": "AddressRange for IPv4"
-        },
-        "subnetMask": {
-          "$ref": "#/definitions/Azure.Core.ipV4Address",
-          "description": "Subnet mask for IPv4"
-        },
-        "defaultGateway": {
-          "$ref": "#/definitions/Azure.Core.ipV4Address",
-          "description": "Default gateway for IPv4"
-        },
-        "dnsServers": {
-          "type": "array",
-          "description": "DNS Servers IPs for IPv4",
-          "items": {
-            "$ref": "#/definitions/Azure.Core.ipV4Address"
-          }
-        },
-        "vLanId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "vLanId for the network interface"
-        }
-      }
-    },
     "Ipv6": {
       "type": "object",
       "description": "Ip v6"
+    },
+    "LanNetworkConfiguration": {
+      "type": "object",
+      "description": "NetworkConfiguration for LAN",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LanNetworkConfigurationProperties",
+          "description": "NetworkConfigurationProperties for LAN"
+        },
+        "kind": {
+          "type": "string",
+          "description": "NetworkConfiguration kind as LAN",
+          "enum": [
+            "LAN"
+          ],
+          "x-ms-enum": {
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "properties",
+        "kind"
+      ]
+    },
+    "LanNetworkConfigurationProperties": {
+      "type": "object",
+      "description": "NetworkConfigurationProperties for LAN",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "usecase": {
+          "$ref": "#/definitions/Usecase",
+          "description": "Usecase of this configuration"
+        },
+        "ipAssignments": {
+          "$ref": "#/definitions/IpAssignment",
+          "description": "IP Assignment"
+        }
+      },
+      "required": [
+        "usecase",
+        "ipAssignments"
+      ]
     },
     "NetworkConfiguration": {
       "type": "object",
@@ -3586,8 +3571,16 @@
         "properties": {
           "$ref": "#/definitions/NetworkConfigurationProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "kind": {
+          "$ref": "#/definitions/NetworkConfigurationKind",
+          "description": "Specifies NetworkConfiguration kind"
         }
       },
+      "discriminator": "kind",
+      "required": [
+        "kind"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -3639,6 +3632,20 @@
         "value"
       ]
     },
+    "NetworkConfigurationPatch": {
+      "type": "object",
+      "description": "NetworkConfiguration for PATCH operation",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NetworkConfigurationPropertiesUpdate",
+          "description": "NetworkConfigurationProperties for PATCH operation"
+        },
+        "kind": {
+          "$ref": "#/definitions/NetworkConfigurationKind",
+          "description": "Specifies NetworkConfiguration kind"
+        }
+      }
+    },
     "NetworkConfigurationProperties": {
       "type": "object",
       "description": "NetworkConfiguration Properties",
@@ -3651,15 +3658,10 @@
         "usecase": {
           "$ref": "#/definitions/Usecase",
           "description": "Usecase of this configuration"
-        },
-        "ipAssignments": {
-          "$ref": "#/definitions/IpAssignment",
-          "description": "IP Assignment"
         }
       },
       "required": [
-        "usecase",
-        "ipAssignments"
+        "usecase"
       ]
     },
     "NetworkConfigurationPropertiesUpdate": {
@@ -3669,27 +3671,8 @@
         "usecase": {
           "$ref": "#/definitions/Usecase",
           "description": "Usecase of this configuration"
-        },
-        "ipAssignments": {
-          "$ref": "#/definitions/IpAssignmentUpdate",
-          "description": "IP Assignment"
         }
       }
-    },
-    "NetworkConfigurationUpdate": {
-      "type": "object",
-      "description": "NetworkConfiguration Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/NetworkConfigurationPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
     },
     "NtpConfigurationChoice": {
       "type": "string",

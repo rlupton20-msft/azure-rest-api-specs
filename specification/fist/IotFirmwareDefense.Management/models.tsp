@@ -13,901 +13,640 @@ namespace Microsoft.IoTFirmwareDefense;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-/**
- * The status of firmware scan.
- */
+@doc("The status of a firmware analysis job.")
 union Status {
-  /** The analysis job is queued */
+  @doc("The analysis job is queued")
   Pending: "Pending",
 
-  /** The firmware is currently being extracted */
+  @doc("The firmware is currently being extracted")
   Extracting: "Extracting",
 
-  /** Analysis is being run on the firmware */
+  @doc("Analysis is being run on the firmware")
   Analyzing: "Analyzing",
 
-  /** Analysis job results are ready */
+  @doc("Analysis job results are ready")
   Ready: "Ready",
 
-  /** An error occured while running firmware analysis */
+  @doc("An error occured while running firmware analysis")
   Error: "Error",
 
   string,
 }
 
-/**
- * Provisioning state of resource.
- */
+@doc("The status of a firmware analysis job.")
 union ProvisioningState {
   string,
 
-  /**
-   * Resource has been created.
-   */
+  @doc("The request has successfully completed.")
   Succeeded: "Succeeded",
 
-  /**
-   * Resource creation failed.
-   */
+  @doc("There was an error during the request.")
   Failed: "Failed",
 
-  /**
-   * Resource creation was canceled.
-   */
+  @doc("The request was canceled.")
   Canceled: "Canceled",
 
-  /**
-   * The resource is being provisioned
-   */
-  Provisioning: "Provisioning",
+  @doc("The request is queued and awaiting execution")
+  Pending: "Pending",
 
-  /**
-   * The resource is being updated
-   */
-  Updating: "Updating",
+  @doc("The Firmware is currently being extracted.")
+  Extracting: "Extracting",
 
-  /**
-   * The resource is being deleted
-   */
-  Deleting: "Deleting",
-
-  /**
-   * The resource create request has been accepted
-   */
-  Accepted: "Accepted",
+  @doc("Analysis is being run on the firmware")
+  Analyzing: "Analyzing",
 }
 
-/**
- * Describes the type of summary.
- */
+@doc("Describes the type of summary.")
 union SummaryType {
-  /** The summary contains information about the submitted firmware */
+  @doc("The summary contains information about the submitted firmware")
   Firmware: "Firmware",
 
-  /** The summary contains information about the CVE analysis results */
-  CVE: "CVE",
+  @doc("The summary contains information about the Common Vulnerabilites and Exposures analysis results")
+  CommonVulnerablityExposure: "CommonVulnerablityExposure",
 
-  /** The summary contains information about the binary hardening analysis results */
+  @doc("The summary contains information about the binary hardening analysis results")
   BinaryHardening: "BinaryHardening",
 
-  /** The summary contains information about the cryptographic certificate analysis results */
+  @doc("The summary contains information about the cryptographic certificate analysis results")
   CryptoCertificate: "CryptoCertificate",
 
-  /** The summary contains information about the cryptographic key analysis results */
+  @doc("The summary contains information about the cryptographic key analysis results")
   CryptoKey: "CryptoKey",
 
   string,
 }
 
-/**
- * Binary hardening of a firmware.
- */
+@doc("String to indicate if the executable is 32 or 64 bit.")
+union ExecutableClass {
+  @doc("The binary is 32-bit.")
+  x86: "x86",
+
+  @doc("The binary is 64-bit.")
+  x64: "x64",
+
+  string,
+}
+
+@doc("Binary hardening of a firmware.")
 model BinaryHardeningResult {
-  /**
-   * ID for the binary hardening result.
-   */
+  @doc("ID for the binary hardening result.")
   binaryHardeningId?: string;
 
-  /**
-   * Binary hardening features.
-   */
-  features?: BinaryHardeningFeatures;
+  @doc("The security hardening features of the binary.")
+  securityHardeningFeatures?: BinaryHardeningFeatures;
 
-  /**
-   * The architecture of the uploaded firmware.
-   */
-  architecture?: string;
+  @doc("The architecture of the uploaded firmware.")
+  firmwareArchitecture?: string;
 
-  /**
-   * The executable path.
-   */
+  @doc("The path to the binary in the firmware.")
   filePath?: string;
 
-  /**
-   * The executable class to indicate 32 or 64 bit.
-   */
-  class?: string;
+  @doc("The executable class to indicate 32 or 64 bit.")
+  executableClass?: ExecutableClass;
 
-  /**
-   * The runpath of the uploaded firmware.
-   */
+  @doc("The runpath property of the uploaded binary, which is a method of specifying additional paths to load objects at runtime.")
   runpath?: string;
 
-  /**
-   * The rpath of the uploaded firmware.
-   */
+  @doc("The rpath property of the uploaded binary, which is a deprecated method of specifying additional paths to load objects at runtime.")
   rpath?: string;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Binary hardening features.
- */
+@doc("Binary hardening features.")
 model BinaryHardeningFeatures {
-  /**
-   * NX (no-execute) flag.
-   */
+  @doc("Flag indicating the binary's stack is set to NX (no-execute).")
   nx?: boolean;
 
-  /**
-   * PIE (position independent executable) flag.
-   */
+  @doc("Flag indicating the binary was compiled to be a position independent executable.")
   pie?: boolean;
 
-  /**
-   * RELRO (relocation read-only) flag.
-   */
+  @doc("Flag indicating the binary has enabled relocation read-only protections.")
   relro?: boolean;
 
-  /**
-   * Canary (stack canaries) flag.
-   */
+  @doc("Flag indicating if the binary was compiled with stack canaries enabled.")
   canary?: boolean;
 
-  /**
-   * Stripped flag.
-   */
+  @doc("Flag indicating if debug symbols have been stripped from the binary.")
   stripped?: boolean;
 }
 
-/**
- * Crypto certificate properties
- */
+@doc("Activities the cryptographic certificate can be used.")
+union CertificateUsage {
+  @doc("This certificate can be used to add a signature to a message")
+  DigitalSignature: "digitalSignature",
+
+  @doc("This certificates provides a non-repudiation service that protects against false denial of a message")
+  NonRepudiation: "nonRepudiation",
+
+  @doc("A synonym for NonRepudiation used in newer x509 certificates")
+  ContentCommitment: "contentCommitment",
+
+  @doc("This certificate can be used to encrypt a private or secret key")
+  KeyEncipherment: "keyEncipherment",
+
+  @doc("This certificate can be used to decrypt a private or secret key")
+  DataEncipherment: "dataEncipherment",
+
+  @doc("This certificate can be used to perform a key agreement, such as with a Diffie-Hellman key exchange")
+  KeyAgreement: "keyAgreement",
+
+  @doc("This certificate can be used to verify a other public keys")
+  KeyCertSign: "keyCertSign",
+
+  @doc("This certificate can be used to verift a certificate revocation list")
+  CRLSign: "cRLSign",
+
+  @doc("This certificate can be only be used to encrypt data")
+  EncipherOnly: "encipherOnly",
+
+  @doc("This certificate can only be used to decrypt data")
+  DencipherOnly: "dencipherOnly",
+
+  @doc("This certificate can be used to authenticate a server in a TLS/SSL connection")
+  ServerAuthentication: "serverAuth",
+
+  @doc("This certificate can be used to authenticate a client in a TLS/SSL connection")
+  ClientAuthentication: "clientAuth",
+
+  @doc("This certificate can be used to authenticate a code object")
+  CodeSigning: "codeSigning",
+
+  @doc("This certificate can be used to authenticate an email address")
+  EmailProtection: "emailProtection",
+
+  @doc("This certificate binds the hash of an object to a time")
+  TimeStamping: "timeStamping",
+
+  @doc("This certificate can be used to sign OCSP responses")
+  OCSPSigning: "ocspSigning",
+
+  string,
+}
+
+@doc("Crypto certificate properties")
 model CryptoCertificate {
-  /**
-   * ID for the certificate result.
-   */
+  @doc("ID for the certificate result.")
   cryptoCertId?: string;
 
-  /**
-   * Name of the certificate.
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" ""
-  name?: string;
+  @doc("Name of the certificate.")
+  certificateName?: string;
 
-  /**
-   * Subject information of the certificate.
-   */
+  @doc("Subject information of the certificate.")
   subject?: CryptoCertificateEntity;
 
-  /**
-   * Issuer information of the certificate.
-   */
+  @doc("Issuer information of the certificate.")
   issuer?: CryptoCertificateEntity;
 
-  /**
-   * Issue date for the certificate.
-   */
+  @doc("Issue date for the certificate.")
   issuedDate?: utcDateTime;
 
-  /**
-   * Expiration date for the certificate.
-   */
+  @doc("Expiration date for the certificate.")
   expirationDate?: utcDateTime;
 
-  /**
-   * Role of the certificate (Root CA, etc)
-   */
-  role?: string;
+  @doc("Role of the certificate (Root CA, etc)")
+  certificateRole?: string;
 
-  /**
-   * The signature algorithm used in the certificate.
-   */
+  @doc("The signature algorithm used in the certificate.")
   signatureAlgorithm?: string;
 
-  /**
-   * Size of the certificate's key in bits
-   */
-  keySize?: int64;
+  @doc("Size of the certificate's key in bits")
+  certificateKeySize?: int64;
 
-  /**
-   * Key algorithm used in the certificate.
-   */
-  keyAlgorithm?: string;
+  @doc("Key algorithm used in the certificate.")
+  certificateKeyAlgorithm?: string;
 
-  /**
-   * Encoding used for the certificate.
-   */
+  @doc("Encoding used for the certificate.")
   encoding?: string;
 
-  /**
-   * Serial number of the certificate.
-   */
+  @doc("Serial number of the certificate.")
   serialNumber?: string;
 
-  /**
-   * Fingerprint of the certificate.
-   */
+  @doc("Fingerprint of the certificate.")
   fingerprint?: string;
 
-  /**
-   * List of functions the certificate can fulfill.
-   */
-  usage?: string[];
+  @doc("List of functions the certificate can fulfill.")
+  certificateUsage?: CertificateUsage[];
 
-  /**
-   * List of files where this certificate was found.
-   */
+  @doc("List of files where this certificate was found.")
   @visibility("read")
   filePaths?: string[];
 
-  /**
-   * A matching paired private key.
-   */
+  @doc("A matching paired private key.")
   pairedKey?: PairedKey;
 
-  /**
-   * Indicates if the certificate is expired.
-   */
+  @doc("Indicates if the certificate is expired.")
   isExpired?: boolean;
 
-  /**
-   * Indicates if the certificate is self-signed.
-   */
+  @doc("Indicates if the certificate is self-signed.")
   isSelfSigned?: boolean;
 
-  /**
-   * Indicates the signature algorithm used is insecure.
-   */
+  @doc("Indicates the signature algorithm used is insecure according to NIST guidance.")
   isWeakSignature?: boolean;
 
-  /**
-   * Indicates the certificate's key size is considered too small to be secure for the key algorithm.
-   */
+  @doc("Indicates the certificate's key size is considered too small to be secure for the key algorithm according to NIST guidance.")
   isShortKeySize?: boolean;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Information on an entity (distinguished name) in a cryptographic certificate.
- */
+@doc("Information on an entity (distinguished name) in a cryptographic certificate.")
 model CryptoCertificateEntity {
-  /**
-   * Common name of the certificate entity.
-   */
+  @doc("Common name of the certificate entity.")
   commonName?: string;
 
-  /**
-   * Organization of the certificate entity.
-   */
+  @doc("Organization of the certificate entity.")
   organization?: string;
 
-  /**
-   * The organizational unit of the certificate entity.
-   */
+  @doc("The organizational unit of the certificate entity.")
   organizationalUnit?: string;
 
-  /**
-   * Geographical state or province of the certificate entity.
-   */
+  @doc("Geographical state or province of the certificate entity.")
   state?: string;
 
-  /**
-   * Country code of the certificate entity.
-   */
+  @doc("Country code of the certificate entity.")
   country?: string;
 }
 
-/**
- * Details of a matching paired key or certificate.
- */
+@doc("Details of a matching paired key or certificate.")
 model PairedKey {
-  /**
-   * ID of the paired key or certificate.
-   */
-  id?: string;
+  @doc("ID of the paired key or certificate.")
+  pairedKeyId?: string;
 
-  /**
-   * The type indicating whether the paired object is a key or certificate.
-   */
+  @doc("The type indicating whether the paired object is a key or certificate.")
   type?: string;
 }
 
-/**
- * Crypto key properties
- */
+@doc("Different types of cryptographic keys.")
+union CryptoKeyType {
+  @doc("The key is an asymmetric public key.")
+  Public: "Public",
+
+  @doc("The key is an asymmetric private key.")
+  Private: "Private",
+
+  string,
+}
+
+@doc("Crypto key properties")
 model CryptoKey {
-  /**
-   * ID for the key result.
-   */
+  @doc("ID for the key result.")
   cryptoKeyId?: string;
 
-  /**
-   * Type of the key (public or private).
-   */
-  keyType?: string;
+  @doc("Type of the key (public or private).")
+  keyType?: CryptoKeyType;
 
-  /**
-   * Size of the key in bits.
-   */
-  keySize?: int64;
+  @doc("Size of the key in bits.")
+  cryptoKeySize?: int64;
 
-  /**
-   * Key algorithm name.
-   */
+  @doc("Key algorithm name.")
   keyAlgorithm?: string;
 
-  /**
-   * Functions the key can fulfill.
-   */
+  @doc("Functions the key can fulfill.")
   usage?: string[];
 
-  /**
-   * List of files where this key was found.
-   */
+  @doc("List of files where this key was found.")
   @visibility("read")
   filePaths?: string[];
 
-  /**
-   * A matching paired key or certificate.
-   */
+  @doc("A matching paired key or certificate.")
   pairedKey?: PairedKey;
 
-  /**
-   * Indicates the key size is considered too small to be secure for the algorithm.
-   */
+  @doc("Indicates the key size is considered too small to be secure for the algorithm according to NIST guidance.")
   isShortKeySize?: boolean;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Details of a CVE detected in firmware.
- */
+@doc("Common Vulnerability Scoring System values.")
+model CvssScore {
+  @doc("The version of the Common Vulnerability Scoring System (CVSS).")
+  version: int32;
+
+  @doc("The score of the CVE according to the CVSS specified.")
+  score?: float32;
+}
+
+@doc("Details of a CVE detected in firmware.")
 model CveResult {
-  /**
-   * ID of the CVE result.
-   */
+  @doc("ID of the CVE result.")
   cveId?: string;
 
-  /**
-   * The SBOM component for the CVE.
-   */
+  @doc("The SBOM component for the CVE.")
   component?: CveComponent;
 
-  /**
-   * Severity of the CVE.
-   */
+  @doc("Severity of the CVE.")
   severity?: string;
 
-  /**
-   * Name of the CVE.
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" ""
-  name?: string;
+  @doc("Name of the CVE.")
+  cveName?: string;
 
-  /**
-   * A single CVSS score to represent the CVE. If a V3 score is specified, then it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score.
-   */
-  cvssScore?: string;
+  @doc("The most recent CVSS score of the CVE.")
+  effectiveCvssScore?: float32;
 
-  /**
-   * CVSS version of the CVE.
-   */
-  cvssVersion?: string;
+  @doc("The version of the effectiveCvssScore property.")
+  effectiveCvssVersion?: int32;
 
-  /**
-   * CVSS V2 score of the CVE.
-   */
-  cvssV2Score?: string;
+  @doc("All known CVSS scores for the CVE.")
+  @extension("x-ms-identifiers", [])
+  cvssScores?: CvssScore[];
 
-  /**
-   * CVSS V3 score of the CVE.
-   */
-  cvssV3Score?: string;
-
-  /**
-   * The list of reference links for the CVE.
-   */
+  @doc("The list of reference links for the CVE.")
   @visibility("read")
   @extension("x-ms-identifiers", ["href"])
   links?: CveLink[];
 
-  /**
-   * The CVE description.
-   */
+  @doc("The CVE description.")
   description?: string;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Properties of the SBOM component for a CVE.
- */
+@doc("Properties of the SBOM component for a CVE.")
 model CveComponent {
-  /**
-   * ID of the SBOM component
-   */
+  @doc("ID of the SBOM component")
   componentId?: string;
 
-  /**
-   * Name of the SBOM component
-   */
-  name?: string;
+  @doc("Name of the SBOM component")
+  componentName?: string;
 
-  /**
-   * Version of the SBOM component.
-   */
+  @doc("Version of the SBOM component.")
   version?: string;
 }
 
-/**
- * Properties of a reference link for a CVE.
- */
+@doc("Properties of a reference link for a CVE.")
 model CveLink {
-  /**
-   * The destination of the reference link.
-   */
+  @doc("The destination of the reference link.")
   href?: url;
 
-  /**
-   * The label of the reference link.
-   */
+  @doc("The label of the reference link.")
   label?: string;
 }
 
-/**
- * Firmware properties.
- */
+@doc("Firmware properties.")
 model FirmwareProperties {
-  /**
-   * File name for a firmware that user uploaded.
-   */
+  @doc("File name for a firmware that user uploaded.")
   fileName?: string;
 
-  /**
-   * Firmware vendor.
-   */
+  @doc("Firmware vendor.")
   vendor?: string;
 
-  /**
-   * Firmware model.
-   */
+  @doc("Firmware model.")
   `model`?: string;
 
-  /**
-   * Firmware version.
-   */
+  @doc("Firmware version.")
   version?: string;
 
-  /**
-   * User-specified description of the firmware.
-   */
+  @doc("User-specified description of the firmware.")
   description?: string;
 
-  /**
-   * File size of the uploaded firmware image.
-   */
+  @doc("File size of the uploaded firmware image.")
   fileSize?: int64;
 
-  /**
-   * The status of firmware scan.
-   */
+  @doc("The status of firmware scan.")
   status?: Status;
 
-  /**
-   * A list of errors or other messages generated during firmware analysis
-   */
+  @doc("A list of errors or other messages generated during firmware analysis")
   @extension("x-ms-identifiers", [])
   statusMessages?: StatusMessage[];
 
-  /**
-   * Provisioning state of the resource.
-   */
+  @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Error and status message
- */
+@doc("Error and status message")
 model StatusMessage {
-  /**
-   * The error code
-   */
+  @doc("The error code")
   errorCode?: int64;
 
-  /**
-   * The error or status message
-   */
+  @doc("The error or status message")
   message?: string;
 }
 
-/**
- * Firmware definition
- */
+@doc("Firmware definition")
 model FirmwareUpdateDefinition {
-  /**
-   * The editable properties of a firmware
-   */
+  @doc("The editable properties of a firmware")
   properties?: FirmwareProperties;
 }
 
-/**
- * Url data for creating or accessing a blob file.
- */
+@doc("Url data for creating or accessing a blob file.")
 model UrlToken {
-  /**
-   * SAS URL for creating or accessing a blob file.
-   */
+  @doc("SAS URL for creating or accessing a blob file.")
   @visibility("read")
   url?: url;
 }
 
-/**
- * Password hash properties
- */
+@doc("Password hash properties")
 model PasswordHash {
-  /**
-   * ID for password hash
-   */
+  @doc("ID for password hash")
   passwordHashId?: string;
 
-  /**
-   * File path of the password hash
-   */
+  @doc("File path of the password hash")
   filePath?: string;
 
-  /**
-   * Salt of the password hash
-   */
+  @doc("Salt of the password hash")
   salt?: string;
 
-  /**
-   * Hash of the password
-   */
+  @doc("Hash of the password")
   hash?: string;
 
-  /**
-   * Context of password hash
-   */
+  @doc("Context of password hash")
   context?: string;
 
-  /**
-   * User name of password hash
-   */
+  @doc("User name of password hash")
   username?: string;
 
-  /**
-   * Algorithm of the password hash
-   */
+  @doc("Algorithm of the password hash")
   algorithm?: string;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * SBOM component of a firmware.
- */
+@doc("SBOM component of a firmware.")
 model SbomComponent {
-  /**
-   * ID for the component.
-   */
+  @doc("ID for the component.")
   componentId?: string;
 
-  /**
-   * Name for the component.
-   */
+  @doc("Name for the component.")
   componentName?: string;
 
-  /**
-   * Version for the component.
-   */
+  @doc("Version for the component.")
   version?: string;
 
-  /**
-   * License for the component.
-   */
+  @doc("License for the component.")
   license?: string;
 
-  /**
-   * File paths related to the component. Note, relatedFiles should be used instead of this property.
-   */
+  @doc("File paths related to the component. Note, relatedFiles should be used instead of this property.")
   filePaths?: string[];
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Properties of an analysis summary.
- */
+@doc("Properties of an analysis summary.")
 @discriminator("summaryType")
 model SummaryResourceProperties {
-  /**
-   * The type of summary.
-   */
+  @doc("The type of summary.")
   summaryType: SummaryType;
 
-  /**
-   * The status of the last operation.
-   */
+  @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Properties of a file detected in the filesystem related to an SBOM component.
- */
+@doc("Properties of a file detected in the filesystem related to an SBOM component.")
 model SbomFileProperties {
-  /**
-   * File path related to the component.
-   */
+  @doc("File path related to the component.")
   filePath: string;
 
-  /**
-   * The SHA1 hash of the contents at the file path.
-   */
+  @doc("The SHA1 hash of the contents at the file path.")
   sha1Sum: string;
 
-  /**
-   * The SHA256 hash of the contents at the file path.
-   */
+  @doc("The SHA256 hash of the contents at the file path.")
   sha256Sum: string;
 }
 
-/**
- * Workspace properties.
- */
+@doc("Workspace properties.")
 model WorkspaceProperties {
-  /**
-   * Provisioning state of the resource.
-   */
+  @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-/**
- * Properties for generating an upload URL
- */
+@doc("Properties for generating an upload URL")
 model GenerateUploadUrlRequest {
-  /**
-   * A unique ID for the firmware to be uploaded.
-   */
+  @doc("A unique ID for the firmware to be uploaded.")
   firmwareId?: string;
 }
 
-/**
- * Properties for high level summary of firmware analysis results.
- */
+@doc("Properties for high level summary of firmware analysis results.")
 model FirmwareSummary extends SummaryResourceProperties {
-  /**
-   * Total extracted size of the firmware in bytes.
-   */
+  @doc("Total extracted size of the firmware in bytes.")
   extractedSize?: int64;
 
-  /**
-   * Firmware file size in bytes.
-   */
+  @doc("Firmware file size in bytes.")
   fileSize?: int64;
 
-  /**
-   * Extracted file count.
-   */
+  @doc("Extracted file count.")
   extractedFileCount?: int64;
 
-  /**
-   * Components count.
-   */
+  @doc("Components count.")
   componentCount?: int64;
 
-  /**
-   * Binary count
-   */
+  @doc("Binary count")
   binaryCount?: int64;
 
-  /**
-   * Time used for analysis
-   */
+  @doc("Time used for analysis")
   analysisTimeSeconds?: int64;
 
-  /**
-   * The number of root file systems found.
-   */
+  @doc("The number of root file systems found.")
   rootFileSystems?: int64;
 
-  /**
-   * Describes the type of summary.
-   */
+  @doc("Describes the type of summary.")
   summaryType: "Firmware";
 }
 
-/**
- * Properties for a CVE analysis summary.
- */
+@doc("Properties for a CVE analysis summary.")
 model CveSummary extends SummaryResourceProperties {
-  /**
-   * The total number of critical severity CVEs detected
-   */
-  critical?: int64;
+  @doc("The total number of critical severity CVEs detected")
+  criticalCveCount?: int64;
 
-  /**
-   * The total number of high severity CVEs detected
-   */
-  high?: int64;
+  @doc("The total number of high severity CVEs detected")
+  highCveCount?: int64;
 
-  /**
-   * The total number of medium severity CVEs detected
-   */
-  medium?: int64;
+  @doc("The total number of medium severity CVEs detected")
+  mediumCveCount?: int64;
 
-  /**
-   * The total number of low severity CVEs detected
-   */
-  low?: int64;
+  @doc("The total number of low severity CVEs detected")
+  lowCveCount?: int64;
 
-  /**
-   * The total number of unknown severity CVEs detected
-   */
-  `unknown`?: int64;
+  @doc("The total number of unknown severity CVEs detected")
+  unknownCveCount?: int64;
 
-  /**
-   * Describes the type of summary.
-   */
-  summaryType: "CVE";
+  @doc("Describes the type of summary object.")
+  summaryType: "CommonVulnerablityExposure";
 }
 
-/**
- * Properties for a binary hardening analysis summary.
- */
+@doc("Properties for a binary hardening analysis summary.")
 model BinaryHardeningSummaryResource extends SummaryResourceProperties {
-  /**
-   * Total number of binaries that were analyzed
-   */
+  @doc("Total number of binaries that were analyzed")
   totalFiles?: int64;
 
-  /**
-   * NX summary percentage
-   */
-  nx?: int32;
+  @doc("Percentage of analyzed files that were found to have a nonexecutable stack")
+  percentNotExecutableStack?: int32;
 
-  /**
-   * PIE summary percentage
-   */
-  pie?: int32;
+  @doc("Percentage of analyzed files that were compiled to be a position independent executable")
+  percentPositionIndependentExectuable?: int32;
 
-  /**
-   * RELRO summary percentage
-   */
-  relro?: int32;
+  @doc("Percentage of analyzed files that have enabled relocation read-only protections")
+  percentRelocationReadOnly?: int32;
 
-  /**
-   * Canary summary percentage
-   */
-  canary?: int32;
+  @doc("Percentage of analyzed files that have stack canaries enabled")
+  percentWithStackCanary?: int32;
 
-  /**
-   * Stripped summary percentage
-   */
-  stripped?: int32;
+  @doc("Percentage of analyzed files that have debug symbols stripped")
+  percentWithStrippedSymbols?: int32;
 
-  /**
-   * Describes the type of summary.
-   */
+  @doc("Describes the type of summary object.")
   summaryType: "BinaryHardening";
 }
 
-/**
- * Properties for cryptographic certificate summary.
- */
+@doc("Properties for cryptographic certificate summary.")
 model CryptoCertificateSummaryResource extends SummaryResourceProperties {
-  /**
-   * Total number of certificates found.
-   */
-  totalCertificates?: int64;
+  @doc("Total number of certificates found.")
+  totalCertificatesCount?: int64;
 
-  /**
-   * Total number of paired private keys found for the certificates.
-   */
-  pairedKeys?: int64;
+  @doc("Total number of paired private keys found for the certificates.")
+  pairedKeysCount?: int64;
 
-  /**
-   * Total number of expired certificates found.
-   */
-  expired?: int64;
+  @doc("Total number of expired certificates found.")
+  expiredCertificateCount?: int64;
 
-  /**
-   * Total number of nearly expired certificates found.
-   */
-  expiringSoon?: int64;
+  @doc("Total number of nearly expired certificates found.")
+  expiringSoonCertificateCount?: int64;
 
-  /**
-   * Total number of certificates found using a weak signature algorithm.
-   */
-  weakSignature?: int64;
+  @doc("Total number of certificates found using a weak signature algorithm.")
+  weakSignatureCount?: int64;
 
-  /**
-   * Total number of certificates found that are self-signed.
-   */
-  selfSigned?: int64;
+  @doc("Total number of certificates found that are self-signed.")
+  selfSignedCertificatesCount?: int64;
 
-  /**
-   * Total number of certificates found that have an insecure key size for the key algorithm.
-   */
-  shortKeySize?: int64;
+  @doc("Total number of certificates found that have an insecure key size for the key algorithm.")
+  shortKeySizeCount?: int64;
 
-  /**
-   * Describes the type of summary.
-   */
+  @doc("Describes the type of summary.")
   summaryType: "CryptoCertificate";
 }
 
-/**
- * Properties for cryptographic key summary.
- */
+@doc("Properties for cryptographic key summary.")
 model CryptoKeySummaryResource extends SummaryResourceProperties {
-  /**
-   * Total number of cryptographic keys found.
-   */
-  totalKeys?: int64;
+  @doc("Total number of cryptographic keys found.")
+  totalKeysCount?: int64;
 
-  /**
-   * Total number of (non-certificate) public keys found.
-   */
-  publicKeys?: int64;
+  @doc("Total number of (non-certificate) public keys found.")
+  publicKeysCount?: int64;
 
-  /**
-   * Total number of private keys found.
-   */
-  privateKeys?: int64;
+  @doc("Total number of private keys found.")
+  privateKeysCount?: int64;
 
-  /**
-   * Total number of keys found that have a matching paired key or certificate.
-   */
-  pairedKeys?: int64;
+  @doc("Total number of keys found that have a matching paired key or certificate.")
+  pairedKeysCount?: int64;
 
-  /**
-   * Total number of keys found that have an insecure key size for the algorithm.
-   */
-  shortKeySize?: int64;
+  @doc("Total number of keys found that have an insecure key size for the algorithm.")
+  shortKeySizeCount?: int64;
 
-  /**
-   * Describes the type of summary.
-   */
+  @doc("Describes the type of summary.")
   summaryType: "CryptoKey";
 }

@@ -20,7 +20,7 @@ model SummaryResource is ProxyResource<SummaryResourceProperties> {
    * The Firmware analysis summary name describing the type of summary.
    */
   @path
-  @key("summaryName")
+  @key("summaryType")
   @segment("summaries")
   @visibility("read")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")

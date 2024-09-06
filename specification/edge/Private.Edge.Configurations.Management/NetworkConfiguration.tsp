@@ -20,21 +20,34 @@ namespace Private.Edge;
 interface NetworkConfigurations {
   get is ArmResourceRead<NetworkConfiguration>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<NetworkConfiguration>;
-  update is ArmResourcePatchSync<
-    NetworkConfiguration,
-    NetworkConfigurationProperties
-  >;
+  update is ArmCustomPatchSync<NetworkConfiguration, NetworkConfigurationPatch>;
   delete is ArmResourceDeleteWithoutOkAsync<NetworkConfiguration>;
   listByConfiguration is ArmResourceListByParent<NetworkConfiguration>;
 }
 
 @doc("NetworkConfiguration Resource")
 @parentResource(Configuration)
+@discriminator("kind")
 model NetworkConfiguration is ProxyResource<NetworkConfigurationProperties> {
   ...ResourceNameParameter<
     NetworkConfiguration,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
   >;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Exposing various kinds of NetworkConfigurations via NetworkConfigurationKind"
+  @doc("Specifies NetworkConfiguration kind")
+  // @visibility("read", "create", "update")
+  kind: NetworkConfigurationKind;
+}
+
+@doc("NetworkConfiguration for PATCH operation")
+model NetworkConfigurationPatch {
+  @doc("NetworkConfigurationProperties for PATCH operation")
+  properties: NetworkConfigurationProperties;
+
+  @doc("Specifies NetworkConfiguration kind")
+  // @visibility("read", "create", "update")
+  kind?: NetworkConfigurationKind;
 }
 
 @doc("NetworkConfiguration Properties")
@@ -45,6 +58,20 @@ model NetworkConfigurationProperties {
 
   @doc("Usecase of this configuration")
   usecase: Usecase;
+}
+
+@doc("NetworkConfiguration for LAN")
+model LanNetworkConfiguration {
+  @doc("NetworkConfigurationProperties for LAN")
+  properties: LanNetworkConfigurationProperties;
+
+  @doc("NetworkConfiguration kind as LAN")
+  kind: NetworkConfigurationKind.LAN;
+}
+
+@doc("NetworkConfigurationProperties for LAN")
+model LanNetworkConfigurationProperties {
+  ...NetworkConfigurationProperties;
 
   @doc("IP Assignment")
   ipAssignments: IpAssignment;

@@ -28,7 +28,7 @@ model DnsPrivateZoneProperties {
   isProtected: boolean;
 
   @doc("Zones lifecycleState")
-  lifecycleState: DnsPrivateZonesLifecycleState;
+  lifecycleState?: DnsPrivateZonesLifecycleState;
 
   @doc("The canonical absolute URL of the resource.")
   self: string;
