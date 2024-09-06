@@ -158,7 +158,7 @@ interface LandingZoneConfigurationOperations {
     LandingZoneConfigurationResourceProperties
   >;
   @doc("Deletes the landing zone configuration.")
-  delete is ArmResourceDeleteSync<LandingZoneConfigurationResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<LandingZoneConfigurationResource>;
   @doc("Lists the landing zone configurations within a resource group.")
   listByResourceGroup is ArmResourceListByParent<LandingZoneConfigurationResource>;
   @doc("Lists the landing zone configurations within a subscription.")
