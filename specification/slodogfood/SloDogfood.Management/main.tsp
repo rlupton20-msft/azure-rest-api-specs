@@ -63,9 +63,6 @@ model SloResource {
   @doc("This will be the ARM Id for this SLO.")
   sloId: string;
 
-  @doc("Set of tags to associate with this resource.")
-  tags: string[];
-
   @doc("The properties that define the Service Level Objective.")
   sloProperties: SloProperties;
 
