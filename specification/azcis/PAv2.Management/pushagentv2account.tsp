@@ -46,8 +46,8 @@ model PushAgentV2AccountResourceProperties {
   @doc("Error Reporting Table name.")
   errorReportingTable: string;
 
-  @doc("The ARM location of the Storage Account. ARM location is different from PAv2/CIS location, e.g. eastus VS. useast.")
-  armLocation: string;
+  @doc("The Azure location of the Storage Account. Azure location is different from PAv2/CIS location, e.g. eastus VS. useast.")
+  azureLocation: string;
 
   @doc("Tenant ID of the Subscription.")
   tenantId: string;
