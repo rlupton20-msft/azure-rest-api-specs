@@ -168,9 +168,12 @@ model AssetEndpointProfileStatusError {
 interface AssetEndpointProfiles {
   get is ArmResourceRead<AssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<AssetEndpointProfile>;
-  update is ArmResourcePatchAsync<
+  update is ArmCustomPatchAsync<
     AssetEndpointProfile,
-    AssetEndpointProfileProperties
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      AssetEndpointProfile,
+      AssetEndpointProfileProperties
+    >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<AssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<AssetEndpointProfile>;
