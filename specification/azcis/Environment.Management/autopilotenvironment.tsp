@@ -26,6 +26,9 @@ model EnvironmentResourceProperties {
   @visibility("read")
   mode: EnvironmentMode;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: EnvironmentProvisioningState;

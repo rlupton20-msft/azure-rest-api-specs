@@ -38,6 +38,9 @@ model AutopilotMachineFunctionResourceProperties {
   @doc("If a RequestedNodeLabel declared inside of MachineFunction, this particular MachineFunction will filled with this RequestedNodeLabels, but if no such requestedNodeLabel in ManaTree files, it will throw exception.")
   requestedNodeLabels?: string;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: EnvironmentProvisioningState;
