@@ -150,7 +150,13 @@ model DiscoveredEvent {
 interface DiscoveredAssets {
   get is ArmResourceRead<DiscoveredAsset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAsset>;
-  update is ArmResourcePatchAsync<DiscoveredAsset, DiscoveredAssetProperties>;
+  update is ArmCustomPatchAsync<
+    DiscoveredAsset,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      DiscoveredAsset,
+      DiscoveredAssetProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<DiscoveredAsset>;
   listByResourceGroup is ArmResourceListByParent<DiscoveredAsset>;
   listBySubscription is ArmListBySubscription<DiscoveredAsset>;

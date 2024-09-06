@@ -164,7 +164,13 @@ model SchemaVersionProperties {
 interface SchemaRegistries {
   get is ArmResourceRead<SchemaRegistry>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<SchemaRegistry>;
-  update is ArmResourcePatchAsync<SchemaRegistry, SchemaRegistryProperties>;
+  update is ArmCustomPatchAsync<
+    SchemaRegistry,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      SchemaRegistry,
+      SchemaRegistryProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<SchemaRegistry>;
   listByResourceGroup is ArmResourceListByParent<SchemaRegistry>;
   listBySubscription is ArmListBySubscription<SchemaRegistry>;
