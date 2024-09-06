@@ -22,6 +22,9 @@ model GenevaActionsExtensionResourceProperties {
   @doc("Sub folder path to the package folder relative to the branch root.")
   packageSourceRelativePath: string;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: GenevaActionsExtensionProvisioningState;
