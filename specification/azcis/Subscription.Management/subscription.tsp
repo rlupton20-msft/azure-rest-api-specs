@@ -90,6 +90,9 @@ model SubscriptionResourceProperties {
   @extension("x-ms-identifiers", [])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: SubscriptionProvisioningState;
