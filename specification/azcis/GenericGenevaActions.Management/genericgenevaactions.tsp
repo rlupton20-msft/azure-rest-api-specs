@@ -36,6 +36,9 @@ model GenericGenevaActionsResourceProperties {
   @extension("x-ms-identifiers", [])
   parameters?: Array<Parameter>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: GenericGenevaActionsProvisioningState;
