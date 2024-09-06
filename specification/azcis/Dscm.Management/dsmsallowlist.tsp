@@ -29,6 +29,9 @@ model DsmsAllowlistResourceProperties {
   @doc("Guids of Azure storage subscriptions in allowlist.")
   storageSubscriptions?: Array<string>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;

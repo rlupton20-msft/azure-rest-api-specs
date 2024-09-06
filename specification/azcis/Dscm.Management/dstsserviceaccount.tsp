@@ -48,6 +48,9 @@ model DstsServiceAccountResourceProperties {
   @doc("Tags to add to the account.")
   accountTags?: Array<string>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;

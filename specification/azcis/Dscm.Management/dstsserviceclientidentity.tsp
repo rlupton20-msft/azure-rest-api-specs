@@ -34,8 +34,8 @@ model DstsServiceClientIdentityResourceProperties {
   @doc("Gets or sets the GroupName of the account. This is case-insensitive. This is optional, and the service client identity is placed into default group when this is not specified. This can be the GroupName of an existing group, which can be found at dSCM web portal.")
   groupName?: string;
 
-  @doc("Gets or sets the region for the SCI. This is optional. E.g. \"francec\" for France Central..")
-  region?: string;
+  @doc("The Azure location / region for the SCI. E.g. \"francec\" for France Central.")
+  azureLocation: string;
 
   @doc("Gets or sets the subscriptions for the SCI. This is optional. E.g. \"5d711910-92ea-4ff9-b70d-1e61307faaac,a524674c-7024-40f1-afe9-127ab5a2e1b0\".")
   subscriptions?: string;

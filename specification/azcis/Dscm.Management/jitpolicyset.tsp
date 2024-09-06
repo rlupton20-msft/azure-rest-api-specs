@@ -26,6 +26,9 @@ model JitPolicySetProperties {
   @extension("x-ms-identifiers", [])
   policies?: Array<Policy>;
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
