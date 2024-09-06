@@ -14,7 +14,6 @@ using Autorest;
 namespace Microsoft.AzureCis;
 
 @doc("SharedConfigValuesResource properties")
-@added(Versions.v2024_08_31_preview)
 model SharedConfigValuesResourceProperties {
   @doc("The array of config values needs to be published or consumed.")
   @extension("x-ms-identifiers", [])
@@ -29,7 +28,6 @@ model SharedConfigValuesResourceProperties {
 }
 
 @doc("sharedConfigValues Resource")
-@added(Versions.v2024_08_31_preview)
 model SharedConfigValuesResource
   is ProxyResource<SharedConfigValuesResourceProperties> {
   @doc("The name of resource.")
@@ -42,7 +40,6 @@ model SharedConfigValuesResource
 }
 
 @doc("The config whose value needs to be published or consumed.")
-@added(Versions.v2024_08_31_preview)
 model SharedValue {
   @doc("The unique name in CloudSprout whose value needs to be published or consumed.")
   moniker: string;
@@ -51,12 +48,11 @@ model SharedValue {
   value?: string;
 
   @doc("Scope of Moniker value. Optional.")
-  scope?: GeoScope;
+  scope?: Scope;
 }
 
 @doc("GeoScope. Optional.")
-@added(Versions.v2024_08_31_preview)
-model GeoScope {
+model Scope {
   @doc("GeoType. The valid value is Cloud.")
   geoType: string;
 
@@ -65,7 +61,6 @@ model GeoScope {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation."
-@added(Versions.v2024_08_31_preview)
 @armResourceOperations
 interface SharedConfigValues {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<SharedConfigValuesResource>;
