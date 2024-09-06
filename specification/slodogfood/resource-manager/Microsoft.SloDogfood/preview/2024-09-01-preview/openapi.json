@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Microsoft.SloDogfood",
-    "version": "2024-08-01-preview",
+    "version": "2024-09-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -46,13 +46,52 @@
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Microsoft.SloDogfood/slos": {
+      "get": {
+        "operationId": "Slos_ListByParent",
+        "tags": [
+          "Slos"
+        ],
+        "description": "Lists all Slos",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SloListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "SlosListByParent": {
+            "$ref": "./examples/Slos_ListByParent.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/{resourceUri}/providers/Microsoft.SloDogfood/slos/{sloName}": {
       "get": {
         "operationId": "Slos_Get",
         "tags": [
           "Slos"
         ],
-        "description": "Get a Slo",
+        "description": "Gets a Slo",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -94,7 +133,7 @@
         "tags": [
           "Slos"
         ],
-        "description": "Create a Slo",
+        "description": "Creates or updates a Slo",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -151,7 +190,7 @@
         "tags": [
           "Slos"
         ],
-        "description": "Delete a Slo",
+        "description": "Deletes a Slo",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -227,17 +266,17 @@
     }
   },
   "definitions": {
-    "AccountMetadata": {
+    "DestinationAccountMetadata": {
       "type": "object",
       "description": "The Azure Monitor Workspace account metadata",
       "properties": {
         "resourceId": {
           "type": "string",
-          "description": "ARM resource id for the AMW"
+          "description": "ARM resource id for the account where metrics related to this SLO are emitted by the service."
         },
         "identity": {
           "type": "string",
-          "description": "ARM Id for the MSI"
+          "description": "ARM resource id for teh managed identity with access to the source account."
         }
       },
       "required": [
@@ -300,12 +339,36 @@
       },
       "readOnly": true
     },
+    "SliProperties": {
+      "type": "object",
+      "description": "SLI Properties",
+      "properties": {
+        "sourceAccounts": {
+          "type": "array",
+          "description": "The AMW account from where the metrics will originate",
+          "items": {
+            "$ref": "#/definitions/SourceAccountMetadata"
+          },
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        },
+        "destinationAccount": {
+          "$ref": "#/definitions/DestinationAccountMetadata",
+          "description": "The AMW account to where the metrics will be sent"
+        }
+      },
+      "required": [
+        "sourceAccounts",
+        "destinationAccount"
+      ]
+    },
     "Slo": {
       "type": "object",
       "description": "A SloTestProviderHub resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SloProperties",
+          "$ref": "#/definitions/SloResource",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -315,37 +378,88 @@
         }
       ]
     },
+    "SloListResult": {
+      "type": "object",
+      "description": "The response of a Slo list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Slo items on this page",
+          "items": {
+            "$ref": "#/definitions/Slo"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "SloProperties": {
       "type": "object",
       "description": "SLO Properties",
+      "properties": {
+        "sloCategory": {
+          "type": "string",
+          "description": "One of these values: Availability | Latency"
+        },
+        "targets": {
+          "$ref": "#/definitions/SloTargets",
+          "description": "The targets that this SLO should achieve. An SLO may have multiple targets."
+        },
+        "zoomMinutes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The zoom window for aggregating the SLI signals."
+        },
+        "lookbackWindowDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of days. When LookbackType is Rolling, this is the rolling window (in days)."
+        },
+        "lookbackType": {
+          "type": "string",
+          "description": "One of Rolling or Calendar."
+        }
+      },
+      "required": [
+        "sloCategory",
+        "targets",
+        "zoomMinutes",
+        "lookbackWindowDays",
+        "lookbackType"
+      ]
+    },
+    "SloResource": {
+      "type": "object",
+      "description": "SLO Request body",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "sloCategory": {
+        "sloId": {
           "type": "string",
-          "description": "SLO category"
+          "description": "This will be the ARM Id for this SLO."
         },
-        "sloTarget": {
-          "$ref": "#/definitions/SloTargets",
-          "description": "SLO target"
+        "sloProperties": {
+          "$ref": "#/definitions/SloProperties",
+          "description": "The properties that define the Service Level Objective."
         },
-        "sourceAccount": {
-          "$ref": "#/definitions/AccountMetadata",
-          "description": "The AMW account from where the metrics will originate"
-        },
-        "destinationAccount": {
-          "$ref": "#/definitions/AccountMetadata",
-          "description": "The AMW account to where the metrics will be sent"
+        "sliProperties": {
+          "$ref": "#/definitions/SliProperties",
+          "description": "The properties that define the Service Level Indicators."
         }
       },
       "required": [
-        "sloCategory",
-        "sloTarget",
-        "sourceAccount",
-        "destinationAccount"
+        "sloId",
+        "sloProperties",
+        "sliProperties"
       ]
     },
     "SloTargets": {
@@ -354,14 +468,13 @@
       "properties": {
         "targetName": {
           "type": "string",
-          "description": "SLO target name"
+          "description": "A user-friendly name given to this target."
         },
         "targetValue": {
           "type": "number",
           "format": "float",
-          "description": "SLO target value",
-          "minimum": 0,
-          "maximum": 100
+          "description": "For latency, this would typically be a milliseconds value. For Availability or SuccessRate, users may specify a percentage value.",
+          "minimum": 0
         },
         "targetWindow": {
           "type": "string",
@@ -382,6 +495,24 @@
         "targetWindow",
         "targetPercentile",
         "operator"
+      ]
+    },
+    "SourceAccountMetadata": {
+      "type": "object",
+      "description": "The Azure Monitor Workspace account metadata",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "ARM resource id for the account where metrics related to this SLO are emitted by the service."
+        },
+        "identity": {
+          "type": "string",
+          "description": "ARM resource id for teh managed identity with access to the source account."
+        }
+      },
+      "required": [
+        "resourceId",
+        "identity"
       ]
     }
   },
