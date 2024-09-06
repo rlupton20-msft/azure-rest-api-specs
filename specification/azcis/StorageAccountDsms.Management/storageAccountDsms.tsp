@@ -97,6 +97,9 @@ model StorageAccountDsmsResourceProperties {
   @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
   properties?: {};
 
+  @doc("The Azure location.")
+  azureLocation?: string;
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
