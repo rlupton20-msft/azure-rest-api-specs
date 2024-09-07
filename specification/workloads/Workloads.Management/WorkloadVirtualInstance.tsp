@@ -29,7 +29,10 @@ interface WorkloadVirtualInstances {
     WorkloadVirtualInstance,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader
   >;
-  update is ArmResourcePatchSync<WorkloadVirtualInstance, WorkloadVirtualInstanceProperties>;
+  update is ArmResourcePatchSync<
+    WorkloadVirtualInstance,
+    WorkloadVirtualInstanceProperties
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<WorkloadVirtualInstance>;
 
   listByResourceGroup is ArmResourceListByParent<WorkloadVirtualInstance>;
