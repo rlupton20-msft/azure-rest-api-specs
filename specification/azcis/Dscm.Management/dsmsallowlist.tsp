@@ -29,9 +29,13 @@ model DsmsAllowlistResourceProperties {
   @doc("Guids of Azure storage subscriptions in allowlist.")
   storageSubscriptions?: Array<string>;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
+
+  @doc("Request ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  requestId?: string;
 }
 
 @doc("dsmsAllowlist Resource")
