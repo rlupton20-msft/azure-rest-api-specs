@@ -276,6 +276,60 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "WorkloadVirtualInstances_Update",
+        "tags": [
+          "WorkloadVirtualInstances"
+        ],
+        "description": "Update a WorkloadVirtualInstance",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "workloadVirtualInstanceName",
+            "in": "path",
+            "description": "The name of the WorkloadVirtualInstance",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkloadVirtualInstanceTagsUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/WorkloadVirtualInstance"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "WorkloadVirtualInstances_Update": {
+            "$ref": "./examples/WorkloadVirtualInstances_Update.json"
+          }
+        }
+      },
       "delete": {
         "operationId": "WorkloadVirtualInstances_Delete",
         "tags": [
@@ -525,6 +579,19 @@
         "workloadResourceDefinitionId",
         "roleConfigurations"
       ]
+    },
+    "WorkloadVirtualInstanceTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in WorkloadVirtualInstance resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "parameters": {}
