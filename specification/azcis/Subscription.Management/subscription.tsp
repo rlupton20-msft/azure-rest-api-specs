@@ -102,12 +102,12 @@ model SubscriptionResourceProperties {
   @extension("x-ms-identifiers", [])
   @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   rbacRoles?: Array<RbacRole>;
-  
+
   @doc("List of ARM Features; a part of provisioning ResultData output.")
   @extension("x-ms-identifiers", [])
   @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   armFeatures?: Array<ArmFeatureRegistration>;
-  
+
   @doc("List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.")
   @extension("x-ms-identifiers", [])
   @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
