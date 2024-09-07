@@ -306,7 +306,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/WorkloadVirtualInstanceTagsUpdate"
+              "$ref": "#/definitions/WorkloadVirtualInstanceUpdate"
             }
           }
         ],
@@ -393,6 +393,24 @@
     }
   },
   "definitions": {
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The resource provisioning state.",
@@ -580,18 +598,45 @@
         "roleConfigurations"
       ]
     },
-    "WorkloadVirtualInstanceTagsUpdate": {
+    "WorkloadVirtualInstancePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for updating tags in WorkloadVirtualInstance resources.",
+      "description": "WorkloadVirtualInstances properties",
       "properties": {
-        "tags": {
+        "workloadResourceDefinitionId": {
+          "type": "string",
+          "description": "The Arm resource Id for workload resource definition."
+        },
+        "roleConfigurations": {
+          "type": "array",
+          "description": "The configuration of workload roles (or) tiers.",
+          "items": {
+            "$ref": "#/definitions/RoleConfigurations"
+          },
+          "x-ms-identifiers": []
+        },
+        "annotations": {
           "type": "object",
-          "description": "Resource tags.",
+          "description": "Mutable key value pairs.",
           "additionalProperties": {
             "type": "string"
           }
         }
       }
+    },
+    "WorkloadVirtualInstanceUpdate": {
+      "type": "object",
+      "description": "WorkloadVirtualInstance resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WorkloadVirtualInstancePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     }
   },
   "parameters": {}
