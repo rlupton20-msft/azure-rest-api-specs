@@ -46,6 +46,9 @@ suppressions:
       from:  WorkloadResourceDefinitions.json
       # https://github.com/Azure/azure-openapi-validator/issues/722
       reason: Bug
+    - code: TagsAreNotAllowedForProxyResources
+      from:  WorkloadResourceDefinitions.json
+      reason: Bug
 ```
 
 ---
