@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-preview-2023-10` is specified on t
 
 ```yaml $(tag) == 'package-preview-2023-10'
 input-file:
-  - workloadVirtualinstances.json
+  - WorkloadVirtualInstances.json
   - ../../../operations/preview/2023-10-01-preview/operations.json
 suppressions:
     - code: AvoidAdditionalProperties
