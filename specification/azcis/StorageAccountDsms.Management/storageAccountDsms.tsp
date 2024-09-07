@@ -21,7 +21,7 @@ model StorageAccountDsmsResourceProperties {
   rootPath: string;
 
   @doc("Defines in which region of dSMS to provision the Storage Account, such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). Used only for provisioning Storage Account in non-home-dsms endpoint.")
-  dsmsDns?: string;
+  dsmsDns?: string; // Can be a part of provisioning ResultData output, and get PATCHed back from FRP.
 
   @doc("Account Replication Type.")
   accountReplicationType?: string;
@@ -97,9 +97,33 @@ model StorageAccountDsmsResourceProperties {
   @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
   properties?: {};
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: StorageAccountDsmsProvisioningState;
+
+  @doc("Storage Account dSMS object name; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  storageAccountDsmsName?: string;
+
+  @doc("Storage Account dSMS object resource provider; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  storageAccountDsmsResourceProviderName?: string;
+
+  @doc("Storage Account ARM creation time; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  storageAccountArmCreationTime?: string;
+
+  @doc("Storage Account rdfe creation time; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  storageAccountRdfeCreationTime?: string;
+
+  @doc("Storage Account XStore creation time; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  storageAccountXstoreCreationTime?: string;
+
+  @doc("Resource template provision start time; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  provisionStartTime?: string;
 }
 
 @doc("AccountSasInfo element contains Sas Key Information.")
