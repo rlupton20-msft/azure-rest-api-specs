@@ -32,13 +32,13 @@ interface Configurations {
   get is ArmResourceRead<Configuration>;
 
   @doc("Create or update a Configuration Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Configuration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Configuration>;
 
   @doc("Update a Configuration Resource")
   update is ArmResourcePatchSync<Configuration, ConfigurationProperties>;
 
   @doc("Delete a Configuration Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<Configuration>;
+  delete is ArmResourceDeleteSync<Configuration>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<Configuration>;

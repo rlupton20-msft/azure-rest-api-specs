@@ -18,12 +18,12 @@ namespace Private.Edge;
 @armResourceOperations
 interface SecurityConfigurations {
   get is ArmResourceRead<SecurityConfiguration>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<SecurityConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<SecurityConfiguration>;
   update is ArmResourcePatchSync<
     SecurityConfiguration,
     SecurityConfigurationProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<SecurityConfiguration>;
+  delete is ArmResourceDeleteSync<SecurityConfiguration>;
   listByConfiguration is ArmResourceListByParent<SecurityConfiguration>;
 }
 
@@ -46,7 +46,7 @@ model SecurityConfigurationProperties {
   usecase: Usecase;
 
   @doc("References for the secrets from keyvaults")
-  @extension("x-ms-identifiers", ["secretName"])
+  @extension("x-ms-identifiers", ["secretUri"])
   secretReferences: SecretReference[];
 }
 
@@ -55,24 +55,21 @@ model SecretReference {
   @doc("resourceId to the keyvault")
   keyvaultResourceId: string;
 
-  @doc("name of the secret")
-  secretName: string;
-
-  @doc("type of the secret")
-  secretType: SecretType;
-
   @doc("vaultUri of the keyvault")
   @visibility("read")
   vaultUri: url;
+
+  @doc("uri of the secret")
+  secretUri: string;
+
+  @doc("purpose for the secret")
+  purpose: SecretPurpose;
 }
 
-@doc("Type of secrets supported")
-union SecretType {
-  @doc("Type Secret")
-  Secret: "secret",
-
-  @doc("Type Certificate")
-  Certificate: "certificate",
+@doc("Vairous purposes for the secrets")
+union SecretPurpose {
+  @doc("LocalAdminCredential Secret")
+  LocalAdminCredential: "LocalAdminCredential",
 
   string,
 }

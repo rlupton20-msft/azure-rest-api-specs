@@ -43,11 +43,11 @@ model ArcGatewayConfiguration
 @armResourceOperations
 interface ArcGatewayConfigurations {
   get is ArmResourceRead<ArcGatewayConfiguration>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<ArcGatewayConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<ArcGatewayConfiguration>;
   update is ArmResourcePatchSync<
     ArcGatewayConfiguration,
     ArcGatewayConfigurationProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<ArcGatewayConfiguration>;
+  delete is ArmResourceDeleteSync<ArcGatewayConfiguration>;
   listByConfiguration is ArmResourceListByParent<ArcGatewayConfiguration>;
 }

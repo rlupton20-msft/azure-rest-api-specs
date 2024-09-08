@@ -19,12 +19,12 @@ namespace Private.Edge;
 @armResourceOperations
 interface TimeServerConfigurations {
   get is ArmResourceRead<TimeServerConfiguration>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<TimeServerConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<TimeServerConfiguration>;
   update is ArmResourcePatchSync<
     TimeServerConfiguration,
     TimeServerConfigurationProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<TimeServerConfiguration>;
+  delete is ArmResourceDeleteSync<TimeServerConfiguration>;
   listByConfiguration is ArmResourceListByParent<TimeServerConfiguration>;
 }
 
