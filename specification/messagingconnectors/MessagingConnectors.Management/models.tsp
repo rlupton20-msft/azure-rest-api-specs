@@ -150,9 +150,6 @@ union ConverterType {
   @doc("This represents a converter for csv format.")
   CsvConverter: "CsvConverter",
 
-  @doc("This represents a converter for CatalogCdcCloudEvents format.")
-  CatalogCdcCloudEventsConverter: "CatalogCdcCloudEventsConverter",
-
   string,
 }
 
@@ -291,80 +288,31 @@ model ConverterConfig {
   type: ConverterType;
 }
 
-@doc("Catalog schema id.")
-model CatalogSchemaId {
-  @doc("schema group id.")
-  schemaGroupId: string;
-
-  @doc("schema id.")
-  schemaId: string;
-}
-
-@doc("Catalog schema id.")
-model AutoRegisterSchemasConfig {
-  @doc("cdc database name.")
-  databaseName: string;
-
-  @doc("cdc table name.")
-  tableName: string;
-
-  @doc("schema group id in catalog.")
-  schemaGroupId: string;
-
-  @doc("schema id in catalog.")
-  schemaId: string;
-
-  @doc("schema format in catalog.")
-  schemaFormat: string;
-}
-
-@doc("DataFormat types supported by catalog.")
-union DataFormatTypesInCatalog {
-  @doc("Unknown type.")
-  Unknown: "Unknown",
-
-  @doc("Avro dataFormat.")
-  Avro: "Avro",
-
-  @doc("Json dataFormat.")
-  Json: "Json",
-
-  @doc("Protobuf dataFormat.")
-  Protobuf: "Protobuf",
-
-  @doc("Xml dataFormat.")
-  Xml: "Xml",
-
-  string,
-}
-
-@doc("Base class for Converter config")
-model CatalogCdcCloudEventsConverter extends ConverterConfig {
+@doc("CsvConverter config")
+model CsvConverter extends ConverterConfig {
   @doc("Type of converter.")
-  type: ConverterType.CatalogCdcCloudEventsConverter;
-
-  @doc("Catalog endpoint.")
-  catalogEndpoint: string;
-
-  @doc("Catalog schemaIds.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  catalogSchemaIds: CatalogSchemaId[];
-
-  @doc("Cdc serverName.")
-  cdcServerName: string;
-
-  @doc("AutoRegisterSchemas or not.")
-  autoRegisterSchemas: boolean;
-
-  @doc("AutoRegisterSchemas configs.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  autoRegisterSchemasConfigs?: AutoRegisterSchemasConfig[];
-
-  @doc("dataFormat types for Catalog.")
-  dataFormat: DataFormatTypesInCatalog;
+  type: ConverterType.CsvConverter;
 }
 
-@doc("Base class for Converter config")
+@doc("AvroConverter config")
+model AvroConverter extends ConverterConfig {
+  @doc("Type of converter.")
+  type: ConverterType.AvroConverter;
+}
+
+@doc("StringConverter config")
+model StringConverter extends ConverterConfig {
+  @doc("Type of converter.")
+  type: ConverterType.StringConverter;
+}
+
+@doc("ByteArrayConverter config")
+model ByteArrayConverter extends ConverterConfig {
+  @doc("Type of converter.")
+  type: ConverterType.ByteArrayConverter;
+}
+
+@doc("JsonConverter config")
 model JsonConverter extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.JsonConverter;
@@ -503,9 +451,6 @@ model GooglePubSubSourceConnectorProperties extends ConnectorProperties {
 
 @doc("StartPosition types for Kinesis")
 union KinesisStartPositionType {
-  @doc("Unknown type")
-  Unknown: "Unknown",
-
   @doc("TrimHorizon type")
   TrimHorizon: "TrimHorizon",
 
@@ -655,9 +600,8 @@ union AzureServiceBusType {
 
   string,
 }
-@doc("Configuration for AzureServiceBusSourceSourceConnector")
-model AzureServiceBusSourceSourceConnectorProperties
-  extends ConnectorProperties {
+@doc("Configuration for AzureServiceBusSourceConnector")
+model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
   @doc("Type of AzureServiceBusSource")
   connectorType: ConnectorType.AzureServiceBusSource;
 

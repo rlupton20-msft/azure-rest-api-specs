@@ -673,42 +673,19 @@
     }
   },
   "definitions": {
-    "AutoRegisterSchemasConfig": {
+    "AvroConverter": {
       "type": "object",
-      "description": "Catalog schema id.",
-      "properties": {
-        "databaseName": {
-          "type": "string",
-          "description": "cdc database name."
-        },
-        "tableName": {
-          "type": "string",
-          "description": "cdc table name."
-        },
-        "schemaGroupId": {
-          "type": "string",
-          "description": "schema group id in catalog."
-        },
-        "schemaId": {
-          "type": "string",
-          "description": "schema id in catalog."
-        },
-        "schemaFormat": {
-          "type": "string",
-          "description": "schema format in catalog."
+      "description": "AvroConverter config",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConverterConfig"
         }
-      },
-      "required": [
-        "databaseName",
-        "tableName",
-        "schemaGroupId",
-        "schemaId",
-        "schemaFormat"
-      ]
+      ],
+      "x-ms-discriminator-value": "AvroConverter"
     },
-    "AzureServiceBusSourceSourceConnectorProperties": {
+    "AzureServiceBusSourceConnectorProperties": {
       "type": "object",
-      "description": "Configuration for AzureServiceBusSourceSourceConnector",
+      "description": "Configuration for AzureServiceBusSourceConnector",
       "properties": {
         "connectorDirection": {
           "type": "string",
@@ -837,74 +814,15 @@
       ],
       "x-ms-discriminator-value": "BitCoinSource"
     },
-    "CatalogCdcCloudEventsConverter": {
+    "ByteArrayConverter": {
       "type": "object",
-      "description": "Base class for Converter config",
-      "properties": {
-        "catalogEndpoint": {
-          "type": "string",
-          "description": "Catalog endpoint."
-        },
-        "catalogSchemaIds": {
-          "type": "array",
-          "description": "Catalog schemaIds.",
-          "items": {
-            "$ref": "#/definitions/CatalogSchemaId"
-          },
-          "x-ms-identifiers": []
-        },
-        "cdcServerName": {
-          "type": "string",
-          "description": "Cdc serverName."
-        },
-        "autoRegisterSchemas": {
-          "type": "boolean",
-          "description": "AutoRegisterSchemas or not."
-        },
-        "autoRegisterSchemasConfigs": {
-          "type": "array",
-          "description": "AutoRegisterSchemas configs.",
-          "items": {
-            "$ref": "#/definitions/AutoRegisterSchemasConfig"
-          },
-          "x-ms-identifiers": []
-        },
-        "dataFormat": {
-          "$ref": "#/definitions/DataFormatTypesInCatalog",
-          "description": "dataFormat types for Catalog."
-        }
-      },
-      "required": [
-        "catalogEndpoint",
-        "catalogSchemaIds",
-        "cdcServerName",
-        "autoRegisterSchemas",
-        "dataFormat"
-      ],
+      "description": "ByteArrayConverter config",
       "allOf": [
         {
           "$ref": "#/definitions/ConverterConfig"
         }
       ],
-      "x-ms-discriminator-value": "CatalogCdcCloudEventsConverter"
-    },
-    "CatalogSchemaId": {
-      "type": "object",
-      "description": "Catalog schema id.",
-      "properties": {
-        "schemaGroupId": {
-          "type": "string",
-          "description": "schema group id."
-        },
-        "schemaId": {
-          "type": "string",
-          "description": "schema id."
-        }
-      },
-      "required": [
-        "schemaGroupId",
-        "schemaId"
-      ]
+      "x-ms-discriminator-value": "ByteArrayConverter"
     },
     "ConfluentSourceConnectorProperties": {
       "type": "object",
@@ -1262,8 +1180,7 @@
         "StringConverter",
         "JsonConverter",
         "AvroConverter",
-        "CsvConverter",
-        "CatalogCdcCloudEventsConverter"
+        "CsvConverter"
       ],
       "x-ms-enum": {
         "name": "ConverterType",
@@ -1298,11 +1215,6 @@
             "name": "CsvConverter",
             "value": "CsvConverter",
             "description": "This represents a converter for csv format."
-          },
-          {
-            "name": "CatalogCdcCloudEventsConverter",
-            "value": "CatalogCdcCloudEventsConverter",
-            "description": "This represents a converter for CatalogCdcCloudEvents format."
           }
         ]
       }
@@ -1384,6 +1296,16 @@
         }
       ],
       "x-ms-discriminator-value": "CosmosDbSource"
+    },
+    "CsvConverter": {
+      "type": "object",
+      "description": "CsvConverter config",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConverterConfig"
+        }
+      ],
+      "x-ms-discriminator-value": "CsvConverter"
     },
     "CsvDelimiters": {
       "type": "string",
@@ -1479,48 +1401,6 @@
         }
       ],
       "x-ms-discriminator-value": "CSV"
-    },
-    "DataFormatTypesInCatalog": {
-      "type": "string",
-      "description": "DataFormat types supported by catalog.",
-      "enum": [
-        "Unknown",
-        "Avro",
-        "Json",
-        "Protobuf",
-        "Xml"
-      ],
-      "x-ms-enum": {
-        "name": "DataFormatTypesInCatalog",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Unknown",
-            "value": "Unknown",
-            "description": "Unknown type."
-          },
-          {
-            "name": "Avro",
-            "value": "Avro",
-            "description": "Avro dataFormat."
-          },
-          {
-            "name": "Json",
-            "value": "Json",
-            "description": "Json dataFormat."
-          },
-          {
-            "name": "Protobuf",
-            "value": "Protobuf",
-            "description": "Protobuf dataFormat."
-          },
-          {
-            "name": "Xml",
-            "value": "Xml",
-            "description": "Xml dataFormat."
-          }
-        ]
-      }
     },
     "DataPreview": {
       "type": "object",
@@ -1754,7 +1634,7 @@
     },
     "JsonConverter": {
       "type": "object",
-      "description": "Base class for Converter config",
+      "description": "JsonConverter config",
       "properties": {
         "schemasEnabled": {
           "type": "boolean",
@@ -1872,7 +1752,6 @@
       "type": "string",
       "description": "StartPosition types for Kinesis",
       "enum": [
-        "Unknown",
         "TrimHorizon",
         "Latest",
         "AtSequenceNumber",
@@ -1883,11 +1762,6 @@
         "name": "KinesisStartPositionType",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Unknown",
-            "value": "Unknown",
-            "description": "Unknown type"
-          },
           {
             "name": "TrimHorizon",
             "value": "TrimHorizon",
@@ -2355,6 +2229,16 @@
         }
       ],
       "x-ms-discriminator-value": "SqlServerSource"
+    },
+    "StringConverter": {
+      "type": "object",
+      "description": "StringConverter config",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConverterConfig"
+        }
+      ],
+      "x-ms-discriminator-value": "StringConverter"
     }
   },
   "parameters": {}
