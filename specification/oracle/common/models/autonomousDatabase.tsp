@@ -403,6 +403,14 @@ model PeerDbDetails {
   @minLength(1)
   @maxLength(255)
   peerDbId?: string;
+
+  @added(Versions.v20241001_preview)
+  @doc("Ocid of the Disaster Recovery peer database, which is located in a different region from the current peer database.")
+  peerDbOcid?: string;
+
+  @added(Versions.v20241001_preview)
+  @doc("The location of the Disaster Recovery peer database.")
+  peerDbLocation?: string;
 }
 
 @doc("Autonomous Disaster Recovery standby database details.")
