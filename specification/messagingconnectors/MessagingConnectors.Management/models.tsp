@@ -125,7 +125,7 @@ union ConnectorType {
   MySqlSource: "MySqlSource",
 
   @doc("servicebus source connector.")
-  ServiceBusSource: "ServiceBusSource",
+  AzureServiceBusSource: "AzureServiceBusSource",
 
   string,
 }
@@ -551,8 +551,8 @@ model KinesisSourceConnectorProperties extends ConnectorProperties {
   @doc("startSequence for startPosition.")
   startSequence?: string;
 
-  @doc("startTimestamp for startPosition.")
-  startTimestamp?: utcDateTime;
+  @doc("startTime for startPosition.")
+  startTime?: utcDateTime;
 }
 
 @doc("Configuration for PostgreSqlSourceConnector")
@@ -645,8 +645,8 @@ model MySqlSourceConnectorProperties extends ConnectorProperties {
   tableNames: string;
 }
 
-@doc("Type of ServiceBusType")
-union ServiceBusType {
+@doc("Type of AzureServiceBusType")
+union AzureServiceBusType {
   @doc("Topic type")
   Topic: "Topic",
 
@@ -655,10 +655,11 @@ union ServiceBusType {
 
   string,
 }
-@doc("Configuration for ServiceBusSourceConnector")
-model ServiceBusSourceConnectorProperties extends ConnectorProperties {
-  @doc("Type of ServiceBusSourceConnector")
-  connectorType: ConnectorType.ServiceBusSource;
+@doc("Configuration for AzureServiceBusSourceSourceConnector")
+model AzureServiceBusSourceSourceConnectorProperties
+  extends ConnectorProperties {
+  @doc("Type of AzureServiceBusSource")
+  connectorType: ConnectorType.AzureServiceBusSource;
 
   @doc("Direction of the Source Connector.")
   connectorDirection?: Direction = Direction.Source;
@@ -669,11 +670,11 @@ model ServiceBusSourceConnectorProperties extends ConnectorProperties {
   @doc("Name for subscription.")
   subscriptionName?: string;
 
-  @doc("connectionString for ServiceBus.")
+  @doc("connectionString for AzureServiceBusSource.")
   connectionString: string;
 
   @doc("serviceBus type.")
-  serviceBusType: ServiceBusType;
+  serviceBusType: AzureServiceBusType;
 }
 
 @doc("Type of DataRange")

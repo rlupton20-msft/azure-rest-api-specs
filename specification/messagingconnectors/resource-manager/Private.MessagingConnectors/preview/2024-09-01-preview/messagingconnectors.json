@@ -706,6 +706,94 @@
         "schemaFormat"
       ]
     },
+    "AzureServiceBusSourceSourceConnectorProperties": {
+      "type": "object",
+      "description": "Configuration for AzureServiceBusSourceSourceConnector",
+      "properties": {
+        "connectorDirection": {
+          "type": "string",
+          "description": "Direction of the Source Connector.",
+          "default": "Source",
+          "enum": [
+            "Unknown",
+            "Source",
+            "Sink"
+          ],
+          "x-ms-enum": {
+            "name": "Direction",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown direction"
+              },
+              {
+                "name": "Source",
+                "value": "Source",
+                "description": "Source Connector"
+              },
+              {
+                "name": "Sink",
+                "value": "Sink",
+                "description": "Sink Connector"
+              }
+            ]
+          }
+        },
+        "topicOrQueueName": {
+          "type": "string",
+          "description": "Name for topic Or Queue."
+        },
+        "subscriptionName": {
+          "type": "string",
+          "description": "Name for subscription."
+        },
+        "connectionString": {
+          "type": "string",
+          "description": "connectionString for AzureServiceBusSource."
+        },
+        "serviceBusType": {
+          "$ref": "#/definitions/AzureServiceBusType",
+          "description": "serviceBus type."
+        }
+      },
+      "required": [
+        "topicOrQueueName",
+        "connectionString",
+        "serviceBusType"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectorProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureServiceBusSource"
+    },
+    "AzureServiceBusType": {
+      "type": "string",
+      "description": "Type of AzureServiceBusType",
+      "enum": [
+        "Topic",
+        "Queue"
+      ],
+      "x-ms-enum": {
+        "name": "AzureServiceBusType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Topic",
+            "value": "Topic",
+            "description": "Topic type"
+          },
+          {
+            "name": "Queue",
+            "value": "Queue",
+            "description": "Queue type"
+          }
+        ]
+      }
+    },
     "BitCoinSourceConnectorProperties": {
       "type": "object",
       "description": "Configuration for BitCoinSourceConnector",
@@ -1087,7 +1175,7 @@
         "KafkaSource",
         "ConfluentSource",
         "MySqlSource",
-        "ServiceBusSource"
+        "AzureServiceBusSource"
       ],
       "x-ms-enum": {
         "name": "ConnectorType",
@@ -1144,8 +1232,8 @@
             "description": "mysql source connector."
           },
           {
-            "name": "ServiceBusSource",
-            "value": "ServiceBusSource",
+            "name": "AzureServiceBusSource",
+            "value": "AzureServiceBusSource",
             "description": "servicebus source connector."
           }
         ]
@@ -1760,10 +1848,10 @@
           "type": "string",
           "description": "startSequence for startPosition."
         },
-        "startTimestamp": {
+        "startTime": {
           "type": "string",
           "format": "date-time",
-          "description": "startTimestamp for startPosition."
+          "description": "startTime for startPosition."
         }
       },
       "required": [
@@ -2148,94 +2236,6 @@
             "name": "Ssl",
             "value": "SSL",
             "description": "The SSL security protocol."
-          }
-        ]
-      }
-    },
-    "ServiceBusSourceConnectorProperties": {
-      "type": "object",
-      "description": "Configuration for ServiceBusSourceConnector",
-      "properties": {
-        "connectorDirection": {
-          "type": "string",
-          "description": "Direction of the Source Connector.",
-          "default": "Source",
-          "enum": [
-            "Unknown",
-            "Source",
-            "Sink"
-          ],
-          "x-ms-enum": {
-            "name": "Direction",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Unknown",
-                "value": "Unknown",
-                "description": "Unknown direction"
-              },
-              {
-                "name": "Source",
-                "value": "Source",
-                "description": "Source Connector"
-              },
-              {
-                "name": "Sink",
-                "value": "Sink",
-                "description": "Sink Connector"
-              }
-            ]
-          }
-        },
-        "topicOrQueueName": {
-          "type": "string",
-          "description": "Name for topic Or Queue."
-        },
-        "subscriptionName": {
-          "type": "string",
-          "description": "Name for subscription."
-        },
-        "connectionString": {
-          "type": "string",
-          "description": "connectionString for ServiceBus."
-        },
-        "serviceBusType": {
-          "$ref": "#/definitions/ServiceBusType",
-          "description": "serviceBus type."
-        }
-      },
-      "required": [
-        "topicOrQueueName",
-        "connectionString",
-        "serviceBusType"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/ConnectorProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "ServiceBusSource"
-    },
-    "ServiceBusType": {
-      "type": "string",
-      "description": "Type of ServiceBusType",
-      "enum": [
-        "Topic",
-        "Queue"
-      ],
-      "x-ms-enum": {
-        "name": "ServiceBusType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Topic",
-            "value": "Topic",
-            "description": "Topic type"
-          },
-          {
-            "name": "Queue",
-            "value": "Queue",
-            "description": "Queue type"
           }
         ]
       }
