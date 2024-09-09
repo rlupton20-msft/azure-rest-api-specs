@@ -939,8 +939,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -951,7 +962,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations/{landingZoneConfigurationName}/createCopy": {
@@ -1564,7 +1579,8 @@
             "description": "Resource creation was canceled."
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "CreateCopyRequest": {
       "type": "object",
@@ -2602,7 +2618,7 @@
         "userAssignedIdentityResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The resource id of the managed identity.",
+          "description": "The resource id of the user assigned managed identity.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -2627,7 +2643,7 @@
         "userAssignedIdentityResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The resource id of the managed identity.",
+          "description": "The resource id of the user assigned managed identity.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -3014,7 +3030,8 @@
             "description": "The state of the resource when deleting"
           }
         ]
-      }
+      },
+      "readOnly": true
     }
   },
   "parameters": {}

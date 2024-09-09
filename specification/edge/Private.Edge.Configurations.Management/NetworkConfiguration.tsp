@@ -19,16 +19,19 @@ namespace Private.Edge;
 @armResourceOperations
 interface NetworkConfigurations {
   get is ArmResourceRead<NetworkConfiguration>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<NetworkConfiguration>;
-  update is ArmCustomPatchSync<NetworkConfiguration, NetworkConfigurationPatch>;
-  delete is ArmResourceDeleteWithoutOkAsync<NetworkConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<NetworkConfiguration>;
+  update is ArmResourcePatchSync<
+    NetworkConfiguration,
+    NetworkConfigurationProperties
+  >;
+  delete is ArmResourceDeleteSync<NetworkConfiguration>;
   listByConfiguration is ArmResourceListByParent<NetworkConfiguration>;
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state"
 @doc("NetworkConfiguration Resource")
 @parentResource(Configuration)
-@discriminator("kind")
-model NetworkConfiguration is ProxyResource<NetworkConfigurationProperties> {
+model NetworkConfiguration is ProxyResource<LanNetworkConfigurationProperties> {
   ...ResourceNameParameter<
     NetworkConfiguration,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
@@ -36,18 +39,7 @@ model NetworkConfiguration is ProxyResource<NetworkConfigurationProperties> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Exposing various kinds of NetworkConfigurations via NetworkConfigurationKind"
   @doc("Specifies NetworkConfiguration kind")
-  // @visibility("read", "create", "update")
   kind: NetworkConfigurationKind;
-}
-
-@doc("NetworkConfiguration for PATCH operation")
-model NetworkConfigurationPatch {
-  @doc("NetworkConfigurationProperties for PATCH operation")
-  properties: NetworkConfigurationProperties;
-
-  @doc("Specifies NetworkConfiguration kind")
-  // @visibility("read", "create", "update")
-  kind?: NetworkConfigurationKind;
 }
 
 @doc("NetworkConfiguration Properties")
@@ -58,15 +50,6 @@ model NetworkConfigurationProperties {
 
   @doc("Usecase of this configuration")
   usecase: Usecase;
-}
-
-@doc("NetworkConfiguration for LAN")
-model LanNetworkConfiguration {
-  @doc("NetworkConfigurationProperties for LAN")
-  properties: LanNetworkConfigurationProperties;
-
-  @doc("NetworkConfiguration kind as LAN")
-  kind: NetworkConfigurationKind.LAN;
 }
 
 @doc("NetworkConfigurationProperties for LAN")
@@ -84,9 +67,6 @@ model IpAssignment {
 
   @doc("IP V4")
   ipv4: Ipv4;
-
-  @doc("IP V6")
-  ipv6?: Ipv6;
 }
 
 @doc("Ip V4")
@@ -126,9 +106,5 @@ union IpAssignmentType {
 @doc("kind for type of supported NetworkConfigurations")
 union NetworkConfigurationKind {
   @doc("LAN type of NetworkConfigurations") LAN: "LAN",
-  @doc("WAN type of NetworkConfigurations") WAN: "WAN",
   string,
 }
-
-@doc("Ip v6")
-model Ipv6 {}

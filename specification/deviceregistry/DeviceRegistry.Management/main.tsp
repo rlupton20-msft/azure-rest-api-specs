@@ -43,6 +43,11 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_07_01_preview: "2024-07-01-preview",
+
+  @doc("Microsoft.DeviceRegistry Resource Provider management API version 2024-09-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_09_01_preview: "2024-09-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -51,7 +56,6 @@ interface Operations extends Azure.ResourceManager.Operations {}
 interface OperationStatus {
   @doc("Returns the current status of an async operation.")
   @autoRoute
-  @armUpdateProviderNamespace
   get(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,
@@ -62,23 +66,8 @@ interface OperationStatus {
     provider: "Microsoft.DeviceRegistry",
 
     ...LocationParameter,
-
-    @path
-    @segment("operationStatuses")
-    @minLength(1)
-    @doc("The ID of an ongoing async operation.")
-    @armCommonParameter(
-      "OperationIdParameter",
-      Azure.ResourceManager.CommonTypes.Versions.v3
-    )
-    @armCommonParameter(
-      "OperationIdParameter",
-      Azure.ResourceManager.CommonTypes.Versions.v4
-    )
-    @armCommonParameter(
-      "OperationIdParameter",
-      Azure.ResourceManager.CommonTypes.Versions.v5
-    )
-    operationId: string,
+    ...Foundations.OperationIdParameter,
   ): ArmResponse<OperationStatusResult> | ErrorResponse;
 }
+
+@@segment(OperationStatus.get::parameters.operationId, "operationStatuses");

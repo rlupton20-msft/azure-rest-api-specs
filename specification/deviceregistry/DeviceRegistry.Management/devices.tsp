@@ -119,7 +119,13 @@ model Endpoint {
 interface Devices {
   get is ArmResourceRead<Device>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
-  update is ArmResourcePatchAsync<Device, DeviceProperties>;
+  update is ArmCustomPatchAsync<
+    Device,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      Device,
+      DeviceProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
   listByResourceGroup is ArmResourceListByParent<Device>;
   listBySubscription is ArmListBySubscription<Device>;

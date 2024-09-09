@@ -19,12 +19,12 @@ namespace Private.Edge;
 @armResourceOperations
 interface ConnectivityConfigurations {
   get is ArmResourceRead<ConnectivityConfiguration>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<ConnectivityConfiguration>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<ConnectivityConfiguration>;
   update is ArmResourcePatchSync<
     ConnectivityConfiguration,
     ConnectivityConfigurationProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<ConnectivityConfiguration>;
+  delete is ArmResourceDeleteSync<ConnectivityConfiguration>;
   listByConfiguration is ArmResourceListByParent<ConnectivityConfiguration>;
 }
 
