@@ -71,71 +71,204 @@ model DaxClusterProperties {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of awsDaxCluster")
 model AwsDaxClusterProperties {
-  @doc("Property arn")
-  arn?: string;
+  @doc("<p>The number of nodes in the cluster that are active (i.e., capable of serving requests).</p>")
+  activeNodes?: int32;
 
-  @doc("Property availabilityZones")
-  @extension("x-ms-identifiers", [])
-  availabilityZones?: string[];
+  @doc("<p>The Amazon Resource Name (ARN) that uniquely identifies the cluster. </p>")
+  clusterArn?: string;
 
-  @doc("Property clusterDiscoveryEndpoint")
-  clusterDiscoveryEndpoint?: string;
+  @doc("<p>The endpoint for this DAX cluster, consisting of a DNS name, a port number, and a URL. Applications should use the URL to configure the DAX client to find their cluster.</p>")
+  clusterDiscoveryEndpoint?: Endpoint;
 
-  @doc("Property clusterDiscoveryEndpointURL")
-  clusterDiscoveryEndpointURL?: string;
+  @doc("<p>The type of encryption supported by the cluster's endpoint. Values are:</p> <ul> <li> <p> <code>NONE</code> for no encryption</p> <p> <code>TLS</code> for Transport Layer Security</p> </li> </ul>")
+  clusterEndpointEncryptionType?: ClusterEndpointEncryptionTypeEnumValue;
 
-  @doc("Property clusterEndpointEncryptionType")
-  clusterEndpointEncryptionType?: string;
-
-  @doc("Property clusterName")
+  @doc("<p>The name of the DAX cluster.</p>")
   clusterName?: string;
 
-  @doc("Property description")
+  @doc("<p>The description of the cluster.</p>")
   description?: string;
 
-  @doc("Property iamRoleARN")
-  iamRoleARN?: string;
+  @doc("<p>A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.</p>")
+  iamRoleArn?: string;
 
-  @doc("Property id")
-  id?: string;
+  @doc("<p>A list of nodes to be removed from the cluster.</p>")
+  @extension("x-ms-identifiers", [])
+  nodeIdsToRemove?: string[];
 
-  @doc("Property nodeType")
+  @doc("<p>The node type for the nodes in the cluster. (All nodes in a DAX cluster are of the same type.)</p>")
   nodeType?: string;
 
-  @doc("Property notificationTopicARN")
-  notificationTopicARN?: string;
+  @doc("<p>A list of nodes that are currently in the cluster.</p>")
+  @extension("x-ms-identifiers", [])
+  nodes?: Node[];
 
-  @doc("Property parameterGroupName")
-  parameterGroupName?: string;
+  @doc("<p>Describes a notification topic and its status. Notification topics are used for publishing DAX events to subscribers using Amazon Simple Notification Service (SNS).</p>")
+  notificationConfiguration?: NotificationConfiguration;
 
-  @doc("Property preferredMaintenanceWindow")
+  @doc("<p>The parameter group being used by nodes in the cluster.</p>")
+  parameterGroup?: ParameterGroupStatus;
+
+  @doc("<p>A range of time when maintenance of DAX cluster software will be performed. For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.</p>")
   preferredMaintenanceWindow?: string;
 
-  @doc("Property replicationFactor")
-  replicationFactor?: int32;
+  @doc("<p>The description of the server-side encryption status on the specified DAX cluster.</p>")
+  sseDescription?: SSEDescription;
 
-  @doc("Property sseSpecification")
-  sseSpecification?: SSESpecification;
-
-  @doc("Property securityGroupIds")
+  @doc("<p>A list of security groups, and the status of each, for the nodes in the cluster.</p>")
   @extension("x-ms-identifiers", [])
-  securityGroupIds?: string[];
+  securityGroups?: SecurityGroupMembership[];
 
-  @doc("Property subnetGroupName")
-  subnetGroupName?: string;
+  @doc("<p>The current status of the cluster.</p>")
+  status?: string;
 
-  @doc("Property tags")
-  tags?: unknown;
+  @doc("<p>The subnet group where the DAX cluster is running.</p>")
+  subnetGroup?: string;
+
+  @doc("<p>The total number of nodes in the cluster.</p>")
+  totalNodes?: int32;
+}
+
+@doc("ClusterEndpointEncryptionType enum")
+union ClusterEndpointEncryptionType {
+  @doc("ClusterEndpointEncryptionType enum NONE")
+  NONE: "NONE",
+
+  @doc("ClusterEndpointEncryptionType enum TLS")
+  TLS: "TLS",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of SSESpecification")
-model SSESpecification {
-  @doc("Property sseEnabled")
-  sseEnabled?: boolean;
+@doc("Definition of ClusterEndpointEncryptionTypeEnumValue")
+model ClusterEndpointEncryptionTypeEnumValue {
+  @doc("Property value")
+  value?: ClusterEndpointEncryptionType;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of Endpoint")
+model Endpoint {
+  @doc("<p>The DNS hostname of the endpoint.</p>")
+  address?: string;
+
+  @doc("<p>The port number that applications should use to connect to the endpoint.</p>")
+  port?: int32;
+
+  @doc("<p>The URL that applications should use to connect to the endpoint. The default ports are 8111 for the 'dax' protocol and 9111 for the 'daxs' protocol.</p>")
+  url?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of Node")
+model Node {
+  @doc("<p>The Availability Zone (AZ) in which the node has been deployed.</p>")
+  availabilityZone?: string;
+
+  @doc("<p>The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.</p>")
+  endpoint?: Endpoint;
+
+  @doc("<p>The date and time (in UNIX epoch format) when the node was launched.</p>")
+  nodeCreateTime?: utcDateTime;
+
+  @doc("<p>A system-generated identifier for the node.</p>")
+  nodeId?: string;
+
+  @doc("<p>The current status of the node. For example: <code>available</code>.</p>")
+  nodeStatus?: string;
+
+  @doc("<p>The status of the parameter group associated with this node. For example, <code>in-sync</code>.</p>")
+  parameterGroupStatus?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of NotificationConfiguration")
+model NotificationConfiguration {
+  @doc("<p>The Amazon Resource Name (ARN) that identifies the topic. </p>")
+  topicArn?: string;
+
+  @doc("<p>The current state of the topic. A value of “active” means that notifications will be sent to the topic. A value of “inactive” means that notifications will not be sent to the topic.</p>")
+  topicStatus?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of ParameterGroupStatus")
+model ParameterGroupStatus {
+  @doc("<p>The node IDs of one or more nodes to be rebooted.</p>")
+  @extension("x-ms-identifiers", [])
+  nodeIdsToReboot?: string[];
+
+  @doc("<p>The status of parameter updates. </p>")
+  parameterApplyStatus?: string;
+
+  @doc("<p>The name of the parameter group.</p>")
+  parameterGroupName?: string;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of SSEDescription")
+model SSEDescription {
+  @doc("<p>The current state of server-side encryption:</p> <ul> <li> <p> <code>ENABLING</code> - Server-side encryption is being enabled.</p> </li> <li> <p> <code>ENABLED</code> - Server-side encryption is enabled.</p> </li> <li> <p> <code>DISABLING</code> - Server-side encryption is being disabled.</p> </li> <li> <p> <code>DISABLED</code> - Server-side encryption is disabled.</p> </li> </ul>")
+  status?: SSEStatusEnumValue;
+}
+
+@doc("SSEStatus enum")
+union SSEStatus {
+  @doc("SSEStatus enum DISABLED")
+  DISABLED: "DISABLED",
+
+  @doc("SSEStatus enum DISABLING")
+  DISABLING: "DISABLING",
+
+  @doc("SSEStatus enum ENABLED")
+  ENABLED: "ENABLED",
+
+  @doc("SSEStatus enum ENABLING")
+  ENABLING: "ENABLING",
+
+  string,
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of SSEStatusEnumValue")
+model SSEStatusEnumValue {
+  @doc("Property value")
+  value?: SSEStatus;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of SecurityGroupMembership")
+model SecurityGroupMembership {
+  @doc("<p>The unique ID for this security group.</p>")
+  securityGroupIdentifier?: string;
+
+  @doc("<p>The status of this security group.</p>")
+  status?: string;
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
@@ -157,5 +290,11 @@ interface DaxClusters {
 // This TypeSpec was auto genrated by aws2SwaggerMain.js tool
 //
 // Input used to generate TypeSpec:
-// Cloud Control API Type: AWS::DAX::Cluster
+// AWS Service Model: generator\ServiceModels\dax\dax-2017-04-19.normal.json
+// AWS Shape: Cluster
+//
+// Related information for backend service:
+// AWS Servcie : DAX
+// Product Version : 3.7.798.0
+// SDK Version : 3.7.300.83
 //--------------------------------------------------------------------------------------------

@@ -71,40 +71,19 @@ model SnsSubscriptionProperties {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of awsSnsSubscription")
 model AwsSnsSubscriptionProperties {
-  @doc("Property deliveryPolicy")
-  deliveryPolicy?: unknown;
-
-  @doc("Property endpoint")
+  @doc("<p>The subscription's endpoint (format depends on the protocol).</p>")
   endpoint?: string;
 
-  @doc("Property filterPolicy")
-  filterPolicy?: unknown;
+  @doc("<p>The subscription's owner.</p>")
+  owner?: string;
 
-  @doc("Property filterPolicyScope")
-  filterPolicyScope?: string;
-
-  @doc("Property id")
-  id?: string;
-
-  @doc("Property protocol")
+  @doc("<p>The subscription's protocol.</p>")
   protocol?: string;
 
-  @doc("Property rawMessageDelivery")
-  rawMessageDelivery?: boolean;
+  @doc("<p>The subscription's ARN.</p>")
+  subscriptionArn?: string;
 
-  @doc("Property redrivePolicy")
-  redrivePolicy?: unknown;
-
-  @doc("Property region")
-  region?: string;
-
-  @doc("Property replayPolicy")
-  replayPolicy?: unknown;
-
-  @doc("Property subscriptionRoleArn")
-  subscriptionRoleArn?: string;
-
-  @doc("Property topicArn")
+  @doc("<p>The ARN of the subscription's topic.</p>")
   topicArn?: string;
 }
 
@@ -127,5 +106,11 @@ interface SnsSubscriptions {
 // This TypeSpec was auto genrated by aws2SwaggerMain.js tool
 //
 // Input used to generate TypeSpec:
-// Cloud Control API Type: AWS::SNS::Subscription
+// AWS Service Model: generator\ServiceModels\sns\sns-2010-03-31.normal.json
+// AWS Shape: Subscription
+//
+// Related information for backend service:
+// AWS Servcie : SNS
+// Product Version : 3.7.798.0
+// SDK Version : 3.7.301.31
 //--------------------------------------------------------------------------------------------

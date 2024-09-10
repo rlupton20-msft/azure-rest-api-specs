@@ -385,85 +385,125 @@
       "type": "object",
       "description": "Definition of awsDaxCluster",
       "properties": {
-        "arn": {
-          "type": "string",
-          "description": "Property arn"
+        "activeNodes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "<p>The number of nodes in the cluster that are active (i.e., capable of serving requests).</p>"
         },
-        "availabilityZones": {
-          "type": "array",
-          "description": "Property availabilityZones",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-identifiers": []
+        "clusterArn": {
+          "type": "string",
+          "description": "<p>The Amazon Resource Name (ARN) that uniquely identifies the cluster. </p>"
         },
         "clusterDiscoveryEndpoint": {
-          "type": "string",
-          "description": "Property clusterDiscoveryEndpoint"
-        },
-        "clusterDiscoveryEndpointURL": {
-          "type": "string",
-          "description": "Property clusterDiscoveryEndpointURL"
+          "$ref": "#/definitions/Endpoint",
+          "description": "<p>The endpoint for this DAX cluster, consisting of a DNS name, a port number, and a URL. Applications should use the URL to configure the DAX client to find their cluster.</p>"
         },
         "clusterEndpointEncryptionType": {
-          "type": "string",
-          "description": "Property clusterEndpointEncryptionType"
+          "$ref": "#/definitions/ClusterEndpointEncryptionTypeEnumValue",
+          "description": "<p>The type of encryption supported by the cluster's endpoint. Values are:</p> <ul> <li> <p> <code>NONE</code> for no encryption</p> <p> <code>TLS</code> for Transport Layer Security</p> </li> </ul>"
         },
         "clusterName": {
           "type": "string",
-          "description": "Property clusterName"
+          "description": "<p>The name of the DAX cluster.</p>"
         },
         "description": {
           "type": "string",
-          "description": "Property description"
+          "description": "<p>The description of the cluster.</p>"
         },
-        "iamRoleARN": {
+        "iamRoleArn": {
           "type": "string",
-          "description": "Property iamRoleARN"
+          "description": "<p>A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.</p>"
         },
-        "id": {
-          "type": "string",
-          "description": "Property id"
-        },
-        "nodeType": {
-          "type": "string",
-          "description": "Property nodeType"
-        },
-        "notificationTopicARN": {
-          "type": "string",
-          "description": "Property notificationTopicARN"
-        },
-        "parameterGroupName": {
-          "type": "string",
-          "description": "Property parameterGroupName"
-        },
-        "preferredMaintenanceWindow": {
-          "type": "string",
-          "description": "Property preferredMaintenanceWindow"
-        },
-        "replicationFactor": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Property replicationFactor"
-        },
-        "sseSpecification": {
-          "$ref": "#/definitions/SSESpecification",
-          "description": "Property sseSpecification"
-        },
-        "securityGroupIds": {
+        "nodeIdsToRemove": {
           "type": "array",
-          "description": "Property securityGroupIds",
+          "description": "<p>A list of nodes to be removed from the cluster.</p>",
           "items": {
             "type": "string"
           },
           "x-ms-identifiers": []
         },
-        "subnetGroupName": {
+        "nodeType": {
           "type": "string",
-          "description": "Property subnetGroupName"
+          "description": "<p>The node type for the nodes in the cluster. (All nodes in a DAX cluster are of the same type.)</p>"
         },
-        "tags": {
-          "description": "Property tags"
+        "nodes": {
+          "type": "array",
+          "description": "<p>A list of nodes that are currently in the cluster.</p>",
+          "items": {
+            "$ref": "#/definitions/Node"
+          },
+          "x-ms-identifiers": []
+        },
+        "notificationConfiguration": {
+          "$ref": "#/definitions/NotificationConfiguration",
+          "description": "<p>Describes a notification topic and its status. Notification topics are used for publishing DAX events to subscribers using Amazon Simple Notification Service (SNS).</p>"
+        },
+        "parameterGroup": {
+          "$ref": "#/definitions/ParameterGroupStatus",
+          "description": "<p>The parameter group being used by nodes in the cluster.</p>"
+        },
+        "preferredMaintenanceWindow": {
+          "type": "string",
+          "description": "<p>A range of time when maintenance of DAX cluster software will be performed. For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.</p>"
+        },
+        "sseDescription": {
+          "$ref": "#/definitions/SSEDescription",
+          "description": "<p>The description of the server-side encryption status on the specified DAX cluster.</p>"
+        },
+        "securityGroups": {
+          "type": "array",
+          "description": "<p>A list of security groups, and the status of each, for the nodes in the cluster.</p>",
+          "items": {
+            "$ref": "#/definitions/SecurityGroupMembership"
+          },
+          "x-ms-identifiers": []
+        },
+        "status": {
+          "type": "string",
+          "description": "<p>The current status of the cluster.</p>"
+        },
+        "subnetGroup": {
+          "type": "string",
+          "description": "<p>The subnet group where the DAX cluster is running.</p>"
+        },
+        "totalNodes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "<p>The total number of nodes in the cluster.</p>"
+        }
+      }
+    },
+    "ClusterEndpointEncryptionType": {
+      "type": "string",
+      "description": "ClusterEndpointEncryptionType enum",
+      "enum": [
+        "NONE",
+        "TLS"
+      ],
+      "x-ms-enum": {
+        "name": "ClusterEndpointEncryptionType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NONE",
+            "value": "NONE",
+            "description": "ClusterEndpointEncryptionType enum NONE"
+          },
+          {
+            "name": "TLS",
+            "value": "TLS",
+            "description": "ClusterEndpointEncryptionType enum TLS"
+          }
+        ]
+      }
+    },
+    "ClusterEndpointEncryptionTypeEnumValue": {
+      "type": "object",
+      "description": "Definition of ClusterEndpointEncryptionTypeEnumValue",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/ClusterEndpointEncryptionType",
+          "description": "Property value"
         }
       }
     },
@@ -562,6 +602,92 @@
         }
       }
     },
+    "Endpoint": {
+      "type": "object",
+      "description": "Definition of Endpoint",
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "<p>The DNS hostname of the endpoint.</p>"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "<p>The port number that applications should use to connect to the endpoint.</p>"
+        },
+        "url": {
+          "type": "string",
+          "description": "<p>The URL that applications should use to connect to the endpoint. The default ports are 8111 for the 'dax' protocol and 9111 for the 'daxs' protocol.</p>"
+        }
+      }
+    },
+    "Node": {
+      "type": "object",
+      "description": "Definition of Node",
+      "properties": {
+        "availabilityZone": {
+          "type": "string",
+          "description": "<p>The Availability Zone (AZ) in which the node has been deployed.</p>"
+        },
+        "endpoint": {
+          "$ref": "#/definitions/Endpoint",
+          "description": "<p>The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.</p>"
+        },
+        "nodeCreateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "<p>The date and time (in UNIX epoch format) when the node was launched.</p>"
+        },
+        "nodeId": {
+          "type": "string",
+          "description": "<p>A system-generated identifier for the node.</p>"
+        },
+        "nodeStatus": {
+          "type": "string",
+          "description": "<p>The current status of the node. For example: <code>available</code>.</p>"
+        },
+        "parameterGroupStatus": {
+          "type": "string",
+          "description": "<p>The status of the parameter group associated with this node. For example, <code>in-sync</code>.</p>"
+        }
+      }
+    },
+    "NotificationConfiguration": {
+      "type": "object",
+      "description": "Definition of NotificationConfiguration",
+      "properties": {
+        "topicArn": {
+          "type": "string",
+          "description": "<p>The Amazon Resource Name (ARN) that identifies the topic. </p>"
+        },
+        "topicStatus": {
+          "type": "string",
+          "description": "<p>The current state of the topic. A value of “active” means that notifications will be sent to the topic. A value of “inactive” means that notifications will not be sent to the topic.</p>"
+        }
+      }
+    },
+    "ParameterGroupStatus": {
+      "type": "object",
+      "description": "Definition of ParameterGroupStatus",
+      "properties": {
+        "nodeIdsToReboot": {
+          "type": "array",
+          "description": "<p>The node IDs of one or more nodes to be rebooted.</p>",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-identifiers": []
+        },
+        "parameterApplyStatus": {
+          "type": "string",
+          "description": "<p>The status of parameter updates. </p>"
+        },
+        "parameterGroupName": {
+          "type": "string",
+          "description": "<p>The name of the parameter group.</p>"
+        }
+      }
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource.",
@@ -617,13 +743,73 @@
       },
       "readOnly": true
     },
-    "SSESpecification": {
+    "SSEDescription": {
       "type": "object",
-      "description": "Definition of SSESpecification",
+      "description": "Definition of SSEDescription",
       "properties": {
-        "sseEnabled": {
-          "type": "boolean",
-          "description": "Property sseEnabled"
+        "status": {
+          "$ref": "#/definitions/SSEStatusEnumValue",
+          "description": "<p>The current state of server-side encryption:</p> <ul> <li> <p> <code>ENABLING</code> - Server-side encryption is being enabled.</p> </li> <li> <p> <code>ENABLED</code> - Server-side encryption is enabled.</p> </li> <li> <p> <code>DISABLING</code> - Server-side encryption is being disabled.</p> </li> <li> <p> <code>DISABLED</code> - Server-side encryption is disabled.</p> </li> </ul>"
+        }
+      }
+    },
+    "SSEStatus": {
+      "type": "string",
+      "description": "SSEStatus enum",
+      "enum": [
+        "DISABLED",
+        "DISABLING",
+        "ENABLED",
+        "ENABLING"
+      ],
+      "x-ms-enum": {
+        "name": "SSEStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "DISABLED",
+            "value": "DISABLED",
+            "description": "SSEStatus enum DISABLED"
+          },
+          {
+            "name": "DISABLING",
+            "value": "DISABLING",
+            "description": "SSEStatus enum DISABLING"
+          },
+          {
+            "name": "ENABLED",
+            "value": "ENABLED",
+            "description": "SSEStatus enum ENABLED"
+          },
+          {
+            "name": "ENABLING",
+            "value": "ENABLING",
+            "description": "SSEStatus enum ENABLING"
+          }
+        ]
+      }
+    },
+    "SSEStatusEnumValue": {
+      "type": "object",
+      "description": "Definition of SSEStatusEnumValue",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/SSEStatus",
+          "description": "Property value"
+        }
+      }
+    },
+    "SecurityGroupMembership": {
+      "type": "object",
+      "description": "Definition of SecurityGroupMembership",
+      "properties": {
+        "securityGroupIdentifier": {
+          "type": "string",
+          "description": "<p>The unique ID for this security group.</p>"
+        },
+        "status": {
+          "type": "string",
+          "description": "<p>The status of this security group.</p>"
         }
       }
     }
