@@ -28,17 +28,17 @@ model AutonomousDbVersionProperties {
   version: string;
 
   @doc("The Autonomous Database workload type")
-  dbWorkload: WorkloadType;
+  dbWorkload?: WorkloadType;
 
   @doc("True if this version of the Oracle Database software's default is free.")
-  isDefaultForFree: boolean;
+  isDefaultForFree?: boolean;
 
   @doc("True if this version of the Oracle Database software's default is paid.")
-  isDefaultForPaid: boolean;
+  isDefaultForPaid?: boolean;
 
   @doc("True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.")
-  isFreeTierEnabled: boolean;
+  isFreeTierEnabled?: boolean;
 
   @doc("True if this version of the Oracle Database software has payments enabled.")
-  isPaidEnabled: boolean;
+  isPaidEnabled?: boolean;
 }
