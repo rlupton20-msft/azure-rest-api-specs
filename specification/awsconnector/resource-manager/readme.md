@@ -134,6 +134,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayRestApi.json
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayStage.json
   - Microsoft.AwsConnector/stable/2024-12-01/applicationAutoScalingScalableTarget.json
+  - Microsoft.AwsConnector/stable/2024-12-01/autoScalingAutoScalingGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/certificateManagerCertificate.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStack.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStackSet.json
@@ -249,6 +250,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/sqsQueue.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmInstanceInformation.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmParameter.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ssmResourceComplianceSummaryItem.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2IPSet.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2LoggingConfiguration.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACLAssociation.json
@@ -297,6 +299,7 @@ directive:
       - apiGatewayRestApi.json
       - apiGatewayStage.json
       - applicationAutoScalingScalableTarget.json
+      - autoScalingAutoScalingGroup.json
       - certificateManagerCertificate.json
       - cloudFormationStack.json
       - cloudFormationStackSet.json
