@@ -254,6 +254,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/ssmResourceComplianceSummaryItem.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2IPSet.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2LoggingConfiguration.json
+  - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACL.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACLAssociation.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafWebACL.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafWebACLSummary.json
@@ -420,6 +421,7 @@ directive:
       - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
       - wafv2LoggingConfiguration.json
+      - wafv2WebACL.json
       - wafv2WebACLAssociation.json
       - wafWebACL.json
       - wafWebACLSummary.json
