@@ -128,7 +128,6 @@ model DsmsCertificateProperties {
   selfSigningMethod?: "CertificateAuthority" | "SelfSigned" | string;
 
   @doc("The Azure location")
-  @added(Versions.v2024_06_24_preview)
   azureLocation?: azureLocation;
 
   @doc("Provisioning state")
