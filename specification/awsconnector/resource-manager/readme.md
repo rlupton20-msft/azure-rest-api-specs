@@ -138,6 +138,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/certificateManagerCertificate.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStack.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStackSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudFrontDistribution.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudTrailTrail.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudWatchAlarm.json
   - Microsoft.AwsConnector/stable/2024-12-01/codeBuildProject.json
@@ -303,6 +304,7 @@ directive:
       - certificateManagerCertificate.json
       - cloudFormationStack.json
       - cloudFormationStackSet.json
+      - cloudFrontDistribution.json
       - cloudTrailTrail.json
       - cloudWatchAlarm.json
       - codeBuildProject.json
