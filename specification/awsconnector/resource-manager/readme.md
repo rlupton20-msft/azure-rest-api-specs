@@ -221,6 +221,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewall.json
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewallPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallRuleGroup.json
+  - Microsoft.AwsConnector/stable/2024-12-01/openSearchDomainStatus.json
   - Microsoft.AwsConnector/stable/2024-12-01/openSearchServiceDomain.json
   - Microsoft.AwsConnector/stable/2024-12-01/operations.json
   - Microsoft.AwsConnector/stable/2024-12-01/organizationsAccount.json
@@ -388,6 +389,7 @@ directive:
       - networkFirewallFirewall.json
       - networkFirewallFirewallPolicy.json
       - networkFirewallRuleGroup.json
+      - openSearchDomainStatus.json
       - openSearchServiceDomain.json
       - operations.json
       - organizationsAccount.json
