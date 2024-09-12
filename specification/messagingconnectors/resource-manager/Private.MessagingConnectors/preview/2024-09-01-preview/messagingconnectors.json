@@ -673,7 +673,7 @@
     }
   },
   "definitions": {
-    "AvroConverter": {
+    "AvroConverterConfig": {
       "type": "object",
       "description": "AvroConverter config",
       "allOf": [
@@ -814,7 +814,7 @@
       ],
       "x-ms-discriminator-value": "BitCoinSource"
     },
-    "ByteArrayConverter": {
+    "ByteArrayConverterConfig": {
       "type": "object",
       "description": "ByteArrayConverter config",
       "allOf": [
@@ -1297,7 +1297,7 @@
       ],
       "x-ms-discriminator-value": "CosmosDbSource"
     },
-    "CsvConverter": {
+    "CsvConverterConfig": {
       "type": "object",
       "description": "CsvConverter config",
       "allOf": [
@@ -1632,13 +1632,17 @@
       ],
       "x-ms-discriminator-value": "GooglePubSubSource"
     },
-    "JsonConverter": {
+    "JsonConverterConfig": {
       "type": "object",
       "description": "JsonConverter config",
       "properties": {
         "schemasEnabled": {
           "type": "boolean",
           "description": "Whether schemas enabled."
+        },
+        "decimalFormat": {
+          "$ref": "#/definitions/JsonDecimalFormat",
+          "description": "Format for Decimal type."
         }
       },
       "allOf": [
@@ -1647,6 +1651,30 @@
         }
       ],
       "x-ms-discriminator-value": "JsonConverter"
+    },
+    "JsonDecimalFormat": {
+      "type": "string",
+      "description": "Json Decimal Format configuration",
+      "enum": [
+        "Base64",
+        "Numeric"
+      ],
+      "x-ms-enum": {
+        "name": "JsonDecimalFormat",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Base64",
+            "value": "Base64",
+            "description": "Type of Base64."
+          },
+          {
+            "name": "Numeric",
+            "value": "Numeric",
+            "description": "Type of Numeric."
+          }
+        ]
+      }
     },
     "JsonSourceDataFormat": {
       "type": "object",
@@ -2230,7 +2258,7 @@
       ],
       "x-ms-discriminator-value": "SqlServerSource"
     },
-    "StringConverter": {
+    "StringConverterConfig": {
       "type": "object",
       "description": "StringConverter config",
       "allOf": [

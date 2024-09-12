@@ -289,36 +289,50 @@ model ConverterConfig {
 }
 
 @doc("CsvConverter config")
-model CsvConverter extends ConverterConfig {
+model CsvConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.CsvConverter;
 }
 
 @doc("AvroConverter config")
-model AvroConverter extends ConverterConfig {
+model AvroConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.AvroConverter;
 }
 
 @doc("StringConverter config")
-model StringConverter extends ConverterConfig {
+model StringConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.StringConverter;
 }
 
 @doc("ByteArrayConverter config")
-model ByteArrayConverter extends ConverterConfig {
+model ByteArrayConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.ByteArrayConverter;
 }
 
+@doc("Json Decimal Format configuration")
+union JsonDecimalFormat {
+  @doc("Type of Base64.")
+  Base64: "Base64",
+
+  @doc("Type of Numeric.")
+  Numeric: "Numeric",
+
+  string,
+}
+
 @doc("JsonConverter config")
-model JsonConverter extends ConverterConfig {
+model JsonConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.JsonConverter;
 
   @doc("Whether schemas enabled.")
   schemasEnabled?: boolean;
+
+  @doc("Format for Decimal type.")
+  decimalFormat?: JsonDecimalFormat;
 }
 
 @doc("Properties of one arm resource")
