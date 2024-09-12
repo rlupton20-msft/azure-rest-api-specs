@@ -28,7 +28,7 @@ model DnsPrivateZoneProperties {
   isProtected: boolean;
 
   @doc("Zones lifecycleState")
-  lifecycleState?: DnsPrivateZonesLifecycleState;
+  lifecycleState: DnsPrivateZonesLifecycleState;
 
   @doc("The canonical absolute URL of the resource.")
   self: string;
@@ -40,7 +40,7 @@ model DnsPrivateZoneProperties {
   version: string;
 
   @doc("The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.")
-  viewId: Ocid;
+  viewId?: Ocid;
 
   @doc("The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.")
   zoneType: ZoneType;
