@@ -37,22 +37,16 @@ interface InternalList {
 
 @armResourceOperations
 interface ListActions {
-  @doc("Generic Async Get operation")
-  @extension("x-ms-long-running-operation", true)
-  @extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "location",
-    }
-  )
+  @doc("Generic Sync List operation")
+
   @autoRoute
   @armResourceAction(TResource)
   @post
-  ArmResourceGetActionAsync<
+  ArmResourceListActionSync<
     TResource extends Foundations.Resource,
     TResponse,
     TBaseParameters = BaseParameters<TResource>
   >(
     ...ResourceInstanceParameters<TResource, TBaseParameters>,
-  ): ArmResponse<TResponse> | ArmAcceptedLroResponse | ErrorResponse;
+  ): ArmResponse<TResponse> | ErrorResponse;
 }
