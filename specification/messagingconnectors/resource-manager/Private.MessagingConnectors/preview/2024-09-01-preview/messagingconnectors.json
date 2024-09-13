@@ -824,6 +824,146 @@
       ],
       "x-ms-discriminator-value": "ByteArrayConverter"
     },
+    "CatalogCdcAutoRegisterSchemasConfig": {
+      "type": "object",
+      "description": "Catalog cdc auto-register schemas config",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Database name."
+        },
+        "tableName": {
+          "type": "string",
+          "description": "Table name."
+        },
+        "schemaGroupId": {
+          "type": "string",
+          "description": "SchemaGroup id."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema id."
+        },
+        "schemaFormat": {
+          "type": "string",
+          "description": "Schema format."
+        }
+      },
+      "required": [
+        "databaseName",
+        "tableName",
+        "schemaGroupId",
+        "schemaId",
+        "schemaFormat"
+      ]
+    },
+    "CatalogCdcCloudEventsTransformConfig": {
+      "type": "object",
+      "description": "CatalogCdc cloud events transform config.",
+      "properties": {
+        "catalogEndpoint": {
+          "type": "string",
+          "description": "Endpoint."
+        },
+        "cdcServerName": {
+          "type": "string",
+          "description": "CdcServer name."
+        },
+        "autoRegisterSchemas": {
+          "type": "boolean",
+          "description": "Whether auto-register new schemas."
+        },
+        "catalogSchemaIds": {
+          "type": "array",
+          "description": "Catalog schemaIds.",
+          "items": {
+            "$ref": "#/definitions/CatalogSchemaId"
+          },
+          "x-ms-identifiers": []
+        },
+        "catalogCdcAutoRegisterSchemasConfigs": {
+          "type": "array",
+          "description": "catalogCdc auto-Register schemas configs.",
+          "items": {
+            "$ref": "#/definitions/CatalogCdcAutoRegisterSchemasConfig"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "catalogEndpoint",
+        "cdcServerName",
+        "autoRegisterSchemas",
+        "catalogSchemaIds",
+        "catalogCdcAutoRegisterSchemasConfigs"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/CloudEventsTransformConfig"
+        }
+      ],
+      "x-ms-discriminator-value": "CatalogCdc"
+    },
+    "CatalogSchemaId": {
+      "type": "object",
+      "description": "Catalog schema id config",
+      "properties": {
+        "schemaGroupId": {
+          "type": "string",
+          "description": "SchemaGroup id."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema id."
+        }
+      },
+      "required": [
+        "schemaGroupId",
+        "schemaId"
+      ]
+    },
+    "CloudEventsTransformConfig": {
+      "type": "object",
+      "description": "Cloud events transform config",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/CloudEventsTransformTypes",
+          "description": "Type of CloudEventsTransformConfig."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "ContentType of CloudEventsTransformConfig."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "CloudEventsTransformTypes": {
+      "type": "string",
+      "description": "CloudEventsTransform types",
+      "enum": [
+        "Disable",
+        "CatalogCdc"
+      ],
+      "x-ms-enum": {
+        "name": "CloudEventsTransformTypes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "disable",
+            "value": "Disable",
+            "description": "Do not use CloudEventsTransformConfig"
+          },
+          {
+            "name": "catalogCdc",
+            "value": "CatalogCdc",
+            "description": "CatalogCdcCloudEventsTransformConfig"
+          }
+        ]
+      }
+    },
     "ConfluentSourceConnectorProperties": {
       "type": "object",
       "description": "Configuration for ConfluentSourceConnector",
@@ -943,6 +1083,10 @@
         "sourceDataFormat": {
           "$ref": "#/definitions/SourceDataFormat",
           "description": "Data format of the data source"
+        },
+        "cloudEventsTransformConfig": {
+          "$ref": "#/definitions/CloudEventsTransformConfig",
+          "description": "Cloud events transform config"
         },
         "connectorState": {
           "$ref": "#/definitions/ConnectorState",
@@ -2160,6 +2304,7 @@
       "type": "string",
       "description": "Source data format Types",
       "enum": [
+        "Disable",
         "JSON",
         "CSV"
       ],
@@ -2167,6 +2312,11 @@
         "name": "SourceDataFormatTypes",
         "modelAsString": true,
         "values": [
+          {
+            "name": "disable",
+            "value": "Disable",
+            "description": "Disable this config"
+          },
           {
             "name": "JSON",
             "value": "JSON",
