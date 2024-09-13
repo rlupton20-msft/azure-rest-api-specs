@@ -99,7 +99,7 @@ model AuthenticationProperties {
   certificates?: CertificateProperties[];
 
   @doc("AzureAD-based authentication properties")
-  @extension("x-ms-identifiers", ["objectId"])
+  @extension("x-ms-identifiers", ["tenantId", "objectId"])
   azureActiveDirectory?: AzureActiveDirectoryProperties[];
 }
 
