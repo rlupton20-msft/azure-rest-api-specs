@@ -1094,9 +1094,44 @@ model DisasterRecoveryConfigurationDetails {
 @added(Versions.v20241001_preview)
 @doc("The object holds details about a peer Autonomous Database for Oracle Autonomous Database.")
 model AutonomousDatabasePeerProperties {
-  @doc("The name of the region where this peer Autonomous Database exists.")
+  @doc("Ocid of the peer database")
   @visibility("read")
-  region?: string;
+  peerDbOcid?: string;
+
+  @doc("The Azure location of the peer database.")
+  location?: string;
+
+  @doc("The role of the peer Autonomous Database")
+  @visibility("read")
+  role?: RoleType;
+
+  @doc("The current state of the peer Autonomous Database.")
+  @visibility("read")
+  lifecycleState?: AutonomousDatabaseLifecycleState;
+
+  @doc("The date and time the Disaster Recovery role was switched for the standby Autonomous Database.")
+  @visibility("read")
+  timeDisasterRecoveryRoleChanged?: utcDateTime;
+
+  @doc("The date and time that the peer database was created.")
+  @visibility("read")
+  timeCreated?: utcDateTime;
+
+  @doc("Indicates remote disaster recovery configuration")
+  @visibility("read")
+  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
+
+  @doc("An acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard")
+  @visibility("read")
+  localAdgAutoFailoverMaxDataLossLimit?: int32;
+
+  @doc("Indicates the local disaster recovery (DR) type of the Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
+  @visibility("read")
+  localDisasterRecoveryType?: DisasterRecoveryType;
+
+  @doc("Indicates whether the Autonomous Database has Cross Region Data Guard enabled.")
+  @visibility("read")
+  isRemoteDataGuardEnabled?: boolean;
 
   @doc("Azure resource provisioning state.")
   @visibility("read")
