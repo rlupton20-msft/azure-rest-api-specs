@@ -63,6 +63,9 @@ model SloResource {
   @doc("This will be the ARM Id for this SLO.")
   sloId: string;
 
+  @doc("Identities assigned to the SLO resource.")
+  identity: Identity;
+
   @doc("The properties that define the Service Level Objective.")
   sloProperties: SloProperties;
 
@@ -89,6 +92,15 @@ model SloProperties {
 }
 
 @doc("SLI Properties")
+model Identity {
+  @doc("Identity type: UserAssigned | SystemAssigned")
+  type: string;
+
+  @doc("User assigned managed identity")
+  userAssignedIdentities: {};
+}
+
+@doc("SLI Properties")
 model SliProperties {
   @doc("The AMW account from where the metrics will originate")
   @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
@@ -111,7 +123,7 @@ model SloTargets {
   targetWindow: string;
 
   @doc("SLO target percentile")
-  targetPercentile: string;
+  targetPercentile?: string;
 
   @doc("SLO target operator")
   operator: string;

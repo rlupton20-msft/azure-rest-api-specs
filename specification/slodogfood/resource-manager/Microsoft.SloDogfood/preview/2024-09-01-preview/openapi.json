@@ -284,6 +284,24 @@
         "identity"
       ]
     },
+    "Identity": {
+      "type": "object",
+      "description": "SLI Properties",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Identity type: UserAssigned | SystemAssigned"
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "User assigned managed identity"
+        }
+      },
+      "required": [
+        "type",
+        "userAssignedIdentities"
+      ]
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The status of the current operation.",
@@ -447,6 +465,10 @@
           "type": "string",
           "description": "This will be the ARM Id for this SLO."
         },
+        "identity": {
+          "$ref": "#/definitions/Identity",
+          "description": "Identities assigned to the SLO resource."
+        },
         "sloProperties": {
           "$ref": "#/definitions/SloProperties",
           "description": "The properties that define the Service Level Objective."
@@ -458,6 +480,7 @@
       },
       "required": [
         "sloId",
+        "identity",
         "sloProperties",
         "sliProperties"
       ]
@@ -493,7 +516,6 @@
         "targetName",
         "targetValue",
         "targetWindow",
-        "targetPercentile",
         "operator"
       ]
     },
