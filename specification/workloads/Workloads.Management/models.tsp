@@ -96,7 +96,7 @@ model Nodes {
   minResourceCount?: int32;
 
   /** The key-value pair for storing node specific custom (or) additional details. */
-  #suppress "@azure-tools/typespec-azure-core/bad-record-type" "properties defines the node specific details with the type as Record<any>"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "properties defines the node specific details with the type as Record<any>"
   additionalDetails: Record<string>;
 }
 
