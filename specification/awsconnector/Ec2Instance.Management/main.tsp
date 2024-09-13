@@ -3716,6 +3716,9 @@ interface Ec2Instances {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<Ec2Instance>;
   delete is ArmResourceDeleteWithoutOkAsync<Ec2Instance>;
   list is ArmResourceListByParent<Ec2Instance>;
+  Start is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
+  Stop is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
+  Restart is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
 }
 
 //--------------------------------------------------------------------------------------------
