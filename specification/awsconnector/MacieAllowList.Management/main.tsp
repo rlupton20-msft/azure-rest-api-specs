@@ -87,11 +87,40 @@ model AwsMacieAllowListProperties {
   name?: string;
 
   @doc("AllowList status. The status for the AllowList")
-  status?: string;
+  status?: Status;
 
   @doc("A collection of tags associated with a resource")
   @extension("x-ms-identifiers", [])
   tags?: Tag[];
+}
+
+@doc("Status enum")
+union Status {
+  @doc("Status enum OK")
+  OK: "OK",
+
+  @doc("Status enum S3_OBJECT_ACCESS_DENIED")
+  S3_OBJECT_ACCESS_DENIED: "S3_OBJECT_ACCESS_DENIED",
+
+  @doc("Status enum S3_OBJECT_EMPTY")
+  S3_OBJECT_EMPTY: "S3_OBJECT_EMPTY",
+
+  @doc("Status enum S3_OBJECT_NOT_FOUND")
+  S3_OBJECT_NOT_FOUND: "S3_OBJECT_NOT_FOUND",
+
+  @doc("Status enum S3_OBJECT_OVERSIZE")
+  S3_OBJECT_OVERSIZE: "S3_OBJECT_OVERSIZE",
+
+  @doc("Status enum S3_THROTTLED")
+  S3_THROTTLED: "S3_THROTTLED",
+
+  @doc("Status enum S3_USER_ACCESS_DENIED")
+  S3_USER_ACCESS_DENIED: "S3_USER_ACCESS_DENIED",
+
+  @doc("Status enum UNKNOWN_ERROR")
+  UNKNOWN_ERROR: "UNKNOWN_ERROR",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."

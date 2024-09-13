@@ -190,11 +190,22 @@ model OperationPreferences {
   maxConcurrentPercentage?: int32;
 
   @doc("The concurrency type of deploying StackSets operations in regions, could be in parallel or one region at a time")
-  regionConcurrencyType?: string;
+  regionConcurrencyType?: OperationPreferencesRegionConcurrencyType;
 
   @doc("Property regionOrder")
   @extension("x-ms-identifiers", [])
   regionOrder?: string[];
+}
+
+@doc("OperationPreferencesRegionConcurrencyType enum")
+union OperationPreferencesRegionConcurrencyType {
+  @doc("OperationPreferencesRegionConcurrencyType enum PARALLEL")
+  PARALLEL: "PARALLEL",
+
+  @doc("OperationPreferencesRegionConcurrencyType enum SEQUENTIAL")
+  SEQUENTIAL: "SEQUENTIAL",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
