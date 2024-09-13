@@ -13,25 +13,28 @@ using TypeSpec.OpenAPI;
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint"
 namespace Private.Workloads;
 
-/** WorkloadResourceDefinition resource */
-model WorkloadResourceDefinition
-  is TrackedResource<WorkloadResourceDefinitionProperties> {
-  ...ResourceNameParameter<WorkloadResourceDefinition>;
+/** WorkloadVirtualInstance resource */
+model WorkloadVirtualInstance
+  is TrackedResource<WorkloadVirtualInstanceProperties> {
+  ...ResourceNameParameter<WorkloadVirtualInstance>;
 }
 
 @armResourceOperations
-interface WorkloadResourceDefinitions {
-  get is ArmResourceRead<WorkloadResourceDefinition>;
+interface WorkloadVirtualInstances {
+  get is ArmResourceRead<WorkloadVirtualInstance>;
 
   #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
   @Azure.Core.useFinalStateVia("azure-async-operation")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    WorkloadResourceDefinition,
+    WorkloadVirtualInstance,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader
   >;
-  update is ArmCustomPatchSync<WorkloadResourceDefinition>;
-  delete is ArmResourceDeleteWithoutOkAsync<WorkloadResourceDefinition>;
+  update is ArmResourcePatchSync<
+    WorkloadVirtualInstance,
+    WorkloadVirtualInstanceProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<WorkloadVirtualInstance>;
 
-  listByResourceGroup is ArmResourceListByParent<WorkloadResourceDefinition>;
-  listBySubscription is ArmListBySubscription<WorkloadResourceDefinition>;
+  listByResourceGroup is ArmResourceListByParent<WorkloadVirtualInstance>;
+  listBySubscription is ArmListBySubscription<WorkloadVirtualInstance>;
 }
