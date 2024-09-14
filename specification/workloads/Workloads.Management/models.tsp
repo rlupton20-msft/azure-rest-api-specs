@@ -28,15 +28,14 @@ union ProvisioningState {
   string,
 }
 
-/** WorkloadVirtualInstances properties */
+/** WorkloadResourceDefinition properties */
 #suppress "@azure-tools/typespec-azure-resource-manager/patch-envelope" ""
-model WorkloadVirtualInstanceProperties {
-  /** The Arm resource Id for workload resource definition. */
-  workloadResourceDefinitionId: string;
+model WorkloadResourceDefinitionProperties {
+  /** The description of the workload definition. */
+  description?: string;
 
-  /** The configuration of workload roles (or) tiers. */
-  @OpenAPI.extension("x-ms-identifiers", [])
-  roleConfigurations: RoleConfigurations[];
+  /** The workload specification. */
+  workloadSpecification: WorkloadSpecification;
 
   /** The key value pair storing the workload definition specific properties. */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
@@ -49,35 +48,69 @@ model WorkloadVirtualInstanceProperties {
   provisioningState?: ProvisioningState;
 }
 
-/** Configuration of roles in workload. */
-model RoleConfigurations {
-  /** The name of the component (or) application layer */
-  component?: string;
+/** WorkloadSpecification model representing the workload definition. */
+model WorkloadSpecification {
+  /** The version of the workload definition. */
+  version?: string;
 
-  /** The name of the role within the application (or) component. */
-  role?: string;
-
-  /** The Id of node from workload resource definition. */
-  nodeId: string;
+  /** The definition ID (GUID) of the workload. */
+  definitionId?: string;
 
   /** The name of the workload. */
+  scope?: string;
+
+  /** The nodes to be created. */
   @OpenAPI.extension("x-ms-identifiers", [])
-  resourceConfigurations: ResourceConfigurations[];
+  nodes: Nodes[];
+
+  /** The routes between the nodes. */
+  @OpenAPI.extension("x-ms-identifiers", [])
+  routes?: Routes[];
 }
 
-/** The configuration of all resources under the workload role. */
-model ResourceConfigurations {
-  /** The resource category. */
-  resourceCategory?: string;
+/** Node model representing the resources to be created. */
+model Nodes {
+  /** The node ID. */
+  nodeId?: string;
 
-  /** The type of resource. */
-  resourceType?: string;
+  /** The name of the node. */
+  nodeName: string;
+
+  /** The name of the component (or) application layer */
+  component: string;
+
+  /** The name of the role within the application (or) component. */
+  role: string;
+
+  /** Defines the type of the node. */
+  nodeType: string;
+
+  /** The Azure resource type to be linked. */
+  resourceType: string;
 
   /** The resource SKU. */
-  @OpenAPI.extension("x-ms-identifiers", [])
-  resourceIds: string[];
+  resourceSku?: string;
+
+  /** The minimum number of resources that the user can create. */
+  @minValue(1)
+  minResourceCount?: int32;
 
   /** The key-value pair for storing node specific custom (or) additional details. */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "properties defines the node specific details with the type as Record<any>"
-  additionalDetails?: Record<string>;
+  additionalDetails: Record<string>;
+}
+
+/** Route model represening the linkage between nodes. */
+model Routes {
+  /** The route ID (Unique GUID). */
+  routeId?: string;
+
+  /** The Id of the source node. */
+  sourceNodeId?: string;
+
+  /** The Id of the target node. */
+  targetNodeId?: string;
+
+  /** The relation ship between source and target node. */
+  relationShip?: string;
 }
