@@ -1,6 +1,6 @@
-import "../models/LabResourceTypes.tsp";
-import "../models/ResourceManager.tsp";
-import "../models/System.tsp";
+import "../Models/LabResourceTypes.tsp";
+import "../Models/ResourceManager.tsp";
+import "../Models/System.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

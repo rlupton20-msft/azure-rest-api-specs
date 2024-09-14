@@ -1,5 +1,5 @@
-import "../models/ResourceManager.tsp";
-import "../models/ServerAssociation.tsp";
+import "../Models/ResourceManager.tsp";
+import "../Models/ServerAssociation.tsp";
 
 using Azure.ResourceManager;
 using TypeSpec.Http;

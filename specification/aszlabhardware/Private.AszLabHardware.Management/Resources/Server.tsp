@@ -1,6 +1,6 @@
-import "../models/ResourceManager.tsp";
-import "../models/UserLabResourceTypes.tsp";
-import "../models/System.tsp";
+import "../Models/ResourceManager.tsp";
+import "../Models/UserLabResourceTypes.tsp";
+import "../Models/System.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -77,4 +77,3 @@ scalar ServerResourceId
       type: "Private.AszLabHardware/servers",
     }
   ]>;
-  
