@@ -14,7 +14,8 @@ using TypeSpec.OpenAPI;
 namespace Private.Workloads;
 
 /** Quality Check Template as Proxy Resource */
-model QualityCheckTemplate is ExtensionResource<QualityCheckTemplateProperties> {
+model QualityCheckTemplate
+  is ExtensionResource<QualityCheckTemplateProperties> {
   @doc("The name of the quality check template")
   @key("qualityCheckTemplate")
   @segment("qualityCheckTemplates")

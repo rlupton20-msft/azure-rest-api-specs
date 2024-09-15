@@ -14,7 +14,7 @@ namespace Private.Workloads;
 union QualityCheckExecutionLayer {
   string,
 
-  /**  The Azure Resource Manager*/
+  /** The Azure Resource Manager */
   AzureResourceManager: "AzureResourceManager",
 
   /** Execution at Azure OS level */
@@ -42,7 +42,7 @@ model QualityCheckTemplateProperties {
   provisioningState?: ResourceProvisioningState;
 }
 
- /** Execution settings of quality check template. */
+/** Execution settings of quality check template. */
 model ExecutionSettings {
   /** The execution interval. */
   interval?: int32;
@@ -56,7 +56,7 @@ model QualityChecks {
   /** The quality check name. */
   checkName: string;
 
-  /**Description of quality check. */
+  /** Description of quality check. */
   description?: string;
 
   /** The quality check applicable on role types. */
@@ -65,10 +65,10 @@ model QualityChecks {
   /** The resource type on which quality check will be performed */
   resourceType: string;
 
-  /**Supported OS Types for quality checks */
+  /** Supported OS Types for quality checks */
   supportedOsTypes: string[];
 
-  /**The command settings. */
+  /** The command settings. */
   command: Command;
 }
 
@@ -84,5 +84,5 @@ model Command {
   recommendedValue: string;
 
   /** The customized value */
-  customizedValue?: string
+  customizedValue?: string;
 }
