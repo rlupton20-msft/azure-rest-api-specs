@@ -36,7 +36,7 @@ model ServiceRecordResourceProperties {
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: ServiceRecordProvisioningState;
 }

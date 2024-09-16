@@ -33,7 +33,7 @@ model DnsNamespaceManagerChildZoneDelegationResourceProperties {
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
