@@ -11,10 +11,6 @@ namespace Private.OracleDatabaseDev;
 interface CloudVmClusters
   extends OracleTrackedResource<CloudVmCluster, CloudVmClusterProperties> {
   @doc("Add VMs to the VM Cluster")
-  @Autorest.example(
-    "./examples/vmClusters_addVms.json",
-    "Add VMs to VM Cluster"
-  )
   addVms is ArmResourceActionAsync<
     CloudVmCluster,
     AddRemoveDbNode,
@@ -22,10 +18,6 @@ interface CloudVmClusters
   >;
 
   @doc("Remove VMs from the VM Cluster")
-  @Autorest.example(
-    "./examples/vmClusters_removeVms.json",
-    "Remove VMs from VM Cluster"
-  )
   removeVms is ArmResourceActionAsync<
     CloudVmCluster,
     AddRemoveDbNode,
@@ -33,38 +25,9 @@ interface CloudVmClusters
   >;
 
   @doc("List Private IP Addresses by the provided filter")
-  @Autorest.example(
-    "./examples/vmClusters_listPrivateIpAddresses.json",
-    "List Private IP Addresses for VM Cluster"
-  )
   listPrivateIpAddresses is ArmResourceActionSync<
     CloudVmCluster,
     PrivateIpAddressesFilter,
     Array<PrivateIpAddressProperties>
   >;
 }
-
-@@Autorest.example(CloudVmClusters.listBySubscription,
-  "./examples/vmClusters_listBySubscription.json",
-  "List VM Clusters by subscription"
-);
-@@Autorest.example(CloudVmClusters.createOrUpdate,
-  "./examples/vmClusters_create.json",
-  "Create VM Cluster"
-);
-@@Autorest.example(CloudVmClusters.get,
-  "./examples/vmClusters_get.json",
-  "Get VM Cluster"
-);
-@@Autorest.example(CloudVmClusters.update,
-  "./examples/vmClusters_patch.json",
-  "Patch VM Cluster"
-);
-@@Autorest.example(CloudVmClusters.delete,
-  "./examples/vmClusters_delete.json",
-  "Delete VM Cluster"
-);
-@@Autorest.example(CloudVmClusters.listByResourceGroup,
-  "./examples/vmClusters_listByResourceGroup.json",
-  "List VM Clusters by resource group"
-);
