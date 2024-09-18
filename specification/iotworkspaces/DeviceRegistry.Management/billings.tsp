@@ -13,27 +13,28 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
-@doc("billingContainer Model as ARM resource")
+@added(Versions.v2024_05_01_preview)
+@doc("billingContainer Model as Azure resource whose sole purpose is to keep track of billables resources under a subscription.")
 @subscriptionResource
 model BillingContainer is ProxyResource<BillingContainerProperties> {
-  @doc("Name of the billingContainer.")
+  @doc("Name of the billing container.")
   @key("billingContainerName")
   @segment("billingContainers")
-  @pattern("^[0-9a-z][a-z0-9-]*$")
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
   @maxLength(64)
   name: string;
 
-  // etag not included in TrackedResource
+  // etag not included in ProxyResource
+  // Suppress linter false positive for etag properties not allowed at top level of ProxyResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Resource Tag")
+  @doc("Resource ETag")
   @visibility("read")
   etag?: string;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @doc("Defines the billingContainer properties.")
 model BillingContainerProperties {
   @doc("Provisioning state of the resource.")
@@ -41,17 +42,18 @@ model BillingContainerProperties {
   provisioningState?: ProvisioningState;
 }
 
-@added(global.Private.DeviceRegistry.Versions.v2024_05_01_preview)
+@added(Versions.v2024_05_01_preview)
 @armResourceOperations
 interface BillingContainers {
   get is ArmResourceRead<BillingContainer>;
+  listBySubscription is ArmListBySubscription<BillingContainer>;
 
-  createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
+  // PUT is not allowed for end users.
+  // createOrReplace is ArmResourceCreateOrReplaceAsync<BillingContainer>;
 
-  // we don't have updatable property today, when we have it uncomment the below run tsp compile .
+  // PATCH is not allowed for end users. we don't have updatable property today.
   // update is ArmResourcePatchAsync<BillingContainer, BillingContainerProperties>;
 
-  delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
-
-  listByResourceGroup is ArmResourceListByParent<BillingContainer>;
+  // DELETE is not allowed for end users.
+  // delete is ArmResourceDeleteWithoutOkAsync<BillingContainer>;
 }

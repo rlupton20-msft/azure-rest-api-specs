@@ -290,7 +290,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "List LandingZoneAccount resources by subscription ID",
+        "description": "List LandingZoneAccountResource resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -303,7 +303,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccountListResult"
+              "$ref": "#/definitions/LandingZoneAccountResourceListResult"
             }
           },
           "default": {
@@ -408,7 +408,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "List LandingZoneAccount resources by resource group",
+        "description": "List LandingZoneAccountResource resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -424,7 +424,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccountListResult"
+              "$ref": "#/definitions/LandingZoneAccountResourceListResult"
             }
           },
           "default": {
@@ -445,7 +445,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "Get a LandingZoneAccount",
+        "description": "Get a LandingZoneAccountResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -469,7 +469,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccount"
+              "$ref": "#/definitions/LandingZoneAccountResource"
             }
           },
           "default": {
@@ -485,7 +485,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "Create a LandingZoneAccount",
+        "description": "Create a LandingZoneAccountResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -510,23 +510,27 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccount"
+              "$ref": "#/definitions/LandingZoneAccountResource"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'LandingZoneAccount' update operation succeeded",
+            "description": "Resource 'LandingZoneAccountResource' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccount"
+              "$ref": "#/definitions/LandingZoneAccountResource"
             }
           },
           "201": {
-            "description": "Resource 'LandingZoneAccount' create operation succeeded",
+            "description": "Resource 'LandingZoneAccountResource' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccount"
+              "$ref": "#/definitions/LandingZoneAccountResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -551,7 +555,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "Update a LandingZoneAccount",
+        "description": "Update a LandingZoneAccountResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -576,7 +580,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccountUpdate"
+              "$ref": "#/definitions/LandingZoneAccountResourceUpdate"
             }
           }
         ],
@@ -584,7 +588,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/LandingZoneAccount"
+              "$ref": "#/definitions/LandingZoneAccountResource"
             }
           },
           "default": {
@@ -600,7 +604,7 @@
         "tags": [
           "LandingZoneAccounts"
         ],
-        "description": "Delete a LandingZoneAccount",
+        "description": "Delete a LandingZoneAccountResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -656,7 +660,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations": {
       "get": {
-        "operationId": "LandingZoneConfigurationOperations_ListByLandingZoneAccount",
+        "operationId": "LandingZoneConfigurationOperations_ListByResourceGroup",
         "tags": [
           "LandingZoneConfigurationOperations"
         ],
@@ -803,6 +807,10 @@
               "$ref": "#/definitions/LandingZoneConfigurationResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -871,13 +879,31 @@
               "$ref": "#/definitions/LandingZoneConfigurationResource"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "LandingZoneConfigurationOperations_Delete",
@@ -913,8 +939,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -925,7 +962,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations/{landingZoneConfigurationName}/createCopy": {
@@ -978,13 +1019,31 @@
               "$ref": "#/definitions/CreateLandingZoneConfigurationCopyResponse"
             }
           },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneConfigurations/{landingZoneConfigurationName}/generateLandingZone": {
@@ -1114,18 +1173,36 @@
               "$ref": "#/definitions/UpdateAuthoringStatusResponse"
             }
           },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sovereign/landingZoneAccounts/{landingZoneAccountName}/landingZoneRegistrations": {
       "get": {
-        "operationId": "LandingZoneRegistrationOperations_ListByLandingZoneAccount",
+        "operationId": "LandingZoneRegistrationOperations_ListByResourceGroup",
         "tags": [
           "LandingZoneRegistrationOperations"
         ],
@@ -1272,6 +1349,10 @@
               "$ref": "#/definitions/LandingZoneRegistrationResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -1340,13 +1421,31 @@
               "$ref": "#/definitions/LandingZoneRegistrationResource"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "LandingZoneRegistrationOperations_Delete",
@@ -1429,6 +1528,29 @@
         ]
       }
     },
+    "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
+      }
+    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -1457,7 +1579,8 @@
             "description": "Resource creation was canceled."
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "CreateCopyRequest": {
       "type": "object",
@@ -1646,7 +1769,7 @@
           {
             "name": "tr_TR",
             "value": "tr-TR",
-            "description": "Turkish (Turkey)"
+            "description": "Turkish (Türkiye)"
           },
           {
             "name": "zh_CN",
@@ -1900,18 +2023,13 @@
         ]
       }
     },
-    "LandingZoneAccount": {
+    "LandingZoneAccountResource": {
       "type": "object",
-      "description": "The Landing Zone Account parent resource type.",
+      "description": "The Landing zone account parent resource type.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/LandingZoneAccountProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "$ref": "#/definitions/LandingZoneAccountResourceProperties",
+          "description": "The resource-specific properties for this resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -1924,15 +2042,15 @@
         }
       ]
     },
-    "LandingZoneAccountListResult": {
+    "LandingZoneAccountResourceListResult": {
       "type": "object",
-      "description": "The response of a LandingZoneAccount list operation.",
+      "description": "The response of a LandingZoneAccountResource list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The LandingZoneAccount items on this page",
+          "description": "The LandingZoneAccountResource items on this page",
           "items": {
-            "$ref": "#/definitions/LandingZoneAccount"
+            "$ref": "#/definitions/LandingZoneAccountResource"
           }
         },
         "nextLink": {
@@ -1945,23 +2063,38 @@
         "value"
       ]
     },
-    "LandingZoneAccountProperties": {
+    "LandingZoneAccountResourceProperties": {
       "type": "object",
-      "description": "The properties of landing zone configuration resource type.",
+      "description": "The properties of landing zone account resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing zone account.",
           "readOnly": true
+        },
+        "storageAccount": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The storage account that will host the generated slz code.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
         }
-      }
+      },
+      "required": [
+        "storageAccount"
+      ]
     },
-    "LandingZoneAccountUpdate": {
+    "LandingZoneAccountResourceUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the LandingZoneAccount.",
+      "description": "The type used for update operations of the LandingZoneAccountResource.",
       "properties": {
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
           "description": "The managed service identities assigned to this resource."
         },
         "tags": {
@@ -1969,6 +2102,28 @@
           "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/LandingZoneAccountResourceUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "LandingZoneAccountResourceUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the LandingZoneAccountResource.",
+      "properties": {
+        "storageAccount": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The storage account that will host the generated slz code.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
           }
         }
       }
@@ -1979,12 +2134,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/LandingZoneConfigurationResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2019,7 +2169,7 @@
       "description": "The properties of landing zone configuration resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing zone configuration.",
           "readOnly": true
         },
@@ -2142,6 +2292,18 @@
         "sandboxMgMetadata": {
           "$ref": "#/definitions/SandboxManagementGroupProperties",
           "description": "This will be applied to the sandbox management group."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
+          "items": {
+            "$ref": "#/definitions/Tags"
+          },
+          "x-ms-identifiers": []
+        },
+        "managedIdentity": {
+          "$ref": "#/definitions/ManagedIdentityProperties",
+          "description": "The managed identity to be tied to this landing zone configuration"
         }
       },
       "required": [
@@ -2151,22 +2313,13 @@
         "gatewaySubnetCidrBlock",
         "logRetentionInDays",
         "hubNetworkCidrBlock",
-        "azureBastionCreationOption"
+        "azureBastionCreationOption",
+        "managedIdentity"
       ]
     },
-    "LandingZoneConfigurationResourceUpdate": {
+    "LandingZoneConfigurationResourcePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the LandingZoneConfigurationResource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LandingZoneConfigurationResourceUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "LandingZoneConfigurationResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the LandingZoneConfigurationResource.",
+      "description": "The properties of landing zone configuration resource type.",
       "properties": {
         "ddosProtectionCreationOption": {
           "$ref": "#/definitions/ResourceCreationOptions",
@@ -2282,8 +2435,35 @@
         "sandboxMgMetadata": {
           "$ref": "#/definitions/SandboxManagementGroupPropertiesUpdate",
           "description": "This will be applied to the sandbox management group."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
+          "items": {
+            "$ref": "#/definitions/Tags"
+          },
+          "x-ms-identifiers": []
+        },
+        "managedIdentity": {
+          "$ref": "#/definitions/ManagedIdentityPropertiesUpdate",
+          "description": "The managed identity to be tied to this landing zone configuration"
         }
       }
+    },
+    "LandingZoneConfigurationResourceUpdate": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LandingZoneConfigurationResourcePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "LandingZoneManagementGroupProperties": {
       "type": "object",
@@ -2313,12 +2493,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/LandingZoneRegistrationResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2353,7 +2528,7 @@
       "description": "The properties of landing zone registration resource type.",
       "properties": {
         "provisioningState": {
-          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "$ref": "#/definitions/provisioningState",
           "description": "The status of a user-initiated, control-plane operation on the landing Zone registration resource type.",
           "readOnly": true
         },
@@ -2387,19 +2562,9 @@
         "existingLandingZoneConfigurationId"
       ]
     },
-    "LandingZoneRegistrationResourceUpdate": {
+    "LandingZoneRegistrationResourcePropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the LandingZoneRegistrationResource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/LandingZoneRegistrationResourceUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "LandingZoneRegistrationResourceUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the LandingZoneRegistrationResource.",
+      "description": "The properties of landing zone registration resource type.",
       "properties": {
         "existingTopLevelMgId": {
           "type": "string",
@@ -2425,6 +2590,92 @@
             ]
           }
         }
+      }
+    },
+    "LandingZoneRegistrationResourceUpdate": {
+      "type": "object",
+      "description": "The Landing Zone registration resource type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LandingZoneRegistrationResourcePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ManagedIdentityProperties": {
+      "type": "object",
+      "description": "The properties of managed identity.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedIdentityResourceType",
+          "description": "The type of managed identity."
+        },
+        "userAssignedIdentityResourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the user assigned managed identity.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ManagedIdentityPropertiesUpdate": {
+      "type": "object",
+      "description": "The properties of managed identity.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedIdentityResourceType",
+          "description": "The type of managed identity."
+        },
+        "userAssignedIdentityResourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the user assigned managed identity.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ManagedIdentityResourceType": {
+      "type": "string",
+      "description": "The authoring status for a landing zone configuration.",
+      "enum": [
+        "SystemAssigned",
+        "UserAssigned"
+      ],
+      "x-ms-enum": {
+        "name": "ManagedIdentityResourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SystemAssigned",
+            "value": "SystemAssigned",
+            "description": "System assigned managed identity."
+          },
+          {
+            "name": "UserAssigned",
+            "value": "UserAssigned",
+            "description": "User assigned managed identity."
+          }
+        ]
       }
     },
     "ManagementGroupProperties": {
@@ -2571,12 +2822,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/TransparencyLogProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -2653,19 +2899,9 @@
         "emailCultures"
       ]
     },
-    "TransparencyLogUpdate": {
+    "TransparencyLogPropertiesUpdate": {
       "type": "object",
-      "description": "The type used for update operations of the TransparencyLog.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TransparencyLogUpdateProperties",
-          "x-ms-client-flatten": true
-        }
-      }
-    },
-    "TransparencyLogUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the TransparencyLog.",
+      "description": "The properties of the Transparency Log resource type.",
       "properties": {
         "emailCultures": {
           "type": "array",
@@ -2702,6 +2938,21 @@
         }
       }
     },
+    "TransparencyLogUpdate": {
+      "type": "object",
+      "description": "The Transparency Log resource type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TransparencyLogPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
     "UpdateAuthoringStatusRequest": {
       "type": "object",
       "description": "The request to update authoring status of a configuration.",
@@ -2733,35 +2984,54 @@
         "authoringStatus"
       ]
     },
-    "Versions": {
+    "provisioningState": {
       "type": "string",
-      "description": "The Microsoft Sovereign Provider version.",
+      "description": "The custom provisioning state.",
       "enum": [
-        "2023-09-28-preview",
-        "2024-03-31-preview",
-        "2024-10-31-preview"
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Creating",
+        "Updating",
+        "Deleting"
       ],
       "x-ms-enum": {
-        "name": "Versions",
+        "name": "provisioningState",
         "modelAsString": true,
         "values": [
           {
-            "name": "Preview20230928",
-            "value": "2023-09-28-preview",
-            "description": "Preview version."
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
           },
           {
-            "name": "Preview20240331",
-            "value": "2024-03-31-preview",
-            "description": "Second preview version."
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
           },
           {
-            "name": "Preview20241031",
-            "value": "2024-10-31-preview",
-            "description": "Public preview version."
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Creating",
+            "value": "Creating",
+            "description": "The state of the resource when creating"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The state of the resource when updating"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The state of the resource when deleting"
           }
         ]
-      }
+      },
+      "readOnly": true
     }
   },
   "parameters": {}

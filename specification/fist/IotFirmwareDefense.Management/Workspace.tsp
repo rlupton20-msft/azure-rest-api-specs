@@ -6,11 +6,10 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * Firmware analysis workspace.
  */
@@ -56,7 +55,7 @@ interface Workspaces {
   /**
    * The operation to update a firmware analysis workspaces.
    */
-  @parameterVisibility("read")
+  @parameterVisibility
   update is ArmCustomPatchSync<Workspace, WorkspaceUpdateDefinition>;
 
   /**

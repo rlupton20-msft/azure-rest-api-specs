@@ -3,7 +3,7 @@
   "info": {
     "title": "Private.Access",
     "version": "2024-02-24-preview",
-    "description": "Azure Access Point Management API",
+    "description": "Azure Private RP Access Management API",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -40,21 +40,63 @@
   },
   "tags": [
     {
-      "name": "AccessPoint"
+      "name": "Operations"
     },
     {
-      "name": "EncryptedTransportCircuit"
+      "name": "AccessPointOperations"
+    },
+    {
+      "name": "CircuitOperations"
     },
     {
       "name": "DeviceOperations"
     }
   ],
   "paths": {
+    "/providers/Private.Access/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.Access/accessPoints": {
       "get": {
-        "operationId": "AccessPoint_ListBySubscription",
+        "operationId": "AccessPointOperations_ListBySubscription",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "List AccessPointResource resources by subscription ID",
         "parameters": [
@@ -79,6 +121,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "AccessPointOperations_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_ListBySubscription_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -86,9 +133,9 @@
     },
     "/subscriptions/{subscriptionId}/providers/Private.Access/circuits": {
       "get": {
-        "operationId": "EncryptedTransportCircuit_ListBySubscription",
+        "operationId": "CircuitOperations_ListBySubscription",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
         "description": "List Circuit resources by subscription ID",
         "parameters": [
@@ -113,6 +160,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "CircuitOperations_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_ListBySubscription_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -120,9 +172,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/accessPoints": {
       "get": {
-        "operationId": "AccessPoint_ListByResourceGroup",
+        "operationId": "AccessPointOperations_ListByResourceGroup",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "List AccessPointResource resources by resource group",
         "parameters": [
@@ -150,6 +202,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "AccessPointOperations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -157,9 +214,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/accessPoints/{accessPointName}": {
       "get": {
-        "operationId": "AccessPoint_Get",
+        "operationId": "AccessPointOperations_Get",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Get a AccessPointResource",
         "parameters": [
@@ -194,12 +251,17 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "AccessPointOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_Get_MaximumSet_Gen.json"
+          }
         }
       },
       "put": {
-        "operationId": "AccessPoint_CreateOrUpdate",
+        "operationId": "AccessPointOperations_CreateOrUpdate",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Create a AccessPointResource",
         "parameters": [
@@ -243,6 +305,10 @@
               "$ref": "#/definitions/AccessPointResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -257,15 +323,20 @@
             }
           }
         },
+        "x-ms-examples": {
+          "AccessPointOperations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       },
       "patch": {
-        "operationId": "AccessPoint_Update",
+        "operationId": "AccessPointOperations_Update",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Update a AccessPointResource",
         "parameters": [
@@ -309,12 +380,17 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "AccessPointOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_Update_MaximumSet_Gen.json"
+          }
         }
       },
       "delete": {
-        "operationId": "AccessPoint_Delete",
+        "operationId": "AccessPointOperations_Delete",
         "tags": [
-          "AccessPoint"
+          "AccessPointOperations"
         ],
         "description": "Delete a AccessPointResource",
         "parameters": [
@@ -340,14 +416,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -361,6 +437,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "AccessPointOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/AccessPointOperations_Delete_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -369,9 +450,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/circuits": {
       "get": {
-        "operationId": "EncryptedTransportCircuit_ListByResourceGroup",
+        "operationId": "CircuitOperations_ListByResourceGroup",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
         "description": "List Circuit resources by resource group",
         "parameters": [
@@ -399,6 +480,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "CircuitOperations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -406,9 +492,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Access/circuits/{circuitName}": {
       "get": {
-        "operationId": "EncryptedTransportCircuit_Get",
+        "operationId": "CircuitOperations_Get",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
         "description": "Get a Circuit",
         "parameters": [
@@ -443,12 +529,17 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "CircuitOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_Get_MaximumSet_Gen.json"
+          }
         }
       },
       "put": {
-        "operationId": "EncryptedTransportCircuit_CreateOrUpdate",
+        "operationId": "CircuitOperations_CreateOrUpdate",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
         "description": "Create a Circuit",
         "parameters": [
@@ -492,6 +583,10 @@
               "$ref": "#/definitions/Circuit"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -506,16 +601,22 @@
             }
           }
         },
+        "x-ms-examples": {
+          "CircuitOperations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       },
       "patch": {
-        "operationId": "EncryptedTransportCircuit_Update",
+        "operationId": "CircuitOperations_Update",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
+        "description": "Update a Circuit",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -535,9 +636,9 @@
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
           },
           {
-            "name": "CircuitUpdate",
+            "name": "properties",
             "in": "body",
-            "description": "The circuit properties to be updated.",
+            "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CircuitUpdate"
@@ -550,13 +651,24 @@
             "schema": {
               "$ref": "#/definitions/Circuit"
             }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "CircuitOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_Update_MaximumSet_Gen.json"
           }
         }
       },
       "delete": {
-        "operationId": "EncryptedTransportCircuit_Delete",
+        "operationId": "CircuitOperations_Delete",
         "tags": [
-          "EncryptedTransportCircuit"
+          "CircuitOperations"
         ],
         "description": "Delete a Circuit",
         "parameters": [
@@ -582,14 +694,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -601,6 +713,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "CircuitOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/CircuitOperations_Delete_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -649,6 +766,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "DeviceOperations_ListByCircuit_MaximumSet_Gen": {
+            "$ref": "./examples/DeviceOperations_ListByCircuit_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -682,7 +804,7 @@
           {
             "name": "deviceName",
             "in": "path",
-            "description": "The name of the Access Point",
+            "description": "The name of the Encrypted Transport Device",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -700,6 +822,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "DeviceOperations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/DeviceOperations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -730,7 +857,7 @@
           {
             "name": "deviceName",
             "in": "path",
-            "description": "The name of the Access Point",
+            "description": "The name of the Encrypted Transport Device",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -758,6 +885,10 @@
               "$ref": "#/definitions/Device"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -772,6 +903,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "DeviceOperations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/DeviceOperations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -782,6 +918,7 @@
         "tags": [
           "DeviceOperations"
         ],
+        "description": "Update a Device",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -803,15 +940,15 @@
           {
             "name": "deviceName",
             "in": "path",
-            "description": "The name of the Access Point",
+            "description": "The name of the Encrypted Transport Device",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
           },
           {
-            "name": "DeviceUpdate",
+            "name": "properties",
             "in": "body",
-            "description": "The circuit properties to be updated.",
+            "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/DeviceUpdate"
@@ -822,8 +959,19 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/Circuit"
+              "$ref": "#/definitions/Device"
             }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DeviceOperations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/DeviceOperations_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -854,7 +1002,7 @@
           {
             "name": "deviceName",
             "in": "path",
-            "description": "The name of the Access Point",
+            "description": "The name of the Encrypted Transport Device",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -864,14 +1012,14 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              },
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -883,6 +1031,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "DeviceOperations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/DeviceOperations_Delete_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -899,12 +1052,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AccessPointResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -927,8 +1075,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -977,6 +1124,51 @@
         }
       }
     },
+    "Azure.ResourceManager.CommonTypes.SkuUpdate": {
+      "type": "object",
+      "description": "The resource model definition representing SKU",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the SKU. Ex - P3. It is typically a letter+number code"
+        },
+        "tier": {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/SkuTier",
+          "description": "This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT."
+        },
+        "size": {
+          "type": "string",
+          "description": "The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code."
+        },
+        "family": {
+          "type": "string",
+          "description": "If the service has different generations of hardware, for the same SKU, then that can be captured here."
+        },
+        "capacity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted."
+        }
+      }
+    },
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "BaseResourceProperties": {
       "type": "object",
       "description": "Properties for a base resource.",
@@ -994,26 +1186,13 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/CircuitResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         },
         "sku": {
-          "$ref": "#/definitions/ResourceSkuType",
-          "description": "The billing sku type.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         }
       },
-      "required": [
-        "sku"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -1034,8 +1213,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -1046,6 +1224,11 @@
       "type": "object",
       "description": "Encrypted Transport Circuit Properties.",
       "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
         "siteLocation": {
           "type": "string",
           "description": "Circuit Site Location",
@@ -1056,36 +1239,26 @@
             "create"
           ]
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseResourceProperties"
-        }
-      ]
+      }
     },
     "CircuitUpdate": {
       "type": "object",
-      "description": "An update to a circuit resource",
+      "description": "The Encrypted Transport Circuit",
       "properties": {
-        "sku": {
-          "$ref": "#/definitions/ResourceSkuType",
-          "description": "The billing sku type."
-        },
         "properties": {
-          "$ref": "#/definitions/CircuitUpdateProperties",
-          "description": "The updatable properties of a circuit resource"
+          "$ref": "#/definitions/CircuitResourceProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "sku": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         }
-      }
-    },
-    "CircuitUpdateProperties": {
-      "type": "object",
-      "description": "The properties of a private cloud resource that may be updated",
-      "properties": {
-        "siteLocation": {
-          "type": "string",
-          "description": "Circuit Site Location"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
-      }
+      ]
     },
     "Device": {
       "type": "object",
@@ -1093,17 +1266,11 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DeviceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         },
         "sku": {
-          "$ref": "#/definitions/ResourceSkuType",
-          "description": "The billing sku type.",
-          "readOnly": true
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         }
       },
       "allOf": [
@@ -1126,8 +1293,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -1138,6 +1304,11 @@
       "type": "object",
       "description": "Encrypted Transport Device Properties.",
       "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
         "macAddress": {
           "type": "string",
           "description": "The MAC address",
@@ -1168,68 +1339,67 @@
       },
       "required": [
         "macAddress"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseResourceProperties"
-        }
       ]
     },
-    "DeviceUpdate": {
+    "DevicePropertiesUpdate": {
       "type": "object",
-      "description": "An update to a device resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/DeviceUpdateProperties",
-          "description": "The updatable properties of a device resource"
-        }
-      }
-    },
-    "DeviceUpdateProperties": {
-      "type": "object",
-      "description": "The properties of a device resource that may be updated",
+      "description": "Encrypted Transport Device Properties.",
       "properties": {
         "assetTag": {
           "type": "string",
-          "description": "The device asset tag."
+          "description": "The device asset tag.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         },
         "serialNumber": {
           "type": "string",
-          "description": "The device serial number."
+          "description": "The device serial number.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
+    },
+    "DeviceUpdate": {
+      "type": "object",
+      "description": "An Encrypted Transport Device Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DevicePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        },
+        "sku": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
+          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "ProvisioningState": {
       "type": "string",
       "description": "The provisioning status of the resource",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Provisioning",
         "Updating",
         "Deleting",
-        "Accepted"
+        "Accepted",
+        "Canceled",
+        "Succeeded",
+        "Failed"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Provisioning",
             "value": "Provisioning",
@@ -1249,12 +1419,29 @@
             "name": "Accepted",
             "value": "Accepted",
             "description": "The change request has been accepted"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "The change request has been canceled"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The change request has succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The change request has failed"
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "ResourceSkuType": {
       "type": "object",
+      "description": "The base SKU resource.",
       "properties": {
         "name": {
           "type": "string",
@@ -1264,27 +1451,6 @@
             "create"
           ]
         }
-      }
-    },
-    "Versions": {
-      "type": "string",
-      "enum": [
-        "2023-05-24-preview",
-        "2024-02-24-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_05_24_preview",
-            "value": "2023-05-24-preview"
-          },
-          {
-            "name": "v2024_02_24_preview",
-            "value": "2024-02-24-preview"
-          }
-        ]
       }
     }
   },

@@ -471,13 +471,6 @@
       "type": "object",
       "description": "A AzureChangeControlProviderHub resource",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "properties": {
           "$ref": "#/definitions/ChangeControlProperties",
           "description": "The resource-specific properties for this resource.",
@@ -532,6 +525,14 @@
           "$ref": "#/definitions/TimeWindow",
           "description": "Validity period of the change control."
         },
+        "changeReference": {
+          "type": "string",
+          "description": "The external change reference."
+        },
+        "serviceReference": {
+          "type": "string",
+          "description": "The external service reference."
+        },
         "targets": {
           "type": "array",
           "description": "Linked change control targets",
@@ -579,6 +580,14 @@
           "$ref": "#/definitions/TimeWindowUpdate",
           "description": "Validity period of the change control."
         },
+        "changeReference": {
+          "type": "string",
+          "description": "The external change reference."
+        },
+        "serviceReference": {
+          "type": "string",
+          "description": "The external service reference."
+        },
         "targets": {
           "type": "array",
           "description": "Linked change control targets",
@@ -592,6 +601,34 @@
           "description": "The change control description"
         }
       }
+    },
+    "ChangeKind": {
+      "type": "string",
+      "enum": [
+        "Breakglass"
+      ],
+      "x-ms-enum": {
+        "modelAsString": false
+      },
+      "x-nullable": false
+    },
+    "IsValidRequest": {
+      "type": "object",
+      "description": "The validation request.",
+      "properties": {
+        "operation": {
+          "type": "string",
+          "description": "The ARM operation."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "The resourceId."
+        }
+      },
+      "required": [
+        "operation",
+        "resourceId"
+      ]
     },
     "IsValidResult": {
       "type": "object",
@@ -610,55 +647,22 @@
         "isValid"
       ]
     },
-    "IsValidRequest": {
-      "type": "object",
-      "description": "The validation request.",
-      "properties": {
-        "operation": {
-          "type": "string",
-          "description": "The operation."
-        },
-        "resourceId": {
-          "type": "string",
-          "description": "The resourceId."
-        }
-      },
-      "required": [
-        "operation",
-        "resourceId"
-      ]
-    },
     "ProvisioningState": {
       "type": "string",
       "description": "The status of the current operation.",
       "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
         "Provisioning",
         "Updating",
         "Deleting",
-        "Accepted"
+        "Accepted",
+        "Succeeded",
+        "Failed",
+        "Canceled"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
-        "modelAsString": true,
+        "modelAsString": false,
         "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
           {
             "name": "Provisioning",
             "value": "Provisioning",
@@ -678,6 +682,21 @@
             "name": "Accepted",
             "value": "Accepted",
             "description": "Change accepted for processing"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Provisioning succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Provisioning failed"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Provisioning canceled"
           }
         ]
       },

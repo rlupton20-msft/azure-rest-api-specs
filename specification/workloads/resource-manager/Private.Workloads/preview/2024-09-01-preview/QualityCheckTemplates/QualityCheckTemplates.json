@@ -1,0 +1,387 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Workloads Client",
+    "version": "2024-09-01-preview",
+    "description": "Private.Workloads Resource Provider management API.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "QualityCheckTemplates"
+    }
+  ],
+  "paths": {
+    "/{resourceUri}/providers/Private.Workloads/qualityCheckTemplates": {
+      "get": {
+        "operationId": "QualityCheckTemplates_List",
+        "tags": [
+          "QualityCheckTemplates"
+        ],
+        "description": "List QualityCheckTemplate resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/QualityCheckTemplateListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.Workloads/qualityCheckTemplates/{qualityCheckTemplate}": {
+      "get": {
+        "operationId": "QualityCheckTemplates_Get",
+        "tags": [
+          "QualityCheckTemplates"
+        ],
+        "description": "Get a QualityCheckTemplate",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "qualityCheckTemplate",
+            "in": "path",
+            "description": "The name of the quality check template",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,63}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/QualityCheckTemplate"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "QualityCheckTemplates_Get": {
+            "$ref": "./examples/QualityCheckTemplates_Get.json"
+          }
+        }
+      }
+    },
+    "/providers/Private.Workloads/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Azure.ResourceManager.ResourceProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of a resource type.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled"
+      ],
+      "x-ms-enum": {
+        "name": "ResourceProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "Command": {
+      "type": "object",
+      "description": "Command settings",
+      "properties": {
+        "executionLayer": {
+          "$ref": "#/definitions/QualityCheckExecutionLayer",
+          "description": "The execution layer."
+        },
+        "queryCommand": {
+          "type": "string",
+          "description": "The query command."
+        },
+        "recommendedValue": {
+          "type": "string",
+          "description": "The recommended value."
+        },
+        "customizedValue": {
+          "type": "string",
+          "description": "The customized value"
+        }
+      },
+      "required": [
+        "executionLayer",
+        "queryCommand",
+        "recommendedValue"
+      ]
+    },
+    "ExecutionSettings": {
+      "type": "object",
+      "description": "Execution settings of quality check template.",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The execution interval."
+        }
+      }
+    },
+    "QualityCheckExecutionLayer": {
+      "type": "string",
+      "description": "Quality check execution layer enum",
+      "enum": [
+        "AzureResourceManager",
+        "OSLevel"
+      ],
+      "x-ms-enum": {
+        "name": "QualityCheckExecutionLayer",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AzureResourceManager",
+            "value": "AzureResourceManager",
+            "description": "The Azure Resource Manager"
+          },
+          {
+            "name": "OSLevel",
+            "value": "OSLevel",
+            "description": "Execution at Azure OS level"
+          }
+        ]
+      }
+    },
+    "QualityCheckTemplate": {
+      "type": "object",
+      "description": "Quality Check Template as Proxy Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/QualityCheckTemplateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "QualityCheckTemplateListResult": {
+      "type": "object",
+      "description": "The response of a QualityCheckTemplate list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The QualityCheckTemplate items on this page",
+          "items": {
+            "$ref": "#/definitions/QualityCheckTemplate"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "QualityCheckTemplateProperties": {
+      "type": "object",
+      "description": "QualityCheckTemplate properties",
+      "properties": {
+        "templateId": {
+          "type": "string",
+          "description": "Unique Id assigned to template."
+        },
+        "executionSettings": {
+          "$ref": "#/definitions/ExecutionSettings",
+          "description": "Execution settings of quality check template."
+        },
+        "associationWithVirtualInstances": {
+          "type": "array",
+          "description": "Association of quality checks with virtual instances",
+          "items": {
+            "type": "string"
+          }
+        },
+        "qualityChecks": {
+          "type": "array",
+          "description": "Profile of QualityCheckTemplate",
+          "items": {
+            "$ref": "#/definitions/QualityChecks"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The resource provisioning state.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "qualityChecks"
+      ]
+    },
+    "QualityChecks": {
+      "type": "object",
+      "description": "Profile of QualityCheckTemplate",
+      "properties": {
+        "checkId": {
+          "type": "string",
+          "description": "The quality check Id."
+        },
+        "checkName": {
+          "type": "string",
+          "description": "The quality check name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of quality check."
+        },
+        "applyOnWorkloadRoleTypes": {
+          "type": "array",
+          "description": "The quality check applicable on role types.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type on which quality check will be performed"
+        },
+        "supportedOsTypes": {
+          "type": "array",
+          "description": "Supported OS Types for quality checks",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command": {
+          "$ref": "#/definitions/Command",
+          "description": "The command settings."
+        }
+      },
+      "required": [
+        "checkId",
+        "checkName",
+        "applyOnWorkloadRoleTypes",
+        "resourceType",
+        "supportedOsTypes",
+        "command"
+      ]
+    }
+  },
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
+}

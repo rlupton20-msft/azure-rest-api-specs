@@ -59,14 +59,14 @@ interface Validators {
   listBySubscription is ArmListBySubscription<Validator>;
 }
 
-@doc("An ValidationResult resource.")
-model ValidationResult is TrackedResource<ValidationResultProperties> {
+@doc("A validation resource.")
+model Validation is TrackedResource<ValidationProperties> {
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("validationResultName")
-  @segment("validationResults")
+  @key("validationName")
+  @segment("validations")
   @visibility("read")
   @path
-  @doc("The name of the validation result.")
+  @doc("The name of the validation resource.")
   name: string;
 }
 
@@ -74,13 +74,13 @@ model ValidationResult is TrackedResource<ValidationResultProperties> {
 @doc("The operation type that can be performed on a resource.")
 enum Operation {
   /** The resource is being created. */
-  Create,
+  create,
 
   /** The resource is being updated. */
-  Update,
+  update,
 
   /** The resource is being deleted. */
-  Delete,
+  delete,
 }
 
 #suppress "@azure-tools/typespec-azure-core/no-enum" "Suppress the warning for using enum keyword."
@@ -96,8 +96,8 @@ enum Outcome {
   Pending,
 }
 
-@doc("The properties of ValidationResult")
-model ValidationResultProperties {
+@doc("The properties of Validation")
+model ValidationProperties {
   @doc("The validator id.")
   validatorId: string;
 
@@ -134,11 +134,11 @@ model ValidationResultProperties {
 }
 
 @armResourceOperations
-interface ValidationResults {
-  get is ArmResourceRead<ValidationResult>;
-  create is ArmResourceCreateOrReplaceAsync<ValidationResult>;
-  update is ArmResourcePatchSync<ValidationResult, ValidationResultProperties>;
-  delete is ArmResourceDeleteSync<ValidationResult>;
-  listByResourceGroup is ArmResourceListByParent<ValidationResult>;
-  listBySubscription is ArmListBySubscription<ValidationResult>;
+interface Validations {
+  get is ArmResourceRead<Validation>;
+  create is ArmResourceCreateOrReplaceAsync<Validation>;
+  update is ArmResourcePatchSync<Validation, ValidationProperties>;
+  delete is ArmResourceDeleteSync<Validation>;
+  listByResourceGroup is ArmResourceListByParent<Validation>;
+  listBySubscription is ArmListBySubscription<Validation>;
 }

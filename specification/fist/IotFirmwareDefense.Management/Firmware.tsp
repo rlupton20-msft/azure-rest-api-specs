@@ -7,11 +7,10 @@ import "./Workspace.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * Firmware definition
  */
@@ -43,7 +42,7 @@ interface Firmwares {
   /**
    * The operation to update firmware.
    */
-  @parameterVisibility("read")
+  @parameterVisibility
   update is ArmCustomPatchSync<Firmware, FirmwareUpdateDefinition>;
 
   /**

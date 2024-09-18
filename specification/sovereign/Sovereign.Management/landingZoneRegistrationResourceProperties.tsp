@@ -9,7 +9,7 @@ namespace Microsoft.Sovereign;
 model LandingZoneRegistrationResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing Zone registration resource type.")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: provisioningState;
 
   @doc("The resource id of the top level management group")
   existingTopLevelMgId: armResourceIdentifier<[

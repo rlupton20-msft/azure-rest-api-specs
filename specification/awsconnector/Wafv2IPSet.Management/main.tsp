@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
+import "@azure-tools/typespec-azure-portal-core";
 import "../shared/main.tsp";
 
 using TypeSpec.Http;
@@ -14,6 +15,7 @@ using OpenAPI;
 using Azure.Core;
 using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
+using Azure.Portal;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
@@ -27,13 +29,20 @@ namespace Microsoft.AwsConnector;
 
 /** Api versions */
 enum Versions {
-  /** 2024-08-01-preview api version */
+  /** 2024-12-01 api version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-08-01-preview`,
+  `2024-12-01`,
 }
 
 //---------------------------------------------- Wafv2IPSets ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
+@about({
+  displayNames: {
+    singular: "WAFv2 IPSet",
+    plural: "WAFv2 IPSets",
+  },
+  keywords: ["Microsoft.AwsConnector", "WAFv2", "IPSet"],
+})
 @doc("A Microsoft.AwsConnector resource")
 model Wafv2IPSet is TrackedResource<Wafv2IPSetProperties> {
   @doc("Name of Wafv2IPSet")
@@ -73,7 +82,7 @@ model AwsWafv2IPSetProperties {
   description?: string;
 
   @doc("Type of addresses in the IPSet, use IPV4 for IPV4 IP addresses, IPV6 for IPV6 address.")
-  ipAddressVersion?: string;
+  ipAddressVersion?: IPAddressVersion;
 
   @doc("Id of the IPSet")
   id?: string;
@@ -82,11 +91,22 @@ model AwsWafv2IPSetProperties {
   name?: string;
 
   @doc("Use CLOUDFRONT for CloudFront IPSet, use REGIONAL for Application Load Balancer and API Gateway.")
-  scope?: string;
+  scope?: Scope;
 
   @doc("Property tags")
   @extension("x-ms-identifiers", [])
   tags?: Tag[];
+}
+
+@doc("IPAddressVersion enum")
+union IPAddressVersion {
+  @doc("IPAddressVersion enum IPV4")
+  IPV4: "IPV4",
+
+  @doc("IPAddressVersion enum IPV6")
+  IPV6: "IPV6",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
@@ -100,6 +120,17 @@ model Tag {
 
   @doc("Property value")
   value?: string;
+}
+
+@doc("Scope enum")
+union Scope {
+  @doc("Scope enum CLOUDFRONT")
+  CLOUDFRONT: "CLOUDFRONT",
+
+  @doc("Scope enum REGIONAL")
+  REGIONAL: "REGIONAL",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."

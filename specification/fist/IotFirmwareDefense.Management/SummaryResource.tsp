@@ -7,11 +7,10 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * The object representing a firmware analysis summary resource.
  */
@@ -21,7 +20,7 @@ model SummaryResource is ProxyResource<SummaryResourceProperties> {
    * The Firmware analysis summary name describing the type of summary.
    */
   @path
-  @key("summaryName")
+  @key("summaryType")
   @segment("summaries")
   @visibility("read")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")

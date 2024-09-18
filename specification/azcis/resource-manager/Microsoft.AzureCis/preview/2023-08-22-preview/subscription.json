@@ -56,20 +56,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -92,10 +92,10 @@
         "description": "List SubscriptionResource resources by subscription ID",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -108,7 +108,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -131,13 +131,13 @@
         "description": "List SubscriptionResource resources by resource group",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           }
         ],
         "responses": {
@@ -150,7 +150,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -173,13 +173,13 @@
         "description": "Get a SubscriptionResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -200,7 +200,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -218,13 +218,13 @@
         "description": "Create a SubscriptionResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -257,6 +257,10 @@
               "$ref": "#/definitions/SubscriptionResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -267,7 +271,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -284,22 +288,68 @@
     }
   },
   "definitions": {
+    "ArmFeatureRegistration": {
+      "type": "object",
+      "description": "ARM Feature registration.",
+      "properties": {
+        "resourceProviderNamespace": {
+          "type": "string",
+          "description": "Resource Provider namespace."
+        },
+        "featureName": {
+          "type": "string",
+          "description": "Feature name."
+        }
+      },
+      "required": [
+        "resourceProviderNamespace",
+        "featureName"
+      ]
+    },
     "DsmsFolderWhitelist": {
       "type": "object",
-      "description": "Dsms folder whitelist object model.",
+      "description": "DSMS Root Folder Whitelist.",
       "properties": {
         "folderPath": {
           "type": "string",
-          "description": "Dsms root folder path."
+          "description": "DSMS Root Folder path."
         },
         "whitelistType": {
           "type": "string",
-          "description": "Dsms whitelist type."
+          "description": "DSMS Whitelist type."
         }
       },
       "required": [
         "folderPath",
         "whitelistType"
+      ]
+    },
+    "RbacRole": {
+      "type": "object",
+      "description": "RBAC Role.",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant id."
+        },
+        "objectId": {
+          "type": "string",
+          "description": "Object id."
+        },
+        "roleDefinitionId": {
+          "type": "string",
+          "description": "RoleDefinition id."
+        },
+        "principalType": {
+          "type": "string",
+          "description": "Principal Type."
+        }
+      },
+      "required": [
+        "tenantId",
+        "objectId",
+        "roleDefinitionId",
+        "principalType"
       ]
     },
     "SubscriptionProvisioningState": {
@@ -345,17 +395,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SubscriptionResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -442,7 +487,7 @@
         },
         "customRoles": {
           "type": "string",
-          "description": "Additional Azure RBAC roles to be added to the subscription to be provisioned (ex. roleId1;roleId2)."
+          "description": "Additional Azure RBAC roles to be added to the subscription to be provisioned (ex. [{role1...},{role2...}])."
         },
         "disableRbacRoleCheck": {
           "type": "boolean",
@@ -482,7 +527,7 @@
         },
         "dsmsFolderWhitelists": {
           "type": "array",
-          "description": "DsmsRootFolders of SubscriptionManagement.",
+          "description": "DSMS Root Folders of SubscriptionManagement.",
           "items": {
             "$ref": "#/definitions/DsmsFolderWhitelist"
           },
@@ -490,8 +535,43 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/SubscriptionProvisioningState",
-          "description": "Provisioning state.",
+          "description": "Provisioning status of the resource.",
           "readOnly": true
+        },
+        "subscriptionId": {
+          "type": "array",
+          "description": "List of Subscription IDs; a part of provisioning ResultData output.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "rbacRoles": {
+          "type": "array",
+          "description": "List of RBAC Roles; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/RbacRole"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "armFeatures": {
+          "type": "array",
+          "description": "List of ARM Features; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/ArmFeatureRegistration"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "dsmsRootFolderWhitelists": {
+          "type": "array",
+          "description": "List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/DsmsFolderWhitelist"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -500,24 +580,6 @@
         "subscriptionTenantId",
         "enrollmentAccountTenantId"
       ]
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Supported versions.",
-      "enum": [
-        "2023-08-22-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_08_22_preview",
-            "value": "2023-08-22-preview",
-            "description": "API version 2023-08-22-preview"
-          }
-        ]
-      }
     }
   },
   "parameters": {}

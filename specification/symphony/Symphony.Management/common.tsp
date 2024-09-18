@@ -1,13 +1,26 @@
 import "@typespec/http";
 import "@typespec/rest";
+import "@typespec/versioning";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-azure-core";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 namespace Private.Symphony;
+
+@doc("Versions info.")
+enum Versions {
+  /** 2024-04-01-preview preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2024_04_01_preview: "2024-04-01-preview",
+
+  /** 2024-08-01-preview preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2024_08_01_preview: "2024-08-01-preview",
+}
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -121,26 +134,69 @@ model StageProperties {
   schedule?: utcDateTime;
 }
 
+@doc("Defines a StageHistory")
+@added(Versions.v2024_08_01_preview)
+model StageHistoryProperties {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The inputs of the StageHistory, Inputs holds a key-value map of user-defined parameters for the initial stage")
+  inputs?: Record<unknown>;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The outputs of the StageHistory, it is different as the different input stages.")
+  outputs?: Record<unknown>;
+
+  @doc("The stage of the StageHistory")
+  stage: string;
+
+  @doc("The state of the StageHistory")
+
+  isActive?: boolean;
+
+  @doc("The nextStage of the StageHistory")
+  nextStage?: string;
+
+  @doc("The errorMessage of the StageHistory")
+  errorMessage?: string;
+
+  @doc("The status code of the StageHistory")
+  status?: int32;
+
+  @doc("The status message of the StageHistory")
+  statusMessage?: string;
+}
+
+
 @doc("Defines a ActivationStatus")
 model ActivationStatusProperties {
+  @doc("The execution history Activation")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  @added(Versions.v2024_08_01_preview)
+  stageHistory?: Array<StageHistoryProperties>;
+
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
   @doc("The inputs of the ActivationStatus, Inputs holds a key-value map of user-defined parameters for the initial stage")
+  @removed(Versions.v2024_08_01_preview)
   inputs?: Record<unknown>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
   @doc("The outputs of the ActivationStatus, it is different as the different input stages.")
+  @removed(Versions.v2024_08_01_preview)
   outputs?: Record<unknown>;
 
   @doc("The stage of the ActivationStatus")
+  @removed(Versions.v2024_08_01_preview)
   stage: string;
 
   @doc("The state of the ActivationStatus")
+  @removed(Versions.v2024_08_01_preview)
   isActive?: boolean;
 
   @doc("The nextStage of the ActivationStatus")
+  @removed(Versions.v2024_08_01_preview)
   nextStage?: string;
 
   @doc("The errorMessage of the ActivationStatus")
+  @removed(Versions.v2024_08_01_preview)
   errorMessage?: string;
 
   @doc("The activationGeneration of the ActivationStatus")
@@ -163,12 +219,12 @@ model CatalogStatusProperties {
   properties: Record<string>;
 }
 
-@doc("Defines an InstanceStatus")
-model InstanceStatusProperties {
-  @doc("The lastModified of the InstanceStatus")
+@doc("Defines a status for Target and Instance deployment")
+model InstanceTargetStatusProperties {
+  @doc("The lastModified of the Status")
   lastModified: utcDateTime;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
-  @doc("The state properties of the InstanceStatus")
+  @doc("The state properties of the Status")
   properties?: Record<string>;
 }
