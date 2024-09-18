@@ -123,6 +123,89 @@
             "$ref": "./examples/QualityCheckTemplates_Get.json"
           }
         }
+      },
+      "patch": {
+        "operationId": "QualityCheckTemplates_Update",
+        "tags": [
+          "QualityCheckTemplates"
+        ],
+        "description": "Update a QualityCheckTemplate",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "qualityCheckTemplate",
+            "in": "path",
+            "description": "The name of the quality check template",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,63}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QualityCheckTemplateUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/QualityCheckTemplate"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "QualityCheckTemplates_Delete",
+        "tags": [
+          "QualityCheckTemplates"
+        ],
+        "description": "Delete a QualityCheckTemplate",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "qualityCheckTemplate",
+            "in": "path",
+            "description": "The name of the quality check template",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,63}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/providers/Private.Workloads/operations": {
@@ -322,6 +405,50 @@
       },
       "required": [
         "qualityChecks"
+      ]
+    },
+    "QualityCheckTemplatePropertiesUpdate": {
+      "type": "object",
+      "description": "QualityCheckTemplate properties",
+      "properties": {
+        "templateId": {
+          "type": "string",
+          "description": "Unique Id assigned to template."
+        },
+        "executionSettings": {
+          "$ref": "#/definitions/ExecutionSettings",
+          "description": "Execution settings of quality check template."
+        },
+        "associationWithVirtualInstances": {
+          "type": "array",
+          "description": "Association of quality checks with virtual instances",
+          "items": {
+            "type": "string"
+          }
+        },
+        "qualityChecks": {
+          "type": "array",
+          "description": "Profile of QualityCheckTemplate",
+          "items": {
+            "$ref": "#/definitions/QualityChecks"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "QualityCheckTemplateUpdate": {
+      "type": "object",
+      "description": "Quality Check Template as Proxy Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/QualityCheckTemplatePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "QualityChecks": {
