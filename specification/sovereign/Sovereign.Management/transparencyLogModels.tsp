@@ -73,7 +73,7 @@ union Culture {
   @doc("Swedish (Sweden)")
   sv_SE: "sv-SE",
 
-  @doc("Turkish (Turkey)")
+  @doc("Turkish (Türkiye)")
   tr_TR: "tr-TR",
 
   @doc("Chinese (Simplified)")

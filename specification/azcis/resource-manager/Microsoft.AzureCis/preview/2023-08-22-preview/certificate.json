@@ -56,20 +56,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -92,10 +92,10 @@
         "description": "List DsmsCertificateResource resources by subscription ID",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -108,7 +108,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -131,13 +131,13 @@
         "description": "List DsmsCertificateResource resources by resource group",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           }
         ],
         "responses": {
@@ -150,7 +150,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -173,13 +173,13 @@
         "description": "Get a DsmsCertificateResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -200,7 +200,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -218,13 +218,13 @@
         "description": "Create a DsmsCertificateResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -257,6 +257,10 @@
               "$ref": "#/definitions/DsmsCertificateResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -267,7 +271,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -286,6 +290,7 @@
   "definitions": {
     "CaType": {
       "type": "string",
+      "description": "CA type",
       "enum": [
         "SSLAdmin",
         "AME"
@@ -296,11 +301,13 @@
         "values": [
           {
             "name": "SSLAdmin",
-            "value": "SSLAdmin"
+            "value": "SSLAdmin",
+            "description": "SSLAdmin CA"
           },
           {
             "name": "AME",
-            "value": "AME"
+            "value": "AME",
+            "description": "AME CA"
           }
         ]
       }
@@ -344,6 +351,7 @@
     },
     "CertificateType": {
       "type": "string",
+      "description": "Certificate Type",
       "enum": [
         "Chained",
         "SelfSigned"
@@ -354,11 +362,13 @@
         "values": [
           {
             "name": "Chained",
-            "value": "Chained"
+            "value": "Chained",
+            "description": "Chained certificate"
           },
           {
             "name": "SelfSigned",
-            "value": "SelfSigned"
+            "value": "SelfSigned",
+            "description": "Self-signed certificate"
           }
         ]
       }
@@ -431,7 +441,22 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/CertificateProvisioningState",
-          "description": "Provisioning state",
+          "description": "Provisioning status of the resource.",
+          "readOnly": true
+        },
+        "selfSignedCertificateDsmsName": {
+          "type": "string",
+          "description": "Self-signed Certificate DSMS name; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "chainedCertificateDsmsName": {
+          "type": "string",
+          "description": "Chained Certificate DSMS name; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "edgeSiteChildTrustIsland": {
+          "type": "string",
+          "description": "Automatically injected if the environment is a child trusted island; a part of provisioning ResultData output.",
           "readOnly": true
         }
       },
@@ -448,17 +473,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DsmsCertificateProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -500,24 +520,6 @@
         "type",
         "regions"
       ]
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Supported versions.",
-      "enum": [
-        "2023-08-22-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_08_22_preview",
-            "value": "2023-08-22-preview",
-            "description": "API version 2023-08-22-preview"
-          }
-        ]
-      }
     },
     "Whitelist": {
       "type": "object",

@@ -7,11 +7,10 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of CVE results.
  */
@@ -27,7 +26,7 @@ model CveResource is ProxyResource<CveResult> {
    */
   @path
   @key("cveId")
-  @segment("cves")
+  @segment("commonVulnerabilityAndExposureId")
   @visibility("read")
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
@@ -38,11 +37,5 @@ interface Cves {
   /**
    * Lists CVE analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    CveResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<CveResource>;
 }

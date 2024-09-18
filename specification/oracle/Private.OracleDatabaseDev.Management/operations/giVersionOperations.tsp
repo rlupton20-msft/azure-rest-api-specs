@@ -1,0 +1,18 @@
+import "../../common/models/giVersions.tsp";
+
+using Azure.ResourceManager;
+using Autorest;
+
+namespace Private.OracleDatabaseDev;
+
+@armResourceOperations
+interface GiVersions extends OracleLocationBasedResource<GiVersion> {}
+
+@@Autorest.example(GiVersions.listByLocation,
+  "./examples/giVersions_listByLocation.json",
+  "List GiVersions by location"
+);
+@@Autorest.example(GiVersions.get,
+  "./examples/giVersions_get.json",
+  "Get a GiVersion by name"
+);

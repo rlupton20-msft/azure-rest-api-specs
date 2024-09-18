@@ -20,10 +20,10 @@ namespace Microsoft.AzurePlaywrightService;
 
 @doc("Microsoft.AzurePlaywrightService Management API Versions.")
 enum Versions {
-  /** 2024-02-01-preview version */
+  /** 2024-08-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  `2024-02-01-preview`,
+  `2024-08-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -53,7 +53,10 @@ model AccountProperties {
   scalableExecution?: EnablementStatus = EnablementStatus.Enabled;
 
   @doc("When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.")
-  reporting?: EnablementStatus = EnablementStatus.Disabled;
+  reporting?: EnablementStatus = EnablementStatus.Enabled;
+
+  @doc("When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs.")
+  localAuth?: EnablementStatus = EnablementStatus.Disabled;
 
   @visibility("read")
   @doc("The status of the last operation.")
@@ -71,17 +74,19 @@ enum EnablementStatus {
 
 @doc("The status of the current operation.")
 @lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  string,
+
+  ResourceProvisioningState,
 
   @doc("Creation in progress..")
-  Creating,
+  Creating: "Creating",
 
   @doc("Deletion in progress..")
-  Deleting,
+  Deleting: "Deleting",
 
   @doc("Change accepted for processing..")
-  Accepted,
+  Accepted: "Accepted",
 }
 
 @armResourceOperations
@@ -113,15 +118,24 @@ model Quota is ProxyResource<QuotaProperties> {
 }
 
 @doc("The enum for quota name.")
-enum QuotaNames {
+union QuotaNames {
   @doc("The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations.")
-  ScalableExecution,
+  ScalableExecution: "ScalableExecution",
+
+  @doc("The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.")
+  Reporting: "Reporting",
+
+  string,
 }
 
 @doc("The subscription quota resource properties.")
 model QuotaProperties {
   @doc("The subscription quota resource free-trial properties.")
   freeTrial?: FreeTrialProperties;
+
+  @doc("Indicates the offering type for the subscription.")
+  @visibility("read")
+  offeringType?: OfferingType;
 
   @visibility("read")
   @doc("The status of the last operation.")
@@ -197,6 +211,21 @@ enum FreeTrialState {
 
   @doc("The free-trial is Not Registered.")
   NotRegistered,
+}
+
+@doc("Offering type state.")
+enum OfferingType {
+  @doc("The offeringType is NotApplicable.")
+  NotApplicable,
+
+  @doc("The offeringType is PrivatePreview.")
+  PrivatePreview,
+
+  @doc("The offeringType is PublicPreview.")
+  PublicPreview,
+
+  @doc("The offeringType is GeneralAvailability.")
+  GeneralAvailability,
 }
 
 @armResourceOperations

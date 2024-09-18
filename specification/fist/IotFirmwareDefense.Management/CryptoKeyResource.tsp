@@ -7,11 +7,10 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of crypto keys.
  */
@@ -38,11 +37,5 @@ interface CryptoKeys {
   /**
    * Lists crypto key analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    CryptoKeyResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<CryptoKeyResource>;
 }

@@ -2,12 +2,13 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./landingZoneConfigurationModels.tsp";
 import "./landingZoneRegistrationModels.tsp";
 import "./transparencyLogModels.tsp";
 import "./common.tsp";
-import "./landingZoneAccountModels.tsp";
+import "./landingZoneAccountResourceProperties.tsp";
 import "./landingZoneConfigurationResourceProperties.tsp";
 import "./landingZoneRegistrationResourceProperties.tsp";
 
@@ -17,8 +18,6 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.Core;
 using OpenAPI;
-using Autorest;
-using Azure.ResourceManager.Foundations;
 
 @service({
   title: "Cloud for Sovereignty Resource Provider.",
@@ -108,9 +107,11 @@ interface LandingZoneRegistrations
       LandingZoneRegistrationProperties
     > {}
 
-@doc("The Landing Zone Account parent resource type.")
+@doc("The Landing zone account parent resource type.")
 @added(Versions.Preview20241031)
-model LandingZoneAccount is TrackedResource<LandingZoneAccountProperties> {
+@resource("landingZoneAccounts")
+model LandingZoneAccountResource
+  is TrackedResource<LandingZoneAccountResourceProperties> {
   @doc("The parent landing zone account")
   @segment("landingZoneAccounts")
   @key("landingZoneAccountName")
@@ -119,18 +120,18 @@ model LandingZoneAccount is TrackedResource<LandingZoneAccountProperties> {
   @path
   name: string;
 
-  ...ManagedServiceIdentity;
+  ...ManagedServiceIdentityProperty;
 }
 
-@armResourceOperations(LandingZoneAccount)
+@armResourceOperations(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 interface LandingZoneAccounts
   extends TrackedResourceOperations<
-      LandingZoneAccount,
-      LandingZoneAccountProperties
+      LandingZoneAccountResource,
+      LandingZoneAccountResourceProperties
     > {}
 
-@parentResource(LandingZoneAccount)
+@parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 @resource("landingZoneConfigurations")
 model LandingZoneConfigurationResource
@@ -152,12 +153,12 @@ interface LandingZoneConfigurationOperations {
   @doc("Creates the landing zone configuration.")
   create is ArmResourceCreateOrUpdateAsync<LandingZoneConfigurationResource>;
   @doc("Updates the landing zone configuration.")
-  update is ArmResourcePatchSync<
+  update is ArmResourcePatchAsync<
     LandingZoneConfigurationResource,
     LandingZoneConfigurationResourceProperties
   >;
   @doc("Deletes the landing zone configuration.")
-  delete is ArmResourceDeleteSync<LandingZoneConfigurationResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<LandingZoneConfigurationResource>;
   @doc("Lists the landing zone configurations within a resource group.")
   listByResourceGroup is ArmResourceListByParent<LandingZoneConfigurationResource>;
   @doc("Lists the landing zone configurations within a subscription.")
@@ -177,7 +178,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Provides a mechanism to update the authoring status.")
   @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfigurationResource)
-  updateAuthoringStatus is ArmResourceActionSync<
+  updateAuthoringStatus is ArmResourceActionAsync<
     LandingZoneConfigurationResource,
     UpdateAuthoringStatusRequest,
     UpdateAuthoringStatusResponse
@@ -187,7 +188,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Provides a mechanism to create a copy of the landing zone configuration.")
   @added(Versions.Preview20241031)
   @armResourceAction(LandingZoneConfigurationResource)
-  createCopy is ArmResourceActionSync<
+  createCopy is ArmResourceActionAsync<
     LandingZoneConfigurationResource,
     CreateLandingZoneConfigurationCopyRequest,
     CreateLandingZoneConfigurationCopyResponse
@@ -195,7 +196,7 @@ interface LandingZoneConfigurationOperations {
 }
 
 // Landing zone registration resource type
-@parentResource(LandingZoneAccount)
+@parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
 @resource("landingZoneRegistrations")
 @doc("The Landing Zone registration resource type")
@@ -217,7 +218,7 @@ interface LandingZoneRegistrationOperations {
   @doc("Creates the landing zone registration.")
   create is ArmResourceCreateOrUpdateAsync<LandingZoneRegistrationResource>;
   @doc("Updates the landing zone registration.")
-  update is ArmResourcePatchSync<
+  update is ArmResourcePatchAsync<
     LandingZoneRegistrationResource,
     LandingZoneRegistrationResourceProperties
   >;

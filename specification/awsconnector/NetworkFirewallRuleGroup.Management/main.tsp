@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
+import "@azure-tools/typespec-azure-portal-core";
 import "../shared/main.tsp";
 
 using TypeSpec.Http;
@@ -14,6 +15,7 @@ using OpenAPI;
 using Azure.Core;
 using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
+using Azure.Portal;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
@@ -27,13 +29,20 @@ namespace Microsoft.AwsConnector;
 
 /** Api versions */
 enum Versions {
-  /** 2024-08-01-preview api version */
+  /** 2024-12-01 api version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-08-01-preview`,
+  `2024-12-01`,
 }
 
 //---------------------------------------------- NetworkFirewallRuleGroups ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
+@about({
+  displayNames: {
+    singular: "Network Firewall Rule Group",
+    plural: "Network Firewall Rule Groups",
+  },
+  keywords: ["Microsoft.AwsConnector", "Network", "Firewall", "Rule", "Group"],
+})
 @doc("A Microsoft.AwsConnector resource")
 model NetworkFirewallRuleGroup
   is TrackedResource<NetworkFirewallRuleGroupProperties> {
@@ -182,7 +191,18 @@ model RulesSource {
 @doc("Definition of StatefulRuleOptions")
 model StatefulRuleOptions {
   @doc("Property ruleOrder")
-  ruleOrder?: string;
+  ruleOrder?: StatefulRuleOptionsRuleOrder;
+}
+
+@doc("StatefulRuleOptionsRuleOrder enum")
+union StatefulRuleOptionsRuleOrder {
+  @doc("StatefulRuleOptionsRuleOrder enum DEFAULT_ACTION_ORDER")
+  DEFAULT_ACTION_ORDER: "DEFAULT_ACTION_ORDER",
+
+  @doc("StatefulRuleOptionsRuleOrder enum STRICT_ORDER")
+  STRICT_ORDER: "STRICT_ORDER",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
@@ -224,7 +244,7 @@ model PortSet {
 @doc("Definition of RulesSourceList")
 model RulesSourceList {
   @doc("Property generatedRulesType")
-  generatedRulesType?: string;
+  generatedRulesType?: RulesSourceListGeneratedRulesType;
 
   @doc("Property targetTypes")
   @extension("x-ms-identifiers", [])
@@ -233,6 +253,17 @@ model RulesSourceList {
   @doc("Property targets")
   @extension("x-ms-identifiers", [])
   targets?: string[];
+}
+
+@doc("RulesSourceListGeneratedRulesType enum")
+union RulesSourceListGeneratedRulesType {
+  @doc("RulesSourceListGeneratedRulesType enum ALLOWLIST")
+  ALLOWLIST: "ALLOWLIST",
+
+  @doc("RulesSourceListGeneratedRulesType enum DENYLIST")
+  DENYLIST: "DENYLIST",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."

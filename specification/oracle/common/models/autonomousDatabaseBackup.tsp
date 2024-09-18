@@ -61,7 +61,7 @@ model AutonomousDatabaseBackup
 model AutonomousDatabaseBackupProperties {
   @doc("The OCID of the Autonomous Database.")
   @visibility("read")
-  autonomousDatabaseOcid: Ocid;
+  autonomousDatabaseOcid?: Ocid;
 
   @doc("The size of the database in terabytes at the time the backup was taken.")
   @visibility("read")
@@ -96,7 +96,7 @@ model AutonomousDatabaseBackupProperties {
   lifecycleState?: AutonomousDatabaseBackupLifecycleState;
 
   @doc("Retention period, in days, for long-term backups.")
-  @minValue(90)
+  @minValue(60)
   @maxValue(3650)
   @visibility("read", "create", "update")
   retentionPeriodInDays?: int32;
@@ -108,6 +108,10 @@ model AutonomousDatabaseBackupProperties {
   @doc("Timestamp until when the backup will be available.")
   @visibility("read")
   timeAvailableTil?: utcDateTime;
+
+  @doc("The date and time the backup started.")
+  @visibility("read")
+  timeStarted?: string;
 
   @doc("The date and time the backup completed.")
   @visibility("read")

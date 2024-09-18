@@ -56,20 +56,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -92,10 +92,10 @@
         "description": "List PlannedQuotaResource resources by subscription ID",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -108,7 +108,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -131,13 +131,13 @@
         "description": "List PlannedQuotaResource resources by resource group",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           }
         ],
         "responses": {
@@ -150,7 +150,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -173,13 +173,13 @@
         "description": "Get a PlannedQuotaResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -200,7 +200,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -218,13 +218,13 @@
         "description": "Create a PlannedQuotaResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -257,6 +257,10 @@
               "$ref": "#/definitions/PlannedQuotaResource"
             },
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -267,7 +271,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -284,6 +288,24 @@
     }
   },
   "definitions": {
+    "FulfilledPlan": {
+      "type": "object",
+      "description": "Fulfilled Plan details after fulfilling the quota of the plan.",
+      "properties": {
+        "arm": {
+          "type": "object",
+          "description": "Same as the \"arm\" node in the plan for the corresponding Subscription."
+        },
+        "rdfe": {
+          "type": "object",
+          "description": "Same as the \"rdfe\" node in the plan for the corresponding Subscription."
+        },
+        "isAzEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether AZ is enabled."
+        }
+      }
+    },
     "PlannedQuotaProvisioningState": {
       "type": "string",
       "description": "Provisioning status of the resource.",
@@ -327,17 +349,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/PlannedQuotaResourceProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -378,13 +395,17 @@
           "type": "string",
           "description": "Subscription Name in plan"
         },
+        "stage": {
+          "type": "string",
+          "description": "Stage name"
+        },
         "planVersion": {
           "type": "string",
           "description": "Plan version"
         },
-        "stage": {
+        "region": {
           "type": "string",
-          "description": "Stage name"
+          "description": "Planned Quota region"
         },
         "propertyBindings": {
           "type": "array",
@@ -400,7 +421,17 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/PlannedQuotaProvisioningState",
-          "description": "Provisioning state",
+          "description": "Provisioning status of the resource.",
+          "readOnly": true
+        },
+        "fulfilledPlan": {
+          "$ref": "#/definitions/FulfilledPlan",
+          "description": "Fulfilled Plan details after fulfilling the quota of the plan; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "alternatives": {
+          "type": "object",
+          "description": "Dictionary of the SKUs with alternative assigned. The key is the original SKU and the value is the alternative; a part of provisioning ResultData output.",
           "readOnly": true
         }
       },
@@ -416,35 +447,17 @@
       "properties": {
         "placeholder": {
           "type": "string",
-          "description": "Placeholder"
+          "description": "Property binding placeholder"
         },
         "resourceName": {
           "type": "string",
-          "description": "Resource Name"
+          "description": "Resource name of the property"
         }
       },
       "required": [
         "placeholder",
         "resourceName"
       ]
-    },
-    "Versions": {
-      "type": "string",
-      "description": "Supported versions.",
-      "enum": [
-        "2023-08-22-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_08_22_preview",
-            "value": "2023-08-22-preview",
-            "description": "API version 2023-08-22-preview"
-          }
-        ]
-      }
     }
   },
   "parameters": {}

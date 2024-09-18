@@ -7,11 +7,10 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of binary hardening results.
  */
@@ -34,15 +33,9 @@ model BinaryHardeningResource is ProxyResource<BinaryHardeningResult> {
 }
 
 @armResourceOperations
-interface BinaryHardeningResources {
+interface BinaryHardening {
   /**
    * Lists binary hardening analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    BinaryHardeningResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<BinaryHardeningResource>;
 }

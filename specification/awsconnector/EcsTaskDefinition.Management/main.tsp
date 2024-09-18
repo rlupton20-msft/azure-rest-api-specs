@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
+import "@azure-tools/typespec-azure-portal-core";
 import "../shared/main.tsp";
 
 using TypeSpec.Http;
@@ -14,6 +15,7 @@ using OpenAPI;
 using Azure.Core;
 using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
+using Azure.Portal;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
@@ -27,13 +29,20 @@ namespace Microsoft.AwsConnector;
 
 /** Api versions */
 enum Versions {
-  /** 2024-08-01-preview api version */
+  /** 2024-12-01 api version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-08-01-preview`,
+  `2024-12-01`,
 }
 
 //---------------------------------------------- EcsTaskDefinitions ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
+@about({
+  displayNames: {
+    singular: "ECS Task Definition",
+    plural: "ECS Task Definitions",
+  },
+  keywords: ["Microsoft.AwsConnector", "ECS", "Task", "Definition"],
+})
 @doc("A Microsoft.AwsConnector resource")
 model EcsTaskDefinition is TrackedResource<EcsTaskDefinitionProperties> {
   @doc("Name of EcsTaskDefinition")
@@ -762,7 +771,7 @@ model Tmpfs {
   @doc("The absolute file path where the tmpfs volume is to be mounted.")
   containerPath?: string;
 
-  @doc("The list of tmpfs volume mount options.")
+  @doc("The list of tmpfs volume mount options. Valid values: ``'defaults' | 'ro' | 'rw' | 'suid' | 'nosuid' | 'dev' | 'nodev' | 'exec' | 'noexec' | 'sync' | 'async' | 'dirsync' | 'remount' | 'mand' | 'nomand' | 'atime' | 'noatime' | 'diratime' | 'nodiratime' | 'bind' | 'rbind' | 'unbindable' | 'runbindable' | 'private' | 'rprivate' | 'shared' | 'rshared' | 'slave' | 'rslave' | 'relatime' | 'norelatime' | 'strictatime' | 'nostrictatime' | 'mode' | 'uid' | 'gid' | 'nr_inodes' | 'nr_blocks' | 'mpol'``")
   @extension("x-ms-identifiers", [])
   mountOptions?: string[];
 

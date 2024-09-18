@@ -7,11 +7,10 @@ import "./Firmware.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Microsoft.IotFirmwareDefense;
+namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of SBOM component results.
  */
@@ -38,11 +37,5 @@ interface SbomComponents {
   /**
    * Lists sbom analysis results of a firmware.
    */
-  listByFirmware is ArmResourceListByParent<
-    SbomComponentResource,
-    {
-      ...Azure.Core.TopQueryParameter;
-      ...ApiVersionParameter;
-    }
-  >;
+  listByFirmware is ArmResourceListByParent<SbomComponentResource>;
 }

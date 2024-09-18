@@ -27,7 +27,151 @@ These are the global settings for the AszLabHardware.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-10-01-preview
+tag: package-2024-06-01-preview
+```
+
+### Tag: package-2024-06-01-preview
+
+These settings apply only when `--tag=package-2024-06-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-06-01-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-06-01-preview/openapi.json
+```
+
+### Tag: package-2024-05-15-preview
+
+These settings apply only when `--tag=package-2024-05-15-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-15-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-15-preview/openapi.json
+```
+
+### Tag: package-2024-05-14-preview
+
+These settings apply only when `--tag=package-2024-05-14-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-14-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-14-preview/openapi.json
+```
+
+### Tag: package-2024-05-13-preview
+
+These settings apply only when `--tag=package-2024-05-13-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-13-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-13-preview/openapi.json
+```
+
+### Tag: package-2024-05-12-preview
+
+These settings apply only when `--tag=package-2024-05-12-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-12-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-12-preview/openapi.json
+```
+
+### Tag: package-2024-05-11-preview
+
+These settings apply only when `--tag=package-2024-05-11-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-11-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-11-preview/openapi.json
+```
+
+### Tag: package-2024-05-10-preview
+
+These settings apply only when `--tag=package-2024-05-10-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-10-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-10-preview/openapi.json
+```
+
+### Tag: package-2024-05-09-preview
+
+These settings apply only when `--tag=package-2024-05-09-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-09-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-09-preview/openapi.json
+```
+
+### Tag: package-2024-05-08-preview
+
+These settings apply only when `--tag=package-2024-05-08-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-08-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-08-preview/openapi.json
+```
+
+### Tag: package-2024-05-07-preview
+
+These settings apply only when `--tag=package-2024-05-07-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-07-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-07-preview/openapi.json
+```
+
+### Tag: package-2024-05-06-preview
+
+These settings apply only when `--tag=package-2024-05-06-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-06-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-06-preview/openapi.json
+```
+
+### Tag: package-2024-05-05-preview
+
+These settings apply only when `--tag=package-2024-05-05-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-05-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-05-preview/openapi.json
+```
+
+### Tag: package-2024-05-04-preview
+
+These settings apply only when `--tag=package-2024-05-04-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-04-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-04-preview/openapi.json
+```
+
+### Tag: package-2024-05-03-preview
+
+These settings apply only when `--tag=package-2024-05-03-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-03-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-03-preview/openapi.json
+```
+
+### Tag: package-2024-05-02-preview
+
+These settings apply only when `--tag=package-2024-05-02-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-02-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-02-preview/openapi.json
+```
+
+### Tag: package-2024-05-01-preview
+
+These settings apply only when `--tag=package-2024-05-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-05-01-preview'
+input-file:
+  - Private.AszLabHardware/preview/2024-05-01-preview/openapi.json
 ```
 
 ### Tag: package-2023-10-01-preview

@@ -9,7 +9,7 @@ namespace Microsoft.Sovereign;
 model LandingZoneConfigurationResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: provisioningState;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Handled in code."
   @visibility("read")
@@ -93,6 +93,47 @@ model LandingZoneConfigurationResourceProperties {
 
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
+
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+
+  @added(Versions.Preview20241031)
+  @doc("The managed identity to be tied to this landing zone configuration")
+  managedIdentity: ManagedIdentityProperties;
+}
+
+@added(Versions.Preview20241031)
+@doc("The properties of managed identity.")
+model ManagedIdentityProperties{
+  @doc("The type of managed identity.")
+  type:ManagedIdentityResourceType;
+  @doc("The resource id of the managed identity.")
+  userAssignedIdentityResourceId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities";
+    }]>;
+}
+
+@added(Versions.Preview20241031)
+@doc("The authoring status for a landing zone configuration.")
+union ManagedIdentityResourceType {
+  @doc("System assigned managed identity.")
+  SystemAssigned: "SystemAssigned",
+
+  @doc("User assigned managed identity.")
+  UserAssigned: "UserAssigned",
+
+  string,
+}
+
+@doc("The details associated with tags.")
+model Tags {
+  @doc("A tag name.")
+  name: string;
+
+  @doc("A tag value.")
+  value: string;
 }
 
 @doc("Landing zone management group properties.")
