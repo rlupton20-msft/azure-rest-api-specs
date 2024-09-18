@@ -3,7 +3,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./WorkloadVirtualInstance.tsp";
+import "./QualityCheckTemplate.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -24,11 +24,11 @@ namespace Private.Workloads;
 
 /** The available API versions. */
 enum Versions {
-  /** 2023-10-01-preview version */
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  /** 2024-09-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  v2023_10_01_preview: "2023-10-01-preview",
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_09_01_preview: "2024-09-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

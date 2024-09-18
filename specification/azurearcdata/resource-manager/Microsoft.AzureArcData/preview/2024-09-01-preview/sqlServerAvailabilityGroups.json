@@ -497,6 +497,79 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlServerInstances/{sqlServerInstanceName}/createManagedInstanceLink": {
+      "post": {
+        "tags": [
+          "SqlServerAvailabilityGroups"
+        ],
+        "description": "Create an Managed Instance Link",
+        "operationId": "SqlServerAvailabilityGroups_CreateManagedInstanceLink",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/sqlServerInstanceName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "createManagedInstanceLinkConfiguration",
+            "in": "body",
+            "description": "The configuration for the new Managed Instance Link resource.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManagedInstanceLinkCreateUpdateConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created the Managed Instance Link.",
+            "schema": {
+              "$ref": "#/definitions/SqlServerAvailabilityGroupResource"
+            }
+          },
+          "202": {
+            "description": "Managed Instance Link creation is in progress.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "URL for determining when an operation has completed."
+              },
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "The URL to retrieve the status of the asynchronous operation."
+              }
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create an Managed Instance Link.": {
+            "$ref": "./examples/CreateOrUpdateManagedInstanceLink.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlServerInstances/{sqlServerInstanceName}/availabilityGroups/{availabilityGroupName}/addDatabases": {
       "post": {
         "tags": [
@@ -699,7 +772,8 @@
           "enum": [
             "AUTOMATIC",
             "MANUAL",
-            "EXTERNAL"
+            "EXTERNAL",
+            "NONE"
           ],
           "x-ms-enum": {
             "name": "arcSqlServerFailoverMode",
@@ -1085,7 +1159,8 @@
           "enum": [
             "AUTOMATIC",
             "MANUAL",
-            "EXTERNAL"
+            "EXTERNAL",
+            "NONE"
           ],
           "x-ms-enum": {
             "name": "arcSqlServerFailoverMode",
@@ -1228,7 +1303,8 @@
           "enum": [
             "AUTOMATIC",
             "MANUAL",
-            "EXTERNAL"
+            "EXTERNAL",
+            "NONE"
           ],
           "x-ms-enum": {
             "name": "arcSqlServerFailoverMode",
@@ -1260,6 +1336,34 @@
         "certificateName": {
           "type": "string",
           "description": "Name of the certificate."
+        }
+      }
+    },
+    "ManagedInstanceLinkCreateUpdateConfiguration": {
+      "description": "The configuration for the new Managed Instance Link resource.",
+      "type": "object",
+      "properties": {
+        "availabilityGroup": {
+          "description": "The configuration for the SQL Server availability group resource.",
+          "$ref": "#/definitions/AvailabilityGroupCreateUpdateConfiguration"
+        },
+        "distributedAvailabilityGroup": {
+          "description": "The distributed availability group configuration for the MI link.",
+          "$ref": "#/definitions/DistributedAvailabilityGroupCreateUpdateConfiguration"
+        },
+        "miLinkConfiguration": {
+          "description": "The MI Link specific distributed availability group configuration.",
+          "$ref": "#/definitions/MiLinkCreateUpdateConfiguration"
+        }
+      }
+    },
+    "MiLinkCreateUpdateConfiguration": {
+      "description": "The MI Link specific configuration.",
+      "type": "object",
+      "properties": {
+        "instanceAvailabilityGroupName": {
+          "description": "The name of the availability group to be created on the Managed Instance.",
+          "type": "string"
         }
       }
     },

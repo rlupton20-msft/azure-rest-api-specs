@@ -210,6 +210,9 @@ model EventHubConfig {
 
 @doc("Source data format Types")
 union SourceDataFormatTypes {
+  @doc("Disable this config")
+  disable: "Disable",
+
   @doc("JSON format")
   JSON: "JSON",
 
@@ -289,36 +292,121 @@ model ConverterConfig {
 }
 
 @doc("CsvConverter config")
-model CsvConverter extends ConverterConfig {
+model CsvConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.CsvConverter;
 }
 
 @doc("AvroConverter config")
-model AvroConverter extends ConverterConfig {
+model AvroConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.AvroConverter;
 }
 
 @doc("StringConverter config")
-model StringConverter extends ConverterConfig {
+model StringConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.StringConverter;
 }
 
 @doc("ByteArrayConverter config")
-model ByteArrayConverter extends ConverterConfig {
+model ByteArrayConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.ByteArrayConverter;
 }
 
+@doc("Json Decimal Format configuration")
+union JsonDecimalFormat {
+  @doc("Type of Base64.")
+  Base64: "Base64",
+
+  @doc("Type of Numeric.")
+  Numeric: "Numeric",
+
+  string,
+}
+
 @doc("JsonConverter config")
-model JsonConverter extends ConverterConfig {
+model JsonConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.JsonConverter;
 
   @doc("Whether schemas enabled.")
   schemasEnabled?: boolean;
+
+  @doc("Format for Decimal type.")
+  decimalFormat?: JsonDecimalFormat;
+}
+
+@doc("CloudEventsTransform types")
+union CloudEventsTransformTypes {
+  @doc("Do not use CloudEventsTransformConfig")
+  disable: "Disable",
+
+  @doc("CatalogCdcCloudEventsTransformConfig")
+  catalogCdc: "CatalogCdc",
+
+  string,
+}
+
+@doc("Cloud events transform config")
+@discriminator("type")
+model CloudEventsTransformConfig {
+  @doc("Type of CloudEventsTransformConfig.")
+  type: CloudEventsTransformTypes;
+
+  @doc("ContentType of CloudEventsTransformConfig.")
+  contentType?: string;
+}
+
+@doc("Catalog schema id config")
+model CatalogSchemaId {
+  @doc("SchemaGroup id.")
+  schemaGroupId: string;
+
+  @doc("Schema id.")
+  schemaId: string;
+}
+
+@doc("Catalog cdc auto-register schemas config")
+model CatalogCdcAutoRegisterSchemasConfig {
+  @doc("Database name.")
+  databaseName: string;
+
+  @doc("Table name.")
+  tableName: string;
+
+  @doc("SchemaGroup id.")
+  schemaGroupId: string;
+
+  @doc("Schema id.")
+  schemaId: string;
+
+  @doc("Schema format.")
+  schemaFormat: string;
+}
+
+@doc("CatalogCdc cloud events transform config.")
+model CatalogCdcCloudEventsTransformConfig extends CloudEventsTransformConfig {
+  @doc("Type of CatalogCdcCloudEventsTransformConfig.")
+  type: CloudEventsTransformTypes.catalogCdc;
+
+  @doc("Endpoint.")
+  catalogEndpoint: string;
+
+  @doc("CdcServer name.")
+  cdcServerName: string;
+
+  @doc("Whether auto-register new schemas.")
+  autoRegisterSchemas: boolean;
+
+  @doc("Catalog schemaIds.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  catalogSchemaIds: CatalogSchemaId[];
+
+  @doc("catalogCdc auto-Register schemas configs.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  catalogCdcAutoRegisterSchemasConfigs: CatalogCdcAutoRegisterSchemasConfig[];
 }
 
 @doc("Properties of one arm resource")
@@ -354,6 +442,9 @@ model ConnectorProperties {
 
   @doc("Data format of the data source")
   sourceDataFormat?: SourceDataFormat;
+
+  @doc("Cloud events transform config")
+  cloudEventsTransformConfig?: CloudEventsTransformConfig;
 
   @doc("State of the MessagingConnector")
   connectorState?: ConnectorState;

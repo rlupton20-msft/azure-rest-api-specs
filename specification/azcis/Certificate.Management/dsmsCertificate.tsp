@@ -119,7 +119,7 @@ model DsmsCertificateProperties {
   subjectAlternativeName?: string;
 
   @doc("CA to use, \"SSLAdmin\" or \"AME\"")
-  caName?: CaType;
+  caName?: CaType; // Can be a part of provisioning ResultData output, and get PATCHed back from FRP.
 
   @doc("Valid days of this certificate (Self-signed certificates only)")
   validDays?: int32;
@@ -130,9 +130,21 @@ model DsmsCertificateProperties {
   @doc("The Azure location")
   azureLocation?: azureLocation;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: CertificateProvisioningState;
+
+  @doc("Self-signed Certificate DSMS name; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  selfSignedCertificateDsmsName?: string;
+
+  @doc("Chained Certificate DSMS name; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  chainedCertificateDsmsName?: string;
+
+  @doc("Automatically injected if the environment is a child trusted island; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  edgeSiteChildTrustIsland?: string;
 }
 
 @doc("dsmsCertificate Resource")

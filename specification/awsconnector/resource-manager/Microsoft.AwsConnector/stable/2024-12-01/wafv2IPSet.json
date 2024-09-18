@@ -402,7 +402,7 @@
           "description": "Description of the entity."
         },
         "ipAddressVersion": {
-          "type": "string",
+          "$ref": "#/definitions/IPAddressVersion",
           "description": "Type of addresses in the IPSet, use IPV4 for IPV4 IP addresses, IPV6 for IPV6 address."
         },
         "id": {
@@ -414,7 +414,7 @@
           "description": "Name of the IPSet."
         },
         "scope": {
-          "type": "string",
+          "$ref": "#/definitions/Scope",
           "description": "Use CLOUDFRONT for CloudFront IPSet, use REGIONAL for Application Load Balancer and API Gateway."
         },
         "tags": {
@@ -425,6 +425,30 @@
           },
           "x-ms-identifiers": []
         }
+      }
+    },
+    "IPAddressVersion": {
+      "type": "string",
+      "description": "IPAddressVersion enum",
+      "enum": [
+        "IPV4",
+        "IPV6"
+      ],
+      "x-ms-enum": {
+        "name": "IPAddressVersion",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "IPV4",
+            "value": "IPV4",
+            "description": "IPAddressVersion enum IPV4"
+          },
+          {
+            "name": "IPV6",
+            "value": "IPV6",
+            "description": "IPAddressVersion enum IPV6"
+          }
+        ]
       }
     },
     "ProvisioningState": {
@@ -482,6 +506,30 @@
       },
       "readOnly": true
     },
+    "Scope": {
+      "type": "string",
+      "description": "Scope enum",
+      "enum": [
+        "CLOUDFRONT",
+        "REGIONAL"
+      ],
+      "x-ms-enum": {
+        "name": "Scope",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "CLOUDFRONT",
+            "value": "CLOUDFRONT",
+            "description": "Scope enum CLOUDFRONT"
+          },
+          {
+            "name": "REGIONAL",
+            "value": "REGIONAL",
+            "description": "Scope enum REGIONAL"
+          }
+        ]
+      }
+    },
     "Tag": {
       "type": "object",
       "description": "Definition of Tag",
@@ -502,8 +550,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/Wafv2IPSetProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [

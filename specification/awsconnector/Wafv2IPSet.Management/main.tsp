@@ -82,7 +82,7 @@ model AwsWafv2IPSetProperties {
   description?: string;
 
   @doc("Type of addresses in the IPSet, use IPV4 for IPV4 IP addresses, IPV6 for IPV6 address.")
-  ipAddressVersion?: string;
+  ipAddressVersion?: IPAddressVersion;
 
   @doc("Id of the IPSet")
   id?: string;
@@ -91,11 +91,22 @@ model AwsWafv2IPSetProperties {
   name?: string;
 
   @doc("Use CLOUDFRONT for CloudFront IPSet, use REGIONAL for Application Load Balancer and API Gateway.")
-  scope?: string;
+  scope?: Scope;
 
   @doc("Property tags")
   @extension("x-ms-identifiers", [])
   tags?: Tag[];
+}
+
+@doc("IPAddressVersion enum")
+union IPAddressVersion {
+  @doc("IPAddressVersion enum IPV4")
+  IPV4: "IPV4",
+
+  @doc("IPAddressVersion enum IPV6")
+  IPV6: "IPV6",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
@@ -109,6 +120,17 @@ model Tag {
 
   @doc("Property value")
   value?: string;
+}
+
+@doc("Scope enum")
+union Scope {
+  @doc("Scope enum CLOUDFRONT")
+  CLOUDFRONT: "CLOUDFRONT",
+
+  @doc("Scope enum REGIONAL")
+  REGIONAL: "REGIONAL",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."

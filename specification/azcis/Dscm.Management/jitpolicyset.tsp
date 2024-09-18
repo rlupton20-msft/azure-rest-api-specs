@@ -26,9 +26,13 @@ model JitPolicySetProperties {
   @extension("x-ms-identifiers", [])
   policies?: Array<Policy>;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
+
+  @doc("Request ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  requestId?: string;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)

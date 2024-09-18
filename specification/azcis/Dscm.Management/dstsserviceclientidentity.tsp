@@ -43,9 +43,17 @@ model DstsServiceClientIdentityResourceProperties {
   @doc("Subject names.")
   subjectNames?: Array<string>;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
+
+  @doc("Request ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  requestId?: string;
+
+  @doc("Service Client Identity ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  serviceClientIdentity?: string;
 }
 
 @doc("This model represents a claim provisioning in SCI.")
