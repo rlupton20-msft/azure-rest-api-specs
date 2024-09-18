@@ -53,7 +53,7 @@ model PolicyProperties {
 }
 
 @doc("Policy resource definition")
-model Policy is TrackedResource<PolicyProperties> {
+model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @doc("The name of the policy")
   @segment("policies") // Path segment
@@ -65,7 +65,7 @@ model Policy is TrackedResource<PolicyProperties> {
 
   // ...ResourceSku;
 
-  ...EntityTag;
+  ...EntityTagProperty;
 }
 
 // See recommendations for ARM resource operations at <https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-operations>

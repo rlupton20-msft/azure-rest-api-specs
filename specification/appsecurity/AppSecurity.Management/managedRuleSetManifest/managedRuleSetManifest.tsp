@@ -84,12 +84,13 @@ model ManagedRuleDefinition {
 @doc("The managed rule set manifest resource definition.")
 model AppProtectManagedRuleSetManifest
   is ProxyResource<AppProtectManagedRuleSetManifestProperties> {
+  @pattern("^default$")
   @doc("The default managed rule set manifest name")
   @segment("appProtectManagedRuleSetManifests")
   @key("managedRuleSetManifestName")
   @visibility("read")
   @path
-  name: "default";
+  name: string;
 }
 
 @armResourceOperations
