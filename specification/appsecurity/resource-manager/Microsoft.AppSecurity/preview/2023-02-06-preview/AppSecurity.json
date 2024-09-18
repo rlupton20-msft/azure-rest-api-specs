@@ -485,9 +485,92 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppSecurity/policies/{policyName}/updateAssociations": {
+      "post": {
+        "operationId": "Policies_UpdateAssociations",
+        "tags": [
+          "Policies"
+        ],
+        "description": "A synchronous resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the policy",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAssociationsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/UpdateAssociationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_UpdateAssociations1": {
+            "$ref": "./examples/Policies_UpdateAssociations.json"
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "AppProtectAssociation": {
+      "type": "object",
+      "description": "AppProtect association definition",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/AppProtectAssociationResourceId",
+          "description": "Associated ARM resource ID"
+        }
+      },
+      "required": [
+        "resourceId"
+      ]
+    },
+    "AppProtectAssociationResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
     "AppProtectManagedRuleSetManifest": {
       "type": "object",
       "description": "The managed rule set manifest resource definition.",
@@ -2598,6 +2681,55 @@
           }
         ]
       }
+    },
+    "UpdateAssociationsRequest": {
+      "type": "object",
+      "description": "Request body of updateAssociations operation",
+      "properties": {
+        "toAdd": {
+          "type": "array",
+          "description": "Associations to add",
+          "items": {
+            "$ref": "#/definitions/AppProtectAssociation"
+          },
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        },
+        "toRemove": {
+          "type": "array",
+          "description": "Associations to remove",
+          "items": {
+            "$ref": "#/definitions/AppProtectAssociation"
+          },
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        }
+      },
+      "required": [
+        "toAdd",
+        "toRemove"
+      ]
+    },
+    "UpdateAssociationsResponse": {
+      "type": "object",
+      "description": "Response body of updateAssociations operation",
+      "properties": {
+        "associations": {
+          "type": "array",
+          "description": "The associations of the policy after the update",
+          "items": {
+            "$ref": "#/definitions/AppProtectAssociation"
+          },
+          "x-ms-identifiers": [
+            "resourceId"
+          ]
+        }
+      },
+      "required": [
+        "associations"
+      ]
     },
     "WebProtection": {
       "type": "object",

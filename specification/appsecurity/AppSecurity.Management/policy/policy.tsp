@@ -4,6 +4,7 @@ import "./policySettings.tsp";
 import "./protectedEndpoint.tsp";
 import "./customRules/customRule.tsp";
 import "./managedRulesCustomization.tsp";
+import "./updateAssociations.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -79,4 +80,9 @@ interface Policies {
   // See <https://github.com/microsoft/api-guidelines/blob/15fefbaf192b73523c247b29c2266dc432fc90a4/azure/Guidelines.md?plain=1#L854>
   update is ArmTagsPatchSync<Policy>;
   delete is ArmResourceDeleteWithoutOkAsync<Policy>;
+  updateAssociations is ArmResourceActionSync<
+    Policy,
+    UpdateAssociationsRequest,
+    UpdateAssociationsResponse
+  >;
 }
