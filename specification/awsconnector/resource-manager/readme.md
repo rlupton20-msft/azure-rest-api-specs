@@ -134,7 +134,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayRestApi.json
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayStage.json
   - Microsoft.AwsConnector/stable/2024-12-01/applicationAutoScalingScalableTarget.json
-  - Microsoft.AwsConnector/stable/2024-12-01/appSyncGraphQLApi.json
+  - Microsoft.AwsConnector/stable/2024-12-01/appSyncGraphqlApi.json
   - Microsoft.AwsConnector/stable/2024-12-01/autoScalingAutoScalingGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStack.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStackSet.json
@@ -143,9 +143,9 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/cloudWatchAlarm.json
   - Microsoft.AwsConnector/stable/2024-12-01/codeBuildProject.json
   - Microsoft.AwsConnector/stable/2024-12-01/codeBuildSourceCredentialsInfo.json
-  - Microsoft.AwsConnector/stable/2024-12-01/configConfigurationRecorder.json
-  - Microsoft.AwsConnector/stable/2024-12-01/configDeliveryChannel.json
+  - Microsoft.AwsConnector/stable/2024-12-01/configServiceConfigurationRecorder.json
   - Microsoft.AwsConnector/stable/2024-12-01/configServiceConfigurationRecorderStatus.json
+  - Microsoft.AwsConnector/stable/2024-12-01/configServiceDeliveryChannel.json
   - Microsoft.AwsConnector/stable/2024-12-01/databaseMigrationServiceReplicationInstance.json
   - Microsoft.AwsConnector/stable/2024-12-01/daxCluster.json
   - Microsoft.AwsConnector/stable/2024-12-01/dynamoDBContinuousBackupsDescription.json
@@ -208,6 +208,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/iamVirtualMFADevice.json
   - Microsoft.AwsConnector/stable/2024-12-01/kmsAlias.json
   - Microsoft.AwsConnector/stable/2024-12-01/kmsKey.json
+  - Microsoft.AwsConnector/stable/2024-12-01/kmsKeyRotationStatus.json
   - Microsoft.AwsConnector/stable/2024-12-01/lambdaFunction.json
   - Microsoft.AwsConnector/stable/2024-12-01/lambdaFunctionCodeLocation.json
   - Microsoft.AwsConnector/stable/2024-12-01/licenseManagerLicense.json
