@@ -10,14 +10,5 @@ namespace Private.OracleDatabaseDev;
 
 @armResourceOperations
 interface DbServers extends OracleReadOnlyResource<DbServer> {
-  @Autorest.example(
-    "./examples/dbServers_listByParent.json",
-    "List DbServers by Exadata Infrastructure"
-  )
   listByParent is ArmResourceListByParent<DbServer>;
 }
-
-@@Autorest.example(DbServers.get,
-  "./examples/dbServers_get.json",
-  "Get DbServer by parent"
-);
