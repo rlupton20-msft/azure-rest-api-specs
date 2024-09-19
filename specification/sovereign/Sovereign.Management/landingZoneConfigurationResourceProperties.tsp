@@ -105,14 +105,16 @@ model LandingZoneConfigurationResourceProperties {
 
 @added(Versions.Preview20241031)
 @doc("The properties of managed identity.")
-model ManagedIdentityProperties{
+model ManagedIdentityProperties {
   @doc("The type of managed identity.")
-  type:ManagedIdentityResourceType;
+  type: ManagedIdentityResourceType;
+
   @doc("The resource id of the managed identity.")
   userAssignedIdentityResourceId?: armResourceIdentifier<[
     {
       type: "Microsoft.ManagedIdentity/userAssignedIdentities";
-    }]>;
+    }
+  ]>;
 }
 
 @added(Versions.Preview20241031)
@@ -157,6 +159,7 @@ model PolicyInitiativeAssignmentProperties {
   policyInitiativeId: string;
 
   #suppress "@azure-tools/typespec-azure-core/bad-record-type" "This would be customer defined parameter based on the policy initiatives to be assigned. Hence we need to use Record<unknown> as it will differ per initiative."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Model properties or operation parameters should not be of type Record. ARM requires Resource provider teams to define types explicitly."
   @doc("The parameters for the assignment of policy initiatives.")
   assignmentParameters: Record<unknown>;
 }

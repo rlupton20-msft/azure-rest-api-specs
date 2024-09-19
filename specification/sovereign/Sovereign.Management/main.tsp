@@ -125,11 +125,23 @@ model LandingZoneAccountResource
 
 @armResourceOperations(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
-interface LandingZoneAccounts
-  extends TrackedResourceOperations<
-      LandingZoneAccountResource,
-      LandingZoneAccountResourceProperties
-    > {}
+interface LandingZoneAccountOperations {
+  @doc("Gets the landing zone account.")
+  get is ArmResourceRead<LandingZoneAccountResource>;
+  @doc("Creates the landing zone account.")
+  create is ArmResourceCreateOrReplaceSync<LandingZoneAccountResource>;
+  @doc("Updates the landing zone account.")
+  update is ArmResourcePatchSync<
+    LandingZoneAccountResource,
+    LandingZoneAccountResourceProperties
+  >;
+  @doc("Deletes the landing zone account.")
+  delete is ArmResourceDeleteWithoutOkAsync<LandingZoneAccountResource>;
+  @doc("Lists the landing zone accounts within a resource group.")
+  listByResourceGroup is ArmResourceListByParent<LandingZoneAccountResource>;
+  @doc("Lists the landing zone accounts within a subscription.")
+  listBySubscription is ArmListBySubscription<LandingZoneAccountResource>;
+}
 
 @parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
