@@ -9,13 +9,14 @@ import "./billings.tsp";
 import "./discoveredAssets.tsp";
 import "./discoveredAssetEndpointProfiles.tsp";
 import "./schemaRegistries.tsp";
+import "./namespaces.tsp";
+import "./ns_devices.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.CommonTypes.Private;
-using Azure.ResourceManager.Private;
 using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
@@ -48,12 +49,18 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_09_01_preview: "2024-09-01-preview",
+
+  @doc("Private.DeviceRegistry Resource Provider management API version 2024-08-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_10_01_preview: "2024-10-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @armResourceOperations
 interface OperationStatus {
+  #suppress "@azure-tools/typespec-azure-core/no-private-usage" "Legacy"
   @doc("Returns the current status of an async operation.")
   @autoRoute
   get(
