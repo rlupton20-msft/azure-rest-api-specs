@@ -125,11 +125,23 @@ model LandingZoneAccountResource
 
 @armResourceOperations(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
-interface LandingZoneAccounts
-  extends TrackedResourceOperations<
-      LandingZoneAccountResource,
-      LandingZoneAccountResourceProperties
-    > {}
+interface LandingZoneAccountOperations {
+  @doc("Gets the landing zone account.")
+  get is ArmResourceRead<LandingZoneAccountResource>;
+  @doc("Creates the landing zone account.")
+  create is ArmResourceCreateOrReplaceAsync<LandingZoneAccountResource>;
+  @doc("Updates the landing zone account.")
+  update is ArmResourcePatchAsync<
+    LandingZoneAccountResource,
+    LandingZoneAccountResourceProperties
+  >;
+  @doc("Deletes the landing zone account.")
+  delete is ArmResourceDeleteWithoutOkAsync<LandingZoneAccountResource>;
+  @doc("Lists the landing zone accounts within a resource group.")
+  listByResourceGroup is ArmResourceListByParent<LandingZoneAccountResource>;
+  @doc("Lists the landing zone accounts within a subscription.")
+  listBySubscription is ArmListBySubscription<LandingZoneAccountResource>;
+}
 
 @parentResource(LandingZoneAccountResource)
 @added(Versions.Preview20241031)
@@ -151,7 +163,7 @@ interface LandingZoneConfigurationOperations {
   @doc("Gets the landing zone configuration.")
   get is ArmResourceRead<LandingZoneConfigurationResource>;
   @doc("Creates the landing zone configuration.")
-  create is ArmResourceCreateOrUpdateAsync<LandingZoneConfigurationResource>;
+  create is ArmResourceCreateOrReplaceAsync<LandingZoneConfigurationResource>;
   @doc("Updates the landing zone configuration.")
   update is ArmResourcePatchAsync<
     LandingZoneConfigurationResource,
@@ -216,7 +228,7 @@ interface LandingZoneRegistrationOperations {
   @doc("Gets the landing zone registration.")
   get is ArmResourceRead<LandingZoneRegistrationResource>;
   @doc("Creates the landing zone registration.")
-  create is ArmResourceCreateOrUpdateAsync<LandingZoneRegistrationResource>;
+  create is ArmResourceCreateOrReplaceAsync<LandingZoneRegistrationResource>;
   @doc("Updates the landing zone registration.")
   update is ArmResourcePatchAsync<
     LandingZoneRegistrationResource,

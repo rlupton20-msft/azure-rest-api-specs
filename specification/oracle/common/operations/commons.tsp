@@ -37,8 +37,7 @@ interface InternalList {
 
 @armResourceOperations
 interface ListActions {
-  @doc("Generic Sync List operation")
-
+  @doc("Generic Async Get operation")
   @autoRoute
   @armResourceAction(TResource)
   @post

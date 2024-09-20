@@ -18,8 +18,3 @@ using Autorest;
 namespace Private.OracleDatabaseDev;
 
 interface Operations extends Azure.ResourceManager.Operations {}
-
-@@Autorest.example(Operations.list,
-  "./examples/operations_list.json",
-  "List Operations"
-);
