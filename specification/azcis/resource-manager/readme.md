@@ -75,7 +75,7 @@ These settings apply only when `--tag=package-2024-08-31-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-08-31-preview'
 input-file:
-  - Microsoft.AzureCis/preview/package-2024-08-31-preview/cloudSprout.json
+  - Microsoft.AzureCis/preview/2024-08-31-preview/cloudSprout.json
 ```  
 
 ---
