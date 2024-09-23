@@ -44,7 +44,6 @@ These settings apply only when `--tag=package-2023-08-22-preview` is specified o
 input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/aad.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/certificate.json
-  - Microsoft.AzureCis/preview/2023-08-22-preview/cloudSprout.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/dns.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/dscm.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/environment.json
@@ -69,6 +68,15 @@ input-file:
   - Microsoft.AzureCis/stable/2023-08-22/genevaActions.json
   - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
 ```
+
+### Tag: package-2024-08-31-preview
+
+These settings apply only when `--tag=package-2024-08-31-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-08-31-preview'
+input-file:
+  - Microsoft.AzureCis/preview/package-2024-08-31-preview/cloudSprout.json
+```  
 
 ---
 <!-- # Code Generation
