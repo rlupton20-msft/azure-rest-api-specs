@@ -193,6 +193,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/emrClusterSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/guardDutyDetector.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyLastUsed.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyMetadata.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamInstanceProfile.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamManagedPolicy.json
@@ -255,6 +256,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/ssmInstanceInformation.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmParameter.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmResourceComplianceSummaryItem.json
+  - Microsoft.AwsConnector/stable/2024-12-01/wafLoggingConfiguration.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2IPSet.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2LoggingConfiguration.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACL.json
