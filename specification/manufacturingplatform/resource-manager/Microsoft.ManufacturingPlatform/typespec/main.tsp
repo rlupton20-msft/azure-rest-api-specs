@@ -461,7 +461,7 @@ model CmkProfile {
 model FabricProfile {
   @doc("Azure Key Vault Uri")
   @visibility("read", "create", "update")
-  keyVaultUri: string;
+  keyUri: string;
 
   @doc("URI of One Lake")
   @visibility("read", "create", "update")
