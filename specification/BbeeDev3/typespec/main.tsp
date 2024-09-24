@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -9,17 +8,22 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using OpenAPI;
-using Autorest;
+using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
-@armProviderNamespace("Private.BbeeDev3")
+@armProviderNamespace
 @service({
   title: "Private.BbeeDev3",
-  version: "2023-12-01-preview",
 })
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+@versioned(Versions)
 namespace Private.BbeeDev3;
+
+/** Onboarding Service API versions */
+enum Versions {
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  `2024-12-01-preview`,
+}
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -27,98 +31,111 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A provisioning resource.")
-model ProvisioningResource is TrackedResource<ProvisioningResourceProperties> {
+model OnboardingService
+  is Azure.ResourceManager.TrackedResource<OnboardingServiceProperties> {
   @doc("The name of the Provisioning Resource.")
-  @maxLength(128)
-  @pattern("^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$")
-  @key("provisioningResourceName")
-  @segment("provisioningResources")
+  @maxLength(64)
+  @pattern("^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$")
+  @key("onboardingServiceName")
+  @segment("onboardingServices")
   @path
   name: string;
 
   // TODO resource SKU @Jesus to define
 }
 
-@doc("Details of the EdgeProvisioning ProvisioningResource.")
-model ProvisioningResourceProperties {
+@doc("Details of the EdgeProvisioning OnboardingService.")
+model OnboardingServiceProperties {
   @visibility("read")
   @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @visibility("read")
-  @doc("The provisioning service endpoints.")
+  @doc("The onboarding service device endpoints.")
   deviceEndpoints?: DeviceEndpoints;
 
-  @doc("Selecting 'yes' will enable a Microsoft managed PKI to issue certificates. Setting up of the CA and policies for certificate management will be while defining the bumblebee provisioning policy.")
+  @doc("Selecting 'true' will enable a Microsoft managed PKI to issue certificates. Setting up of the CA and policies for certificate management will be while defining the onboarding policy.")
   @visibility("read", "create")
-  enableOperationalCertificates: boolean;
+  enableCertificateManagement: boolean;
+
+  @doc("Allow public network access to private links.")
+  @visibility("read", "create", "update")
+  publicNetworkAccess?: PublicNetworkAccessOptions;
+
+  @doc("The private endpoint connections.")
+  @visibility("read")
+  privateEndpointConnections?: Array<PrivateEndpointConnection>;
 }
 
 @doc("Device endpoints.")
-model DeviceEndpoints { // TODO: follow up with DP and PM on the definition of the endpoints for ignite
+model DeviceEndpoints {
   @doc("The default endpoint.")
-  default: DeviceEndpoint,
+  @visibility("read")
+  default?: DeviceEndpoint;
 }
 
 @doc("The device endpoint.")
 model DeviceEndpoint {
   @doc("Hostname of the Endpoint.")
   @visibility("read")
-  hostname: string;
+  hostName?: string;
+}
+
+@doc("Options for public network access for private endpoints.")
+union PublicNetworkAccessOptions {
+  string,
+
+  @doc("The value indicating the public network access is enabled.")
+  Enabled: "Enabled",
+
+  @doc("The value indicating the public network access is disabled.")
+  Disabled: "Disabled",
 }
 
 @doc("Resource create or update operation completed successfully.")
-model ResourceUpdatedResponse<T> is ArmResponse<T> {
-}
-
-@doc("The status of the current operation.")
-@Azure.Core.lroStatus
-enum ProvisioningState {
-  ...ResourceProvisioningState,
-  @doc("Resource is being created.")
-  Creating,
-  @doc("Resource is being updated.")
-  Updating,
-  @doc("Resource is being deleted.")
-  Deleting
-}
+model ResourceUpdatedResponse<T> is ArmResponse<T>;
 
 @armResourceOperations
-interface ProvisioningResources {
-  get is ArmResourceRead<ProvisioningResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ProvisioningResource>;
-  delete is ArmResourceDeleteAsync<ProvisioningResource>;
-  update is ArmResourcePatchSync<ProvisioningResource, ProvisioningResourceProperties>;
-  listByResourceGroup is ArmResourceListByParent<ProvisioningResource>;
-  listBySubscription is ArmListBySubscription<ProvisioningResource>;
+interface OnboardingServices {
+  get is ArmResourceRead<OnboardingService>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<OnboardingService>;
+  delete is ArmResourceDeleteWithoutOkAsync<OnboardingService>;
+  update is ArmResourcePatchAsync<
+    OnboardingService,
+    OnboardingServiceProperties
+  >;
+  listByResourceGroup is ArmResourceListByParent<OnboardingService>;
+  listBySubscription is ArmListBySubscription<OnboardingService>;
 }
 
 // Child resource: provisioning policy
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A provisioning policy resource.")
-@parentResource(ProvisioningResource)
-model ProvisioningPolicy is TrackedResource<ProvisioningPolicyProperties> {
-  @doc("The name of the Provisioning Policy tracked resource.")
+@parentResource(OnboardingService)
+model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
+  @doc("The name of the Policy tracked resource.")
   @maxLength(128)
   @pattern("^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$")
-  @key("provisioningPolicyName")
-  @segment("provisioningPolicies")
+  @key("policyName")
+  @segment("policies")
   @path
   name: string;
+
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
-@doc("Details of the ProvisioningService ProvisioningPolicy.")
-model ProvisioningPolicyProperties {
+@doc("Details of the OnboardingService Policy.")
+model PolicyProperties {
   @doc("Description of the policy")
   description?: string;
 
   @doc("The policy status")
-  status: boolean;
+  status: PolicyStatusOptions;
 
   @visibility("read")
   @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("The bootstrap authentication rule.")
   bootstrapAuthentication: BootstrapAuthenticationRule;
@@ -132,37 +149,58 @@ model ProvisioningPolicyProperties {
   jit?: JitRule;
 
   @doc("Further details about the policy resource")
-  resourceDetails: ProvisioningPolicyResourceDetails;
+  resourceDetails: PolicyResourceDetails;
+
+  @doc("The identity the OnboardingService Policy will use. Must be from the list of enabled managed identities on the resource.")
+  selectedIdentity?: SelectedIdentity;
+
+  @doc("All Customer-managed key encryption properties for the policy resource.")
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
-model ProvisioningPolicyPropertiesUpdate is OptionalProperties<UpdateableProperties<OmitProperties<ProvisioningPolicy, "name">>> { 
-  @doc("Description of the policy")
-  description?: string;
+@doc("Options for policy status.")
+union PolicyStatusOptions {
+  string,
 
-  @doc("The policy status")
-  status?: boolean;
+  @doc("The value indicating the policy is enabled.")
+  Enabled: "Enabled",
 
-  @visibility("read")
-  @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  @doc("The value indicating the policy is disabled.")
+  Disabled: "Disabled",
+}
 
-  @doc("The bootstrap authentication rule.")
-  bootstrapAuthentication?: BootstrapAuthenticationRule;
+@doc("Information on the selected identity. Can be SystemAssigned or UserAssigned.")
+model SelectedIdentity {
+  @doc("The type of identity.")
+  type: SelectedIdentityType;
 
-  @doc("Allocation rules.")
-  @extension("x-ms-identifiers", ["name"])
-  @maxItems(1)
-  allocations?: Array<AllocationRule>;
+  @doc("Resource id of the UserAssigned identity.")
+  resourceId?: SelectedIdentityResourceId;
+}
 
-  @doc("Just-in-time rule to create the device resource.")
-  jit?: JitRule;
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+)$")
+scalar SelectedIdentityResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities",
+    }
+  ]>;
 
-  @doc("Further details about the policy resource")
-  resourceDetails?: ProvisioningPolicyResourceDetails;
+@doc("Supported identity types.")
+union SelectedIdentityType {
+  string,
+
+  @doc("System assigned identity.")
+  SystemAssigned: "SystemAssigned",
+
+  @doc("User assigned identity.")
+  UserAssigned: "UserAssigned",
 }
 
 @doc("Type of resource being provisioned.")
-enum ProvisioningResourceType {
+union OnboardingResourceType {
+  string,
+
   @doc("Azure device registry device. Microsoft.DeviceRegistry/devices")
   DeviceRegistryDevice: "Microsoft.DeviceRegistry/devices",
 
@@ -172,21 +210,20 @@ enum ProvisioningResourceType {
 
 @doc("Common further details about the policy resource")
 @discriminator("type")
-model ProvisioningPolicyResourceDetails {
+model PolicyResourceDetails {
   @doc("Type of the resource being provisioned.")
-  type: ProvisioningResourceType;
+  type: OnboardingResourceType;
 }
 
-@doc("Details of the ProvisioningService Device Registry ProvisioningPolicy.")
-model DeviceRegistryProvisioningPolicyResourceDetails
-  extends ProvisioningPolicyResourceDetails {
+@doc("Details of the OnboardingService Device Registry Policy.")
+model DeviceRegistryPolicyResourceDetails extends PolicyResourceDetails {
   @doc("The policy resource type for device registry devices.")
-  type: ProvisioningResourceType.DeviceRegistryDevice;
+  type: OnboardingResourceType.DeviceRegistryDevice;
 
   @doc("Identity information.")
   operationalIdentityInfo?: IdentityInfo;
 
-  // make this property polymorphic based on ProvisioningResourceType.
+  // make this property polymorphic based on OnboardingResourceType.
   // The current definition of the identity Info is for ADR resource type.
   // AadIdentityInfo
 
@@ -194,23 +231,40 @@ model DeviceRegistryProvisioningPolicyResourceDetails
   resourceMetadata?: ResourceMetadata; // for customer to label the devices
 }
 
-@doc("Details of the ProvisioningService Discovery ProvisioningPolicy.")
-model DiscoveryProvisioningPolicyResourceDetails
-  extends ProvisioningPolicyResourceDetails {
+@doc("Details of the OnboardingService Discovery Policy.")
+model DiscoveryPolicyResourceDetails extends PolicyResourceDetails {
   @doc("The policy resource type for device registry devices.")
-  type: ProvisioningResourceType.HybridComputeMachine;
+  type: OnboardingResourceType.HybridComputeMachine;
 }
 
 @doc("The authentication type for bootstrap.")
-enum BootstrapAuthenticationType {
+union BootstrapAuthenticationType {
+  string,
+
   @doc("The X509 authentication type.")
-  X509,
+  X509: "X509",
 
   @doc("The discovery authentication type.")
-  Discovery,
+  Discovery: "Discovery",
   // PM: how does user understand this auth type & the device behavior/requirements
   // TODO name confirmation with PMs
+
+  // @doc("The FDO authentication type.")
+  // FDO,
 }
+
+// @doc("The FDO-based authentication rule for bootstrapping.")
+// model FDOBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
+//   @doc("The type of authentication rule.")
+//   type: BootstrapAuthenticationType.FDO;
+
+//   @visibility("read")
+//   publicKey?: bytes;
+
+//   @doc("OV storage link")
+//   ovStorage?: string;
+//   // TODO: Determine if this is required field and can customers update this once created?
+// }
 
 @doc("The authentication rule for bootstrap.")
 @discriminator("type")
@@ -222,7 +276,7 @@ model BootstrapAuthenticationRule {
 @doc("X509 Certificate.")
 model X509Certificate {
   @doc("The certificate.")
-  certificate: string;
+  certificate: bytes;
 
   @doc("Thumbprint extracted from the certificate.")
   @visibility("read")
@@ -253,18 +307,11 @@ model DiscoveryBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   type: BootstrapAuthenticationType.Discovery;
 }
 
-
 @doc("The rule for Just-in-time connection.")
 model JitRule {
   @doc("The priority of the policy. Should be greater than 0.")
+  @minValue(1)
   priority: int32;
-
-  // TODO: is priority required property.
-  // can we avoid requirement for uniquenes
-  // how can the customer swap priority for policies
-  // alternate option1: Consider Provisioning Policy properties as an array
-  // alternate option2: Keep the priority as separate concept outside of policy
-  // Investigate options from other resources
 
   // @minLength(1)
   // @doc("The region.")
@@ -284,7 +331,9 @@ model JitRule {
 }
 
 @doc("Type of the endpoint.")
-enum EndpointType {
+union EndpointType {
+  string,
+
   @doc("Azure event grid broker.")
   MicrosoftEventGridNamespace: "Microsoft.EventGrid/namespaces",
 
@@ -293,9 +342,11 @@ enum EndpointType {
 }
 
 @doc("Type of allocation rule.")
-enum AllocationType {
+union AllocationType {
+  string,
+
   @doc("Evenly distributed allocation.")
-  EvenlyDistributed,
+  EvenlyDistributed: "EvenlyDistributed",
 
   //@doc("Allocation based on geo-location.")
   //GeoBased,
@@ -320,11 +371,19 @@ model AllocationRule {
 @doc("Allocation endpoint.")
 model AllocationEndpoint {
   @doc("Resource id of the endpoint.")
-  resourceId: string;
+  resourceId: AllocationEndpointResourceId;
 
   @doc("host name of the endpoint.")
   hostName: string;
 }
+
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+)$")
+scalar AllocationEndpointResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Microsoft.EventGrid/namespaces",
+    }
+  ]>;
 
 //@doc("GeoBased allocation endpoint.")
 //model GeoBasedAllocationEndpoint {
@@ -375,44 +434,48 @@ model EvenlyDistributedAllocationRule extends AllocationRule {
   endpoints: Array<AllocationEndpoint>;
 }
 
-@doc("The identity info to return to device.")
-model DeviceIdentityInfo {
-  @doc("If uuid need to be returned.")
-  uuid: boolean;
+// @doc("The identity info to return to device.")
+// model DeviceIdentityInfo {
+//   @doc("If uuid need to be returned.")
+//   uuid: boolean;
 
-  @doc("If accessTokenUrl need to be returned.")
-  accessTokenUrl: boolean;
+//   @doc("If accessTokenUrl need to be returned.")
+//   accessTokenUrl: boolean;
 
-  @doc("If externalDeviceId need to be returned.")
-  externalDeviceId: boolean;
-}
+//   @doc("If externalDeviceId need to be returned.")
+//   externalDeviceId: boolean;
+// }
 
-@doc("Potential sources for cert issuance config.")
-enum SourceType {
-  @doc("From certificate signing request.")
-  CSR,
+// @doc("Potential sources for cert issuance config.")
+// enum SourceType {
+//   @doc("From certificate signing request.")
+//   CSR,
 
-  @doc("From the enrollment policy.")
-  Policy,
+//   @doc("From the enrollment policy.")
+//   Policy,
 
-  @doc("From the substitute.")
-  Substitute,
-}
+//   @doc("From the substitute.")
+//   Substitute,
+// }
 
 @doc("Supported key types.")
-enum SupportedKeyType {
+union SupportedKeyType {
+  string,
+
   //@doc("Indicate the RSA key type.")
   //RSA,
 
   @doc("Indicate the ECC key type.")
-  ECC,
+  ECC: "ECC",
 }
 
 @doc("Supported issuing authority.")
-enum SupportedIssuingAuthority {
+union SupportedIssuingAuthority {
+  string,
+
   // TODO: should we use FirstParty or match the PM spec and use MicrosoftManagedPKI?
   @doc("First party cert issuance.")
-  FirstParty,
+  FirstParty: "FirstParty",
 }
 
 @doc("The configuration for setting up a CA.")
@@ -452,6 +515,7 @@ model CertificateProperties {
 @doc("The configuration for setting up a policy.")
 model CertPolicyConfig {
   @doc("The validity period in days.")
+  @minValue(1)
   validityPeriodInDays: int32;
 }
 
@@ -467,6 +531,7 @@ model CertificateIssuanceRule {
   leafCertificateConfiguration: CertPolicyConfig; // same type as the ica config
 
   @doc("Cert renewal interval.")
+  @minValue(1)
   renewalInterval: int32; // A number of percentage. An example for renewal interval is - renew at 80%
 }
 
@@ -482,70 +547,233 @@ model IdentityInfo {
   @doc("Guid for static AAD group.")
   staticGroupId: string;
 
-//  @doc("Guid for MTLS Oauth Config.")
-//  @visibility("read", "create")
-//  mtlsOauthConfigurationId: string;
+  //  @doc("Guid for MTLS Oauth Config.")
+  //  @visibility("read", "create")
+  //  mtlsOauthConfigurationId: string;
 
-//  @doc("Guid of the devices Tenant.")
-//  @visibility("read", "create")
-//  deviceTenantId: string;
+  //  @doc("Guid of the devices Tenant.")
+  //  @visibility("read", "create")
+  //  deviceTenantId: string;
 
   //@doc("The identity info to return to device.")
   //identityInfoForDevice?: DeviceIdentityInfo; // TODO check with Adarsh,Sekhar if this supports both HCI and ADR scenario
 }
 
-@doc("The provisioning rule.")
-model ProvisioningRule {
-  @doc("Type of the resource being provisioned.")
-  type: ProvisioningResourceType;
+@doc("Resource metadata")
+model ResourceMetadata {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Existing api"
+  #suppress "@azure-tools/typespec-azure-core/bad-record-type" "This is arbitrary JSON to provide custom attributes"
+  @doc("Custom attributes")
+  @visibility("read", "create")
+  //  The typespec is not able to support List of Object datatype so we use Record<unknown> as datatype to generate the swagger file for now.
+  //  However, this fails the providerhub generation (TypeError: Cannot read properties of undefined) hence all models are not generated.
+  //  The workaround is to change the datatype of customAttributes to something like string.
+  //  Or generate the swagger json file in typespec playground
+  customAttributes?: Record<unknown>;
+}
+
+/** Patch Models */
+@doc("Onboarding policy model for patch.")
+model PolicyPatch {
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
+
+  @doc("Policy Patch Properties.")
+  properties?: PolicyPatchProperties;
+}
+
+@doc("Onboarding policies properties model for patch.")
+model PolicyPatchProperties {
+  @doc("Description of the policy")
+  description?: string;
+
+  @doc("The policy status")
+  status?: PolicyStatusOptions;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ResourceProvisioningState;
+
+  @doc("The bootstrap authentication rule.")
+  bootstrapAuthentication?: PatchBootstrapAuthenticationRule;
+
+  @doc("Allocation rules.")
+  @extension("x-ms-identifiers", ["name"])
+  @maxItems(1)
+  allocations?: Array<AllocationRulePatch>;
 
   @doc("Just-in-time rule to create the device resource.")
-  jit?: JitRule;
+  jit?: JitRulePatchUpdate;
+
+  @doc("Further details about the policy resource")
+  resourceDetails?: PolicyPatchResourceDetails;
+
+  @doc("The identity the OnboardingService Policy will use. Must be from the list of enabled managed identities on the resource.")
+  selectedIdentity?: PatchSelectedIdentity;
+}
+
+@doc("The bootstrap authentication rule for patch.")
+@discriminator("type")
+model PatchBootstrapAuthenticationRule {
+  @doc("The type of authentication rule.")
+  type: BootstrapAuthenticationType;
+}
+
+@doc("The x509-based authentication rule for bootstrapping.")
+model PatchX509BootstrapAuthenticationRule
+  extends PatchBootstrapAuthenticationRule {
+  @doc("The type of authentication rule.")
+  type: BootstrapAuthenticationType.X509;
+
+  @doc("The primary certificate. B64 x509 cert")
+  //@secret todo
+  primaryCertificate?: PatchX509Certificate;
+
+  @doc("The secondary certificate.")
+  //@secret todo
+  secondaryCertificate?: PatchX509Certificate;
+}
+
+@doc("The Discovery-based authentication rule for bootstrapping.")
+model PatchDiscoveryBootstrapAuthenticationRule
+  extends PatchBootstrapAuthenticationRule {
+  @doc("The type of authentication rule.")
+  type: BootstrapAuthenticationType.Discovery;
+}
+
+@doc("X509 Certificate.")
+model PatchX509Certificate {
+  @doc("The certificate.")
+  certificate?: bytes;
+
+  @doc("Thumbprint extracted from the certificate.")
+  @visibility("read")
+  thumbprint?: string;
+
+  @doc("Expiry date for the certificate.")
+  @visibility("read")
+  expiryDate?: utcDateTime;
+}
+
+@doc("Information on the selected identity. Can be SystemAssigned or UserAssigned.")
+model PatchSelectedIdentity {
+  @doc("The type of identity.")
+  type?: SelectedIdentityType;
+
+  @doc("Resource id of the UserAssigned identity.")
+  resourceId?: SelectedIdentityResourceId;
+}
+
+@doc("The rule for Just-in-time connection.")
+model JitRulePatchUpdate {
+  @doc("The priority of the policy. Should be greater than 0.")
+  @minValue(1)
+  priority?: int32;
+
+  //...SubscriptionIdParameter;
+  @minLength(1)
+  @doc("The ID of the target subscription.")
+  subscriptionId?: string;
+
+  //...ResourceGroupParameter;
+  @minLength(1)
+  @maxLength(90)
+  @pattern("^[-\\w\\._\\(\\)]+$")
+  @doc("The case insensitive name of the target resource group.")
+  resourceGroupName?: string;
+}
+
+@doc("Common further details about the policy resource for patch")
+@discriminator("type")
+model PolicyPatchResourceDetails {
+  @doc("Type of the resource being provisioned.")
+  type: OnboardingResourceType;
+}
+
+@doc("Details of the OnboardingService Device Registry Policy.")
+model PatchDeviceRegistryPolicyResourceDetails
+  extends PolicyPatchResourceDetails {
+  @doc("The policy resource type for device registry devices.")
+  type: OnboardingResourceType.DeviceRegistryDevice;
 
   @doc("Identity information.")
   operationalIdentityInfo?: IdentityInfo;
 
   @doc("Resource metadata.")
-  @maxLength(200)
-  resourceMetadata?: string; // for customer to label the devices
+  resourceMetadata?: ResourceMetadata; // for customer to label the devices
 }
 
-@doc("Resource metadata")
-model ResourceMetadata {
-  @doc("Custom attributes")
-  @visibility("read", "create")
-  customAttributes?: Record<unknown>;
+@doc("Details of the OnboardingService Discovery Policy.")
+model PatchDiscoveryPolicyResourceDetails extends PolicyPatchResourceDetails {
+  @doc("The policy resource type for device registry devices.")
+  type: OnboardingResourceType.HybridComputeMachine;
 }
+
+@doc("The allocation rule patch model.")
+@discriminator("type")
+model AllocationRulePatch {
+  @doc("Name of the allocation rule.")
+  name?: string;
+
+  @doc("Type of endpoint.")
+  endpointType?: EndpointType;
+
+  @doc("Type of the allocation rule.")
+  type: AllocationType;
+}
+
+@doc("The allocation rule for evenly distributed allocation type.")
+model PatchEvenlyDistributedAllocationRule extends AllocationRulePatch {
+  @doc("Evenly distributed allocation type.")
+  type: AllocationType.EvenlyDistributed;
+
+  @doc("List of endpoints for evenly distributed allocation type.")
+  @maxItems(10)
+  @minItems(1)
+  @extension("x-ms-identifiers", ["resourceId"])
+  endpoints?: Array<PatchAllocationEndpoint>;
+}
+
+@doc("Allocation endpoint.")
+model PatchAllocationEndpoint {
+  @doc("Resource id of the endpoint.")
+  resourceId?: AllocationEndpointResourceId;
+
+  @doc("host name of the endpoint.")
+  hostName?: string;
+}
+
+// End Patch Models
 
 @armResourceOperations
-interface ProvisioningPolicies {
-  get is ArmResourceRead<ProvisioningPolicy>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ProvisioningPolicy>;
-  delete is ArmResourceDeleteSync<ProvisioningPolicy>;
-  update is ArmCustomPatchAsync<
-    ProvisioningPolicy,
-    ProvisioningPolicyPropertiesUpdate
-  >;
-  listByParent is ArmResourceListByParent<ProvisioningPolicy>;
+interface Policies {
+  get is ArmResourceRead<Policy>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<Policy>;
+  delete is ArmResourceDeleteWithoutOkAsync<Policy>;
+  @parameterVisibility
+  update is ArmCustomPatchAsync<Policy, PolicyPatch>;
+  listByParent is ArmResourceListByParent<Policy>;
 }
 
-// Extension resource: device provisioning state
+// Extension resource: device state
 
 @singleton
 @doc("The provisioning state of a device.")
-model DeviceProvisioningState is ExtensionResource<DeviceProvisioningStateProperties> {
-  @doc("The default DeviceProvisioningState, singleton extension resource used to represent the state of the device it extends.")
-  @segment("deviceProvisioningStates")
+model DeviceState
+  is Azure.ResourceManager.ExtensionResource<DeviceStateProperties> {
+  @doc("The default DeviceState, singleton extension resource used to represent the state of the device it extends.")
+  @segment("deviceStates")
   @key
   @path
+  @pattern("^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$")
   name: string;
 }
 
-@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/provisioningResources/(.+?)/provisioningPolicies/(.+)$")
-scalar ProvisioningPolicyResourceId
-  extends ResourceIdentifier<[
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/onboardingServices/(.+?)/policies/(.+)$")
+scalar PolicyResourceId
+  extends armResourceIdentifier<[
     {
-      type: "Private.BbeeDev3/ProvisioningResources/ProvisioningPolicies",
+      type: "Private.BbeeDev3/onboardingServices/policies",
     }
   ]>;
 
@@ -553,7 +781,7 @@ scalar ProvisioningPolicyResourceId
 model AllocatedEndpoint {
   @doc("Name of the endpoint.")
   name: string;
- 
+
   @doc("Type of the endpoint.")
   endpointType: EndpointType;
 
@@ -561,8 +789,8 @@ model AllocatedEndpoint {
   hostName: string;
 }
 
-@doc("Details of the DeviceProvisioningState")
-model DeviceProvisioningStateProperties {
+@doc("Details of the DeviceState")
+model DeviceStateProperties {
   @visibility("read", "create")
   @doc("Unique identifier for the device. Allow alphanumeric and '-', '.', '_', ':' only. Last character can only be alphanumeric and '-'")
   @maxLength(128)
@@ -570,14 +798,14 @@ model DeviceProvisioningStateProperties {
   registrationId: string;
 
   @visibility("read", "create", "update")
-  @doc("Onboarding status of the resource this DeviceProvisioningState extends")
+  @doc("Onboarding status of the resource this DeviceState extends")
   onboardingStatus: OnboardingStatus;
 
   @doc("Indicates if the device is enabled for discovery")
-  discoveryEnabled?: boolean = false;
+  discoveryEnabled?: DiscoveryOptions;
 
-  @doc("The provisioning policy resource id")
-  provisioningPolicyResourceId: ProvisioningPolicyResourceId;
+  @doc("The onboarding policy resource id")
+  policyResourceId: PolicyResourceId;
 
   @doc("Array of previously allocated endpoints")
   @maxItems(1)
@@ -586,24 +814,43 @@ model DeviceProvisioningStateProperties {
 
   @visibility("read")
   @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  provisioningState?: ResourceProvisioningState;
+
+  // @visibility("read")
+  // @doc("TTL until the device can be discovered.")
+  // discoverableUntilDate?: string;
+}
+
+@doc("Options for enabling or disabling devices for discovery.")
+union DiscoveryOptions {
+  string,
+
+  @doc("Value indicating the device is enabled for discovery")
+  True: "True",
+
+  @doc("Value indicating the device is disabled for discovery")
+  False: "False",
 }
 
 @doc("The current onboarding status.")
-enum OnboardingStatus {
+union OnboardingStatus {
+  string,
+
   @doc("Onboarding is still pending")
-  Pending,
+  Pending: "Pending",
+
   @doc("The resource has been onboarded")
-  Provisioned,
+  Provisioned: "Provisioned",
+
   @doc("Onboarding has failed")
-  Failed
+  Failed: "Failed",
 }
 
 @armResourceOperations
-interface DeviceProvisioningStates {
-  get is ArmResourceRead<DeviceProvisioningState>;
-  createOrUpdate is ArmResourceCreateOrUpdateSync<DeviceProvisioningState>;
-  delete is ArmResourceDeleteSync<DeviceProvisioningState>;
-  update is ArmResourcePatchSync<DeviceProvisioningState, DeviceProvisioningStateProperties>;
-  listByParent is ArmResourceListByParent<DeviceProvisioningState>;
+interface DeviceStates {
+  get is ArmResourceRead<DeviceState>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<DeviceState>;
+  delete is ArmResourceDeleteSync<DeviceState>;
+  update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
+  listByParent is ArmResourceListByParent<DeviceState>;
 }

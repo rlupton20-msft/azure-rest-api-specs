@@ -44,8 +44,8 @@ model ConnectivityConfigurationProperties {
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
 
-  @doc("Usecase of this configuration")
-  usecase: Usecase;
+  @doc("Scenario in which this configuration is used")
+  scenario: Scenario;
 
   @doc("Connectivity type")
   connectivityType: ConnectivityType;

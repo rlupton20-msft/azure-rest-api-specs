@@ -26,6 +26,11 @@ model QualityCheckTemplate
 
 @armResourceOperations
 interface QualityCheckTemplates {
+  update is ArmResourcePatchSync<
+    QualityCheckTemplate,
+    QualityCheckTemplateProperties
+  >;
   get is ArmResourceRead<QualityCheckTemplate>;
   list is ArmResourceListByParent<QualityCheckTemplate>;
+  delete is ArmResourceDeleteSync<QualityCheckTemplate>;
 }

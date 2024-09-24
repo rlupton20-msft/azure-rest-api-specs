@@ -13,31 +13,10 @@ interface AutonomousDatabaseBackups
       AutonomousDatabaseBackup,
       AutonomousDatabaseBackupProperties
     > {
-  @Autorest.example(
-    "./examples/autonomousDatabaseBackup_patch.json",
-    "Patch Autonomous Database Backup."
-  )
   update is ArmResourcePatchAsync<
     AutonomousDatabaseBackup,
     AutonomousDatabaseBackupProperties
   >;
 
-  @Autorest.example(
-    "./examples/autonomousDatabaseBackup_listByParent.json",
-    "List Autonomous Database Backups by Autonomous Database."
-  )
   listByParent is ArmResourceListByParent<AutonomousDatabaseBackup>;
 }
-
-@@Autorest.example(AutonomousDatabaseBackups.createOrUpdate,
-  "./examples/autonomousDatabaseBackup_create.json",
-  "Create Autonomous Database Backup."
-);
-@@Autorest.example(AutonomousDatabaseBackups.get,
-  "./examples/autonomousDatabaseBackup_get.json",
-  "Get Autonomous Database Backup."
-);
-@@Autorest.example(AutonomousDatabaseBackups.delete,
-  "./examples/autonomousDatabaseBackup_delete.json",
-  "Delete Autonomous Database Backup."
-);

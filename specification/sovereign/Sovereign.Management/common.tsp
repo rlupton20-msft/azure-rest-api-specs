@@ -32,9 +32,11 @@ union provisioningState {
   ResourceProvisioningState,
 
   @doc("The state of the resource when creating")
-  Creating : "Creating",
+  Creating: "Creating",
+
   @doc("The state of the resource when updating")
-  Updating : "Updating",
+  Updating: "Updating",
+
   @doc("The state of the resource when deleting")
-  Deleting : "Deleting",
+  Deleting: "Deleting",
 }
