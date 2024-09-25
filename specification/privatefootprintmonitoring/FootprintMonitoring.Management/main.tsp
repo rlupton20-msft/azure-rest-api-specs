@@ -15,15 +15,15 @@ using Azure.ResourceManager;
 @service({
   title: "Private.FootprintMonitoring",
 })
-@doc("Microsoft Footprint active monitoring system REST API version 2024-07-10-preview.")
+@doc("Microsoft Footprint active monitoring system REST API version 2024-09-16-preview.")
 @versioned(Versions)
 @armCommonTypesVersion(CommonTypes.Versions.v5)
 namespace Private.FootprintMonitoring;
 
 enum Versions {
-  @doc("2024-07-10-preview api version")
+  @doc("2024-09-16-preview api version")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-07-10-preview`,
+  `2024-09-16-preview`,
 }
 
 @doc("The Footprint profile resource.")
