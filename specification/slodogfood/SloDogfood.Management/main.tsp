@@ -79,7 +79,8 @@ model SloProperties {
   sloCategory: string;
 
   @doc("The targets that this SLO should achieve. An SLO may have multiple targets.")
-  targets: SloTargets;
+  @OpenAPI.extension("x-ms-identifiers", ["targetName"])
+  targets: SloTargets[];
 
   @doc("The zoom window for aggregating the SLI signals.")
   zoomMinutes: int32;
@@ -123,7 +124,7 @@ model SloTargets {
   targetWindow: string;
 
   @doc("SLO target percentile")
-  targetPercentile?: string;
+  targetPercentile?: float32;
 
   @doc("SLO target operator")
   operator: string;
@@ -143,7 +144,7 @@ model DestinationAccountMetadata {
   @doc("ARM resource id for the account where metrics related to this SLO are emitted by the service.")
   resourceId: string;
 
-  @doc("ARM resource id for teh managed identity with access to the source account.")
+  @doc("ARM resource id for the managed identity with access to the source account.")
   identity: string;
 }
 
