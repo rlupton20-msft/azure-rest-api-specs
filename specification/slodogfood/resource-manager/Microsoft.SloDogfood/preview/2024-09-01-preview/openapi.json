@@ -276,7 +276,7 @@
         },
         "identity": {
           "type": "string",
-          "description": "ARM resource id for teh managed identity with access to the source account."
+          "description": "ARM resource id for the managed identity with access to the source account."
         }
       },
       "required": [
@@ -426,8 +426,12 @@
           "description": "One of these values: Availability | Latency"
         },
         "targets": {
-          "$ref": "#/definitions/SloTargets",
-          "description": "The targets that this SLO should achieve. An SLO may have multiple targets."
+          "type": "array",
+          "description": "The targets that this SLO should achieve. An SLO may have multiple targets.",
+          "items": {
+            "$ref": "#/definitions/SloTargets"
+          },
+          "x-ms-identifiers": []
         },
         "zoomMinutes": {
           "type": "integer",
@@ -504,7 +508,8 @@
           "description": "SLO target window"
         },
         "targetPercentile": {
-          "type": "string",
+          "type": "number",
+          "format": "float",
           "description": "SLO target percentile"
         },
         "operator": {
