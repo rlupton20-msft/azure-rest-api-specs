@@ -11,14 +11,14 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.FootprintMonitoring")
+@armProviderNamespace("Private.FootprintMonitoring")
 @service({
-  title: "Microsoft.FootprintMonitoring",
+  title: "Private.FootprintMonitoring",
 })
 @doc("Microsoft Footprint active monitoring system REST API version 2024-07-10-preview.")
 @versioned(Versions)
 @armCommonTypesVersion(CommonTypes.Versions.v5)
-namespace Microsoft.FootprintMonitoring;
+namespace Private.FootprintMonitoring;
 
 enum Versions {
   @doc("2024-07-10-preview api version")
