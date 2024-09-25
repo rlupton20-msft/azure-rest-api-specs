@@ -79,6 +79,7 @@ model SloProperties {
   sloCategory: string;
 
   @doc("The targets that this SLO should achieve. An SLO may have multiple targets.")
+  @OpenAPI.extension("x-ms-identifiers", ["targetName"])
   targets: SloTargets[];
 
   @doc("The zoom window for aggregating the SLI signals.")
