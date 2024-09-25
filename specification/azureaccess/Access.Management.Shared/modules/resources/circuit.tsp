@@ -19,7 +19,6 @@ using Azure.Core;
 
 namespace Microsoft.Access;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Suppress error until we transition to using ResourceSkuProperty."
 @doc("The Encrypted Transport Circuit")
 @added(Versions.v2024_02_24_preview)
 model Circuit is TrackedResource<CircuitResourceProperties> {
@@ -30,9 +29,7 @@ model Circuit is TrackedResource<CircuitResourceProperties> {
   @path
   name: string;
 
-  @doc("The billing sku type.")
-  @visibility("create", "read", "update")
-  sku: ResourceSkuType;
+  ...ResourceSkuProperty;
 }
 
 @doc("Encrypted Transport Circuit Properties.")

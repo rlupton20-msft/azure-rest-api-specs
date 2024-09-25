@@ -601,10 +601,6 @@
       "type": "object",
       "description": "Edge Device properties",
       "properties": {
-        "deviceConfiguration": {
-          "$ref": "#/definitions/DeviceConfiguration",
-          "description": "Device Configuration"
-        },
         "provisioningState": {
           "$ref": "./hciCommon.json#/definitions/ProvisioningState",
           "description": "Provisioning state of edgeDevice resource",
@@ -612,7 +608,7 @@
         }
       }
     },
-    "ErrorDetail": {
+    "ExtensionErrorDetail": {
       "type": "object",
       "description": "details of validation failure",
       "properties": {
@@ -641,7 +637,7 @@
           "type": "array",
           "description": "Error details while installing Arc extension.",
           "items": {
-            "$ref": "#/definitions/ErrorDetail"
+            "$ref": "#/definitions/ExtensionErrorDetail"
           },
           "readOnly": true,
           "x-ms-identifiers": []
@@ -718,12 +714,48 @@
       ],
       "x-ms-discriminator-value": "HCI"
     },
+    "AzureLinuxEdgeDevice": {
+      "type": "object",
+      "description": "Arc-enabled edge device with HCI OS.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureLinuxEdgeDeviceProperties",
+          "description": "properties for Arc-enabled edge device with HCI OS."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDevice"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureLinux"
+    },
     "HciEdgeDeviceProperties": {
       "type": "object",
       "description": "properties for Arc-enabled edge device with HCI OS.",
       "properties": {
+        "deviceConfiguration": {
+          "$ref": "#/definitions/DeviceConfiguration",
+          "description": "Device Configuration"
+        },
         "reportedProperties": {
           "$ref": "#/definitions/HciReportedProperties",
+          "description": "The instance view of all current configurations on HCI device.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/EdgeDeviceProperties"
+        }
+      ]
+    },
+    "AzureLinuxEdgeDeviceProperties": {
+      "type": "object",
+      "description": "properties for Arc-enabled edge device with HCI OS.",
+      "properties": {
+        "reportedProperties": {
+          "$ref": "#/definitions/AzureLinuxReportedProperties",
           "description": "The instance view of all current configurations on HCI device.",
           "readOnly": true
         }
@@ -885,6 +917,27 @@
         "sbeDeploymentPackageInfo": {
           "$ref": "#/definitions/SbeDeploymentPackageInfo",
           "description": "Solution builder extension (SBE) deployment package information.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReportedProperties"
+        }
+      ]
+    },
+    "AzureLinuxReportedProperties": {
+      "type": "object",
+      "description": "The device Configuration for HCI device.",
+      "properties": {
+        "networkProfile": {
+          "$ref": "#/definitions/HciNetworkProfile",
+          "description": "HCI device network information.",
+          "readOnly": true
+        },
+        "osProfile": {
+          "$ref": "#/definitions/HciOsProfile",
+          "description": "HCI device OS specific information.",
           "readOnly": true
         }
       },

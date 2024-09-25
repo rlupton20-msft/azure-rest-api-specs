@@ -9,7 +9,7 @@ namespace Microsoft.Sovereign;
 model LandingZoneConfigurationResourceProperties {
   @visibility("read")
   @doc("The status of a user-initiated, control-plane operation on the landing zone configuration.")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: provisioningState;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Handled in code."
   @visibility("read")
@@ -97,6 +97,36 @@ model LandingZoneConfigurationResourceProperties {
   @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
   @OpenAPI.extension("x-ms-identifiers", [])
   tags?: Tags[];
+
+  @added(Versions.Preview20241031)
+  @doc("The managed identity to be tied to this landing zone configuration")
+  managedIdentity: ManagedIdentityProperties;
+}
+
+@added(Versions.Preview20241031)
+@doc("The properties of managed identity.")
+model ManagedIdentityProperties {
+  @doc("The type of managed identity.")
+  type: ManagedIdentityResourceType;
+
+  @doc("The resource id of the managed identity.")
+  userAssignedIdentityResourceId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.ManagedIdentity/userAssignedIdentities";
+    }
+  ]>;
+}
+
+@added(Versions.Preview20241031)
+@doc("The authoring status for a landing zone configuration.")
+union ManagedIdentityResourceType {
+  @doc("System assigned managed identity.")
+  SystemAssigned: "SystemAssigned",
+
+  @doc("User assigned managed identity.")
+  UserAssigned: "UserAssigned",
+
+  string,
 }
 
 @doc("The details associated with tags.")
@@ -129,6 +159,7 @@ model PolicyInitiativeAssignmentProperties {
   policyInitiativeId: string;
 
   #suppress "@azure-tools/typespec-azure-core/bad-record-type" "This would be customer defined parameter based on the policy initiatives to be assigned. Hence we need to use Record<unknown> as it will differ per initiative."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Model properties or operation parameters should not be of type Record. ARM requires Resource provider teams to define types explicitly."
   @doc("The parameters for the assignment of policy initiatives.")
   assignmentParameters: Record<unknown>;
 }

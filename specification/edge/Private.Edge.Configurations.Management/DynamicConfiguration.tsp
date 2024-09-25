@@ -5,6 +5,9 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./Configuration.tsp";
+import "../Private.Edge.ConfigurationManager.Management/ConfigurationModel.tsp";
+import "../Private.Edge.ConfigurationManager.Management/ConfigurationType.tsp";
+import "../Private.Edge.ConfigurationManager.Management/ProvisioningState.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -17,34 +20,45 @@ namespace Private.Edge;
 
 @doc("Dynamic Configuration Properties")
 model DynamicConfigurationProperties {
-    @doc("Current Version of dynamic configuration")
-    currentVersion: string;
+  @doc("Current Version of dynamic configuration")
+  currentVersion: string;
 
-    @doc("Provisioning state of resource")
-    @visibility("read")
-    provisioningState?: ResourceProvisioningState;
+  @doc("Type of dynamic configuration")
+  @visibility("read")
+  dynamicConfigurationType?: ConfigurationType;
+
+  @doc("Type of dynamic configuration model")
+  @visibility("read")
+  dynamicConfigurationModel?: ConfigurationModel;
+
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
 }
 
 @doc("Dynamic Configuration Resource")
 @parentResource(Configuration)
 model DynamicConfiguration is ProxyResource<DynamicConfigurationProperties> {
-    ...ResourceNameParameter<DynamicConfiguration>;
+  ...ResourceNameParameter<DynamicConfiguration>;
 }
 
 @armResourceOperations
 interface DynamicConfigurations {
-    @doc("Get a Dynamic Configuration Resource")
-    get is ArmResourceRead<DynamicConfiguration>;
+  @doc("Get a Dynamic Configuration Resource")
+  get is ArmResourceRead<DynamicConfiguration>;
 
-    @doc("Create or update a Dynamic Configuration Resource")
-    createOrUpdate is ArmResourceCreateOrReplaceAsync<DynamicConfiguration>;
+  @doc("Create or update a Dynamic Configuration Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DynamicConfiguration>;
 
-    @doc("Delete a Dynamic Configuration Resource")
-    delete is ArmResourceDeleteSync<DynamicConfiguration>;
+  @doc("Update a Dynamic Configuration Resource")
+  update is ArmResourcePatchSync<
+    DynamicConfiguration,
+    DynamicConfigurationProperties
+  >;
 
-    @doc("List Dynamic Configuration Resources")
-    listByParent is ArmResourceListByParent<DynamicConfiguration>;
+  @doc("Delete a Dynamic Configuration Resource")
+  delete is ArmResourceDeleteSync<DynamicConfiguration>;
 
-    @doc("Post request to resolve configuration")
-    resolveConfiguration is ArmResourceActionSync<DynamicConfiguration, void ,DynamicConfigurationProperties>;
+  @doc("List Dynamic Configuration Resources")
+  listByConfiguration is ArmResourceListByParent<DynamicConfiguration>;
 }

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Foundational ARM Client",
+    "title": "Azure CIS FRP",
     "version": "2023-08-22-preview",
     "description": "dscm Certificate Service",
     "x-typespec-generated": [
@@ -56,20 +56,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -92,10 +92,10 @@
         "description": "List DsmsCertificateResource resources by subscription ID",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -108,7 +108,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -131,13 +131,13 @@
         "description": "List DsmsCertificateResource resources by resource group",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           }
         ],
         "responses": {
@@ -150,7 +150,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -173,13 +173,13 @@
         "description": "Get a DsmsCertificateResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -200,7 +200,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -218,13 +218,13 @@
         "description": "Create a DsmsCertificateResource",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "resourceName",
@@ -271,7 +271,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -288,6 +288,81 @@
     }
   },
   "definitions": {
+    "Allowlist": {
+      "type": "object",
+      "description": "Defines the allowlist element for a secret.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/AllowlistType",
+          "description": "Gets or sets the type of the allowlist."
+        },
+        "values": {
+          "type": "string",
+          "description": "Gets or sets the values of the allowlist. A list of values are separated by semicolon."
+        }
+      },
+      "required": [
+        "type",
+        "values"
+      ]
+    },
+    "AllowlistType": {
+      "type": "string",
+      "description": "Allowlist Type",
+      "enum": [
+        "ServiceID",
+        "SubscriptionID",
+        "DnsDomain",
+        "ServiceTreeID"
+      ],
+      "x-ms-enum": {
+        "name": "AllowlistType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ServiceID",
+            "value": "ServiceID",
+            "description": "Allowlisting a service"
+          },
+          {
+            "name": "SubscriptionID",
+            "value": "SubscriptionID",
+            "description": "Allowlisting subscription ID for creating storage account objects"
+          },
+          {
+            "name": "DnsDomain",
+            "value": "DnsDomain",
+            "description": "Allowlisting a DNS domain for creating chained certificates"
+          },
+          {
+            "name": "ServiceTreeID",
+            "value": "ServiceTreeID",
+            "description": "Allowlisting a service tree ID"
+          }
+        ]
+      }
+    },
+    "Allowlists": {
+      "type": "object",
+      "description": "Defines the array of allowlists for a secret",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "description": "Allowlist elements",
+          "items": {
+            "$ref": "#/definitions/Allowlist"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "elements"
+      ]
+    },
+    "Azure.Core.azureLocation": {
+      "type": "string",
+      "description": "Represents an Azure geography region where supported resource providers live."
+    },
     "CaType": {
       "type": "string",
       "description": "CA type",
@@ -393,28 +468,19 @@
           "type": "string",
           "description": "Define in which region of dSMS to provision the storage account, such as global-dsms.dsms.%(HostNameSuffix), uswest-dsms.dsms.%(HostNameSuffix). This is used only when provision storage account in non-home-dsms endpoint."
         },
-        "whitelist": {
-          "$ref": "#/definitions/Whitelists",
-          "description": "Certificate whitelist in dSMS."
+        "allowlists": {
+          "$ref": "#/definitions/Allowlists",
+          "description": "Certificate allowlist in dSMS."
         },
-        "blockAutoRollover": {
-          "type": "boolean",
-          "description": "Block auto key roll over"
-        },
-        "customRolloverPeriodDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Certificate rotation period in days"
-        },
-        "replicate": {
-          "$ref": "#/definitions/Replicate",
+        "replicationScope": {
+          "$ref": "#/definitions/ReplicationScope",
           "description": "Certificate Replication in dSMS."
         },
-        "subject": {
+        "subjectName": {
           "type": "string",
           "description": "Certificate Subject name, e.g. \"CN=DsmsEv2Extension\" or \"CN=ev2-dsms.dsms.core.azure-test.net\""
         },
-        "san": {
+        "subjectAlternativeName": {
           "type": "string",
           "description": "Certificate Subject Alternate Name, e.g. \"DNS=ev2-dsms.dsms.core.azure-test.net\""
         },
@@ -427,21 +493,39 @@
           "format": "int32",
           "description": "Valid days of this certificate (Self-signed certificates only)"
         },
-        "caSigning": {
-          "type": "boolean",
-          "description": "Enable CA signing (Self-signed certificates only)"
+        "selfSigningMethod": {
+          "type": "string",
+          "description": "Enable CA signing (Self-signed certificates only)",
+          "enum": [
+            "CertificateAuthority",
+            "SelfSigned"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
-        "certificateTransparency": {
-          "type": "boolean",
-          "description": "Enable certificate transparency"
-        },
-        "blockNinetyDayEnforcement": {
-          "type": "boolean",
-          "description": "Block ninety day enforcement"
+        "azureLocation": {
+          "$ref": "#/definitions/Azure.Core.azureLocation",
+          "description": "The Azure location"
         },
         "provisioningState": {
           "$ref": "#/definitions/CertificateProvisioningState",
-          "description": "Provisioning state",
+          "description": "Provisioning status of the resource.",
+          "readOnly": true
+        },
+        "selfSignedCertificateDsmsName": {
+          "type": "string",
+          "description": "Self-signed Certificate DSMS name; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "chainedCertificateDsmsName": {
+          "type": "string",
+          "description": "Chained Certificate DSMS name; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "edgeSiteChildTrustIsland": {
+          "type": "string",
+          "description": "Automatically injected if the environment is a child trusted island; a part of provisioning ResultData output.",
           "readOnly": true
         }
       },
@@ -449,7 +533,7 @@
         "certificateName",
         "certificateType",
         "rootPath",
-        "subject"
+        "subjectName"
       ]
     },
     "DsmsCertificateResource": {
@@ -458,13 +542,12 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/DsmsCertificateProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -489,13 +572,13 @@
         "value"
       ]
     },
-    "Replicate": {
+    "ReplicationScope": {
       "type": "object",
       "description": "Defines where the secret should be replicated to.",
       "properties": {
         "type": {
-          "type": "string",
-          "description": "Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances."
+          "$ref": "#/definitions/ReplicationType",
+          "description": "Replication Type"
         },
         "regions": {
           "type": "string",
@@ -507,40 +590,35 @@
         "regions"
       ]
     },
-    "Whitelist": {
-      "type": "object",
-      "description": "Defines the whitelist element for a secret.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Gets or sets the type of the whitelist. ServiceID: whitelisting a service. SubscriptionID : whitelisting subscription ID for creating storage account objects. DnsDomain :whitelisting a DNS domain for creating chained certificates. ServiceTreeID: whitelisting a service tree ID."
-        },
-        "values": {
-          "type": "string",
-          "description": "Gets or sets the values of the whitelist. A list of values are separated by semicolon."
-        }
-      },
-      "required": [
-        "type",
-        "values"
-      ]
-    },
-    "Whitelists": {
-      "type": "object",
-      "description": "Defines the array of whitelists for a secret",
-      "properties": {
-        "elements": {
-          "type": "array",
-          "description": "Whitelist elements",
-          "items": {
-            "$ref": "#/definitions/Whitelist"
+    "ReplicationType": {
+      "type": "string",
+      "description": "Replication Type",
+      "enum": [
+        "Local",
+        "AllDsmsRegions",
+        "SpecifiedDsmsRegions"
+      ],
+      "x-ms-enum": {
+        "name": "ReplicationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Local",
+            "value": "Local",
+            "description": "This secret is not replicated to other dSMS instance"
           },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "elements"
-      ]
+          {
+            "name": "AllDsmsRegions",
+            "value": "AllDsmsRegions",
+            "description": "This secret can be replicated to all dSMS instances"
+          },
+          {
+            "name": "SpecifiedDsmsRegions",
+            "value": "SpecifiedDsmsRegions",
+            "description": "This secret can only be replicated to the specified dSMS instances"
+          }
+        ]
+      }
     }
   },
   "parameters": {}

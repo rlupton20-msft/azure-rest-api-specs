@@ -46,3 +46,8 @@ interface EnterpriseMccCacheNodesOperations {
     MccCacheNodeInstallDetails
   >;
 }
+
+@@OpenAPI.extension(Azure.ResourceManager.TrackedResource.properties,
+  "x-ms-mutability",
+  ["create", "update", "read"]
+);

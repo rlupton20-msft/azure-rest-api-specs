@@ -24,11 +24,11 @@ union DiagnosticDestination {
 
   @doc("DiagnosticDestination Type EnclaveOnly")
   EnclaveOnly: "EnclaveOnly",
- 
+
   @doc("DiagnosticDestination Type Both")
   Both: "Both",
 
-  string
+  string,
 }
 
 @doc("Subnet Configuration")
@@ -39,9 +39,9 @@ model SubnetConfiguration {
 
   @doc("Subnet ID.")
   @visibility("read")
-  id?: string;
+  id?: Azure.Core.armResourceIdentifier;
 
-  @doc("Network Prefix Size.")
+  @doc("Network prefix size.")
   networkPrefixSize: int32;
 
   @doc("Subnet delegation.")
@@ -53,7 +53,7 @@ model SubnetConfiguration {
 
   @doc("Network security group ID.")
   @visibility("read")
-  networkSecurityGroupId?: string;
+  networkSecurityGroupId?: Azure.Core.armResourceIdentifier;
 }
 
 @doc("Enclave Virtual Network Properties")
@@ -107,9 +107,11 @@ model EnclaveDefaultSettings {
 
 @doc("Enclave Address Spaces")
 model EnclaveAddressSpaces {
+  @madeOptional(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Enclave Address Space")
   enclaveAddressSpace?: string;
 
+  @madeOptional(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Managed Address Space")
   managedAddressSpace?: string;
 }
@@ -175,4 +177,8 @@ model VirtualEnclaveProperties {
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfiguration;
+
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Deploy Bastion service (True or False).")
+  bastionEnabled?: boolean;
 }

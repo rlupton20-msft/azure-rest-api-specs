@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
+import "@azure-tools/typespec-azure-portal-core";
 import "../shared/main.tsp";
 
 using TypeSpec.Http;
@@ -14,6 +15,7 @@ using OpenAPI;
 using Azure.Core;
 using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
+using Azure.Portal;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
@@ -27,13 +29,20 @@ namespace Microsoft.AwsConnector;
 
 /** Api versions */
 enum Versions {
-  /** 2024-08-01-preview api version */
+  /** 2024-12-01 api version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-08-01-preview`,
+  `2024-12-01`,
 }
 
 //---------------------------------------------- MacieAllowLists ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
+@about({
+  displayNames: {
+    singular: "Macie Allow List",
+    plural: "Macie Allow Lists",
+  },
+  keywords: ["Microsoft.AwsConnector", "Macie", "Allow", "List"],
+})
 @doc("A Microsoft.AwsConnector resource")
 model MacieAllowList is TrackedResource<MacieAllowListProperties> {
   @doc("Name of MacieAllowList")
@@ -78,11 +87,40 @@ model AwsMacieAllowListProperties {
   name?: string;
 
   @doc("AllowList status. The status for the AllowList")
-  status?: string;
+  status?: Status;
 
   @doc("A collection of tags associated with a resource")
   @extension("x-ms-identifiers", [])
   tags?: Tag[];
+}
+
+@doc("Status enum")
+union Status {
+  @doc("Status enum OK")
+  OK: "OK",
+
+  @doc("Status enum S3_OBJECT_ACCESS_DENIED")
+  S3_OBJECT_ACCESS_DENIED: "S3_OBJECT_ACCESS_DENIED",
+
+  @doc("Status enum S3_OBJECT_EMPTY")
+  S3_OBJECT_EMPTY: "S3_OBJECT_EMPTY",
+
+  @doc("Status enum S3_OBJECT_NOT_FOUND")
+  S3_OBJECT_NOT_FOUND: "S3_OBJECT_NOT_FOUND",
+
+  @doc("Status enum S3_OBJECT_OVERSIZE")
+  S3_OBJECT_OVERSIZE: "S3_OBJECT_OVERSIZE",
+
+  @doc("Status enum S3_THROTTLED")
+  S3_THROTTLED: "S3_THROTTLED",
+
+  @doc("Status enum S3_USER_ACCESS_DENIED")
+  S3_USER_ACCESS_DENIED: "S3_USER_ACCESS_DENIED",
+
+  @doc("Status enum UNKNOWN_ERROR")
+  UNKNOWN_ERROR: "UNKNOWN_ERROR",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."

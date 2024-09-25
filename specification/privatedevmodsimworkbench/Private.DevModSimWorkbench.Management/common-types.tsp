@@ -106,6 +106,50 @@ model CapacityUsedProperty {
   capacityUsed?: int64;
 }
 
+/**
+ * The resource model definition representing SKU
+ */
+@access(Access.internal)
+@doc("Base sku")
+@added(Versions.`2024-05-01-preview`)
+model BaseSku {
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  @visibility("read", "create", "update")
+  @doc("Sku name.")
+  name: string;
+
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  @visibility("read")
+  @doc("Sku tier.")
+  tier?: string;
+}
+
+@doc("Chamber sku")
+@added(Versions.`2024-05-01-preview`)
+model ChamberSku {
+  ...BaseSku;
+}
+
+@doc("Storage sku")
+@added(Versions.`2024-05-01-preview`)
+model StorageSku {
+  ...BaseSku;
+
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  // @visibility("read")
+  // @doc("Sku size.")
+  // size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  @visibility("read")
+  @doc("Sku family.")
+  family?: string;
+
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  // @visibility("read")
+  // @doc("Sku capacity.")
+  // capacity?: int32;
+}
+
 @doc("Common storage properties.")
 @added(Versions.`2024-05-01-preview`)
 @access(Access.internal)

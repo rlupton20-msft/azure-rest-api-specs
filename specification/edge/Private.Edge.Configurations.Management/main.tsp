@@ -6,6 +6,11 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./Configuration.tsp";
 import "./DynamicConfiguration.tsp";
 import "./DynamicConfigurationVersion.tsp";
+import "./ArcGatewayConfiguration.tsp";
+import "./TimeServerConfiguration.tsp";
+import "./ConnectivityConfiguration.tsp";
+import "./NetworkConfiguration.tsp";
+import "./SecurityConfiguration.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -15,7 +20,6 @@ using Azure.ResourceManager;
 
 /** Private.Edge Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
-
 @armProviderNamespace
 @service({
   title: "Private.Edge",

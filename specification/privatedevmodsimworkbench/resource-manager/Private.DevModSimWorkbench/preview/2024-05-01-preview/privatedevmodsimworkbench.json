@@ -298,6 +298,12 @@
         "x-ms-examples": {
           "Workbenches_CreateOrUpdate": {
             "$ref": "./examples/WorkbenchesCreateOrUpdate.json"
+          },
+          "Workbenches_CreateOrUpdate CMK": {
+            "$ref": "./examples/WorkbenchesCreateOrUpdateWithCmk.json"
+          },
+          "Workbenches_CreateOrUpdate with deprecated sku": {
+            "$ref": "./examples/WorkbenchesCreateOrUpdate_deprecated_sku.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -618,6 +624,9 @@
         "x-ms-examples": {
           "Chambers_CreateOrUpdate": {
             "$ref": "./examples/ChambersCreateOrUpdate.json"
+          },
+          "Chambers_CreateOrUpdate with zone redundancy": {
+            "$ref": "./examples/ChambersCreateOrUpdate_ZR.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2775,6 +2784,9 @@
         "x-ms-examples": {
           "Storages_CreateOrUpdate": {
             "$ref": "./examples/StoragesCreateOrUpdate.json"
+          },
+          "Storages_CreateOrUpdate with zone redundancy": {
+            "$ref": "./examples/StoragesCreateOrUpdate_ZRS.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -4040,33 +4052,6 @@
         }
       }
     },
-    "Azure.ResourceManager.CommonTypes.SkuUpdate": {
-      "type": "object",
-      "description": "The resource model definition representing SKU",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the SKU. Ex - P3. It is typically a letter+number code"
-        },
-        "tier": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/SkuTier",
-          "description": "This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT."
-        },
-        "size": {
-          "type": "string",
-          "description": "The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code."
-        },
-        "family": {
-          "type": "string",
-          "description": "If the service has different generations of hardware, for the same SKU, then that can be captured here."
-        },
-        "capacity": {
-          "type": "integer",
-          "format": "int32",
-          "description": "If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted."
-        }
-      }
-    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
@@ -4136,7 +4121,7 @@
           ]
         },
         "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "$ref": "#/definitions/ChamberSku",
           "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
@@ -4219,6 +4204,29 @@
     "ChamberPropertiesUpdate": {
       "type": "object",
       "description": "Chamber properties."
+    },
+    "ChamberSku": {
+      "type": "object",
+      "description": "Chamber sku",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sku name.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "tier": {
+          "type": "string",
+          "description": "Sku tier.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "ChamberUpdate": {
       "type": "object",
@@ -5325,7 +5333,7 @@
           ]
         },
         "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "$ref": "#/definitions/StorageSku",
           "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
@@ -5492,7 +5500,7 @@
           "description": "The resource-specific properties for this resource."
         },
         "sku": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
+          "$ref": "#/definitions/StorageSkuUpdate",
           "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
@@ -5551,7 +5559,7 @@
           ]
         },
         "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
+          "$ref": "#/definitions/StorageSku",
           "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
@@ -5678,6 +5686,49 @@
         }
       }
     },
+    "StorageSku": {
+      "type": "object",
+      "description": "Storage sku",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sku name.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "tier": {
+          "type": "string",
+          "description": "Sku tier.",
+          "readOnly": true
+        },
+        "family": {
+          "type": "string",
+          "description": "Sku family.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "StorageSkuUpdate": {
+      "type": "object",
+      "description": "Storage sku",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sku name.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
     "StorageUpdate": {
       "type": "object",
       "description": "Storage tracked resource.",
@@ -5687,7 +5738,7 @@
           "description": "The resource-specific properties for this resource."
         },
         "sku": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
+          "$ref": "#/definitions/StorageSkuUpdate",
           "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
           "x-ms-mutability": [
             "read",
@@ -5780,6 +5831,14 @@
             "create"
           ]
         },
+        "customerEncryptionKeyUri": {
+          "type": "string",
+          "description": "Key vault URI of customer managed key used for Storage and SharedStorage encryption.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "sku": {
           "type": "string",
           "description": "SKU name.",
@@ -5790,8 +5849,7 @@
         }
       },
       "required": [
-        "appOidc",
-        "sku"
+        "appOidc"
       ]
     },
     "WorkbenchPropertiesUpdate": {
@@ -5842,20 +5900,8 @@
             "read",
             "create"
           ]
-        },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         }
       },
-      "required": [
-        "sku"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -5926,6 +5972,7 @@
         }
       },
       "required": [
+        "vmSize",
         "edaType"
       ]
     },
@@ -5940,15 +5987,6 @@
         "properties": {
           "$ref": "#/definitions/WorkloadPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
-        },
-        "sku": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         }
       },
       "allOf": [

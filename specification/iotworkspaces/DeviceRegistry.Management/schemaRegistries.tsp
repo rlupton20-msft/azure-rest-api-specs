@@ -24,6 +24,8 @@ model SchemaRegistry is TrackedResource<SchemaRegistryProperties> {
   @minLength(3)
   @maxLength(63)
   name: string;
+
+  ...ManagedSystemAssignedIdentityProperty;
 }
 
 @added(Versions.v2024_07_01_preview)
@@ -52,8 +54,6 @@ model SchemaRegistryProperties {
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  ...ManagedSystemAssignedIdentityProperty;
 }
 
 @added(Versions.v2024_07_01_preview)
@@ -164,7 +164,13 @@ model SchemaVersionProperties {
 interface SchemaRegistries {
   get is ArmResourceRead<SchemaRegistry>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<SchemaRegistry>;
-  update is ArmResourcePatchAsync<SchemaRegistry, SchemaRegistryProperties>;
+  update is ArmCustomPatchAsync<
+    SchemaRegistry,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      SchemaRegistry,
+      SchemaRegistryProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<SchemaRegistry>;
   listByResourceGroup is ArmResourceListByParent<SchemaRegistry>;
   listBySubscription is ArmListBySubscription<SchemaRegistry>;
@@ -176,7 +182,7 @@ interface Schemas {
   get is ArmResourceRead<Schema>;
   createOrReplace is ArmResourceCreateOrReplaceSync<Schema>;
   delete is ArmResourceDeleteSync<Schema>;
-  listByParent is ArmResourceListByParent<Schema>;
+  listBySchemaRegistry is ArmResourceListByParent<Schema>;
 }
 
 @added(Versions.v2024_07_01_preview)
@@ -185,5 +191,5 @@ interface SchemaVersions {
   get is ArmResourceRead<SchemaVersion>;
   createOrReplace is ArmResourceCreateOrReplaceSync<SchemaVersion>;
   delete is ArmResourceDeleteSync<SchemaVersion>;
-  listByParent is ArmResourceListByParent<SchemaVersion>;
+  listBySchema is ArmResourceListByParent<SchemaVersion>;
 }

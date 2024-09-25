@@ -14,38 +14,72 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
-@doc("Configuration Properties")
-model ConfigurationProperties {
-    @doc("Timezone of configuration")
-    timezone: string;
-
-    @doc("Provisioning state of resource")
-    @visibility("read")
-    provisioningState?: ResourceProvisioningState;
-}
-
 @doc("Configuration Resource")
 model Configuration is TrackedResource<ConfigurationProperties> {
-    ...ResourceNameParameter<Configuration>;
+  ...ResourceNameParameter<Configuration>;
+}
+
+@doc("Configuration Properties")
+model ConfigurationProperties {
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
 }
 
 @armResourceOperations
 interface Configurations {
-    @doc("Get a Configuration Resource")
-    get is ArmResourceRead<Configuration>;
+  @doc("Get a Configuration Resource")
+  get is ArmResourceRead<Configuration>;
 
-    @doc("Create or update a Configuration Resource")
-    createOrUpdate is ArmResourceCreateOrReplaceAsync<Configuration>;
+  @doc("Create or update a Configuration Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Configuration>;
 
-    @doc("Update a Configuration Resource")
-    update is ArmResourcePatchSync<Configuration, ConfigurationProperties>;
+  @doc("Update a Configuration Resource")
+  update is ArmResourcePatchSync<Configuration, ConfigurationProperties>;
 
-    @doc("Delete a Configuration Resource")
-    delete is ArmResourceDeleteWithoutOkAsync<Configuration>;
+  @doc("Delete a Configuration Resource")
+  delete is ArmResourceDeleteSync<Configuration>;
 
-    @doc("List by specified resource group")
-    listByResourceGroup is ArmResourceListByParent<Configuration>;
+  @doc("List by specified resource group")
+  listByResourceGroup is ArmResourceListByParent<Configuration>;
 
-    @doc("List by subscription")
-    listBySubscription is ArmListBySubscription<Configuration>;
+  @doc("List by subscription")
+  listBySubscription is ArmListBySubscription<Configuration>;
+}
+
+@doc("ConfigurationReference Resource")
+model ConfigurationReference
+  is ExtensionResource<ConfigurationReferenceProperties> {
+  ...ResourceNameParameter<ConfigurationReference, NamePattern = "^default$">;
+}
+
+@doc("Properties for ConfigurationReference Resource")
+model ConfigurationReferenceProperties {
+  @doc("The status of the last operation.")
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
+  @doc("ArmId of Configuration resource")
+  configurationResourceId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Edge/Configurations";
+    },
+    {
+      type: "Private.Edge/Configurations";
+    }
+  ]>;
+}
+
+@armResourceOperations
+interface ConfigurationReferences {
+  get is ArmResourceRead<ConfigurationReference>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<ConfigurationReference>;
+  update is ArmResourcePatchSync<
+    ConfigurationReference,
+    ConfigurationReferenceProperties
+  >;
+  delete is ArmResourceDeleteSync<ConfigurationReference>;
+
+  // Removing list operation since ConfigurationReference is a singleton
+  // list is ArmResourceListByParent<ConfigurationReference>;
 }

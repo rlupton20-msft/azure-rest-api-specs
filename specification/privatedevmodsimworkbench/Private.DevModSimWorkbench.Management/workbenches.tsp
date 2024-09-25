@@ -35,12 +35,17 @@ model WorkbenchProperties {
   @doc("APP OIDC settings.")
   appOidc: AppOidc;
 
+  @added(Versions.`2024-05-01-preview`)
+  @visibility("read", "create")
+  @doc("Key vault URI of customer managed key used for Storage and SharedStorage encryption.")
+  customerEncryptionKeyUri?: string;
+
   // #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Sku is a valid envelope property"
   // TODO: Deprecate properties.sku in favor of top-level Sku (sku.name)
   // #deprecated "Use top-level sku.name"
   @visibility("read", "create")
   @doc("SKU name.")
-  sku: string;
+  sku?: string;
 
   // For white-label demo, un-comment below.
   // @visibility("read", "create", "update")

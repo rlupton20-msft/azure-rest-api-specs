@@ -25,3 +25,18 @@ enum Versions {
   @doc("Public preview version.")
   Preview20241031: "2024-10-31-preview",
 }
+
+@added(Versions.Preview20241031)
+@doc("The custom provisioning state.")
+union provisioningState {
+  ResourceProvisioningState,
+
+  @doc("The state of the resource when creating")
+  Creating: "Creating",
+
+  @doc("The state of the resource when updating")
+  Updating: "Updating",
+
+  @doc("The state of the resource when deleting")
+  Deleting: "Deleting",
+}

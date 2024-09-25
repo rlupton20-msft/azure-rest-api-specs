@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
+import "./ProvisioningState.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -16,47 +17,46 @@ namespace Private.Edge;
 
 @doc("Capability Properties")
 model Capability {
-    @doc("Name of capability")
-    name: string;
+  @doc("Name of capability")
+  name: string;
 
-    @doc("Description of capability")
-    description: string;
+  @doc("Description of capability")
+  description: string;
 }
 
 @doc("Capability List Properties")
 model CapabilityListProperties {
-    @doc("List of capabilities")
-    @extension("x-ms-identifiers", [])
-    capabilities: Capability[];
+  @doc("List of capabilities")
+  @extension("x-ms-identifiers", [])
+  capabilities: Capability[];
 
-    @doc("Provisioning state of resource")
-    @visibility("read")
-    provisioningState?: ResourceProvisioningState;
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
 }
 
 @doc("Capability List Resource")
 model CapabilityList is TrackedResource<CapabilityListProperties> {
-    ...ResourceNameParameter<CapabilityList>;
+  ...ResourceNameParameter<CapabilityList>;
 }
 
-#suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "We dont want to expose delete operation"
 @armResourceOperations
 interface CapabilityLists {
-    @doc("Get a Capability List Resource")
-    get is ArmResourceRead<CapabilityList>;
+  @doc("Get a Capability List Resource")
+  get is ArmResourceRead<CapabilityList>;
 
-    @doc("Create or update a Capability List Resource")
-    createOrUpdate is ArmResourceCreateOrReplaceSync<CapabilityList>;
+  @doc("Create or update a Capability List Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceSync<CapabilityList>;
 
-    @doc("update a Capability List Resource")
-    update is ArmResourcePatchSync<CapabilityList, CapabilityListProperties>;
+  @doc("update a Capability List Resource")
+  update is ArmResourcePatchSync<CapabilityList, CapabilityListProperties>;
 
-    @doc("Delete a Capability List Resource")
-    delete is ArmResourceDeleteSync<CapabilityList>;
+  @doc("Delete a Capability List Resource")
+  delete is ArmResourceDeleteSync<CapabilityList>;
 
-    @doc("List by specified resource group")
-    listByResourceGroup is ArmResourceListByParent<CapabilityList>;
+  @doc("List by specified resource group")
+  listByResourceGroup is ArmResourceListByParent<CapabilityList>;
 
-    @doc("List by subscription")
-    listBySubscription is ArmListBySubscription<CapabilityList>;
+  @doc("List by subscription")
+  listBySubscription is ArmListBySubscription<CapabilityList>;
 }

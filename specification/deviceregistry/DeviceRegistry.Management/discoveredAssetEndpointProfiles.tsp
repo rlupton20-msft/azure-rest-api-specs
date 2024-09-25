@@ -67,9 +67,12 @@ model DiscoveredAssetEndpointProfileProperties {
 interface DiscoveredAssetEndpointProfiles {
   get is ArmResourceRead<DiscoveredAssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAssetEndpointProfile>;
-  update is ArmResourcePatchAsync<
+  update is ArmCustomPatchAsync<
     DiscoveredAssetEndpointProfile,
-    DiscoveredAssetEndpointProfileProperties
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      DiscoveredAssetEndpointProfile,
+      DiscoveredAssetEndpointProfileProperties
+    >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<DiscoveredAssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<DiscoveredAssetEndpointProfile>;

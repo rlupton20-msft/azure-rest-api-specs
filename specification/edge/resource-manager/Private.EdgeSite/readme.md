@@ -16,6 +16,17 @@ To see additional help and options, run:
 
 For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
 
+## Suppression
+
+``` yaml
+directive:
+  - suppress: BodyTopLevelProperties
+    reason: The BodyTopLevelProperties rule is mistakenly flagging paged responses #722
+  - suppress: OperationsAPIImplementation
+    from: sites.json
+    reason: RP is in PrivatePreview and no SDK has been released yet. Microsoft.Edge RP consist of multiple resources which are owned/maintained by different teams, so we follow folder structure for Service Group (explained here https://github.com/Azure/azure-rest-api-specs-pr/tree/RPSaaSMaster?tab=readme-ov-file#folder-structure-for-service-group). We do have operations api exposed from common-location/folder (https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/edge/resource-manager/Microsoft.Edge/edge/preview/2024-02-01-preview/operations.json#L46C5-L46C43) so every resource need not expose it separately. There has been open issue [Avocado] Support service group folder scenario azure-sdk-tools#6201 for the same.
+```
+
 ## Configuration
 
 ### Basic Information
@@ -25,16 +36,25 @@ These are the global settings for the edgesites.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-07-01-preview
+tag: package-2024-06-01-preview
 ```
 
-### Tag: package-2023-07-01-preview
+### Tag: package-2024-06-01-preview
 
-These settings apply only when `--tag=package-2023-07-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-06-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-07-01-preview'
+```yaml $(tag) == 'package-2024-06-01-preview'
 input-file:
-  - preview/2023-07-01-preview/sites.json
+  - sites/preview/2024-06-01-preview/Sites.json
+```
+
+### Tag: package-2024-02-01-preview
+
+These settings apply only when `--tag=package-2024-02-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-02-01-preview'
+input-file:
+  - sites/preview/2024-02-01-preview/Sites.json
 ```
 
 ---

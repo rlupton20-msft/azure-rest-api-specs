@@ -71,7 +71,7 @@ model Storage is TrackedResource<StorageProperties> {
   @added(Versions.`2024-05-01-preview`)
   @visibility("read", "create", "update")
   @doc("The SKU (Stock Keeping Unit) assigned to this resource.")
-  sku: Azure.ResourceManager.Foundations.Sku;
+  sku: StorageSku;
 }
 
 @armResourceOperations

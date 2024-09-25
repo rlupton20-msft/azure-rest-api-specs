@@ -38,7 +38,18 @@ model EvaluationEngineProperties {
   @doc("Provisioning State")
   @visibility("read")
   provisioningState?: ProvisioningState;
-  // complete later with sample properties
+
+  @doc("The evaluation engine target.")
+  target: string;
+
+  @doc("The scope configuration of the evaluation engine.")
+  scopeConfiguration: {};
+
+  @doc("The rego configuration of the evaluation engine.")
+  regoConfig: {};
+
+  @doc("The effects of the evaluation engine.")
+  effects: {};
 }
 
 @doc("The evaluation engine")
@@ -112,19 +123,22 @@ model EvaluationEnginePolicyDefinitionProperties {
   description?: string;
 
   @doc("The parameters of the evaluation engine policy definition.")
-  parameters?: string;
+  parameters?: {};
 
   @doc("The metadata of the evaluation engine policy definition.")
   metadata?: {};
 
-  @doc("Set of 0+ conditions in specified language that returns boolean")
-  applicabilityConditions?: string;
+  @doc("Set of conditions in specified language that returns boolean")
+  applicabilityRule?: string;
 
-  @doc("Set of 1+ conditions in specified language that returns boolean")
-  complianceConditions: string;
+  @doc("Set of conditions in specified language that returns boolean")
+  complianceRule?: string;
 
-  @doc("Templatized effect following structure/syntax as defined in effect config of engine")
-  effect?: {};
+  @doc("The evaluation engine policy definition effect.")
+  effect?: string;
+
+  @doc("The configuration for the effect for the policy definition.")
+  effectConfiguration?: {};
 }
 
 @doc("The evaluation engine policy definition")
@@ -164,57 +178,34 @@ union ProvisioningState {
 }
 
 /**
- * POST actions result
+ * POST actions compliance result
  */
 @doc("The result of the last accepted operation")
-union ActionResult {
-  @doc("The action succeeded")
+union ComplianceResult {
+  @doc("The resource is compliant")
   Compliant: "Compliant",
 
-  @doc("The action failed")
+  @doc("The resource is non-compliant")
   NonCompliant: "NonCompliant",
+
+  @doc("The Unknown result")
+  Unknown: "Unknown",
 
   string,
 }
-
 /**
- * POST actions effect
- *  retrieved from the Azure Policy definitions effect
+ * POST actions applicability result
  */
-@doc("The policy definitions effect")
-union PolicyDefinitionsEffect {
-  @doc("The add to network group effect")
-  AddToNetworkGroup: "addToNetworkGroup",
+@doc("The applicability result of the last accepted operation")
+union ApplicabilityResult {
+  @doc("Found to be applicable")
+  Applicable: "Applicable",
 
-  @doc("The append effect")
-  Append: "append",
+  @doc("Found to not be applicable")
+  NotApplicable: "NotApplicable",
 
-  @doc("The audit effect")
-  Audit: "audit",
-
-  @doc("The audit if not exists effect")
-  AuditIfNotExists: "auditIfNotExists",
-
-  @doc("The deny effect")
-  Deny: "deny",
-
-  @doc("The deny action effect")
-  DenyAction: "denyAction",
-
-  @doc("The deploy if not exists effect")
-  DeployIfNotExists: "deployIfNotExists",
-
-  @doc("The disabled effect")
-  Disabled: "disabled",
-
-  @doc("The manual effect")
-  Manual: "manual",
-
-  @doc("The modify effect")
-  Modify: "modify",
-
-  @doc("The mutate effect")
-  Mutate: "mutate",
+  @doc("The Unknown result")
+  Unknown: "Unknown",
 
   string,
 }
@@ -224,45 +215,42 @@ union PolicyDefinitionsEffect {
  */
 @doc("The evaluation action request")
 model EvaluationActionRequest {
-  @doc("The evaluation type")
-  type: string;
-
-  @doc("The location of the evaluation")
-  @visibility("create", "read")
-  location: string;
-
-  @doc("The evaluation properties")
-  requestProperties: string;
-
-  @doc("The evaluation scope")
-  scope: string;
+  @doc("The evaluation request payload")
+  resourcePayload: {};
 }
 
 @doc("The evaluation action response")
 model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
-  @doc("The evaluation scope")
-  scope: string;
+  @doc("The evaluation scopes")
+  scopes: string[];
+
+  @doc("The evaluation notScopes")
+  notScopes?: string[];
 
   @doc("the evaluation parameters")
-  parameters?: string;
+  parameters?: {};
+
+  @doc("The evaluation response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The evaluation policy definition id")
   policyDefinitionId?: string;
 
   @doc("The evaluation applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
-  @doc("The evaluation effect rule")
-  effectRule: string;
+  @doc("The evaluation compliance rule")
+  complianceRule?: string;
 
   @doc("The evaluation effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The evaluation effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
   @doc("The evaluation result")
-  result: ActionResult;
+  result: ComplianceResult;
 }
 
 /**
@@ -270,42 +258,43 @@ model EvaluationActionResponse is Azure.ResourceManager.Foundations.Resource {
  */
 @doc("The applicability action request")
 model ApplicabilityActionRequest {
-  @doc("The applicability type")
-  type: string;
-
-  @doc("The applicability properties")
-  requestProperties: string;
-
-  @doc("The applicability scope")
-  scope: string;
+  @doc("The applicability request payload")
+  resourcePayload: {};
 }
 
 @doc("The applicability action response")
 model ApplicabilityActionResponse
   is Azure.ResourceManager.Foundations.Resource {
   @doc("The applicability scope")
-  scope: string;
+  scopes: string[];
+
+  @doc("The applicability notScopes")
+  notScopes?: string[];
 
   @doc("The applicability parameters")
-  parameters?: string;
+  parameters?: {};
+
+  @doc("The applicability response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The applicability policy definition id")
   policyDefinitionId?: string;
 
   @doc("The applicability rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
-  @doc("The applicability effect rule")
-  effectRule: string;
+  @doc("The applicability compliance rule")
+  complianceRule?: string;
 
   @doc("The applicability effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The applicability effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
-  @doc("The evaluation result")
-  result: ActionResult;
+  @doc("The applicability result")
+  result: ApplicabilityResult;
 }
 
 /**
@@ -313,42 +302,42 @@ model ApplicabilityActionResponse
  */
 @doc("The transpile action request")
 model TranspileActionRequest {
-  @doc("The transpile type")
-  type: string;
-
-  @doc("The transpile location")
-  @visibility("create", "read")
-  location: string;
-
-  @doc("The transpile request scope")
-  scope: string;
+  @doc("The applicability request payload")
+  resourcePayload: {};
 }
 
 @doc("The transpile action response")
 model TranspileActionResponse is Azure.ResourceManager.Foundations.Resource {
   @doc("The transpile scope")
-  scope: string;
+  scopes: string[];
+
+  @doc("The transpile notScopes")
+  notScopes?: string[];
+
+  @doc("The transpile response description")
+  @pattern("^[a-zA-Z0-9 ]{3,250}$")
+  description?: string;
 
   @doc("The transpile parameters")
-  parameters?: string;
+  parameters?: {};
 
   @doc("The transpile policy definition id")
   policyDefinitionId?: string;
 
   @doc("The transpile rule")
-  applicabilityRule: string;
+  applicabilityRule?: string;
 
-  @doc("The transpile effect rule")
-  effectRule: string;
+  @doc("The transpile compliance rule")
+  complianceRule?: string;
 
   @doc("The transpile effect")
-  effect?: PolicyDefinitionsEffect;
+  effect?: string;
 
   @doc("The transpile effect configuration")
-  effectConfiguration?: string;
+  effectConfiguration?: {};
 
-  @doc("The evaluation result")
-  result: ActionResult;
+  @doc("The applicability result")
+  result: ApplicabilityResult;
 }
 
 // NOTE(chrostow): This is a template for resource list actions that return synchronously with no request body. This which will be added to the library at some point.
@@ -406,7 +395,7 @@ interface EvaluationEngineOperations {
 }
 
 @armResourceOperations
-interface EvaluationEnginePolcicyAssignmentOperations {
+interface EvaluationEnginePolicyAssignmentOperations {
   get is ArmResourceRead<EvaluationEnginePolicyAssignment>;
   create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyAssignment>;
   update is ArmResourcePatchSync<
@@ -418,7 +407,7 @@ interface EvaluationEnginePolcicyAssignmentOperations {
 }
 
 @armResourceOperations
-interface PolicyDefinitionOperations {
+interface EvaluationEnginePolicyDefinitionOperations {
   get is ArmResourceRead<EvaluationEnginePolicyDefinition>;
   create is ArmResourceCreateOrReplaceSync<EvaluationEnginePolicyDefinition>;
   update is ArmResourcePatchSync<

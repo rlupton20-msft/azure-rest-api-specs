@@ -42,7 +42,7 @@
     }
   ],
   "paths": {
-    "/providers/Microsoft.Edge/sites/{siteName}": {
+    "/{scope}/providers/Microsoft.Edge/sites/{siteName}": {
       "get": {
         "tags": [
           "Sites"
@@ -50,6 +50,9 @@
         "operationId": "SitesGet_AtParent",
         "description": "Get a Site at Parent scope",
         "parameters": [
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.Scope"
+          },
           {
             "$ref": "#/parameters/SiteNameParameter"
           },
@@ -84,6 +87,9 @@
         "operationId": "SitesCreate_AtParent",
         "description": "Create a Site at Parent scope",
         "parameters": [
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.Scope"
+          },
           {
             "$ref": "#/parameters/SiteNameParameter"
           },
@@ -145,6 +151,9 @@
         "description": "Update a Site at Parent Scope",
         "parameters": [
           {
+            "$ref": "#/parameters/Azure.ResourceManager.Scope"
+          },
+          {
             "$ref": "#/parameters/SiteNameParameter"
           },
           {
@@ -187,6 +196,9 @@
         "operationId": "SitesDelete_AtParent",
         "description": "Delete a Site at Parent scope",
         "parameters": [
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.Scope"
+          },
           {
             "$ref": "#/parameters/SiteNameParameter"
           },
@@ -897,6 +909,15 @@
       "description": "Name of Site",
       "type": "string",
       "pattern": "^[a-zA-Z0-9-]{3,24}$"
+    },
+    "Azure.ResourceManager.Scope": {
+      "name": "scope",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
     },
     "ApplicationNameParameter": {
       "name": "applicationName",

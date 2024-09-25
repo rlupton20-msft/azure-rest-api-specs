@@ -373,7 +373,13 @@ model MessageSchemaReference {
 interface Assets {
   get is ArmResourceRead<Asset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<Asset>;
-  update is ArmResourcePatchAsync<Asset, AssetProperties>;
+  update is ArmCustomPatchAsync<
+    Asset,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      Asset,
+      AssetProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;
   listByResourceGroup is ArmResourceListByParent<Asset>;
   listBySubscription is ArmListBySubscription<Asset>;
