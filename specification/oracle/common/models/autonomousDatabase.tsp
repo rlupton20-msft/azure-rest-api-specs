@@ -654,20 +654,22 @@ model AutonomousDatabaseCrossRegionDisasterRecoveryProperties
   dataBaseType: DataBaseType.CrossRegionDisasterRecovery;
 
   @doc("The source of the database.")
-  @visibility("create", "read")
-  source?: SourceType.CrossRegionDisasterRecovery;
+  @visibility("create")
+  source: SourceType.CrossRegionDisasterRecovery;
 
   @doc("The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association.")
   @visibility("create", "read")
   sourceId: AutonomousDatabaseId;
 
   @doc("The name of the region where source Autonomous Database exists.")
-  @visibility("create", "read")
+  @visibility("create")
   sourceLocation: string;
 
   @doc("The source database ocid")
-  @visibility("create", "read")
-  sourceOcid: Ocid;
+  @visibility("create")
+  @minLength(1)
+  @maxLength(255)
+  sourceOcid: string;
 
   @doc("Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
   @visibility("create", "read")
@@ -1070,74 +1072,19 @@ model AutonomousDatabaseWalletFile {
 @added(Versions.v20241001_preview)
 @doc("Configurations of a Disaster Recovery Details")
 model DisasterRecoveryConfigurationDetails {
-  @doc("Location of the source database.")
-  @visibility("create", "read")
-  sourceLocation: string;
-
-  @doc("Ocid of the source database.")
-  @visibility("create", "read")
-  sourceOcid: Ocid;
-
   @doc("Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
+  @visibility("create", "read")
   disasterRecoveryType?: DisasterRecoveryType;
 
   @doc("Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.")
+  @visibility("create", "read")
   timeSnapshotStandbyEnabledTill?: utcDateTime;
 
   @doc("Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.")
+  @visibility("create", "read")
   isSnapshotStandby?: boolean;
 
   @doc("If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.")
+  @visibility("create", "read")
   isReplicateAutomaticBackups?: boolean;
-}
-
-@added(Versions.v20241001_preview)
-@doc("The object holds details about a peer Autonomous Database for Oracle Autonomous Database.")
-model AutonomousDatabasePeerProperties {
-  @doc("Ocid of the peer database")
-  peerDbOcid?: string;
-
-  @doc("The Azure location of the peer database.")
-  location?: string;
-
-  @doc("The role of the peer Autonomous Database")
-  role?: RoleType;
-
-  @doc("The current state of the peer Autonomous Database.")
-  lifecycleState?: AutonomousDatabaseLifecycleState;
-
-  @doc("The date and time the Disaster Recovery role was switched for the standby Autonomous Database.")
-  timeDisasterRecoveryRoleChanged?: utcDateTime;
-
-  @doc("The date and time that the peer database was created.")
-  timeCreated?: utcDateTime;
-
-  @doc("Indicates remote disaster recovery configuration")
-  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
-
-  @doc("An acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard")
-  localAdgAutoFailoverMaxDataLossLimit?: int32;
-
-  @doc("Indicates the local disaster recovery (DR) type of the Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
-  localDisasterRecoveryType?: DisasterRecoveryType;
-
-  @doc("Indicates whether the Autonomous Database has Cross Region Data Guard enabled.")
-  isRemoteDataGuardEnabled?: boolean;
-
-  @doc("Azure resource provisioning state.")
-  @visibility("read")
-  provisioningState?: AzureResourceProvisioningState;
-}
-
-@added(Versions.v20241001_preview)
-@doc("AutonomousDatabase peer resource definition")
-@parentResource(AutonomousDatabase)
-model AutonomousDatabasePeer
-  is ProxyResource<AutonomousDatabasePeerProperties> {
-  @doc("The Azure ID of the Autonomous Database peer")
-  @key("id")
-  @path
-  @segment("peers")
-  @pattern(".*")
-  name: string;
 }

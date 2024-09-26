@@ -75,9 +75,6 @@
       "name": "AutonomousDatabases"
     },
     {
-      "name": "AutonomousDatabasePeers"
-    },
-    {
       "name": "AutonomousDatabaseBackups"
     },
     {
@@ -2212,53 +2209,6 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/peers": {
-      "get": {
-        "operationId": "AutonomousDatabasePeers_ListByParent",
-        "tags": [
-          "AutonomousDatabasePeers"
-        ],
-        "description": "List AutonomousDatabasePeer resources by AutonomousDatabase",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "autonomousdatabasename",
-            "in": "path",
-            "description": "The database name.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 30,
-            "pattern": ".*"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AutonomousDatabasePeerListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
         }
       }
     },
@@ -4929,7 +4879,6 @@
             "modelAsString": false
           },
           "x-ms-mutability": [
-            "read",
             "create"
           ]
         },
@@ -4945,15 +4894,15 @@
           "type": "string",
           "description": "The name of the region where source Autonomous Database exists.",
           "x-ms-mutability": [
-            "read",
             "create"
           ]
         },
         "sourceOcid": {
-          "$ref": "#/definitions/Ocid",
+          "type": "string",
           "description": "The source database ocid",
+          "minLength": 1,
+          "maxLength": 255,
           "x-ms-mutability": [
-            "read",
             "create"
           ]
         },
@@ -4975,6 +4924,7 @@
         }
       },
       "required": [
+        "source",
         "sourceId",
         "sourceLocation",
         "sourceOcid",
@@ -5267,96 +5217,6 @@
       "required": [
         "characterSet"
       ]
-    },
-    "AutonomousDatabasePeer": {
-      "type": "object",
-      "description": "AutonomousDatabase peer resource definition",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/AutonomousDatabasePeerProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "AutonomousDatabasePeerListResult": {
-      "type": "object",
-      "description": "The response of a AutonomousDatabasePeer list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The AutonomousDatabasePeer items on this page",
-          "items": {
-            "$ref": "#/definitions/AutonomousDatabasePeer"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "AutonomousDatabasePeerProperties": {
-      "type": "object",
-      "description": "The object holds details about a peer Autonomous Database for Oracle Autonomous Database.",
-      "properties": {
-        "peerDbOcid": {
-          "type": "string",
-          "description": "Ocid of the peer database"
-        },
-        "location": {
-          "type": "string",
-          "description": "The Azure location of the peer database."
-        },
-        "role": {
-          "$ref": "#/definitions/RoleType",
-          "description": "The role of the peer Autonomous Database"
-        },
-        "lifecycleState": {
-          "$ref": "#/definitions/AutonomousDatabaseLifecycleState",
-          "description": "The current state of the peer Autonomous Database."
-        },
-        "timeDisasterRecoveryRoleChanged": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time the Disaster Recovery role was switched for the standby Autonomous Database."
-        },
-        "timeCreated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time that the peer database was created."
-        },
-        "remoteDisasterRecoveryConfiguration": {
-          "$ref": "#/definitions/DisasterRecoveryConfigurationDetails",
-          "description": "Indicates remote disaster recovery configuration"
-        },
-        "localAdgAutoFailoverMaxDataLossLimit": {
-          "type": "integer",
-          "format": "int32",
-          "description": "An acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard"
-        },
-        "localDisasterRecoveryType": {
-          "$ref": "#/definitions/DisasterRecoveryType",
-          "description": "Indicates the local disaster recovery (DR) type of the Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover."
-        },
-        "isRemoteDataGuardEnabled": {
-          "type": "boolean",
-          "description": "Indicates whether the Autonomous Database has Cross Region Data Guard enabled."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/AzureResourceProvisioningState",
-          "description": "Azure resource provisioning state.",
-          "readOnly": true
-        }
-      }
     },
     "AutonomousDatabaseProperties": {
       "type": "object",
@@ -7947,44 +7807,40 @@
       "type": "object",
       "description": "Configurations of a Disaster Recovery Details",
       "properties": {
-        "sourceLocation": {
-          "type": "string",
-          "description": "Location of the source database.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "sourceOcid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Ocid of the source database.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "disasterRecoveryType": {
           "$ref": "#/definitions/DisasterRecoveryType",
-          "description": "Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover."
+          "description": "Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "timeSnapshotStandbyEnabledTill": {
           "type": "string",
           "format": "date-time",
-          "description": "Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database."
+          "description": "Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "isSnapshotStandby": {
           "type": "boolean",
-          "description": "Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database."
+          "description": "Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "isReplicateAutomaticBackups": {
           "type": "boolean",
-          "description": "If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database."
+          "description": "If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
-      },
-      "required": [
-        "sourceLocation",
-        "sourceOcid"
-      ]
+      }
     },
     "DisasterRecoveryType": {
       "type": "string",
