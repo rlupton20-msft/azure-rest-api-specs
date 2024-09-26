@@ -1,6 +1,6 @@
-# accesspoint
+# azureaccess
 
-This is the AutoRest configuration file for accesspoint.
+This is the AutoRest configuration file for azureaccess.
 
 <!-- Need to disable the linter for the next line so it doesn't mess up the "magic string" -->
 <!-- markdownlint-disable-next-line -->
@@ -24,7 +24,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the accesspoint.
+These are the global settings for the azureaccess.
 
 ``` yaml
 openapi-type: arm
@@ -39,6 +39,15 @@ These settings apply only when `--tag=package-preview-2024-10` is specified on t
 ```yaml $(tag) == 'package-preview-2024-10'
 input-file:
   - Microsoft.AccessPoint/preview/2024-10-01-preview/openapi.json
+```
+
+## Suppression
+
+``` yaml
+suppressions:
+  - code: BodyTopLevelProperties
+    from: openapi.json
+    reason: Issue https://github.com/Azure/azure-openapi-validator/issues/722. The BodyTopLevelProperties check failing.
 ```
 
 ---
