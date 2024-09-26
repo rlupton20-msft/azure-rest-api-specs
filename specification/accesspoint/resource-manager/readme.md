@@ -41,6 +41,15 @@ input-file:
   - Microsoft.AccessPoint/preview/2024-10-01-preview/openapi.json
 ```
 
+## Suppression
+
+``` yaml
+suppressions:
+  - code: BodyTopLevelProperties
+    from: openapi.json
+    reason: Issue https://github.com/Azure/azure-openapi-validator/issues/722. The BodyTopLevelProperties check failing.
+```
+
 ---
 
 ## Code Generation
