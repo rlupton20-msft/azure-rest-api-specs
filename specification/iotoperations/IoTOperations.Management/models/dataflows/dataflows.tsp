@@ -15,7 +15,7 @@ namespace Private.IoTOperations;
  */
 @doc("Instance dataflowProfile dataflow resource")
 @parentResource(DataflowProfileResource)
-model DataflowResource is TrackedResource<DataflowProperties> {
+model DataflowResource is ProxyResource<DataflowProperties> {
   @doc("Name of Instance dataflowProfile dataflow resource")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @key("dataflowName")
@@ -25,7 +25,7 @@ model DataflowResource is TrackedResource<DataflowProperties> {
   @segment("dataflows")
   name: string;
 
-  // Extended location is not included in TrackedResource yet
+  // Extended location is not included in ProxyResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
   @visibility("read", "create")
@@ -212,7 +212,7 @@ model DataflowDestinationOperationSettings {
   endpointRef: string;
 
   @doc("Destination location, can be a topic or table name. Supports dynamic values with $topic, $systemProperties, $userProperties, $payload, $context, and $subscription.")
-  dataDestination: string;
+  dataDestination: NonEmptyString;
 }
 
 @doc("Dataflow Source Operation properties")
@@ -230,5 +230,5 @@ model DataflowSourceOperationSettings {
   schemaRef?: string;
 
   @doc("List of source locations. Can be Broker or Kafka topics. Supports wildcards # and +.")
-  dataSources: string[];
+  dataSources: NonEmptyString[];
 }

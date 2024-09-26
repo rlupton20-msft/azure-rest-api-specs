@@ -13,7 +13,7 @@ namespace Private.IoTOperations;
  */
 @doc("Instance broker resource")
 @parentResource(BrokerResource)
-model BrokerListenerResource is TrackedResource<BrokerListenerProperties> {
+model BrokerListenerResource is ProxyResource<BrokerListenerProperties> {
   @doc("Name of Instance broker listener resource")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @key("listenerName")
@@ -23,7 +23,7 @@ model BrokerListenerResource is TrackedResource<BrokerListenerProperties> {
   @segment("listeners")
   name: string;
 
-  // Extended location is not included in TrackedResource yet
+  // Extended location is not included in ProxyResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
   @visibility("read", "create")
@@ -33,7 +33,7 @@ model BrokerListenerResource is TrackedResource<BrokerListenerProperties> {
 @doc("Defines a Broker listener. A listener is a collection of ports on which the broker accepts connections from clients.")
 model BrokerListenerProperties {
   @doc("Kubernetes Service name of this listener.")
-  serviceName?: string = "aio-mq-dmqtt-frontend";
+  serviceName?: string;
 
   @doc("Ports on which this listener accepts client connections.")
   @OpenAPI.extension("x-ms-identifiers", ["port"])
