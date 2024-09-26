@@ -34,6 +34,8 @@ model Slo is ExtensionResource<SloResource> {
   @segment("slos")
   @path
   name: string;
+
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("The status of the current operation.")
@@ -62,9 +64,6 @@ model SloResource {
 
   @doc("This will be the ARM Id for this SLO.")
   sloId: string;
-
-  @doc("Identities assigned to the SLO resource.")
-  identity: Identity;
 
   @doc("The properties that define the Service Level Objective.")
   sloProperties: SloProperties;
