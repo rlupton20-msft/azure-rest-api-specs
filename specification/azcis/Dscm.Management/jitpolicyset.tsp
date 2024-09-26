@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -25,6 +26,9 @@ model JitPolicySetProperties {
   @doc("List of policy objects associated with the resource to be updated or added")
   @extension("x-ms-identifiers", [])
   policies?: Array<Policy>;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")

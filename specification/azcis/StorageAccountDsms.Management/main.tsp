@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./storageAccountDsms.tsp";
+import "./storageaccountdsms.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;

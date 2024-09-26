@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -29,8 +30,8 @@ model PlannedQuotaResourceProperties {
   @doc("Plan version")
   planVersion?: string;
 
-  @doc("Planned Quota region")
-  region?: string;
+  @doc("The Azure location.")
+  azureLocation: azureLocation;
 
   @doc("Property bindings")
   @extension("x-ms-identifiers", [])

@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using OpenAPI;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -96,6 +97,9 @@ model StorageAccountDsmsResourceProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
   properties?: {};
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")

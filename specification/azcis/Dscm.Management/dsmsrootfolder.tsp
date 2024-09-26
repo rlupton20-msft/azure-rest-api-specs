@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -18,6 +19,9 @@ model DsmsRootFolderResourceProperties {
 
   @doc("The cloud ID where the root folder should be added. Acceptable values: Public, Fairfax, Mooncake, USSec, USNat")
   cloudId?: string;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")
