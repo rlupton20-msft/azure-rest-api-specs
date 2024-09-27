@@ -132,6 +132,9 @@ model DiscoveryServiceProperties {
   @doc("The private endpoint connections.")
   @visibility("read")
   privateEndpointConnections?: Array<PrivateEndpointConnection>;
+
+  @doc("All Customer-managed key encryption properties for the policy resource.")
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
 @armResourceOperations
