@@ -1,5 +1,5 @@
 import "../versions.tsp";
-import "./dsmsCertificate.tsp";
+import "./dsmscertificate.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;

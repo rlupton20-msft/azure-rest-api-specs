@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -89,6 +90,9 @@ model SubscriptionResourceProperties {
   @doc("DSMS Root Folders of SubscriptionManagement.")
   @extension("x-ms-identifiers", [])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")

@@ -11,14 +11,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
 
-@doc("Private.MessagingConnectors Resource Provider management API.")
-@armProviderNamespace
-@service({
-  title: "Private.MessagingConnectors management service",
-})
-@versioned(Versions)
-namespace Private.MessagingConnectors;
-
 @doc("Provisioning states of Connector ARM Resource")
 @lroStatus
 union ConnectorProvisioningState {
@@ -211,7 +203,7 @@ model EventHubConfig {
 @doc("Source data format Types")
 union SourceDataFormatTypes {
   @doc("Disable this config")
-  disable: "Disable",
+  None: "None",
 
   @doc("JSON format")
   JSON: "JSON",
@@ -338,25 +330,22 @@ model JsonConverterConfig extends ConverterConfig {
   decimalFormat?: JsonDecimalFormat;
 }
 
-@doc("CloudEventsTransform types")
-union CloudEventsTransformTypes {
-  @doc("Do not use CloudEventsTransformConfig")
-  disable: "Disable",
+@doc("CloudEvents types")
+union CloudEventsTypes {
+  @doc("Do not use CloudEventsConfig")
+  None: "None",
 
-  @doc("CatalogCdcCloudEventsTransformConfig")
-  catalogCdc: "CatalogCdc",
+  @doc("CatalogCloudEventsConfig")
+  Catalog: "Catalog",
 
   string,
 }
 
-@doc("Cloud events transform config")
+@doc("Cloud events config")
 @discriminator("type")
-model CloudEventsTransformConfig {
-  @doc("Type of CloudEventsTransformConfig.")
-  type: CloudEventsTransformTypes;
-
-  @doc("ContentType of CloudEventsTransformConfig.")
-  contentType?: string;
+model CloudEventsConfig {
+  @doc("Type of CloudEventsConfig.")
+  type: CloudEventsTypes;
 }
 
 @doc("Catalog schema id config")
@@ -366,36 +355,15 @@ model CatalogSchemaId {
 
   @doc("Schema id.")
   schemaId: string;
-}
-
-@doc("Catalog cdc auto-register schemas config")
-model CatalogCdcAutoRegisterSchemasConfig {
-  @doc("Database name.")
-  databaseName: string;
-
-  @doc("Table name.")
-  tableName: string;
-
-  @doc("SchemaGroup id.")
-  schemaGroupId: string;
-
-  @doc("Schema id.")
-  schemaId: string;
-
-  @doc("Schema format.")
-  schemaFormat: string;
-}
-
-@doc("CatalogCdc cloud events transform config.")
-model CatalogCdcCloudEventsTransformConfig extends CloudEventsTransformConfig {
-  @doc("Type of CatalogCdcCloudEventsTransformConfig.")
-  type: CloudEventsTransformTypes.catalogCdc;
 
   @doc("Endpoint.")
-  catalogEndpoint: string;
+  endpoint: string;
+}
 
-  @doc("CdcServer name.")
-  cdcServerName: string;
+@doc("Catalog cloud events transform config.")
+model CatalogCloudEventsConfig extends CloudEventsConfig {
+  @doc("Type of CatalogCloudEventsConfig.")
+  type: CloudEventsTypes.Catalog;
 
   @doc("Whether auto-register new schemas.")
   autoRegisterSchemas: boolean;
@@ -404,9 +372,9 @@ model CatalogCdcCloudEventsTransformConfig extends CloudEventsTransformConfig {
   @OpenAPI.extension("x-ms-identifiers", [])
   catalogSchemaIds: CatalogSchemaId[];
 
-  @doc("catalogCdc auto-Register schemas configs.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  catalogCdcAutoRegisterSchemasConfigs: CatalogCdcAutoRegisterSchemasConfig[];
+  @doc("access token.")
+  @secret
+  accessToken: string;
 }
 
 @doc("Properties of one arm resource")
@@ -443,8 +411,8 @@ model ConnectorProperties {
   @doc("Data format of the data source")
   sourceDataFormat?: SourceDataFormat;
 
-  @doc("Cloud events transform config")
-  cloudEventsTransformConfig?: CloudEventsTransformConfig;
+  @doc("Cloud events config")
+  cloudEventsConfig?: CloudEventsConfig;
 
   @doc("State of the MessagingConnector")
   connectorState?: ConnectorState;
@@ -708,7 +676,7 @@ model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
   @doc("connectionString for AzureServiceBusSource.")
   connectionString: string;
 
-  @doc("serviceBus type.")
+  @doc("AzureServiceBusSource type.")
   serviceBusType: AzureServiceBusType;
 }
 

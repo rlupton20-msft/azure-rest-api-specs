@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -35,6 +36,9 @@ model GenericGenevaActionsResourceProperties {
   @doc("The parameter list for geneva action")
   @extension("x-ms-identifiers", [])
   parameters?: Array<Parameter>;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")

@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -28,7 +29,10 @@ model DnsNamespaceManagerSrvRecordSetResourceProperties {
   @doc("Gets or sets the owning team's ServiceTree Id and Contact Email")
   recordSetOwner: RecordSetOwner;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }

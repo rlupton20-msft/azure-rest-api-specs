@@ -53,10 +53,3 @@ interface AutonomousDatabases
     AutonomousDatabase
   >;
 }
-
-//OCI ListAutonomousDatabasePeers API doc: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabasePeers
-@added(Versions.v20241001_preview)
-@armResourceOperations(AutonomousDatabase)
-interface AutonomousDatabasePeers {
-  listByParent is ArmResourceListByParent<AutonomousDatabasePeer>;
-}
