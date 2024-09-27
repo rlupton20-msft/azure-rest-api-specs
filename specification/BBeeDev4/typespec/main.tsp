@@ -18,7 +18,7 @@ using Azure.ResourceManager;
 @versioned(Versions)
 namespace Private.BbeeDev4;
 
-/** Onboarding Service API versions */
+/** Services API versions */
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -27,6 +27,9 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+// ------------------------------------------------------------------
+// Section 1: Onboarding Service
+// ------------------------------------------------------------------
 // Root-level tracked resource: provisioning resource
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
@@ -67,6 +70,39 @@ model OnboardingServiceProperties {
   privateEndpointConnections?: Array<PrivateEndpointConnection>;
 }
 
+@doc("Device endpoints.")
+model DeviceEndpoints {
+  @doc("The default endpoint.")
+  @visibility("read")
+  default?: DeviceEndpoint;
+}
+
+@doc("The device endpoint.")
+model DeviceEndpoint {
+  @doc("Hostname of the Endpoint.")
+  @visibility("read")
+  hostName?: string;
+}
+
+@armResourceOperations
+interface OnboardingServices {
+  get is ArmResourceRead<OnboardingService>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<OnboardingService>;
+  delete is ArmResourceDeleteWithoutOkAsync<OnboardingService>;
+  update is ArmResourcePatchAsync<
+    OnboardingService,
+    OnboardingServiceProperties
+  >;
+  listByResourceGroup is ArmResourceListByParent<OnboardingService>;
+  listBySubscription is ArmListBySubscription<OnboardingService>;
+}
+
+@doc("Resource create or update operation completed successfully.")
+model ResourceUpdatedResponse<T> is ArmResponse<T>;
+
+// ------------------------------------------------------------------
+// Section 2: Discovery Service
+// ------------------------------------------------------------------
 @doc("A discovery resource.")
 model DiscoveryService 
 is Azure.ResourceManager.TrackedResource<DiscoveryServiceProperties> {
@@ -87,7 +123,7 @@ model DiscoveryServiceProperties {
   
   @visibility("read")
   @doc("The discovery service device endpoints.")
-  deviceEndpoints?: DeviceEndpoints;
+  endpoints?: DiscoveryEndpoints;
 
   @doc("Allow public network access to private links.")
   @visibility("read", "create", "update")
@@ -98,18 +134,28 @@ model DiscoveryServiceProperties {
   privateEndpointConnections?: Array<PrivateEndpointConnection>;
 }
 
-@doc("Device endpoints.")
-model DeviceEndpoints {
-  @doc("The default endpoint.")
-  @visibility("read")
-  default?: DeviceEndpoint;
+@armResourceOperations
+interface DiscoveryServices {
+  get is ArmResourceRead<DiscoveryService>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DiscoveryService>;
+  delete is ArmResourceDeleteWithoutOkAsync<DiscoveryService>;
+  update is ArmResourcePatchAsync<
+    DiscoveryService,
+    DiscoveryServiceProperties
+  >;
+  listByResourceGroup is ArmResourceListByParent<DiscoveryService>;
+  listBySubscription is ArmListBySubscription<DiscoveryService>;
 }
 
-@doc("The device endpoint.")
-model DeviceEndpoint {
-  @doc("Hostname of the Endpoint.")
+// Simplified discovery endpoints with the assumption that we are moving away from the resource pool construct for discovery
+@doc("Discovery device endpoints.")
+model DiscoveryEndpoints {
+  @doc("The device endpoint for discovery")
   @visibility("read")
-  hostName?: string;
+  deviceEndpoint?: string;
+  @doc("The service endpoint for discovery")
+  @visibility("read")
+  serviceEndpoint?: string;
 }
 
 @doc("Options for public network access for private endpoints.")
@@ -123,23 +169,9 @@ union PublicNetworkAccessOptions {
   Disabled: "Disabled",
 }
 
-@doc("Resource create or update operation completed successfully.")
-model ResourceUpdatedResponse<T> is ArmResponse<T>;
-
-@armResourceOperations
-interface OnboardingServices {
-  get is ArmResourceRead<OnboardingService>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<OnboardingService>;
-  delete is ArmResourceDeleteWithoutOkAsync<OnboardingService>;
-  update is ArmResourcePatchAsync<
-    OnboardingService,
-    OnboardingServiceProperties
-  >;
-  listByResourceGroup is ArmResourceListByParent<OnboardingService>;
-  listBySubscription is ArmListBySubscription<OnboardingService>;
-}
-
-// Child resource: provisioning policy
+// ------------------------------------------------------------------
+// Section 3: Policy Service (Child resource: provisioning policy)
+// ------------------------------------------------------------------
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A provisioning policy resource.")
@@ -786,8 +818,9 @@ interface Policies {
   listByParent is ArmResourceListByParent<Policy>;
 }
 
-// Extension resource: device state
-
+// ------------------------------------------------------------------
+// Section 4: Extension resource: device state
+// ------------------------------------------------------------------
 @singleton
 @doc("The provisioning state of a device.")
 model DeviceState
