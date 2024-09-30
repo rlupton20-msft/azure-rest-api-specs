@@ -1,0 +1,170 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microsoft.EncryptedTransport",
+    "version": "2024-09-01-preview",
+    "description": "Azure Encrypted Transport Management API",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    }
+  ],
+  "paths": {
+    "/providers/Private.EncryptedTransport/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BaseResourceProperties": {
+      "type": "object",
+      "description": "Properties for a base resource.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "The provisioning status of the resource",
+      "enum": [
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted",
+        "Canceled",
+        "Succeeded",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "Provisioning the resource is in progress"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Resource is being updated"
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "Resource is being deleted"
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The change request has been accepted"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "The change request has been canceled"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "The change request has succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "The change request has failed"
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "ResourceSkuType": {
+      "type": "object",
+      "description": "The base SKU resource.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The SKU information of the resource",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
+    }
+  },
+  "parameters": {}
+}
