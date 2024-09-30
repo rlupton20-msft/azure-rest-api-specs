@@ -133,7 +133,7 @@ model DiscoveryServiceProperties {
   @visibility("read")
   privateEndpointConnections?: Array<PrivateEndpointConnection>;
 
-  @doc("All Customer-managed key encryption properties for the policy resource.")
+  @doc("All Customer-managed key encryption properties for the discovery resource.")
   customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
@@ -315,22 +315,59 @@ union BootstrapAuthenticationType {
   // PM: how does user understand this auth type & the device behavior/requirements
   // TODO name confirmation with PMs
 
-  // @doc("The FDO authentication type.")
-  // FDO,
+  @doc("The FDO authentication type.")
+  FDO: "FDO",
 }
 
-// @doc("The FDO-based authentication rule for bootstrapping.")
-// model FDOBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
-//   @doc("The type of authentication rule.")
-//   type: BootstrapAuthenticationType.FDO;
+@doc("The FDO-based authentication rule for bootstrapping.")
+model FDOBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
+  @doc("The type of authentication rule.")
+  type: BootstrapAuthenticationType.FDO;
 
-//   @visibility("read")
-//   publicKey?: bytes;
+  @visibility("read")
+  publicKey?: bytes;
 
-//   @doc("OV storage link")
-//   ovStorage?: string;
-//   // TODO: Determine if this is required field and can customers update this once created?
-// }
+  @doc("OV storage link")
+  ovStorage?: OVStorage;
+
+  // TODO: hostname vs endpoint?
+  @doc("Host name of the endpoint.")
+  rendezvousEndpoint: string;
+}
+
+@doc("Generic OV Storage type.")
+model OVStorage {
+}
+
+// TODO: read/write?
+@doc("Storage Account OV Storage.")
+model StorageAccountOVStorage extends OVStorage {
+  @doc("The OV Storage type.")
+  type: OVStorageType;
+
+  @doc("The storage resource id")
+  resourceId: StorageAccountResourceId;
+
+  // TODO: hostname vs endpoint?
+  @doc("Host name of the endpoint.")
+  endpoint: string;
+}
+
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$")
+scalar StorageAccountResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts",
+    }
+  ]>;
+
+@doc("The OV Storage Type.")
+union OVStorageType {
+  string,
+
+  @doc("The Storage Account OV Storage type.")
+  StorageAccount: "Microsoft.Storage/storageAccounts",
+}
 
 @doc("The authentication rule for bootstrap.")
 @discriminator("type")
@@ -883,9 +920,9 @@ model DeviceStateProperties {
   @doc("The status of the last operation.")
   provisioningState?: ResourceProvisioningState;
 
-  // @visibility("read")
-  // @doc("TTL until the device can be discovered.")
-  // discoverableUntilDate?: string;
+  @visibility("read")
+  @doc("TTL until the device can be discovered.")
+  discoverableUntilDate?: string;
 }
 
 @doc("Options for enabling or disabling devices for discovery.")
@@ -920,4 +957,5 @@ interface DeviceStates {
   delete is ArmResourceDeleteSync<DeviceState>;
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
+  readyToOnboard is ArmResourceActionNoContentAsync<DeviceState, DeviceState>;
 }
