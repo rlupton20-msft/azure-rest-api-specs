@@ -34,9 +34,9 @@ tag: package-2024-09-16-preview
 
 ### Tag: package-2024-09-16-preview
 
-These settings apply only when `--tag=package-preview-2024-09-16` is specified on the command line.
+These settings apply only when `--tag=package-2024-09-16-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-preview-2024-09-16'
+```yaml $(tag) == 'package-2024-09-16-preview'
 input-file:
   - Private.FootprintMonitoring/preview/2024-09-16-preview/footprintProfiles.json
 ```
