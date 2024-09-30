@@ -47,6 +47,9 @@
     },
     {
       "name": "Operations"
+    },
+    {
+      "name": "CdcSchemaOperations"
     }
   ],
   "paths": {
@@ -123,6 +126,67 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.MessagingConnectors/locations/{location}/cdcSchema/default/preview": {
+      "post": {
+        "operationId": "CdcSchemaOperations_Preview",
+        "tags": [
+          "CdcSchemaOperations"
+        ],
+        "description": "create one fetch CdcSchema task",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CdcSchemaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CdcSchemaResults"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.MessagingConnectors/locations/{location}/dataPreview/default/preview": {
@@ -921,6 +985,136 @@
         "schemaGroupId",
         "schemaId"
       ]
+    },
+    "CdcSchema": {
+      "type": "object",
+      "description": "Response item of cdcSchema",
+      "properties": {
+        "schemaFormat": {
+          "type": "string",
+          "description": "Schema format"
+        },
+        "schema": {
+          "type": "string",
+          "description": "Schema content"
+        },
+        "tableName": {
+          "type": "string",
+          "description": "Table name"
+        }
+      },
+      "required": [
+        "schemaFormat",
+        "schema",
+        "tableName"
+      ]
+    },
+    "CdcSchemaRequest": {
+      "type": "object",
+      "description": "Request of fetch cdcSchema",
+      "properties": {
+        "cdcSourceType": {
+          "$ref": "#/definitions/CdcSourceType",
+          "description": "Servername string"
+        },
+        "servername": {
+          "type": "string",
+          "description": "Servername string"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Port of CdcServer"
+        },
+        "databasename": {
+          "type": "string",
+          "description": "databasename of CdcServer"
+        },
+        "username": {
+          "type": "string",
+          "description": "username of CdcServer"
+        },
+        "password": {
+          "type": "string",
+          "description": "password of CdcServer"
+        },
+        "tables": {
+          "type": "string",
+          "description": "tables of CdcServer"
+        }
+      },
+      "discriminator": "cdcSourceType",
+      "required": [
+        "cdcSourceType",
+        "servername",
+        "port",
+        "databasename",
+        "username",
+        "password",
+        "tables"
+      ]
+    },
+    "CdcSchemaResource": {
+      "type": "object",
+      "description": "A GetCdcSchema resource Azure",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CdcSchemaRequest",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "CdcSchemaResults": {
+      "type": "object",
+      "description": "Properties of CdcSchema results",
+      "properties": {
+        "schemas": {
+          "type": "array",
+          "description": "Content of DataPreview results",
+          "items": {
+            "$ref": "#/definitions/CdcSchema"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "schemas"
+      ]
+    },
+    "CdcSourceType": {
+      "type": "string",
+      "description": "Enum of Cdc source type",
+      "enum": [
+        "PostgreSqlSource",
+        "SqlServerSource",
+        "MySqlSource"
+      ],
+      "x-ms-enum": {
+        "name": "CdcSourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PostgreSqlSource",
+            "value": "PostgreSqlSource",
+            "description": "Postgre sql source."
+          },
+          {
+            "name": "SqlServerSource",
+            "value": "SqlServerSource",
+            "description": "Sql server source."
+          },
+          {
+            "name": "MySqlSource",
+            "value": "MySqlSource",
+            "description": "mysql source."
+          }
+        ]
+      }
     },
     "CloudEventsTransformConfig": {
       "type": "object",
@@ -2329,6 +2523,15 @@
           }
         ]
       }
+    },
+    "SqlServerSourceCdcSchemaRequest": {
+      "type": "object",
+      "description": "Request of fetch SqlServerSource cdcSchema",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CdcSchemaRequest"
+        }
+      ]
     },
     "SqlServerSourceConnectorProperties": {
       "type": "object",

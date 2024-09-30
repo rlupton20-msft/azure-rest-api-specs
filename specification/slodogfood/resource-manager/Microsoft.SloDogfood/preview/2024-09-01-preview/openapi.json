@@ -276,7 +276,7 @@
         },
         "identity": {
           "type": "string",
-          "description": "ARM resource id for teh managed identity with access to the source account."
+          "description": "ARM resource id for the managed identity with access to the source account."
         }
       },
       "required": [
@@ -388,6 +388,10 @@
         "properties": {
           "$ref": "#/definitions/SloResource",
           "description": "The resource-specific properties for this resource."
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -426,8 +430,14 @@
           "description": "One of these values: Availability | Latency"
         },
         "targets": {
-          "$ref": "#/definitions/SloTargets",
-          "description": "The targets that this SLO should achieve. An SLO may have multiple targets."
+          "type": "array",
+          "description": "The targets that this SLO should achieve. An SLO may have multiple targets.",
+          "items": {
+            "$ref": "#/definitions/SloTargets"
+          },
+          "x-ms-identifiers": [
+            "targetName"
+          ]
         },
         "zoomMinutes": {
           "type": "integer",
@@ -465,10 +475,6 @@
           "type": "string",
           "description": "This will be the ARM Id for this SLO."
         },
-        "identity": {
-          "$ref": "#/definitions/Identity",
-          "description": "Identities assigned to the SLO resource."
-        },
         "sloProperties": {
           "$ref": "#/definitions/SloProperties",
           "description": "The properties that define the Service Level Objective."
@@ -480,7 +486,6 @@
       },
       "required": [
         "sloId",
-        "identity",
         "sloProperties",
         "sliProperties"
       ]
@@ -504,7 +509,8 @@
           "description": "SLO target window"
         },
         "targetPercentile": {
-          "type": "string",
+          "type": "number",
+          "format": "float",
           "description": "SLO target percentile"
         },
         "operator": {

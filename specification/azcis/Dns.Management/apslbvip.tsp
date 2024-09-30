@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -16,6 +17,9 @@ namespace Microsoft.AzureCis;
 model ApSlbVipResourceProperties {
   @doc("Gets or sets the Ap Dns name. This is case-insensitive")
   apDnsName: string;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
   @visibility("read")

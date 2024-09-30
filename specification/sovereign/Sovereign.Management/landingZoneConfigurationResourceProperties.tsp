@@ -251,6 +251,26 @@ model GenerateLandingZoneResponse {
   @doc("The url to access the generated code..")
   @secret
   generatedCodeUrl: url;
+
+  @added(Versions.Preview20241031)
+  @doc("The storage account name to access the generated code.")
+  @secret
+  storageAccountName: string;
+
+  @added(Versions.Preview20241031)
+  @doc("The storage account container to access the generated code.")
+  @secret
+  containerName: string;
+
+  @added(Versions.Preview20241031)
+  @doc("The storage account blob name to access the generated code.")
+  @secret
+  blobName: string;
+
+  @added(Versions.Preview20241031)
+  @doc("The generated code content as a json string.")
+  @secret
+  generatedArmTemplate?: string;
 }
 
 @doc("The request to update authoring status of a configuration.")
