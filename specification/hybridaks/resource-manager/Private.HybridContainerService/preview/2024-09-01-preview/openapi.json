@@ -3,7 +3,7 @@
   "info": {
     "title": "HybridContainerService",
     "version": "2024-09-01-preview",
-    "description": "The Private.HybridContainerService Rest API spec.",
+    "description": "The Microsoft.HybridContainerService Rest API spec.",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -285,6 +285,9 @@
         "x-ms-examples": {
           "ProvisionedClusters_List": {
             "$ref": "./examples/ProvisionedClusters_List_MaximumSet_Gen.json"
+          },
+          "ProvisionedClusters_List_LinuxBaremetal": {
+            "$ref": "./examples/ProvisionedClusters_ListLinuxBaremetal.json"
           }
         },
         "x-ms-pageable": {
@@ -324,6 +327,9 @@
         "x-ms-examples": {
           "ProvisionedClusters_Get": {
             "$ref": "./examples/ProvisionedClusters_Get_MaximumSet_Gen.json"
+          },
+          "ProvisionedClusters_Get_LinuxBaremetal": {
+            "$ref": "./examples/ProvisionedClusters_GetLinuxBaremetal.json"
           }
         }
       },
@@ -1781,27 +1787,6 @@
         }
       }
     },
-    "AzureBlobWitnessProfile": {
-      "type": "object",
-      "description": "The witness settings of Azure Blob storage for 2-node support.",
-      "properties": {
-        "sasToken": {
-          "type": "string",
-          "description": "The SAS token to access the Azure Blob storage for 2-node witness settings.",
-          "x-ms-mutability": [
-            "update",
-            "create"
-          ],
-          "x-ms-secret": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/WitnessProfile"
-        }
-      ],
-      "x-ms-discriminator-value": "AzureBlob"
-    },
     "CloudProviderProfile": {
       "type": "object",
       "description": "The profile for the underlying cloud infrastructure provider for the provisioned cluster.",
@@ -1830,6 +1815,18 @@
                 },
                 {
                   "type": "Private.HybridContainerService/virtualNetworks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/l2Networks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/l3Networks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/trunkedNetworks"
                 }
               ]
             }
@@ -1864,10 +1861,6 @@
         "controlPlaneEndpoint": {
           "$ref": "#/definitions/ControlPlaneProfileControlPlaneEndpoint",
           "description": "IP Address of the Kubernetes API server"
-        },
-        "witness": {
-          "$ref": "#/definitions/WitnessProfile",
-          "description": "The witness settings for 2-node support."
         }
       }
     },
@@ -2399,11 +2392,31 @@
           "type": "string",
           "description": "A CIDR notation IP Address range from which to assign pod IPs."
         },
-        "cniConfigurations": {
-          "type": "object",
-          "description": "CNI Configuration for different Container Network Interfaces.",
-          "additionalProperties": {
-            "type": "string"
+        "vnetSubnetId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.AzureStackHCI/logicalNetworks"
+              },
+              {
+                "type": "Private.HybridContainerService/virtualNetworks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/l2Networks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/l3Networks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/trunkedNetworks"
+              }
+            ]
           }
         }
       }
@@ -2418,16 +2431,6 @@
           "description": "Number of HA Proxy load balancer VMs. The default value is 0."
         }
       }
-    },
-    "NfsWitnessProfile": {
-      "type": "object",
-      "description": "The witness settings of NFS file share for 2-node support.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/WitnessProfile"
-        }
-      ],
-      "x-ms-discriminator-value": "NFS"
     },
     "OSSKU": {
       "type": "string",
@@ -2631,6 +2634,10 @@
           "$ref": "#/definitions/StorageProfile",
           "description": "The storage configuration profile for the provisioned cluster."
         },
+        "mockProperty": {
+          "type": "string",
+          "description": "A mock property for Private RP only."
+        },
         "clusterVMAccessProfile": {
           "$ref": "#/definitions/ClusterVMAccessProfile",
           "description": "The SSH restricted access profile for the VMs in the provisioned cluster."
@@ -2678,7 +2685,10 @@
           "$ref": "#/definitions/ProvisionedClusterPropertiesAutoScalerProfile",
           "description": "Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster."
         }
-      }
+      },
+      "required": [
+        "mockProperty"
+      ]
     },
     "ProvisionedClusterPropertiesAutoScalerProfile": {
       "type": "object",
@@ -2959,34 +2969,6 @@
       },
       "readOnly": true
     },
-    "SMBWitnessProfile": {
-      "type": "object",
-      "description": "The witness settings of SMB file share for 2-node support.",
-      "properties": {
-        "userName": {
-          "type": "string",
-          "description": "The user name of SMB file share for 2-node witness settings."
-        },
-        "password": {
-          "type": "string",
-          "description": "The password of SMB file share for the 2-node witness settings.",
-          "x-ms-mutability": [
-            "update",
-            "create"
-          ],
-          "x-ms-secret": true
-        }
-      },
-      "required": [
-        "userName"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/WitnessProfile"
-        }
-      ],
-      "x-ms-discriminator-value": "SMB"
-    },
     "StorageProfile": {
       "type": "object",
       "description": "The storage configuration profile for the provisioned cluster.",
@@ -2998,6 +2980,20 @@
         "nfsCsiDriver": {
           "$ref": "#/definitions/StorageProfileNfsCSIDriver",
           "description": "NFS CSI Driver settings for the storage profile."
+        },
+        "localPathProvisionerDriver": {
+          "$ref": "#/definitions/StorageProfileLocalPathDriver",
+          "description": "Local Path Provisioner Driver settings for the storage profile."
+        }
+      }
+    },
+    "StorageProfileLocalPathDriver": {
+      "type": "object",
+      "description": "Local Path Provisioner Driver settings for the storage profile.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3007,8 +3003,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable NFS CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3018,8 +3013,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable SMB CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3367,55 +3361,6 @@
           "description": "The size of the VM SKU",
           "readOnly": true
         }
-      }
-    },
-    "WitnessProfile": {
-      "type": "object",
-      "description": "The witness profile definition for 2-node support.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/WitnessType",
-          "description": "The witness type value for 2-node support."
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "The witness endpoint value for 2-node support."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type",
-        "endpoint"
-      ]
-    },
-    "WitnessType": {
-      "type": "string",
-      "description": "The Enum value of the witness types for 2-node support.",
-      "enum": [
-        "NFS",
-        "SMB",
-        "AzureBlob"
-      ],
-      "x-ms-enum": {
-        "name": "WitnessType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "NFS",
-            "value": "NFS",
-            "description": "The witness type of NFS file share for 2-node support."
-          },
-          {
-            "name": "SMB",
-            "value": "SMB",
-            "description": "The witness type of SMB file share for 2-node support."
-          },
-          {
-            "name": "AzureBlob",
-            "value": "AzureBlob",
-            "description": "The witness type of Azure Blob storage for 2-node support."
-          }
-        ]
       }
     }
   },

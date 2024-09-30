@@ -299,6 +299,11 @@ model ProvisionedClusterProperties {
   storageProfile?: StorageProfile;
 
   /**
+   * A mock property for Private RP only.
+   */
+  mockProperty: string;
+
+  /**
    * The SSH restricted access profile for the VMs in the provisioned cluster.
    */
   #suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
