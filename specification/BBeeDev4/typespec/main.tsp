@@ -124,17 +124,6 @@ model DiscoveryServiceProperties {
   @visibility("read")
   @doc("The discovery service device endpoints.")
   endpoints?: DiscoveryEndpoints;
-
-  @doc("Allow public network access to private links.")
-  @visibility("read", "create", "update")
-  publicNetworkAccess?: PublicNetworkAccessOptions;
-
-  @doc("The private endpoint connections.")
-  @visibility("read")
-  privateEndpointConnections?: Array<PrivateEndpointConnection>;
-
-  @doc("All Customer-managed key encryption properties for the discovery resource.")
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
 @armResourceOperations
@@ -153,7 +142,7 @@ interface DiscoveryServices {
 // Simplified discovery endpoints with the assumption that we are moving away from the resource pool construct for discovery
 @doc("Discovery device endpoints.")
 model DiscoveryEndpoints {
-  @doc("The device endpoint for discovery")
+  @doc("The device endpoint for discovery") 
   @visibility("read")
   deviceEndpoint?: string;
   @doc("The service endpoint for discovery")
@@ -219,9 +208,6 @@ model PolicyProperties {
 
   @doc("The identity the OnboardingService Policy will use. Must be from the list of enabled managed identities on the resource.")
   selectedIdentity?: SelectedIdentity;
-
-  @doc("All Customer-managed key encryption properties for the policy resource.")
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
 @doc("Options for policy status.")
@@ -310,40 +296,43 @@ union BootstrapAuthenticationType {
   @doc("The X509 authentication type.")
   X509: "X509",
 
-  @doc("The discovery authentication type.")
+  @doc("The discovery authentication type.") // TODO: remove
   Discovery: "Discovery",
   // PM: how does user understand this auth type & the device behavior/requirements
   // TODO name confirmation with PMs
 
-  @doc("The FDO authentication type.")
-  FDO: "FDO",
+  @doc("The Fdo101 authentication type.")
+  Fdo101: "Fdo101", // TODO: come up with a versioned name, follow up with Adarsh/Jesus
 }
 
-@doc("The FDO-based authentication rule for bootstrapping.")
-model FDOBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
+@doc("The Fdo101-based authentication rule for bootstrapping.")
+model Fdo101BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.FDO;
+  type: BootstrapAuthenticationType.Fdo101;
 
   @visibility("read")
+  @doc("OV storage link") // TODO, determine content for this doc
   publicKey?: bytes;
 
   @doc("OV storage link")
-  ovStorage?: OVStorage;
+  ovStorage?: OVStorage; // TODO: come up with proper name here
 
-  // TODO: hostname vs endpoint?
+  // TODO: hostname vs endpoint? need to add examples with contoso etc for comparison
   @doc("Host name of the endpoint.")
   rendezvousEndpoint: string;
 }
 
 @doc("Generic OV Storage type.")
+@discriminator("type")
 model OVStorage {
-}
-
-// TODO: read/write?
-@doc("Storage Account OV Storage.")
-model StorageAccountOVStorage extends OVStorage {
   @doc("The OV Storage type.")
   type: OVStorageType;
+}
+
+@doc("Storage Account OV Storage.") //TODO: put note on policy needing access to this storage via MI
+model StorageAccountOVStorage extends OVStorage {
+  @doc("The OV Storage type.")
+  type: OVStorageType.StorageAccount;
 
   @doc("The storage resource id")
   resourceId: StorageAccountResourceId;
@@ -905,9 +894,6 @@ model DeviceStateProperties {
   @doc("Onboarding status of the resource this DeviceState extends")
   onboardingStatus: OnboardingStatus;
 
-  @doc("Indicates if the device is enabled for discovery")
-  discoveryEnabled?: DiscoveryOptions;
-
   @doc("The onboarding policy resource id")
   policyResourceId: PolicyResourceId;
 
@@ -921,8 +907,8 @@ model DeviceStateProperties {
   provisioningState?: ResourceProvisioningState;
 
   @visibility("read")
-  @doc("TTL until the device can be discovered.")
-  discoverableUntilDate?: string;
+  @doc("TTL until the device can be onboarded, in utcDateTime format")
+  onboardUntilDate?: utcDateTime;
 }
 
 @doc("Options for enabling or disabling devices for discovery.")
@@ -957,5 +943,5 @@ interface DeviceStates {
   delete is ArmResourceDeleteSync<DeviceState>;
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
-  readyToOnboard is ArmResourceActionNoContentAsync<DeviceState, DeviceState>;
+  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, DeviceState>; // TODO input, take ttl
 }
