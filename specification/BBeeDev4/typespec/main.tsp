@@ -296,11 +296,6 @@ union BootstrapAuthenticationType {
   @doc("The X509 authentication type.")
   X509: "X509",
 
-  @doc("The discovery authentication type.") // TODO: remove
-  Discovery: "Discovery",
-  // PM: how does user understand this auth type & the device behavior/requirements
-  // TODO name confirmation with PMs
-
   @doc("The Fdo101 authentication type.")
   Fdo101: "Fdo101", // TODO: come up with a versioned name, follow up with Adarsh/Jesus
 }
@@ -311,34 +306,32 @@ model Fdo101BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   type: BootstrapAuthenticationType.Fdo101;
 
   @visibility("read")
-  @doc("OV storage link") // TODO, determine content for this doc
+  @doc("Per policy public key to represent this policy")
   publicKey?: bytes;
 
-  @doc("OV storage link")
-  ovStorage?: OVStorage; // TODO: come up with proper name here
+  @doc("Ownership Voucher storage link")
+  ownershipVoucherStorage?: OwnershipVoucherStorage;
 
-  // TODO: hostname vs endpoint? need to add examples with contoso etc for comparison
-  @doc("Host name of the endpoint.")
+  @doc("Endpoint for the rendezvous service, e.g. https://contoso-rv1.contoso.com")
   rendezvousEndpoint: string;
 }
 
-@doc("Generic OV Storage type.")
+@doc("Generic Ownership Voucher Storage type.")
 @discriminator("type")
-model OVStorage {
-  @doc("The OV Storage type.")
-  type: OVStorageType;
+model OwnershipVoucherStorage {
+  @doc("The Ownership Voucher Storage type.")
+  type: OwnershipVoucherStorageType;
 }
 
-@doc("Storage Account OV Storage.") //TODO: put note on policy needing access to this storage via MI
-model StorageAccountOVStorage extends OVStorage {
-  @doc("The OV Storage type.")
-  type: OVStorageType.StorageAccount;
+@doc("Storage Account Ownership Voucher Storage. Policy MI is used to access this storage")
+model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
+  @doc("The Ownership Voucher Storage type.")
+  type: OwnershipVoucherStorageType.StorageAccount;
 
   @doc("The storage resource id")
   resourceId: StorageAccountResourceId;
 
-  // TODO: hostname vs endpoint?
-  @doc("Host name of the endpoint.")
+  @doc("Endpoint for the storage account, e.g. https://contosostorage01.eastus-1.blob.core.windows.net/container1")
   endpoint: string;
 }
 
@@ -350,11 +343,11 @@ scalar StorageAccountResourceId
     }
   ]>;
 
-@doc("The OV Storage Type.")
-union OVStorageType {
+@doc("The Ownership Voucher Storage Type.")
+union OwnershipVoucherStorageType {
   string,
 
-  @doc("The Storage Account OV Storage type.")
+  @doc("The Storage Account Ownership Voucher Storage type.")
   StorageAccount: "Microsoft.Storage/storageAccounts",
 }
 
@@ -391,12 +384,6 @@ model X509BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The secondary certificate.")
   //@secret todo
   secondaryCertificate?: X509Certificate;
-}
-
-@doc("The Discovery-based authentication rule for bootstrapping.")
-model DiscoveryBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
-  @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Discovery;
 }
 
 @doc("The rule for Just-in-time connection.")
@@ -726,13 +713,6 @@ model PatchX509BootstrapAuthenticationRule
   secondaryCertificate?: PatchX509Certificate;
 }
 
-@doc("The Discovery-based authentication rule for bootstrapping.")
-model PatchDiscoveryBootstrapAuthenticationRule
-  extends PatchBootstrapAuthenticationRule {
-  @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Discovery;
-}
-
 @doc("X509 Certificate.")
 model PatchX509Certificate {
   @doc("The certificate.")
@@ -936,6 +916,12 @@ union OnboardingStatus {
   Failed: "Failed",
 }
 
+@doc("The properties passed in the readyToOnboard POST request.")
+model ReadyToOnboardProperties{
+  @doc("Desired TTL until the device can be onboarded, in utcDateTime format")
+  ttl: utcDateTime;
+}
+
 @armResourceOperations
 interface DeviceStates {
   get is ArmResourceRead<DeviceState>;
@@ -943,5 +929,5 @@ interface DeviceStates {
   delete is ArmResourceDeleteSync<DeviceState>;
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
-  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, DeviceState>; // TODO input, take ttl
+  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, ReadyToOnboardProperties>; 
 }
