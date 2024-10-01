@@ -38,10 +38,10 @@ enum Versions {
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @about({
   displayNames: {
-    singular: "License Manager License",
-    plural: "License Manager Licenses",
+    singular: "License  Manager License",
+    plural: "License  Manager Licenses",
   },
-  keywords: ["Microsoft.AwsConnector", "License", "Manager", "License"],
+  keywords: ["Microsoft.AwsConnector", "License ", "Manager", "License"],
 })
 @doc("A Microsoft.AwsConnector resource")
 model LicenseManagerLicense
@@ -72,46 +72,85 @@ model LicenseManagerLicenseProperties {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of awsLicenseManagerLicense")
 model AwsLicenseManagerLicenseProperties {
-  @doc("Beneficiary of the license.")
+  @doc("<p>License beneficiary.</p>")
   beneficiary?: string;
 
-  @doc("Property consumptionConfiguration")
+  @doc("<p>Configuration for consumption of the license.</p>")
   consumptionConfiguration?: ConsumptionConfiguration;
 
-  @doc("Property entitlements")
+  @doc("<p>License creation time.</p>")
+  createTime?: string;
+
+  @doc("<p>License entitlements.</p>")
   @extension("x-ms-identifiers", [])
   entitlements?: Entitlement[];
 
-  @doc("Home region for the created license.")
+  @doc("<p>Home Region of the license.</p>")
   homeRegion?: string;
 
-  @doc("Property issuer")
-  issuer?: IssuerData;
+  @doc("<p>License issuer.</p>")
+  issuer?: IssuerDetails;
 
-  @doc("Amazon Resource Name is a unique name for each resource.")
+  @doc("<p>Amazon Resource Name (ARN) of the license.</p>")
   licenseArn?: string;
 
-  @doc("Property licenseMetadata")
+  @doc("<p>License metadata.</p>")
   @extension("x-ms-identifiers", [])
   licenseMetadata?: Metadata[];
 
-  @doc("Name for the created license.")
+  @doc("<p>License name.</p>")
   licenseName?: string;
 
-  @doc("Product name for the created license.")
+  @doc("<p>Product name.</p>")
   productName?: string;
 
-  @doc("ProductSKU of the license.")
+  @doc("<p>Product SKU.</p>")
   productSKU?: string;
 
-  @doc("Property status")
-  status?: string;
+  @doc("<p>License status.</p>")
+  status?: LicenseStatusEnumValue;
 
-  @doc("Property validity")
-  validity?: ValidityDateFormat;
+  @doc("<p>Date and time range during which the license is valid, in ISO8601-UTC format.</p>")
+  validity?: DatetimeRange;
 
-  @doc("The version of the license.")
+  @doc("<p>License version.</p>")
   version?: string;
+}
+
+@doc("LicenseStatus enum")
+union LicenseStatus {
+  @doc("LicenseStatus enum AVAILABLE")
+  AVAILABLE: "AVAILABLE",
+
+  @doc("LicenseStatus enum DEACTIVATED")
+  DEACTIVATED: "DEACTIVATED",
+
+  @doc("LicenseStatus enum DELETED")
+  DELETED: "DELETED",
+
+  @doc("LicenseStatus enum EXPIRED")
+  EXPIRED: "EXPIRED",
+
+  @doc("LicenseStatus enum PENDING_AVAILABLE")
+  PENDING_AVAILABLE: "PENDING_AVAILABLE",
+
+  @doc("LicenseStatus enum PENDING_DELETE")
+  PENDING_DELETE: "PENDING_DELETE",
+
+  @doc("LicenseStatus enum SUSPENDED")
+  SUSPENDED: "SUSPENDED",
+
+  string,
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of LicenseStatusEnumValue")
+model LicenseStatusEnumValue {
+  @doc("Property value")
+  value?: LicenseStatus;
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
@@ -120,14 +159,38 @@ model AwsLicenseManagerLicenseProperties {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of ConsumptionConfiguration")
 model ConsumptionConfiguration {
-  @doc("Property borrowConfiguration")
+  @doc("<p>Details about a borrow configuration.</p>")
   borrowConfiguration?: BorrowConfiguration;
 
-  @doc("Property provisionalConfiguration")
+  @doc("<p>Details about a provisional configuration.</p>")
   provisionalConfiguration?: ProvisionalConfiguration;
 
-  @doc("Property renewType")
-  renewType?: string;
+  @doc("<p>Renewal frequency.</p>")
+  renewType?: RenewTypeEnumValue;
+}
+
+@doc("RenewType enum")
+union RenewType {
+  @doc("RenewType enum Monthly")
+  Monthly: "Monthly",
+
+  @doc("RenewType enum None")
+  None: "None",
+
+  @doc("RenewType enum Weekly")
+  Weekly: "Weekly",
+
+  string,
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of RenewTypeEnumValue")
+model RenewTypeEnumValue {
+  @doc("Property value")
+  value?: RenewType;
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
@@ -136,35 +199,134 @@ model ConsumptionConfiguration {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of Entitlement")
 model Entitlement {
-  @doc("Property allowCheckIn")
+  @doc("<p>Indicates whether check-ins are allowed.</p>")
   allowCheckIn?: boolean;
 
-  @doc("Property maxCount")
-  maxCount?: int32;
+  @doc("<p>Maximum entitlement count. Use if the unit is not None.</p>")
+  maxCount?: int64;
 
-  @doc("Property name")
+  @doc("<p>Entitlement name.</p>")
   name?: string;
 
-  @doc("Property overage")
+  @doc("<p>Indicates whether overages are allowed.</p>")
   overage?: boolean;
 
-  @doc("Property unit")
-  unit?: string;
+  @doc("<p>Entitlement unit.</p>")
+  unit?: EntitlementUnitEnumValue;
 
-  @doc("Property value")
+  @doc("<p>Entitlement resource. Use only if the unit is None.</p>")
   value?: string;
+}
+
+@doc("EntitlementUnit enum")
+union EntitlementUnit {
+  @doc("EntitlementUnit enum Bits")
+  Bits: "Bits",
+
+  @doc("EntitlementUnit enum Bits/Second")
+  BitsSecond: "Bits/Second",
+
+  @doc("EntitlementUnit enum Bytes")
+  Bytes: "Bytes",
+
+  @doc("EntitlementUnit enum Bytes/Second")
+  BytesSecond: "Bytes/Second",
+
+  @doc("EntitlementUnit enum Count")
+  Count: "Count",
+
+  @doc("EntitlementUnit enum Count/Second")
+  CountSecond: "Count/Second",
+
+  @doc("EntitlementUnit enum Gigabits")
+  Gigabits: "Gigabits",
+
+  @doc("EntitlementUnit enum Gigabits/Second")
+  GigabitsSecond: "Gigabits/Second",
+
+  @doc("EntitlementUnit enum Gigabytes")
+  Gigabytes: "Gigabytes",
+
+  @doc("EntitlementUnit enum Gigabytes/Second")
+  GigabytesSecond: "Gigabytes/Second",
+
+  @doc("EntitlementUnit enum Kilobits")
+  Kilobits: "Kilobits",
+
+  @doc("EntitlementUnit enum Kilobits/Second")
+  KilobitsSecond: "Kilobits/Second",
+
+  @doc("EntitlementUnit enum Kilobytes")
+  Kilobytes: "Kilobytes",
+
+  @doc("EntitlementUnit enum Kilobytes/Second")
+  KilobytesSecond: "Kilobytes/Second",
+
+  @doc("EntitlementUnit enum Megabits")
+  Megabits: "Megabits",
+
+  @doc("EntitlementUnit enum Megabits/Second")
+  MegabitsSecond: "Megabits/Second",
+
+  @doc("EntitlementUnit enum Megabytes")
+  Megabytes: "Megabytes",
+
+  @doc("EntitlementUnit enum Megabytes/Second")
+  MegabytesSecond: "Megabytes/Second",
+
+  @doc("EntitlementUnit enum Microseconds")
+  Microseconds: "Microseconds",
+
+  @doc("EntitlementUnit enum Milliseconds")
+  Milliseconds: "Milliseconds",
+
+  @doc("EntitlementUnit enum None")
+  None: "None",
+
+  @doc("EntitlementUnit enum Percent")
+  Percent: "Percent",
+
+  @doc("EntitlementUnit enum Seconds")
+  Seconds: "Seconds",
+
+  @doc("EntitlementUnit enum Terabits")
+  Terabits: "Terabits",
+
+  @doc("EntitlementUnit enum Terabits/Second")
+  TerabitsSecond: "Terabits/Second",
+
+  @doc("EntitlementUnit enum Terabytes")
+  Terabytes: "Terabytes",
+
+  @doc("EntitlementUnit enum Terabytes/Second")
+  TerabytesSecond: "Terabytes/Second",
+
+  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of IssuerData")
-model IssuerData {
-  @doc("Property name")
+@doc("Definition of EntitlementUnitEnumValue")
+model EntitlementUnitEnumValue {
+  @doc("Property value")
+  value?: EntitlementUnit;
+}
+
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
+@doc("Definition of IssuerDetails")
+model IssuerDetails {
+  @doc("<p>Issuer key fingerprint.</p>")
+  keyFingerprint?: string;
+
+  @doc("<p>Issuer name.</p>")
   name?: string;
 
-  @doc("Property signKey")
+  @doc("<p>Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.</p>")
   signKey?: string;
 }
 
@@ -174,10 +336,10 @@ model IssuerData {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of Metadata")
 model Metadata {
-  @doc("Property name")
+  @doc("<p>The key name.</p>")
   name?: string;
 
-  @doc("Property value")
+  @doc("<p>The value.</p>")
   value?: string;
 }
 
@@ -185,12 +347,12 @@ model Metadata {
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of ValidityDateFormat")
-model ValidityDateFormat {
-  @doc("Validity begin date for the license.")
+@doc("Definition of DatetimeRange")
+model DatetimeRange {
+  @doc("<p>Start of the time range.</p>")
   begin?: string;
 
-  @doc("Validity begin date for the license.")
+  @doc("<p>End of the time range.</p>")
   end?: string;
 }
 
@@ -200,10 +362,10 @@ model ValidityDateFormat {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of BorrowConfiguration")
 model BorrowConfiguration {
-  @doc("Property allowEarlyCheckIn")
+  @doc("<p>Indicates whether early check-ins are allowed.</p>")
   allowEarlyCheckIn?: boolean;
 
-  @doc("Property maxTimeToLiveInMinutes")
+  @doc("<p>Maximum time for the borrow configuration, in minutes.</p>")
   maxTimeToLiveInMinutes?: int32;
 }
 
@@ -213,7 +375,7 @@ model BorrowConfiguration {
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
 @doc("Definition of ProvisionalConfiguration")
 model ProvisionalConfiguration {
-  @doc("Property maxTimeToLiveInMinutes")
+  @doc("<p>Maximum time for the provisional configuration, in minutes.</p>")
   maxTimeToLiveInMinutes?: int32;
 }
 
@@ -236,5 +398,11 @@ interface LicenseManagerLicenses {
 // This TypeSpec was auto genrated by aws2SwaggerMain.js tool
 //
 // Input used to generate TypeSpec:
-// Cloud Control API Type: AWS::LicenseManager::License
+// AWS Service Model: generator\ServiceModels\license-manager\license-manager-2018-08-01.normal.json
+// AWS Shape: License
+//
+// Related information for backend service:
+// AWS Servcie : License Manager
+// Product Version : 3.7.798.0
+// SDK Version : 3.7.300.83
 //--------------------------------------------------------------------------------------------
