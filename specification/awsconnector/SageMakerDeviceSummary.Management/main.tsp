@@ -34,22 +34,23 @@ enum Versions {
   `2024-12-01`,
 }
 
-//---------------------------------------------- SageMakerDevices ----------------------------------------------
+//---------------------------------------------- SageMakerDeviceSummaries ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @about({
   displayNames: {
-    singular: "Sage Maker Device",
-    plural: "Sage Maker Devices",
+    singular: "Sage Maker Device Summary",
+    plural: "Sage Maker Device Summaries",
   },
-  keywords: ["Microsoft.AwsConnector", "Sage", "Maker", "Device"],
+  keywords: ["Microsoft.AwsConnector", "Sage", "Maker", "Device", "Summary"],
 })
 @doc("A Microsoft.AwsConnector resource")
-model SageMakerDevice is TrackedResource<SageMakerDeviceProperties> {
-  @doc("Name of SageMakerDevice")
+model SageMakerDeviceSummary
+  is TrackedResource<SageMakerDeviceSummaryProperties> {
+  @doc("Name of SageMakerDeviceSummary")
   @pattern("^(?=.{0,259}[^\\s.]$)(?!.*[<>%&\\?/#])")
   @key("name")
   @path
-  @segment("sageMakerDevices")
+  @segment("sageMakerDeviceSummaries")
   name: string;
 }
 
@@ -57,10 +58,10 @@ model SageMakerDevice is TrackedResource<SageMakerDeviceProperties> {
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of SageMakerDevice")
-model SageMakerDeviceProperties {
+@doc("Definition of SageMakerDeviceSummary")
+model SageMakerDeviceSummaryProperties {
   @doc("AWS Properties")
-  awsProperties?: AwsSageMakerDeviceProperties;
+  awsProperties?: AwsSageMakerDeviceSummaryProperties;
 
   ...AwsCommonProperties;
 }
@@ -69,66 +70,74 @@ model SageMakerDeviceProperties {
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of awsSageMakerDevice")
-model AwsSageMakerDeviceProperties {
-  @doc("The Edge Device you want to register against a device fleet Edge device you want to create")
-  device?: Device;
+@doc("Definition of awsSageMakerDeviceSummary")
+model AwsSageMakerDeviceSummaryProperties {
+  @doc("<p>Edge Manager agent version.</p>")
+  agentVersion?: string;
 
-  @doc("The name of the edge device fleet")
-  deviceFleetName?: string;
-
-  @doc("Associate tags with the resource")
-  @extension("x-ms-identifiers", [])
-  tags?: Tag[];
-}
-
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
-#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
-#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of Device")
-model Device {
-  @doc("Description of the device")
+  @doc("<p>A description of the device.</p>")
   description?: string;
 
-  @doc("The name of the device")
+  @doc("<p>Amazon Resource Name (ARN) of the device.</p>")
+  deviceArn?: string;
+
+  @doc("<p>The name of the fleet the device belongs to.</p>")
+  deviceFleetName?: string;
+
+  @doc("<p>The unique identifier of the device.</p>")
   deviceName?: string;
 
-  @doc("AWS Internet of Things (IoT) object name.")
+  @doc("<p>The Amazon Web Services Internet of Things (IoT) object thing name associated with the device..</p>")
   iotThingName?: string;
+
+  @doc("<p>The last heartbeat received from the device.</p>")
+  latestHeartbeat?: utcDateTime;
+
+  @doc("<p>Models on the device.</p>")
+  @extension("x-ms-identifiers", [])
+  models?: EdgeModelSummary[];
+
+  @doc("<p>The timestamp of the last registration or de-reregistration.</p>")
+  registrationTime?: utcDateTime;
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in aws."
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of Tag")
-model Tag {
-  @doc("The key name of the tag. You can specify a value that is 1 to 127 Unicode characters in length and cannot be prefixed with aws:. You can use any of the following characters: the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -.")
-  key?: string;
+@doc("Definition of EdgeModelSummary")
+model EdgeModelSummary {
+  @doc("<p>The name of the model.</p>")
+  modelName?: string;
 
-  @doc("The key value of the tag. You can specify a value that is 1 to 127 Unicode characters in length and cannot be prefixed with aws:. You can use any of the following characters: the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -.")
-  value?: string;
+  @doc("<p>The version model.</p>")
+  modelVersion?: string;
 }
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @armResourceOperations
-interface SageMakerDevices {
-  get is ArmResourceRead<SageMakerDevice>;
-  @doc("Create a SageMakerDevice. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SageMakerDevice>;
+interface SageMakerDeviceSummaries {
+  get is ArmResourceRead<SageMakerDeviceSummary>;
+  @doc("Create a SageMakerDeviceSummary. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<SageMakerDeviceSummary>;
   update is ArmCustomPatchAsync<
-    SageMakerDevice,
-    Azure.ResourceManager.Foundations.TagsUpdateModel<SageMakerDevice>
+    SageMakerDeviceSummary,
+    Azure.ResourceManager.Foundations.TagsUpdateModel<SageMakerDeviceSummary>
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<SageMakerDevice>;
-  listByResourceGroup is ArmResourceListByParent<SageMakerDevice>;
-  listBySubscription is ArmListBySubscription<SageMakerDevice>;
+  delete is ArmResourceDeleteWithoutOkAsync<SageMakerDeviceSummary>;
+  listByResourceGroup is ArmResourceListByParent<SageMakerDeviceSummary>;
+  listBySubscription is ArmListBySubscription<SageMakerDeviceSummary>;
 }
 
 //--------------------------------------------------------------------------------------------
 // This TypeSpec was auto genrated by aws2SwaggerMain.js tool
 //
 // Input used to generate TypeSpec:
-// Cloud Control API Type: AWS::SageMaker::Device
+// AWS Service Model: generator\ServiceModels\sagemaker\sagemaker-2017-07-24.normal.json
+// AWS Shape: DeviceSummary
+//
+// Related information for backend service:
+// AWS Servcie : SageMaker
+// Product Version : 3.7.798.0
+// SDK Version : 3.7.319.4
 //--------------------------------------------------------------------------------------------
