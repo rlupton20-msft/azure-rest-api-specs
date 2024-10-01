@@ -331,11 +331,11 @@ model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
   @doc("The storage resource id")
   resourceId: StorageAccountResourceId;
 
-  @doc("Endpoint for the storage account, e.g. https://contosostorage01.eastus-1.blob.core.windows.net/container1")
+  @doc("Endpoint for the storage account") // TODO: determine correct example here
   endpoint: string;
 }
 
-@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$")
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$") // TODO: test removing to see if RPaaS behavior has changed
 scalar StorageAccountResourceId
   extends armResourceIdentifier<[
     {
@@ -918,8 +918,8 @@ union OnboardingStatus {
 
 @doc("The properties passed in the readyToOnboard POST request.")
 model ReadyToOnboardProperties{
-  @doc("Desired TTL until the device can be onboarded, in utcDateTime format")
-  ttl: utcDateTime;
+  @doc("Desired TTL until the device can be onboarded")
+  ttl: duration; // TODO, determine min/max enforcement, correct format here
 }
 
 @armResourceOperations
@@ -929,5 +929,5 @@ interface DeviceStates {
   delete is ArmResourceDeleteSync<DeviceState>;
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
-  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, ReadyToOnboardProperties>; 
+  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, ReadyToOnboardProperties>; // TODO: revisit error response body after private RP testing if needed
 }
