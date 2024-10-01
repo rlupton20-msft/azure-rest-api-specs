@@ -78,7 +78,7 @@ interface Policies {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Policy>;
   // Although ARM recommends providing update (PATCH) support for all top-level properties, if LRO update is required it must be implemented with POST.
   // See <https://github.com/microsoft/api-guidelines/blob/15fefbaf192b73523c247b29c2266dc432fc90a4/azure/Guidelines.md?plain=1#L854>
-  update is ArmTagsPatchSync<Policy>;
+  update is ArmTagsPatchAsync<Policy>;
   delete is ArmResourceDeleteWithoutOkAsync<Policy>;
   updateAssociations is ArmResourceActionSync<
     Policy,
