@@ -56,13 +56,9 @@ union ProvisioningState {
 @doc("The base SKU resource.")
 model ResourceSkuType {
   @doc("The SKU information of the resource")
-  @visibility(
-    "create",
-    "read"
-  )
+  @visibility("create", "read")
   name?: string;
 }
 
 @armResourceOperations
-interface Operations
-  extends Azure.ResourceManager.Operations {}
+interface Operations extends Azure.ResourceManager.Operations {}

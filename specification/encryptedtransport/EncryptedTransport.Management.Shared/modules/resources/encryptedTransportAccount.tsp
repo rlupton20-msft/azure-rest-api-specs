@@ -34,33 +34,20 @@ model EncryptedTransportAccountProperties {
   @doc("The number of devices that can be associated to the account")
   @minValue(1)
   @maxValue(100)
-  @visibility(
-    "create",
-    "read"
-  )
+  @visibility("create", "read")
   deviceCount: int32;
 
   @doc("Wi-Fi Pre-Shared Key as printable ASCII string")
   @pattern("^[ -~ ]{8,63}$")
-  @visibility(
-    "create",
-    "read"
-  )
+  @visibility("create", "read")
   wifiPsk: string;
 
   @doc("Reference to an existing azure virtual network")
-  @visibility(
-    "create",
-    "read"
-  )
+  @visibility("create", "read")
   vnet: VirtualNetworkId;
 
   @doc("Bandwidth can only be 500, 1000, 2000, 5000, or 10000 Mbps")
-  @visibility(
-    "create",
-    "read",
-    "update"
-  )
+  @visibility("create", "read", "update")
   bandwidth: EncryptedTransportAccountBandwidthOptions;
 
   @doc("Private IP address of the account, genearted by the service")
