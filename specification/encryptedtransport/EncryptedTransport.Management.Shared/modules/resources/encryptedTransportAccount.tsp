@@ -31,12 +31,6 @@ model EncryptedTransportAccount
 
 @doc("Encrypted Transport Account Properties")
 model EncryptedTransportAccountProperties {
-  @doc("The number of devices that can be associated to the account")
-  @minValue(1)
-  @maxValue(100)
-  @visibility("create", "read")
-  deviceCount: int32;
-
   @doc("Wi-Fi Pre-Shared Key as printable ASCII string")
   @pattern("^[ -~ ]{8,63}$")
   @visibility("create", "read")
