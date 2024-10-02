@@ -13,15 +13,15 @@ using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("PtrRecord properties")
+@doc("Pointer record properties")
 model PtrRecordResourceProperties {
-  @doc("Gets or sets the dns name")
+  @doc("Gets or sets the DNS name")
   dnsName: string;
 
   @doc("Gets or sets the IP Address in String format")
   pointsTo: string;
 
-  @doc("Gets or sets the ttl")
+  @doc("Gets or sets the TTL")
   ttl: string;
 
   @doc("The Azure location.")
@@ -32,12 +32,12 @@ model PtrRecordResourceProperties {
   provisioningState?: PtrRecordProvisioningState;
 }
 
-@doc("PtrRecord Resource")
+@doc("Pointer record resource")
 model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("ptrRecords") // start with lower case
+  @segment("pointerRecords") // start with lower case
   @visibility("read")
   @path
   name: string;
