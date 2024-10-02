@@ -15,13 +15,13 @@ namespace Microsoft.AzureCis;
 
 @doc("CanonicalNameRecord properties")
 model CanonicalNameRecordResourceProperties {
-  @doc("Gets or sets the dns name")
+  @doc("Gets or sets the DNS name")
   dnsName: string;
 
   @doc("Gets or sets the canonical name")
   canonicalName: string;
 
-  @doc("Gets or sets the ttl")
+  @doc("Gets or sets the TTL")
   ttl: string;
 
   @doc("The Azure location.")

@@ -13,10 +13,10 @@ using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("ApSlbVip properties")
+@doc("Autopilot software load balance VIP properties")
 model ApSlbVipResourceProperties {
-  @doc("Gets or sets the Ap Dns name. This is case-insensitive")
-  apDnsName: string;
+  @doc("Gets or sets the auto pilot DNS name. This is case-insensitive")
+  autoPilotDnsName: string;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
@@ -30,12 +30,12 @@ model ApSlbVipResourceProperties {
   assignedVip?: string;
 }
 
-@doc("ApSlbVip Resource")
+@doc("Autopilot software load balance VIP Resource")
 model ApSlbVipResource is ProxyResource<ApSlbVipResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("apSlbVips") // start with lower case
+  @segment("autoPilotSoftwareLoadBalanceVirtualIps") // start with lower case
   @visibility("read")
   @path
   name: string;

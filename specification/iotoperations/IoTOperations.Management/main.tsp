@@ -33,10 +33,10 @@ namespace Private.IoTOperations;
 
 /** Api versions */
 enum Versions {
-  /** 2024-08-15-preview version */
+  /** 2024-09-15-preview version */
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-08-15-preview`,
+  `2024-09-15-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -58,10 +58,8 @@ interface Instance {
 interface Broker {
   get is ArmResourceRead<BrokerResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<BrokerResource>;
-  update is ArmTagsPatchSync<BrokerResource>;
   delete is ArmResourceDeleteWithoutOkAsync<BrokerResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerResource>;
-  listBySubscription is ArmListBySubscription<BrokerResource>;
 }
 
 // /instances/brokers/listeners resource Operations
@@ -69,10 +67,8 @@ interface Broker {
 interface BrokerListener {
   get is ArmResourceRead<BrokerListenerResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<BrokerListenerResource>;
-  update is ArmTagsPatchSync<BrokerListenerResource>;
   delete is ArmResourceDeleteWithoutOkAsync<BrokerListenerResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerListenerResource>;
-  listBySubscription is ArmListBySubscription<BrokerListenerResource>;
 }
 
 // /instances/brokers/authentications resource Operations
@@ -80,10 +76,8 @@ interface BrokerListener {
 interface BrokerAuthentication {
   get is ArmResourceRead<BrokerAuthenticationResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<BrokerAuthenticationResource>;
-  update is ArmTagsPatchSync<BrokerAuthenticationResource>;
   delete is ArmResourceDeleteWithoutOkAsync<BrokerAuthenticationResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerAuthenticationResource>;
-  listBySubscription is ArmListBySubscription<BrokerAuthenticationResource>;
 }
 
 // /instances/brokers/authorizations resource Operations
@@ -91,20 +85,16 @@ interface BrokerAuthentication {
 interface BrokerAuthorization {
   get is ArmResourceRead<BrokerAuthorizationResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<BrokerAuthorizationResource>;
-  update is ArmTagsPatchSync<BrokerAuthorizationResource>;
   delete is ArmResourceDeleteWithoutOkAsync<BrokerAuthorizationResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerAuthorizationResource>;
-  listBySubscription is ArmListBySubscription<BrokerAuthorizationResource>;
 }
 // /instances/dataflowProfiles resource Operations
 @armResourceOperations
 interface DataflowProfile {
   get is ArmResourceRead<DataflowProfileResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DataflowProfileResource>;
-  update is ArmTagsPatchSync<DataflowProfileResource>;
   delete is ArmResourceDeleteWithoutOkAsync<DataflowProfileResource>;
   listByResourceGroup is ArmResourceListByParent<DataflowProfileResource>;
-  listBySubscription is ArmListBySubscription<DataflowProfileResource>;
 }
 
 // /instance/dataflowProfiles/dataflows resource Operations
@@ -112,12 +102,10 @@ interface DataflowProfile {
 interface Dataflow {
   get is ArmResourceRead<DataflowResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DataflowResource>;
-  update is ArmTagsPatchSync<DataflowResource>;
   delete is ArmResourceDeleteWithoutOkAsync<DataflowResource>;
-  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  #suppress "@azure-tools/typespec-azure-core/no-openapi" "For backward compatibility"
   @operationId("Dataflow_ListByProfileResource")
   listByResourceGroup is ArmResourceListByParent<DataflowResource>;
-  listBySubscription is ArmListBySubscription<DataflowResource>;
 }
 
 // /instance/dataflowEndpoints resource Operations
@@ -125,8 +113,6 @@ interface Dataflow {
 interface DataflowEndpoint {
   get is ArmResourceRead<DataflowEndpointResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DataflowEndpointResource>;
-  update is ArmTagsPatchSync<DataflowEndpointResource>;
   delete is ArmResourceDeleteWithoutOkAsync<DataflowEndpointResource>;
   listByResourceGroup is ArmResourceListByParent<DataflowEndpointResource>;
-  listBySubscription is ArmListBySubscription<DataflowEndpointResource>;
 }
