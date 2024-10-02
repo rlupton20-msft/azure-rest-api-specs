@@ -4,6 +4,10 @@ using Azure.ResourceManager;
 
 namespace Private.IoTOperations;
 
+@doc("A string with a minimum length of 1.")
+@minLength(1)
+scalar NonEmptyString extends string;
+
 @doc("Extended location is an extension of Azure locations. They provide a way to use their Azure ARC enabled Kubernetes clusters as target locations for deploying Azure services instances.")
 model ExtendedLocation {
   @doc("The name of the extended location.")
@@ -243,3 +247,10 @@ union ServiceAccountTokenMethod {
   @doc("ServiceAccountToken Option")
   ServiceAccountToken: ServiceAccountToken,
 }
+
+scalar SchemaRegistryID
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.DeviceRegistry/schemaRegistries",
+    }
+  ]>;
