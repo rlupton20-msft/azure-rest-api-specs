@@ -34,22 +34,29 @@ enum Versions {
   `2024-12-01`,
 }
 
-//---------------------------------------------- S3Policies ----------------------------------------------
+//---------------------------------------------- S3BucketPolicies ----------------------------------------------
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @about({
   displayNames: {
-    singular: "S3 Policy",
-    plural: "S3 Policies",
+    singular: "S3 Get Bucket Policy Output",
+    plural: "S3 Bucket Policies",
   },
-  keywords: ["Microsoft.AwsConnector", "S3", "Policy"],
+  keywords: [
+    "Microsoft.AwsConnector",
+    "S3",
+    "Get",
+    "Bucket",
+    "Policy",
+    "Output"
+  ],
 })
 @doc("A Microsoft.AwsConnector resource")
-model S3Policy is TrackedResource<S3PolicyProperties> {
-  @doc("Name of S3Policy")
+model S3BucketPolicy is TrackedResource<S3BucketPolicyProperties> {
+  @doc("Name of S3BucketPolicy")
   @pattern("^(?=.{0,259}[^\\s.]$)(?!.*[<>%&\\?/#])")
   @key("name")
   @path
-  @segment("s3Policies")
+  @segment("s3BucketPolicies")
   name: string;
 }
 
@@ -57,10 +64,10 @@ model S3Policy is TrackedResource<S3PolicyProperties> {
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of S3Policy")
-model S3PolicyProperties {
+@doc("Definition of S3BucketPolicy")
+model S3BucketPolicyProperties {
   @doc("AWS Properties")
-  awsProperties?: AwsS3PolicyProperties;
+  awsProperties?: AwsS3BucketPolicyProperties;
 
   ...AwsCommonProperties;
 }
@@ -69,22 +76,25 @@ model S3PolicyProperties {
 #suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in aws"
 #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "AWSConnector will not generate SDK. So, supressing this error"
-@doc("Definition of awsS3Policy")
-model AwsS3PolicyProperties {}
+@doc("Definition of awsS3BucketPolicy")
+model AwsS3BucketPolicyProperties {
+  @doc("<p>The bucket policy as a JSON document.</p>")
+  policy?: string;
+}
 
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @armResourceOperations
-interface S3Policies {
-  get is ArmResourceRead<S3Policy>;
-  @doc("Create a S3Policy. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<S3Policy>;
+interface S3BucketPolicies {
+  get is ArmResourceRead<S3BucketPolicy>;
+  @doc("Create a S3BucketPolicy. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<S3BucketPolicy>;
   update is ArmCustomPatchAsync<
-    S3Policy,
-    Azure.ResourceManager.Foundations.TagsUpdateModel<S3Policy>
+    S3BucketPolicy,
+    Azure.ResourceManager.Foundations.TagsUpdateModel<S3BucketPolicy>
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<S3Policy>;
-  listByResourceGroup is ArmResourceListByParent<S3Policy>;
-  listBySubscription is ArmListBySubscription<S3Policy>;
+  delete is ArmResourceDeleteWithoutOkAsync<S3BucketPolicy>;
+  listByResourceGroup is ArmResourceListByParent<S3BucketPolicy>;
+  listBySubscription is ArmListBySubscription<S3BucketPolicy>;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -92,7 +102,7 @@ interface S3Policies {
 //
 // Input used to generate TypeSpec:
 // AWS Service Model: generator\ServiceModels\s3\s3-2006-03-01.normal.json
-// AWS Shape: Policy
+// AWS Shape: GetBucketPolicyOutput
 //
 // Related information for backend service:
 // AWS Servcie : S3
