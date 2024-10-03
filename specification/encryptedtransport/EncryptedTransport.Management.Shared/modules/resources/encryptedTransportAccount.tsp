@@ -56,21 +56,21 @@ model EncryptedTransportAccountProperties {
 @doc("Encrypted Transport Account bandwidth options in Mbps")
 union EncryptedTransportAccountBandwidthOptions {
   @doc("500 Mbps")
-  Mbps500: 500,
+  Mbps500: "500",
 
   @doc("1000 Mbps")
-  Mbps1000: 1000,
+  Mbps1000: "1000",
 
   @doc("2000 Mbps")
-  Mbps2000: 2000,
+  Mbps2000: "2000",
 
   @doc("5000 Mbps")
-  Mbps5000: 5000,
+  Mbps5000: "5000",
 
   @doc("10000 Mbps")
-  Mbps10000: 10000,
+  Mbps10000: "10000",
 
-  int32,
+  string,
 }
 
 /* https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#using-resource-identifiers */
