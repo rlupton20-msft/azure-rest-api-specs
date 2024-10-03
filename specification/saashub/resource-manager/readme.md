@@ -43,11 +43,11 @@ input-file:
 ```
 
 
-### Tag: package-2024-05-01-preview
+### Tag: package-2024-09-30-preview
 
-These settings apply only when `--tag=package-2024-05-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-09-30-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-05-01-preview'
+```yaml $(tag) == 'package-2024-09-30-preview'
 input-file:
-- Microsoft.SaaSHub/preview/2024-05-01-preview/openapi.json
+- Microsoft.SaaSHub/preview/2024-09-30-preview/openapi.json
 ```

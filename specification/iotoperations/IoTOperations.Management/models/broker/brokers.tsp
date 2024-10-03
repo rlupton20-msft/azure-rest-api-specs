@@ -14,7 +14,7 @@ namespace Private.IoTOperations;
  */
 @doc("Instance broker resource")
 @parentResource(InstanceResource)
-model BrokerResource is TrackedResource<BrokerProperties> {
+model BrokerResource is ProxyResource<BrokerProperties> {
   @doc("Name of broker.")
   @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
   @key("brokerName")
@@ -24,7 +24,7 @@ model BrokerResource is TrackedResource<BrokerProperties> {
   @segment("brokers")
   name: string;
 
-  // Extended location is not included in TrackedResource yet
+  // Extended location is not included in ProxyResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
   @visibility("read", "create")
@@ -144,9 +144,6 @@ model SelfCheck {
 model Traces {
   @doc("The toggle to enable/disable traces.")
   mode?: OperationalMode = OperationalMode.Enabled;
-
-  @doc("The open telemetry export configuration.")
-  opentelemetryExportConfig?: OpenTelemetryExportConfig;
 
   @doc("The cache size in megabytes.")
   @minValue(1)

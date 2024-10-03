@@ -15,7 +15,7 @@ namespace Microsoft.AzureCis;
 
 @doc("ServiceRecord properties")
 model ServiceRecordResourceProperties {
-  @doc("Gets or sets the dns name")
+  @doc("Gets or sets the DNS name")
   dnsName: string;
 
   @doc("Gets or sets the priority field of a service record")
@@ -30,7 +30,7 @@ model ServiceRecordResourceProperties {
   @doc("Gets or sets the canonical hostname of the target machine providing the service")
   canonicalName: string;
 
-  @doc("Gets or sets the ttl")
+  @doc("Gets or sets the TTL")
   ttl: string;
 
   @doc("The Azure location.")

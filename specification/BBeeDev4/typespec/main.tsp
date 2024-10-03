@@ -124,17 +124,6 @@ model DiscoveryServiceProperties {
   @visibility("read")
   @doc("The discovery service device endpoints.")
   endpoints?: DiscoveryEndpoints;
-
-  @doc("Allow public network access to private links.")
-  @visibility("read", "create", "update")
-  publicNetworkAccess?: PublicNetworkAccessOptions;
-
-  @doc("The private endpoint connections.")
-  @visibility("read")
-  privateEndpointConnections?: Array<PrivateEndpointConnection>;
-
-  @doc("All Customer-managed key encryption properties for the policy resource.")
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
 @armResourceOperations
@@ -153,7 +142,7 @@ interface DiscoveryServices {
 // Simplified discovery endpoints with the assumption that we are moving away from the resource pool construct for discovery
 @doc("Discovery device endpoints.")
 model DiscoveryEndpoints {
-  @doc("The device endpoint for discovery")
+  @doc("The device endpoint for discovery") 
   @visibility("read")
   deviceEndpoint?: string;
   @doc("The service endpoint for discovery")
@@ -219,9 +208,6 @@ model PolicyProperties {
 
   @doc("The identity the OnboardingService Policy will use. Must be from the list of enabled managed identities on the resource.")
   selectedIdentity?: SelectedIdentity;
-
-  @doc("All Customer-managed key encryption properties for the policy resource.")
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
 @doc("Options for policy status.")
@@ -310,27 +296,60 @@ union BootstrapAuthenticationType {
   @doc("The X509 authentication type.")
   X509: "X509",
 
-  @doc("The discovery authentication type.")
-  Discovery: "Discovery",
-  // PM: how does user understand this auth type & the device behavior/requirements
-  // TODO name confirmation with PMs
-
-  // @doc("The FDO authentication type.")
-  // FDO,
+  @doc("The Fdo101 authentication type.")
+  Fdo101: "Fdo101", // TODO: come up with a versioned name, follow up with Adarsh/Jesus
 }
 
-// @doc("The FDO-based authentication rule for bootstrapping.")
-// model FDOBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
-//   @doc("The type of authentication rule.")
-//   type: BootstrapAuthenticationType.FDO;
+@doc("The Fdo101-based authentication rule for bootstrapping.")
+model Fdo101BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
+  @doc("The type of authentication rule.")
+  type: BootstrapAuthenticationType.Fdo101;
 
-//   @visibility("read")
-//   publicKey?: bytes;
+  @visibility("read")
+  @doc("Per policy public key to represent this policy")
+  publicKey?: bytes;
 
-//   @doc("OV storage link")
-//   ovStorage?: string;
-//   // TODO: Determine if this is required field and can customers update this once created?
-// }
+  @doc("Ownership Voucher storage link")
+  ownershipVoucherStorage?: OwnershipVoucherStorage;
+
+  @doc("Endpoint for the rendezvous service, e.g. https://contoso-rv1.contoso.com")
+  rendezvousEndpoint: string;
+}
+
+@doc("Generic Ownership Voucher Storage type.")
+@discriminator("type")
+model OwnershipVoucherStorage {
+  @doc("The Ownership Voucher Storage type.")
+  type: OwnershipVoucherStorageType;
+}
+
+@doc("Storage Account Ownership Voucher Storage. Policy MI is used to access this storage")
+model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
+  @doc("The Ownership Voucher Storage type.")
+  type: OwnershipVoucherStorageType.StorageAccount;
+
+  @doc("The storage resource id")
+  resourceId: StorageAccountResourceId;
+
+  @doc("Endpoint for the storage account") // TODO: determine correct example here
+  endpoint: string;
+}
+
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$") // TODO: test removing to see if RPaaS behavior has changed
+scalar StorageAccountResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts",
+    }
+  ]>;
+
+@doc("The Ownership Voucher Storage Type.")
+union OwnershipVoucherStorageType {
+  string,
+
+  @doc("The Storage Account Ownership Voucher Storage type.")
+  StorageAccount: "Microsoft.Storage/storageAccounts",
+}
 
 @doc("The authentication rule for bootstrap.")
 @discriminator("type")
@@ -365,12 +384,6 @@ model X509BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The secondary certificate.")
   //@secret todo
   secondaryCertificate?: X509Certificate;
-}
-
-@doc("The Discovery-based authentication rule for bootstrapping.")
-model DiscoveryBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
-  @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Discovery;
 }
 
 @doc("The rule for Just-in-time connection.")
@@ -700,13 +713,6 @@ model PatchX509BootstrapAuthenticationRule
   secondaryCertificate?: PatchX509Certificate;
 }
 
-@doc("The Discovery-based authentication rule for bootstrapping.")
-model PatchDiscoveryBootstrapAuthenticationRule
-  extends PatchBootstrapAuthenticationRule {
-  @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Discovery;
-}
-
 @doc("X509 Certificate.")
 model PatchX509Certificate {
   @doc("The certificate.")
@@ -868,9 +874,6 @@ model DeviceStateProperties {
   @doc("Onboarding status of the resource this DeviceState extends")
   onboardingStatus: OnboardingStatus;
 
-  @doc("Indicates if the device is enabled for discovery")
-  discoveryEnabled?: DiscoveryOptions;
-
   @doc("The onboarding policy resource id")
   policyResourceId: PolicyResourceId;
 
@@ -883,9 +886,9 @@ model DeviceStateProperties {
   @doc("The status of the last operation.")
   provisioningState?: ResourceProvisioningState;
 
-  // @visibility("read")
-  // @doc("TTL until the device can be discovered.")
-  // discoverableUntilDate?: string;
+  @visibility("read")
+  @doc("TTL until the device can be onboarded, in utcDateTime format")
+  onboardUntilDate?: utcDateTime;
 }
 
 @doc("Options for enabling or disabling devices for discovery.")
@@ -913,6 +916,12 @@ union OnboardingStatus {
   Failed: "Failed",
 }
 
+@doc("The properties passed in the readyToOnboard POST request.")
+model ReadyToOnboardProperties{
+  @doc("Desired TTL until the device can be onboarded")
+  ttl: duration; // TODO, determine min/max enforcement, correct format here
+}
+
 @armResourceOperations
 interface DeviceStates {
   get is ArmResourceRead<DeviceState>;
@@ -920,4 +929,5 @@ interface DeviceStates {
   delete is ArmResourceDeleteSync<DeviceState>;
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
+  readyToOnboard is ArmResourceActionNoResponseContentAsync<DeviceState, ReadyToOnboardProperties>; // TODO: revisit error response body after private RP testing if needed
 }
