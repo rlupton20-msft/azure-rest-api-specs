@@ -31,16 +31,16 @@ model AccessPointAccount is TrackedResource<AccessPointAccountProperties> {
 
 @doc("Access Point Account Properties.")
 model AccessPointAccountProperties {
+
   @doc("The image mod for the access point account")
   imageMod: string;
 
   @doc("The classification of the access point account")
   classification: Classification;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "tags requires a Record<string>"
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "tags is required on both levels"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "accountTags requires a Record<string>"
   @doc("Tags present on the access point account")
-  customTags: Record<string>;
+  accountTags: Record<string>;
 
   @doc("The status of the last operation.")
   @visibility("read")
