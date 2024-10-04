@@ -69,5 +69,13 @@ union Classification {
   string,
 }
 
+/**
+ * Model object to be used to store additional properties
+ */
+@doc("Container for additional properties")
+model PropertyContainer {
+  ...Record<string>;
+}
+
 @armResourceOperations
 interface Operations extends Azure.ResourceManager.Operations {}

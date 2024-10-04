@@ -39,7 +39,7 @@ model AccessPointAccountProperties {
   classification: Classification;
 
   @doc("Tags present on the access point account")
-  propertyTags: Record<string>;
+  propertyTags: PropertyContainer;
 
   @doc("The status of the last operation.")
   @visibility("read")
