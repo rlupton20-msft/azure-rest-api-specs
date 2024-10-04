@@ -55,7 +55,6 @@ union ProvisioningState {
 
 @doc("The classification of the Access Point Account")
 union Classification {
-
   /**
    * SAP Classification
    */
