@@ -55,6 +55,7 @@ union ProvisioningState {
 
 @doc("The classification of the Access Point Account")
 union Classification {
+
   /**
    * SAP Classification
    */
@@ -66,14 +67,6 @@ union Classification {
   SCI_SAP: "sci_sar",
 
   string,
-}
-
-/**
- * Model object to be used to store additional properties
- */
-@doc("Container for additional properties")
-model PropertyContainer {
-  ...Record<string>;
 }
 
 @armResourceOperations
