@@ -3,6 +3,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./namespaces.tsp";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
 import "./common/topic.tsp";
@@ -15,9 +16,11 @@ using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
-@removed(Versions.v2024_10_01_preview)
-@doc("Asset definition.")
-model Asset is TrackedResource<AssetProperties> {
+
+@added(Versions.v2024_10_01_preview)
+@doc("NamespaceAsset definition.")
+@parentResource(Namespace)
+model NamespaceAsset is TrackedResource<AssetProperties> {
   @doc("Asset name parameter.")
   @key("assetName")
   @segment("assets")
@@ -34,19 +37,19 @@ model Asset is TrackedResource<AssetProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_10_01_preview)
 @armResourceOperations
-interface Assets {
-  get is ArmResourceRead<Asset>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<Asset>;
+interface NamespaceAssets {
+  get is ArmResourceRead<NamespaceAsset>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceAsset>;
   update is ArmCustomPatchAsync<
-    Asset,
+    NamespaceAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      Asset,
+      NamespaceAsset,
       AssetProperties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<Asset>;
-  listByResourceGroup is ArmResourceListByParent<Asset>;
-  listBySubscription is ArmListBySubscription<Asset>;
+  delete is ArmResourceDeleteWithoutOkAsync<NamespaceAsset>;
+  listByResourceGroup is ArmResourceListByParent<NamespaceAsset>;
+  listBySubscription is ArmListBySubscription<NamespaceAsset>;
 }

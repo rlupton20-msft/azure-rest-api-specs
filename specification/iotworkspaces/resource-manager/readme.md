@@ -45,7 +45,7 @@ suppressions:
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
       - $.definitions.AssetProperties.properties.attributes
       - $.definitions.AssetUpdate.properties.properties.properties.attributes
-      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
       - $.definitions.Device.properties.properties.properties.attributes
       - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
       - $.definitions.DeviceBaseProperties.properties.attributes
