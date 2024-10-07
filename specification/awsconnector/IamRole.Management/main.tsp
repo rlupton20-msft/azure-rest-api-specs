@@ -115,7 +115,7 @@ model AwsIamRoleProperties {
 @doc("Definition of Policy")
 model Policy {
   @doc("The entire contents of the policy that defines permissions. For more information, see [Overview of JSON policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json).")
-  policyDocument?: string;
+  policyDocument?: Record<unknown>;
 
   @doc("The friendly name (not ARN) identifying the policy.")
   policyName?: string;
@@ -139,7 +139,7 @@ model Tag {
 interface IamRoles {
   get is ArmResourceRead<IamRole>;
   @doc("Create a IamRole. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<IamRole>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<IamRole>;
   update is ArmCustomPatchAsync<
     IamRole,
     Azure.ResourceManager.Foundations.TagsUpdateModel<IamRole>
