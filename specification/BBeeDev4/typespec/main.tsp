@@ -164,9 +164,10 @@ union PublicNetworkAccessOptions {
 // ------------------------------------------------------------------
 // Section 2.5: Signing Certificates(Child resource)
 // ------------------------------------------------------------------
+// TODO: does this cause issues with CMK
 @doc("Signing certificates resource")
 @parentResource(DiscoveryService)
-model SigningCertificate is Azure.ResourceManager.TrackedResource<SigningCertificateProperties> {
+model AllowedOwnershipVoucherPublicKey is Azure.ResourceManager.TrackedResource<AllowedOwnershipVoucherPublicKeyProperties> {
   @doc("The name of the signing certificate resource.")
   @maxLength(128)
   @pattern("^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$")
@@ -176,15 +177,10 @@ model SigningCertificate is Azure.ResourceManager.TrackedResource<SigningCertifi
   name: string;
 }
 
-@doc("Details of the Signing Certificate resource")
-model SigningCertificateProperties {
-  @doc("The X509 certificate.")
-  X509: bytes;
-
-  // TODO: determine which read only certificate properties to expose
-  // @visibility("read")
-  // @doc("read only certificate properties") 
-  // description?: string;
+@doc("Details of the Allowed Ownership Voucher Public Key resource")
+model AllowedOwnershipVoucherPublicKeyProperties {
+  @doc("The X509 certificate Chain.")
+  X509CertificateChain: bytes;
 
   @visibility("read")
   @doc("The status of the last operation.")
@@ -192,15 +188,15 @@ model SigningCertificateProperties {
 }
 
 @armResourceOperations
-interface SigningCertificates {
-  get is ArmResourceRead<SigningCertificate>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SigningCertificate>;
-  delete is ArmResourceDeleteWithoutOkAsync<SigningCertificate>;
+interface AllowedOwnershipVoucherPublicKeys {
+  get is ArmResourceRead<AllowedOwnershipVoucherPublicKey>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AllowedOwnershipVoucherPublicKey>;
+  delete is ArmResourceDeleteWithoutOkAsync<AllowedOwnershipVoucherPublicKey>;
   update is ArmResourcePatchAsync<
-    SigningCertificate,
-    SigningCertificateProperties
+    AllowedOwnershipVoucherPublicKey,
+    AllowedOwnershipVoucherPublicKeyProperties
   >;
-  listByParent is ArmResourceListByParent<SigningCertificate>;
+  listByParent is ArmResourceListByParent<AllowedOwnershipVoucherPublicKey>;
 }
 
 // ------------------------------------------------------------------
