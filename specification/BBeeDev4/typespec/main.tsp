@@ -162,6 +162,48 @@ union PublicNetworkAccessOptions {
 }
 
 // ------------------------------------------------------------------
+// Section 2.5: Signing Certificates(Child resource)
+// ------------------------------------------------------------------
+@doc("Signing certificates resource")
+@parentResource(DiscoveryService)
+model SigningCertificate is Azure.ResourceManager.TrackedResource<SigningCertificateProperties> {
+  @doc("The name of the signing certificate resource.")
+  @maxLength(128)
+  @pattern("^[a-zA-Z0-9-]{3,127}[a-zA-Z0-9]$")
+  @key("signingCertificateName")
+  @segment("signingCertificates")
+  @path
+  name: string;
+}
+
+@doc("Details of the Signing Certificate resource")
+model SigningCertificateProperties {
+  @doc("The X509 certificate.")
+  X509: bytes;
+
+  // TODO: determine which read only certificate properties to expose
+  // @visibility("read")
+  // @doc("read only certificate properties") 
+  // description?: string;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ResourceProvisioningState;
+}
+
+@armResourceOperations
+interface SigningCertificates {
+  get is ArmResourceRead<SigningCertificate>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<SigningCertificate>;
+  delete is ArmResourceDeleteWithoutOkAsync<SigningCertificate>;
+  update is ArmResourcePatchAsync<
+    SigningCertificate,
+    SigningCertificateProperties
+  >;
+  listByParent is ArmResourceListByParent<SigningCertificate>;
+}
+
+// ------------------------------------------------------------------
 // Section 3: Policy Service (Child resource: provisioning policy)
 // ------------------------------------------------------------------
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
