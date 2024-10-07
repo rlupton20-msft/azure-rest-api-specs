@@ -83,14 +83,14 @@ union AccountKind {
   @doc("Indirect account behind AAD Gateway")
   IndirectAadGateway: "indirect,aadgateway",
 
-  @doc("Indirect account behind Graph AGS")
-  IndirectGraphAgs: "indirect,graphags",
+  @doc("Indirect account behind Azure Frontdoor")
+  IndirectAzureFrontdoor: "indirect,azurefrontdoor",
 
   @doc("Indirect account behind Cafe")
   IndirectCafe: "indirect,cafe",
 
-  @doc("Indirect account behind Azure Frontdoor")
-  IndirectAzureFrontdoor: "indirect,azurefrontdoor",
+  @doc("Indirect account behind Graph AGS")
+  IndirectGraphAgs: "indirect,graphags",
 
   string,
 }
