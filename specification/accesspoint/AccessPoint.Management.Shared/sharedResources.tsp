@@ -4,5 +4,5 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-import "../EncryptedTransport.Management.Shared/modules/common/base.tsp";
-import "../EncryptedTransport.Management.Shared/modules/resources/encryptedTransportAccount.tsp";
+import "./common/base.tsp";
+import "./models/AccessPointAccount.tsp";

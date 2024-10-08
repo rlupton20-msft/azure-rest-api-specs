@@ -66,6 +66,33 @@ model Account is TrackedResource<AccountProperties> {
   @maxLength(128)
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
+  @doc("Account kind")
+  @visibility("create", "read")
+  kind: AccountKind;
+
+  // ..ResourceKindProperty,
+}
+
+@doc("Environment kind")
+union AccountKind {
+  @doc("Direct account")
+  Direct: "direct",
+
+  @doc("Indirect account behind AAD Gateway")
+  IndirectAadGateway: "indirect,aadgateway",
+
+  @doc("Indirect account behind Azure Frontdoor")
+  IndirectAzureFrontdoor: "indirect,azurefrontdoor",
+
+  @doc("Indirect account behind Cafe")
+  IndirectCafe: "indirect,cafe",
+
+  @doc("Indirect account behind Graph AGS")
+  IndirectGraphAgs: "indirect,graphags",
+
+  string,
 }
 
 @armResourceOperations
