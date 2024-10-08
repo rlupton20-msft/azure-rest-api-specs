@@ -84,6 +84,17 @@ model DeviceEndpoint {
   hostName?: string;
 }
 
+@doc("Options for public network access for private endpoints.")
+union PublicNetworkAccessOptions {
+  string,
+
+  @doc("The value indicating the public network access is enabled.")
+  Enabled: "Enabled",
+
+  @doc("The value indicating the public network access is disabled.")
+  Disabled: "Disabled",
+}
+
 @armResourceOperations
 interface OnboardingServices {
   get is ArmResourceRead<OnboardingService>;
@@ -122,8 +133,22 @@ model DiscoveryServiceProperties {
   provisioningState?: ResourceProvisioningState;
   
   @visibility("read")
-  @doc("The discovery service device endpoints.")
-  endpoints?: DiscoveryEndpoints;
+  @doc("The discovery service rendezvous endpoints.")
+  endpoints?: RendezvousEndpoints;
+}
+
+@doc("Rendezvous device endpoints.")
+model RendezvousEndpoints {
+  @doc("The device endpoint for discovery") 
+  @visibility("read")
+  deviceEndpoint?: RendezvousEndpoint;
+}
+
+@doc("Rendezvous endpoint model.")
+model RendezvousEndpoint {
+  @doc("Hostname of the Rendezvous Endpoint.")
+  @visibility("read")
+  hostName?: string;
 }
 
 @armResourceOperations
@@ -139,34 +164,73 @@ interface DiscoveryServices {
   listBySubscription is ArmListBySubscription<DiscoveryService>;
 }
 
-// Simplified discovery endpoints with the assumption that we are moving away from the resource pool construct for discovery
-@doc("Discovery device endpoints.")
-model DiscoveryEndpoints {
-  @doc("The device endpoint for discovery") 
-  @visibility("read")
-  deviceEndpoint?: string;
-  @doc("The service endpoint for discovery")
-  @visibility("read")
-  serviceEndpoint?: string;
+// ------------------------------------------------------------------
+// Section 2.5: Signing Certificates(Child resource)
+// ------------------------------------------------------------------
+// TODO: does this cause issues with CMK
+@doc("Signing certificates resource")
+@parentResource(DiscoveryService)
+model OwnershipVoucherPublicKey is Azure.ResourceManager.TrackedResource<OwnershipVoucherPublicKeyProperties> {
+  @doc("The name of the signing certificate resource.")
+  @maxLength(128)
+  @pattern("^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$")
+  @segment("requiredPublicKeys")
+  @key("requiredPublicKey")
+  @path
+  name: string;
 }
 
-@doc("Options for public network access for private endpoints.")
-union PublicNetworkAccessOptions {
+@doc("Details of the Allowed Ownership Voucher Public Key resource")
+model OwnershipVoucherPublicKeyProperties {
+  @doc("Public key.")
+  publicKeyDetails: PublicKeyDetails;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ResourceProvisioningState;
+}
+
+@doc("Details of public key type")
+@discriminator("type")
+model PublicKeyDetails {
+  type: PublicKeyType
+}
+
+@doc("Options of public key types supported by manufacturer to validate ownership vouchers.")
+union PublicKeyType {
   string,
 
-  @doc("The value indicating the public network access is enabled.")
-  Enabled: "Enabled",
+  @doc("Public key type represented by a X5Chain.")
+  X5Chain: "X5Chain",
+}
 
-  @doc("The value indicating the public network access is disabled.")
-  Disabled: "Disabled",
+@doc("X5Chain Public Key Details.")
+model X5ChainPublicKeyDetails extends PublicKeyDetails {
+  @doc("X5Chain type public key details")  
+  type: PublicKeyType.X5Chain;
+
+  @doc("X509CertificateChain used as a public key to validate Ownership Voucher.")
+  x5Chain: bytes
+}
+
+@armResourceOperations
+interface OwnershipVoucherPublicKeys {
+  get is ArmResourceRead<OwnershipVoucherPublicKey>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<OwnershipVoucherPublicKey>;
+  delete is ArmResourceDeleteWithoutOkAsync<OwnershipVoucherPublicKey>;
+  update is ArmResourcePatchAsync<
+    OwnershipVoucherPublicKey,
+    OwnershipVoucherPublicKeyProperties
+  >;
+  listByParent is ArmResourceListByParent<OwnershipVoucherPublicKey>;
 }
 
 // ------------------------------------------------------------------
-// Section 3: Policy Service (Child resource: provisioning policy)
+// Section 3: Policy Service (Child resource: onboarding policy)
 // ------------------------------------------------------------------
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A provisioning policy resource.")
+@doc("A onboarding policy resource.")
 @parentResource(OnboardingService)
 model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
   @doc("The name of the Policy tracked resource.")
@@ -326,13 +390,13 @@ model OwnershipVoucherStorage {
 @doc("Storage Account Ownership Voucher Storage. Policy MI is used to access this storage")
 model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
   @doc("The Ownership Voucher Storage type.")
-  type: OwnershipVoucherStorageType.StorageAccount;
+  type: OwnershipVoucherStorageType.AzureBlobStorage;
 
   @doc("The storage resource id")
   resourceId: StorageAccountResourceId;
 
   @doc("Endpoint for the storage account") // TODO: determine correct example here
-  endpoint: string;
+  containerUri: string;
 }
 
 @pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$") // TODO: test removing to see if RPaaS behavior has changed
@@ -348,7 +412,7 @@ union OwnershipVoucherStorageType {
   string,
 
   @doc("The Storage Account Ownership Voucher Storage type.")
-  StorageAccount: "Microsoft.Storage/storageAccounts",
+  AzureBlobStorage: "Microsoft.Storage/storageAccounts",
 }
 
 @doc("The authentication rule for bootstrap.")
@@ -869,6 +933,9 @@ model DeviceStateProperties {
   @maxLength(128)
   @pattern("^([a-z0-9-._:]{0,127}[a-z0-9-])$")
   registrationId: string;
+
+  @doc("Indicates if the device is enabled for discovery")
+  discoveryEnabled?: DiscoveryOptions;
 
   @visibility("read", "create", "update")
   @doc("Onboarding status of the resource this DeviceState extends")
