@@ -133,7 +133,7 @@ model DiscoveryServiceProperties {
   provisioningState?: ResourceProvisioningState;
   
   @visibility("read")
-  @doc("The discovery service device endpoints.")
+  @doc("The discovery service rendezvous endpoints.")
   endpoints?: RendezvousEndpoints;
 }
 
@@ -170,7 +170,7 @@ interface DiscoveryServices {
 // TODO: does this cause issues with CMK
 @doc("Signing certificates resource")
 @parentResource(DiscoveryService)
-model RequiredOwnershipVoucherPublicKey is Azure.ResourceManager.TrackedResource<RequiredOwnershipVoucherPublicKeyProperties> {
+model OwnershipVoucherPublicKey is Azure.ResourceManager.TrackedResource<OwnershipVoucherPublicKeyProperties> {
   @doc("The name of the signing certificate resource.")
   @maxLength(128)
   @pattern("^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$")
@@ -181,7 +181,7 @@ model RequiredOwnershipVoucherPublicKey is Azure.ResourceManager.TrackedResource
 }
 
 @doc("Details of the Allowed Ownership Voucher Public Key resource")
-model RequiredOwnershipVoucherPublicKeyProperties {
+model OwnershipVoucherPublicKeyProperties {
   @doc("Public key.")
   publicKeyDetails: PublicKeyDetails;
 
@@ -209,28 +209,28 @@ model X5ChainPublicKeyDetails extends PublicKeyDetails {
   @doc("X5Chain type public key details")  
   type: PublicKeyType.X5Chain;
 
-  @doc("X509CertificateChain used as a public key to validate OV.")
+  @doc("X509CertificateChain used as a public key to validate Ownership Voucher.")
   x5Chain: bytes
 }
 
 @armResourceOperations
-interface RequiredOwnershipVoucherPublicKeys {
-  get is ArmResourceRead<RequiredOwnershipVoucherPublicKey>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<RequiredOwnershipVoucherPublicKey>;
-  delete is ArmResourceDeleteWithoutOkAsync<RequiredOwnershipVoucherPublicKey>;
+interface OwnershipVoucherPublicKeys {
+  get is ArmResourceRead<OwnershipVoucherPublicKey>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<OwnershipVoucherPublicKey>;
+  delete is ArmResourceDeleteWithoutOkAsync<OwnershipVoucherPublicKey>;
   update is ArmResourcePatchAsync<
-    RequiredOwnershipVoucherPublicKey,
-    RequiredOwnershipVoucherPublicKeyProperties
+    OwnershipVoucherPublicKey,
+    OwnershipVoucherPublicKeyProperties
   >;
-  listByParent is ArmResourceListByParent<RequiredOwnershipVoucherPublicKey>;
+  listByParent is ArmResourceListByParent<OwnershipVoucherPublicKey>;
 }
 
 // ------------------------------------------------------------------
-// Section 3: Policy Service (Child resource: provisioning policy)
+// Section 3: Policy Service (Child resource: onboarding policy)
 // ------------------------------------------------------------------
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A provisioning policy resource.")
+@doc("A onboarding policy resource.")
 @parentResource(OnboardingService)
 model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
   @doc("The name of the Policy tracked resource.")
@@ -934,7 +934,8 @@ model DeviceStateProperties {
   @pattern("^([a-z0-9-._:]{0,127}[a-z0-9-])$")
   registrationId: string;
 
-  // Add property discoveryEnabled back to typspec.
+  @doc("Indicates if the device is enabled for discovery")
+  discoveryEnabled?: DiscoveryOptions;
 
   @visibility("read", "create", "update")
   @doc("Onboarding status of the resource this DeviceState extends")
