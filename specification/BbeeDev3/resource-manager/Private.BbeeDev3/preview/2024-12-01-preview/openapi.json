@@ -45,6 +45,9 @@
       "name": "OnboardingServices"
     },
     {
+      "name": "DiscoveryServices"
+    },
+    {
       "name": "Policies"
     },
     {
@@ -228,6 +231,58 @@
         }
       }
     },
+    "/{resourceUri}/providers/Private.BbeeDev3/deviceStates/default/readyToOnboard": {
+      "post": {
+        "operationId": "DeviceStates_ReadyToOnboard",
+        "tags": [
+          "DeviceStates"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReadyToOnboardProperties"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/providers/Private.BbeeDev3/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -245,6 +300,40 @@
             "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.BbeeDev3/discoveryServices": {
+      "get": {
+        "operationId": "DiscoveryServices_ListBySubscription",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "List DiscoveryService resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryServiceListResult"
             }
           },
           "default": {
@@ -291,6 +380,281 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/discoveryServices": {
+      "get": {
+        "operationId": "DiscoveryServices_ListByResourceGroup",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "List DiscoveryService resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryServiceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/discoveryServices/{discoveryServiceName}": {
+      "get": {
+        "operationId": "DiscoveryServices_Get",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "Get a DiscoveryService",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "discoveryServiceName",
+            "in": "path",
+            "description": "The name of the Discovery Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryService"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DiscoveryServices_CreateOrUpdate",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "Create a DiscoveryService",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "discoveryServiceName",
+            "in": "path",
+            "description": "The name of the Discovery Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiscoveryService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DiscoveryService' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryService"
+            }
+          },
+          "201": {
+            "description": "Resource 'DiscoveryService' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryService"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "DiscoveryServices_Update",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "Update a DiscoveryService",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "discoveryServiceName",
+            "in": "path",
+            "description": "The name of the Discovery Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiscoveryServiceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiscoveryService"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "DiscoveryServices_Delete",
+        "tags": [
+          "DiscoveryServices"
+        ],
+        "description": "Delete a DiscoveryService",
+        "parameters": [
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "discoveryServiceName",
+            "in": "path",
+            "description": "The name of the Discovery Resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.BbeeDev3/onboardingServices": {
@@ -1075,7 +1439,7 @@
       "description": "The authentication type for bootstrap.",
       "enum": [
         "X509",
-        "Discovery"
+        "Fdo101"
       ],
       "x-ms-enum": {
         "name": "BootstrapAuthenticationType",
@@ -1087,9 +1451,9 @@
             "description": "The X509 authentication type."
           },
           {
-            "name": "Discovery",
-            "value": "Discovery",
-            "description": "The discovery authentication type."
+            "name": "Fdo101",
+            "value": "Fdo101",
+            "description": "The Fdo101 authentication type."
           }
         ]
       }
@@ -1296,10 +1660,6 @@
             "create"
           ]
         },
-        "discoveryEnabled": {
-          "$ref": "#/definitions/DiscoveryOptions",
-          "description": "Indicates if the device is enabled for discovery"
-        },
         "policyResourceId": {
           "$ref": "#/definitions/PolicyResourceId",
           "description": "The onboarding policy resource id"
@@ -1318,6 +1678,12 @@
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
           "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "onboardUntilDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "TTL until the device can be onboarded, in utcDateTime format",
           "readOnly": true
         }
       },
@@ -1339,10 +1705,6 @@
             "update",
             "create"
           ]
-        },
-        "discoveryEnabled": {
-          "$ref": "#/definitions/DiscoveryOptions",
-          "description": "Indicates if the device is enabled for discovery"
         },
         "policyResourceId": {
           "$ref": "#/definitions/PolicyResourceId",
@@ -1376,15 +1738,21 @@
         }
       ]
     },
-    "DiscoveryBootstrapAuthenticationRule": {
+    "DiscoveryEndpoints": {
       "type": "object",
-      "description": "The Discovery-based authentication rule for bootstrapping.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/BootstrapAuthenticationRule"
+      "description": "Discovery device endpoints.",
+      "properties": {
+        "deviceEndpoint": {
+          "type": "string",
+          "description": "The device endpoint for discovery",
+          "readOnly": true
+        },
+        "serviceEndpoint": {
+          "type": "string",
+          "description": "The service endpoint for discovery",
+          "readOnly": true
         }
-      ],
-      "x-ms-discriminator-value": "Discovery"
+      }
     },
     "DiscoveryOptions": {
       "type": "string",
@@ -1419,6 +1787,73 @@
         }
       ],
       "x-ms-discriminator-value": "Microsoft.HybridCompute/machines"
+    },
+    "DiscoveryService": {
+      "type": "object",
+      "description": "A discovery resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DiscoveryServiceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DiscoveryServiceListResult": {
+      "type": "object",
+      "description": "The response of a DiscoveryService list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DiscoveryService items on this page",
+          "items": {
+            "$ref": "#/definitions/DiscoveryService"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DiscoveryServiceProperties": {
+      "type": "object",
+      "description": "Details of the Discovery Service.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DiscoveryEndpoints",
+          "description": "The discovery service device endpoints.",
+          "readOnly": true
+        }
+      }
+    },
+    "DiscoveryServiceUpdate": {
+      "type": "object",
+      "description": "A discovery resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DiscoveryServiceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
     },
     "EndpointType": {
       "type": "string",
@@ -1464,6 +1899,35 @@
         }
       ],
       "x-ms-discriminator-value": "EvenlyDistributed"
+    },
+    "Fdo101BootstrapAuthenticationRule": {
+      "type": "object",
+      "description": "The Fdo101-based authentication rule for bootstrapping.",
+      "properties": {
+        "publicKey": {
+          "type": "string",
+          "format": "byte",
+          "description": "Per policy public key to represent this policy",
+          "readOnly": true
+        },
+        "ownershipVoucherStorage": {
+          "$ref": "#/definitions/OwnershipVoucherStorage",
+          "description": "Ownership Voucher storage link"
+        },
+        "rendezvousEndpoint": {
+          "type": "string",
+          "description": "Endpoint for the rendezvous service, e.g. https://contoso-rv1.contoso.com"
+        }
+      },
+      "required": [
+        "rendezvousEndpoint"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BootstrapAuthenticationRule"
+        }
+      ],
+      "x-ms-discriminator-value": "Fdo101"
     },
     "IdentityInfo": {
       "type": "object",
@@ -1708,6 +2172,38 @@
         ]
       }
     },
+    "OwnershipVoucherStorage": {
+      "type": "object",
+      "description": "Generic Ownership Voucher Storage type.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/OwnershipVoucherStorageType",
+          "description": "The Ownership Voucher Storage type."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "OwnershipVoucherStorageType": {
+      "type": "string",
+      "description": "The Ownership Voucher Storage Type.",
+      "enum": [
+        "Microsoft.Storage/storageAccounts"
+      ],
+      "x-ms-enum": {
+        "name": "OwnershipVoucherStorageType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "StorageAccount",
+            "value": "Microsoft.Storage/storageAccounts",
+            "description": "The Storage Account Ownership Voucher Storage type."
+          }
+        ]
+      }
+    },
     "PatchAllocationEndpoint": {
       "type": "object",
       "description": "Allocation endpoint.",
@@ -1755,16 +2251,6 @@
         }
       ],
       "x-ms-discriminator-value": "Microsoft.DeviceRegistry/devices"
-    },
-    "PatchDiscoveryBootstrapAuthenticationRule": {
-      "type": "object",
-      "description": "The Discovery-based authentication rule for bootstrapping.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PatchBootstrapAuthenticationRule"
-        }
-      ],
-      "x-ms-discriminator-value": "Discovery"
     },
     "PatchDiscoveryPolicyResourceDetails": {
       "type": "object",
@@ -2020,10 +2506,6 @@
         "selectedIdentity": {
           "$ref": "#/definitions/SelectedIdentity",
           "description": "The identity the OnboardingService Policy will use. Must be from the list of enabled managed identities on the resource."
-        },
-        "customerManagedKeyEncryption": {
-          "$ref": "../../common-types/resource-management/v5/customermanagedkeys.json#/definitions/customerManagedKeyEncryption",
-          "description": "All Customer-managed key encryption properties for the policy resource."
         }
       },
       "required": [
@@ -2107,6 +2589,20 @@
         ]
       }
     },
+    "ReadyToOnboardProperties": {
+      "type": "object",
+      "description": "The properties passed in the readyToOnboard POST request.",
+      "properties": {
+        "ttl": {
+          "type": "string",
+          "format": "duration",
+          "description": "Desired TTL until the device can be onboarded"
+        }
+      },
+      "required": [
+        "ttl"
+      ]
+    },
     "ResourceMetadata": {
       "type": "object",
       "description": "Resource metadata",
@@ -2172,6 +2668,43 @@
             "name": "UserAssigned",
             "value": "UserAssigned",
             "description": "User assigned identity."
+          }
+        ]
+      }
+    },
+    "StorageAccountOwnershipVoucherStorage": {
+      "type": "object",
+      "description": "Storage Account Ownership Voucher Storage. Policy MI is used to access this storage",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/StorageAccountResourceId",
+          "description": "The storage resource id"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "Endpoint for the storage account"
+        }
+      },
+      "required": [
+        "resourceId",
+        "endpoint"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/OwnershipVoucherStorage"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.Storage/storageAccounts"
+    },
+    "StorageAccountResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "pattern": "^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.Storage/storageAccounts"
           }
         ]
       }
