@@ -39,6 +39,32 @@ model ManagedRuleSetDefinition {
   @visibility("read")
   @extension("x-ms-identifiers", ["ruleGroupName"])
   ruleGroups: ManagedRuleGroupDefinition[];
+
+  @doc("Define the rule set pillar type")
+  pillarType: PillarType;
+
+  @doc("Define the supported actions for the rule set.")
+  supportedActions: ManagedRuleActionType[];
+
+  @doc("Define the default action for the rule set.")
+  defaultAction: ManagedRuleActionType;
+}
+
+@doc("Defines a managed rule set pillar type")
+union PillarType {
+  string,
+
+  @doc("Defines the web pillar type")
+  Web: "Web",
+
+  @doc("Defines the bot pillar type")
+  Bot: "Bot",
+
+  @doc("Defines the api pillar type")
+  Api: "Api",
+
+  @doc("Defines the DDoS pillar type")
+  Ddos: "Ddos",
 }
 
 @doc("Definition of a managed rule group.")

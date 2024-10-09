@@ -1519,12 +1519,30 @@
           "x-ms-identifiers": [
             "ruleGroupName"
           ]
+        },
+        "pillarType": {
+          "$ref": "#/definitions/PillarType",
+          "description": "Define the rule set pillar type"
+        },
+        "supportedActions": {
+          "type": "array",
+          "description": "Define the supported actions for the rule set.",
+          "items": {
+            "$ref": "#/definitions/ManagedRuleActionType"
+          }
+        },
+        "defaultAction": {
+          "$ref": "#/definitions/ManagedRuleActionType",
+          "description": "Define the default action for the rule set."
         }
       },
       "required": [
         "ruleSetType",
         "ruleSetVersion",
-        "ruleGroups"
+        "ruleGroups",
+        "pillarType",
+        "supportedActions",
+        "defaultAction"
       ]
     },
     "ManagedRuleSetId": {
@@ -1687,6 +1705,42 @@
         }
       ],
       "x-ms-discriminator-value": "MatchBased"
+    },
+    "PillarType": {
+      "type": "string",
+      "description": "Defines a managed rule set pillar type",
+      "enum": [
+        "Web",
+        "Bot",
+        "Api",
+        "Ddos"
+      ],
+      "x-ms-enum": {
+        "name": "PillarType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Web",
+            "value": "Web",
+            "description": "Defines the web pillar type"
+          },
+          {
+            "name": "Bot",
+            "value": "Bot",
+            "description": "Defines the bot pillar type"
+          },
+          {
+            "name": "Api",
+            "value": "Api",
+            "description": "Defines the api pillar type"
+          },
+          {
+            "name": "Ddos",
+            "value": "Ddos",
+            "description": "Defines the DDoS pillar type"
+          }
+        ]
+      }
     },
     "Policy": {
       "type": "object",
