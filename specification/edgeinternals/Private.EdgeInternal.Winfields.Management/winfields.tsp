@@ -1,5 +1,6 @@
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
 import "@typespec/rest";
 import "./models.tsp";
 
@@ -8,12 +9,13 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 
 namespace Private.EdgeInternal;
-@doc("An offer.")
+@doc("Winfield resource.")
 model Winfield is TrackedResource<WinfieldProperties> {
   @doc("Name of the resource")
   @path
   @key("name")
   @segment("winfields")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$")
   name: string;
 }
 
