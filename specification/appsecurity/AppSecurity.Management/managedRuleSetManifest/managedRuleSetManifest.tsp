@@ -24,13 +24,24 @@ model AppProtectManagedRuleSetManifestProperties {
 
   @doc("Default managed rule set ID.")
   @visibility("read")
-  defaultRuleSet: ManagedRuleSetId;
+  @extension("x-ms-identifiers", ["pillarType"])
+  defaultRuleSets: PillarTypeDefaultRuleSet;
 
   @doc("List of available managed rule set definitions.")
   @visibility("read")
   @extension("x-ms-identifiers", ["ruleSetType", "ruleSetVersion"])
   availableRuleSets: ManagedRuleSetDefinition[];
 }
+
+@doc("Defines the default managed rule set of a pillar type")
+model PillarTypeDefaultRuleSet {
+  @doc("The pillar type.")
+  pillarType: PillarType;
+
+  @doc("The default rule set ID of the specified pillar type.")
+  defaultRuleSet: ManagedRuleSetId;
+}
+
 @doc("Definition of managed rule set.")
 model ManagedRuleSetDefinition {
   ...ManagedRuleSetId;
