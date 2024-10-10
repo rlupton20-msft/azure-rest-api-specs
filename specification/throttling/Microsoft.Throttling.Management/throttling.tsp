@@ -116,7 +116,7 @@ model AccountProperties {
   hostName?: string;
 
   @doc("Account authentication properties")
-  authentication: AuthenticationProperties;
+  authentication?: AuthenticationProperties;
 }
 
 @doc("Account authentication properties")
