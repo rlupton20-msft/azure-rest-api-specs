@@ -6,6 +6,7 @@ import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Private.SecretSyncController")
@@ -14,9 +15,14 @@ namespace Private.SecretSyncController;
 @doc("The AzureKeyVaultSecretProviderClass resource.")
 model AzureKeyVaultSecretProviderClass
   is TrackedResource<AzureKeyVaultSecretProviderClassProperties> {
-  ...ResourceNameParameter<AzureKeyVaultSecretProviderClass>;
+  ...ResourceNameParameter<
+    AzureKeyVaultSecretProviderClass,
+    NamePattern = "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+  >;
   ...ExtendedLocationProperty;
 }
+
+@@maxLength(AzureKeyVaultSecretProviderClass.name, 253);
 
 @doc("The properties of the AzureKeyVaultSecretProviderClass.")
 model AzureKeyVaultSecretProviderClassProperties {
@@ -47,10 +53,10 @@ interface AzureKeyVaultSecretProviderClasses {
   get is ArmResourceRead<AzureKeyVaultSecretProviderClass>;
 
   @doc("Creates, or updates, an AzureKeyVaultSecretProviderClass instance.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<AzureKeyVaultSecretProviderClass>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<AzureKeyVaultSecretProviderClass>;
 
   @doc("Updates an AzureKeyVaultSecretProviderClass instance.")
-  update is ArmCustomPatchAsync<
+  update is ArmCustomPatchSync<
     AzureKeyVaultSecretProviderClass,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       AzureKeyVaultSecretProviderClass,
@@ -59,7 +65,7 @@ interface AzureKeyVaultSecretProviderClasses {
   >;
 
   @doc("Deletes an AzureKeyVaultSecretProviderClass instance.")
-  delete is ArmResourceDeleteWithoutOkAsync<AzureKeyVaultSecretProviderClass>;
+  delete is ArmResourceDeleteSync<AzureKeyVaultSecretProviderClass>;
 
   @doc("Lists the AzureKeyVaultSecretProviderClass instances within a resource group.")
   listByResourceGroup is ArmResourceListByParent<AzureKeyVaultSecretProviderClass>;
