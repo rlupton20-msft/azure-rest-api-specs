@@ -26,7 +26,7 @@ model ArcGatewayConfigurationProperties {
   scenario: Scenario;
 
   @doc("ArmId to the arcGateway")
-  arcGatewayUri: Azure.Core.armResourceIdentifier<[
+  arcGatewayResourceId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.HybridCompute/Gateways";
     }
