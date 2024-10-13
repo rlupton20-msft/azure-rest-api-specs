@@ -25,7 +25,7 @@ model AppProtectManagedRuleSetManifestProperties {
   @doc("Default managed rule set ID.")
   @visibility("read")
   @extension("x-ms-identifiers", ["pillarType"])
-  defaultRuleSets: PillarTypeDefaultRuleSet;
+  defaultRuleSets: PillarTypeDefaultRuleSet[];
 
   @doc("List of available managed rule set definitions.")
   @visibility("read")
@@ -111,6 +111,10 @@ model ManagedRuleDefinition {
   @doc("Describes the default action to be applied when the managed rule matches.")
   @visibility("read")
   defaultAction: ManagedRuleActionType;
+
+  @doc("Describes the default sensitivity of the rule.")
+  @visibility("read")
+  defaultSensitivity?: ManagedRuleSensitivity;
 }
 
 // See example of a similar resource (singleton and subscription-level resource) in:
