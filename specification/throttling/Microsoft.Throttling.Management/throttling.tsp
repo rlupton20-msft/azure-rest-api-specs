@@ -70,7 +70,7 @@ model Account is TrackedResource<AccountProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Account kind")
   @visibility("create", "read")
-  kind?: AccountKind;
+  kind: AccountKind;
 
   // ..ResourceKindProperty,
 }
