@@ -32,7 +32,7 @@ model EncryptedTransportAccount
 @doc("Encrypted Transport Account Properties")
 model EncryptedTransportAccountProperties {
   @doc("Wi-Fi Pre-Shared Key as printable ASCII string")
-  @pattern("^[ -~ ]{8,63}$")
+  @pattern("^[ -~ ]{8,64}$")
   @visibility("create", "read")
   wifiPsk: string;
 
@@ -56,19 +56,19 @@ model EncryptedTransportAccountProperties {
 @doc("Encrypted Transport Account bandwidth options in Mbps")
 union EncryptedTransportAccountBandwidthOptions {
   @doc("500 Mbps")
-  Mbps500: "500",
+  Mbps500: "Mbps500",
 
   @doc("1000 Mbps")
-  Mbps1000: "1000",
+  Mbps1000: "Mbps1000",
 
   @doc("2000 Mbps")
-  Mbps2000: "2000",
+  Mbps2000: "Mbps2000",
 
   @doc("5000 Mbps")
-  Mbps5000: "5000",
+  Mbps5000: "Mbps5000",
 
   @doc("10000 Mbps")
-  Mbps10000: "10000",
+  Mbps10000: "Mbps10000",
 
   string,
 }
