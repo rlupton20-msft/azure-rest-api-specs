@@ -1,0 +1,43 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "./onboardingServices.tsp";
+import "./policies.tsp";
+import "./policiesPatchModels.tsp";
+import "./deviceStates.tsp";
+import "./discoveryServices.tsp";
+import "./ownershipVoucherPublicKeys.tsp";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using OpenAPI;
+using Azure.Core;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@service({
+  title: "Private.BbeeDev1",
+})
+@versioned(Versions)
+namespace Private.BbeeDev1;
+
+/** Services API versions */
+enum Versions {
+  @doc("Private.BbeeDev1 Resource Provider management API version 2024-11-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_11_01_preview: "2024-11-01-preview",
+
+  @doc("Private.BbeeDev1 Resource Provider management API version 2024-12-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2024_12_01_preview: "2024-12-01-preview",
+}
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+@doc("Resource create or update operation completed successfully.")
+model ResourceUpdatedResponse<T> is ArmResponse<T>;
