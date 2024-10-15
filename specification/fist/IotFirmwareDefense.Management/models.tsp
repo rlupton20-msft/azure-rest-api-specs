@@ -95,8 +95,8 @@ model BinaryHardeningResult {
   @doc("The security hardening features of the binary.")
   securityHardeningFeatures?: BinaryHardeningFeatures;
 
-  @doc("The architecture of the uploaded firmware.")
-  firmwareArchitecture?: string;
+  @doc("The architecture of the binary being reported on.")
+  executableArchitecture?: string;
 
   @doc("The path to the binary in the firmware.")
   filePath?: string;
@@ -338,8 +338,14 @@ model CveResult {
   @doc("ID of the CVE result.")
   cveId?: string;
 
-  @doc("The SBOM component for the CVE.")
-  component?: CveComponent;
+  @doc("ID of the affected SBOM component.")
+  componentId?: string;
+
+  @doc("Name of the affected SBOM component.")
+  componentName?: string;
+
+  @doc("Version of the affected SBOM component.")
+  componentVersion?: string;
 
   @doc("Severity of the CVE.")
   severity?: string;
@@ -370,18 +376,6 @@ model CveResult {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Properties of the SBOM component for a CVE.")
-model CveComponent {
-  @doc("ID of the SBOM component")
-  componentId?: string;
-
-  @doc("Name of the SBOM component")
-  componentName?: string;
-
-  @doc("Version of the SBOM component.")
-  version?: string;
-}
-
 @doc("Properties of a reference link for a CVE.")
 model CveLink {
   @doc("The destination of the reference link.")
@@ -397,12 +391,15 @@ model FirmwareProperties {
   fileName?: string;
 
   @doc("Firmware vendor.")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
   vendor?: string;
 
   @doc("Firmware model.")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
   `model`?: string;
 
   @doc("Firmware version.")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
   version?: string;
 
   @doc("User-specified description of the firmware.")
