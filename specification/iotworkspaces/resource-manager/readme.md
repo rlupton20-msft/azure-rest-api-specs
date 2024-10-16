@@ -31,7 +31,7 @@ tag: package-preview-2024-10
 
 ### Tag: package-preview-2024-10
 
-These settings apply only when `--tag=package-preview-2024-09` is specified on the command line.
+These settings apply only when `--tag=package-preview-2024-10` is specified on the command line.
 
 ```yaml $(tag) == 'package-preview-2024-10'
 input-file:
@@ -45,7 +45,7 @@ suppressions:
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
       - $.definitions.AssetProperties.properties.attributes
       - $.definitions.AssetUpdate.properties.properties.properties.attributes
-      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
       - $.definitions.Device.properties.properties.properties.attributes
       - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes
       - $.definitions.DeviceBaseProperties.properties.attributes

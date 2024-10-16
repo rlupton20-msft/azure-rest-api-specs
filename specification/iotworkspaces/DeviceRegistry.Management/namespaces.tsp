@@ -37,6 +37,10 @@ model Messaging {
 @added(Versions.v2024_10_01_preview)
 @doc("Defines the container registry proprties.")
 model NamespaceProperties {
+  @doc("Globally unique, immutable, non-reusable id.")
+  @visibility("read")
+  uuid?: string;
+
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
   @doc("Property bag containing the device's unassigned and assigned endpoints.")
   messaging?: Messaging;

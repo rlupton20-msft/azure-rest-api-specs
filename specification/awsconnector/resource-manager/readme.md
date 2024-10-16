@@ -190,7 +190,6 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2TargetHealthDescription.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticsearchDomain.json
   - Microsoft.AwsConnector/stable/2024-12-01/emrCluster.json
-  - Microsoft.AwsConnector/stable/2024-12-01/emrClusterSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/guardDutyDetector.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyLastUsed.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyMetadata.json
@@ -242,8 +241,8 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/s3AccessControlPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3AccessPoint.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3Bucket.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3BucketPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3ControlMultiRegionAccessPointPolicyDocument.json
-  - Microsoft.AwsConnector/stable/2024-12-01/s3Policy.json
   - Microsoft.AwsConnector/stable/2024-12-01/sageMakerApp.json
   - Microsoft.AwsConnector/stable/2024-12-01/sageMakerDeviceSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/sageMakerImage.json

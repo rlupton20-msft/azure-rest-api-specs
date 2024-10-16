@@ -13,9 +13,14 @@ namespace Private.SecretSyncController;
 
 @doc("The SecretSync resource.")
 model SecretSync is TrackedResource<SecretSyncProperties> {
-  ...ResourceNameParameter<SecretSync>;
+  ...ResourceNameParameter<
+    SecretSync,
+    NamePattern = "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+  >;
   ...ExtendedLocationProperty;
 }
+
+@@maxLength(SecretSync.name, 253);
 
 @doc("The properties of the SecretSync instance.")
 model SecretSyncProperties {
@@ -84,6 +89,20 @@ union KubernetesSecretType {
   string,
 }
 
+@doc("Status conditions types")
+union StatusConditionType {
+  @doc("The status is true")
+  True: "True",
+
+  @doc("The status is false")
+  False: "False",
+
+  @doc("The status is unknown")
+  Unknown: "Unknown",
+
+  string,
+}
+
 @doc("SecretSyncStatus defines the observed state of the secret synchronization process.")
 model SecretSyncStatus {
   @doc("LastSuccessfulSyncTime represents the last time the secret was retrieved from the Provider and updated.")
@@ -121,7 +140,7 @@ model SecretSyncCondition {
 
   @doc("Status of the condition, one of True, False, Unknown.")
   @visibility("read")
-  status: string;
+  status: StatusConditionType;
 
   @doc("Type of condition in CamelCase or in foo.example.com/CamelCase. Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to de-conflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)")
   @visibility("read")
@@ -136,10 +155,10 @@ interface SecretSyncs {
   get is ArmResourceRead<SecretSync>;
 
   @doc("Creates new or updates a SecretSync instance.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SecretSync>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<SecretSync>;
 
   @doc("Updates a SecretSync instance.")
-  update is ArmCustomPatchAsync<
+  update is ArmCustomPatchSync<
     SecretSync,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       SecretSync,
@@ -148,7 +167,7 @@ interface SecretSyncs {
   >;
 
   @doc("Deletes a SecretSync instance.")
-  delete is ArmResourceDeleteWithoutOkAsync<SecretSync>;
+  delete is ArmResourceDeleteSync<SecretSync>;
 
   @doc("Lists the SecretSync instances within a resource group.")
   listByResourceGroup is ArmResourceListByParent<SecretSync>;

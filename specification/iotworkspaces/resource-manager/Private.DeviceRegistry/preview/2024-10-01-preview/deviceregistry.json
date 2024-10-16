@@ -46,9 +46,6 @@
       "name": "OperationStatus"
     },
     {
-      "name": "Assets"
-    },
-    {
       "name": "AssetEndpointProfiles"
     },
     {
@@ -74,6 +71,9 @@
     },
     {
       "name": "NamespaceDevices"
+    },
+    {
+      "name": "NamespaceAssets"
     }
   ],
   "paths": {
@@ -128,40 +128,6 @@
             "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AssetEndpointProfileListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/assets": {
-      "get": {
-        "operationId": "Assets_ListBySubscription",
-        "tags": [
-          "Assets"
-        ],
-        "description": "List Asset resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AssetListResult"
             }
           },
           "default": {
@@ -376,6 +342,55 @@
             "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/NamespaceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List_Namespaces_BySubscription_Id": {
+            "$ref": "./examples/Get_Namespace_List_By_SubscriptionId.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/assets": {
+      "get": {
+        "operationId": "NamespaceAssets_ListBySubscription",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "List NamespaceAsset resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAssetListResult"
             }
           },
           "default": {
@@ -709,285 +724,6 @@
             "name": "assetEndpointProfileName",
             "in": "path",
             "description": "Asset Endpoint Profile name parameter.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 63,
-            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets": {
-      "get": {
-        "operationId": "Assets_ListByResourceGroup",
-        "tags": [
-          "Assets"
-        ],
-        "description": "List Asset resources by resource group",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AssetListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets/{assetName}": {
-      "get": {
-        "operationId": "Assets_Get",
-        "tags": [
-          "Assets"
-        ],
-        "description": "Get a Asset",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "assetName",
-            "in": "path",
-            "description": "Asset name parameter.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 63,
-            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/Asset"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "Assets_CreateOrReplace",
-        "tags": [
-          "Assets"
-        ],
-        "description": "Create a Asset",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "assetName",
-            "in": "path",
-            "description": "Asset name parameter.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 63,
-            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'Asset' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/Asset"
-            }
-          },
-          "201": {
-            "description": "Resource 'Asset' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/Asset"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "Assets_Update",
-        "tags": [
-          "Assets"
-        ],
-        "description": "Update a Asset",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "assetName",
-            "in": "path",
-            "description": "Asset name parameter.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 63,
-            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AssetUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/Asset"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "Assets_Delete",
-        "tags": [
-          "Assets"
-        ],
-        "description": "Delete a Asset",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "assetName",
-            "in": "path",
-            "description": "Asset name parameter.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -1616,6 +1352,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "List_Namespaces_By_Resource_Group": {
+            "$ref": "./examples/Get_Namespace_List_By_ResourceGroup.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -1661,6 +1402,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get_Namespace": {
+            "$ref": "./examples/Get_Namespace.json"
           }
         }
       },
@@ -1805,6 +1551,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Update_Namespace_Endpoints": {
+            "$ref": "./examples/Update_Namespace_Endpoints.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1834,6 +1585,335 @@
             "type": "string",
             "minLength": 3,
             "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/assets": {
+      "get": {
+        "operationId": "NamespaceAssets_ListByResourceGroup",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "List NamespaceAsset resources by Namespace",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAssetListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}": {
+      "get": {
+        "operationId": "NamespaceAssets_Get",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "Get a NamespaceAsset",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAsset"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "NamespaceAssets_CreateOrReplace",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "Create a NamespaceAsset",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NamespaceAsset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'NamespaceAsset' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAsset"
+            }
+          },
+          "201": {
+            "description": "Resource 'NamespaceAsset' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAsset"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "NamespaceAssets_Update",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "Update a NamespaceAsset",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NamespaceAssetUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NamespaceAsset"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "NamespaceAssets_Delete",
+        "tags": [
+          "NamespaceAssets"
+        ],
+        "description": "Delete a NamespaceAsset",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           }
         ],
@@ -1908,6 +1988,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "List_NamespaceDevices_ByResourceGroup": {
+            "$ref": "./examples/Get_Namespace_Devices.json"
           }
         },
         "x-ms-pageable": {
@@ -2045,6 +2130,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "CreateOrReplace_NamespaceDevices": {
+            "$ref": "./examples/Create_Namespace_Device.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -2122,6 +2212,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Update_NamespaceDevices": {
+            "$ref": "./examples/Update_Namespace_Device.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2958,32 +3053,6 @@
     }
   },
   "definitions": {
-    "Asset": {
-      "type": "object",
-      "description": "Asset definition.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/AssetProperties",
-          "description": "The resource-specific properties for this resource."
-        },
-        "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "extendedLocation"
-      ],
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
     "AssetEndpointProfile": {
       "type": "object",
       "description": "Asset Endpoint Profile definition.",
@@ -3152,27 +3221,6 @@
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
         }
       }
-    },
-    "AssetListResult": {
-      "type": "object",
-      "description": "The response of a Asset list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The Asset items on this page",
-          "items": {
-            "$ref": "#/definitions/Asset"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
     },
     "AssetProperties": {
       "type": "object",
@@ -3401,106 +3449,6 @@
       "required": [
         "name"
       ]
-    },
-    "AssetUpdate": {
-      "type": "object",
-      "description": "The type used for update operations of the Asset.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "$ref": "#/definitions/AssetUpdateProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      }
-    },
-    "AssetUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the Asset.",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enabled/Disabled status of the asset."
-        },
-        "displayName": {
-          "type": "string",
-          "description": "Human-readable display name."
-        },
-        "description": {
-          "type": "string",
-          "description": "Human-readable description of the asset."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Asset manufacturer name."
-        },
-        "manufacturerUri": {
-          "type": "string",
-          "description": "Asset manufacturer URI."
-        },
-        "model": {
-          "type": "string",
-          "description": "Asset model name."
-        },
-        "productCode": {
-          "type": "string",
-          "description": "Asset product code."
-        },
-        "hardwareRevision": {
-          "type": "string",
-          "description": "Revision number of the hardware."
-        },
-        "softwareRevision": {
-          "type": "string",
-          "description": "Revision number of the software."
-        },
-        "documentationUri": {
-          "type": "string",
-          "description": "Reference to the documentation."
-        },
-        "serialNumber": {
-          "type": "string",
-          "description": "Asset serial number."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
-          "additionalProperties": {}
-        },
-        "defaultDatasetsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
-        },
-        "defaultEventsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
-        },
-        "defaultTopic": {
-          "$ref": "#/definitions/TopicUpdate",
-          "description": "Object that describes the default topic information for the asset."
-        },
-        "datasets": {
-          "type": "array",
-          "description": "Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.",
-          "items": {
-            "$ref": "#/definitions/Dataset"
-          },
-          "x-ms-identifiers": []
-        },
-        "events": {
-          "type": "array",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
-          "items": {
-            "$ref": "#/definitions/Event"
-          },
-          "x-ms-identifiers": []
-        }
-      }
     },
     "Authentication": {
       "type": "object",
@@ -4748,6 +4696,153 @@
         }
       ]
     },
+    "NamespaceAsset": {
+      "type": "object",
+      "description": "NamespaceAsset definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AssetProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "The extended location.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "extendedLocation"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "NamespaceAssetListResult": {
+      "type": "object",
+      "description": "The response of a NamespaceAsset list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The NamespaceAsset items on this page",
+          "items": {
+            "$ref": "#/definitions/NamespaceAsset"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "NamespaceAssetUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the NamespaceAsset.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/NamespaceAssetUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "NamespaceAssetUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the NamespaceAsset.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enabled/Disabled status of the asset."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the asset."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Asset manufacturer name."
+        },
+        "manufacturerUri": {
+          "type": "string",
+          "description": "Asset manufacturer URI."
+        },
+        "model": {
+          "type": "string",
+          "description": "Asset model name."
+        },
+        "productCode": {
+          "type": "string",
+          "description": "Asset product code."
+        },
+        "hardwareRevision": {
+          "type": "string",
+          "description": "Revision number of the hardware."
+        },
+        "softwareRevision": {
+          "type": "string",
+          "description": "Revision number of the software."
+        },
+        "documentationUri": {
+          "type": "string",
+          "description": "Reference to the documentation."
+        },
+        "serialNumber": {
+          "type": "string",
+          "description": "Asset serial number."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+          "additionalProperties": {}
+        },
+        "defaultDatasetsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
+        },
+        "defaultEventsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
+        },
+        "defaultTopic": {
+          "$ref": "#/definitions/TopicUpdate",
+          "description": "Object that describes the default topic information for the asset."
+        },
+        "datasets": {
+          "type": "array",
+          "description": "Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.",
+          "items": {
+            "$ref": "#/definitions/Dataset"
+          },
+          "x-ms-identifiers": []
+        },
+        "events": {
+          "type": "array",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "items": {
+            "$ref": "#/definitions/Event"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "NamespaceDevice": {
       "type": "object",
       "description": "Device Model as ARM resource.",
@@ -4829,6 +4924,11 @@
       "type": "object",
       "description": "Defines the container registry proprties.",
       "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "Globally unique, immutable, non-reusable id.",
+          "readOnly": true
+        },
         "messaging": {
           "$ref": "#/definitions/Messaging",
           "description": "Property bag containing the device's unassigned and assigned endpoints."
