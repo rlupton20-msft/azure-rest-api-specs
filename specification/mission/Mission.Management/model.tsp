@@ -36,6 +36,36 @@ using TypeSpec.Versioning;
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
+/** Compliant create or update template */
+/**
+ * A long-running resource CreateOrUpdate (PUT)
+ * @template TResource the resource being patched
+ * @template TBaseParameters Optional. Allows overriding the operation parameters
+ */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation-outside-interface" "This is a valid template"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a valid template"
+@autoRoute
+@doc("Create a {name}", TResource)
+@OpenAPI.extension("x-ms-long-running-operation", true)
+@OpenAPI.extension(
+  "x-ms-long-running-operation-options",
+  {
+    `final-state-via`: "azure-async-operation",
+  }
+)
+@armResourceCreateOrUpdate(TResource)
+@put
+op ArmResourceCreateOrUpdateAsync<
+  TResource extends Azure.ResourceManager.Foundations.Resource,
+  TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
+>(
+  ...ResourceInstanceParameters<TResource, TBaseParameters>,
+
+  @doc("Resource create parameters.")
+  @bodyRoot
+  resource: TResource,
+): ArmUpdatedResponse<TResource> | ArmCreatedResponse<TResource> | ErrorResponse;
+
 @doc("Arm resource update successful")
 model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.Resource>
   is ArmResponse<TResource>;
@@ -193,11 +223,7 @@ model ApprovalResource is ExtensionResource<ApprovalProperties> {
 @armResourceOperations
 interface Workload {
   get is ArmResourceRead<WorkloadResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    WorkloadResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<WorkloadResource>;
   update is ArmResourcePatchAsync<WorkloadResource, WorkloadProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -210,11 +236,7 @@ interface Workload {
 @armResourceOperations
 interface Endpoint {
   get is ArmResourceRead<EndpointResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    EndpointResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EndpointResource>;
   update is ArmResourcePatchAsync<EndpointResource, EndpointProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -227,11 +249,7 @@ interface Endpoint {
 @armResourceOperations
 interface VirtualEnclave {
   get is ArmResourceRead<EnclaveResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    EnclaveResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveResource>;
   update is ArmResourcePatchAsync<EnclaveResource, VirtualEnclaveProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -258,11 +276,7 @@ interface VirtualEnclave {
 @armResourceOperations
 interface Community {
   get is ArmResourceRead<CommunityResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    CommunityResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<CommunityResource>;
   update is ArmResourcePatchAsync<CommunityResource, CommunityProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -291,11 +305,7 @@ interface Community {
 @renamedFrom(Microsoft.Mission.Versions.v2024_06_01_preview, "Catalog")
 interface CatalogInterface {
   get is ArmResourceRead<CatalogResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    CatalogResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<CatalogResource>;
   update is ArmResourcePatchAsync<CatalogResource, CatalogProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -308,11 +318,7 @@ interface CatalogInterface {
 @armResourceOperations
 interface InternalConnections {
   get is ArmResourceRead<InternalConnection>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    InternalConnection,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<InternalConnection>;
   update is ArmResourcePatchAsync<
     InternalConnection,
     InternalConnectionProperties
@@ -329,11 +335,7 @@ interface InternalConnections {
 @armResourceOperations
 interface TransitHub {
   get is ArmResourceRead<TransitHubResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    TransitHubResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<TransitHubResource>;
   update is ArmResourcePatchAsync<TransitHubResource, TransitHubProperties>;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -347,11 +349,7 @@ interface TransitHub {
 @armResourceOperations
 interface EnclaveConnection {
   get is ArmResourceRead<EnclaveConnectionResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    EnclaveConnectionResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveConnectionResource>;
   update is ArmResourcePatchAsync<
     EnclaveConnectionResource,
     EnclaveConnectionProperties
@@ -385,11 +383,7 @@ interface EnclaveConnection {
 @armResourceOperations
 interface EnclaveEndpoints {
   get is ArmResourceRead<EnclaveEndpointResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    EnclaveEndpointResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EnclaveEndpointResource>;
   update is ArmResourcePatchAsync<
     EnclaveEndpointResource,
     EnclaveEndpointProperties
@@ -406,11 +400,7 @@ interface EnclaveEndpoints {
 @armResourceOperations
 interface CommunityEndpoints {
   get is ArmResourceRead<CommunityEndpointResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    CommunityEndpointResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<CommunityEndpointResource>;
   update is ArmResourcePatchAsync<
     CommunityEndpointResource,
     CommunityEndpointProperties
@@ -426,11 +416,7 @@ interface CommunityEndpoints {
 @armResourceOperations
 interface ExternalConnections {
   get is ArmResourceRead<ExternalConnection>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    ExternalConnection,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ExternalConnection>;
   update is ArmResourcePatchAsync<
     ExternalConnection,
     ExternalConnectionProperties
@@ -447,17 +433,13 @@ interface ExternalConnections {
 @armResourceOperations
 interface Approval {
   get is ArmResourceRead<ApprovalResource>;
-  @useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    ApprovalResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader & ArmAsyncOperationHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ApprovalResource>;
   listByParent is ArmResourceListByParent<ApprovalResource>;
   update is ArmResourcePatchAsync<
     ApprovalResource,
     ApprovalProperties
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;  
   @doc("Upon receiving approval or rejection from approver, this facilitates actions on approval resource")
   @armResourceAction(ApprovalResource)
   initiatorCallback is ArmResourceActionAsync<ApprovalResource, InitiatorCallbackRequest, InitiatorCallbackResponse>;
