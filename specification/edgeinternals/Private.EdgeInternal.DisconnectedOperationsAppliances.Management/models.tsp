@@ -24,7 +24,7 @@ union ConnectionIntent {
   /**
    * Device is disconnected from cloud.
    */
-  IndirectlyConnected: "IndirectlyConnected",
+  Disconnected: "Disconnected",
 
   string,
 }
@@ -80,8 +80,8 @@ union RegistrationStatus {
   string,
 }
 
-@doc("The winfield properties")
-model WinfieldProperties {
+@doc("The disconnectedoperationsappliance properties")
+model DisconnectedOperationsApplianceProperties {
   @visibility("read")
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
@@ -109,8 +109,8 @@ model WinfieldProperties {
   deviceVersion?: string;
 }
 
-@doc("The winfield manifest")
-model WinfieldDeploymentManifest {
+@doc("The disconnectedoperationsappliance manifest")
+model DisconnectedOperationsApplianceDeploymentManifest {
   @visibility("read")
   @doc("The resource Id")
   resourceId: string;
