@@ -12,8 +12,8 @@ using Azure.ResourceManager;
 // Define a model for the approval initator callback request
 @doc("Request body for calling post-action")
 model InitiatorCallbackRequest {
-  @doc("Approval status indicating 'Approved', 'Rejected', 'Deleted' or 'Expired'")
-  approvalStatus: "Approved" | "Rejected" | "Deleted" | "Expired" | string;
+  @doc("Approval status indicating 'Approved' or 'Rejected'")
+  approvalStatus: "Approved" | "Rejected" | string;
 }
 
 // Define a model for the approval initator callback response
