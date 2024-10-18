@@ -27,7 +27,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
-@armProviderNamespace("Private.Mission")
+@armProviderNamespace("Microsoft.Mission")
 @service({
   title: "Microsoft Mission",
 })
