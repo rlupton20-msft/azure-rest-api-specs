@@ -272,7 +272,7 @@ model TargetHealthStateEnumEnumValue {
 interface ElasticLoadBalancingv2TargetHealthDescriptions {
   get is ArmResourceRead<ElasticLoadBalancingv2TargetHealthDescription>;
   @doc("Create a ElasticLoadBalancingv2TargetHealthDescription. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ElasticLoadBalancingv2TargetHealthDescription>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<ElasticLoadBalancingv2TargetHealthDescription>;
   update is ArmCustomPatchAsync<
     ElasticLoadBalancingv2TargetHealthDescription,
     Azure.ResourceManager.Foundations.TagsUpdateModel<ElasticLoadBalancingv2TargetHealthDescription>

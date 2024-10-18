@@ -3708,17 +3708,33 @@ model InstanceAttachmentEnaSrdUdpSpecification {
   enaSrdUdpEnabled?: boolean;
 }
 
+@doc("Defines the stop action properties.")
+model StopEc2InstanceOptions {
+  @doc("Forces the instance to stop. The instance does not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Defaults to false.")
+  force?: boolean = false;
+
+  @doc("Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. Defaults to false.")
+  hibernate?: boolean = false;
+}
+
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in aws."
 @armResourceOperations
 interface Ec2Instances {
   get is ArmResourceRead<Ec2Instance>;
   @doc("Create a Ec2Instance. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Ec2Instance>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<Ec2Instance>;
   delete is ArmResourceDeleteWithoutOkAsync<Ec2Instance>;
   list is ArmResourceListByParent<Ec2Instance>;
-  Start is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
-  Stop is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
-  Restart is ArmResourceActionNoResponseContentAsync<Ec2Instance, void>;
+  Start is ArmResourceActionAsync<
+    Ec2Instance,
+    void,
+    Azure.ResourceManager.Foundations.OperationStatusResult
+  >;
+  Stop is ArmResourceActionAsync<
+    Ec2Instance,
+    StopEc2InstanceOptions,
+    Azure.ResourceManager.Foundations.OperationStatusResult
+  >;
 }
 
 //--------------------------------------------------------------------------------------------

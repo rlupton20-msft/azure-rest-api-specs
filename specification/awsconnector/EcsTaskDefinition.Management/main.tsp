@@ -771,7 +771,7 @@ model Tmpfs {
   @doc("The absolute file path where the tmpfs volume is to be mounted.")
   containerPath?: string;
 
-  @doc("The list of tmpfs volume mount options. Valid values: ``'defaults' | 'ro' | 'rw' | 'suid' | 'nosuid' | 'dev' | 'nodev' | 'exec' | 'noexec' | 'sync' | 'async' | 'dirsync' | 'remount' | 'mand' | 'nomand' | 'atime' | 'noatime' | 'diratime' | 'nodiratime' | 'bind' | 'rbind' | 'unbindable' | 'runbindable' | 'private' | 'rprivate' | 'shared' | 'rshared' | 'slave' | 'rslave' | 'relatime' | 'norelatime' | 'strictatime' | 'nostrictatime' | 'mode' | 'uid' | 'gid' | 'nr_inodes' | 'nr_blocks' | 'mpol'``")
+  @doc("The list of tmpfs volume mount options.")
   @extension("x-ms-identifiers", [])
   mountOptions?: string[];
 
@@ -821,7 +821,7 @@ model FSxAuthorizationConfig {
 interface EcsTaskDefinitions {
   get is ArmResourceRead<EcsTaskDefinition>;
   @doc("Create a EcsTaskDefinition. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<EcsTaskDefinition>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<EcsTaskDefinition>;
   update is ArmCustomPatchAsync<
     EcsTaskDefinition,
     Azure.ResourceManager.Foundations.TagsUpdateModel<EcsTaskDefinition>

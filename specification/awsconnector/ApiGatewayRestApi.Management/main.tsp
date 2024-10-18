@@ -177,7 +177,7 @@ model Tag {
 interface ApiGatewayRestApis {
   get is ArmResourceRead<ApiGatewayRestApi>;
   @doc("Create a ApiGatewayRestApi. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<ApiGatewayRestApi>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<ApiGatewayRestApi>;
   update is ArmCustomPatchAsync<
     ApiGatewayRestApi,
     Azure.ResourceManager.Foundations.TagsUpdateModel<ApiGatewayRestApi>

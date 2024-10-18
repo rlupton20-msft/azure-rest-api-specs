@@ -96,7 +96,7 @@ model AwsLambdaFunctionCodeLocationProperties {
 interface LambdaFunctionCodeLocations {
   get is ArmResourceRead<LambdaFunctionCodeLocation>;
   @doc("Create a LambdaFunctionCodeLocation. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<LambdaFunctionCodeLocation>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<LambdaFunctionCodeLocation>;
   update is ArmCustomPatchAsync<
     LambdaFunctionCodeLocation,
     Azure.ResourceManager.Foundations.TagsUpdateModel<LambdaFunctionCodeLocation>

@@ -187,7 +187,7 @@ model TypeEnumValue {
 interface S3AccessControlPolicies {
   get is ArmResourceRead<S3AccessControlPolicy>;
   @doc("Create a S3AccessControlPolicy. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<S3AccessControlPolicy>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<S3AccessControlPolicy>;
   update is ArmCustomPatchAsync<
     S3AccessControlPolicy,
     Azure.ResourceManager.Foundations.TagsUpdateModel<S3AccessControlPolicy>
