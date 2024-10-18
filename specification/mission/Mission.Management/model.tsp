@@ -465,8 +465,8 @@ interface Approval {
       ArmAsyncOperationHeader
   >;
   listByParent is ArmResourceListByParent<ApprovalResource>;
-  update is ArmResourcePatchAsync<ApprovalResource,ApprovalProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;  
+  update is ArmResourcePatchAsync<ApprovalResource, ApprovalProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;
   @doc("Upon receiving approval or rejection from approver, this facilitates actions on approval resource")
   @armResourceAction(ApprovalResource)
   initiatorCallback is ArmResourceActionAsync<ApprovalResource, InitiatorCallbackRequest, InitiatorCallbackResponse>;
