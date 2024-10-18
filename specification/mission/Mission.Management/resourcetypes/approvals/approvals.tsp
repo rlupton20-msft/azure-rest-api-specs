@@ -25,6 +25,12 @@ union ApprovalStatus {
   @doc("ApprovalStatus Type Pending")
   Pending: "Pending",
 
+  @doc("ApprovalStatus Type Deleted")
+  Deleted: "Deleted",
+
+  @doc("ApprovalStatus Type Expired")
+  Expired: "Expired",
+
   string
 }
 
@@ -36,16 +42,30 @@ union ActionPerformed {
   @doc("ActionPerformed Type Rejected")
   Rejected: "Rejected",
 
+  @doc("ActionPerformed Type Deleted")
+  Deleted: "Deleted",
+
+  @doc("ActionPerformed Type Expired")
+  Expired: "Expired",
+
   string
 }
 
 @doc("Request Metadata for approvals request.")
 model RequestMetadata{
   @doc("Resource Action of the item being approved or declined.")
-    resourceAction: string;
+  resourceAction: string;
 
-    @doc("Approval status.")
-    approvalStatus?: ApprovalStatus;
+  @doc("Approval status.")
+  approvalStatus?: ApprovalStatus;
+
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @doc("Route name for the approval callback")
+  approvalCallbackRoute: string;
+  
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @doc("Payload to be sent upon any action on approval request")
+  approvalCallbackPayload?: string;           
 }
 
 @doc("Approver Metadata for approvals request.")
