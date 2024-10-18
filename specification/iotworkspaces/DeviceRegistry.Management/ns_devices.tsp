@@ -15,6 +15,7 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @parentResource(Namespace)
 @doc("Device Model as ARM resource.")
 model NamespaceDevice is TrackedResource<DeviceProperties_V2024_10_01_Preview> {
@@ -34,6 +35,7 @@ model NamespaceDevice is TrackedResource<DeviceProperties_V2024_10_01_Preview> {
   etag?: string;
 }
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoints {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
@@ -45,6 +47,7 @@ model MessagingEndpoints {
   unassigned?: Record<MessagingEndpoint>;
 }
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @armResourceOperations
 interface NamespaceDevices {
   get is ArmResourceRead<NamespaceDevice>;

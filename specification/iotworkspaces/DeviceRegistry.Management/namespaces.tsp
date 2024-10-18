@@ -13,6 +13,7 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @doc("namespace definition.")
 model Namespace is TrackedResource<NamespaceProperties> {
   @doc("Namespace name parameter.")
@@ -27,6 +28,7 @@ model Namespace is TrackedResource<NamespaceProperties> {
   ...ManagedSystemAssignedIdentityProperty;
 }
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @doc("Defines the container registry proprties.")
 model Messaging {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
@@ -50,6 +52,7 @@ model NamespaceProperties {
   provisioningState?: ProvisioningState;
 }
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoint {
   @doc("Type of connection endpoint.")
@@ -60,6 +63,7 @@ model MessagingEndpoint {
 }
 
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @armResourceOperations
 interface Namespaces {
   get is ArmResourceRead<Namespace>;

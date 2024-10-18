@@ -18,6 +18,7 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @doc("NamespaceAsset definition.")
 @parentResource(Namespace)
 model NamespaceAsset is TrackedResource<AssetProperties> {
@@ -38,6 +39,7 @@ model NamespaceAsset is TrackedResource<AssetProperties> {
 }
 
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @armResourceOperations
 interface NamespaceAssets {
   get is ArmResourceRead<NamespaceAsset>;

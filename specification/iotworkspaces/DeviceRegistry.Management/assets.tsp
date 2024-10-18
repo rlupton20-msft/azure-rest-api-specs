@@ -16,6 +16,7 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Asset definition.")
 model Asset is TrackedResource<AssetProperties> {
   @doc("Asset name parameter.")
@@ -35,6 +36,7 @@ model Asset is TrackedResource<AssetProperties> {
 }
 
 @removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @armResourceOperations
 interface Assets {
   get is ArmResourceRead<Asset>;
