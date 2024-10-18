@@ -42,9 +42,6 @@ union ActionPerformed {
   @doc("ActionPerformed Type Rejected")
   Rejected: "Rejected",
 
-  @doc("ActionPerformed Type Deleted")
-  Deleted: "Deleted",
-
   string
 }
 
