@@ -27,12 +27,12 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
-@armProviderNamespace("Microsoft.Mission")
+@armProviderNamespace("Private.Mission")
 @service({
-  title: "Microsoft Mission",
+  title: "Private Mission",
 })
 @versioned(Microsoft.Mission.Versions)
-@doc("Microsoft Mission Resource Provider management API.")
+@doc("Private Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 interface Operations extends Azure.ResourceManager.Operations {}
