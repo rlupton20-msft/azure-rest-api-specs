@@ -45,9 +45,6 @@ union ActionPerformed {
   @doc("ActionPerformed Type Deleted")
   Deleted: "Deleted",
 
-  @doc("ActionPerformed Type Expired")
-  Expired: "Expired",
-
   string
 }
 
