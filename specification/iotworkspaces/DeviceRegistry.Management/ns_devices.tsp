@@ -34,18 +34,28 @@ model NamespaceDevice is TrackedResource<DeviceProperties_V2024_10_01_Preview> {
   @visibility("read")
   etag?: string;
 }
+
+@added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
+@doc("Connection endpoint url a device can use to connect to a service.")
+model DeviceMessagingEndpoint {
+  @doc("Type of connection used for the endpoint.")
+  type?: string;
+}
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoints {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("Actively used endpoints a device can use to connect to several services.")
-  assigned: Record<MessagingEndpoint>;
+  assigned: Record<DeviceMessagingEndpoint>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("List of most recently removed endpoints.")
-  unassigned?: Record<MessagingEndpoint>;
+  unassigned?: Record<DeviceMessagingEndpoint>;
 }
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @armResourceOperations

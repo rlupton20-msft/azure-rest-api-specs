@@ -51,14 +51,15 @@ model NamespaceProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoint {
-  @doc("Type of connection endpoint.")
+  @doc("Type of connection used for the endpoint.")
   type?: string;
 
-  @doc("Fully qualified domain name.")
+  @doc("The complete ARM resourceId for the messaging endpoint.")
   resourceId?: string;
 }
 
