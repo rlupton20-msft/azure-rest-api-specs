@@ -111,6 +111,43 @@ model GovernedServiceItem {
   initiatives?: string[];
 }
 
+@added(Microsoft.Mission.Versions.v2024_11_01_preview)
+@doc("ApprovalSettings Properties")
+model ApprovalSettings {
+  @doc("Approval settings for endpoint creation (True or False).")
+  endpointCreation?: boolean;
+
+  @doc("Approval settings for endpoint update (True or False).")
+  endpointUpdate?: boolean;
+
+  @doc("Approval settings for endpoint deletion (True or False).")
+  endpointDeletion?: boolean;
+
+  @doc("Approval settings for enclave connection creation (True or False).")
+  connectionCreation?: boolean;
+
+  @doc("Approval settings for enclave connection update (True or False).")
+  connectionUpdate?: boolean;
+
+  @doc("Behaviour of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
+  connectionUpdateMode?: "Automatic" | "Manual" | string;
+
+  @doc("Approval settings for enclave connection deletion (True or False).")
+  connectionDeletion?: boolean;
+
+  @doc("Approval settings for virtual enclave creation (True or False).")
+  enclaveCreation?: boolean;
+
+  @doc("Approval settings for virtual enclave deletion (True or False).")
+  enclaveDeletion?: boolean;
+
+  @doc("Approval settings for toggling maintenance mode (True or False).")
+  maintenanceMode?: boolean;
+
+  @doc("Approval settings for deploying service catalog templates (True or False).")
+  serviceCatalogDeployment?: boolean;
+}
+
 @doc("Community Resource Properties")
 model CommunityProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -158,4 +195,8 @@ model CommunityProperties {
   @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)
   @doc("Community role assignments")
   communityRoleAssignmentList?: RoleAssignmentItem[];
+
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @doc("Approval settings for a community.")
+  approvalSettings?: ApprovalSettings;
 }
