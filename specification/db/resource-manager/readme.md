@@ -46,7 +46,7 @@ suppressions:
   - code: PatchBodyParametersSchema
     from: db.json 
     reason: False alarm stating that there should be no required property in PATCH operations, but location property is required for tracked resources.
-  - suppress: GuidUsage
+  - code: GuidUsage
     from: db.json
     reason: We are using GUID for references to Azure Active Directory IDs which are GUIDs.
 ```
