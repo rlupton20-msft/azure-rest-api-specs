@@ -114,37 +114,37 @@ model GovernedServiceItem {
 @added(Microsoft.Mission.Versions.v2024_11_01_preview)
 @doc("ApprovalRequirements Properties")
 model ApprovalRequirements {
-  @doc("Whether approval is required for endpoint creation (True or False)")
+  @doc("Approval required for for endpoint creation (True or False)")
   endpointCreation?: boolean;
 
-  @doc("Whether approval is required for endpoint update (True or False).")
+  @doc("Approval required for for endpoint update (True or False).")
   endpointUpdate?: boolean;
 
-  @doc("Whether approval is required for endpoint deletion (True or False).")
+  @doc("Approval required for for endpoint deletion (True or False).")
   endpointDeletion?: boolean;
 
-  @doc("Whether approval is required for enclave connection creation (True or False).")
+  @doc("Approval required for for enclave connection creation (True or False).")
   connectionCreation?: boolean;
 
-  @doc("Whether approval is required for enclave connection update (True or False).")
+  @doc("Approval required for for enclave connection update (True or False).")
   connectionUpdate?: boolean;
 
   @doc("Behaviour of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
   connectionUpdateMode?: "Automatic" | "Manual" | string;
 
-  @doc("Whether approval is required for enclave connection deletion (True or False).")
+  @doc("Approval required for for enclave connection deletion (True or False).")
   connectionDeletion?: boolean;
 
-  @doc("Whether approval is required for virtual enclave creation (True or False).")
+  @doc("Approval required for for virtual enclave creation (True or False).")
   enclaveCreation?: boolean;
 
-  @doc("Whether approval is required for virtual enclave deletion (True or False).")
+  @doc("Approval required for for virtual enclave deletion (True or False).")
   enclaveDeletion?: boolean;
 
-  @doc("Whether approval is required for toggling maintenance mode (True or False).")
+  @doc("Approval required for for toggling maintenance mode (True or False).")
   maintenanceMode?: boolean;
 
-  @doc("Whether approval is required for deploying service catalog templates (True or False).")
+  @doc("Approval required for for deploying service catalog templates (True or False).")
   serviceCatalogDeployment?: boolean;
 }
 
