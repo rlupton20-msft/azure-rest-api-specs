@@ -16,13 +16,14 @@ namespace Microsoft.PortalServices;
  * A Portal Extension Slot
  */
 @parentResource(PortalExtension)
-model ExtensionSlot is TrackedResource<ExtensionSlotProperties> {
+model ExtensionSlot
+  is Azure.ResourceManager.TrackedResource<ExtensionSlotProperties> {
   /**
    * The name of the slot
    */
   @maxLength(64)
   @minLength(3)
-  @pattern("^[a-z][a-z0-9]*$")
+  @pattern("^[A-Za-z0-9_]*$")
   @path
   @key("slotName")
   @segment("slots")
@@ -45,7 +46,6 @@ interface PortalExtensionSlots {
   /**
    * Updates an existing portal extension slot.
    */
-  @parameterVisibility("read")
   update is ArmCustomPatchSync<ExtensionSlot, PatchableExtensionSlot>;
 
   /**

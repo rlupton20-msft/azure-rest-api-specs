@@ -6,6 +6,7 @@ import "./models.tsp";
 import "./PortalExtension.tsp";
 
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
@@ -16,13 +17,14 @@ namespace Microsoft.PortalServices;
  * Extension Version
  */
 @parentResource(PortalExtension)
-model ExtensionVersion is TrackedResource<ExtensionVersionProperties> {
+model ExtensionVersion
+  is Azure.ResourceManager.TrackedResource<ExtensionVersionProperties> {
   /**
    * The name of the version
    */
   @maxLength(64)
   @minLength(3)
-  @pattern("^[a-z][a-z0-9]*$")
+  @pattern("^([A-Za-z0-9-]+(.){0,1})+$")
   @path
   @key("versionName")
   @segment("versions")
@@ -45,19 +47,18 @@ interface PortalExtensionVersions {
   /**
    * Updates an existing portal extension version.
    */
-  @parameterVisibility("read")
   update is ArmCustomPatchSync<ExtensionVersion, PatchableExtensionVersion>;
 
   /**
    * Deletes the portal extension.
    */
-  @OpenAPI.extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "azure-async-operation",
-    }
-  )
-  delete is ArmResourceDeleteWithoutOkAsync<ExtensionVersion>;
+  @useFinalStateVia("azure-async-operation")
+  delete is ArmResourceDeleteWithoutOkAsync<
+    ExtensionVersion,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      ArmLroLocationHeader
+  >;
 
   /**
    * Gets all the portal extension versions within a resource group.
