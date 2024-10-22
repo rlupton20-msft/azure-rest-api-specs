@@ -27,7 +27,16 @@ These are the global settings for the fist.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2024-08-07-preview
+tag: package-2024-08-07
+```
+
+### Tag: package-2024-08-07
+
+These settings apply only when `--tag=package-2024-08-07` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-08-07'
+input-file:
+  - Microsoft.IoTFirmwareDefense/stable/2024-08-07/iotfirmwaredefense.json
 ```
 
 ### Tag: package-2024-08-07-preview
