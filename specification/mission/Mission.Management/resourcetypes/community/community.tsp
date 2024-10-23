@@ -112,8 +112,8 @@ model GovernedServiceItem {
 }
 
 @added(Microsoft.Mission.Versions.v2024_11_01_preview)
-@doc("ApprovalRequirements Properties")
-model ApprovalRequirements {
+@doc("ApprovalSettings Properties")
+model ApprovalSettings {
   @doc("Approval required for endpoint creation (True or False)")
   endpointCreation?: boolean;
 
@@ -198,5 +198,5 @@ model CommunityProperties {
 
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
-  approvalRequirements?: ApprovalRequirements;
+  approvalSettings?: ApprovalSettings;
 }
