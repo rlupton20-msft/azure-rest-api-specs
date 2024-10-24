@@ -6,6 +6,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.BbeeDev3;
+
 // ------------------------------------------------------------------
 // Section 3.1: Policy Service Patch Models
 // ------------------------------------------------------------------
@@ -102,30 +103,30 @@ model PatchDiscoveryBootstrapAuthenticationRule
   type: BootstrapAuthenticationType.Discovery;
 }
 
-@doc("The Fdo101-based authentication rule for bootstrapping.")
+@doc("The FDO-based authentication rule for bootstrapping.")
 @added(Versions.v2024_12_01_preview)
-model PatchFdo101BootstrapAuthenticationRule
+model PatchFdoBootstrapAuthenticationRule
   extends PatchBootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Fdo101;
+  type: BootstrapAuthenticationType.FDO;
 
   @visibility("read")
-  @doc("Per policy public key to represent this policy")
-  publicKey?: bytes;
+  @doc("Per policy public keys to represent this policy")
+  publicKeys?: FdoPublicKeys;
 
   @doc("Ownership Voucher storage link")
   ownershipVoucherStorage?: OwnershipVoucherStorage;
 
   @doc("Endpoint for the rendezvous service, e.g. https://contoso-rv1.contoso.com")
-  rendezvousEndpoint?: string;
+  rendezvousEndpoint?: url;
 }
 
 @doc("Generic Ownership Voucher Storage type.")
 @added(Versions.v2024_12_01_preview)
-@discriminator("type")
+@discriminator("ownershipVoucherStorageType")
 model PatchOwnershipVoucherStorage {
   @doc("The Ownership Voucher Storage type.")
-  type: OwnershipVoucherStorageType;
+  ownershipVoucherStorageType: OwnershipVoucherStorageType;
 }
 
 @doc("Storage Account Ownership Voucher Storage. Policy MI is used to access this storage")
@@ -133,13 +134,13 @@ model PatchOwnershipVoucherStorage {
 model PatchStorageAccountOwnershipVoucherStorage
   extends PatchOwnershipVoucherStorage {
   @doc("The Ownership Voucher Storage type.")
-  type: OwnershipVoucherStorageType.AzureBlobStorage;
+  ownershipVoucherStorageType: OwnershipVoucherStorageType.AzureBlobStorage;
 
   @doc("The storage resource id")
   resourceId?: StorageAccountResourceId;
 
-  @doc("Endpoint for the storage account") // TODO: determine correct example here
-  containerUri?: string;
+  @doc("Endpoint URI for the storage account") // TODO: determine correct example here
+  containerUri?: url;
 }
 
 @doc("The rule for Just-in-time connection.")

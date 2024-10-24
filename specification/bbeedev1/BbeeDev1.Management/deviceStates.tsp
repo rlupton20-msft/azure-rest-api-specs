@@ -12,6 +12,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.BbeeDev1;
+
 // ------------------------------------------------------------------
 // Section 4: Extension resource: device state
 // ------------------------------------------------------------------
@@ -76,7 +77,7 @@ model DeviceStateProperties {
 
   @added(Versions.v2024_12_01_preview)
   @visibility("read")
-  @doc("TTL until the device can be onboarded, in utcDateTime format")
+  @doc("Indicates the maximum date and time by which a device can be onboarded, in utcDateTime format")
   onboardUntilDate?: utcDateTime;
 }
 
@@ -105,10 +106,10 @@ union OnboardingStatus {
   Failed: "Failed",
 }
 
-@doc("The properties passed in the readyToOnboard POST request.")
+@doc("The properties passed in the enableOnboarding POST request.")
 @added(Versions.v2024_12_01_preview)
-model ReadyToOnboardProperties {
-  @doc("Desired TTL until the device can be onboarded")
+model EnableOnboardingProperties {
+  @doc("Desired maximum duration by which a device can be onboarded")
   ttl: duration; // TODO, determine min/max enforcement, correct format here
 }
 
@@ -120,8 +121,9 @@ interface DeviceStates {
   update is ArmResourcePatchSync<DeviceState, DeviceStateProperties>;
   listByParent is ArmResourceListByParent<DeviceState>;
   @added(Versions.v2024_12_01_preview)
-  readyToOnboard is ArmResourceActionNoResponseContentAsync<
+  enableOnboarding is ArmResourceActionNoResponseContentAsync<
     DeviceState,
-    ReadyToOnboardProperties
+    EnableOnboardingProperties
   >; // TODO: revisit error response body after private RP testing if needed
 }
+

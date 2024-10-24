@@ -20,7 +20,8 @@ namespace Private.BbeeDev4;
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A provisioning resource.")
-model OnboardingService is Azure.ResourceManager.TrackedResource<OnboardingServiceProperties> {
+model OnboardingService
+  is Azure.ResourceManager.TrackedResource<OnboardingServiceProperties> {
   @doc("The name of the Provisioning Resource.")
   @maxLength(64)
   @pattern("^[a-zA-Z0-9-]{3,63}[a-zA-Z0-9]$")
@@ -92,3 +93,4 @@ interface OnboardingServices {
   listByResourceGroup is ArmResourceListByParent<OnboardingService>;
   listBySubscription is ArmListBySubscription<OnboardingService>;
 }
+

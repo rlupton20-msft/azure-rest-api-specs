@@ -20,7 +20,7 @@ namespace Private.BbeeDev4;
 // ------------------------------------------------------------------
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A onboarding policy resource.")
+@doc("An onboarding policy resource.")
 @parentResource(OnboardingService)
 model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
   @doc("The name of the Policy tracked resource.")
@@ -157,58 +157,68 @@ union BootstrapAuthenticationType {
   Discovery: "Discovery",
 
   @added(Versions.v2024_12_01_preview)
-  @doc("The Fdo101 authentication type.")
-  Fdo101: "Fdo101", // TODO: come up with a versioned name, follow up with Adarsh/Jesus
+  @doc("The FDO authentication type.")
+  FDO: "FDO",
 }
 
-@doc("The Fdo101-based authentication rule for bootstrapping.")
+@doc("The FDO-based authentication rule for bootstrapping.")
 @added(Versions.v2024_12_01_preview)
-model Fdo101BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
+model FdoBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
-  type: BootstrapAuthenticationType.Fdo101;
+  type: BootstrapAuthenticationType.FDO;
 
   @visibility("read")
   @doc("Per policy public key(s) to extend ownership voucher to the customer.")
-  publicKeys: PublicKeys;
+  publicKeys?: FdoPublicKeys;
 
-  @doc("Ownership Voucher storage link")
+  @doc("Ownership Voucher storage")
   ownershipVoucherStorage?: OwnershipVoucherStorage;
 
   @doc("Endpoint for the rendezvous service, e.g. https://contoso-rv1.contoso.com")
-  rendezvousEndpoint: string;
+  rendezvousEndpoint?: url;
 }
 
 @doc("Owner public keys to extend ownership voucher to the customer.")
 @added(Versions.v2024_12_01_preview)
-model PublicKeys {
+model FdoPublicKeys {
   @doc("Public key as x5C with encryption type SECP256R1.")
-  secp256R1: bytes;
+  @visibility("read")
+  secp256R1?: FdoPublicKey;
 
   // SECP384R1 // TODO: SECP384R1 is not supported by some hardwares, we may need to add support for SECP256R1
 }
 
+@doc("Owner public key model")
+@added(Versions.v2024_12_01_preview)
+model FdoPublicKey {
+  @doc("x5Chain representation of the public key.")
+  @visibility("read")
+  default?: bytes[];
+  // status: boolean; // To be added later.
+}
+
 @doc("Generic Ownership Voucher Storage type.")
 @added(Versions.v2024_12_01_preview)
-@discriminator("type")
+@discriminator("ownershipVoucherStorageType")
 model OwnershipVoucherStorage {
   @doc("The Ownership Voucher Storage type.")
-  type: OwnershipVoucherStorageType;
+  ownershipVoucherStorageType: OwnershipVoucherStorageType;
 }
 
 @doc("Storage Account Ownership Voucher Storage. Policy MI is used to access this storage")
 @added(Versions.v2024_12_01_preview)
 model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
   @doc("The Ownership Voucher Storage type.")
-  type: OwnershipVoucherStorageType.AzureBlobStorage;
+  ownershipVoucherStorageType: OwnershipVoucherStorageType.AzureBlobStorage;
 
   @doc("The storage resource id")
   resourceId: StorageAccountResourceId;
 
-  @doc("Endpoint for the storage account") // TODO: determine correct example here
-  containerUri: string;
+  @doc("Endpoint URL for the storage container. e.g: https://contoso.blob.core.windows.net/mycontainer")
+  containerUri: url;
 }
 
-@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$") // TODO: test removing to see if RPaaS behavior has changed
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$")
 @added(Versions.v2024_12_01_preview)
 scalar StorageAccountResourceId
   extends armResourceIdentifier<[
