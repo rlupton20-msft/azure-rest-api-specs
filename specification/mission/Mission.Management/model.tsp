@@ -255,6 +255,23 @@ interface VirtualEnclave {
     @bodyRoot
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
+
+  @doc("Callback that triggers on approval state change.")
+  @armResourceAction(EnclaveResource)
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  approvalCallback is ArmResourceActionAsync<
+    EnclaveResource,
+    ApprovalCallbackRequest,
+    ApprovalCallbackResponse
+  >;
+  @doc("Callback that triggers on approval deletion state change.")
+  @armResourceAction(EnclaveResource)
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  approvalDeletionCallback is ArmResourceActionAsync<
+    EnclaveResource,
+    ApprovalDeletionCallbackRequest,
+    ApprovalDeletionCallbackResponse
+  >;
 }
 
 @doc("Community Interface")
