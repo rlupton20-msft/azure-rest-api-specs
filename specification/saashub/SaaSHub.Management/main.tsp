@@ -21,6 +21,7 @@ using TypeSpec.Versioning;
 /**
  * SaaSHub Resource Client
  */
+#suppress "@azure-tools/typespec-azure-core/casing-style" "SaaSHub is an existing onboarded RP"
 @armProviderNamespace
 @service({
   title: "SaaSHubResourcesClient",

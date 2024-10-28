@@ -4,6 +4,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using OpenAPI;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -16,7 +17,15 @@ interface Operations extends Azure.ResourceManager.Operations {}
  */
 union AutoRenew {
   string,
+
+  /**
+   * Auto rewnew is turned off
+   */
   Off: "Off",
+
+  /**
+   * Auto rewnew is turned on
+   */
   On: "On",
 }
 
@@ -25,22 +34,46 @@ union AutoRenew {
  */
 union Cancellation {
   string,
+
+  /**
+   * Cancellation is allowed
+   */
   Allowed: "Allowed",
+
+  /**
+   * Cancellation is not allowed
+   */
   NotAllowed: "NotAllowed",
 }
 
 /**
  * Gets the status of the SaaSHub cloud service at the time the operation was called.
  */
+@Azure.Core.lroStatus
 union ProvisioningState {
-  string,
-  Succeeded: "Succeeded",
-  Failed: "Failed",
-  Canceled: "Canceled",
+  ResourceProvisioningState,
+
+  /**
+   * Resource provisioning request is accepted
+   */
   Accepted: "Accepted",
+
+  /**
+   * Resource provisioning request is being processed
+   */
   Processing: "Processing",
+
+  /**
+   * Resource provisioning request is being updating
+   */
   Updating: "Updating",
+
+  /**
+   * Resource provisioning request status is unknown
+   */
   Unknown: "Unknown",
+
+  string,
 }
 
 /**
@@ -48,15 +81,55 @@ union ProvisioningState {
  */
 union SaasResourceStatus {
   string,
+
+  /**
+   * Saas resource status is unknown
+   */
   Unknown: "Unknown",
+
+  /**
+   * Saas resource status is active
+   */
   Active: "Active",
+
+  /**
+   * Saas resource status is disabled
+   */
   Disabled: "Disabled",
+
+  /**
+   * Saas resource status is deleted
+   */
   Deleted: "Deleted",
+
+  /**
+   * Saas resource status is past due
+   */
   PastDue: "PastDue",
+
+  /**
+   * Saas resource status is expiring
+   */
   Expiring: "Expiring",
+
+  /**
+   * Saas resource status is expired
+   */
   Expired: "Expired",
+
+  /**
+   * Saas resource status is auto renew
+   */
   AutoRenew: "AutoRenew",
+
+  /**
+   * Saas resource status is cancelled
+   */
   Cancelled: "Cancelled",
+
+  /**
+   * Saas resource status is suspended
+   */
   Suspended: "Suspended",
 }
 
@@ -65,8 +138,20 @@ union SaasResourceStatus {
  */
 union EvaluateResult {
   string,
+
+  /**
+   * Validation result is unknown
+   */
   Unknown: "Unknown",
+
+  /**
+   * Validation result is passed
+   */
   Passed: "Passed",
+
+  /**
+   * Validation result is failed
+   */
   Failed: "Failed",
 }
 
@@ -75,7 +160,15 @@ union EvaluateResult {
  */
 union EligibilityResult {
   string,
+
+  /**
+   * Ineligible for promotion
+   */
   Ineligible: "Ineligible",
+
+  /**
+   * Eligible for promotion
+   */
   Eligible: "Eligible",
 }
 
@@ -84,18 +177,33 @@ union EligibilityResult {
  */
 union CoTermTargetType {
   string,
+
+  /**
+   * Resource co-term type
+   */
   Resource: "Resource",
+
+  /**
+   * Contract co-term type
+   */
   Contract: "Contract",
 }
 
 /**
  * Type of the offer for which the cloud service is purchased
  */
-union OfferType{
+union OfferType {
   string,
+
+  /**
+   * Paid offer
+   */
   Paid: "Paid",
+
+  /**
+   * Trial offer
+   */
   Trial: "Trial",
-  Free: "Free",
 }
 
 /**
@@ -295,8 +403,7 @@ model TermDetails {
 /**
  * Request to check if the resource can be created
  */
-model CanCreateRequest is SaasResource {
-}
+model CanCreateRequest is SaasResource;
 
 /**
  * Validation result for canCreate operation.
@@ -341,18 +448,21 @@ model CanCreateResultAdditionalInfo {
    * Additional detail when request payload failed promotion constraints. Null when constraints passed or not applicable.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   promotion?: CanCreateResultPromotionInfo[];
 
   /**
    * Additional evaluation eligibility result for qualifying co-term resources for a future price concession. Null when constraints passed or not applicable.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   futurePrice?: CanCreateResultFuturePriceInfo[];
 
   /**
    * Additional detail when request payload failed coTerm constraints. Null when constraints passed or not applicable.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   coTermDates?: CoTermDateEligibilityResult[];
 }
 
@@ -370,6 +480,7 @@ model CanCreateResultAddOnInfo {
    * AddOn eligibility constraints.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   eligibilityConstraints?: EligibilityConstraint[];
 }
 
@@ -416,6 +527,7 @@ model CanCreateResultPromotionInfo {
    * Promotion eligibility constraints.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   eligibilityConstraints?: EligibilityConstraint[];
 }
 
@@ -446,12 +558,14 @@ model CanCreateResultFuturePriceInfo {
    * List of qualifying resources for the future price concession
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   qualifyingResources?: CanCreateResultFuturePriceQualifyingResource[];
 
   /**
    * Types of future price concession. E.g. FuturePriceNotToExceedCap, PercentageDiscount
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   futurePriceConcessionTypes?: string[];
 
   /**
@@ -652,6 +766,7 @@ model CanUpdateResultAdditionalInfo {
    * Additional detail when request payload failed coTerm constraints. Null when constraints passed or not applicable. Relevant scenarios: coterm, scheduled conversion with coterm.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   coTermDates?: CoTermDateEligibilityResult[];
 }
 
@@ -669,6 +784,7 @@ model RefundableQuantityResult {
    * Batches of refundable quantity with their respective refund window end date.
    */
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   refundableQuantities?: RefundableQuantityResultRefundableQuantitiesInfo[];
 }
 

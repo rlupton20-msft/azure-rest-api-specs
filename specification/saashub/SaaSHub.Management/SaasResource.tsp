@@ -33,28 +33,46 @@ interface SaasResources {
   /**
    * Creates or updates a SaaSHub cloud service.
    */
-  create is ArmResourceCreateOrReplaceAsync<SaasResource, BaseParameters = ApiVersionParameter>;
+  create is ArmResourceCreateOrReplaceAsync<
+    SaasResource,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Updates the properties of a SaaSHub cloud service.
    */
   @parameterVisibility
-  update is ArmCustomPatchAsync<SaasResource, SaasResource, BaseParameters = ApiVersionParameter>;
+  update is ArmCustomPatchAsync<
+    SaasResource,
+    SaasResource,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Deletes a SaaSHub cloud service resource.
    */
-  delete is ArmResourceDeleteWithoutOkAsync<SaasResource, BaseParameters = ApiVersionParameter>;
+  delete is ArmResourceDeleteWithoutOkAsync<
+    SaasResource,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Lists the SaaSHub cloud services under the tenant.
    */
-  listByTenant is ArmResourceListByParent<SaasResource, BaseParameters = ApiVersionParameter>;
+  listByTenant is ArmResourceListByParent<
+    SaasResource,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Evaluates whether an existing cloud service resource can be cancelled.
    */
-  canCancel is ArmResourceActionSync<SaasResource, void, CanCancelResult, BaseParameters = ApiVersionParameter>;
+  canCancel is ArmResourceActionSync<
+    SaasResource,
+    void,
+    CanCancelResult,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Evaluates whether the source cloud service resource can be merged to target cloud service resource.
@@ -79,7 +97,12 @@ interface SaasResources {
   /**
    * Cancels a SaaSHub cloud service.
    */
-  cancel is ArmResourceActionAsync<SaasResource, void, SaasResource, BaseParameters = ApiVersionParameter>;
+  cancel is ArmResourceActionAsync<
+    SaasResource,
+    void,
+    SaasResource,
+    BaseParameters = ApiVersionParameter
+  >;
 
   /**
    * Merges multiple cloud service resources into one target cloud service resource. The resource name in URL is the target, and the list of source cloud service resource and quantity will be specified in request payload

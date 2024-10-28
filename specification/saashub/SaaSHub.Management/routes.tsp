@@ -25,7 +25,7 @@ interface ProviderLevelActions {
     /**
      * Request parameters that are provided to the create SaaSHub resource operation.
      */
-    @body
+    @bodyRoot
     parameters: CanCreateRequest,
   ): ArmResponse<CanCreateResult> | ErrorResponse;
 }
