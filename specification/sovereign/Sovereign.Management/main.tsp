@@ -129,9 +129,9 @@ interface LandingZoneAccountOperations {
   @doc("Gets the landing zone account.")
   get is ArmResourceRead<LandingZoneAccountResource>;
   @doc("Creates the landing zone account.")
-  create is ArmResourceCreateOrReplaceAsync<LandingZoneAccountResource>;
+  create is ArmResourceCreateOrReplaceSync<LandingZoneAccountResource>;
   @doc("Updates the landing zone account.")
-  update is ArmResourcePatchAsync<
+  update is ArmResourcePatchSync<
     LandingZoneAccountResource,
     LandingZoneAccountResourceProperties
   >;
