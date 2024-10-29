@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
 import "./common/authenticationMethod.tsp";
+import "./common/assetEndpointProfilesProperties.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -16,8 +17,10 @@ using OpenAPI;
 namespace Microsoft.DeviceRegistry;
 
 @doc("Asset Endpoint Profile definition.")
-@removed(Versions.v2024_10_01_preview)
-model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
+@parentResource(Namespace)
+@added(Versions.v2024_10_01_preview)
+model NamespaceAssetEndpointProfile
+  is TrackedResource<AssetEndpointProfileProperties> {
   @doc("Asset Endpoint Profile name parameter.")
   @key("assetEndpointProfileName")
   @segment("assetEndpointProfiles")
@@ -35,18 +38,18 @@ model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
 }
 
 @armResourceOperations
-@removed(Versions.v2024_10_01_preview)
-interface AssetEndpointProfiles {
-  get is ArmResourceRead<AssetEndpointProfile>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<AssetEndpointProfile>;
+@added(Versions.v2024_10_01_preview)
+interface NamespaceAssetEndpointProfiles {
+  get is ArmResourceRead<NamespaceAssetEndpointProfile>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceAssetEndpointProfile>;
   update is ArmCustomPatchAsync<
-    AssetEndpointProfile,
+    NamespaceAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      AssetEndpointProfile,
+      NamespaceAssetEndpointProfile,
       AssetEndpointProfileProperties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<AssetEndpointProfile>;
-  listByResourceGroup is ArmResourceListByParent<AssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<AssetEndpointProfile>;
+  delete is ArmResourceDeleteWithoutOkAsync<NamespaceAssetEndpointProfile>;
+  listByResourceGroup is ArmResourceListByParent<NamespaceAssetEndpointProfile>;
+  listBySubscription is ArmListBySubscription<NamespaceAssetEndpointProfile>;
 }
