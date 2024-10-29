@@ -3,10 +3,11 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./namespaces.tsp";
+import "./common/topic.tsp";
 import "./common/extendedLocation.tsp";
 import "./common/provisioningState.tsp";
 import "./common/authenticationMethod.tsp";
-import "./common/assetEndpointProfilesProperties.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -16,10 +17,12 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@removed(Versions.v2024_10_01_preview)
-@added(Versions.v2024_11_01)
+@parentResource(Namespace)
 @doc("Asset Endpoint Profile definition.")
-model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
+@added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
+model NamespaceAssetEndpointProfile
+  is TrackedResource<AssetEndpointProfileProperties> {
   @doc("Asset Endpoint Profile name parameter.")
   @key("assetEndpointProfileName")
   @segment("assetEndpointProfiles")
@@ -36,20 +39,20 @@ model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-@removed(Versions.v2024_10_01_preview)
-@added(Versions.v2024_11_01)
+@added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
 @armResourceOperations
-interface AssetEndpointProfiles {
-  get is ArmResourceRead<AssetEndpointProfile>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<AssetEndpointProfile>;
+interface NamespaceAssetEndpointProfiles {
+  get is ArmResourceRead<NamespaceAssetEndpointProfile>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceAssetEndpointProfile>;
   update is ArmCustomPatchAsync<
-    AssetEndpointProfile,
+    NamespaceAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      AssetEndpointProfile,
+      NamespaceAssetEndpointProfile,
       AssetEndpointProfileProperties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<AssetEndpointProfile>;
-  listByResourceGroup is ArmResourceListByParent<AssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<AssetEndpointProfile>;
+  delete is ArmResourceDeleteWithoutOkAsync<NamespaceAssetEndpointProfile>;
+  listByResourceGroup is ArmResourceListByParent<NamespaceAssetEndpointProfile>;
+  listBySubscription is ArmListBySubscription<NamespaceAssetEndpointProfile>;
 }

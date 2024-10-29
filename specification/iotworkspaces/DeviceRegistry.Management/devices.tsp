@@ -32,6 +32,7 @@ model Device is TrackedResource<DeviceProperties> {
   @visibility("read")
   etag?: string;
 }
+
 @removed(Versions.v2024_10_01_preview)
 @armResourceOperations
 interface Devices {

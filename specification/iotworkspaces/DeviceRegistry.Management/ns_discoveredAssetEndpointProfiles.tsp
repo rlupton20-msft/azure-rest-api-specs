@@ -17,9 +17,10 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @doc("Discovered Asset Endpoint Profile definition.")
-@added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_10_01_preview)
-model DiscoveredAssetEndpointProfile
+@added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
+@parentResource(Namespace)
+model NamespaceDiscoveredAssetEndpointProfile
   is TrackedResource<DiscoveredAssetEndpointProfileProperties> {
   @doc("Discovered Asset Endpoint Profile name parameter.")
   @key("discoveredAssetEndpointProfileName")
@@ -38,19 +39,19 @@ model DiscoveredAssetEndpointProfile
 }
 
 @armResourceOperations
-@added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_10_01_preview)
-interface DiscoveredAssetEndpointProfiles {
-  get is ArmResourceRead<DiscoveredAssetEndpointProfile>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAssetEndpointProfile>;
+@added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
+interface NamespaceDiscoveredAssetEndpointProfiles {
+  get is ArmResourceRead<NamespaceDiscoveredAssetEndpointProfile>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDiscoveredAssetEndpointProfile>;
   update is ArmCustomPatchAsync<
-    DiscoveredAssetEndpointProfile,
+    NamespaceDiscoveredAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      DiscoveredAssetEndpointProfile,
+      NamespaceDiscoveredAssetEndpointProfile,
       DiscoveredAssetEndpointProfileProperties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<DiscoveredAssetEndpointProfile>;
-  listByResourceGroup is ArmResourceListByParent<DiscoveredAssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<DiscoveredAssetEndpointProfile>;
+  delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAssetEndpointProfile>;
+  listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredAssetEndpointProfile>;
+  listBySubscription is ArmListBySubscription<NamespaceDiscoveredAssetEndpointProfile>;
 }
