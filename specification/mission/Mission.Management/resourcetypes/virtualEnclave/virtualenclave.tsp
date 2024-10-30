@@ -131,7 +131,6 @@ model MaintenanceModeConfiguration {
   justification?: "Networking" | "Governance" | "Off" | string;
 }
 
-
 @doc("Virtual Enclave Resource properties")
 model VirtualEnclaveProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -178,10 +177,10 @@ model VirtualEnclaveProperties {
   @added(Microsoft.Mission.Versions.v2024_10_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)
   @doc("Enclave role assignments")
-  enclaveRoleAssignmentList?: RoleAssignmentItem[];
+  enclaveRoleAssignments?: RoleAssignmentItem[];
 
   @added(Microsoft.Mission.Versions.v2024_10_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)
   @doc("Workload role assignments")
-  workloadRoleAssignmentList?: RoleAssignmentItem[];
+  workloadRoleAssignments?: RoleAssignmentItem[];
 }

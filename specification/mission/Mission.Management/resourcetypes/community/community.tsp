@@ -194,7 +194,7 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2024_10_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)
   @doc("Community role assignments")
-  communityRoleAssignmentList?: RoleAssignmentItem[];
+  communityRoleAssignments?: RoleAssignmentItem[];
 
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
