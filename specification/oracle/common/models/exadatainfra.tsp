@@ -56,6 +56,21 @@ union CloudExadataInfrastructureLifecycleState {
   string,
 }
 
+@doc("Predefined configurations for the file system")
+model FileSystemConfigurations {
+  @doc("Checks if the data can be backed up")
+  "isBackupPartition": boolean,
+
+  @doc("Checks if the mount path is resizable")
+  "isResizable": boolean,
+
+  @doc("Minimum size of mount path in Gb")
+  "minSizeGb": int32,
+  
+  @doc("Mount path for the file system")
+  "mountPoint": string
+}
+
 @doc("MaintenanceWindow resource properties")
 model MaintenanceWindow {
   @doc("The maintenance window scheduling preference.")
@@ -140,6 +155,11 @@ model CloudExadataInfrastructure
 
 @doc("CloudExadataInfrastructure resource model")
 model CloudExadataInfrastructureProperties {
+
+  @doc("Defined file system configurations")
+  @visibility("read")
+  fileSystemConfigurations?: Array<FileSystemConfigurations>;
+
   @doc("Exadata infra ocid")
   @visibility("read")
   ocid?: Ocid;
