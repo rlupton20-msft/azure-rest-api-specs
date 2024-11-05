@@ -28,7 +28,7 @@ model DeviceState
   name: string;
 }
 
-@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/onboardingServices/(.+?)/policies/(.+)$")
+// @pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+?)/onboardingServices/(.+?)/policies/(.+)$")
 scalar PolicyResourceId
   extends armResourceIdentifier<[
     {
