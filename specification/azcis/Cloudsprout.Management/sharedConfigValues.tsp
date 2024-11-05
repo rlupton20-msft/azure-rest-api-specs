@@ -15,9 +15,14 @@ namespace Microsoft.AzureCis;
 
 @doc("SharedConfigValuesResource properties")
 model SharedConfigValuesResourceProperties {
-  @doc("The array of config values needs to be published or consumed.")
-  @extension("x-ms-identifiers", [])
-  sharedValues: Array<SharedValue>;
+  @doc("The unique name in CloudSprout whose value needs to be published or consumed.")
+  moniker: string;
+
+  @doc("Moniker value to be published.")
+  value?: string;
+
+  @doc("Scope of Moniker value. Optional.")
+  scope?: Scope;
 
   @doc("CloudSprout environment to publish or consume the value to. Optional.")
   cloudSproutEnv?: string;
@@ -37,18 +42,6 @@ model SharedConfigValuesResource
   @visibility("read")
   @path
   name: string;
-}
-
-@doc("The config whose value needs to be published or consumed.")
-model SharedValue {
-  @doc("The unique name in CloudSprout whose value needs to be published or consumed.")
-  moniker: string;
-
-  @doc("Moniker value to be published.")
-  value?: string;
-
-  @doc("Scope of Moniker value. Optional.")
-  scope?: Scope;
 }
 
 @doc("GeoScope. Optional.")
