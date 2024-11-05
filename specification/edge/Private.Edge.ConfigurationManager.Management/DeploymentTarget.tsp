@@ -32,7 +32,7 @@ model DeploymentTargetProperties {
   hierarchyLevel: string;
 
   @doc("Scope of the deployment resource")
-  scope?:string;
+  scope?: string;
 
   @doc("Provisioning state of resource")
   @visibility("read")
