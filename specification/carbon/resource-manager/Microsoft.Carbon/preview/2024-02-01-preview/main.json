@@ -46,11 +46,11 @@
   "paths": {
     "/providers/Microsoft.Carbon/carbonEmissionReports": {
       "post": {
-        "operationId": "CarbonService_ListCarbonEmissionReports",
+        "operationId": "CarbonService_QueryCarbonEmissionReports",
         "description": "API for Carbon Emissions Reports",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "name": "queryParameters",
@@ -72,17 +72,23 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-examples": {
-          "CarbonService_ListCarbonEmissionReports": {
-            "$ref": "./examples/carbonEmissionsReport.json"
+          "QueryCarbonEmission Monthly Summary Report with optional filter - locationList, resourceTypeList, resourceGroupUrlList": {
+            "$ref": "./examples/queryCarbonEmissionsMonthlySummaryReportWithOtherOptionalFilter.json"
+          },
+          "QueryCarbonEmission Overall Monthly Summary Report": {
+            "$ref": "./examples/queryCarbonEmissionsMonthlySummaryReport.json"
+          },
+          "QueryCarbonEmission Overall Summary Report": {
+            "$ref": "./examples/queryCarbonEmissionsOverallSummaryReport.json"
+          },
+          "QueryCarbonEmission Overall Summary Report with optional filter - locationList, resourceTypeList, resourceGroupUrlList": {
+            "$ref": "./examples/queryCarbonEmissionsOverallSummaryReportWithOtherOptionalFilter.json"
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
         }
       }
     },
@@ -95,20 +101,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -128,12 +134,12 @@
         "description": "API for query carbon emission data available date range",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "ARM operation completed successfully.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CarbonEmissionDataAvailableDateRange"
             }
@@ -141,7 +147,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -180,36 +186,26 @@
     },
     "CarbonEmissionData": {
       "type": "object",
-      "description": "Response for given query parameters",
+      "description": "The basic response for different query report, all query report result will have these information",
       "properties": {
         "dataType": {
-          "type": "string",
+          "$ref": "#/definitions/ResponseDataTypeEnum",
           "description": "Query result data type name"
         },
         "totalCarbonEmission": {
           "type": "number",
           "format": "double",
-          "description": "Total carbon emissions for given query parameters"
+          "description": "Total carbon emissions for given query parameters, the value unit is kgCO2E"
         },
         "totalCarbonEmissionLastMonth": {
           "type": "number",
           "format": "double",
-          "description": "Total carbon emission for last month for given query parameters"
+          "description": "Total carbon emission of previous month"
         },
         "changeRatioForLastMonth": {
           "type": "number",
           "format": "double",
           "description": "Change ratio between totalCarbonEmission and totalCarbonEmissionLastMonth"
-        },
-        "totalCarbonEmission12MonthsAgo": {
-          "type": "number",
-          "format": "double",
-          "description": "Total carbon emissions for 12 months ago for given query parameters"
-        },
-        "changeRatioFor12Months": {
-          "type": "number",
-          "format": "double",
-          "description": "Change ratio between totalCarbonEmission and totalCarbonEmission12MonthsAgo"
         },
         "changeValueMonthOverMonth": {
           "type": "number",
@@ -222,9 +218,7 @@
         "dataType",
         "totalCarbonEmission",
         "totalCarbonEmissionLastMonth",
-        "changeRatioForLastMonth",
-        "totalCarbonEmission12MonthsAgo",
-        "changeRatioFor12Months"
+        "changeRatioForLastMonth"
       ]
     },
     "CarbonEmissionDataAvailableDateRange": {
@@ -259,11 +253,11 @@
         },
         "skipToken": {
           "type": "string",
-          "description": "The number of result items to skip for next page"
+          "description": "The pagination token to fetch next page data, it's null or empty if it doesn't have next page data"
         },
         "nextLink": {
           "type": "string",
-          "description": "The link to the next page of items"
+          "description": "If next page data available, the nextLink will return back with value like: {refererHeaderUrl}?$skipToken={opaqueString}"
         },
         "subscriptionAccessDecisionList": {
           "type": "array",
@@ -284,20 +278,15 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
-        },
-        "groupName": {
-          "type": "string",
-          "description": "Item group name"
+          "description": "Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type."
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Item category, see supported type value defined in CategoryTypeEnum"
         }
       },
       "required": [
         "itemName",
-        "groupName",
         "categoryType"
       ],
       "allOf": [
@@ -313,7 +302,7 @@
       "properties": {
         "date": {
           "type": "string",
-          "description": "Monthly date string"
+          "description": "Monthly date string, format is yyyy-MM-dd"
         },
         "carbonIntensity": {
           "type": "number",
@@ -348,11 +337,11 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type."
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Item category, see supported type value defined in CategoryTypeEnum"
         },
         "date": {
           "type": "string",
@@ -377,11 +366,11 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type."
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Item category, see supported type value defined in CategoryTypeEnum"
         }
       },
       "required": [
@@ -402,7 +391,6 @@
         "Subscription",
         "ResourceGroup",
         "Location",
-        "ServiceType",
         "Resource",
         "ResourceType"
       ],
@@ -426,11 +414,6 @@
             "description": "Location level aggregation granularity"
           },
           {
-            "name": "ServiceType",
-            "value": "ServiceType",
-            "description": "ServiceType level aggregation granularity"
-          },
-          {
             "name": "Resource",
             "value": "Resource",
             "description": "Resource level aggregation granularity"
@@ -450,12 +433,12 @@
         "start": {
           "type": "string",
           "format": "date",
-          "description": "Start date parameter, format is yyyy-MM-dd"
+          "description": "Start date parameter, format is yyyy-MM-01, it should first day of each month"
         },
         "end": {
           "type": "string",
           "format": "date",
-          "description": "End date parameter, format is yyyy-MM-dd"
+          "description": "End date parameter, format is yyyy-MM-01, it should first day of each month"
         }
       },
       "required": [
@@ -465,7 +448,7 @@
     },
     "EmissionScopeEnum": {
       "type": "string",
-      "description": "Supported emission scopes to be used with QueryParameter",
+      "description": "Supported carbon emission scopes to be used with QueryParameter",
       "enum": [
         "Scope1",
         "Scope2",
@@ -499,7 +482,7 @@
       "properties": {
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item Category type"
+          "description": "Item Category type, see supported type value defined in CategoryTypeEnum"
         },
         "orderBy": {
           "type": "string",
@@ -509,25 +492,22 @@
           "type": "string",
           "description": "Direction for sorting"
         },
-        "groupCategory": {
-          "type": "string",
-          "description": "Group category name"
-        },
         "pageSize": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of items to return"
+          "description": "Number of items to return in one request, max value is 5000.",
+          "minimum": 1,
+          "maximum": 5000
         },
         "skipToken": {
           "type": "string",
-          "description": "The number of result items to skip"
+          "description": "The pagination token to fetch next page data, nullable. It's return back in previous request's response if next page data is available"
         }
       },
       "required": [
         "categoryType",
         "orderBy",
         "sortDirection",
-        "groupCategory",
         "pageSize"
       ],
       "allOf": [
@@ -562,16 +542,16 @@
       "description": "Query filter parameter specified by users",
       "properties": {
         "reportType": {
-          "type": "string",
+          "$ref": "#/definitions/ReportTypeEnum",
           "description": "Report type"
         },
         "dateRange": {
           "$ref": "#/definitions/DateRange",
-          "description": "The start date and end date for carbon emissions data"
+          "description": "The start date and end date for carbon emissions data, for ItemDetailsReport and TopItemsSummaryReport, it only support one month data, the startDate and endDate should be equal."
         },
         "subscriptionList": {
           "type": "array",
-          "description": "SubscriptionId list for carbon emissions data",
+          "description": "SubscriptionId list for carbon emissions data, subscriptionId should be all lower",
           "items": {
             "type": "string"
           },
@@ -579,7 +559,7 @@
         },
         "resourceGroupUrlList": {
           "type": "array",
-          "description": "resourceGroupUrl list for carbon emissions data",
+          "description": "resourceGroupUrl list for carbon emissions data, resourceGroupUrl value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', all lower ",
           "items": {
             "type": "string"
           },
@@ -587,7 +567,7 @@
         },
         "resourceTypeList": {
           "type": "array",
-          "description": "resource type list for carbon emissions data",
+          "description": "resource type list for carbon emissions data, resource type value is like 'microsoft.storage/storageaccounts', all lower",
           "items": {
             "type": "string"
           },
@@ -595,7 +575,7 @@
         },
         "locationList": {
           "type": "array",
-          "description": "Location list for carbon emissions data",
+          "description": "Location list for carbon emissions data, for example 'east us', all lower",
           "items": {
             "type": "string"
           },
@@ -618,21 +598,59 @@
         "carbonScopeList"
       ]
     },
+    "ReportTypeEnum": {
+      "type": "string",
+      "description": "Enum for Report Type",
+      "enum": [
+        "OverallSummaryReport",
+        "MonthlySummaryReport",
+        "TopItemsSummaryReport",
+        "TopItemsMonthlySummaryReport",
+        "ItemDetailsReport"
+      ],
+      "x-ms-enum": {
+        "name": "ReportTypeEnum",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "OverallSummaryReport",
+            "value": "OverallSummaryReport",
+            "description": "OverallSummaryReport provide summary carbon emission for given query filter"
+          },
+          {
+            "name": "MonthlySummaryReport",
+            "value": "MonthlySummaryReport",
+            "description": "MonthlySummaryReport provide summary carbon emission by monthly for given query filter"
+          },
+          {
+            "name": "TopItemsSummaryReport",
+            "value": "TopItemsSummaryReport",
+            "description": "TopItemsSummaryReport provide Top N items summary report for given query filter"
+          },
+          {
+            "name": "TopItemsMonthlySummaryReport",
+            "value": "TopItemsMonthlySummaryReport",
+            "description": "TopItemsMonthlySummaryReport provide Top N items report by monthly for given query filter"
+          },
+          {
+            "name": "ItemDetailsReport",
+            "value": "ItemDetailsReport",
+            "description": "ItemDetailsReport provide item (like Resource/ResourceGroup/ResourceType/Location/Subscription) detail list for given query filter"
+          }
+        ]
+      }
+    },
     "ResourceCarbonEmissionItemDetailData": {
       "type": "object",
       "description": "Response for Resource detailed carbon emissions",
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
-        },
-        "groupName": {
-          "type": "string",
-          "description": "Item group name"
+          "description": "It's resource name."
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Resource Item category"
         },
         "subscriptionId": {
           "type": "string",
@@ -653,22 +671,14 @@
         "resourceType": {
           "type": "string",
           "description": "Resource Type"
-        },
-        "resourceTypeFriendlyName": {
-          "type": "string",
-          "description": "Friendly name of Resource Type"
-        },
-        "resourceProvider": {
-          "type": "string",
-          "description": "Resource Provider"
         }
       },
       "required": [
         "itemName",
-        "groupName",
         "categoryType",
         "subscriptionId",
-        "resourceGroup"
+        "resourceGroup",
+        "resourceId"
       ],
       "allOf": [
         {
@@ -683,15 +693,15 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "It's resource name for Resource Category"
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Resource Item category"
         },
         "date": {
           "type": "string",
-          "description": "Month date"
+          "description": "Monthly date string, format is yyyy-MM-dd"
         },
         "subscriptionId": {
           "type": "string",
@@ -700,6 +710,10 @@
         "resourceGroup": {
           "type": "string",
           "description": "Resource Group"
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id"
         }
       },
       "required": [
@@ -707,7 +721,8 @@
         "categoryType",
         "date",
         "subscriptionId",
-        "resourceGroup"
+        "resourceGroup",
+        "resourceId"
       ],
       "allOf": [
         {
@@ -718,15 +733,15 @@
     },
     "ResourceCarbonEmissionTopItemsSummaryData": {
       "type": "object",
-      "description": "Response for Top Items For Resource",
+      "description": "Response for Top Items For Resource Category",
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "It's resource name for Resource Category"
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "Resource Item category"
         },
         "subscriptionId": {
           "type": "string",
@@ -735,13 +750,18 @@
         "resourceGroup": {
           "type": "string",
           "description": "Resource Group"
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id"
         }
       },
       "required": [
         "itemName",
         "categoryType",
         "subscriptionId",
-        "resourceGroup"
+        "resourceGroup",
+        "resourceId"
       ],
       "allOf": [
         {
@@ -756,26 +776,26 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
-        },
-        "groupName": {
-          "type": "string",
-          "description": "Item group name"
+          "description": "It's resource group name"
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "ResourceGroup Item category"
         },
         "subscriptionId": {
           "type": "string",
           "description": "Subscription Id"
+        },
+        "resourceGroupUrl": {
+          "type": "string",
+          "description": "Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}'"
         }
       },
       "required": [
         "itemName",
-        "groupName",
         "categoryType",
-        "subscriptionId"
+        "subscriptionId",
+        "resourceGroupUrl"
       ],
       "allOf": [
         {
@@ -790,26 +810,31 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "It's resource group name for ResourceGroup category"
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "ResourceGroup Item category"
         },
         "date": {
           "type": "string",
-          "description": "Month date"
+          "description": "Monthly date string, format is yyyy-MM-dd"
         },
         "subscriptionId": {
           "type": "string",
           "description": "Subscription Id"
+        },
+        "resourceGroupUrl": {
+          "type": "string",
+          "description": "Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}'"
         }
       },
       "required": [
         "itemName",
         "categoryType",
         "date",
-        "subscriptionId"
+        "subscriptionId",
+        "resourceGroupUrl"
       ],
       "allOf": [
         {
@@ -824,21 +849,26 @@
       "properties": {
         "itemName": {
           "type": "string",
-          "description": "Item name"
+          "description": "It's resourceGroup name for ResourceGroup Category"
         },
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category"
+          "description": "ResourceGroup Item category"
         },
         "subscriptionId": {
           "type": "string",
           "description": "Subscription Id"
+        },
+        "resourceGroupUrl": {
+          "type": "string",
+          "description": "Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}'"
         }
       },
       "required": [
         "itemName",
         "categoryType",
-        "subscriptionId"
+        "subscriptionId",
+        "resourceGroupUrl"
       ],
       "allOf": [
         {
@@ -847,34 +877,83 @@
       ],
       "x-ms-discriminator-value": "ResourceGroupTopItemsSummaryData"
     },
-    "ResourceTypeCarbonEmissionItemDetailData": {
-      "type": "object",
-      "description": "Response for detailed carbon emissions",
-      "properties": {
-        "itemName": {
-          "type": "string",
-          "description": "Item name, resource type name"
-        },
-        "resourceTypeFriendlyName": {
-          "type": "string",
-          "description": "Item group name"
-        },
-        "categoryType": {
-          "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item category, which is ResourceType"
-        }
-      },
-      "required": [
-        "itemName",
-        "resourceTypeFriendlyName",
-        "categoryType"
+    "ResponseDataTypeEnum": {
+      "type": "string",
+      "description": "The response data type of Carbon emission data",
+      "enum": [
+        "OverallSummaryData",
+        "MonthlySummaryData",
+        "TopItemsSummaryData",
+        "ResourceTopItemsSummaryData",
+        "ResourceGroupTopItemsSummaryData",
+        "TopItemsMonthlySummaryData",
+        "ResourceTopItemsMonthlySummaryData",
+        "ResourceGroupTopItemsMonthlySummaryData",
+        "ItemDetailsData",
+        "ResourceItemDetailsData",
+        "ResourceGroupItemDetailsData"
       ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/CarbonEmissionData"
-        }
-      ],
-      "x-ms-discriminator-value": "ResourceTypeItemDetailsData"
+      "x-ms-enum": {
+        "name": "ResponseDataTypeEnum",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "OverallSummaryData",
+            "value": "OverallSummaryData",
+            "description": "The response data type for OverallSummaryReport"
+          },
+          {
+            "name": "MonthlySummaryData",
+            "value": "MonthlySummaryData",
+            "description": "The response data type for MonthlySummaryReport"
+          },
+          {
+            "name": "TopItemsSummaryData",
+            "value": "TopItemsSummaryData",
+            "description": "The response data type for TopItemsSummaryReport"
+          },
+          {
+            "name": "ResourceTopItemsSummaryData",
+            "value": "ResourceTopItemsSummaryData",
+            "description": "The response data type for Resource's TopItemsSummaryReport"
+          },
+          {
+            "name": "ResourceGroupTopItemsSummaryData",
+            "value": "ResourceGroupTopItemsSummaryData",
+            "description": "The response data type for ResourceGroup's TopItemsSummaryReport"
+          },
+          {
+            "name": "TopItemsMonthlySummaryData",
+            "value": "TopItemsMonthlySummaryData",
+            "description": "The response data type for TopItemsMonthlySummaryReport"
+          },
+          {
+            "name": "ResourceTopItemsMonthlySummaryData",
+            "value": "ResourceTopItemsMonthlySummaryData",
+            "description": "The response data type for Resource's TopItemsMonthlySummaryReport"
+          },
+          {
+            "name": "ResourceGroupTopItemsMonthlySummaryData",
+            "value": "ResourceGroupTopItemsMonthlySummaryData",
+            "description": "The response data type for ResourceGroup's TopItemsMonthlySummaryReport"
+          },
+          {
+            "name": "ItemDetailsData",
+            "value": "ItemDetailsData",
+            "description": "The response data type for ItemDetailsReport"
+          },
+          {
+            "name": "ResourceItemDetailsData",
+            "value": "ResourceItemDetailsData",
+            "description": "The response data type for Resource's ItemDetailsReport"
+          },
+          {
+            "name": "ResourceGroupItemDetailsData",
+            "value": "ResourceGroupItemDetailsData",
+            "description": "The response data type for ResourceGroup's ItemDetailsReport"
+          }
+        ]
+      }
     },
     "SubscriptionAccessDecision": {
       "type": "object",
@@ -882,7 +961,7 @@
       "properties": {
         "subscriptionId": {
           "type": "string",
-          "description": "SubscrptionId"
+          "description": "Id of Subscription"
         },
         "decision": {
           "$ref": "#/definitions/AccessDecisionEnum",
@@ -900,14 +979,14 @@
       "properties": {
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item Category type"
+          "description": "Item Category type, see supported type value defined in CategoryTypeEnum"
         },
         "topItems": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of top items to return. The value should be between 5 and 100",
-          "minimum": 5,
-          "maximum": 100
+          "description": "Number of top items to return. The value should be between 1 and 10",
+          "minimum": 1,
+          "maximum": 10
         }
       },
       "required": [
@@ -927,14 +1006,14 @@
       "properties": {
         "categoryType": {
           "$ref": "#/definitions/CategoryTypeEnum",
-          "description": "Item Category type"
+          "description": "Item Category type, see supported type value defined in CategoryTypeEnum"
         },
         "topItems": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of top items to return. The value should be between 5 and 100",
-          "minimum": 5,
-          "maximum": 100
+          "description": "Number of top items to return. The value should be between 1 and 10",
+          "minimum": 1,
+          "maximum": 10
         }
       },
       "required": [
