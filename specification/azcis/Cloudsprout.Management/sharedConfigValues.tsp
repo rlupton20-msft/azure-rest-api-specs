@@ -46,7 +46,7 @@ model SharedConfigValuesResource
 
 @doc("GeoScope. Optional.")
 model Scope {
-  @doc("GeoType. The valid values are Cloud, Region.")
+  @doc("GeoType. The valid values are Cloud, Geography, Region.")
   geoType: string;
 
   @doc("The GeoValue for the specified GeoType. If GeoType is Cloud, GeoValue is the applicable cloud name for the Moniker value.")
