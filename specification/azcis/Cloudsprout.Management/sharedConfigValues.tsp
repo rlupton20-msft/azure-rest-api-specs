@@ -46,11 +46,14 @@ model SharedConfigValuesResource
 
 @doc("GeoScope. Optional.")
 model Scope {
-  @doc("GeoType. The valid value is Cloud.")
+  @doc("GeoType. The valid values are Cloud, Region.")
   geoType: string;
 
   @doc("The GeoValue for the specified GeoType. If GeoType is Cloud, GeoValue is the applicable cloud name for the Moniker value.")
   geoValue: string;
+
+  @doc("EnvType. The valid value are Prod, PPE, Test, Dev.")
+  envType: string;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation."
