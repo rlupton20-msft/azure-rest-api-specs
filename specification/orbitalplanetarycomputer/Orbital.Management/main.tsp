@@ -82,9 +82,6 @@ model GeoCatalogProperties {
   provisioningState?: ProvisioningState;
 }
 
-model ManagedServiceIdentityUpdate
-  is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
-
 @armResourceOperations(GeoCatalog)
 interface GeoCatalogs {
   get is ArmResourceRead<GeoCatalog>;
