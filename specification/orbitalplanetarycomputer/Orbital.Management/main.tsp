@@ -82,16 +82,11 @@ model GeoCatalogProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Details of the AOPC GeoCatalog Update.")
-model GeoCatalogUpdateTags {
-  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
-}
-
 @armResourceOperations(GeoCatalog)
 interface GeoCatalogs {
   get is ArmResourceRead<GeoCatalog>;
   create is ArmResourceCreateOrUpdateAsync<GeoCatalog>;
-  update is ArmResourcePatchSync<GeoCatalog, GeoCatalogUpdateTags>;
+  update is ArmResourcePatchSync<GeoCatalog, GeoCatalogProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<GeoCatalog>;
   listByResourceGroup is ArmResourceListByParent<GeoCatalog>;
   listBySubscription is ArmListBySubscription<GeoCatalog>;
