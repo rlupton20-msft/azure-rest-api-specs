@@ -7,181 +7,191 @@ using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Versioning;
 
 namespace Microsoft.PortalServices;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("The types of dashboard tiles.")
-enum DashboardTileType {
+union DashboardTileType {
+  string,
+
   @doc("The tile type for Arc Snapshot tile.")
-  ArcSnapshotTile,
+  ArcSnapshotTile: "ArcSnapshotTile",
 
   @doc("The tile type for Markdown tile.")
-  MarkdownTile,
+  MarkdownTile: "MarkdownTile",
 
   @doc("The tile type for Navigation tile.")
-  NavigationTile,
+  NavigationTile: "NavigationTile",
 
   @doc("The tile type for Policy tile.")
-  PolicyTile,
+  PolicyTile: "PolicyTile",
 
   @doc("The tile type for Query tile.")
-  QueryTile,
+  QueryTile: "QueryTile",
 
   @doc("The tile type for Resource tile.")
-  ResourceTile,
+  ResourceTile: "ResourceTile",
 }
 
 @doc("The types of dashboard tile on click actions.")
-enum ActionsOnClickType {
+union ActionsOnClickType {
+  string,
+
   @doc("The on click action type for openBlade.")
-  openBlade,
+  openBlade: "openBlade",
 
   @doc("The on click action type for updateParameters.")
-  updateParameters,
+  updateParameters: "updateParameters",
 }
 
 @doc("The types of dashboard tile action references.")
-enum ActionReferenceType {
+union ActionReferenceType {
+  string,
+
   @doc("The action reference type for blade.")
-  blade,
+  blade: "blade",
 
   @doc("The action reference type for url.")
-  url,
+  uri: "uri",
 }
 
 @doc("The types of dashboard tile parameters.")
-enum DashboardParameterType {
+union DashboardParameterType {
+  string,
+
   @doc("The parameter type for location.")
-  location,
+  location: "location",
 
   @doc("The parameter type for resourceGroup.")
-  resourceGroup,
+  resourceGroup: "resourceGroup",
 
   @doc("The parameter type for resourceType.")
-  resourceType,
+  resourceType: "resourceType",
 
   @doc("The parameter type for subscription.")
-  subscription,
+  subscription: "subscription",
 
   @doc("The parameter type for timeGranularity.")
-  timeGranularity,
+  timeGranularity: "timeGranularity",
 
   @doc("The parameter type for timeRange.")
-  timeRange,
-}
-
-@doc("The types of created by.")
-enum CreatedByType {
-  @doc("The created by type for user.")
-  User,
-
-  @doc("The created by type for application.")
-  Application,
-
-  @doc("The created by type for managedIdentity.")
-  ManagedIdentity,
-
-  @doc("The created by type for key.")
-  Key,
+  timeRange: "timeRange",
 }
 
 @doc("The types of modified by.")
-enum ArcSnapshotTileDataKind {
+union ArcSnapshotTileDataKind {
+  string,
+
   @doc("The data kind arg for Arc Snapshot tile.")
-  arg,
+  arg: "arg",
 }
 
 @doc("The types of Dashboard Visualizations.")
-enum VisualizationType {
+union VisualizationType {
+  string,
+
   @doc("The visualization type for area.")
-  area,
+  area: "area",
 
   @doc("The visualization type for bar.")
-  bar,
+  bar: "bar",
 
   @doc("The visualization type for card.")
-  card,
+  card: "card",
 
   @doc("The visualization type for column.")
-  column,
+  column: "column",
 
   @doc("The visualization type for donut.")
-  donut,
+  donut: "donut",
 
   @doc("The visualization type for line.")
-  line,
+  line: "line",
 
   @doc("The visualization type for multistat.")
-  multistat,
+  multistat: "multistat",
 
   @doc("The visualization type for pie.")
-  pie,
+  pie: "pie",
+
+  @doc("The visualization type for snapshot.")
+  snapshot: "snapshot",
 
   @doc("The visualization type for scatter.")
-  scatter,
+  scatter: "scatter",
 
   @doc("The visualization type for table.")
-  table,
+  table: "table",
 
   @doc("The visualization type for timechart.")
-  timechart,
+  timechart: "timechart",
 }
 
 @doc("The types of Dashboard Markdown tile sources.")
-enum MarkdownSource {
+union MarkdownSource {
+  string,
+
   @doc("The source type for inline.")
-  inline,
+  inline: "inline",
 
   @doc("The source type for uri.")
-  uri,
+  uri: "uri",
 }
 
 @doc("The types of Dashboard Query tile kinds.")
-enum Kind {
+union QueryTileKind {
+  string,
+
   @doc("The kind type for arg.")
-  arg,
+  arg: "arg",
 
   @doc("The kind type for app-insights.")
-  `app-insights`,
+  appInsights: "app-insights",
 
   @doc("The kind type for policy.")
-  policy,
+  policy: "policy",
+
+  @doc("The kind type for recent-resources.")
+  recentResources: "recent-resources",
 }
 
 @doc("The types of Dashboard Query tile aggregation types.")
-enum AggregationType {
+union AggregationType {
+  string,
+
   @doc("The aggregation type for avg.")
-  avg,
+  avg: "avg",
 
   @doc("The aggregation type for count.")
-  count,
+  count: "count",
 
   @doc("The aggregation type for max.")
-  max,
+  max: "max",
 
   @doc("The aggregation type for min.")
-  min,
+  min: "min",
 
   @doc("The aggregation type for percentile.")
-  percentile,
+  percentile: "percentile",
 
   @doc("The aggregation type for sum.")
-  sum,
+  sum: "sum",
 
   @doc("The aggregation type for total.")
-  unique,
+  unique: "unique",
 }
 
 @doc("The shared dashboard properties.")
 model DashboardProperties {
   @doc("The title of dashboard.")
-  title?: string;
+  title: string;
 
   @doc("The dashboard pages.")
   @extension("x-ms-identifiers", [])
-  pages?: DashboardPage[];
+  pages: DashboardPage[];
 
   @doc("The dashboard parameters.")
   @extension("x-ms-identifiers", [])
@@ -198,18 +208,27 @@ model DashboardPropertiesWithProvisioningState {
 }
 
 @doc("The provisioning state of the last accepted operation.")
-enum DashboardProvisioningState {
-  ...ResourceProvisioningState,
+union DashboardProvisioningState {
+  string,
+
+  @doc("Resource has been created.")
+  Succeeded: "Succeeded",
+
+  @doc("Resource creation failed.")
+  Failed: "Failed",
+
+  @doc("Resource creation was canceled.")
+  Canceled: "Canceled",
 }
 
 @doc("A dashboard page.")
 model DashboardPage {
   @doc("The title of dashboard page.")
-  title?: string;
+  title: string;
 
   @doc("The dashboard tiles.")
   @extension("x-ms-identifiers", [])
-  tiles?: DashboardTile[];
+  tiles: DashboardTile[];
 }
 
 @doc("A dashboard tile.")
@@ -261,8 +280,8 @@ model DashboardParameterValuesList {
 
 @doc("The dashboard parameter values.")
 model DashboardParameterValues {
-  @doc("The unique names to serve as placeholders for the parameter values.")
-  parameterNames: string[];
+  @doc("The name of the parameter.")
+  parameterName: string;
 
   @doc("The parameter value(s) that will be selected by default when the parameter is displayed.")
   values: string[];
@@ -291,7 +310,10 @@ model ActionsOnClick {
 
 @discriminator("type")
 @doc("Model for Action reference.")
-model ActionReference {}
+model ActionReference {
+  @doc("Discriminator property for ActionReference.")
+  type: ActionReferenceType;
+}
 
 @doc("A dashboard parameter.")
 model DashboardParameter {
@@ -316,17 +338,40 @@ model PatchableDashboard {
   @doc("The shared dashboard properties.")
   properties?: DashboardProperties;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Existing api"
   @doc("Resource tags")
   tags?: Record<string>;
 }
 
 @doc("Model for Actions on click open blade")
 model ActionOpenBlade extends ActionsOnClick {
+  @madeOptional(Versions.v2024_10_01_preview)
   @doc("open a blade in context pane")
-  blade: BladeReferenceWithContextPane;
+  blade?: BladeReferenceWithContextPane;
+
+  @added(Versions.v2024_10_01_preview)
+  @doc("The asset id reference.")
+  assetId?: AssetIdReference;
+
+  @added(Versions.v2024_10_01_preview)
+  @doc("The deep link to the blade.")
+  deepLink?: string;
 
   @doc("Types of action on click.")
   type: ActionsOnClickType.openBlade;
+}
+
+@added(Versions.v2024_10_01_preview)
+@doc("Model for Asset Id Reference.")
+model AssetIdReference {
+  @doc("The asset id.")
+  assetId: string;
+
+  @doc("The extension name")
+  extensionName: string;
+
+  @doc("The asset type")
+  assetType: string;
 }
 
 @doc("open a blade in context pane")
@@ -337,14 +382,12 @@ model BladeReferenceWithContextPane {
   @doc("The extension name of the blade to open.")
   extension?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing api"
   @doc("The parameters to pass to the blade.")
   parameters?: {};
 
   @doc("Whether the blade should be opened in the context pane.")
   inContextPane?: boolean;
-
-  @doc("Specify whether to open this blade as Provisioning blade")
-  doesProvisioning?: boolean;
 }
 
 @doc("Model for actions on click update parameters")
@@ -355,16 +398,16 @@ model ActionParameters extends ActionsOnClick {
   type: ActionsOnClickType.updateParameters;
 }
 
-@doc("Model for action reference to a url.")
+@doc("Model for action reference to a uri.")
 model ActionReferenceUrl extends ActionReference {
   @doc("The URI that will be opened")
-  url: string;
+  uri: string;
 
   @doc("The display name of the link")
   displayName: string;
 
   @doc("Types of action references.")
-  type: "url";
+  type: ActionReferenceType.uri;
 }
 
 @doc("Model for action reference to a blade.")
@@ -376,7 +419,7 @@ model ActionReferenceBlade extends ActionReference {
   displayName: string;
 
   @doc("Types of action references.")
-  type: "blade";
+  type: ActionReferenceType.blade;
 }
 
 @doc("Display information of your Arc enabled resources with the arc snapshot tile.")
@@ -430,7 +473,16 @@ model ArcSnapshotTileDataNoResources {
   text: string;
 
   @doc("Icon to be shown when there are no resources to be configured with.")
-  icon: string;
+  icon: IconReference;
+}
+
+@doc("Model for Icon Reference.")
+model IconReference {
+  @doc("Framework icon type - enum number or zero for custom icon.")
+  type: int32;
+
+  @doc("Icon data string that is supplied by the extension author.")
+  data?: string;
 }
 
 @doc("Actions that can be taken on the arc snapshot tile.")
@@ -450,6 +502,7 @@ model QueryTileVisualization {
   @doc("Enumeration of supported visualization types.")
   type?: VisualizationType;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing api"
   @doc("Options for Query Tile visualizations.")
   options?: {};
 }
@@ -500,7 +553,7 @@ model NavigationTile extends DashboardTile {
 @doc("The data that determines the content of the navigation tile.")
 model NavigationTileData {
   @doc("Icon to be displayed on the navigation tile.")
-  icon: string;
+  icon: IconReference;
 
   @doc("The description displayed within the navigation tile.")
   description?: string;
@@ -518,6 +571,9 @@ model PolicyTile extends DashboardTile {
 @doc("A dashboard query tile.")
 @discriminator("kind")
 model QueryTileData {
+  @doc("Discriminator property for QueryTileData.")
+  kind: QueryTileKind;
+
   @doc("The dashboard parameter names used in the tiles.")
   usedParameters?: string[];
 }
@@ -540,7 +596,7 @@ model ArgDataDefinition extends QueryTileData {
   query: string;
 
   @doc("Dashboard Query tile kind.")
-  kind: "arg";
+  kind: QueryTileKind.arg;
 }
 
 @doc("The data definition of App Insights Query Tile.")
@@ -550,7 +606,7 @@ model AppInsightsDataDefinition extends QueryTileData {
   metrics: QueryTileMetricsItem[];
 
   @doc("Dashboard Query tile kind.")
-  kind: "app-insights";
+  kind: QueryTileKind.appInsights;
 }
 
 @doc("The metrics object for an app insights query tile data.")
@@ -577,7 +633,13 @@ model QueryTileMetricsItemResourceMetadata {
 @doc("The data that determines the content of the policy tile.")
 model PolicyTileDataDefinition extends QueryTileData {
   @doc("Dashboard Query tile kind.")
-  kind: "policy";
+  kind: QueryTileKind.policy;
+}
+
+@doc("The data definition of recent resources Query Tile.")
+model RecentResourcesDataDefinition extends QueryTileData {
+  @doc("Dashboard Query tile kind.")
+  kind: QueryTileKind.recentResources;
 }
 
 @doc("A resource tile.")

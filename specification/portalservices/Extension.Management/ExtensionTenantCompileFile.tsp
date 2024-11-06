@@ -1,10 +1,12 @@
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@azure-tools/typespec-client-generator-core";
 import "@typespec/openapi";
 import "@typespec/rest";
 import "./models.tsp";
 import "@typespec/http";
 
+using Azure.ClientGenerator.Core;
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.Core;
@@ -17,38 +19,33 @@ namespace Microsoft.PortalServices;
  * The portal tenant provider action.
  */
 model PortalTenantCompileFile
-  is TrackedResource<PortalTenantCompileFileProperties> {
+  is Azure.ResourceManager.TrackedResource<PortalTenantCompileFileProperties> {
   /**
    * The name of the portal tenant compile file.
    */
   @maxLength(64)
   @minLength(3)
-  @pattern("^[a-z][a-z0-9]*$")
+  @pattern("^[a-zA-Z0-9]+$")
   @path
   @key("compilefile")
   @segment("compilefile")
   @visibility("read")
   name: string;
 }
-alias ProviderAction<
-  Request extends {} | void,
-  Response extends {} | void,
-  Parameters extends {} = {}
-> = ArmResourceActionSync<
-  {
-    ...Azure.ResourceManager.Foundations.ArmResource;
-  },
-  Request,
-  Response,
-  Parameters = Parameters,
-  BaseParameters = ApiVersionParameter
->;
 
 @armResourceOperations
 interface PortalTenant {
   @doc("compiles a file using inline content.")
-  compileFile is ProviderAction<
-    PortalTenantCompileFile,
-    PortalTenantCompileFileResult
-  >;
+  @route("/providers/Microsoft.PortalServices/compilefile")
+  compilefile(
+    ...ApiVersionParameter,
+
+    @doc("The parameters required to compile a file.")
+    @body
+    body: PortalTenantCompileFileProperties,
+  ): ArmResponse<PortalTenantCompileFileResult> | ErrorResponse;
 }
+
+@@clientName(PortalTenant.compilefile::parameters.body,
+  "portalTenantCompileFile"
+);

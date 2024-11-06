@@ -10,8 +10,3 @@ namespace Private.OracleDatabaseDev;
 @armResourceOperations
 interface OracleCloudAccount
   extends OracleLocationBasedResource<OracleCloudAccountDetails> {}
-
-@@Autorest.example(OracleCloudAccount.get,
-  "./examples/oracleCloudAccount_get.json",
-  "Get oracle subscription details of azure subscription"
-);

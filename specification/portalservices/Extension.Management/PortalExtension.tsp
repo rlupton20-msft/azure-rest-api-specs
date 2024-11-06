@@ -7,6 +7,7 @@ import "./models.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Azure.Core;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
@@ -14,13 +15,14 @@ namespace Microsoft.PortalServices;
 /**
  * The portal extension resource definition.
  */
-model PortalExtension is TrackedResource<PortalExtensionProperties> {
+model PortalExtension
+  is Azure.ResourceManager.TrackedResource<PortalExtensionProperties> {
   /**
    * The name of the portal extension.
    */
   @maxLength(64)
   @minLength(3)
-  @pattern("^[a-z][a-z0-9]*$")
+  @pattern("^[A-Za-z0-9]*$")
   @path
   @key("portalExtensionName")
   @segment("extensions")
@@ -43,25 +45,26 @@ interface PortalExtensions {
   /**
    * Updates an existing portal extension.
    */
-  @parameterVisibility("read")
-  @OpenAPI.extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "azure-async-operation",
-    }
-  )
-  update is ArmCustomPatchAsync<PortalExtension, PatchablePortalExtension>;
+  @parameterVisibility
+  @Azure.Core.useFinalStateVia("azure-async-operation")
+  update is ArmCustomPatchAsync<
+    PortalExtension,
+    PatchablePortalExtension,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      ArmLroLocationHeader
+  >;
 
   /**
    * Deletes the portal extension.
    */
-  @OpenAPI.extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "azure-async-operation",
-    }
-  )
-  delete is ArmResourceDeleteWithoutOkAsync<PortalExtension>;
+  @Azure.Core.useFinalStateVia("azure-async-operation")
+  delete is ArmResourceDeleteWithoutOkAsync<
+    PortalExtension,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      ArmLroLocationHeader
+  >;
 
   /**
    * Gets all the portal extensions within a resource group.
@@ -76,13 +79,15 @@ interface PortalExtensions {
   /**
    * Alters portal extension source files.
    */
-  @OpenAPI.extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "azure-async-operation",
-    }
-  )
-  alter is ArmResourceActionAsync<PortalExtension, PortalExtensionAlter, never>;
+  @useFinalStateVia("azure-async-operation")
+  alter is ArmResourceActionAsync<
+    PortalExtension,
+    PortalExtensionAlter,
+    never,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      ArmLroLocationHeader
+  >;
 
   /**
    * compiles a file in the context of the extension.
@@ -96,16 +101,14 @@ interface PortalExtensions {
   /**
    * Exports the extension.
    */
-  @OpenAPI.extension(
-    "x-ms-long-running-operation-options",
-    {
-      `final-state-via`: "azure-async-operation",
-    }
-  )
+  @useFinalStateVia("azure-async-operation")
   export is ArmResourceActionAsync<
     PortalExtension,
     PortalExtensionExport,
-    never
+    never,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      ArmLroLocationHeader
   >;
 
   /**

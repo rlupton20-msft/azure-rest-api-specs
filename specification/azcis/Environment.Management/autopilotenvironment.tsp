@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -26,7 +27,10 @@ model EnvironmentResourceProperties {
   @visibility("read")
   mode: EnvironmentMode;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: EnvironmentProvisioningState;
 }

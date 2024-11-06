@@ -133,28 +133,28 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/acmCertificateSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayRestApi.json
   - Microsoft.AwsConnector/stable/2024-12-01/apiGatewayStage.json
-  - Microsoft.AwsConnector/stable/2024-12-01/applicationAutoScalingScalableTarget.json
-  - Microsoft.AwsConnector/stable/2024-12-01/certificateManagerCertificate.json
+  - Microsoft.AwsConnector/stable/2024-12-01/appSyncGraphqlApi.json
+  - Microsoft.AwsConnector/stable/2024-12-01/autoScalingAutoScalingGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStack.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudFormationStackSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/cloudFrontDistribution.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudTrailTrail.json
   - Microsoft.AwsConnector/stable/2024-12-01/cloudWatchAlarm.json
   - Microsoft.AwsConnector/stable/2024-12-01/codeBuildProject.json
-  - Microsoft.AwsConnector/stable/2024-12-01/codeBuildSourceCredential.json
   - Microsoft.AwsConnector/stable/2024-12-01/codeBuildSourceCredentialsInfo.json
+  - Microsoft.AwsConnector/stable/2024-12-01/configServiceConfigurationRecorder.json
+  - Microsoft.AwsConnector/stable/2024-12-01/configServiceConfigurationRecorderStatus.json
+  - Microsoft.AwsConnector/stable/2024-12-01/configServiceDeliveryChannel.json
   - Microsoft.AwsConnector/stable/2024-12-01/databaseMigrationServiceReplicationInstance.json
   - Microsoft.AwsConnector/stable/2024-12-01/daxCluster.json
-  - Microsoft.AwsConnector/stable/2024-12-01/dmsReplicationInstance.json
   - Microsoft.AwsConnector/stable/2024-12-01/dynamoDBContinuousBackupsDescription.json
   - Microsoft.AwsConnector/stable/2024-12-01/dynamoDBTable.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2AccountAttribute.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Address.json
-  - Microsoft.AwsConnector/stable/2024-12-01/ec2CreateVolumePermission.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2FlowLog.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Image.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Instance.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2InstanceStatus.json
-  - Microsoft.AwsConnector/stable/2024-12-01/ec2InstanceTypeInfo.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Ipam.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2KeyPair.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2NetworkAcl.json
@@ -167,6 +167,7 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/ec2Vpc.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2VPCEndpoint.json
   - Microsoft.AwsConnector/stable/2024-12-01/ec2VPCPeeringConnection.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ecrImageDetail.json
   - Microsoft.AwsConnector/stable/2024-12-01/ecrRepository.json
   - Microsoft.AwsConnector/stable/2024-12-01/ecsCluster.json
   - Microsoft.AwsConnector/stable/2024-12-01/ecsService.json
@@ -178,36 +179,26 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/elasticBeanstalkApplication.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticBeanstalkConfigurationTemplate.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticBeanstalkEnvironment.json
-  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingLoadBalancer.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2Listener.json
-  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2ListenerRule.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2LoadBalancer.json
   - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2TargetGroup.json
-  - Microsoft.AwsConnector/stable/2024-12-01/elasticsearchDomain.json
+  - Microsoft.AwsConnector/stable/2024-12-01/elasticLoadBalancingV2TargetHealthDescription.json
   - Microsoft.AwsConnector/stable/2024-12-01/emrCluster.json
-  - Microsoft.AwsConnector/stable/2024-12-01/emrClusterSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/guardDutyDetector.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKey.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyLastUsed.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamAccessKeyMetadata.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamGroup.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamGroupPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamInstanceProfile.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamManagedPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/iamMFADevice.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamPasswordPolicy.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamPolicyGroup.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamPolicyRole.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamPolicyUser.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamPolicyVersion.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamRole.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamRolePolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamServerCertificate.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamUser.json
-  - Microsoft.AwsConnector/stable/2024-12-01/iamUserPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/iamVirtualMFADevice.json
   - Microsoft.AwsConnector/stable/2024-12-01/kmsAlias.json
   - Microsoft.AwsConnector/stable/2024-12-01/kmsKey.json
   - Microsoft.AwsConnector/stable/2024-12-01/lambdaFunction.json
-  - Microsoft.AwsConnector/stable/2024-12-01/licenseManagerLicense.json
+  - Microsoft.AwsConnector/stable/2024-12-01/lambdaFunctionCodeLocation.json
   - Microsoft.AwsConnector/stable/2024-12-01/lightsailBucket.json
   - Microsoft.AwsConnector/stable/2024-12-01/lightsailInstance.json
   - Microsoft.AwsConnector/stable/2024-12-01/logsLogGroup.json
@@ -219,12 +210,13 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewall.json
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallFirewallPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/networkFirewallRuleGroup.json
-  - Microsoft.AwsConnector/stable/2024-12-01/openSearchServiceDomain.json
+  - Microsoft.AwsConnector/stable/2024-12-01/openSearchDomainStatus.json
   - Microsoft.AwsConnector/stable/2024-12-01/operations.json
   - Microsoft.AwsConnector/stable/2024-12-01/organizationsAccount.json
   - Microsoft.AwsConnector/stable/2024-12-01/organizationsOrganization.json
   - Microsoft.AwsConnector/stable/2024-12-01/rdsDBCluster.json
   - Microsoft.AwsConnector/stable/2024-12-01/rdsDBInstance.json
+  - Microsoft.AwsConnector/stable/2024-12-01/rdsDBSnapshot.json
   - Microsoft.AwsConnector/stable/2024-12-01/rdsDBSnapshotAttributesResult.json
   - Microsoft.AwsConnector/stable/2024-12-01/rdsEventSubscription.json
   - Microsoft.AwsConnector/stable/2024-12-01/rdsExportTask.json
@@ -232,15 +224,13 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/redshiftClusterParameterGroup.json
   - Microsoft.AwsConnector/stable/2024-12-01/route53DomainsDomainSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/route53HostedZone.json
-  - Microsoft.AwsConnector/stable/2024-12-01/route53RecordSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/route53ResourceRecordSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3AccessControlPolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3AccessPoint.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3Bucket.json
   - Microsoft.AwsConnector/stable/2024-12-01/s3BucketPolicy.json
-  - Microsoft.AwsConnector/stable/2024-12-01/s3MultiRegionAccessPointPolicy.json
+  - Microsoft.AwsConnector/stable/2024-12-01/s3ControlMultiRegionAccessPointPolicyDocument.json
   - Microsoft.AwsConnector/stable/2024-12-01/sageMakerApp.json
-  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerDevice.json
-  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerImage.json
-  - Microsoft.AwsConnector/stable/2024-12-01/sageMakerNotebookInstance.json
   - Microsoft.AwsConnector/stable/2024-12-01/sageMakerNotebookInstanceSummary.json
   - Microsoft.AwsConnector/stable/2024-12-01/secretsManagerResourcePolicy.json
   - Microsoft.AwsConnector/stable/2024-12-01/secretsManagerSecret.json
@@ -249,10 +239,8 @@ input-file:
   - Microsoft.AwsConnector/stable/2024-12-01/sqsQueue.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmInstanceInformation.json
   - Microsoft.AwsConnector/stable/2024-12-01/ssmParameter.json
-  - Microsoft.AwsConnector/stable/2024-12-01/wafv2IPSet.json
+  - Microsoft.AwsConnector/stable/2024-12-01/ssmResourceComplianceSummaryItem.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafv2LoggingConfiguration.json
-  - Microsoft.AwsConnector/stable/2024-12-01/wafv2WebACLAssociation.json
-  - Microsoft.AwsConnector/stable/2024-12-01/wafWebACL.json
   - Microsoft.AwsConnector/stable/2024-12-01/wafWebACLSummary.json
 ```
 
@@ -297,17 +285,16 @@ directive:
       - apiGatewayRestApi.json
       - apiGatewayStage.json
       - applicationAutoScalingScalableTarget.json
-      - certificateManagerCertificate.json
+      - autoScalingAutoScalingGroup.json
       - cloudFormationStack.json
       - cloudFormationStackSet.json
+      - cloudFrontDistribution.json
       - cloudTrailTrail.json
       - cloudWatchAlarm.json
       - codeBuildProject.json
-      - codeBuildSourceCredential.json
       - codeBuildSourceCredentialsInfo.json
       - databaseMigrationServiceReplicationInstance.json
       - daxCluster.json
-      - dmsReplicationInstance.json
       - dynamoDBContinuousBackupsDescription.json
       - dynamoDBTable.json
       - ec2AccountAttribute.json
@@ -350,10 +337,8 @@ directive:
       - emrCluster.json
       - emrClusterSummary.json
       - guardDutyDetector.json
-      - iamAccessKey.json
       - iamAccessKeyLastUsed.json
       - iamGroup.json
-      - iamGroupPolicy.json
       - iamInstanceProfile.json
       - iamManagedPolicy.json
       - iamPasswordPolicy.json
@@ -362,10 +347,8 @@ directive:
       - iamPolicyUser.json
       - iamPolicyVersion.json
       - iamRole.json
-      - iamRolePolicy.json
       - iamServerCertificate.json
       - iamUser.json
-      - iamUserPolicy.json
       - iamVirtualMFADevice.json
       - kmsAlias.json
       - kmsKey.json
@@ -382,7 +365,7 @@ directive:
       - networkFirewallFirewall.json
       - networkFirewallFirewallPolicy.json
       - networkFirewallRuleGroup.json
-      - openSearchServiceDomain.json
+      - openSearchDomainStatus.json
       - operations.json
       - organizationsAccount.json
       - organizationsOrganization.json
@@ -403,7 +386,6 @@ directive:
       - sageMakerApp.json
       - sageMakerDevice.json
       - sageMakerImage.json
-      - sageMakerNotebookInstance.json
       - sageMakerNotebookInstanceSummary.json
       - secretsManagerResourcePolicy.json
       - secretsManagerSecret.json
@@ -415,6 +397,7 @@ directive:
       - ssmResourceComplianceSummaryItem.json
       - wafv2IPSet.json
       - wafv2LoggingConfiguration.json
+      - wafv2WebACL.json
       - wafv2WebACLAssociation.json
       - wafWebACL.json
       - wafWebACLSummary.json

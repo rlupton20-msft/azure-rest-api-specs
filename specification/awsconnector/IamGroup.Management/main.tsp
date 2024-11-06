@@ -96,7 +96,7 @@ model AwsIamGroupProperties {
 @doc("Definition of Policy")
 model Policy {
   @doc("The policy document.")
-  policyDocument?: string;
+  policyDocument?: Record<unknown>;
 
   @doc("The friendly name (not ARN) identifying the policy.")
   policyName?: string;
@@ -107,7 +107,7 @@ model Policy {
 interface IamGroups {
   get is ArmResourceRead<IamGroup>;
   @doc("Create a IamGroup. Please note that end user resource creation is currently restricted, but it will be enabled in the future.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<IamGroup>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<IamGroup>;
   update is ArmCustomPatchAsync<
     IamGroup,
     Azure.ResourceManager.Foundations.TagsUpdateModel<IamGroup>

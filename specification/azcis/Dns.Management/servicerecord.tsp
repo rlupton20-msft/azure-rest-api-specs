@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -14,7 +15,7 @@ namespace Microsoft.AzureCis;
 
 @doc("ServiceRecord properties")
 model ServiceRecordResourceProperties {
-  @doc("Gets or sets the dns name")
+  @doc("Gets or sets the DNS name")
   dnsName: string;
 
   @doc("Gets or sets the priority field of a service record")
@@ -29,10 +30,13 @@ model ServiceRecordResourceProperties {
   @doc("Gets or sets the canonical hostname of the target machine providing the service")
   canonicalName: string;
 
-  @doc("Gets or sets the ttl")
+  @doc("Gets or sets the TTL")
   ttl: string;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: ServiceRecordProvisioningState;
 }

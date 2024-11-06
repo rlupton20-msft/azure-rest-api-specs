@@ -172,7 +172,7 @@
         }
       },
       "put": {
-        "operationId": "EcrRepositories_CreateOrUpdate",
+        "operationId": "EcrRepositories_CreateOrReplace",
         "tags": [
           "EcrRepositories"
         ],
@@ -237,8 +237,8 @@
           }
         },
         "x-ms-examples": {
-          "EcrRepositories_CreateOrUpdate": {
-            "$ref": "./examples/EcrRepositories_CreateOrUpdate.json"
+          "EcrRepositories_CreateOrReplace": {
+            "$ref": "./examples/EcrRepositories_CreateOrReplace.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -414,8 +414,9 @@
           "description": "The name to use for the repository. The repository name may be specified on its own (such as ``nginx-web-app``) or it can be prepended with a namespace to group the repository into a category (such as ``project-a/nginx-web-app``). If you don't specify a name, CFNlong generates a unique physical ID and uses that ID for the repository name. For more information, see [Name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.  If you specify a name, you cannot perform updates that require replacement of this resource. You can perform updates that require no or some interruption. If you must replace the resource, specify a new name."
         },
         "repositoryPolicyText": {
-          "type": "string",
-          "description": "The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the *Amazon Elastic Container Registry User Guide*."
+          "type": "object",
+          "description": "The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the *Amazon Elastic Container Registry User Guide*.",
+          "additionalProperties": {}
         },
         "repositoryUri": {
           "type": "string",
@@ -437,8 +438,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EcrRepositoryProperties",
-          "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
@@ -532,13 +532,37 @@
       "description": "Definition of EncryptionConfiguration",
       "properties": {
         "encryptionType": {
-          "type": "string",
+          "$ref": "#/definitions/EncryptionConfigurationEncryptionType",
           "description": "The encryption type to use. If you use the ``KMS`` encryption type, the contents of the repository will be encrypted using server-side encryption with KMSlong key stored in KMS. When you use KMS to encrypt your data, you can either use the default AWS managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see [Protecting data using server-side encryption with an key stored in (SSE-KMS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) in the *Amazon Simple Storage Service Console Developer Guide*. If you use the ``AES256`` encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the *Ama The encryption type to use."
         },
         "kmsKey": {
           "type": "string",
           "description": "If you use the ``KMS`` encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default AWS managed KMS key for Amazon ECR will be used. If you use the KMS encryption type, specify the CMK to use for encryption. The alias, key ID, or full ARN of the CMK can be specified. The key must exist in the same Region as the repository. If no key is specified, the default AWS managed CMK for Amazon ECR will be used."
         }
+      }
+    },
+    "EncryptionConfigurationEncryptionType": {
+      "type": "string",
+      "description": "EncryptionConfigurationEncryptionType enum",
+      "enum": [
+        "AES256",
+        "KMS"
+      ],
+      "x-ms-enum": {
+        "name": "EncryptionConfigurationEncryptionType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AES256",
+            "value": "AES256",
+            "description": "EncryptionConfigurationEncryptionType enum AES256"
+          },
+          {
+            "name": "KMS",
+            "value": "KMS",
+            "description": "EncryptionConfigurationEncryptionType enum KMS"
+          }
+        ]
       }
     },
     "ImageScanningConfiguration": {

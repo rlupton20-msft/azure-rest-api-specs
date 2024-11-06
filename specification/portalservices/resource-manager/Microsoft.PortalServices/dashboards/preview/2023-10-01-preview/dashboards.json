@@ -451,7 +451,7 @@
       "description": "Model for Action reference.",
       "properties": {
         "type": {
-          "type": "string",
+          "$ref": "#/definitions/ActionReferenceType",
           "description": "Discriminator property for ActionReference."
         }
       },
@@ -489,7 +489,7 @@
       "description": "The types of dashboard tile action references.",
       "enum": [
         "blade",
-        "url"
+        "uri"
       ],
       "x-ms-enum": {
         "name": "ActionReferenceType",
@@ -501,8 +501,8 @@
             "description": "The action reference type for blade."
           },
           {
-            "name": "url",
-            "value": "url",
+            "name": "uri",
+            "value": "uri",
             "description": "The action reference type for url."
           }
         ]
@@ -510,9 +510,9 @@
     },
     "ActionReferenceUrl": {
       "type": "object",
-      "description": "Model for action reference to a url.",
+      "description": "Model for action reference to a uri.",
       "properties": {
-        "url": {
+        "uri": {
           "type": "string",
           "description": "The URI that will be opened"
         },
@@ -522,7 +522,7 @@
         }
       },
       "required": [
-        "url",
+        "uri",
         "displayName"
       ],
       "allOf": [
@@ -530,7 +530,7 @@
           "$ref": "#/definitions/ActionReference"
         }
       ],
-      "x-ms-discriminator-value": "url"
+      "x-ms-discriminator-value": "uri"
     },
     "Actions": {
       "type": "object",
@@ -802,7 +802,7 @@
           "description": "Text to be shown when there are no resources to be configured with the service."
         },
         "icon": {
-          "type": "string",
+          "$ref": "#/definitions/IconReference",
           "description": "Icon to be shown when there are no resources to be configured with."
         }
       },
@@ -849,51 +849,11 @@
         "inContextPane": {
           "type": "boolean",
           "description": "Whether the blade should be opened in the context pane."
-        },
-        "doesProvisioning": {
-          "type": "boolean",
-          "description": "Specify whether to open this blade as Provisioning blade"
         }
       },
       "required": [
         "name"
       ]
-    },
-    "CreatedByType": {
-      "type": "string",
-      "description": "The types of created by.",
-      "enum": [
-        "User",
-        "Application",
-        "ManagedIdentity",
-        "Key"
-      ],
-      "x-ms-enum": {
-        "name": "CreatedByType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "User",
-            "value": "User",
-            "description": "The created by type for user."
-          },
-          {
-            "name": "Application",
-            "value": "Application",
-            "description": "The created by type for application."
-          },
-          {
-            "name": "ManagedIdentity",
-            "value": "ManagedIdentity",
-            "description": "The created by type for managedIdentity."
-          },
-          {
-            "name": "Key",
-            "value": "Key",
-            "description": "The created by type for key."
-          }
-        ]
-      }
     },
     "Dashboard": {
       "type": "object",
@@ -902,11 +862,7 @@
         "properties": {
           "$ref": "#/definitions/DashboardPropertiesWithProvisioningState",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "x-ms-client-flatten": true
         }
       },
       "allOf": [
@@ -929,8 +885,7 @@
         "nextLink": {
           "type": "string",
           "format": "uri",
-          "description": "The link to the next page of items",
-          "readOnly": true
+          "description": "The link to the next page of items"
         }
       },
       "required": [
@@ -953,7 +908,11 @@
           },
           "x-ms-identifiers": []
         }
-      }
+      },
+      "required": [
+        "title",
+        "tiles"
+      ]
     },
     "DashboardParameter": {
       "type": "object",
@@ -1049,12 +1008,9 @@
       "type": "object",
       "description": "The dashboard parameter values.",
       "properties": {
-        "parameterNames": {
-          "type": "array",
-          "description": "The unique names to serve as placeholders for the parameter values.",
-          "items": {
-            "type": "string"
-          }
+        "parameterName": {
+          "type": "string",
+          "description": "The name of the parameter."
         },
         "values": {
           "type": "array",
@@ -1065,7 +1021,7 @@
         }
       },
       "required": [
-        "parameterNames",
+        "parameterName",
         "values"
       ]
     },
@@ -1138,7 +1094,11 @@
           "description": "The status of the last operation.",
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "title",
+        "pages"
+      ]
     },
     "DashboardProvisioningState": {
       "type": "string",
@@ -1291,35 +1251,23 @@
         ]
       }
     },
-    "Kind": {
-      "type": "string",
-      "description": "The types of Dashboard Query tile kinds.",
-      "enum": [
-        "arg",
-        "app-insights",
-        "policy"
-      ],
-      "x-ms-enum": {
-        "name": "Kind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "arg",
-            "value": "arg",
-            "description": "The kind type for arg."
-          },
-          {
-            "name": "app-insights",
-            "value": "app-insights",
-            "description": "The kind type for app-insights."
-          },
-          {
-            "name": "policy",
-            "value": "policy",
-            "description": "The kind type for policy."
-          }
-        ]
-      }
+    "IconReference": {
+      "type": "object",
+      "description": "Model for Icon Reference.",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Framework icon type - enum number or zero for custom icon."
+        },
+        "data": {
+          "type": "string",
+          "description": "Icon data string that is supplied by the extension author."
+        }
+      },
+      "required": [
+        "type"
+      ]
     },
     "MarkdownInlineData": {
       "type": "object",
@@ -1437,7 +1385,7 @@
       "description": "The data that determines the content of the navigation tile.",
       "properties": {
         "icon": {
-          "type": "string",
+          "$ref": "#/definitions/IconReference",
           "description": "Icon to be displayed on the navigation tile."
         },
         "description": {
@@ -1520,7 +1468,7 @@
       "description": "A dashboard query tile.",
       "properties": {
         "kind": {
-          "type": "string",
+          "$ref": "#/definitions/QueryTileKind",
           "description": "Discriminator property for QueryTileData."
         },
         "usedParameters": {
@@ -1535,6 +1483,42 @@
       "required": [
         "kind"
       ]
+    },
+    "QueryTileKind": {
+      "type": "string",
+      "description": "The types of Dashboard Query tile kinds.",
+      "enum": [
+        "arg",
+        "app-insights",
+        "policy",
+        "recent-resources"
+      ],
+      "x-ms-enum": {
+        "name": "QueryTileKind",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "arg",
+            "value": "arg",
+            "description": "The kind type for arg."
+          },
+          {
+            "name": "appInsights",
+            "value": "app-insights",
+            "description": "The kind type for app-insights."
+          },
+          {
+            "name": "policy",
+            "value": "policy",
+            "description": "The kind type for policy."
+          },
+          {
+            "name": "recentResources",
+            "value": "recent-resources",
+            "description": "The kind type for recent-resources."
+          }
+        ]
+      }
     },
     "QueryTileMetricsItem": {
       "type": "object",
@@ -1590,6 +1574,16 @@
         }
       }
     },
+    "RecentResourcesDataDefinition": {
+      "type": "object",
+      "description": "The data definition of recent resources Query Tile.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/QueryTileData"
+        }
+      ],
+      "x-ms-discriminator-value": "recent-resources"
+    },
     "ResourceTile": {
       "type": "object",
       "description": "A resource tile.",
@@ -1633,30 +1627,6 @@
         "resourceId"
       ]
     },
-    "Versions": {
-      "type": "string",
-      "description": "Azure Portal Services Dashboards Management API versions.",
-      "enum": [
-        "2023-10-01-preview",
-        "2024-01-01-preview"
-      ],
-      "x-ms-enum": {
-        "name": "Versions",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "v2023_10_01_preview",
-            "value": "2023-10-01-preview",
-            "description": "Azure Portal Services Dashboards Management API version 2023-10-01-preview."
-          },
-          {
-            "name": "v2024_01_01_preview",
-            "value": "2024-01-01-preview",
-            "description": "Azure Portal Services Dashboards Management API version 2024-01-01-preview."
-          }
-        ]
-      }
-    },
     "VisualizationType": {
       "type": "string",
       "description": "The types of Dashboard Visualizations.",
@@ -1669,6 +1639,7 @@
         "line",
         "multistat",
         "pie",
+        "snapshot",
         "scatter",
         "table",
         "timechart"
@@ -1716,6 +1687,11 @@
             "name": "pie",
             "value": "pie",
             "description": "The visualization type for pie."
+          },
+          {
+            "name": "snapshot",
+            "value": "snapshot",
+            "description": "The visualization type for snapshot."
           },
           {
             "name": "scatter",

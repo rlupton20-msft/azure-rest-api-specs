@@ -11,14 +11,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
 
-@doc("Private.MessagingConnectors Resource Provider management API.")
-@armProviderNamespace
-@service({
-  title: "Private.MessagingConnectors management service",
-})
-@versioned(Versions)
-namespace Private.MessagingConnectors;
-
 @doc("Provisioning states of Connector ARM Resource")
 @lroStatus
 union ConnectorProvisioningState {
@@ -210,6 +202,9 @@ model EventHubConfig {
 
 @doc("Source data format Types")
 union SourceDataFormatTypes {
+  @doc("Disable this config")
+  None: "None",
+
   @doc("JSON format")
   JSON: "JSON",
 
@@ -289,36 +284,97 @@ model ConverterConfig {
 }
 
 @doc("CsvConverter config")
-model CsvConverter extends ConverterConfig {
+model CsvConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.CsvConverter;
 }
 
 @doc("AvroConverter config")
-model AvroConverter extends ConverterConfig {
+model AvroConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.AvroConverter;
 }
 
 @doc("StringConverter config")
-model StringConverter extends ConverterConfig {
+model StringConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.StringConverter;
 }
 
 @doc("ByteArrayConverter config")
-model ByteArrayConverter extends ConverterConfig {
+model ByteArrayConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.ByteArrayConverter;
 }
 
+@doc("Json Decimal Format configuration")
+union JsonDecimalFormat {
+  @doc("Type of Base64.")
+  Base64: "Base64",
+
+  @doc("Type of Numeric.")
+  Numeric: "Numeric",
+
+  string,
+}
+
 @doc("JsonConverter config")
-model JsonConverter extends ConverterConfig {
+model JsonConverterConfig extends ConverterConfig {
   @doc("Type of converter.")
   type: ConverterType.JsonConverter;
 
   @doc("Whether schemas enabled.")
   schemasEnabled?: boolean;
+
+  @doc("Format for Decimal type.")
+  decimalFormat?: JsonDecimalFormat;
+}
+
+@doc("CloudEvents types")
+union CloudEventsTypes {
+  @doc("Do not use CloudEventsConfig")
+  None: "None",
+
+  @doc("CatalogCloudEventsConfig")
+  Catalog: "Catalog",
+
+  string,
+}
+
+@doc("Cloud events config")
+@discriminator("type")
+model CloudEventsConfig {
+  @doc("Type of CloudEventsConfig.")
+  type: CloudEventsTypes;
+}
+
+@doc("Catalog schema id config")
+model CatalogSchemaId {
+  @doc("SchemaGroup id.")
+  schemaGroupId: string;
+
+  @doc("Schema id.")
+  schemaId: string;
+
+  @doc("Endpoint.")
+  endpoint: string;
+}
+
+@doc("Catalog cloud events transform config.")
+model CatalogCloudEventsConfig extends CloudEventsConfig {
+  @doc("Type of CatalogCloudEventsConfig.")
+  type: CloudEventsTypes.Catalog;
+
+  @doc("Whether auto-register new schemas.")
+  autoRegisterSchemas: boolean;
+
+  @doc("Catalog schemaIds.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  catalogSchemaIds: CatalogSchemaId[];
+
+  @doc("access token.")
+  @secret
+  accessToken: string;
 }
 
 @doc("Properties of one arm resource")
@@ -354,6 +410,9 @@ model ConnectorProperties {
 
   @doc("Data format of the data source")
   sourceDataFormat?: SourceDataFormat;
+
+  @doc("Cloud events config")
+  cloudEventsConfig?: CloudEventsConfig;
 
   @doc("State of the MessagingConnector")
   connectorState?: ConnectorState;
@@ -617,7 +676,7 @@ model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
   @doc("connectionString for AzureServiceBusSource.")
   connectionString: string;
 
-  @doc("serviceBus type.")
+  @doc("AzureServiceBusSource type.")
   serviceBusType: AzureServiceBusType;
 }
 

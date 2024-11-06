@@ -7,33 +7,37 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("PtrRecord properties")
+@doc("Pointer record properties")
 model PtrRecordResourceProperties {
-  @doc("Gets or sets the dns name")
+  @doc("Gets or sets the DNS name")
   dnsName: string;
 
   @doc("Gets or sets the IP Address in String format")
   pointsTo: string;
 
-  @doc("Gets or sets the ttl")
+  @doc("Gets or sets the TTL")
   ttl: string;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: PtrRecordProvisioningState;
 }
 
-@doc("PtrRecord Resource")
+@doc("Pointer record resource")
 model PtrRecordResource is ProxyResource<PtrRecordResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("ptrRecords") // start with lower case
+  @segment("pointerRecords") // start with lower case
   @visibility("read")
   @path
   name: string;

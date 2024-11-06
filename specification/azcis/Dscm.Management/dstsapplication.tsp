@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -22,9 +23,17 @@ model DstsApplicationResourceProperties {
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
+
+  @doc("Request ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  requestId?: string;
+
+  @doc("Application Group ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  applicationGroupId?: string;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
@@ -83,6 +92,9 @@ model ApplicationAccount {
 
   @doc("Client identity when using the application as a client. Optional.")
   applicationClientIdentity?: ApplicationClientIdentity;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)
@@ -134,6 +146,9 @@ model ApplicationGroup {
 
   @doc("Client identity when using the application as a client. Optional.")
   applicationClientIdentity?: ApplicationClientIdentity;
+
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 }
 
 @removed(Microsoft.AzureCis.Versions.v2023_08_22)

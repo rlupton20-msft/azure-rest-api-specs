@@ -39,6 +39,15 @@ input-file:
   - Microsoft.IoTFirmwareDefense/stable/2024-08-07/iotfirmwaredefense.json
 ```
 
+### Tag: package-2024-08-07-preview
+
+These settings apply only when `--tag=package-2024-08-07-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-08-07-preview'
+input-file:
+  - Microsoft.IoTFirmwareDefense/preview/2024-08-07-preview/iotfirmwaredefense.json
+```
+
 ### Tag: package-2024-01
 
 These settings apply only when `--tag=package-2024-01-10` is specified on the command line.

@@ -25,21 +25,6 @@ model Workspace is TrackedResource<WorkspaceProperties> {
   name: string;
 }
 
-/**
- * Firmware analysis workspace.
- */
-model WorkspaceUpdateDefinition {
-  /**
-   * Resource tags
-   */
-  tags?: Record<string>;
-
-  /**
-   * The editable workspace properties.
-   */
-  properties?: WorkspaceProperties;
-}
-
 @armResourceOperations
 interface Workspaces {
   /**
@@ -56,7 +41,13 @@ interface Workspaces {
    * The operation to update a firmware analysis workspaces.
    */
   @parameterVisibility
-  update is ArmCustomPatchSync<Workspace, WorkspaceUpdateDefinition>;
+  update is ArmCustomPatchSync<
+    Workspace,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      Workspace,
+      WorkspaceProperties
+    >
+  >;
 
   /**
    * The operation to delete a firmware analysis workspace.

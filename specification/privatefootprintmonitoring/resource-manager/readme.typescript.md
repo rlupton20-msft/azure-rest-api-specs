@@ -7,8 +7,8 @@ Please also specify `--typescript-sdks-folder=<path to the root directory of you
 typescript:
   azure-arm: true
   license-header: MICROSOFT_MIT_NO_VERSION
-  package-name: "@azure/footprintMonitoring"
-  output-folder: "$(typescript-sdks-folder)/packages/@azure/footprintMonitoring"
+  package-name: "@azure/privatefootprintMonitoring"
+  output-folder: "$(typescript-sdks-folder)/packages/@azure/privatefootprintMonitoring"
   clear-output-folder: true
   generate-metadata: true
 ```

@@ -24,25 +24,25 @@ model DbNodeProperties {
   ocid: Ocid;
 
   @doc("Additional information about the planned maintenance.")
-  additionalDetails: string;
+  additionalDetails?: string;
 
   @doc("The OCID of the backup IP address associated with the database node.")
-  backupIpId: Ocid;
+  backupIpId?: Ocid;
 
   @doc("The OCID of the second backup VNIC.")
-  backupVnic2Id: Ocid;
+  backupVnic2Id?: Ocid;
 
   @doc("The OCID of the backup VNIC.")
-  backupVnicId: Ocid;
+  backupVnicId?: Ocid;
 
   @doc("The number of CPU cores enabled on the Db node.")
-  cpuCoreCount: int32;
+  cpuCoreCount?: int32;
 
   @doc("The allocated local node storage in GBs on the Db node.")
-  dbNodeStorageSizeInGbs: int32;
+  dbNodeStorageSizeInGbs?: int32;
 
   @doc("The OCID of the Exacc Db server associated with the database node.")
-  dbServerId: Ocid;
+  dbServerId?: Ocid;
 
   @doc("The OCID of the DB system.")
   dbSystemId: Ocid;
@@ -50,40 +50,40 @@ model DbNodeProperties {
   @doc("The name of the Fault Domain the instance is contained in.")
   @minLength(1)
   @maxLength(255)
-  faultDomain: string;
+  faultDomain?: string;
 
   @doc("The OCID of the host IP address associated with the database node.")
-  hostIpId: Ocid;
+  hostIpId?: Ocid;
 
   @doc("The host name for the database node.")
-  hostname: string;
+  hostname?: string;
 
   @doc("The current state of the database node.")
-  lifecycleState?: DbNodeProvisioningState;
+  lifecycleState: DbNodeProvisioningState;
 
   @doc("Lifecycle details of Db Node.")
   lifecycleDetails?: string;
 
   @doc("The type of database node maintenance.")
-  maintenanceType: DbNodeMaintenanceType;
+  maintenanceType?: DbNodeMaintenanceType;
 
   @doc("The allocated memory in GBs on the Db node.")
-  memorySizeInGbs: int32;
+  memorySizeInGbs?: int32;
 
   @doc("The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.")
-  softwareStorageSizeInGb: int32;
+  softwareStorageSizeInGb?: int32;
 
   @doc("The date and time that the database node was created.")
   timeCreated: utcDateTime;
 
   @doc("End date and time of maintenance window.")
-  timeMaintenanceWindowEnd: utcDateTime;
+  timeMaintenanceWindowEnd?: utcDateTime;
 
   @doc("Start date and time of maintenance window.")
-  timeMaintenanceWindowStart: utcDateTime;
+  timeMaintenanceWindowStart?: utcDateTime;
 
   @doc("The OCID of the second VNIC.")
-  vnic2Id: Ocid;
+  vnic2Id?: Ocid;
 
   @doc("The OCID of the VNIC.")
   vnicId: Ocid;

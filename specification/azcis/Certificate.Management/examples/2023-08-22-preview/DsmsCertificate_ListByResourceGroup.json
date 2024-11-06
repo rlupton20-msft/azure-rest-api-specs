@@ -15,13 +15,33 @@
             "name": "prodUSEastAzcis",
             "type": "Microsoft.AzureCis/dsmsCertificates",
             "properties": {
+              "provisioningState": "Accepted",
+              "chainedCertificateDsmsName": "cert.pfx",
+              "edgeSiteChildTrustIsland": "TestCTI",
               "certificateName": "cert.pfx",
               "certificateType": "Chained",
-              "rootPath": "test",
-              "customRolloverPeriodDays": 90,
-              "subject": "CN=test.example.com",
-              "san": "DNS=test.example.com",
-              "caName": "AME"
+              "rootPath": "azurecis",
+              "dsmsDns": "global-dsms.dsms.hostname",
+              "allowlists": [
+                {
+                  "type": "ServiceID",
+                  "values": "sampleServiceID"
+                },
+                {
+                  "type": "SubscriptionID",
+                  "values": "samplesubscriptionID"
+                }
+              ],
+              "replicationScope": {
+                "type": "SpecifiedDsmsRegions",
+                "regions": "uswest;useast"
+              },
+              "subjectName": "CN=test.example.com",
+              "subjectAlternativeName": "DNS=test.example.com",
+              "caName": "AME",
+              "validDays": 365,
+              "selfSigningMethod": "CertificateAuthority",
+              "azureLocation": "useast"
             }
           }
         ]

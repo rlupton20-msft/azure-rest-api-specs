@@ -8,6 +8,7 @@ using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -38,7 +39,10 @@ model AutopilotMachineFunctionResourceProperties {
   @doc("If a RequestedNodeLabel declared inside of MachineFunction, this particular MachineFunction will filled with this RequestedNodeLabels, but if no such requestedNodeLabel in ManaTree files, it will throw exception.")
   requestedNodeLabels?: string;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: EnvironmentProvisioningState;
 }

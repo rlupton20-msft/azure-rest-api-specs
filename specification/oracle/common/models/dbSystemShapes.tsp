@@ -21,13 +21,13 @@ model DbSystemShapeProperties {
   @doc("The family of the shape used for the DB system.")
   @minLength(1)
   @maxLength(255)
-  shapeFamily: string;
+  shapeFamily?: string;
 
   @doc("The maximum number of CPU cores that can be enabled on the DB system for this shape.")
   availableCoreCount: int32;
 
   @doc("The minimum number of CPU cores that can be enabled on the DB system for this shape.")
-  minimumCoreCount: int32;
+  minimumCoreCount?: int32;
 
   @doc("The runtime minimum number of CPU cores that can be enabled on the DB system for this shape.")
   runtimeMinimumCoreCount?: int32;
@@ -48,10 +48,10 @@ model DbSystemShapeProperties {
   availableMemoryPerNodeInGbs?: int32;
 
   @doc("The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.")
-  availableDbNodePerNodeInGbs: int32;
+  availableDbNodePerNodeInGbs?: int32;
 
   @doc("The minimum number of CPU cores that can be enabled per node for this shape.")
-  minCoreCountPerNode: int32;
+  minCoreCountPerNode?: int32;
 
   @doc("The maximum memory that can be enabled for this shape.")
   availableMemoryInGbs?: int32;
@@ -66,17 +66,17 @@ model DbSystemShapeProperties {
   minDbNodeStoragePerNodeInGbs?: int32;
 
   @doc("The maximum DATA storage that can be enabled for this shape.")
-  availableDataStorageInTbs: int32;
+  availableDataStorageInTbs?: int32;
 
   @doc("The minimum data storage that need be allocated for this shape.")
   minDataStorageInTbs?: int32;
 
   @doc("The minimum number of database nodes available for this shape.")
-  minimumNodeCount: int32;
+  minimumNodeCount?: int32;
 
   @doc("The maximum number of database nodes available for this shape.")
-  maximumNodeCount: int32;
+  maximumNodeCount?: int32;
 
   @doc("The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.")
-  availableCoreCountPerNode: int32;
+  availableCoreCountPerNode?: int32;
 }

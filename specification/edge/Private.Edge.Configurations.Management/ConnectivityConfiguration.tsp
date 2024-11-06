@@ -44,8 +44,8 @@ model ConnectivityConfigurationProperties {
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
 
-  @doc("Usecase of this configuration")
-  usecase: Usecase;
+  @doc("Scenario in which this configuration is used")
+  scenario: Scenario;
 
   @doc("Connectivity type")
   connectivityType: ConnectivityType;
@@ -74,5 +74,6 @@ model ProxyConfiguration {
   port: int32;
 
   @doc("Bypass urls from proxy")
-  bypassUrls: url[];
+  @minItems(1)
+  bypassUrls?: url[];
 }

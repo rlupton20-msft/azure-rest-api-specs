@@ -48,8 +48,8 @@ model NetworkConfigurationProperties {
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
 
-  @doc("Usecase of this configuration")
-  usecase: Usecase;
+  @doc("Scenario in which this configuration is used")
+  scenario: Scenario;
 }
 
 @doc("NetworkConfigurationProperties for LAN")
@@ -72,15 +72,16 @@ model IpAssignment {
 @doc("Ip V4")
 model Ipv4 {
   @doc("AddressRange for IPv4")
-  addressRange: Ipv4AddressRange;
+  addressRange?: Ipv4AddressRange;
 
   @doc("Subnet mask for IPv4")
-  subnetMask: ipV4Address;
+  subnetMask?: ipV4Address;
 
   @doc("Default gateway for IPv4")
-  defaultGateway: ipV4Address;
+  defaultGateway?: ipV4Address;
 
   @doc("DNS Servers IPs for IPv4")
+  @minItems(1)
   dnsServers: ipV4Address[];
 
   @doc("vLanId for the network interface")

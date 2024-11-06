@@ -1,48 +1,58 @@
-# EncryptedTransport
+# encryptedtransport
 
+This is the AutoRest configuration file for encryptedtransport.
+
+<!-- Need to disable the linter for the next line so it doesn't mess up the "magic string" -->
+<!-- markdownlint-disable-next-line -->
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for EncryptedTransport.
-
-
-
----
 ## Getting Started
-To build the SDK for EncryptedTransport, simply [Install AutoRest](https://aka.ms/autorest/install) and in this folder, run:
 
-> `autorest`
+To build the SDKs for My API, simply install AutoRest via `npm` (`npm install -g autorest`) and then run:
+
+> `autorest readme.md`
 
 To see additional help and options, run:
 
 > `autorest --help`
+
+For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
+
 ---
 
 ## Configuration
 
-
-
 ### Basic Information
-These are the global settings for the EncryptedTransport API.
+
+These are the global settings for the encryptedtransport.
 
 ``` yaml
-title: Encrypted Transport API's
 openapi-type: arm
-tag: package-2022-06-preview
+openapi-subtype: providerHub
+tag: package-2024-09-01-preview
 ```
 
-### Tag: package-2022-06-preview
+### Tag: package-2024-09-01-preview
 
-These settings apply only when `--tag=package-2022-06-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-09-01-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2022-06-preview'
+``` yaml $(tag) == 'package-2024-09-01-preview'
 input-file:
-- Microsoft.EncryptedTransport/preview/2022-06-17-preview/EncryptedTransport.json
-directive:
-  - None at the moment
+  - Microsoft.EncryptedTransport/preview/2024-09-01-preview/openapi.json
+```
+
+### Tag: package-2024-09-01-preview-PrivateRP
+
+These settings apply only when `--tag=package-2024-09-01-preview-PrivateRP` is specified on the command line.
+
+``` yaml $(tag) == 'package-2024-09-01-preview-PrivateRP'
+input-file:
+  - Private.EncryptedTransport/preview/2024-09-01-preview/openapi.json
 ```
 
 ---
-# Code Generation
+
+## Code Generation
 
 ## Swagger to SDK
 
@@ -51,23 +61,5 @@ This is not used by Autorest itself.
 
 ``` yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-net
-  - repo: azure-sdk-for-python
-  - repo: azure-sdk-for-go
   - repo: azure-resource-manager-schemas
-  - repo: azure-powershell
-```
-
-## C#
-
-These settings apply only when `--csharp` is specified on the command line.
-Please also specify `--csharp-sdks-folder=<path to "SDKs" directory of your azure-sdk-for-net clone>`.
-
-``` yaml $(csharp)
-csharp:
-  azure-arm: true
-  license-header: MICROSOFT_MIT_NO_VERSION
-  namespace: Microsoft.Azure.Management.EncryptedTransport
-  output-folder: $(csharp-sdks-folder)/encryptedtransport/Microsoft.Azure.Management.EncryptedTransport/src/Generated
-  clear-output-folder: true
 ```

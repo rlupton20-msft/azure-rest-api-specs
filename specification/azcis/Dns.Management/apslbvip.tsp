@@ -7,27 +7,35 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("ApSlbVip properties")
+@doc("Autopilot software load balance VIP properties")
 model ApSlbVipResourceProperties {
-  @doc("Gets or sets the Ap Dns name. This is case-insensitive")
-  apDnsName: string;
+  @doc("Gets or sets the auto pilot DNS name. This is case-insensitive")
+  autoPilotDnsName: string;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: ApSlbVipProvisioningState;
+
+  @doc("IP address of an Ap Dns; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  assignedVip?: string;
 }
 
-@doc("ApSlbVip Resource")
+@doc("Autopilot software load balance VIP Resource")
 model ApSlbVipResource is ProxyResource<ApSlbVipResourceProperties> {
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("apSlbVips") // start with lower case
+  @segment("autoPilotSoftwareLoadBalanceVirtualIps") // start with lower case
   @visibility("read")
   @path
   name: string;

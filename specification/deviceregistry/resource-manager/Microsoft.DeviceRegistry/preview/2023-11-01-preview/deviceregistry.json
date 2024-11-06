@@ -1756,6 +1756,83 @@
         }
       ]
     },
+    "DeviceBaseProperties": {
+      "type": "object",
+      "description": "Defines the device base properties.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "Gets a unique identifier for this resource.",
+          "readOnly": true
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD.",
+          "default": true
+        },
+        "externalDeviceId": {
+          "type": "string",
+          "description": "Gets the device Id provided by customer.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "deviceTemplateId": {
+          "type": "string",
+          "description": "Device Template Id used to create a device.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "deviceGroupId": {
+          "type": "string",
+          "description": "The AAD group the device is a member of."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Hardware manufacturer name.",
+          "readOnly": true
+        },
+        "model": {
+          "type": "string",
+          "description": "Hardware model name.",
+          "readOnly": true
+        },
+        "operatingSystem": {
+          "type": "string",
+          "description": "operating system name.",
+          "readOnly": true
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "description": "operating system version.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "identity": {
+          "$ref": "#/definitions/DeviceIdentity",
+          "description": "Identity for the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+          "additionalProperties": {}
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      }
+    },
     "DeviceEndpoints": {
       "type": "object",
       "description": "Property bag containing the device's unassigned and assigned endpoints.",
@@ -1849,82 +1926,16 @@
       "type": "object",
       "description": "Defines the device properties.",
       "properties": {
-        "uuid": {
-          "type": "string",
-          "description": "Gets a unique identifier for this resource.",
-          "readOnly": true
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD.",
-          "default": true
-        },
-        "externalDeviceId": {
-          "type": "string",
-          "description": "Gets the device Id provided by customer.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "deviceTemplateId": {
-          "type": "string",
-          "description": "Device Template Id used to create a device.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "deviceGroupId": {
-          "type": "string",
-          "description": "The AAD group the device is a member of."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Hardware manufacturer name.",
-          "readOnly": true
-        },
-        "model": {
-          "type": "string",
-          "description": "Hardware model name.",
-          "readOnly": true
-        },
-        "operatingSystem": {
-          "type": "string",
-          "description": "operating system name.",
-          "readOnly": true
-        },
-        "operatingSystemVersion": {
-          "type": "string",
-          "description": "operating system version.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "identity": {
-          "$ref": "#/definitions/DeviceIdentity",
-          "description": "Identity for the resource.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "endpoints": {
           "$ref": "#/definitions/DeviceEndpoints",
           "description": "Property bag containing the device's unassigned and assigned endpoints."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
-          "additionalProperties": {}
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
         }
-      }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DeviceBaseProperties"
+        }
+      ]
     },
     "DeviceUpdate": {
       "type": "object",
@@ -1947,6 +1958,10 @@
       "type": "object",
       "description": "The updatable properties of the Device.",
       "properties": {
+        "endpoints": {
+          "$ref": "#/definitions/DeviceEndpointsUpdate",
+          "description": "Property bag containing the device's unassigned and assigned endpoints."
+        },
         "enabled": {
           "type": "boolean",
           "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD.",
@@ -1955,10 +1970,6 @@
         "deviceGroupId": {
           "type": "string",
           "description": "The AAD group the device is a member of."
-        },
-        "endpoints": {
-          "$ref": "#/definitions/DeviceEndpointsUpdate",
-          "description": "Property bag containing the device's unassigned and assigned endpoints."
         },
         "attributes": {
           "type": "object",

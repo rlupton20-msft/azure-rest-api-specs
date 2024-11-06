@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -29,9 +30,16 @@ model DsmsAllowlistResourceProperties {
   @doc("Guids of Azure storage subscriptions in allowlist.")
   storageSubscriptions?: Array<string>;
 
-  @doc("Provisioning state")
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
+
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
+
+  @doc("Request ID; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  requestId?: string;
 }
 
 @doc("dsmsAllowlist Resource")

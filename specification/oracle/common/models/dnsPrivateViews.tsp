@@ -29,7 +29,7 @@ model DnsPrivateViewProperties {
   isProtected: boolean;
 
   @doc("Views lifecycleState")
-  lifecycleState?: DnsPrivateViewsLifecycleState;
+  lifecycleState: DnsPrivateViewsLifecycleState;
 
   @doc("The canonical absolute URL of the resource.")
   self: string;

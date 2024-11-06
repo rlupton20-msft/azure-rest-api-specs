@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
@@ -29,8 +30,8 @@ model PlannedQuotaResourceProperties {
   @doc("Plan version")
   planVersion?: string;
 
-  @doc("Planned Quota region")
-  region?: string;
+  @doc("The Azure location.")
+  azureLocation: azureLocation;
 
   @doc("Property bindings")
   @extension("x-ms-identifiers", [])
@@ -39,9 +40,29 @@ model PlannedQuotaResourceProperties {
   @doc("Skip unsupported silently")
   skipUnsupportedSilently?: boolean;
 
-  @doc("Provisioning state")
+  @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: PlannedQuotaProvisioningState;
+
+  @doc("Fulfilled Plan details after fulfilling the quota of the plan; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  fulfilledPlan?: FulfilledPlan;
+
+  @doc("Dictionary of the SKUs with alternative assigned. The key is the original SKU and the value is the alternative; a part of provisioning ResultData output.")
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  alternatives?: {};
+}
+
+@doc("Fulfilled Plan details after fulfilling the quota of the plan.")
+model FulfilledPlan {
+  @doc("Same as the \"arm\" node in the plan for the corresponding Subscription.")
+  arm?: {};
+
+  @doc("Same as the \"rdfe\" node in the plan for the corresponding Subscription.")
+  rdfe?: {};
+
+  @doc("Indicates whether AZ is enabled.")
+  isAzEnabled?: boolean;
 }
 
 @doc("plannedQuota Property Binding")

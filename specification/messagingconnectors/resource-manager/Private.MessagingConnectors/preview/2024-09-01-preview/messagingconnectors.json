@@ -47,6 +47,9 @@
     },
     {
       "name": "Operations"
+    },
+    {
+      "name": "CdcSchemaOperations"
     }
   ],
   "paths": {
@@ -123,6 +126,67 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.MessagingConnectors/locations/{location}/cdcSchema/default/preview": {
+      "post": {
+        "operationId": "CdcSchemaOperations_Preview",
+        "tags": [
+          "CdcSchemaOperations"
+        ],
+        "description": "create one fetch CdcSchema task",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CdcSchemaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CdcSchemaResults"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.MessagingConnectors/locations/{location}/dataPreview/default/preview": {
@@ -673,7 +737,7 @@
     }
   },
   "definitions": {
-    "AvroConverter": {
+    "AvroConverterConfig": {
       "type": "object",
       "description": "AvroConverter config",
       "allOf": [
@@ -814,7 +878,7 @@
       ],
       "x-ms-discriminator-value": "BitCoinSource"
     },
-    "ByteArrayConverter": {
+    "ByteArrayConverterConfig": {
       "type": "object",
       "description": "ByteArrayConverter config",
       "allOf": [
@@ -823,6 +887,276 @@
         }
       ],
       "x-ms-discriminator-value": "ByteArrayConverter"
+    },
+    "CatalogCdcAutoRegisterSchemasConfig": {
+      "type": "object",
+      "description": "Catalog cdc auto-register schemas config",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Database name."
+        },
+        "tableName": {
+          "type": "string",
+          "description": "Table name."
+        },
+        "schemaGroupId": {
+          "type": "string",
+          "description": "SchemaGroup id."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema id."
+        },
+        "schemaFormat": {
+          "type": "string",
+          "description": "Schema format."
+        }
+      },
+      "required": [
+        "databaseName",
+        "tableName",
+        "schemaGroupId",
+        "schemaId",
+        "schemaFormat"
+      ]
+    },
+    "CatalogCdcCloudEventsTransformConfig": {
+      "type": "object",
+      "description": "CatalogCdc cloud events transform config.",
+      "properties": {
+        "catalogEndpoint": {
+          "type": "string",
+          "description": "Endpoint."
+        },
+        "cdcServerName": {
+          "type": "string",
+          "description": "CdcServer name."
+        },
+        "autoRegisterSchemas": {
+          "type": "boolean",
+          "description": "Whether auto-register new schemas."
+        },
+        "catalogSchemaIds": {
+          "type": "array",
+          "description": "Catalog schemaIds.",
+          "items": {
+            "$ref": "#/definitions/CatalogSchemaId"
+          },
+          "x-ms-identifiers": []
+        },
+        "catalogCdcAutoRegisterSchemasConfigs": {
+          "type": "array",
+          "description": "catalogCdc auto-Register schemas configs.",
+          "items": {
+            "$ref": "#/definitions/CatalogCdcAutoRegisterSchemasConfig"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "catalogEndpoint",
+        "cdcServerName",
+        "autoRegisterSchemas",
+        "catalogSchemaIds",
+        "catalogCdcAutoRegisterSchemasConfigs"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/CloudEventsTransformConfig"
+        }
+      ],
+      "x-ms-discriminator-value": "CatalogCdc"
+    },
+    "CatalogSchemaId": {
+      "type": "object",
+      "description": "Catalog schema id config",
+      "properties": {
+        "schemaGroupId": {
+          "type": "string",
+          "description": "SchemaGroup id."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema id."
+        }
+      },
+      "required": [
+        "schemaGroupId",
+        "schemaId"
+      ]
+    },
+    "CdcSchema": {
+      "type": "object",
+      "description": "Response item of cdcSchema",
+      "properties": {
+        "schemaFormat": {
+          "type": "string",
+          "description": "Schema format"
+        },
+        "schema": {
+          "type": "string",
+          "description": "Schema content"
+        },
+        "tableName": {
+          "type": "string",
+          "description": "Table name"
+        }
+      },
+      "required": [
+        "schemaFormat",
+        "schema",
+        "tableName"
+      ]
+    },
+    "CdcSchemaRequest": {
+      "type": "object",
+      "description": "Request of fetch cdcSchema",
+      "properties": {
+        "cdcSourceType": {
+          "$ref": "#/definitions/CdcSourceType",
+          "description": "Servername string"
+        },
+        "servername": {
+          "type": "string",
+          "description": "Servername string"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Port of CdcServer"
+        },
+        "databasename": {
+          "type": "string",
+          "description": "databasename of CdcServer"
+        },
+        "username": {
+          "type": "string",
+          "description": "username of CdcServer"
+        },
+        "password": {
+          "type": "string",
+          "description": "password of CdcServer"
+        },
+        "tables": {
+          "type": "string",
+          "description": "tables of CdcServer"
+        }
+      },
+      "discriminator": "cdcSourceType",
+      "required": [
+        "cdcSourceType",
+        "servername",
+        "port",
+        "databasename",
+        "username",
+        "password",
+        "tables"
+      ]
+    },
+    "CdcSchemaResource": {
+      "type": "object",
+      "description": "A GetCdcSchema resource Azure",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CdcSchemaRequest",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "CdcSchemaResults": {
+      "type": "object",
+      "description": "Properties of CdcSchema results",
+      "properties": {
+        "schemas": {
+          "type": "array",
+          "description": "Content of DataPreview results",
+          "items": {
+            "$ref": "#/definitions/CdcSchema"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "schemas"
+      ]
+    },
+    "CdcSourceType": {
+      "type": "string",
+      "description": "Enum of Cdc source type",
+      "enum": [
+        "PostgreSqlSource",
+        "SqlServerSource",
+        "MySqlSource"
+      ],
+      "x-ms-enum": {
+        "name": "CdcSourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PostgreSqlSource",
+            "value": "PostgreSqlSource",
+            "description": "Postgre sql source."
+          },
+          {
+            "name": "SqlServerSource",
+            "value": "SqlServerSource",
+            "description": "Sql server source."
+          },
+          {
+            "name": "MySqlSource",
+            "value": "MySqlSource",
+            "description": "mysql source."
+          }
+        ]
+      }
+    },
+    "CloudEventsTransformConfig": {
+      "type": "object",
+      "description": "Cloud events transform config",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/CloudEventsTransformTypes",
+          "description": "Type of CloudEventsTransformConfig."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "ContentType of CloudEventsTransformConfig."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "CloudEventsTransformTypes": {
+      "type": "string",
+      "description": "CloudEventsTransform types",
+      "enum": [
+        "Disable",
+        "CatalogCdc"
+      ],
+      "x-ms-enum": {
+        "name": "CloudEventsTransformTypes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "disable",
+            "value": "Disable",
+            "description": "Do not use CloudEventsTransformConfig"
+          },
+          {
+            "name": "catalogCdc",
+            "value": "CatalogCdc",
+            "description": "CatalogCdcCloudEventsTransformConfig"
+          }
+        ]
+      }
     },
     "ConfluentSourceConnectorProperties": {
       "type": "object",
@@ -943,6 +1277,10 @@
         "sourceDataFormat": {
           "$ref": "#/definitions/SourceDataFormat",
           "description": "Data format of the data source"
+        },
+        "cloudEventsTransformConfig": {
+          "$ref": "#/definitions/CloudEventsTransformConfig",
+          "description": "Cloud events transform config"
         },
         "connectorState": {
           "$ref": "#/definitions/ConnectorState",
@@ -1297,7 +1635,7 @@
       ],
       "x-ms-discriminator-value": "CosmosDbSource"
     },
-    "CsvConverter": {
+    "CsvConverterConfig": {
       "type": "object",
       "description": "CsvConverter config",
       "allOf": [
@@ -1632,13 +1970,17 @@
       ],
       "x-ms-discriminator-value": "GooglePubSubSource"
     },
-    "JsonConverter": {
+    "JsonConverterConfig": {
       "type": "object",
       "description": "JsonConverter config",
       "properties": {
         "schemasEnabled": {
           "type": "boolean",
           "description": "Whether schemas enabled."
+        },
+        "decimalFormat": {
+          "$ref": "#/definitions/JsonDecimalFormat",
+          "description": "Format for Decimal type."
         }
       },
       "allOf": [
@@ -1647,6 +1989,30 @@
         }
       ],
       "x-ms-discriminator-value": "JsonConverter"
+    },
+    "JsonDecimalFormat": {
+      "type": "string",
+      "description": "Json Decimal Format configuration",
+      "enum": [
+        "Base64",
+        "Numeric"
+      ],
+      "x-ms-enum": {
+        "name": "JsonDecimalFormat",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Base64",
+            "value": "Base64",
+            "description": "Type of Base64."
+          },
+          {
+            "name": "Numeric",
+            "value": "Numeric",
+            "description": "Type of Numeric."
+          }
+        ]
+      }
     },
     "JsonSourceDataFormat": {
       "type": "object",
@@ -2132,6 +2498,7 @@
       "type": "string",
       "description": "Source data format Types",
       "enum": [
+        "Disable",
         "JSON",
         "CSV"
       ],
@@ -2139,6 +2506,11 @@
         "name": "SourceDataFormatTypes",
         "modelAsString": true,
         "values": [
+          {
+            "name": "disable",
+            "value": "Disable",
+            "description": "Disable this config"
+          },
           {
             "name": "JSON",
             "value": "JSON",
@@ -2151,6 +2523,15 @@
           }
         ]
       }
+    },
+    "SqlServerSourceCdcSchemaRequest": {
+      "type": "object",
+      "description": "Request of fetch SqlServerSource cdcSchema",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CdcSchemaRequest"
+        }
+      ]
     },
     "SqlServerSourceConnectorProperties": {
       "type": "object",
@@ -2230,7 +2611,7 @@
       ],
       "x-ms-discriminator-value": "SqlServerSource"
     },
-    "StringConverter": {
+    "StringConverterConfig": {
       "type": "object",
       "description": "StringConverter config",
       "allOf": [

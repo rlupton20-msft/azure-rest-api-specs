@@ -2,7 +2,6 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
-import "@azure-tools/typespec-azure-portal-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 @doc("Azure Throttling Service (ATS)")
@@ -29,7 +28,6 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Autorest;
 using Azure.Core;
-using Azure.Portal;
 using Azure.ResourceManager;
 using OpenAPI;
 
@@ -58,36 +56,6 @@ union ProvisioningState {
 }
 
 @doc("Throttling account")
-@marketplaceOffer({
-  id: "throttling.account",
-})
-@browse({
-  argQuery: {
-    filePath: "./arg/account.kql",
-  },
-})
-@about({
-  icon: {
-    filePath: "./icon.svg",
-  },
-  displayNames: {
-    singular: "Throttling account",
-    plural: "Throttling accounts",
-  },
-  learnMoreDocs: [
-    {
-      title: "Learn Azure Throttling Service",
-      uri: "https://aka.ms/ats",
-    }
-  ],
-  keywords: [
-    "Azure Throttling Service",
-    "Azure Throttling Solutions",
-    "ATS",
-    "throttling",
-    "throttling account"
-  ],
-})
 model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
   @key("accountName")
@@ -98,6 +66,33 @@ model Account is TrackedResource<AccountProperties> {
   @maxLength(128)
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
+  @doc("Account kind")
+  @visibility("create", "read")
+  kind: AccountKind;
+
+  // ..ResourceKindProperty,
+}
+
+@doc("Environment kind")
+union AccountKind {
+  @doc("Direct account")
+  Direct: "direct",
+
+  @doc("Indirect account behind AAD Gateway")
+  IndirectAadGateway: "indirect,aadgateway",
+
+  @doc("Indirect account behind Azure Frontdoor")
+  IndirectAzureFrontdoor: "indirect,azurefrontdoor",
+
+  @doc("Indirect account behind Cafe")
+  IndirectCafe: "indirect,cafe",
+
+  @doc("Indirect account behind Graph AGS")
+  IndirectGraphAgs: "indirect,graphags",
+
+  string,
 }
 
 @armResourceOperations
@@ -121,7 +116,7 @@ model AccountProperties {
   hostName?: string;
 
   @doc("Account authentication properties")
-  authentication: AuthenticationProperties;
+  authentication?: AuthenticationProperties;
 }
 
 @doc("Account authentication properties")
@@ -131,7 +126,7 @@ model AuthenticationProperties {
   certificates?: CertificateProperties[];
 
   @doc("AzureAD-based authentication properties")
-  @extension("x-ms-identifiers", ["objectId"])
+  @extension("x-ms-identifiers", ["tenantId", "objectId"])
   azureActiveDirectory?: AzureActiveDirectoryProperties[];
 }
 
@@ -155,36 +150,6 @@ model AzureActiveDirectoryProperties {
 
 @doc("Throttling category")
 @parentResource(Account)
-@marketplaceOffer({
-  id: "throttling.account.category",
-})
-@browse({
-  argQuery: {
-    filePath: "./arg/category.kql",
-  },
-})
-@about({
-  icon: {
-    filePath: "./icon.svg",
-  },
-  displayNames: {
-    singular: "Throttling category",
-    plural: "Throttling categories",
-  },
-  learnMoreDocs: [
-    {
-      title: "Learn Azure Throttling Service",
-      uri: "https://aka.ms/ats",
-    }
-  ],
-  keywords: [
-    "Azure Throttling Service",
-    "Azure Throttling Solutions",
-    "ATS",
-    "throttling",
-    "category"
-  ],
-})
 model Category is TrackedResource<CategoryProperties> {
   @doc("Category name")
   @key("categoryName")
@@ -203,7 +168,7 @@ interface Categories {
   create is ArmResourceCreateOrReplaceAsync<Category>;
   update is ArmResourcePatchAsync<Category, CategoryProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Category>;
-  listByParent is ArmResourceListByParent<Category>;
+  listByAccount is ArmResourceListByParent<Category>;
 }
 
 @doc("Category properties")
