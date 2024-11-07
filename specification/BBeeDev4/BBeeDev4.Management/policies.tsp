@@ -218,7 +218,7 @@ model StorageAccountOwnershipVoucherStorage extends OwnershipVoucherStorage {
   containerUri: url;
 }
 
-// @pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$")
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/Microsoft.Storage/storageAccounts/(.+)$")
 @added(Versions.v2024_12_01_preview)
 scalar StorageAccountResourceId
   extends armResourceIdentifier<[
@@ -349,7 +349,7 @@ model AllocationEndpoint {
   hostName: string;
 }
 
-// @pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+)$")
+@pattern("^/subscriptions/(.+?)/resourceGroups/(.+?)/providers/(.+)$")
 scalar AllocationEndpointResourceId
   extends armResourceIdentifier<[
     {
