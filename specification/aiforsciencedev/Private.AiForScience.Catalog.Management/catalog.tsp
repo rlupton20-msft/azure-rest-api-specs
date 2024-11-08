@@ -27,7 +27,7 @@ model CatalogProperties {
 
   @doc("The URI/URL for the catalog user interface.")
   @visibility("read")
-  uiUri: string;
+  catalogUiUri: string;
 }
 
 @armResourceOperations
