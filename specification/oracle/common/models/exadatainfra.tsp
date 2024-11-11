@@ -158,6 +158,7 @@ model CloudExadataInfrastructureProperties {
 
   @doc("Defined file system configurations")
   @visibility("read")
+  @extension("x-ms-identifiers", [])
   fileSystemConfigurations?: Array<FileSystemConfigurations>;
 
   @doc("Exadata infra ocid")

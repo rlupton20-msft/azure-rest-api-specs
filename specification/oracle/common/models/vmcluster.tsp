@@ -179,6 +179,7 @@ model PortRange {
 model FileConfigurationOptions {
   @doc("Mount path")
   mountPath?: string;
+
   @doc("Size of the VM")
   size?: int32;
 }
@@ -214,6 +215,7 @@ model CloudVmClusterProperties {
 
   @doc("Array of mount path and size.")
   @visibility("read", "update")
+  @extension("x-ms-identifiers", [])
   fileConfigurationOptionsList?: Array<FileConfigurationOptions>;
 
   @doc("The data disk group size to be allocated in TBs.")
