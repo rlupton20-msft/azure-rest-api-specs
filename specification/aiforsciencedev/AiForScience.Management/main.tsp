@@ -5,9 +5,9 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../Private.AiForScience.Catalog.Management/all.tsp";
-import "../Private.AiForScience.Copilot.Management/all.tsp";
-import "../Private.AiForScience.Supercomputer.Management/all.tsp";
+import "../AiForScience.Catalog.Management/all.tsp";
+import "../AiForScience.Supercomputer.Management/all.tsp";
+import "../AiForScience.Workspace.Management/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

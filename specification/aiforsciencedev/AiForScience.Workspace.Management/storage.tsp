@@ -4,7 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../Private.AiForScience.Common/all.tsp";
+import "../AiForScience.Management.Shared/all.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -16,13 +16,13 @@ using Azure.ResourceManager;
 @versioned(Microsoft.AiForScience.Versions)
 namespace Microsoft.AiForScience;
 
-@doc("Bookshelf tracked resource")
-model Bookshelf is TrackedResource<BookshelfProperties> {
-  ...ResourceNameParameter<Bookshelf>;
+@doc("Storage tracked resource")
+model Storage is TrackedResource<StorageProperties> {
+  ...ResourceNameParameter<Storage>;
 }
 
-@doc("Bookshelf properties")
-model BookshelfProperties {
+@doc("Storage properties")
+model StorageProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -37,11 +37,11 @@ model BookshelfProperties {
 }
 
 @armResourceOperations
-interface Bookshelves {
-  get is ArmResourceRead<Bookshelf>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Bookshelf>;
-  update is ArmResourcePatchSync<Bookshelf, BookshelfProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Bookshelf>;
-  listByResourceGroup is ArmResourceListByParent<Bookshelf>;
-  listBySubscription is ArmListBySubscription<Bookshelf>;
+interface Storages {
+  get is ArmResourceRead<Storage>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Storage>;
+  update is ArmResourcePatchSync<Storage, StorageProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Storage>;
+  listByResourceGroup is ArmResourceListByParent<Storage>;
+  listBySubscription is ArmListBySubscription<Storage>;
 }

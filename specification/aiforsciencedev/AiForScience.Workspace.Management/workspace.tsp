@@ -4,7 +4,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
 
-import "../Private.AiForScience.Common/all.tsp";
+import "../AiForScience.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
