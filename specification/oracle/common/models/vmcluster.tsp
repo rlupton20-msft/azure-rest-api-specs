@@ -214,7 +214,7 @@ model CloudVmClusterProperties {
 
   @doc("Array of mount path and size.")
   @visibility("read", "update")
-  fileConfigurationOptionsList?: Array;
+  fileConfigurationOptionsList?: Array<FileConfigurationOptions>;
 
   @doc("The data disk group size to be allocated in TBs.")
   dataStorageSizeInTbs?: float64;
