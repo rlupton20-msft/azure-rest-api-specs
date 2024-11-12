@@ -57,7 +57,7 @@ model ServerProperties {
 interface Servers {
   get is ArmResourceRead<Server>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Server>;
-  update is ArmCustomPatchSync<
+  update is ArmCustomPatchAsync<
     Server,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       Server,
