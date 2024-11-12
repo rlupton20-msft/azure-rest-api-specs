@@ -69,7 +69,7 @@ model Stage {
 scalar StageMapResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.ChangeSafety/stageMaps",
+      type: "Private.ChangeSafety/stageMaps",
     }
   ]>;
 
