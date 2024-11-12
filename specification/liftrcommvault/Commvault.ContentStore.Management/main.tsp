@@ -32,18 +32,15 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("A Commvault Entity Resource")
 model Entity is TrackedResource<EntityProperties> {
-  @key("entityName")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
-  @segment("entities")
-  @minLength(1)
-  @maxLength(50)
-  @doc("Name of the Entity resource")
-  @example("entityName")
-  @path
-  name: string;
-
+  ...ResourceNameParameter<
+    Entity,
+    "entityName",
+    "entities",
+    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
+  >;
   ...ManagedServiceIdentityProperty;
 }
+@@doc(Entity.name, "Name of the Entity resource");
 
 @armResourceOperations
 interface Entities {
@@ -61,15 +58,14 @@ model EntityProperties is BaseResourceProperties;
 @doc("A Commvault Storage Resource")
 @parentResource(Entity)
 model Storage is ProxyResource<StorageProperties> {
-  @key("storageName")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
-  @segment("storages")
-  @minLength(1)
-  @maxLength(50)
-  @doc("Name of the Storage resource")
-  @path
-  name: string;
+  ...ResourceNameParameter<
+    Storage,
+    "storageName",
+    "storages",
+    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
+  >;
 }
+@@doc(Storage.name, "Name of the Storage resource");
 
 @doc("The properties of Commvault Storage")
 model StorageProperties {
@@ -115,15 +111,14 @@ interface Storages {
 @parentResource(Entity)
 @doc("A Commvault Plan Resource")
 model CommvaultPlan is ProxyResource<PlanProperties> {
-  @key("planName")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
-  @segment("plans")
-  @minLength(1)
-  @maxLength(50)
-  @doc("Name of the Plan resource")
-  @path
-  name: string;
+  ...ResourceNameParameter<
+    CommvaultPlan,
+    "planName",
+    "plans",
+    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
+  >;
 }
+@@doc(CommvaultPlan.name, "Name of the Commvault Plan resource");
 
 @doc("The properties of Commvault Plan")
 model PlanProperties {
@@ -270,15 +265,14 @@ interface Plans {
 @parentResource(Entity)
 @doc("A Commvault Plan Resource")
 model ProtectionGroup is ProxyResource<ProtectionGroupProperties> {
-  @key("protectionGroupName")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
-  @segment("protectionGroups")
-  @minLength(1)
-  @maxLength(50)
-  @doc("Name of the ProtectionGroup resource")
-  @path
-  name: string;
+  ...ResourceNameParameter<
+    ProtectionGroup,
+    "protectionGroupName",
+    "protectionGroups",
+    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
+  >;
 }
+@@doc(ProtectionGroup.name, "Name of the Protection Group resource");
 
 @doc("The properties of Commvault Protection Group")
 model ProtectionGroupProperties {
