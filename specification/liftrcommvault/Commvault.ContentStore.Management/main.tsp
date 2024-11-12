@@ -30,6 +30,31 @@ enum Versions {
 }
 interface Operations extends Azure.ResourceManager.Operations {}
 
+@doc("Configure Tenant")
+model TenantConfiguration {
+  @doc("user details")
+  userDetails: UserDetails;
+
+  @doc("Single Signon properties")
+  singleSignOnProperties?: SingleSignOnProperties;
+}
+@armResourceOperations
+interface ProviderOperations {
+  @doc("Configure tenant level details")
+  @post
+  configureTenant is ArmProviderActionSync<
+    Request = TenantConfiguration,
+    Scope = TenantActionScope
+  >;
+
+  @doc("Get tenant level Configurations")
+  @get
+  tenantDetails is ArmProviderActionSync<
+    Response = TenantConfiguration,
+    Scope = TenantActionScope
+  >;
+}
+
 @doc("A Commvault Entity Resource")
 model Entity is TrackedResource<EntityProperties> {
   ...ResourceNameParameter<

@@ -42,6 +42,9 @@
       "name": "Operations"
     },
     {
+      "name": "ProviderOperations"
+    },
+    {
       "name": "Entities"
     },
     {
@@ -58,6 +61,45 @@
     }
   ],
   "paths": {
+    "/providers/Commvault.ContentStore/configureTenant": {
+      "post": {
+        "operationId": "ProviderOperations_ConfigureTenant",
+        "tags": [
+          "ProviderOperations"
+        ],
+        "description": "Configure tenant level details",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TenantConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ProviderOperations_ConfigureTenant_MaximumSet_Gen": {
+            "$ref": "./examples/ProviderOperations_ConfigureTenant_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/providers/Commvault.ContentStore/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -94,6 +136,39 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/providers/Commvault.ContentStore/tenantDetails": {
+      "get": {
+        "operationId": "ProviderOperations_TenantDetails",
+        "tags": [
+          "ProviderOperations"
+        ],
+        "description": "Get tenant level Configurations",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/TenantConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ProviderOperations_TenantDetails_MaximumSet_Gen": {
+            "$ref": "./examples/ProviderOperations_TenantDetails_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -1751,6 +1826,70 @@
         "planId"
       ]
     },
+    "LiftrBase.SingleSignOnProperties": {
+      "type": "object",
+      "description": "Properties specific to Single Sign On Resource",
+      "properties": {
+        "singleSignOnState": {
+          "$ref": "#/definitions/LiftrBase.SingleSignOnStates",
+          "description": "State of the Single Sign On for the organization"
+        },
+        "enterpriseAppId": {
+          "type": "string",
+          "description": "AAD enterprise application Id used to setup SSO"
+        },
+        "singleSignOnUrl": {
+          "$ref": "#/definitions/LiftrBase.Uri",
+          "description": "URL for SSO to be used by the partner to redirect the user to their system"
+        },
+        "aadDomains": {
+          "type": "array",
+          "description": "List of AAD domains fetched from Microsoft Graph for user.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "Provisioning State of the resource",
+          "readOnly": true
+        }
+      }
+    },
+    "LiftrBase.SingleSignOnStates": {
+      "type": "string",
+      "description": "Various states of the SSO resource",
+      "enum": [
+        "Initial",
+        "Enable",
+        "Disable"
+      ],
+      "x-ms-enum": {
+        "name": "SingleSignOnStates",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Initial",
+            "value": "Initial",
+            "description": "Initial state of the SSO resource"
+          },
+          {
+            "name": "Enable",
+            "value": "Enable",
+            "description": "State of the SSO resource when it is enabled"
+          },
+          {
+            "name": "Disable",
+            "value": "Disable",
+            "description": "State of the SSO resource when it is disabled"
+          }
+        ]
+      }
+    },
+    "LiftrBase.Uri": {
+      "type": "string",
+      "description": "A string that represents a URI."
+    },
     "LiftrBase.UserDetails": {
       "type": "object",
       "description": "User details for an organization",
@@ -2592,6 +2731,23 @@
         "vendor",
         "class",
         "user"
+      ]
+    },
+    "TenantConfiguration": {
+      "type": "object",
+      "description": "Configure Tenant",
+      "properties": {
+        "userDetails": {
+          "$ref": "#/definitions/LiftrBase.UserDetails",
+          "description": "user details"
+        },
+        "singleSignOnProperties": {
+          "$ref": "#/definitions/LiftrBase.SingleSignOnProperties",
+          "description": "Single Signon properties"
+        }
+      },
+      "required": [
+        "userDetails"
       ]
     }
   },
