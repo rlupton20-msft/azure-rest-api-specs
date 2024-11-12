@@ -38,7 +38,7 @@ model ReservationProperties {
 interface Reservations {
   get is ArmResourceRead<Reservation>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Reservation>;
-  update is ArmCustomPatchSync<
+  update is ArmCustomPatchAsync<
     Reservation,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       Reservation,
