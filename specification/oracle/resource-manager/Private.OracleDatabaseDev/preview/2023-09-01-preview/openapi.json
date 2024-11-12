@@ -5333,6 +5333,15 @@
       "type": "object",
       "description": "CloudExadataInfrastructure resource model",
       "properties": {
+        "fileSystemConfigurations": {
+          "type": "array",
+          "description": "Defined file system configurations",
+          "items": {
+            "$ref": "#/definitions/FileSystemConfigurations"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
         "ocid": {
           "$ref": "#/definitions/Ocid",
           "description": "Exadata infra ocid",
@@ -5740,6 +5749,18 @@
             "update"
           ]
         },
+        "fileConfigurationOptionsList": {
+          "type": "array",
+          "description": "Array of mount path and size.",
+          "items": {
+            "$ref": "#/definitions/FileConfigurationOptions"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
         "dataStorageSizeInTbs": {
           "type": "number",
           "format": "double",
@@ -6087,6 +6108,18 @@
           "type": "integer",
           "format": "int32",
           "description": "The data disk group size to be allocated in GBs per VM.",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "fileConfigurationOptionsList": {
+          "type": "array",
+          "description": "Array of mount path and size.",
+          "items": {
+            "$ref": "#/definitions/FileConfigurationOptions"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update"
@@ -7610,6 +7643,50 @@
           "description": "The current value for the IORM objective. The default is AUTO."
         }
       }
+    },
+    "FileConfigurationOptions": {
+      "type": "object",
+      "description": "File configuration options",
+      "properties": {
+        "mountPath": {
+          "type": "string",
+          "description": "Mount path"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Size of the VM"
+        }
+      }
+    },
+    "FileSystemConfigurations": {
+      "type": "object",
+      "description": "Predefined configurations for the file system",
+      "properties": {
+        "isBackupPartition": {
+          "type": "boolean",
+          "description": "Checks if the data can be backed up"
+        },
+        "isResizable": {
+          "type": "boolean",
+          "description": "Checks if the mount path is resizable"
+        },
+        "minSizeGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum size of mount path in Gb"
+        },
+        "mountPoint": {
+          "type": "string",
+          "description": "Mount path for the file system"
+        }
+      },
+      "required": [
+        "isBackupPartition",
+        "isResizable",
+        "minSizeGb",
+        "mountPoint"
+      ]
     },
     "GenerateAutonomousDatabaseWalletDetails": {
       "type": "object",
