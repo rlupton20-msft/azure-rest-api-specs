@@ -17,9 +17,9 @@ namespace Private.Porter;
 
 @doc("Supported API versions for the Microsoft.CompositeSolutions resource provider.")
 enum Versions {
-  @doc("The 2024-03-01-preview version.")
+  @doc("The 2024-11-01-preview version.")
   @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  v2024_03_01_preview: "2024-03-01-preview",
+  v2024_11_01_preview: "2024-11-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -30,7 +30,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 model CompositeSolutionDefinition
   is TrackedResource<CompositeSolutionDefinitionProperties> {
   @doc("The name of the composite solution definition")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-_]{3,50}$")
   @key("compositeSolutionDefinition")
   @segment("compositeSolutionDefinitions")
   @path
@@ -44,7 +44,7 @@ model CompositeSolutionDefinition
 @doc("A CompositeSolutionProviderHub resource")
 model CompositeSolution is TrackedResource<CompositeSolutionProperties> {
   @doc("The name of the composite solution")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-_]{3,50}$")
   @key("compositeSolutionName")
   @segment("compositeSolutions")
   @path
@@ -103,6 +103,11 @@ model CompositeSolutionDefinitionProperties {
   @visibility("read")
   @doc("List of mixins used in the composite solution package")
   mixins?: Array<string>;
+
+  //  @added(Versions.v2024_11_01_preview)
+  //  @visibility("read")
+  //  @doc("List of mixins used in the composite solution package")
+  //  newProperty: string;
 }
 
 @doc("Metadata associated with the bundle")
@@ -132,8 +137,8 @@ model CompositeSolutionProperties {
   // This isn't actually a secret, but a reference to a secret in AKV, so is it safe to return back in the read request?
   @visibility("read", "create", "update")
   @doc("Array of secret")
-  @OpenAPI.extension("x-ms-identifiers", ["credentialName"])
-  credentials?: Array<KeyVaultSecretReference>;
+  @OpenAPI.extension("x-ms-identifiers", ["name"])
+  credentials?: Array<CredentialObject>;
 
   // TODO: Do we need this?
   @visibility("read")
@@ -182,22 +187,31 @@ model CompositeSolutionDefinitionPropertiesUpdate
 model ManagedServiceIdentityUpdate
   is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
 
-@doc("KeyVault Secret Reference")
-model KeyVaultSecretReference {
+@doc("Credential Object")
+model CredentialObject {
   @doc("The secret name")
-  credentialName: string;
+  name: string;
 
-  @doc("The secret name")
-  secretName: string;
+  #suppress "@azure-tools/typespec-azure-core/no-openapi" "Legacy"
+  @doc("The secret value")
+  @OpenAPI.extension("x-ms-secret", true)
+  @OpenAPI.extension("x-ms-mutability", ["create", "update"])
+  value: string;
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "TODO."
 @doc("Paramter Value")
 model ParameterValue {
   @doc("The parameter name")
   name: string;
 
-  //TODO: "value is removed when generate Models because of a bug, but added back when generating openapi.json
-  /** Value of the Parameter */
+  /*The following properties are removed from this typespec because there is a known bug when generating .NET models with undefined/object types. 
+  The openAPISchema.tsp includes these properties for the purposes of typespec generation.
+  https://github.com/Azure/typespec-azure/issues/476
+  https://dev.azure.com/devdiv/DevDiv/_workitems/edit/1974428
+  https://github.com/Azure/typespec-azure-pr/issues/3085*/
+
+  /** Value of the Parameter * */
   value: {};
 }
 
@@ -245,9 +259,11 @@ model Parameter {
   @doc("Display name of the parameter")
   displayName: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "TODO."
   @doc("The default value of the parameter")
   default?: {};
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "TODO."
   @doc("Allowed values")
   @OpenAPI.extension("x-ms-identifiers", [])
   allowedValues?: Array<{}>;
@@ -327,13 +343,17 @@ model BundleProfile {
   @doc("OCI tag of the current bundle definition.")
   @visibility("read", "create", "update")
   tag?: string;
+
+  /** This isn't required but needs to be added becuase of API spec validation failures. The API spec in the future needs to be updated to remove this property. */
+  @visibility("read", "create", "update")
+  version?: string;
 }
 
 @armResourceOperations(CompositeSolution)
 interface CompositeSolutions {
   get is ArmResourceRead<CompositeSolution>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CompositeSolution>;
-  update is ArmCustomPatchSync<CompositeSolution, CompositeSolutionUpdate>;
+  update is ArmCustomPatchAsync<CompositeSolution, CompositeSolutionUpdate>;
   delete is ArmResourceDeleteWithoutOkAsync<CompositeSolution>;
   listByResourceGroup is ArmResourceListByParent<CompositeSolution>;
   listBySubscription is ArmListBySubscription<CompositeSolution>;
