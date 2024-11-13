@@ -126,4 +126,3 @@ interface DeviceStates {
     PrepareForOnboardingProperties
   >; // TODO: revisit error response body after private RP testing if needed
 }
-
