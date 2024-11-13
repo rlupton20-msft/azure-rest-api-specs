@@ -93,4 +93,3 @@ interface OnboardingServices {
   listByResourceGroup is ArmResourceListByParent<OnboardingService>;
   listBySubscription is ArmListBySubscription<OnboardingService>;
 }
-
