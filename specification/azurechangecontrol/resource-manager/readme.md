@@ -38,7 +38,6 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-10-01-preview'
 input-file:
   - Private.AzureChangeControl/ChangeControl/preview/2024-10-01-preview/ChangeControl.json
-  - Private.AzureChangeControl/validation/preview/2024-10-01-preview/validation.json
 ```
 
 ---
