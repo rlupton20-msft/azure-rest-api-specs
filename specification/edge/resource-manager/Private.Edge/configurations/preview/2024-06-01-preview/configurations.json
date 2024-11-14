@@ -68,6 +68,45 @@
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Private.Edge/configurationReferences": {
+      "get": {
+        "operationId": "ConfigurationReferences_List",
+        "tags": [
+          "ConfigurationReferences"
+        ],
+        "description": "List ConfigurationReference resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigurationReferenceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigurationReferences_List": {
+            "$ref": "./examples/ConfigurationReferences_List_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/{resourceUri}/providers/Private.Edge/configurationReferences/{configurationReferenceName}": {
       "get": {
         "operationId": "ConfigurationReferences_Get",
@@ -2686,7 +2725,7 @@
           "$ref": "#/definitions/Scenario",
           "description": "Scenario in which this configuration is used"
         },
-        "arcGatewayResourceId": {
+        "arcGatewayUri": {
           "type": "string",
           "format": "arm-id",
           "description": "ArmId to the arcGateway",
@@ -2701,7 +2740,7 @@
       },
       "required": [
         "scenario",
-        "arcGatewayResourceId"
+        "arcGatewayUri"
       ]
     },
     "ArcGatewayConfigurationPropertiesUpdate": {
@@ -2712,7 +2751,7 @@
           "$ref": "#/definitions/Scenario",
           "description": "Scenario in which this configuration is used"
         },
-        "arcGatewayResourceId": {
+        "arcGatewayUri": {
           "type": "string",
           "format": "arm-id",
           "description": "ArmId to the arcGateway",
@@ -2878,6 +2917,27 @@
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
+      ]
+    },
+    "ConfigurationReferenceListResult": {
+      "type": "object",
+      "description": "The response of a ConfigurationReference list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ConfigurationReference items on this page",
+          "items": {
+            "$ref": "#/definitions/ConfigurationReference"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
       ]
     },
     "ConfigurationReferenceProperties": {
@@ -3323,7 +3383,6 @@
         "dnsServers": {
           "type": "array",
           "description": "DNS Servers IPs for IPv4",
-          "minItems": 1,
           "items": {
             "$ref": "#/definitions/Azure.Core.ipV4Address"
           }
@@ -3335,6 +3394,9 @@
         }
       },
       "required": [
+        "addressRange",
+        "subnetMask",
+        "defaultGateway",
         "dnsServers",
         "vLanId"
       ]
@@ -3390,7 +3452,6 @@
         "dnsServers": {
           "type": "array",
           "description": "DNS Servers IPs for IPv4",
-          "minItems": 1,
           "items": {
             "$ref": "#/definitions/Azure.Core.ipV4Address"
           }
@@ -3652,7 +3713,6 @@
         "bypassUrls": {
           "type": "array",
           "description": "Bypass urls from proxy",
-          "minItems": 1,
           "items": {
             "type": "string",
             "format": "uri"
@@ -3661,7 +3721,8 @@
       },
       "required": [
         "url",
-        "port"
+        "port",
+        "bypassUrls"
       ]
     },
     "ProxyConfigurationUpdate": {
@@ -3681,7 +3742,6 @@
         "bypassUrls": {
           "type": "array",
           "description": "Bypass urls from proxy",
-          "minItems": 1,
           "items": {
             "type": "string",
             "format": "uri"
