@@ -116,4 +116,3 @@ interface StageMaps {
   list is ArmResourceListAtScope<StageMap>;
   listBySubscription is ArmListBySubscription<StageMap>;
 }
-

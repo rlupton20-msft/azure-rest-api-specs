@@ -374,4 +374,3 @@ interface ChangeStates {
   list is ArmResourceListAtScope<ChangeState>;
   listBySubscription is ArmListBySubscription<ChangeState>;
 }
-

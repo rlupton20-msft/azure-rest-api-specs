@@ -124,4 +124,3 @@ interface StageProgressions {
     }
   >;
 }
-
