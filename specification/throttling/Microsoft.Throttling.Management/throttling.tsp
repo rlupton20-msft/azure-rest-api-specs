@@ -57,8 +57,8 @@ union ProvisioningState {
 
 @doc("Throttling proxy account")
 model ProxyAccount is ProxyResource<ProxyAccountProperties> {
-  @doc("Account name")
-  @key("accountName")
+  @doc("Proxy account name")
+  @key("proxyAccountName")
   @segment("proxyAccounts")
   @path
   @visibility("read")
@@ -78,19 +78,19 @@ interface ProxyAccounts {
   listBySubscription is ArmListBySubscription<ProxyAccount>;
 }
 
-@doc("Proxy account properties")
+@doc("Throttling proxy account properties")
 model ProxyAccountProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Account authentication properties")
+  @doc("Proxy account authentication properties")
   authentication?: AuthenticationProperties;
 }
 
 @doc("Throttling account")
 model Account is TrackedResource<AccountProperties> {
-  @doc("Account name")
+  @doc("Throttling account name")
   @key("accountName")
   @segment("accounts")
   @path
@@ -116,7 +116,7 @@ interface Accounts {
   listBySubscription is ArmListBySubscription<Account>;
 }
 
-@doc("Environment kind")
+@doc("Throttling account kind")
 union AccountKind {
   @doc("Direct account")
   Direct: "direct",
@@ -136,7 +136,7 @@ union AccountKind {
   string,
 }
 
-@doc("Account properties")
+@doc("Throttling account properties")
 model AccountProperties {
   @doc("Provisioning state")
   @visibility("read")
@@ -150,7 +150,7 @@ model AccountProperties {
   authentication?: AuthenticationProperties;
 }
 
-@doc("Account authentication properties")
+@doc("Authentication properties")
 model AuthenticationProperties {
   @doc("Certificate-based authentication properties")
   @extension("x-ms-identifiers", ["subjectName"])
@@ -182,7 +182,7 @@ model AzureActiveDirectoryProperties {
 @doc("Throttling category")
 @parentResource(Account)
 model Category is TrackedResource<CategoryProperties> {
-  @doc("Category name")
+  @doc("Throttling category name")
   @key("categoryName")
   @segment("categories")
   @path
@@ -202,7 +202,7 @@ interface Categories {
   listByAccount is ArmResourceListByParent<Category>;
 }
 
-@doc("Category properties")
+@doc("Throttling category properties")
 model CategoryProperties {
   @doc("Provisioning state")
   @visibility("read")
