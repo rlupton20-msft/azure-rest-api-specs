@@ -4,9 +4,9 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-@doc("Azure Throttling Service (ATS)")
+@doc("Azure Throttling (ATS) Resource Provider")
 @service({
-  title: "Azure Throttling",
+  title: "Azure Throttling (ATS)",
 })
 @versioned(Versions)
 @armProviderNamespace
@@ -55,6 +55,39 @@ union ProvisioningState {
   string,
 }
 
+@doc("Throttling proxy account")
+model ProxyAccount is ProxyResource<ProxyAccountProperties> {
+  @doc("Account name")
+  @key("accountName")
+  @segment("proxyAccounts")
+  @path
+  @visibility("read")
+  @minLength(3)
+  @maxLength(128)
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
+  name: string;
+}
+
+@armResourceOperations
+interface ProxyAccounts {
+  get is ArmResourceRead<ProxyAccount>;
+  create is ArmResourceCreateOrReplaceAsync<ProxyAccount>;
+  update is ArmResourcePatchAsync<ProxyAccount, ProxyAccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<ProxyAccount>;
+  listByResourceGroup is ArmResourceListByParent<ProxyAccount>;
+  listBySubscription is ArmListBySubscription<ProxyAccount>;
+}
+
+@doc("Proxy account properties")
+model ProxyAccountProperties {
+  @doc("Provisioning state")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("Account authentication properties")
+  authentication?: AuthenticationProperties;
+}
+
 @doc("Throttling account")
 model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
@@ -71,8 +104,16 @@ model Account is TrackedResource<AccountProperties> {
   @doc("Account kind")
   @visibility("create", "read")
   kind: AccountKind;
+}
 
-  // ..ResourceKindProperty,
+@armResourceOperations
+interface Accounts {
+  get is ArmResourceRead<Account>;
+  create is ArmResourceCreateOrReplaceAsync<Account>;
+  update is ArmResourcePatchAsync<Account, AccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Account>;
+  listByResourceGroup is ArmResourceListByParent<Account>;
+  listBySubscription is ArmListBySubscription<Account>;
 }
 
 @doc("Environment kind")
@@ -93,16 +134,6 @@ union AccountKind {
   IndirectGraphAgs: "indirect,graphags",
 
   string,
-}
-
-@armResourceOperations
-interface Accounts {
-  get is ArmResourceRead<Account>;
-  create is ArmResourceCreateOrReplaceAsync<Account>;
-  update is ArmResourcePatchAsync<Account, AccountProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Account>;
-  listByResourceGroup is ArmResourceListByParent<Account>;
-  listBySubscription is ArmListBySubscription<Account>;
 }
 
 @doc("Account properties")
