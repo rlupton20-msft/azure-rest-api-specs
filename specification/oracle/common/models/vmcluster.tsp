@@ -176,12 +176,12 @@ model PortRange {
 }
 
 @doc("File configuration options")
-model FileConfigurationOptions {
+model FileSystemConfigurationDetail {
   @doc("Mount path")
-  mountPath?: string;
+  mountPoint?: string;
 
   @doc("Size of the VM")
-  size?: int32;
+  fileSystemSizeGb?: int32;
 }
 
 @doc("A rule for allowing inbound (INGRESS) IP packets")
@@ -216,7 +216,7 @@ model CloudVmClusterProperties {
   @doc("Array of mount path and size.")
   @visibility("read", "update")
   @extension("x-ms-identifiers", [])
-  fileConfigurationOptionsList?: FileConfigurationOptions[];
+  fileSystemConfigurationDetail?: FileSystemConfigurationDetail[];
 
   @doc("The data disk group size to be allocated in TBs.")
   dataStorageSizeInTbs?: float64;

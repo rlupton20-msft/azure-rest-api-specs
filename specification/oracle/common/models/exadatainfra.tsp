@@ -57,7 +57,7 @@ union CloudExadataInfrastructureLifecycleState {
 }
 
 @doc("Predefined configurations for the file system")
-model FileSystemConfigurations {
+model DefinedFileSystemConfiguration {
   @doc("Checks if the data can be backed up")
   isBackupPartition: boolean;
 
@@ -158,7 +158,7 @@ model CloudExadataInfrastructureProperties {
   @doc("Defined file system configurations")
   @visibility("read")
   @extension("x-ms-identifiers", [])
-  fileSystemConfigurations?: FileSystemConfigurations[];
+  definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
 
   @doc("Exadata infra ocid")
   @visibility("read")
