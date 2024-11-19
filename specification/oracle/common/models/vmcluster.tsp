@@ -176,6 +176,7 @@ model PortRange {
 }
 
 @doc("File configuration options")
+@added(Versions.v20241201_preview)
 model FileSystemConfigurationDetail {
   @doc("Mount path")
   mountPoint?: string;
@@ -214,6 +215,7 @@ model CloudVmClusterProperties {
   storageSizeInGbs?: int32;
 
   @doc("Array of mount path and size.")
+  @added(Versions.v20241201_preview)
   @visibility("read", "update")
   @extension("x-ms-identifiers", [])
   fileSystemConfigurationDetail?: FileSystemConfigurationDetail[];

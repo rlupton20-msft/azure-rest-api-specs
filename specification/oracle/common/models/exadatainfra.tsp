@@ -2,6 +2,7 @@ import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
@@ -57,6 +58,7 @@ union CloudExadataInfrastructureLifecycleState {
 }
 
 @doc("Predefined configurations for the file system")
+@added(Versions.v20241201_preview)
 model DefinedFileSystemConfiguration {
   @doc("Checks if the data can be backed up")
   isBackupPartition?: boolean;
@@ -156,6 +158,7 @@ model CloudExadataInfrastructure
 @doc("CloudExadataInfrastructure resource model")
 model CloudExadataInfrastructureProperties {
   @doc("Defined file system configurations")
+  @added(Versions.v20241201_preview)
   @visibility("read")
   @extension("x-ms-identifiers", [])
   definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
