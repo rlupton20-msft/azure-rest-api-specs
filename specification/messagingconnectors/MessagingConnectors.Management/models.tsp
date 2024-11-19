@@ -4,11 +4,8 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
 
 @doc("Provisioning states of Connector ARM Resource")
@@ -118,6 +115,18 @@ union ConnectorType {
 
   @doc("servicebus source connector.")
   AzureServiceBusSource: "AzureServiceBusSource",
+
+  @doc("hana database source connector.")
+  @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+  HanaSource: "HanaSource",
+
+  @doc("hana database source connector.")
+  @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+  KustoSource: "KustoSource",
+
+  @doc("mqtt V5 source connector.")
+  @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+  Mqtt5Source: "Mqtt5Source",
 
   string,
 }
@@ -356,7 +365,7 @@ model CatalogSchemaId {
   @doc("Schema id.")
   schemaId: string;
 
-  @doc("Endpoint.")
+  @doc("Endpoint for catalog.")
   endpoint: string;
 }
 
@@ -647,6 +656,25 @@ model MySqlSourceConnectorProperties extends ConnectorProperties {
 
   @doc("Tables used as source.")
   tableNames: string;
+
+  @doc("Snapshot Locking Mode")
+  @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+  snapshotLockingMode?: SnapshotLockingModeForMysql;
+}
+
+@doc("Type of AzureServiceBusType")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+union SnapshotLockingModeForMysql {
+  @doc("Minimal type")
+  Minimal: "Minimal",
+
+  @doc("Extended type")
+  Extended: "Extended",
+
+  @doc("None type")
+  None: "None",
+
+  string,
 }
 
 @doc("Type of AzureServiceBusType")
@@ -659,6 +687,7 @@ union AzureServiceBusType {
 
   string,
 }
+
 @doc("Configuration for AzureServiceBusSourceConnector")
 model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
   @doc("Type of AzureServiceBusSource")
@@ -678,6 +707,144 @@ model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
 
   @doc("AzureServiceBusSource type.")
   serviceBusType: AzureServiceBusType;
+}
+
+@doc("Configuration for HanaDatabaseSourceConnector")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+model HanaDatabaseSourceConnectorProperties extends ConnectorProperties {
+  @doc("Type of HanaDatabaseSourceConnector")
+  connectorType: ConnectorType.HanaSource;
+
+  @doc("Direction of the Source Connector.")
+  connectorDirection?: Direction = Direction.Source;
+
+  @doc("Url of HANA database.")
+  connectionUrl: string;
+
+  @doc("User for HANA database.")
+  userName: string;
+
+  @doc("Password for HANA database.")
+  password: string;
+
+  @doc("The query mode in which data should be fetched from SAP DB table.")
+  queryMode?: HanaQueryMode;
+
+  @doc("HANA schema to source data from, default as the HANA username..")
+  schema?: string;
+
+  @doc("Table names for HANA database.")
+  table?: string;
+
+  @doc("The query statement when queryMode is set to query.")
+  query?: string;
+
+  @doc("Max rows to include in a single batch call. Should be an integer.")
+  batch?: int32;
+
+  @doc("The poll interval at which the data should be fetched from SAP DB table.")
+  interval?: int32;
+
+  @doc("The number of topic partitions that the Source connector can use to publish the data.")
+  partitions?: int32;
+
+  @doc("Whether the DECIMAL column types are mapped to the default decimal type or one of the primitive types.")
+  numericMapping?: HanaNumericMapping;
+
+  @doc("The mode in which data should be fetched from SAP DB table.")
+  mode?: HanaMode;
+
+  @doc("In order to fetch data from a SAP DB table when mode is set to incrementing, an incremental (or auto-incremental) column needs to be provided.")
+  incrementingColumn?: string;
+}
+
+@doc("Type of HanaQueryMode")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+union HanaQueryMode {
+  @doc("Table type")
+  Table: "Table",
+
+  @doc("Query type")
+  Query: "Query",
+
+  string,
+}
+
+@doc("Type of HanaNumericMapping")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+union HanaNumericMapping {
+  @doc("Table type")
+  None: "None",
+
+  @doc("Query type")
+  BestFit: "BestFit",
+
+  @doc("BestFitEagerDouble type")
+  BestFitEagerDouble: "BestFitEagerDouble",
+
+  string,
+}
+
+@doc("Type of HanaNumericMapping")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+union HanaMode {
+  @doc("Bulk mode")
+  Bulk: "Bulk",
+
+  @doc("Incrementing mode")
+  Incrementing: "Incrementing",
+
+  string,
+}
+
+@doc("Configuration for KustoSourceConnector")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+model KustoSourceConnectorProperties extends ConnectorProperties {
+  @doc("Type of KustoSourceConnector")
+  connectorType: ConnectorType.KustoSource;
+
+  @doc("Direction of the Source Connector.")
+  connectorDirection?: Direction = Direction.Source;
+
+  @doc("Url of Kusto cluster.")
+  clusterUrl: string;
+
+  @doc("Database name for Kusto.")
+  database: string;
+
+  @doc("Table names for Kusto.")
+  tableNames: string;
+
+  @doc("Application client id for Kusto cluster.")
+  applicationClientId: string;
+
+  @doc("Application key for Kusto cluster.")
+  applicationKey: string;
+
+  @doc("Authority id for Kusto cluster.")
+  authorityId: string;
+}
+
+@doc("Configuration for Mqtt5SourceConnector")
+@added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
+model Mqtt5SourceConnectorProperties extends ConnectorProperties {
+  @doc("Type of Mqtt5SourceConnector")
+  connectorType: ConnectorType.Mqtt5Source;
+
+  @doc("Direction of the Source Connector.")
+  connectorDirection?: Direction = Direction.Source;
+
+  @doc("Topic to subscribe to.")
+  topic: string;
+
+  @doc("URL of the broker where to establish the connection.")
+  brokerUrl: string;
+
+  @doc("Username to use when connecting to the MQTT v5 compliant broker.")
+  username?: string;
+
+  @doc("Password to use when connecting to the MQTT v5 compliant broker.")
+  password?: string;
 }
 
 @doc("Type of DataRange")
