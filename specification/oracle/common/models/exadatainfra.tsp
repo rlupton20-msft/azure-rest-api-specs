@@ -59,16 +59,16 @@ union CloudExadataInfrastructureLifecycleState {
 @doc("Predefined configurations for the file system")
 model DefinedFileSystemConfiguration {
   @doc("Checks if the data can be backed up")
-  isBackupPartition: boolean;
+  isBackupPartition?: boolean;
 
   @doc("Checks if the mount path is resizable")
-  isResizable: boolean;
+  isResizable?: boolean;
 
   @doc("Minimum size of mount path in Gb")
-  minSizeGb: int32;
+  minSizeGb?: int32;
 
   @doc("Mount path for the file system")
-  mountPoint: string;
+  mountPoint?: string;
 }
 
 @doc("MaintenanceWindow resource properties")
