@@ -76,3 +76,32 @@ interface SolutionInstances {
   @doc("List Solution Instance Resources")
   listBySolutionBinding is ArmResourceListByParent<SolutionInstance>;
 }
+
+@doc("Deployment Target Solution Instance Resource")
+@parentResource(DeploymentTargetSolutionBinding)
+@resource("solutionInstances")
+model DeploymentTargetSolutionInstance
+  is ProxyResource<SolutionInstanceProperties> {
+  ...ResourceNameParameter<DeploymentTargetSolutionInstance>;
+}
+
+@armResourceOperations
+interface DeploymentTargetSolutionInstances {
+  @doc("Get a Solution Instance Resource")
+  get is ArmResourceRead<DeploymentTargetSolutionInstance>;
+
+  @doc("Create or update a Solution Instance Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DeploymentTargetSolutionInstance>;
+
+  @doc("update a Solution Instance Resource")
+  update is ArmResourcePatchSync<
+    DeploymentTargetSolutionInstance,
+    SolutionInstanceProperties
+  >;
+
+  @doc("Delete a Solution Instance Resource")
+  delete is ArmResourceDeleteSync<DeploymentTargetSolutionInstance>;
+
+  @doc("List Solution Instance Resources")
+  listBySolutionBinding is ArmResourceListByParent<DeploymentTargetSolutionInstance>;
+}
