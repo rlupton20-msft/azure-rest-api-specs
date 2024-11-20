@@ -66,25 +66,26 @@ model IpAssignment {
   ipAssignmentType: IpAssignmentType;
 
   @doc("IP V4")
-  ipv4: Ipv4;
+  ipv4?: Ipv4;
 }
 
 @doc("Ip V4")
 model Ipv4 {
   @doc("AddressRange for IPv4")
-  addressRange: Ipv4AddressRange;
+  addressRange?: Ipv4AddressRange;
 
   @doc("Subnet mask for IPv4")
-  subnetMask: ipV4Address;
+  subnetMask?: ipV4Address;
 
   @doc("Default gateway for IPv4")
-  defaultGateway: ipV4Address;
+  defaultGateway?: ipV4Address;
 
   @doc("DNS Servers IPs for IPv4")
-  dnsServers: ipV4Address[];
+  @minItems(1)
+  dnsServers?: ipV4Address[];
 
   @doc("vLanId for the network interface")
-  vLanId: int32;
+  vLanId?: int32;
 }
 
 @doc("AddressRange for IP V4")
