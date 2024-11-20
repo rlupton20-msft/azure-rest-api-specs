@@ -55,7 +55,7 @@ union ProvisioningState {
   string,
 }
 
-@doc("Throttling proxy account")
+@doc("Proxy account")
 model ProxyAccount is ProxyResource<ProxyAccountProperties> {
   @doc("Proxy account name")
   @key("proxyAccountName")
@@ -78,19 +78,26 @@ interface ProxyAccounts {
   listBySubscription is ArmListBySubscription<ProxyAccount>;
 }
 
-@doc("Throttling proxy account properties")
+@doc("Proxy account properties")
 model ProxyAccountProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   @doc("Proxy account authentication properties")
-  authentication?: AuthenticationProperties;
+  authentication?: ProxyAccountAuthenticationProperties;
+}
+
+@doc("Proxy account authentication properties")
+model ProxyAccountAuthenticationProperties {
+  @doc("Certificate-based authentication properties")
+  @extension("x-ms-identifiers", ["subjectName"])
+  certificates?: CertificateProperties[];
 }
 
 @doc("Throttling account")
 model Account is TrackedResource<AccountProperties> {
-  @doc("Throttling account name")
+  @doc("Account name")
   @key("accountName")
   @segment("accounts")
   @path
@@ -116,7 +123,7 @@ interface Accounts {
   listBySubscription is ArmListBySubscription<Account>;
 }
 
-@doc("Throttling account kind")
+@doc("Account kind")
 union AccountKind {
   @doc("Direct account")
   Direct: "direct",
@@ -136,7 +143,7 @@ union AccountKind {
   string,
 }
 
-@doc("Throttling account properties")
+@doc("Account properties")
 model AccountProperties {
   @doc("Provisioning state")
   @visibility("read")
@@ -147,11 +154,11 @@ model AccountProperties {
   hostName?: string;
 
   @doc("Account authentication properties")
-  authentication?: AuthenticationProperties;
+  authentication?: AccountAuthenticationProperties;
 }
 
-@doc("Authentication properties")
-model AuthenticationProperties {
+@doc("Account authentication properties")
+model AccountAuthenticationProperties {
   @doc("Certificate-based authentication properties")
   @extension("x-ms-identifiers", ["subjectName"])
   certificates?: CertificateProperties[];
@@ -202,7 +209,7 @@ interface Categories {
   listByAccount is ArmResourceListByParent<Category>;
 }
 
-@doc("Throttling category properties")
+@doc("Category properties")
 model CategoryProperties {
   @doc("Provisioning state")
   @visibility("read")

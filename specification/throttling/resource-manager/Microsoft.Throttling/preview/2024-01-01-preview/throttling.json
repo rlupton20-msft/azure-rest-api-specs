@@ -316,7 +316,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -363,7 +363,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -440,7 +440,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -514,7 +514,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -578,7 +578,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -630,7 +630,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -687,7 +687,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -774,7 +774,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -858,7 +858,7 @@
           {
             "name": "accountName",
             "in": "path",
-            "description": "Throttling account name",
+            "description": "Account name",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -1244,9 +1244,38 @@
         }
       ]
     },
+    "AccountAuthenticationProperties": {
+      "type": "object",
+      "description": "Account authentication properties",
+      "properties": {
+        "certificates": {
+          "type": "array",
+          "description": "Certificate-based authentication properties",
+          "items": {
+            "$ref": "#/definitions/CertificateProperties"
+          },
+          "x-ms-identifiers": [
+            "subjectName"
+          ],
+          "x-typespec-name": "CertificateProperties[]"
+        },
+        "azureActiveDirectory": {
+          "type": "array",
+          "description": "AzureAD-based authentication properties",
+          "items": {
+            "$ref": "#/definitions/AzureActiveDirectoryProperties"
+          },
+          "x-ms-identifiers": [
+            "tenantId",
+            "objectId"
+          ],
+          "x-typespec-name": "AzureActiveDirectoryProperties[]"
+        }
+      }
+    },
     "AccountKind": {
       "type": "string",
-      "description": "Throttling account kind",
+      "description": "Account kind",
       "enum": [
         "direct",
         "indirect,aadgateway",
@@ -1311,7 +1340,7 @@
     },
     "AccountProperties": {
       "type": "object",
-      "description": "Throttling account properties",
+      "description": "Account properties",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1324,7 +1353,7 @@
           "readOnly": true
         },
         "authentication": {
-          "$ref": "#/definitions/AuthenticationProperties",
+          "$ref": "#/definitions/AccountAuthenticationProperties",
           "description": "Account authentication properties"
         }
       }
@@ -1343,35 +1372,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "AuthenticationProperties": {
-      "type": "object",
-      "description": "Authentication properties",
-      "properties": {
-        "certificates": {
-          "type": "array",
-          "description": "Certificate-based authentication properties",
-          "items": {
-            "$ref": "#/definitions/CertificateProperties"
-          },
-          "x-ms-identifiers": [
-            "subjectName"
-          ],
-          "x-typespec-name": "CertificateProperties[]"
-        },
-        "azureActiveDirectory": {
-          "type": "array",
-          "description": "AzureAD-based authentication properties",
-          "items": {
-            "$ref": "#/definitions/AzureActiveDirectoryProperties"
-          },
-          "x-ms-identifiers": [
-            "tenantId",
-            "objectId"
-          ],
-          "x-typespec-name": "AzureActiveDirectoryProperties[]"
-        }
-      }
     },
     "Azure.Core.uuid": {
       "type": "string",
@@ -1455,7 +1455,7 @@
     },
     "CategoryProperties": {
       "type": "object",
-      "description": "Throttling category properties",
+      "description": "Category properties",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1495,7 +1495,7 @@
     },
     "CategoryPropertiesUpdate": {
       "type": "object",
-      "description": "Throttling category properties",
+      "description": "Category properties",
       "properties": {
         "threshold": {
           "type": "integer",
@@ -1610,7 +1610,7 @@
     },
     "ProxyAccount": {
       "type": "object",
-      "description": "Throttling proxy account",
+      "description": "Proxy account",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ProxyAccountProperties",
@@ -1622,6 +1622,23 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "ProxyAccountAuthenticationProperties": {
+      "type": "object",
+      "description": "Proxy account authentication properties",
+      "properties": {
+        "certificates": {
+          "type": "array",
+          "description": "Certificate-based authentication properties",
+          "items": {
+            "$ref": "#/definitions/CertificateProperties"
+          },
+          "x-ms-identifiers": [
+            "subjectName"
+          ],
+          "x-typespec-name": "CertificateProperties[]"
+        }
+      }
     },
     "ProxyAccountListResult": {
       "type": "object",
@@ -1648,7 +1665,7 @@
     },
     "ProxyAccountProperties": {
       "type": "object",
-      "description": "Throttling proxy account properties",
+      "description": "Proxy account properties",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1656,14 +1673,14 @@
           "readOnly": true
         },
         "authentication": {
-          "$ref": "#/definitions/AuthenticationProperties",
+          "$ref": "#/definitions/ProxyAccountAuthenticationProperties",
           "description": "Proxy account authentication properties"
         }
       }
     },
     "ProxyAccountUpdate": {
       "type": "object",
-      "description": "Throttling proxy account",
+      "description": "Proxy account",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ProxyAccountProperties",
