@@ -35,36 +35,36 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("Date range to be used with QueryParameter")
+@doc("Date range to be used with QueryParameter, it should be within 12 months between start and end date. In certain cases, start and end dates must be the same date.")
 model DateRange {
-  @doc("Start date parameter, format is yyyy-MM-01, it should first day of each month")
+  @doc("Start date parameter in yyyy-MM-01 format. Only the first day of each month is accepted.")
   start: plainDate;
 
-  @doc("End date parameter, format is yyyy-MM-01, it should first day of each month")
+  @doc("End date parameter in yyyy-MM-01 format. Only the first day of each month is accepted.")
   end: plainDate;
 }
 
-@doc("Supported category types to be used with QueryParameter")
+@doc("Supported category types to be used with QueryParameter. Each type represents a different level of emissions data aggregation.")
 union CategoryTypeEnum {
-  @doc("Subscription level aggregation granularity")
+  @doc("Emissions aggregated at the subscription level.")
   Subscription: "Subscription",
 
-  @doc("ResourceGroup level aggregation granularity")
+  @doc("Emissions aggregated at the resource group level.")
   ResourceGroup: "ResourceGroup",
 
-  @doc("Location level aggregation granularity")
+  @doc("Emissions aggregated at the location level.")
   Location: "Location",
 
-  @doc("Resource level aggregation granularity")
+  @doc("Emissions aggregated at the resource level.")
   Resource: "Resource",
 
-  @doc("ResourceType level aggregation granularity")
+  @doc("Emissions aggregated at the resource type level.")
   ResourceType: "ResourceType",
 
   string,
 }
 
-@doc("Supported carbon emission scopes to be used with QueryParameter")
+@doc("Supported carbon emission scopes to be used with QueryParameter, as defined by the GHG Protocol. At least one scope must be specified. The output will return a total of all specified scopes.")
 union EmissionScopeEnum {
   @doc("Scope1 carbon emission")
   Scope1: "Scope1",
@@ -89,116 +89,147 @@ union AccessDecisionEnum {
   string,
 }
 
-@doc("Enum for Report Type")
+@doc("Enum for Report Type, specifying different report formats for carbon emissions data. Each report type returns different aggregations of carbon emissions across various categories, date range, emissions scope, and other parameters.")
 union ReportTypeEnum {
-  @doc("OverallSummaryReport provide summary carbon emission for given query filter")
+  @doc("Overall summary report provides total carbon emissions for the specified date range and query parameters, as well as comparative values for a high-level overview. This report type can accept different values in the start and end fields within DateRange (e.g., start: 2024-03-01 and end: 2024-06-01).")
   OverallSummaryReport: "OverallSummaryReport",
 
-  @doc("MonthlySummaryReport provide summary carbon emission by monthly for given query filter")
+  @doc("MonthlySummaryReport provides carbon emissions data by month for the specified query parameters. This report type can accept different values in the start and end fields within DateRange (e.g., start: 2024-03-01 and end: 2024-06-01).")
   MonthlySummaryReport: "MonthlySummaryReport",
 
-  @doc("TopItemsSummaryReport provide Top N items summary report for given query filter")
+  @doc("TopItemsSummaryReport provides the N highest-emitting items for the specified query filters. This report returns data for a single month at a time, so it requires the same values for the start and end fields within DateRange. A maximum of N=10 items can be returned at a time.")
   TopItemsSummaryReport: "TopItemsSummaryReport",
 
-  @doc("TopItemsMonthlySummaryReport provide Top N items report by monthly for given query filter")
+  @doc("TopItemsMonthlyReport provides the N highest-emitting items by month for the specified query filter. Returns emissions data for the top N items by month within the given date range. A maximum of N=10 items can be returned at a time.")
   TopItemsMonthlySummaryReport: "TopItemsMonthlySummaryReport",
 
-  @doc("ItemDetailsReport provide item (like Resource/ResourceGroup/ResourceType/Location/Subscription) detail list for given query filter")
+  @doc("ItemDetailsReport provides a granular list of items based on the specified CategoryType (e.g., Resource, ResourceGroup, ResourceType, Location, or Subscription) for the query filter. This report can be queried for only one month at a time, requiring the same values in the start and end fields within DateRange.")
   ItemDetailsReport: "ItemDetailsReport",
 
   string,
 }
 
-@doc("Query filter parameter specified by users")
+@doc("Shared query filter parameter to configure carbon emissions data queries for all different report type defined in ReportTypeEnum.")
 @discriminator("reportType")
 model QueryFilter {
-  @doc("Report type")
+  @doc("The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum.")
   reportType: ReportTypeEnum;
 
-  @doc("The start date and end date for carbon emissions data, for ItemDetailsReport and TopItemsSummaryReport, it only support one month data, the startDate and endDate should be equal.")
+  @doc("The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01).")
   dateRange: DateRange;
 
-  @doc("SubscriptionId list for carbon emissions data, subscriptionId should be all lower")
+  @doc("List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100.")
   @extension("x-ms-identifiers", [])
   subscriptionList: string[];
 
-  @doc("resourceGroupUrl list for carbon emissions data, resourceGroupUrl value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', all lower ")
+  @doc("List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase.")
   @extension("x-ms-identifiers", [])
   resourceGroupUrlList?: string[];
 
-  @doc("resource type list for carbon emissions data, resource type value is like 'microsoft.storage/storageaccounts', all lower")
+  @doc("List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'.")
   @extension("x-ms-identifiers", [])
   resourceTypeList?: string[];
 
-  @doc("Location list for carbon emissions data, for example 'east us', all lower")
+  @doc("List of locations for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional.")
   @extension("x-ms-identifiers", [])
   locationList?: string[];
 
-  @doc("Carbon emission scope for carbon emissions data")
+  @doc("List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes.")
   @extension("x-ms-identifiers", [])
   carbonScopeList: EmissionScopeEnum[];
 }
 
-@doc("Query Parameters for Overall Carbon Emissions Summary")
+@doc("Query filter parameter to configure OverallSummaryReport queries.")
 model OverallSummaryReportQueryFilter extends QueryFilter {
-  @doc("Overall summary report type name")
+  @doc("Specifies that the report type is a overall summary report for carbon emissions data.")
   reportType: ReportTypeEnum.OverallSummaryReport;
 }
 
-@doc("Query Parameters for Monthly Carbon Emissions Summary")
+@doc("Query filter parameter to configure MonthlySummaryReport queries.")
 model MonthlySummaryReportQueryFilter extends QueryFilter {
-  @doc("Monthly summary report type name")
+  @doc("Specifies that the report type is a monthly summary report for carbon emissions data.")
   reportType: ReportTypeEnum.MonthlySummaryReport;
 }
 
-@doc("Query Parameters for Top Items Carbon Emission by Category Type")
+@doc("Query filter parameter to configure TopItemsSummaryReport queries.")
 model TopItemsSummaryReportQueryFilter extends QueryFilter {
-  @doc("Top items summary report type name")
+  @doc("Specifies that the report type is a top items summary report for carbon emissions data, aggregated by category type.")
   reportType: ReportTypeEnum.TopItemsSummaryReport;
 
-  @doc("Item Category type, see supported type value defined in CategoryTypeEnum")
+  @doc("Specifies the category type for which to retrieve top-emitting items. See supported values defined in CategoryTypeEnum.")
   categoryType: CategoryTypeEnum;
 
-  @doc("Number of top items to return. The value should be between 1 and 10")
+  @doc("The number of top items to return, based on emissions. This value must be between 1 and 10.")
   @maxValue(10)
   @minValue(1)
   topItems: int32;
 }
 
-@doc("Query Parameters for Top Items Carbon Emissions by Month")
+@doc("Query filter parameter to configure TopItemsMonthlySummaryReport queries.")
 model TopItemsMonthlySummaryReportQueryFilter extends QueryFilter {
-  @doc("Top items monthly summary report type name")
+  @doc("Specifies that the report type is a top items monthly summary report for carbon emissions data.")
   reportType: ReportTypeEnum.TopItemsMonthlySummaryReport;
 
-  @doc("Item Category type, see supported type value defined in CategoryTypeEnum")
+  @doc("Specifies the category type to retrieve top-emitting items, aggregated by month. See supported types in CategoryTypeEnum.")
   categoryType: CategoryTypeEnum;
 
-  @doc("Number of top items to return. The value should be between 1 and 10")
+  @doc("The number of top items to return, based on emissions. Must be between 1 and 10.")
   @maxValue(10)
   @minValue(1)
   topItems: int32;
 }
 
-@doc("Query Parameters for Detailed carbon emissions by pageSize")
+@doc("Sorting is supported for columns in ItemDetailsReport. This object define sorting direction.")
+union SortDirectionEnum {
+  @doc("Descending order for query result.")
+  Desc: "Desc",
+
+  @doc("Ascending order for query result.")
+  Asc: "Asc",
+
+  string,
+}
+
+@doc("Sorting is supported for columns in ItemDetailsReport. This object includes the column names that sorting is allowed for. Select one of these supported values")
+union OrderByColumnEnum {
+  @doc("The itemName filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
+  ItemName: "ItemName",
+
+  @doc("The latestMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
+  LatestMonthEmissions: "LatestMonthEmissions",
+
+  @doc("The previousMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
+  PreviousMonthEmissions: "PreviousMonthEmissions",
+
+  @doc("The monthOverMonthEmissionsChangeRatio filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
+  MonthOverMonthEmissionsChangeRatio: "MonthOverMonthEmissionsChangeRatio",
+
+  @doc("The monthlyEmissionsChangeValue filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
+  MonthlyEmissionsChangeValue: "MonthlyEmissionsChangeValue",
+
+  string,
+}
+
+@doc("Query Parameters for ItemDetailsReport")
 model ItemDetailsQueryFilter extends QueryFilter {
-  @doc("Item pagination data report type name")
+  @doc("Specifies that the report type is an item details report for granular carbon emissions data. This is a paginated report.")
   reportType: ReportTypeEnum.ItemDetailsReport;
 
-  @doc("Item Category type, see supported type value defined in CategoryTypeEnum")
+  @doc("Specifies the category type for detailed emissions data, such as Resource, ResourceGroup, ResourceType, Location, or Subscription. See supported types in CategoryTypeEnum.")
   categoryType: CategoryTypeEnum;
 
-  @doc("Order by column name")
-  orderBy: string;
+  @doc("The column name to order the results by. See supported values in OrderByColumnEnum.")
+  orderBy: OrderByColumnEnum;
 
-  @doc("Direction for sorting")
-  sortDirection: string;
+  @doc("Direction for sorting results. See supported values in SortDirectionEnum.")
+  sortDirection: SortDirectionEnum;
 
   @doc("Number of items to return in one request, max value is 5000.")
   @maxValue(5000)
   @minValue(1)
   pageSize: int32;
 
-  @doc("The pagination token to fetch next page data, nullable. It's return back in previous request's response if next page data is available")
+  @doc("Pagination token for fetching the next page of data. This token is nullable and will be returned in the previous response if additional data pages are available.")
   skipToken?: string;
 }
 
@@ -209,6 +240,9 @@ model SubscriptionAccessDecision {
 
   @doc("Access decision to subscription")
   decision: AccessDecisionEnum;
+
+  @doc("The reason why access request got denied")
+  denialReason?: string;
 }
 
 @doc("The response data type of Carbon emission data")
@@ -252,20 +286,20 @@ union ResponseDataTypeEnum {
 @discriminator("dataType")
 @doc("The basic response for different query report, all query report result will have these information")
 model CarbonEmissionData {
-  @doc("Query result data type name")
+  @doc("The data type of the query result, indicating the format of the returned response.")
   dataType: ResponseDataTypeEnum;
 
-  @doc("Total carbon emissions for given query parameters, the value unit is kgCO2E")
-  totalCarbonEmission: float64;
+  @doc("Total carbon emissions for the specified query parameters, measured in kgCO2E. This value represents total emissions over the specified date range (e.g., March-June).")
+  latestMonthEmissions: float64;
 
-  @doc("Total carbon emission of previous month")
-  totalCarbonEmissionLastMonth: float64;
+  @doc("Total carbon emissions for the previous month’s date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month’s range will be Feb - May). The value is measured in kgCO2E.")
+  previousMonthEmissions: float64;
 
-  @doc("Change ratio between totalCarbonEmission and totalCarbonEmissionLastMonth")
-  changeRatioForLastMonth: float64;
+  @doc("The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions.")
+  monthOverMonthEmissionsChangeRatio?: float64;
 
-  @doc("Change Value between totalCarbonEmission and totalCarbonEmissionLastMonth")
-  changeValueMonthOverMonth?: float64;
+  @doc("The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions.")
+  monthlyEmissionsChangeValue?: float64;
 }
 
 @doc("Response for Overall Carbon Emissions Summary")
@@ -279,10 +313,10 @@ model CarbonEmissionMonthlySummaryData extends CarbonEmissionData {
   @doc("Monthly summary data")
   dataType: ResponseDataTypeEnum.MonthlySummaryData;
 
-  @doc("Monthly date string, format is yyyy-MM-dd")
+  @doc("The date, representing the month, for which the emissions data is reported, formatted as yyyy-MM-dd (e.g., 2024-03-01)")
   date: string;
 
-  @doc("Carbon Intensity")
+  @doc("Carbon intensity for the specified month, typically in units of kgCO2E per unit of normalized usage")
   carbonIntensity: float64;
 }
 
@@ -291,31 +325,31 @@ model CarbonEmissionTopItemsSummaryData extends CarbonEmissionData {
   @doc("Top items summary data")
   dataType: ResponseDataTypeEnum.TopItemsSummaryData;
 
-  @doc("Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type.")
+  @doc("The identifier of the item being reported on, which could refer to the resource name, resource type name, location, resource group name, or subscription ID, depending on the specified category type.")
   itemName: string;
 
-  @doc("Item category, see supported type value defined in CategoryTypeEnum")
+  @doc("The category type of the item. This defines which dimension the emissions are aggregated by, and the supported values are defined in CategoryTypeEnum (e.g., Subscription, ResourceGroup, Resource, etc.).")
   categoryType: CategoryTypeEnum;
 }
 
 @doc("Response for Top Items For Resource Category")
 model ResourceCarbonEmissionTopItemsSummaryData extends CarbonEmissionData {
-  @doc("Resource top items summary data")
+  @doc("Data for the top items carbon emissions summary report specific to resource category")
   dataType: ResponseDataTypeEnum.ResourceTopItemsSummaryData;
 
-  @doc("It's resource name for Resource Category")
+  @doc("The resource name of the resource for the Resource Category.")
   itemName: string;
 
-  @doc("Resource Item category")
+  @doc("The category type of the item. This defines which dimension the emissions are aggregated by, and the supported values are defined in CategoryTypeEnum (e.g., Subscription, ResourceGroup, Resource, etc.).")
   categoryType: CategoryTypeEnum;
 
   @doc("Subscription Id")
   subscriptionId: string;
 
-  @doc("Resource Group")
+  @doc("Resource group name")
   resourceGroup: string;
 
-  @doc("Resource Id")
+  @doc("Resource Id, The URI of the resource for the Resource Category. This identifies the resource being reported.")
   resourceId: string;
 }
 
@@ -325,7 +359,7 @@ model ResourceGroupCarbonEmissionTopItemsSummaryData
   @doc("Resource group top items summary data")
   dataType: ResponseDataTypeEnum.ResourceGroupTopItemsSummaryData;
 
-  @doc("It's resourceGroup name for ResourceGroup Category")
+  @doc("The resourceGroup name of the resource for ResourceGroup Category")
   itemName: string;
 
   @doc("ResourceGroup Item category")
@@ -349,17 +383,17 @@ model CarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionData {
   @doc("Item category, see supported type value defined in CategoryTypeEnum")
   categoryType: CategoryTypeEnum;
 
-  @doc("Month date")
+  @doc("The date, representing the month, for which the emissions data is reported, formatted as yyyy-MM-dd (e.g., 2024-03-01)")
   date: string;
 }
 
-@doc("Response for Top Items Carbon Emissions by Month for ResourceType")
+@doc("Response for top items carbon emissions by month for resource")
 model ResourceCarbonEmissionTopItemMonthlySummaryData
   extends CarbonEmissionData {
   @doc("Resource top items Monthly summary data")
   dataType: ResponseDataTypeEnum.ResourceTopItemsMonthlySummaryData;
 
-  @doc("It's resource name for Resource Category")
+  @doc("The resource name of resource for Resource Category")
   itemName: string;
 
   @doc("Resource Item category")
@@ -374,11 +408,11 @@ model ResourceCarbonEmissionTopItemMonthlySummaryData
   @doc("Resource Group")
   resourceGroup: string;
 
-  @doc("Resource Id")
+  @doc("The fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
   resourceId: string;
 }
 
-@doc("Response for Top Items Carbon Emissions by Month for ResourceGroupType")
+@doc("Response for top items carbon emissions by month for resource group")
 model ResourceGroupCarbonEmissionTopItemMonthlySummaryData
   extends CarbonEmissionData {
   @doc("Resource group top items Monthly summary data")
@@ -396,7 +430,7 @@ model ResourceGroupCarbonEmissionTopItemMonthlySummaryData
   @doc("Subscription Id")
   subscriptionId: string;
 
-  @doc("Resource Group url, value format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}'")
+  @doc("Resource Group url, the format is '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}'")
   resourceGroupUrl: string;
 }
 
@@ -420,7 +454,7 @@ model ResourceCarbonEmissionItemDetailData extends CarbonEmissionData {
   @doc("It's resource name.")
   itemName: string;
 
-  @doc("Resource Item category")
+  @doc("Resource Item category, see supported value defined in CategoryTypeEnum")
   categoryType: CategoryTypeEnum;
 
   @doc("Subscription Id")
@@ -429,13 +463,13 @@ model ResourceCarbonEmissionItemDetailData extends CarbonEmissionData {
   @doc("Resource Group")
   resourceGroup: string;
 
-  @doc("Resource Id Url")
+  @doc("The fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
   resourceId: string;
 
-  @doc("Resource Location")
+  @doc("Resource Location (e.g., 'east us')")
   location?: string;
 
-  @doc("Resource Type")
+  @doc("The type of resource, for example: microsoft.storage/storageaccounts")
   resourceType?: string;
 }
 
@@ -467,9 +501,6 @@ model CarbonEmissionDataListResult {
 
   @doc("The pagination token to fetch next page data, it's null or empty if it doesn't have next page data")
   skipToken?: string;
-
-  @doc("If next page data available, the nextLink will return back with value like: {refererHeaderUrl}?$skipToken={opaqueString}")
-  nextLink?: string;
 
   @doc("The access decision list for each input subscription ")
   @extension("x-ms-identifiers", [])
