@@ -81,7 +81,6 @@ model Ipv4 {
   defaultGateway?: ipV4Address;
 
   @doc("DNS Servers IPs for IPv4")
-  @minItems(1)
   dnsServers?: ipV4Address[];
 
   @doc("vLanId for the network interface")
