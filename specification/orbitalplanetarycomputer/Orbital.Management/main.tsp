@@ -38,7 +38,7 @@ model GeoCatalog is TrackedResource<GeoCatalogProperties> {
   @segment("geoCatalogs")
   name: string;
 
-  ...ManagedServiceIdentityProperty;
+  ...ManagedServiceIdentityPropertyOnlyUserAssigned;
 }
 
 @doc("The Azure Orbital Planetary Computer GeoCatalog tier")
@@ -82,16 +82,40 @@ model GeoCatalogProperties {
   provisioningState?: ProvisioningState;
 }
 
-model ManagedServiceIdentityUpdate
-  is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
-
-/** Patch request workaround for Swagger LintDiff. Typespec Bug: https://github.com/Azure/typespec-azure/issues/383 */
-model GeoCatalogUpdate {
-  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
-
-  /** Updatable managed service identity */
-  identity?: ManagedServiceIdentityUpdate;
+@doc("The managed service identities envelope.")
+model ManagedServiceIdentityPropertyOnlyUserAssigned {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "There is no built-in typespec support for MSI wih only UserAssigned type; we must create custom models for this."
+  @doc("The managed service identities assigned to this resource.")
+  identity?: ManagedServiceIdentityOnlyUserAssigned;
 }
+
+@doc("Managed service identity (system assigned and/or user assigned identities)")
+model ManagedServiceIdentityOnlyUserAssigned {
+  @doc("The type of managed identity assigned to this resource.")
+  type: ManagedServiceIdentityTypeOnlyUserAssigned;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "There is no built-in typespec support for MSI wih only UserAssigned type; we must create custom models for this."
+  @doc("The identities assigned to this resource by the user.")
+  userAssignedIdentities?: Record<Foundations.UserAssignedIdentity | null>;
+}
+
+@doc("Type of managed service identity (where only UserAssigned type is allowed).")
+union ManagedServiceIdentityTypeOnlyUserAssigned {
+  @doc("No managed identity.")
+  None: "None",
+
+  @doc("User assigned managed identity.")
+  UserAssigned: "UserAssigned",
+
+  string,
+}
+
+@doc("The update model of an MPC Pro GeoCatalog.")
+model GeoCatalogUpdate
+  is OmitDefaults<Azure.ResourceManager.Foundations.ResourceUpdateModel<
+    GeoCatalog,
+    OmitDefaults<GeoCatalogProperties>
+  >>;
 
 @armResourceOperations(GeoCatalog)
 interface GeoCatalogs {
