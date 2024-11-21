@@ -390,7 +390,7 @@
           "description": "The resource-specific properties for this resource."
         },
         "identity": {
-          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssigned",
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
         }
       },
@@ -462,102 +462,42 @@
     },
     "GeoCatalogUpdate": {
       "type": "object",
-      "description": "The update model of an MPC Pro GeoCatalog.",
+      "description": "Patch request workaround for Swagger LintDiff. Typespec Bug: https://github.com/Azure/typespec-azure/issues/383",
       "properties": {
-        "identity": {
-          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssignedUpdate",
-          "description": "The managed service identities assigned to this resource."
-        },
         "tags": {
           "type": "object",
           "description": "Resource tags.",
           "additionalProperties": {
             "type": "string"
           }
-        }
-      }
-    },
-    "ManagedServiceIdentityOnlyUserAssigned": {
-      "type": "object",
-      "description": "Managed service identity (system assigned and/or user assigned identities)",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/ManagedServiceIdentityTypeOnlyUserAssigned",
-          "description": "The type of managed identity assigned to this resource."
         },
-        "userAssignedIdentities": {
-          "type": "object",
-          "description": "The identities assigned to this resource by the user.",
-          "additionalProperties": {
-            "allOf": [
-              {
-                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
-              }
-            ],
-            "type": "object",
-            "x-nullable": true
-          }
-        }
-      },
-      "required": [
-        "type"
-      ]
-    },
-    "ManagedServiceIdentityOnlyUserAssignedUpdate": {
-      "type": "object",
-      "description": "Managed service identity (system assigned and/or user assigned identities)",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/ManagedServiceIdentityTypeOnlyUserAssigned",
-          "description": "The type of managed identity assigned to this resource."
-        },
-        "userAssignedIdentities": {
-          "type": "object",
-          "description": "The identities assigned to this resource by the user.",
-          "additionalProperties": {
-            "allOf": [
-              {
-                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
-              }
-            ],
-            "type": "object",
-            "x-nullable": true
-          }
-        }
-      }
-    },
-    "ManagedServiceIdentityPropertyOnlyUserAssigned": {
-      "type": "object",
-      "description": "The managed service identities envelope.",
-      "properties": {
         "identity": {
-          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssigned",
-          "description": "The managed service identities assigned to this resource."
+          "$ref": "#/definitions/ManagedServiceIdentityUpdate",
+          "description": "Updatable managed service identity"
         }
       }
     },
-    "ManagedServiceIdentityTypeOnlyUserAssigned": {
-      "type": "string",
-      "description": "Type of managed service identity (where only UserAssigned type is allowed).",
-      "enum": [
-        "None",
-        "UserAssigned"
-      ],
-      "x-ms-enum": {
-        "name": "ManagedServiceIdentityTypeOnlyUserAssigned",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "None",
-            "value": "None",
-            "description": "No managed identity."
-          },
-          {
-            "name": "UserAssigned",
-            "value": "UserAssigned",
-            "description": "User assigned managed identity."
+    "ManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "The template for adding optional properties.",
+      "properties": {
+        "type": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
           }
-        ]
+        }
       }
     },
     "ProvisioningState": {
