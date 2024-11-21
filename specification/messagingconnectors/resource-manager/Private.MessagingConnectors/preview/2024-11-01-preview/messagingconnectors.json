@@ -361,7 +361,7 @@
             "$ref": "./examples/KinesisSourceConnector_Get.json"
           },
           "KustoSourceConnector Get": {
-            "$ref": "./examples/KustoSourceConnector_Get.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_Get.json"
           },
           "Mqtt5SourceConnector Get": {
             "$ref": "./examples/Mqtt5SourceConnector_Get.json"
@@ -453,7 +453,7 @@
             "$ref": "./examples/KinesisSourceConnector_CreateOrUpdate.json"
           },
           "KustoSourceConnector CreateOrUpdate": {
-            "$ref": "./examples/KustoSourceConnector_CreateOrUpdate.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_CreateOrUpdate.json"
           },
           "Mqtt5SourceConnector CreateOrUpdate": {
             "$ref": "./examples/Mqtt5SourceConnector_CreateOrUpdate.json"
@@ -539,7 +539,7 @@
             "$ref": "./examples/KinesisSourceConnector_UpdateTags.json"
           },
           "KustoSourceConnector UpdateTags": {
-            "$ref": "./examples/KustoSourceConnector_UpdateTags.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_UpdateTags.json"
           },
           "Mqtt5SourceConnector UpdateTags": {
             "$ref": "./examples/Mqtt5SourceConnector_UpdateTags.json"
@@ -616,7 +616,7 @@
             "$ref": "./examples/KinesisSourceConnector_Delete.json"
           },
           "KustoSourceConnector Delete": {
-            "$ref": "./examples/KustoSourceConnector_Delete.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_Delete.json"
           },
           "Mqtt5SourceConnector Delete": {
             "$ref": "./examples/Mqtt5SourceConnector_Delete.json"
@@ -701,7 +701,7 @@
             "$ref": "./examples/KinesisSourceConnector_Pause.json"
           },
           "KustoSourceConnector Pause": {
-            "$ref": "./examples/KustoSourceConnector_Pause.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_Pause.json"
           },
           "Mqtt5SourceConnector Pause": {
             "$ref": "./examples/Mqtt5SourceConnector_Pause.json"
@@ -786,7 +786,7 @@
             "$ref": "./examples/KinesisSourceConnector_Resume.json"
           },
           "KustoSourceConnector Resume": {
-            "$ref": "./examples/KustoSourceConnector_Resume.json"
+            "$ref": "./examples/AzureDataExplorerSourceConnector_Resume.json"
           },
           "Mqtt5SourceConnector Resume": {
             "$ref": "./examples/Mqtt5SourceConnector_Resume.json"
@@ -817,6 +817,81 @@
         }
       ],
       "x-ms-discriminator-value": "AvroConverter"
+    },
+    "AzureDataExplorerSourceConnectorProperties": {
+      "type": "object",
+      "description": "Configuration for AzureDataExplorerSourceConnector",
+      "properties": {
+        "connectorDirection": {
+          "type": "string",
+          "description": "Direction of the Source Connector.",
+          "default": "Source",
+          "enum": [
+            "Unknown",
+            "Source",
+            "Sink"
+          ],
+          "x-ms-enum": {
+            "name": "Direction",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown direction"
+              },
+              {
+                "name": "Source",
+                "value": "Source",
+                "description": "Source Connector"
+              },
+              {
+                "name": "Sink",
+                "value": "Sink",
+                "description": "Sink Connector"
+              }
+            ]
+          }
+        },
+        "clusterUrl": {
+          "type": "string",
+          "description": "Url of Kusto cluster."
+        },
+        "database": {
+          "type": "string",
+          "description": "Database name for Kusto."
+        },
+        "tableNames": {
+          "type": "string",
+          "description": "Table names for Kusto."
+        },
+        "applicationClientId": {
+          "type": "string",
+          "description": "Application client id for Kusto cluster."
+        },
+        "applicationKey": {
+          "type": "string",
+          "description": "Application key for Kusto cluster."
+        },
+        "authorityId": {
+          "type": "string",
+          "description": "Authority id for Kusto cluster."
+        }
+      },
+      "required": [
+        "clusterUrl",
+        "database",
+        "tableNames",
+        "applicationClientId",
+        "applicationKey",
+        "authorityId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectorProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureDataExplorerSource"
     },
     "AzureServiceBusSourceConnectorProperties": {
       "type": "object",
@@ -1397,7 +1472,7 @@
         "MySqlSource",
         "AzureServiceBusSource",
         "HanaSource",
-        "KustoSource",
+        "AzureDataExplorerSource",
         "Mqtt5Source"
       ],
       "x-ms-enum": {
@@ -1465,8 +1540,8 @@
             "description": "hana database source connector."
           },
           {
-            "name": "KustoSource",
-            "value": "KustoSource",
+            "name": "AzureDataExplorerSource",
+            "value": "AzureDataExplorerSource",
             "description": "hana database source connector."
           },
           {
@@ -2318,81 +2393,6 @@
           }
         ]
       }
-    },
-    "KustoSourceConnectorProperties": {
-      "type": "object",
-      "description": "Configuration for KustoSourceConnector",
-      "properties": {
-        "connectorDirection": {
-          "type": "string",
-          "description": "Direction of the Source Connector.",
-          "default": "Source",
-          "enum": [
-            "Unknown",
-            "Source",
-            "Sink"
-          ],
-          "x-ms-enum": {
-            "name": "Direction",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Unknown",
-                "value": "Unknown",
-                "description": "Unknown direction"
-              },
-              {
-                "name": "Source",
-                "value": "Source",
-                "description": "Source Connector"
-              },
-              {
-                "name": "Sink",
-                "value": "Sink",
-                "description": "Sink Connector"
-              }
-            ]
-          }
-        },
-        "clusterUrl": {
-          "type": "string",
-          "description": "Url of Kusto cluster."
-        },
-        "database": {
-          "type": "string",
-          "description": "Database name for Kusto."
-        },
-        "tableNames": {
-          "type": "string",
-          "description": "Table names for Kusto."
-        },
-        "applicationClientId": {
-          "type": "string",
-          "description": "Application client id for Kusto cluster."
-        },
-        "applicationKey": {
-          "type": "string",
-          "description": "Application key for Kusto cluster."
-        },
-        "authorityId": {
-          "type": "string",
-          "description": "Authority id for Kusto cluster."
-        }
-      },
-      "required": [
-        "clusterUrl",
-        "database",
-        "tableNames",
-        "applicationClientId",
-        "applicationKey",
-        "authorityId"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/ConnectorProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "KustoSource"
     },
     "MessagingConnector": {
       "type": "object",

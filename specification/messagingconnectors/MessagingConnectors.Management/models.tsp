@@ -122,7 +122,7 @@ union ConnectorType {
 
   @doc("hana database source connector.")
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-  KustoSource: "KustoSource",
+  AzureDataExplorerSource: "AzureDataExplorerSource",
 
   @doc("mqtt V5 source connector.")
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
@@ -797,11 +797,11 @@ union HanaMode {
   string,
 }
 
-@doc("Configuration for KustoSourceConnector")
+@doc("Configuration for AzureDataExplorerSourceConnector")
 @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-model KustoSourceConnectorProperties extends ConnectorProperties {
-  @doc("Type of KustoSourceConnector")
-  connectorType: ConnectorType.KustoSource;
+model AzureDataExplorerSourceConnectorProperties extends ConnectorProperties {
+  @doc("Type of AzureDataExplorerSourceConnector")
+  connectorType: ConnectorType.AzureDataExplorerSource;
 
   @doc("Direction of the Source Connector.")
   connectorDirection?: Direction = Direction.Source;
