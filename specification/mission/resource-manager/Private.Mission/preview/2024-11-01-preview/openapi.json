@@ -4769,7 +4769,7 @@
   "definitions": {
     "ActionPerformed": {
       "type": "string",
-      "description": "Action Performed Enum",
+      "description": "Specifies the action performed by the approver",
       "enum": [
         "Approved",
         "Rejected"
@@ -4809,8 +4809,15 @@
           }
         },
         "approvalStatus": {
-          "$ref": "#/definitions/ApprovalStatus",
-          "description": "Approval status indicating 'Approved', 'Rejected', 'Deleted' or 'Expired'"
+          "type": "string",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
+          "enum": [
+            "Approved",
+            "Rejected"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
         "approvalCallbackPayload": {
           "type": "string",
@@ -4869,6 +4876,30 @@
         "message"
       ]
     },
+    "ApprovalPolicy": {
+      "type": "string",
+      "description": "Approval Policy.",
+      "enum": [
+        "Required",
+        "NotRequired"
+      ],
+      "x-ms-enum": {
+        "name": "ApprovalPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Required",
+            "value": "Required",
+            "description": "Approval will be required for the specified action."
+          },
+          {
+            "name": "NotRequired",
+            "value": "NotRequired",
+            "description": "Approval will not be required for the specified action."
+          }
+        ]
+      }
+    },
     "ApprovalProperties": {
       "type": "object",
       "description": "Approvals Resource Properties",
@@ -4890,9 +4921,9 @@
           "$ref": "#/definitions/RequestMetadata",
           "description": "Request metadata for the approval request."
         },
-        "multipleApproversList": {
+        "approvers": {
           "type": "array",
-          "description": "List of Multiple approvers for the approval request",
+          "description": "List of approvers for the approval request",
           "items": {
             "$ref": "#/definitions/Approvers"
           },
@@ -4900,9 +4931,9 @@
             "approverEntraId"
           ]
         },
-        "mandatoryApproversList": {
+        "mandatoryApprovers": {
           "type": "array",
-          "description": "List of Mandatory approvers for the approval request",
+          "description": "List of mandatory approvers for the approval request",
           "items": {
             "$ref": "#/definitions/Approvers"
           },
@@ -4910,10 +4941,10 @@
             "approverEntraId"
           ]
         },
-        "minApproversRequiredCount": {
+        "minimumApproversRequired": {
           "type": "integer",
           "format": "int64",
-          "description": "Number of minimum approvers required for the approval request"
+          "description": "Minimum number of approvers required for the approval request"
         }
       },
       "required": [
@@ -4936,9 +4967,9 @@
           "$ref": "#/definitions/RequestMetadataUpdate",
           "description": "Request metadata for the approval request."
         },
-        "multipleApproversList": {
+        "approvers": {
           "type": "array",
-          "description": "List of Multiple approvers for the approval request",
+          "description": "List of approvers for the approval request",
           "items": {
             "$ref": "#/definitions/Approvers"
           },
@@ -4946,9 +4977,9 @@
             "approverEntraId"
           ]
         },
-        "mandatoryApproversList": {
+        "mandatoryApprovers": {
           "type": "array",
-          "description": "List of Mandatory approvers for the approval request",
+          "description": "List of mandatory approvers for the approval request",
           "items": {
             "$ref": "#/definitions/Approvers"
           },
@@ -4956,10 +4987,10 @@
             "approverEntraId"
           ]
         },
-        "minApproversRequiredCount": {
+        "minimumApproversRequired": {
           "type": "integer",
           "format": "int64",
-          "description": "Number of minimum approvers required for the approval request"
+          "description": "Minimum number of approvers required for the approval request"
         }
       }
     },
@@ -5021,24 +5052,24 @@
       "description": "ApprovalSettings Properties",
       "properties": {
         "endpointCreation": {
-          "type": "boolean",
-          "description": "Approval required for endpoint creation (True or False)"
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for endpoint creation (Required or NotRequired)."
         },
         "endpointUpdate": {
-          "type": "boolean",
-          "description": "Approval required for endpoint update (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for endpoint update (Required or NotRequired)."
         },
         "endpointDeletion": {
-          "type": "boolean",
-          "description": "Approval required for endpoint deletion (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for endpoint deletion (Required or NotRequired)."
         },
         "connectionCreation": {
-          "type": "boolean",
-          "description": "Approval required for enclave connection creation (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for enclave connection creation (Required or NotRequired)."
         },
         "connectionUpdate": {
-          "type": "boolean",
-          "description": "Approval required for enclave connection update (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for enclave connection update (Required or NotRequired)."
         },
         "connectionUpdateMode": {
           "type": "string",
@@ -5052,24 +5083,24 @@
           }
         },
         "connectionDeletion": {
-          "type": "boolean",
-          "description": "Approval required for enclave connection deletion (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for enclave connection deletion (Required or NotRequired)."
         },
         "enclaveCreation": {
-          "type": "boolean",
-          "description": "Approval required for virtual enclave creation (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for virtual enclave creation (Required or NotRequired)."
         },
         "enclaveDeletion": {
-          "type": "boolean",
-          "description": "Approval required for virtual enclave deletion (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for virtual enclave deletion (Required or NotRequired)."
         },
         "maintenanceMode": {
-          "type": "boolean",
-          "description": "Approval required for toggling maintenance mode (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for toggling maintenance mode (Required or NotRequired)."
         },
         "serviceCatalogDeployment": {
-          "type": "boolean",
-          "description": "Approval required for deploying service catalog templates (True or False)."
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Approval required for deploying service catalog templates (Required or NotRequired)."
         }
       }
     },
@@ -5453,7 +5484,7 @@
             "$ref": "#/definitions/GovernedServiceItem"
           }
         },
-        "communityRoleAssignmentList": {
+        "communityRoleAssignments": {
           "type": "array",
           "description": "Community role assignments",
           "items": {
@@ -7502,14 +7533,14 @@
           "type": "boolean",
           "description": "Deploy Bastion service (True or False)."
         },
-        "enclaveRoleAssignmentList": {
+        "enclaveRoleAssignments": {
           "type": "array",
           "description": "Enclave role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
           }
         },
-        "workloadRoleAssignmentList": {
+        "workloadRoleAssignments": {
           "type": "array",
           "description": "Workload role assignments",
           "items": {
@@ -7557,14 +7588,14 @@
           "type": "boolean",
           "description": "Deploy Bastion service (True or False)."
         },
-        "enclaveRoleAssignmentList": {
+        "enclaveRoleAssignments": {
           "type": "array",
           "description": "Enclave role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
           }
         },
-        "workloadRoleAssignmentList": {
+        "workloadRoleAssignments": {
           "type": "array",
           "description": "Workload role assignments",
           "items": {

@@ -81,4 +81,3 @@ interface OwnershipVoucherPublicKeys {
   >;
   listByParent is ArmResourceListByParent<OwnershipVoucherPublicKey>;
 }
-

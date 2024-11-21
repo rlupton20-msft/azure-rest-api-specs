@@ -41,6 +41,9 @@
   "tags": [
     {
       "name": "Winfields"
+    },
+    {
+      "name": "Images"
     }
   ],
   "paths": {
@@ -361,6 +364,151 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/winfields/{name}/images": {
+      "get": {
+        "operationId": "Images_ListByParent",
+        "tags": [
+          "Images"
+        ],
+        "description": "List by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ImageListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/winfields/{name}/images/{imageName}": {
+      "get": {
+        "operationId": "Images_Get",
+        "tags": [
+          "Images"
+        ],
+        "description": "Get the resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "imageName",
+            "in": "path",
+            "description": "The name of the Image",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/winfields/{name}/images/{imageName}/listDownloadUri": {
+      "post": {
+        "operationId": "Images_ListDownloadUri",
+        "tags": [
+          "Images"
+        ],
+        "description": "get deployment manifest.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "imageName",
+            "in": "path",
+            "description": "The name of the Image",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ImageDownloadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.EdgeInternal/winfields/{name}/listDeploymentManifest": {
       "post": {
         "operationId": "Winfields_ListDeploymentManifest",
@@ -507,6 +655,165 @@
         ]
       }
     },
+    "Image": {
+      "type": "object",
+      "description": "Winfield image resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WinfieldProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ImageDownloadResponse": {
+      "type": "object",
+      "description": "The winfield image dpwnload properties",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The resource provisioning state",
+          "readOnly": true
+        },
+        "releaseVersion": {
+          "type": "string",
+          "description": "The release version",
+          "readOnly": true
+        },
+        "releaseDisplayName": {
+          "type": "string",
+          "description": "The release name",
+          "readOnly": true
+        },
+        "releaseNotes": {
+          "type": "string",
+          "description": "The release notes",
+          "readOnly": true
+        },
+        "releaseDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The release date",
+          "readOnly": true
+        },
+        "compatibleVersions": {
+          "type": "array",
+          "description": "The compatible versions",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "The transaction Id",
+          "readOnly": true
+        },
+        "downloadLink": {
+          "type": "string",
+          "description": "The download uri",
+          "readOnly": true
+        },
+        "releaseType": {
+          "$ref": "#/definitions/ReleaseType",
+          "description": "The release type",
+          "readOnly": true
+        },
+        "linkExpiry": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The download link expiry time",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "releaseVersion",
+        "releaseDisplayName",
+        "releaseNotes",
+        "releaseDate",
+        "transactionId",
+        "downloadLink",
+        "releaseType",
+        "linkExpiry"
+      ]
+    },
+    "ImageListResult": {
+      "type": "object",
+      "description": "The response of a Image list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Image items on this page",
+          "items": {
+            "$ref": "#/definitions/Image"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ImageProperties": {
+      "type": "object",
+      "description": "The winfield image properties",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
+          "description": "The resource provisioning state",
+          "readOnly": true
+        },
+        "releaseVersion": {
+          "type": "string",
+          "description": "The release version",
+          "readOnly": true
+        },
+        "releaseDisplayName": {
+          "type": "string",
+          "description": "The release name",
+          "readOnly": true
+        },
+        "releaseNotes": {
+          "type": "string",
+          "description": "The release notes",
+          "readOnly": true
+        },
+        "releaseDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The release date",
+          "readOnly": true
+        },
+        "releaseType": {
+          "$ref": "#/definitions/ReleaseType",
+          "description": "The release type",
+          "readOnly": true
+        },
+        "compatibleVersions": {
+          "type": "array",
+          "description": "The compatible versions",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "releaseVersion",
+        "releaseDisplayName",
+        "releaseNotes",
+        "releaseDate",
+        "releaseType"
+      ]
+    },
     "RegistrationStatus": {
       "type": "string",
       "description": "Regostration status",
@@ -527,6 +834,30 @@
             "name": "Unregistered",
             "value": "Unregistered",
             "description": "Device is not registered to cloud."
+          }
+        ]
+      }
+    },
+    "ReleaseType": {
+      "type": "string",
+      "description": "Release Type",
+      "enum": [
+        "Install",
+        "Update"
+      ],
+      "x-ms-enum": {
+        "name": "ReleaseType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Install",
+            "value": "Install",
+            "description": "Release is a new install."
+          },
+          {
+            "name": "Update",
+            "value": "Update",
+            "description": "Release is update."
           }
         ]
       }

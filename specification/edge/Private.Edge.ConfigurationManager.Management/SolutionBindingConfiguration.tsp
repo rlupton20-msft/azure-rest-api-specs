@@ -56,3 +56,32 @@ interface SolutionBindingConfigurations {
   @doc("List Solution Binding Configuration resource")
   listBySolutionBinding is ArmResourceListByParent<SolutionBindingConfiguration>;
 }
+
+@doc("Solution Binding Configuration Resource")
+@parentResource(DeploymentTargetSolutionBinding)
+@resource("solutionBindingConfigurations")
+model DeploymentTargetSolutionBindingConfiguration
+  is ProxyResource<SolutionBindingConfigurationProperties> {
+  ...ResourceNameParameter<DeploymentTargetSolutionBindingConfiguration>;
+}
+
+@armResourceOperations
+interface DeploymentTargetSolutionBindingConfigurations {
+  @doc("Get a Solution Binding Configuration Resource")
+  get is ArmResourceRead<DeploymentTargetSolutionBindingConfiguration>;
+
+  @doc("Create or update a Solution Binding Configuration Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DeploymentTargetSolutionBindingConfiguration>;
+
+  @doc("update a Solution Binding Configuration Resource")
+  update is ArmResourcePatchSync<
+    DeploymentTargetSolutionBindingConfiguration,
+    SolutionBindingConfigurationProperties
+  >;
+
+  @doc("Delete a Solution Binding Configuration Resource")
+  delete is ArmResourceDeleteSync<DeploymentTargetSolutionBindingConfiguration>;
+
+  @doc("List Solution Binding Configuration resource")
+  listBySolutionBinding is ArmResourceListByParent<DeploymentTargetSolutionBindingConfiguration>;
+}
