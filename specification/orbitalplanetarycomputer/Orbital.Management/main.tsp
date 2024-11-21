@@ -38,7 +38,6 @@ model GeoCatalog is TrackedResource<GeoCatalogProperties> {
   @segment("geoCatalogs")
   name: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/avoid-anonymous-types"
   ...ManagedServiceIdentityProperty;
 }
 
@@ -83,6 +82,7 @@ model GeoCatalogProperties {
   provisioningState?: ProvisioningState;
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/avoid-anonymous-types"
 model ManagedServiceIdentityUpdate
   is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
 
