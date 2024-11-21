@@ -38,6 +38,7 @@ model GeoCatalog is TrackedResource<GeoCatalogProperties> {
   @segment("geoCatalogs")
   name: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/avoid-anonymous-types"
   ...ManagedServiceIdentityProperty;
 }
 
