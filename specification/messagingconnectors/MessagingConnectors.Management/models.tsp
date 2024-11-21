@@ -118,7 +118,7 @@ union ConnectorType {
 
   @doc("hana database source connector.")
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-  SapHanaDataBaseSource: "SapHanaDataBaseSource",
+  HanaDatabaseSource: "HanaDatabaseSource",
 
   @doc("Azure Data Explorer source connector.")
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
@@ -709,11 +709,11 @@ model AzureServiceBusSourceConnectorProperties extends ConnectorProperties {
   serviceBusType: AzureServiceBusType;
 }
 
-@doc("Configuration for SapHanaDataBaseSourceConnector")
+@doc("Configuration for HanaDatabaseSourceConnector")
 @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-model SapHanaDatabaseSourceConnectorProperties extends ConnectorProperties {
+model HanaDatabaseSourceConnectorProperties extends ConnectorProperties {
   @doc("Type of HanaDatabaseSourceConnector")
-  connectorType: ConnectorType.SapHanaDataBaseSource;
+  connectorType: ConnectorType.HanaDatabaseSource;
 
   @doc("Direction of the Source Connector.")
   connectorDirection?: Direction = Direction.Source;
