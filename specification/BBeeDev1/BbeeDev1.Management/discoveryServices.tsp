@@ -66,4 +66,3 @@ interface DiscoveryServices {
   listByResourceGroup is ArmResourceListByParent<DiscoveryService>;
   listBySubscription is ArmListBySubscription<DiscoveryService>;
 }
-

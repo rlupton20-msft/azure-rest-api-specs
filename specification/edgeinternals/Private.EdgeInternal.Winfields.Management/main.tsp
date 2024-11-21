@@ -4,6 +4,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./models.tsp";
 import "./winfields.tsp";
+import "./images.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -11,7 +12,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edgeinternals folder."
 @armProviderNamespace
 @service({
   title: "winfields service",
@@ -23,8 +24,8 @@ namespace Private.EdgeInternal;
 
 @doc("The available API versions.")
 enum Versions {
-  @doc("Version 2024-02-01-preview")
+  @doc("Version 2024-11-01-preview")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_02_01: "2024-02-01-preview",
+  v2024_02_01: "2024-11-01-preview",
 }

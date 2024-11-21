@@ -44,8 +44,8 @@ union SolutionVersionType {
 @doc("Solution Version Resource")
 @parentResource(Solution)
 @resource("versions")
-@discriminator("kind")
-model SolutionVersion is ProxyResource<{}> {
+// @discriminator("kind")
+model SolutionVersion is ProxyResource<HelmSolutionProperties> {
   ...ResourceNameParameter<
     SolutionVersion,
     NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -53,17 +53,17 @@ model SolutionVersion is ProxyResource<{}> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   @doc("Kind of solution version")
-  kind: SolutionVersionType;
-}
-
-@doc("Helm Use Case Properties")
-model HelmSolution extends SolutionVersion {
-  @doc("properties of helm solution")
-  properties: HelmSolutionProperties;
-
-  @doc("Kind of solution version")
   kind: SolutionVersionType.Helm;
 }
+
+// @doc("Helm Use Case Properties")
+// model HelmSolution extends SolutionVersion {
+//   @doc("properties of helm solution")
+//   properties: HelmSolutionProperties;
+
+//   @doc("Kind of solution version")
+//   kind: SolutionVersionType.Helm;
+// }
 
 @armResourceOperations
 interface SolutionVersions {

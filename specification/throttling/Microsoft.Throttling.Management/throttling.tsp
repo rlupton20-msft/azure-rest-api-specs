@@ -4,9 +4,9 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-@doc("Azure Throttling Service (ATS)")
+@doc("Azure Throttling (ATS) Resource Provider")
 @service({
-  title: "Azure Throttling",
+  title: "Azure Throttling (ATS)",
 })
 @versioned(Versions)
 @armProviderNamespace
@@ -55,6 +55,46 @@ union ProvisioningState {
   string,
 }
 
+@doc("Proxy account")
+model ProxyAccount is ProxyResource<ProxyAccountProperties> {
+  @doc("Proxy account name")
+  @key("proxyAccountName")
+  @segment("proxyAccounts")
+  @path
+  @visibility("read")
+  @minLength(3)
+  @maxLength(128)
+  @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
+  name: string;
+}
+
+@armResourceOperations
+interface ProxyAccounts {
+  get is ArmResourceRead<ProxyAccount>;
+  create is ArmResourceCreateOrReplaceAsync<ProxyAccount>;
+  update is ArmResourcePatchAsync<ProxyAccount, ProxyAccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<ProxyAccount>;
+  listByResourceGroup is ArmResourceListByParent<ProxyAccount>;
+  listBySubscription is ArmListBySubscription<ProxyAccount>;
+}
+
+@doc("Proxy account properties")
+model ProxyAccountProperties {
+  @doc("Provisioning state")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("Proxy account authentication properties")
+  authentication?: ProxyAccountAuthenticationProperties;
+}
+
+@doc("Proxy account authentication properties")
+model ProxyAccountAuthenticationProperties {
+  @doc("Certificate-based authentication properties")
+  @extension("x-ms-identifiers", ["subjectName"])
+  certificates?: CertificateProperties[];
+}
+
 @doc("Throttling account")
 model Account is TrackedResource<AccountProperties> {
   @doc("Account name")
@@ -71,11 +111,19 @@ model Account is TrackedResource<AccountProperties> {
   @doc("Account kind")
   @visibility("create", "read")
   kind: AccountKind;
-
-  // ..ResourceKindProperty,
 }
 
-@doc("Environment kind")
+@armResourceOperations
+interface Accounts {
+  get is ArmResourceRead<Account>;
+  create is ArmResourceCreateOrReplaceAsync<Account>;
+  update is ArmResourcePatchAsync<Account, AccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Account>;
+  listByResourceGroup is ArmResourceListByParent<Account>;
+  listBySubscription is ArmListBySubscription<Account>;
+}
+
+@doc("Account kind")
 union AccountKind {
   @doc("Direct account")
   Direct: "direct",
@@ -95,16 +143,6 @@ union AccountKind {
   string,
 }
 
-@armResourceOperations
-interface Accounts {
-  get is ArmResourceRead<Account>;
-  create is ArmResourceCreateOrReplaceAsync<Account>;
-  update is ArmResourcePatchAsync<Account, AccountProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Account>;
-  listByResourceGroup is ArmResourceListByParent<Account>;
-  listBySubscription is ArmListBySubscription<Account>;
-}
-
 @doc("Account properties")
 model AccountProperties {
   @doc("Provisioning state")
@@ -116,11 +154,11 @@ model AccountProperties {
   hostName?: string;
 
   @doc("Account authentication properties")
-  authentication?: AuthenticationProperties;
+  authentication?: AccountAuthenticationProperties;
 }
 
 @doc("Account authentication properties")
-model AuthenticationProperties {
+model AccountAuthenticationProperties {
   @doc("Certificate-based authentication properties")
   @extension("x-ms-identifiers", ["subjectName"])
   certificates?: CertificateProperties[];
@@ -151,7 +189,7 @@ model AzureActiveDirectoryProperties {
 @doc("Throttling category")
 @parentResource(Account)
 model Category is TrackedResource<CategoryProperties> {
-  @doc("Category name")
+  @doc("Throttling category name")
   @key("categoryName")
   @segment("categories")
   @path

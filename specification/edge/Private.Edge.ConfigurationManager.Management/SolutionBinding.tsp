@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
+import "./DeploymentTarget.tsp";
 import "./ProvisioningState.tsp";
 import "./SolutionInstance.tsp";
 import "./SolutionBindingConfiguration.tsp";
@@ -104,6 +105,58 @@ interface SolutionBindings {
   @doc("Post request to publish")
   publish is ArmResourceActionAsync<
     SolutionBinding,
+    SolutionInstance,
+    SolutionInstance
+  >;
+}
+
+@doc("Deployment Target Solution Binding Resource")
+@parentResource(DeploymentTarget)
+@resource("solutionBindings")
+model DeploymentTargetSolutionBinding
+  is ProxyResource<SolutionBindingProperties> {
+  ...ResourceNameParameter<
+    DeploymentTargetSolutionBinding,
+    NamePattern = "^[a-zA-Z0-9-]{3,60}$"
+  >;
+}
+
+@armResourceOperations
+interface DeploymentTargetSolutionBindings {
+  @doc("Get a Solution Binding Resource")
+  get is ArmResourceRead<DeploymentTargetSolutionBinding>;
+
+  @doc("Create or update a Solution Binding Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DeploymentTargetSolutionBinding>;
+
+  @doc("Update a Solution Binding Resource")
+  update is ArmResourcePatchSync<
+    DeploymentTargetSolutionBinding,
+    SolutionBindingProperties
+  >;
+
+  @doc("Delete a Solution Binding Resource")
+  delete is ArmResourceDeleteSync<DeploymentTargetSolutionBinding>;
+
+  @doc("List by Deployment Target")
+  listByDeploymentTarget is ArmResourceListByParent<DeploymentTargetSolutionBinding>;
+
+  @doc("Post request to deploy")
+  deploy is ArmResourceActionNoResponseContentAsync<
+    DeploymentTargetSolutionBinding,
+    SolutionInstance
+  >;
+
+  @doc("Post request to resolve configuration")
+  resolveConfiguration is ArmResourceActionAsync<
+    DeploymentTargetSolutionBinding,
+    SolutionConfigurationParameter,
+    SolutionBindingConfiguration
+  >;
+
+  @doc("Post request to publish")
+  publish is ArmResourceActionAsync<
+    DeploymentTargetSolutionBinding,
     SolutionInstance,
     SolutionInstance
   >;

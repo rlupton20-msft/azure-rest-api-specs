@@ -77,7 +77,7 @@ model LabServerProperties {
 interface LabServers {
   get is ArmResourceRead<LabServer>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<LabServer>;
-  update is ArmCustomPatchSync<
+  update is ArmCustomPatchAsync<
     LabServer,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       LabServer,

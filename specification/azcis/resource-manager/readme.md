@@ -69,13 +69,13 @@ input-file:
   - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
 ```
 
-### Tag: package-2024-08-31-preview
+### Tag: package-2024-11-04-preview
 
-These settings apply only when `--tag=package-2024-08-31-preview` is specified on the command line.
+These settings apply only when `--tag=package-2024-11-04-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-08-31-preview'
+```yaml $(tag) == 'package-2024-11-04-preview'
 input-file:
-  - Microsoft.AzureCis/preview/2024-08-31-preview/cloudSprout.json
+  - Microsoft.AzureCis/preview/2024-11-04-preview/cloudSprout.json
 ```  
 
 ---

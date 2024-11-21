@@ -79,7 +79,5 @@ interface ConfigurationReferences {
     ConfigurationReferenceProperties
   >;
   delete is ArmResourceDeleteSync<ConfigurationReference>;
-
-  // Removing list operation since ConfigurationReference is a singleton
-  // list is ArmResourceListByParent<ConfigurationReference>;
+  list is ArmResourceListByParent<ConfigurationReference>;
 }

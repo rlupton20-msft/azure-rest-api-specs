@@ -4,101 +4,121 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
-
 namespace Microsoft.ConnectedCache;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("provisioning state of the resource")
-enum ProvisioningState {
-  ...ResourceProvisioningState,
+union ProvisioningState {
+  string,
+  Azure.ResourceManager.ResourceProvisioningState,
 
   /** unknown  state of the provisioning state */
-  Unknown,
+  Unknown: "Unknown",
 
   /** Accepted state of the provisioning state during the Async Operations */
-  Accepted,
+  Accepted: "Accepted",
 
   /** Upgrading state of the provisioning state */
-  Upgrading,
+  Upgrading: "Upgrading",
 
   /** Deleting state of the provisioning state */
-  Deleting,
+  Deleting: "Deleting",
 }
 
 @doc("Operating System of the cache node")
-enum OsType {
+union OsType {
+  string,
+
   /** cache node installs on windows operating system */
-  Windows,
+  Windows: "Windows",
 
   /** cache node installs on Linux Operating system */
-  Linux,
+  Linux: "Linux",
 
-  /** cache node install based on Eflow (one of the previous versions) */
-  Eflow,
+  /** cache node installs on Azure Eflow */
+  Eflow: "Eflow",
 }
 
 @doc("Cache node resource Bgp review state as integer")
-enum BgpReviewStateEnum {
+union BgpReviewStateEnum {
+  string,
+
   /** bgp not configured */
-  NotConfigured,
+  NotConfigured: "NotConfigured",
 
   /** bgp is in review state */
-  InReview,
+  InReview: "InReview",
 
   /** bgp is in Approved state */
-  Approved,
+  Approved: "Approved",
 
   /** bgp is setup need an attention for more troubleshoot */
-  AttentionRequired,
+  AttentionRequired: "AttentionRequired",
 }
 
 @doc("Cache node configuration setup state")
-enum ConfigurationState {
+union ConfigurationState {
+  string,
+
   /** connected cache setup configured */
-  Configured,
+  Configured: "Configured",
 
   /** connected cache setup not configured */
-  NotConfigured_Ip,
+  NotConfigured_Ip: "NotConfigured_Ip",
 }
 
 @doc("Proxy details enum")
-enum ProxyRequired {
-  /** Proxy is not required in setup */
-  None,
-  /** proxy is required in setup */
-  Required,
-  /** proxy is enabled in setup */
-  Enabled,
-  /** proxy is disabled in setup */
-  Disabled
+union ProxyRequired {
+  string,
 
+  /** Proxy is not required in setup */
+  None: "None",
+
+  /** proxy is required in setup */
+  Required: "Required",
 }
 
 @doc("Customer resource transit states")
-enum CustomerTransitState {
+union CustomerTransitState {
+  string,
+
   /** do not have transit */
-  NoTransit,
+  NoTransit: "NoTransit",
 
   /** transit provider and have own subscribers */
-  CombinedTransit,
+  CombinedTransit: "CombinedTransit",
 
   /** pure transit provider or network service provider */
-  TransitOnly,
+  TransitOnly: "TransitOnly",
+}
+
+@doc("Auto update Ring type")
+union autoUpdateRingType {
+  string,
+
+  /** customer selection of preview update install mcc on their physical vm */
+  Preview: "Preview",
+
+  /** customer selection of slow update to install mcc on their physical vm */
+  Slow: "Slow",
+
+  /** customer selection of fast / auto update to install mcc on their physical vm */
+  Fast: "Fast",
 }
 
 @doc("Update Cycle type")
-enum CycleType {
+union CycleType {
+  string,
+
   /** customer selection of preview update install mcc on their physical vm */
-  Preview,
+  Preview: "Preview",
 
   /** customer selection of slow update to install mcc on their physical vm */
-  Slow,
+  Slow: "Slow",
 
   /** customer selection of fast / auto update to install mcc on their physical vm */
-  Fast,
+  Fast: "Fast",
 }
 
 @doc("Model representing Cache Node for ConnectedCache resource")
@@ -121,11 +141,12 @@ model CacheNodeOldResponse {
   status?: string;
 
   @doc("The error details")
-  error?: ErrorDetail;
+  error?: Azure.ResourceManager.Foundations.ErrorDetail;
 }
 
 @doc("Mcc PATCH operation properties.")
 model ConnectedCachePatchResource {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Existing api"
   @doc("Resource tags.")
   @visibility("read", "update")
   tags?: Record<string>;
@@ -161,7 +182,7 @@ model CustomerProperty {
 
   @doc("Mcc response error details.")
   @visibility("read")
-  error?: ErrorDetail;
+  error?: Azure.ResourceManager.Foundations.ErrorDetail;
 }
 
 @doc("Model representing Customer resource for ConnectedCache resource")
@@ -271,9 +292,11 @@ model AdditionalCustomerProperties {
   customerPropertiesOverviewCacheNodesUnhealthyCount?: int32;
 
   @doc("Customer resource signup status as boolean.")
+  @visibility("read")
   signupStatus?: boolean;
 
   @doc("Customer resource signup status as integer code.")
+  @visibility("read")
   signupStatusCode?: int32;
 
   @doc("Customer resource signup status as string text.")
@@ -366,7 +389,7 @@ model CacheNodeProperty {
   status?: string;
 
   @doc("Mcc response error details.")
-  error?: ErrorDetail;
+  error?: Azure.ResourceManager.Foundations.ErrorDetail;
 }
 
 @doc("Model representing Cache Node for ConnectedCache resource")
@@ -407,34 +430,46 @@ model CacheNodeEntity {
   maxAllowableProbability?: float32;
 
   @doc("Cache node resource Azure XCid.")
+  @visibility("read")
   xCid?: string;
 
   @doc("Cache node resource flag for determining if managed by enterprise as boolean.")
   isEnterpriseManaged?: boolean;
 
   @doc("Cache node resource create async operation Id.")
+  @visibility("read")
   createAsyncOperationId?: string;
 
   @doc("Cache node resource deletion async operation Id.")
+  @visibility("read")
   deleteAsyncOperationId?: string;
 
   @doc("Cache node resource customer resource client tenant Id of subscription.")
+  @visibility("read")
   clientTenantId?: string;
 
   @doc("Cache node resource category.")
+  @visibility("read")
   category?: string;
 
   @doc("Cache node resource release version.")
+  @visibility("read")
   releaseVersion?: int32;
 
   @doc("Cache node resource last sync timestamp.")
+  @visibility("read")
   lastSyncWithAzureTimestamp?: utcDateTime;
+
+  @doc("Cache node resource last backend updated timestamp.")
+  @visibility("read")
+  lastUpdatedTimestamp?: utcDateTime;
 
   @doc("Cache node resource attempts to sync with Azure.")
   @visibility("read")
   synchWithAzureAttemptsCount?: int32;
 
   @doc("Cache node resource container configuration details.")
+  @visibility("read")
   containerConfigurations?: string;
 
   @doc("Cache node resource comma separated values of Cidrs.")
@@ -515,6 +550,7 @@ model CacheNodeEntity {
   configurationStateText?: string;
 
   @doc("Cache node resource total addressable space defined by the Cidr Csv block.")
+  @visibility("read")
   addressSpace?: int32;
 
   @doc("Cache node resource Mcc container deployment worker connection count.")
@@ -533,6 +569,25 @@ model CacheNodeEntity {
   @visibility("read")
   imageUri?: string;
 
+  @doc("FQDN(fully qualified domain name) value of the mcc cache node")
+  fullyQualifiedDomainName?: string;
+
+  @doc("Auto Update Ring Type which is slow or fast etc.")
+  autoUpdateRingType?: autoUpdateRingType;
+
+  @doc("Customer requested week of month for mcc install of auto update cycle")
+  @minValue(1)
+  @maxValue(5)
+  autoUpdateRequestedWeek?: int32;
+
+  @doc("Customer requested day of week for mcc install of auto update cycle")
+  @minValue(1)
+  @maxValue(7)
+  autoUpdateRequestedDay?: int32;
+
+  @doc("Customer requested time of the day for mcc install of auto update cycle, should be hh:mm")
+  @pattern("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+  autoUpdateRequestedTime?: string;
 }
 
 @doc("Model representing cache node for connected cache resource")
@@ -572,6 +627,7 @@ model AdditionalCacheNodeProperties {
   @visibility("read")
   cacheNodeState?: int32;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers" ""
   @doc("Cache node resource drive configurations.")
   driveConfiguration?: CacheNodeDriveConfiguration[];
 
@@ -590,61 +646,45 @@ model AdditionalCacheNodeProperties {
   @doc("Operating system of the cache node")
   osType?: OsType;
 
-  @doc("Operating system of the cache node install")
-  installType?: OsType;
-
-  @doc("Auto Update Ring Type which is slow or fast etc.")
-  @visibility("read")
+  @doc("Update Cycle Type")
   updateCycleType?: CycleType;
 
+  @doc("Auto update or fast update version")
+  autoUpdateVersion?: string;
+
   @doc("Update related information details")
-  @visibility("read")
   updateInfoDetails?: string;
-  
-  @doc("Customer requested date time for mcc install of update cycle")
+
+  @doc("customer requested date time for mcc install of update cycle")
+  updateRequestedDateTime?: utcDateTime;
+
+  @doc("Auto update version that is the Next available version to update on mcc cache node")
   @visibility("read")
-  updateRequestedDateTime?: utcDateTime; 
+  autoUpdateNextAvailableVersion?: string;
 
-  @doc("Auto Update Ring Type which is slow or fast etc.")
-  autoUpdateRingType?: CycleType;
+  @doc("Auto update last applied date time of mcc install")
+  @visibility("read")
+  autoUpdateNextAvailableDateTime?: utcDateTime;
 
-  @doc("Auto update version that is pending to update on mcc cachenode")
-  autoUpdatePendingVersion?: string; 
+  @doc("Auto update version that is the applied to update on mcc cache node")
+  @visibility("read")
+  autoUpdateAppliedVersion?: string;
 
   @doc("Auto Update status details from the backend after applying the new version details")
   @visibility("read")
-  autoUpdateLastAppliedStatus?: string;
+  autoUpdateLastAppliedDetails?: string;
 
   @doc("Last applied auto update state for mcc install of auto update cycle")
   @visibility("read")
-  autoUpdateLastAppliedState?: string; 
+  autoUpdateLastAppliedState?: string;
 
   @doc("Auto update last applied date time of mcc install")
   @visibility("read")
   autoUpdateLastAppliedDateTime?: utcDateTime;
-  
+
   @doc("Auto update last triggered date time of mcc install")
   @visibility("read")
   autoUpdateLastTriggeredDateTime?: utcDateTime;
-
-  @doc("Customer requested date time for mcc install of auto update cycle")
-  autoUpdatePreferredDateTime?: utcDateTime;
-
-  @doc("Customer requested week of month for mcc install of auto update cycle")
-  @minValue(1)
-  @maxValue(5)
-  autoUpdateRequestedWeek? : int32;
-
-  @doc("Customer requested day of week for mcc install of auto update cycle")
-  @minValue(1)
-  @maxValue(7)
-  autoUpdateRequestedDay? : int32;
-
-  @doc("Customer requested Time of the day for mcc install of auto update cycle")
-  autoUpdateRequestedTime? : int32;
-
-  @doc("FQDN(fully qualified domain name) value of the mcc cachenode")
-  cacheNodeFqdn?: string;
 
   @doc("Optional property #1 of Mcc response object")
   optionalProperty1?: string;
@@ -691,10 +731,10 @@ model ProxyUrlConfiguration {
   proxyUrl?: string;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "optional properties"
 @doc("Represents all Cidr details of the Bgp request for a specific cache node resource")
-model MccCacheNodeBgpCidrDetails {
-  ...Azure.ResourceManager.Foundations.TrackedResourceBase;
-
+model MccCacheNodeBgpCidrDetails
+  extends Azure.ResourceManager.Foundations.TrackedResource {
   @doc("Mcc cache node resource Bgp Cidr properties.")
   properties?: BgpCidrsConfiguration;
 }
@@ -706,10 +746,10 @@ model BgpCidrsConfiguration {
   bgpCidrs?: string[];
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "optional properties"
 @doc("Mcc cache node resource all install details.")
-model MccCacheNodeInstallDetails {
-  ...Azure.ResourceManager.Foundations.TrackedResourceBase;
-
+model MccCacheNodeInstallDetails
+  extends Azure.ResourceManager.Foundations.TrackedResource {
   @doc("Mcc cache node resource install script details.")
   properties?: CacheNodeInstallProperties;
 }
