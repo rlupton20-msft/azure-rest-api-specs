@@ -1471,7 +1471,7 @@
         "ConfluentSource",
         "MySqlSource",
         "AzureServiceBusSource",
-        "HanaSource",
+        "SapHanaDataBaseSource",
         "AzureDataExplorerSource",
         "Mqtt5Source"
       ],
@@ -1535,14 +1535,14 @@
             "description": "servicebus source connector."
           },
           {
-            "name": "HanaSource",
-            "value": "HanaSource",
+            "name": "SapHanaDataBaseSource",
+            "value": "SapHanaDataBaseSource",
             "description": "hana database source connector."
           },
           {
             "name": "AzureDataExplorerSource",
             "value": "AzureDataExplorerSource",
-            "description": "hana database source connector."
+            "description": "Azure Data Explorer source connector."
           },
           {
             "name": "Mqtt5Source",
@@ -2026,109 +2026,6 @@
         }
       ],
       "x-ms-discriminator-value": "GooglePubSubSource"
-    },
-    "HanaDatabaseSourceConnectorProperties": {
-      "type": "object",
-      "description": "Configuration for HanaDatabaseSourceConnector",
-      "properties": {
-        "connectorDirection": {
-          "type": "string",
-          "description": "Direction of the Source Connector.",
-          "default": "Source",
-          "enum": [
-            "Unknown",
-            "Source",
-            "Sink"
-          ],
-          "x-ms-enum": {
-            "name": "Direction",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Unknown",
-                "value": "Unknown",
-                "description": "Unknown direction"
-              },
-              {
-                "name": "Source",
-                "value": "Source",
-                "description": "Source Connector"
-              },
-              {
-                "name": "Sink",
-                "value": "Sink",
-                "description": "Sink Connector"
-              }
-            ]
-          }
-        },
-        "connectionUrl": {
-          "type": "string",
-          "description": "Url of HANA database."
-        },
-        "userName": {
-          "type": "string",
-          "description": "User for HANA database."
-        },
-        "password": {
-          "type": "string",
-          "description": "Password for HANA database."
-        },
-        "queryMode": {
-          "$ref": "#/definitions/HanaQueryMode",
-          "description": "The query mode in which data should be fetched from SAP DB table."
-        },
-        "schema": {
-          "type": "string",
-          "description": "HANA schema to source data from, default as the HANA username.."
-        },
-        "table": {
-          "type": "string",
-          "description": "Table names for HANA database."
-        },
-        "query": {
-          "type": "string",
-          "description": "The query statement when queryMode is set to query."
-        },
-        "batch": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Max rows to include in a single batch call. Should be an integer."
-        },
-        "interval": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The poll interval at which the data should be fetched from SAP DB table."
-        },
-        "partitions": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of topic partitions that the Source connector can use to publish the data."
-        },
-        "numericMapping": {
-          "$ref": "#/definitions/HanaNumericMapping",
-          "description": "Whether the DECIMAL column types are mapped to the default decimal type or one of the primitive types."
-        },
-        "mode": {
-          "$ref": "#/definitions/HanaMode",
-          "description": "The mode in which data should be fetched from SAP DB table."
-        },
-        "incrementingColumn": {
-          "type": "string",
-          "description": "In order to fetch data from a SAP DB table when mode is set to incrementing, an incremental (or auto-incremental) column needs to be provided."
-        }
-      },
-      "required": [
-        "connectionUrl",
-        "userName",
-        "password"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/ConnectorProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "HanaSource"
     },
     "HanaMode": {
       "type": "string",
@@ -2718,6 +2615,109 @@
       "required": [
         "connectorProperties"
       ]
+    },
+    "SapHanaDatabaseSourceConnectorProperties": {
+      "type": "object",
+      "description": "Configuration for SapHanaDataBaseSourceConnector",
+      "properties": {
+        "connectorDirection": {
+          "type": "string",
+          "description": "Direction of the Source Connector.",
+          "default": "Source",
+          "enum": [
+            "Unknown",
+            "Source",
+            "Sink"
+          ],
+          "x-ms-enum": {
+            "name": "Direction",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown direction"
+              },
+              {
+                "name": "Source",
+                "value": "Source",
+                "description": "Source Connector"
+              },
+              {
+                "name": "Sink",
+                "value": "Sink",
+                "description": "Sink Connector"
+              }
+            ]
+          }
+        },
+        "connectionUrl": {
+          "type": "string",
+          "description": "Url of HANA database."
+        },
+        "userName": {
+          "type": "string",
+          "description": "User for HANA database."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for HANA database."
+        },
+        "queryMode": {
+          "$ref": "#/definitions/HanaQueryMode",
+          "description": "The query mode in which data should be fetched from SAP DB table."
+        },
+        "schema": {
+          "type": "string",
+          "description": "HANA schema to source data from, default as the HANA username.."
+        },
+        "table": {
+          "type": "string",
+          "description": "Table names for HANA database."
+        },
+        "query": {
+          "type": "string",
+          "description": "The query statement when queryMode is set to query."
+        },
+        "batch": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Max rows to include in a single batch call. Should be an integer."
+        },
+        "interval": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The poll interval at which the data should be fetched from SAP DB table."
+        },
+        "partitions": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of topic partitions that the Source connector can use to publish the data."
+        },
+        "numericMapping": {
+          "$ref": "#/definitions/HanaNumericMapping",
+          "description": "Whether the DECIMAL column types are mapped to the default decimal type or one of the primitive types."
+        },
+        "mode": {
+          "$ref": "#/definitions/HanaMode",
+          "description": "The mode in which data should be fetched from SAP DB table."
+        },
+        "incrementingColumn": {
+          "type": "string",
+          "description": "In order to fetch data from a SAP DB table when mode is set to incrementing, an incremental (or auto-incremental) column needs to be provided."
+        }
+      },
+      "required": [
+        "connectionUrl",
+        "userName",
+        "password"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectorProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "SapHanaDataBaseSource"
     },
     "SaslMechanismForConfluent": {
       "type": "string",
