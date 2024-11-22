@@ -25,9 +25,13 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the AOPC.
 
 ```yaml
-openapi-type: arm
-openapi-subtype: rpaas
+openapi-type: data-plane
 tag: package-2024-01-31-preview
+suppressions
+    - code: AvoidAnonymousTypes
+      from: ./Microsoft.Orbital/preview/2024-01-31-preview/aopc.json
+      where: $.definitions["ManagedServiceIdentityUpdate"].properties
+      reason: Issue with common-types
 ```
 
 ### Tag: package-2024-01-31-preview
@@ -37,4 +41,8 @@ These settings apply only when `--tag=package-2024-01-31-preview` is specified o
 ```yaml $(tag) == 'package-2024-01-31-preview'
 input-file:
   - Microsoft.Orbital/preview/2024-01-31-preview/aopc.json
+```
+
+```
+
 ```
