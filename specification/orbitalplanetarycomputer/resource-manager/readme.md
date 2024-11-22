@@ -43,7 +43,3 @@ These settings apply only when `--tag=package-2024-01-31-preview` is specified o
 input-file:
   - Microsoft.Orbital/preview/2024-01-31-preview/aopc.json
 ```
-
-```
-
-```
