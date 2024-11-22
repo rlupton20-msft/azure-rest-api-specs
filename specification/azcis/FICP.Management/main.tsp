@@ -6,7 +6,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace
 @service({
-    title: "Azure CIS FRP",
+  title: "Azure CIS FRP",
 })
 @doc("FICP Service")
 @versioned(Microsoft.AzureCis.Versions)
@@ -16,9 +16,9 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("Provisioning status of the resource.")
 union FicpProvisioningState {
-    string,
-    ResourceProvisioningState,
+  string,
+  ResourceProvisioningState,
 
-    @doc("Accepted State")
-    Accepted: "Accepted",
+  @doc("Accepted State")
+  Accepted: "Accepted",
 }

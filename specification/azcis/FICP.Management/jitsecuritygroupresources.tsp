@@ -16,55 +16,55 @@ namespace Microsoft.AzureCis;
 
 @doc("JIT security group resources properties")
 model JitSecurityGroupResourceProperties {
-    @doc("Instance identificator. Required.")
-    instanceId: string;
+  @doc("Instance identificator. Required.")
+  instanceId: string;
 
-    @doc("Cloud identifier for the JIT security group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
-    cloud: string;
+  @doc("Cloud identifier for the JIT security group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
+  cloud: string;
 
-    @doc("Elevated security group.")
-    elevatedSecurityGroup?: ResourceSecurityGroup;
+  @doc("Elevated security group.")
+  elevatedSecurityGroup?: ResourceSecurityGroup;
 
-    @doc("Corp security group.")
-    corpSecurityGroup?: ResourceSecurityGroup;
+  @doc("Corp security group.")
+  corpSecurityGroup?: ResourceSecurityGroup;
 
-    @doc("The Azure location.")
-    azureLocation?: azureLocation;
+  @doc("The Azure location.")
+  azureLocation?: azureLocation;
 
-    @doc("Provisioning status of the resource.")
-    @visibility("read")
-    provisioningState?: FicpProvisioningState;
+  @doc("Provisioning status of the resource.")
+  @visibility("read")
+  provisioningState?: FicpProvisioningState;
 }
 
 @doc("Resource security group type")
 model ResourceSecurityGroup {
-    @doc("Scenario.")
-    scenario: string;
+  @doc("Scenario.")
+  scenario: string;
 
-    @doc("Service name.")
-    serviceName: string;
+  @doc("Service name.")
+  serviceName: string;
 
-    @doc("Security group.")
-    securityGroup: string;
+  @doc("Security group.")
+  securityGroup: string;
 }
 
 @doc("jitSecurityGroup Resource")
 model JitSecurityGroupResource
-    is ProxyResource<JitSecurityGroupResourceProperties> { // this can be TrackedResource based on resourcetype
-    @doc("The name of resource.")
-    @pattern("^[a-zA-Z0-9-]{3,80}$")
-    @key("resourceName")
-    @segment("jitSecurityGroupResources") // Start with lower case. Should be plural
-    @visibility("read")
-    @path
-    name: string;
+  is ProxyResource<JitSecurityGroupResourceProperties> { // this can be TrackedResource based on resourcetype
+  @doc("The name of resource.")
+  @pattern("^[a-zA-Z0-9-]{3,80}$")
+  @key("resourceName")
+  @segment("jitSecurityGroupResources") // Start with lower case. Should be plural
+  @visibility("read")
+  @path
+  name: string;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface JitSecurityGroup {
-    createOrUpdate is ArmResourceCreateOrUpdateAsync<JitSecurityGroupResource>;
-    listBySubscription is ArmListBySubscription<JitSecurityGroupResource>;
-    listByResourceGroup is ArmResourceListByParent<JitSecurityGroupResource>;
-    get is ArmResourceRead<JitSecurityGroupResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<JitSecurityGroupResource>;
+  listBySubscription is ArmListBySubscription<JitSecurityGroupResource>;
+  listByResourceGroup is ArmResourceListByParent<JitSecurityGroupResource>;
+  get is ArmResourceRead<JitSecurityGroupResource>;
 }
