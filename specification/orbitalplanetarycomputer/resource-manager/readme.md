@@ -28,7 +28,7 @@ These are the global settings for the AOPC.
 openapi-type: arm
 openapi-subtype: rpaas
 tag: package-2024-01-31-preview
-suppressions
+suppressions:
     - code: AvoidAnonymousTypes
       from: aopc.json
       where: $.definitions["ManagedServiceIdentityUpdate"]
