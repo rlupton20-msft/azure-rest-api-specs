@@ -31,7 +31,7 @@ tag: package-2024-01-31-preview
 suppressions:
     - code: AvoidAnonymousTypes
       from: aopc.json
-      where: $.definitions["ManagedServiceIdentityUpdate"]
+      where: $.definitions.ManagedServiceIdentityUpdate
       reason: Issue with common-types
 ```
 
