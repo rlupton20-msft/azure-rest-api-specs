@@ -211,7 +211,7 @@ model EventHubConfig {
 
 @doc("Source data format Types")
 union SourceDataFormatTypes {
-  @doc("Disable this config")
+  @doc("Do not use SourceDataFormat feature.")
   None: "None",
 
   @doc("JSON format")
