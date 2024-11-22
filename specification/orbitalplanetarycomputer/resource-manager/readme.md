@@ -30,8 +30,10 @@ openapi-subtype: rpaas
 tag: package-2024-01-31-preview
 suppressions:
     - code: AvoidAnonymousTypes
-      where: $.definitions.ManagedServiceIdentityUpdate
-      reason: Issue with common-types
+      where: 
+        - $.definitions["ManagedServiceIdentityUpdate"]
+      reason: 
+        Issue with common-types
 ```
 
 ### Tag: package-2024-01-31-preview
