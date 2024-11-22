@@ -31,7 +31,7 @@ tag: package-2024-01-31-preview
 suppressions:
     - code: AvoidAnonymousTypes
       where: 
-        - $.definitions["ManagedServiceIdentityUpdate"]
+        - $.definitions["ManagedServiceIdentityUpdate"].properties["userAssignedIdentities"].additionalProperties
       reason: 
         Issue with common-types
 ```
