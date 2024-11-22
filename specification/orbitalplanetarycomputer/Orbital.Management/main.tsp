@@ -82,7 +82,7 @@ model GeoCatalogProperties {
   provisioningState?: ProvisioningState;
 }
 
-#suppress "@azure-tools/typespec-azure-resource-manager/avoid-anonymous-types" "common-type suppression"
+#suppress "AvoidAnonymousTypes" "suppressing common-type lintdiff validation error"
 model ManagedServiceIdentityUpdate
   is OptionalProperties<UpdateableProperties<Azure.ResourceManager.Foundations.ManagedServiceIdentity>>;
 
