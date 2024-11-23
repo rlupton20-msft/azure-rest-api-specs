@@ -806,22 +806,22 @@ model AzureDataExplorerSourceConnectorProperties extends ConnectorProperties {
   @doc("Direction of the Source Connector.")
   connectorDirection?: Direction = Direction.Source;
 
-  @doc("Url of Kusto cluster.")
+  @doc("Url of AzureDataExplorer cluster.")
   clusterUrl: string;
 
-  @doc("Database name for Kusto.")
+  @doc("Database name for AzureDataExplorer.")
   database: string;
 
-  @doc("Table names for Kusto.")
+  @doc("Table names for AzureDataExplorer.")
   tableNames: string;
 
-  @doc("Application client id for Kusto cluster.")
+  @doc("Application client id for AzureDataExplorer cluster.")
   applicationClientId: string;
 
-  @doc("Application key for Kusto cluster.")
+  @doc("Application key for AzureDataExplorer cluster.")
   applicationKey: string;
 
-  @doc("Authority id for Kusto cluster.")
+  @doc("Authority id for AzureDataExplorer cluster.")
   authorityId: string;
 }
 
