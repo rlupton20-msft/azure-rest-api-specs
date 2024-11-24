@@ -3,47 +3,10 @@ import "@typespec/http";
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Workloads;
-
-/**
- * Defines the priority of the system: 0 (highest) to 5 (lowest).
- */
-union SystemPriority {
-  integer,
-
-  /**
-   * Priority 0.
-   */
-  0,
-
-  /**
-   * Priority 1.
-   */
-  1,
-
-  /**
-   * Priority 2.
-   */
-  2,
-
-  /**
-   * Priority 3.
-   */
-  3,
-
-  /**
-   * Priority 4.
-   */
-  4,
-
-  /**
-   * Priority 5.
-   */
-  5,
-}
 
 /**
  * Defines the possible values for system lifecycle stage.
@@ -85,120 +48,61 @@ union EnvironmentType {
 }
 
 /**
- * Defines the workload component.
+ * Defines the resource group type.
  */
-model WorkloadComponent {
-  /**
-   * Name of the component.
-   */
-  name: string;
+union ResourceGroupType {
+  string,
 
   /**
-   * Role of the component.
+   * The managed resource group which the service will create and use to deploy any supporting resources. Service is responsible for managing its lifecycle.
    */
-  role: string;
+  ManagedResourceGroup: "ManagedResourceGroup",
 
   /**
-   * Resources that are part of the component.
+   * User provided resource group which will be created beforehand by the user. Service will only use this RG to deploy any supporting resources and won't manage the lifecycle of this.
    */
-  @OpenAPI.extension("x-ms-identifiers", [])
-  resources: ResourceConfiguration[];
-
-  /**
-   * Metadata pertaining to the component.
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the component, which itself would vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
-  metadata?: Record<string>;
+  UserResourceGroup: "UserResourceGroup",
 }
 
 /**
- * Defines the resource configuration.
+ * Defines the resource group configuration.
  */
-model ResourceConfiguration {
+@discriminator("type")
+model ResourceGroupConfiguration {
   /**
-   * ARM ID of the resource.
+   * Type of the resource group - User RG / Managed RG.
    */
-  resourceId: string;
+  type: ResourceGroupType;
 }
 
 /**
- * Defines the managed resource group configuration
+ * Defines the managed resource group configuration.
  */
-model ManagedResourceGroupConfiguration {
+model ManagedResourceGroupConfiguration extends ResourceGroupConfiguration {
+  /**
+   * The resource group type.
+   */
+  type: ResourceGroupType.ManagedResourceGroup;
+
   /**
    * Name of the managed resource group.
    */
-  name?: string;
+  managedResourceGroupName?: string;
 }
 
 /**
- * Defines the Virtual Instance resource properties.
+ * Defines the user provided resource group configuration.
  */
-model VirtualInstanceProperties {
+model UserResourceGroupConfiguration extends ResourceGroupConfiguration {
   /**
-   * The ID corresponding to the deployment architecture of the system.
+   * The resource group type.
    */
-  architectureId: string;
+  type: ResourceGroupType.UserResourceGroup;
 
   /**
-   * The type of environment in which the workload system is deployed - Production / Non Production.
+   * Name of the user provided resource group.
    */
-  environmentType: EnvironmentType;
-
-  /**
-   * The user defined label indicating the sub category of the environment in which the workload system is deployed.
-   */
-  environmentLabel?: string;
-
-  /**
-   * The priority of the workload system.
-   */
-  systemPriority: SystemPriority;
-
-  /**
-   * The current stage in the lifecycle of the workload system.
-   */
-  systemLifecycleStage: SystemLifecycleStage;
-
-  /**
-   * Components that are part of the workload system.
-   */
-  @OpenAPI.extension("x-ms-identifiers", [])
-  components: WorkloadComponent[];
-
-  /**
-   * Metadata pertaining to the workload system.
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
-  metadata?: Record<string>;
-
-  /**
-   * The list of ARM IDs of the virtual instances that the system is dependent on. The ARM IDs must belong to the resources of type 'Private.Workloads/virtualInstances'.
-   */
-  dependsOn?: string[];
-
-  /**
-   * Managed resource group configuration
-   */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
-
-  /**
-   * Defines the state of the virtual instance.
-   */
-  @visibility("read")
-  state?: VirtualInstanceState;
-
-  /**
-   * Defines the virtual instance provisioning states.
-   */
-  @visibility("read")
-  provisioningState?: VirtualInstanceProvisioningState;
-
-  /**
-   * Indicates any errors on the Virtual Instance resource.
-   */
-  @visibility("read")
-  errors?: VirtualInstanceError;
+  resourceGroupName: string;
 }
 
 /**
@@ -210,12 +114,12 @@ union VirtualInstanceState {
   /**
    * Registration is in progress.
    */
-  DiscoveryInProgress: "DiscoveryInProgress",
+  RegistrationInProgress: "RegistrationInProgress",
 
   /**
    * Registration has failed.
    */
-  DiscoveryFailed: "DiscoveryFailed",
+  RegistrationFailed: "RegistrationFailed",
 
   /**
    * Registration is complete.
@@ -224,9 +128,9 @@ union VirtualInstanceState {
 }
 
 /**
- * Defines the Virtual Instance provisioning states.
+ * Defines the resource provisioning states.
  */
-union VirtualInstanceProvisioningState {
+union ResourceProvisioningState {
   string,
 
   /**
@@ -294,8 +198,81 @@ model ErrorDefinition {
   details?: ErrorDefinition[];
 }
 
+scalar WorkloadResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Workloads/virtualInstances",
+    }
+  ]>;
+
 /**
- * Defines the request body for updating the Virtual Instance.
+ * Defines the Virtual Instance resource properties.
+ */
+model VirtualInstanceProperties {
+  /**
+   * The ID corresponding to the deployment architecture of the system.
+   */
+  architectureId: string;
+
+  /**
+   * The type of environment in which the workload system is deployed - Production / Non Production.
+   */
+  environmentType: EnvironmentType;
+
+  /**
+   * The user defined label indicating the sub category of the environment in which the workload system is deployed.
+   */
+  environmentLabel?: string;
+
+  /**
+   * The priority of the workload system. The value must be an integer between 0 (highest priority) and 9 (lowest priority).
+   */
+  @minValue(0)
+  @maxValue(9)
+  systemPriority: int32;
+
+  /**
+   * The current stage in the lifecycle of the workload system.
+   */
+  systemLifecycleStage: SystemLifecycleStage;
+
+  /**
+   * Metadata pertaining to the workload system.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
+  metadata?: Record<string>;
+
+  /**
+   * The list of ARM IDs of the virtual instances that the system is dependent on. The ARM IDs must belong to the resources of type 'Private.Workloads/virtualInstances'.
+   */
+  dependsOn?: WorkloadResourceId[];
+
+  /**
+   * The configuration object for resource group (Managed or User provided) where supporting resources will be deployed. If this field is passed as null, this will be defaulted to UserResourceGroupConfiguration and resource group name will be same as that of the RG in which the Virtual Instance resource will be created.
+   */
+  resourceGroupConfiguration?: ResourceGroupConfiguration;
+
+  /**
+   * Defines the state of the virtual instance.
+   */
+  @visibility("read")
+  state?: VirtualInstanceState;
+
+  /**
+   * Defines the virtual instance provisioning state.
+   */
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
+  /**
+   * Indicates any errors on the Virtual Instance resource.
+   */
+  @visibility("read")
+  errors?: VirtualInstanceError;
+}
+
+/**
+ * Defines the request body for updating the Virtual Instance resource.
  */
 model UpdateVirtualInstanceRequest {
   /**
@@ -310,25 +287,120 @@ model UpdateVirtualInstanceRequest {
   identity?: CommonTypes.ManagedServiceIdentity;
 
   /**
-   * The update properties.
+   * The properties to be updated.
    */
   properties?: UpdateVirtualInstanceProperties;
 }
 
 /**
- * Defines the update request body properties for updating the Virtual Instance.
+ * Defines the update request body properties for updating the Virtual Instance resource.
  */
-#suppress "@azure-tools/typespec-azure-core/casing-style" "SAP is used for representing the company product."
 model UpdateVirtualInstanceProperties {
   /**
-   * Components that are part of the workload system.
+   * The user defined label indicating the sub category of the environment in which the workload system is deployed.
    */
-  @OpenAPI.extension("x-ms-identifiers", [])
-  components?: WorkloadComponent[];
+  environmentLabel?: string;
+
+  /**
+   * The priority of the workload system. The value must be an integer between 0 (highest priority) and 9 (lowest priority).
+   */
+  systemPriority?: int32;
+
+  /**
+   * The current stage in the lifecycle of the workload system.
+   */
+  systemLifecycleStage?: SystemLifecycleStage;
 
   /**
    * Metadata pertaining to the workload system.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
+  metadata?: Record<string>;
+}
+
+/**
+ * Defines the workload component properties.
+ */
+model WorkloadComponentProperties {
+  /**
+   * Type of the component. Allowed values change based on the workload type and will be defined in the workload definition. Examples include "application", "database", "central" etc.
+   */
+  componentType: string;
+
+  /**
+   * Role of the component. There can be multiple roles for a same component type. Allowed values change based on the workload type and will be defined in the workload definition. Examples include "pas"/"aas" for application component, "ascs"/"ers" for central component, "backup", etc.
+   */
+  componentRole?: string;
+
+  /**
+   * Resources that are part of the component.
+   */
+  @OpenAPI.extension("x-ms-identifiers", [])
+  resources: ResourceConfiguration[];
+
+  /**
+   * Metadata pertaining to the component.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the component, which itself would vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
+  metadata?: Record<string>;
+
+  /**
+   * Defines the workload component provisioning state.
+   */
+  @visibility("read")
+  provisioningState?: ResourceProvisioningState;
+
+  /**
+   * Indicates any errors on the workload component resource.
+   */
+  @visibility("read")
+  errors?: VirtualInstanceError;
+}
+
+/**
+ * Defines the resource configuration.
+ */
+model ResourceConfiguration {
+  /**
+   * ARM ID of the resource.
+   */
+  resourceId: armResourceIdentifier;
+}
+
+/**
+ * Defines the request body for updating the workload component resource.
+ */
+model UpdateWorkloadComponentRequest {
+  /**
+   * Gets or sets the Resource tags.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Existing field"
+  tags?: Record<string>;
+
+  /**
+   * Managed service identity (user assigned identities)
+   */
+  identity?: CommonTypes.ManagedServiceIdentity;
+
+  /**
+   * The properties to be updated.
+   */
+  properties?: UpdateWorkloadComponentProperties;
+}
+
+/**
+ * Defines the update request body properties for updating the workload component resource.
+ */
+model UpdateWorkloadComponentProperties {
+  /**
+   * Resources that are part of the component.
+   */
+  @OpenAPI.extension("x-ms-identifiers", [])
+  resources?: ResourceConfiguration[];
+
+  /**
+   * Metadata pertaining to the component.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Keys of this field are dynamic and vary based on the component, which itself would vary based on the type of the workload (kind of the virtual instance). We cannot use tags here as this field is supposed to be understood by the service and is not for customer usage. Values will always be strings."
   metadata?: Record<string>;
 }
