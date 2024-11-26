@@ -1,20 +1,42 @@
 import "@typespec/rest";
+
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/versioning";
+
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+
 @armProviderNamespace
 @service({
-  title: "Microsoft.Impact",
+  title: "Private.Impact",
 })
 @versioned(Versions)
-namespace Microsoft.Impact;
+@armCommonTypesVersion(CommonTypes.Versions.v3)
+namespace Private.Impact;
+
 @doc("API Versions")
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @doc("May 01, 2024 Preview API Version")
   v2024_05_01_preview: "2024-05-01-preview",
+}
+
+/** Define the model for the Upload Token response. Should be akin to https://<storage-account-name>.blob.core.windows.net/<container-name>/<ENTER YOUR BLOB NAME HERE>?<SAS-token> */
+model UploadTokenResponse {
+  @doc("The SAS token URL for uploading")
+  uploadUrl: string;
+}
+
+@armResourceOperations
+interface UploadService {
+  /** Customer can use this POST endpoint to trigger an action, where the UserRP/AzImpactRP service creates and returns a user-delegate SAS token for the storage account/container unique to the customer (identified by subscription ID). */
+  getUploadToken is ArmProviderActionSync<
+    void,
+    ArmResponse<UploadTokenResponse>,
+    SubscriptionActionScope
+  >;
 }

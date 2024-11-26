@@ -3,7 +3,7 @@ import "@typespec/rest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-namespace Microsoft.Impact;
+namespace Private.Impact;
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -43,17 +43,17 @@ model InsightProperties is ResourceProperties {
   @doc("status of the insight. example resolved, repaired, other.")
   status?: string;
 
-  @doc("Contains title & content for the insight")
-  article: Article;
+  @doc("Identifier of the event that has been correlated with this insight. This can be used to aggregate insights for the same event.")
+  eventId?: string;
 
-  @doc("level of the insight. Informational, Warning, Error, Critical.")
-  level: InsightLevel;
+  @doc("Identifier that can be used to group similar insights.")
+  groupId?: string;
 
-  @doc("priority of the insight relative to other insights.")
-  priority: int64;
+  @doc("Contains title & description for the insight")
+  content: Content;
 
-  @doc("attribution time of the insight.")
-  attributionTime: utcDateTime;
+  @doc("Time of the event, which has been correlated the impact.")
+  eventTime?: utcDateTime;
 
   @doc("unique id of the insight.")
   insightUniqueId: string;
@@ -61,6 +61,7 @@ model InsightProperties is ResourceProperties {
   @doc("details of of the impact for which insight has been generated.")
   impact: ImpactDetails;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
   @doc("additional details of the insight.")
   additionalDetails?: {};
 }
@@ -78,18 +79,15 @@ model ImpactDetails {
 
   @doc("Azure Id of the impact.")
   impactId: string;
-
-  @doc("unique (guid) id of the impact generated during impact creation.")
-  impactUniqueId: string;
 }
 
-@doc("Article details of the insight like title, content etc")
-model Article {
-  @doc("Title of the insight article")
+@doc("Article details of the insight like title, description etc")
+model Content {
+  @doc("Title of the insight")
   title: string;
 
-  @doc("Content of the insight article")
-  content: string;
+  @doc("Description of the insight")
+  description: string;
 }
 
 @doc("impacted azure resource id.")
@@ -126,23 +124,6 @@ model InsightDetails {
   azureResourceId?: string;
 }
 
-@doc("values for insight level")
-union InsightLevel {
-  string,
-
-  @doc("Informational insight")
-  Informational: "Informational",
-
-  @doc("Warning insight")
-  Warning: "Warning",
-
-  @doc("Error insight")
-  Error: "Error",
-
-  @doc("Critical insight")
-  Critical: "Critical",
-}
-
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-uses-templates" "Using subscription scope building blocks"
 @armResourceOperations
 interface Insights {
@@ -152,9 +133,9 @@ interface Insights {
   @doc("List Insight resources by workloadImpactName")
   listBySubscription is ArmListBySubscription<Insight>;
 
-  @doc("Create Insight resource")
+  @doc("Create Insight resource, This is Admin only operation")
   create is ArmResourceCreateOrReplaceSync<Insight>;
 
-  @doc("Delete Insight resource")
+  @doc("Delete Insight resource, This is Admin only operation")
   delete is ArmResourceDeleteSync<Insight>;
 }

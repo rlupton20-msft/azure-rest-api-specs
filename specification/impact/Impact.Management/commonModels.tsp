@@ -4,7 +4,7 @@ import "@typespec/rest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-namespace Microsoft.Impact;
+namespace Private.Impact;
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
