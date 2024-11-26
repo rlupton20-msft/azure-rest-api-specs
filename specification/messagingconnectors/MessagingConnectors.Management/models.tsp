@@ -124,9 +124,9 @@ union ConnectorType {
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
   AzureDataExplorerSource: "AzureDataExplorerSource",
 
-  @doc("mqtt V5 source connector.")
+  @doc("mqtt source connector.")
   @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-  Mqtt5Source: "Mqtt5Source",
+  MqttSource: "MqttSource",
 
   string,
 }
@@ -725,6 +725,7 @@ model HanaDatabaseSourceConnectorProperties extends ConnectorProperties {
   userName: string;
 
   @doc("Password for HANA database.")
+  @secret
   password: string;
 
   @doc("The query mode in which data should be fetched from SAP DB table.")
@@ -733,7 +734,7 @@ model HanaDatabaseSourceConnectorProperties extends ConnectorProperties {
   @doc("HANA schema to source data from, default as the HANA username..")
   schema?: string;
 
-  @doc("Table names for HANA database.")
+  @doc("Table name for HANA database.")
   table?: string;
 
   @doc("The query statement when queryMode is set to query.")
@@ -812,27 +813,31 @@ model AzureDataExplorerSourceConnectorProperties extends ConnectorProperties {
   @doc("Database name for AzureDataExplorer.")
   database: string;
 
-  @doc("Table names for AzureDataExplorer.")
+  @doc("AzureDataExplorer table names use commas to separate multiple tables.")
   tableNames: string;
 
-  @doc("Application client id for AzureDataExplorer cluster.")
+  @doc("The uniquely identifies your application in the Microsoft identity platform.")
   applicationClientId: string;
 
-  @doc("Application key for AzureDataExplorer cluster.")
-  applicationKey: string;
+  @doc("A secret string that the application uses to prove its identity when requesting a token.")
+  @secret
+  applicationSecret: string;
 
-  @doc("Authority id for AzureDataExplorer cluster.")
-  authorityId: string;
+  @doc("AAD tenant Id GUID or microsoft.com")
+  aadaadAuthorityId: string;
 }
 
-@doc("Configuration for Mqtt5SourceConnector")
+@doc("Configuration for MqttSourceConnector")
 @added(Private.MessagingConnectors.Versions.v2024_11_01_preview)
-model Mqtt5SourceConnectorProperties extends ConnectorProperties {
-  @doc("Type of Mqtt5SourceConnector")
-  connectorType: ConnectorType.Mqtt5Source;
+model MqttSourceConnectorProperties extends ConnectorProperties {
+  @doc("Type of MqttSourceConnector")
+  connectorType: ConnectorType.MqttSource;
 
   @doc("Direction of the Source Connector.")
   connectorDirection?: Direction = Direction.Source;
+
+  @doc("Mqtt server version.")
+  serverVersion: MqttVersion;
 
   @doc("Topic to subscribe to.")
   topic: string;
@@ -844,7 +849,19 @@ model Mqtt5SourceConnectorProperties extends ConnectorProperties {
   username?: string;
 
   @doc("Password to use when connecting to the MQTT v5 compliant broker.")
+  @secret
   password?: string;
+}
+
+@doc("Version for Mqtt server")
+union MqttVersion {
+  @doc("Mqtt v5")
+  V5: "V5",
+
+  @doc("Mqtt v3 and below")
+  V3AndBelow: "V3AndBelow",
+
+  string,
 }
 
 @doc("Type of DataRange")
