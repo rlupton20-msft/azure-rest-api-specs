@@ -19,13 +19,13 @@ interface ProviderLevelActions {
   @route("/providers/Microsoft.SaaSHub")
   @post
   @armResourceAction(SaasResource)
-  canCreate(
+  tenantLevelCanCreate(
     ...ApiVersionParameter,
 
     /**
      * Request parameters that are provided to the create SaaSHub resource operation.
      */
     @bodyRoot
-    parameters: CanCreateRequest,
+    body: CanCreateRequest,
   ): ArmResponse<CanCreateResult> | ErrorResponse;
 }
