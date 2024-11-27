@@ -824,7 +824,7 @@ model AzureDataExplorerSourceConnectorProperties extends ConnectorProperties {
   applicationSecret: string;
 
   @doc("AAD tenant Id GUID or microsoft.com")
-  aadaadAuthorityId: string;
+  aadAuthorityId: string;
 }
 
 @doc("Configuration for MqttSourceConnector")
