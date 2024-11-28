@@ -60,12 +60,15 @@ interface SolutionBindingConfigurations {
 @doc("Solution Binding Configuration Properties")
 model DeploymentTargetSolutionBindingConfigurationProperties {
   @doc("Value of Solution Binding Configuration")
+  @visibility("read")
   value: string;
 
   @doc("ARM ID of Solution Version Solution Binding Configuration Resolution")
+  @visibility("read")
   solutionVersionId: string;
 
   @doc("Revision of Solution Binding Configuration")
+  @visibility("read")
   revision: string;
 
   @doc("Provisioning state of resource")

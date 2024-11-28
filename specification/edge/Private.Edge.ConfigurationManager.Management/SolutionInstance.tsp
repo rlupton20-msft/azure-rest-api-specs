@@ -77,11 +77,30 @@ interface SolutionInstances {
   listBySolutionBinding is ArmResourceListByParent<SolutionInstance>;
 }
 
+@doc("Solution Instance Properties")
+model DeploymentTargetSolutionInstanceProperties {
+  @doc("Solution version of solution instance")
+  @visibility("read")
+  solutionVersionId: string;
+
+  @doc("Configuration version of solution instance")
+  @visibility("read")
+  solutionBindingConfigurationId: string;
+
+  @doc("State of solution instance")
+  @visibility("read")
+  state?: State;
+
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
 @doc("Deployment Target Solution Instance Resource")
 @parentResource(DeploymentTargetSolutionBinding)
 @resource("solutionInstances")
 model DeploymentTargetSolutionInstance
-  is ProxyResource<SolutionInstanceProperties> {
+  is ProxyResource<DeploymentTargetSolutionInstanceProperties> {
   ...ResourceNameParameter<DeploymentTargetSolutionInstance>;
 }
 
@@ -96,7 +115,7 @@ interface DeploymentTargetSolutionInstances {
   @doc("update a Solution Instance Resource")
   update is ArmResourcePatchSync<
     DeploymentTargetSolutionInstance,
-    SolutionInstanceProperties
+    DeploymentTargetSolutionInstanceProperties
   >;
 
   @doc("Delete a Solution Instance Resource")
