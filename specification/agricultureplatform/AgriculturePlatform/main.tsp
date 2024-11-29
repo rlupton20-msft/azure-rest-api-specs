@@ -12,8 +12,9 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Microsoft.AgriculturePlatform")
 @service({
-  title: "Microsoft.AgriculturePlatform",
+  title: "Microsoft.AgriculturePlatform"
 })
+
 @versioned(Microsoft.AgriculturePlatform.Versions)
 namespace Microsoft.AgriculturePlatform;
 
@@ -24,6 +25,7 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_06_01_preview: "2024-06-01-preview",
 }
+
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
@@ -47,27 +49,20 @@ model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
 @Azure.Core.lroStatus
 union ProvisioningState {
   string,
-
   /** Resource has been created. */
-  Succeeded: "Succeeded",
-
+  Succeeded:"Succeeded",
   /** Resource creation failed. */
-  Failed: "Failed",
-
+  Failed:"Failed",
   /** Resource creation was canceled. */
-  Canceled: "Canceled",
-
+  Canceled:"Canceled",
   /** The resource is being provisioned */
-  Provisioning: "Provisioning",
-
+  Provisioning:"Provisioning",
   /** The resource is updating */
-  Updating: "Updating",
-
+  Updating:"Updating",
   /** The resource is being deleted */
-  Deleting: "Deleting",
-
+  Deleting:"Deleting",
   /** The resource create request has been accepted */
-  Accepted: "Accepted",
+  Accepted:"Accepted"
 }
 
 @doc("Details of the Agriculture AgriDataManager.")
@@ -160,13 +155,13 @@ model DataConnectorCredentials {
   keyVersion?: string;
 }
 
-@doc("Enum for different kind of Data connector auth credentials supported.")
-enum AuthCredentialsKind {
-  @doc("OAuthClientCredentials kind.")
-  OAuthClientCredentials,
-
-  @doc("ApiKeyAuthCredentials kind.")
-  ApiKeyAuthCredentials,
+@doc("Types of different kind of Data connector auth credentials supported.")
+union AuthCredentialsKind {
+  string,
+  /** OAuth Client Credential type */
+  OAuthClientCredentials:"OAuthClientCredentials",
+  /** API Key Auth Credential type */
+  ApiKeyAuthCredentials:"ApiKeyAuthCredentials",
 }
 
 @doc("AgriService solution model.")
@@ -204,9 +199,9 @@ model Solution {
 
 @doc("Configuration of the managed on behalf of resource.")
 model ManagedOnBehalfOfConfiguration {
-  @visibility("read")
-  @doc("Associated MoboBrokerResources.")
-  moboBrokerResources: MoboBrokerResource[];
+    @visibility("read")
+    @doc("Associated MoboBrokerResources.")
+    moboBrokerResources: MoboBrokerResource[];
 }
 
 @doc("MoboBroker resource.")
@@ -216,25 +211,16 @@ model MoboBrokerResource {
 }
 
 @armResourceOperations(AgriServiceResource)
-interface AgriService {
+interface AgriService  {
   get is ArmResourceRead<AgriServiceResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<AgriServiceResource>;
-  update is ArmCustomPatchAsync<
-    AgriServiceResource,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      AgriServiceResource,
-      AgriServiceResourceProperties
-    >
-  >;
+  update is ArmCustomPatchAsync<AgriServiceResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<AgriServiceResource, AgriServiceResourceProperties>>;
   delete is ArmResourceDeleteWithoutOkAsync<AgriServiceResource>;
   listByResourceGroup is ArmResourceListByParent<AgriServiceResource>;
   listBySubscription is ArmListBySubscription<AgriServiceResource>;
 
   @doc("Returns the list of available agri solutions.")
-  listAvailableSolutions is ArmResourceListActionSync<
-    AgriServiceResource,
-    AvailableAgriSolutionListResult
-  >;
+  listAvailableSolutions is ArmResourceListActionSync<AgriServiceResource, AvailableAgriSolutionListResult>;
 }
 
 // note this is a template for an empty body resource action, which will be added to the library at some point
