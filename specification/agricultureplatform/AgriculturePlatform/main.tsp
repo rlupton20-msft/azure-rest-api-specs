@@ -27,6 +27,8 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("Schema of the AgriService resource from Microsoft.AgriculturePlatform resource provider.")
 model AgriServiceResource is TrackedResource<AgriServiceResourceProperties> {
   @doc("The name of the AgriService resource.")
@@ -74,13 +76,21 @@ model AgriServiceResourceProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("Config of the AgriService resource instance.")
-  @visibility("read")
+  @doc("Config of the AgriService instance.")
+  @visibility("read", "create", "update")
   config?: AgriServiceConfig;
 
   @visibility("read")
   @doc("Managed On Behalf Of Configuration.")
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+
+  @doc("Data connector credentials of AgriService instance.")
+  @visibility("read", "create", "update")
+  dataConnectorCredentials?: Record<DataConnectorCredentials>;
+
+  @doc("AgriService installed solutions.")
+  @visibility("read", "create", "update")
+  solutions?: Record<Solution>;
 }
 
 @doc("Config of the AgriService resource instance.")
@@ -96,6 +106,100 @@ model AgriServiceConfig {
   @minLength(2)
   @maxLength(256)
   version?: string;
+
+  @doc("App service resource Id.")
+  @visibility("read")
+  @minLength(2)
+  appServiceResourceId?: string;
+
+  @doc("Cosmos Db resource Id.")
+  @visibility("read")
+  @minLength(2)
+  cosmosDbResourceId?: string;
+
+  @doc("Storage account resource Id.")
+  @visibility("read")
+  @minLength(2)
+  storageAccountResourceId?: string;
+
+  @doc("Key vault resource Id.")
+  @visibility("read")
+  @minLength(2)
+  keyVaultResourceId?: string;
+
+  @doc("Redis cache resource Id.")
+  @visibility("read")
+  @minLength(2)
+  redisCacheResourceId?: string;
+}
+
+@doc("The properties related to an AgriService data connector.")
+model DataConnectorCredentials {
+  @doc("Type of credential.")
+  @visibility("read", "create", "update")
+  kind?: AuthCredentialsKind;
+
+  @doc("Client Id associated with the provider, if type of credentials is OAuthClientCredentials.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  clientId?: string;
+
+  @doc("Uri of the key vault")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  keyVaultUri?: string;
+
+  @doc("Name of the key vault key.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  keyName?: string;
+
+  @doc("Version of the key vault key.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  keyVersion?: string;
+}
+
+@doc("Enum for different kind of Data connector auth credentials supported.")
+enum AuthCredentialsKind {
+  @doc("OAuthClientCredentials kind.")
+  OAuthClientCredentials,
+
+  @doc("ApiKeyAuthCredentials kind.")
+  ApiKeyAuthCredentials,
+}
+
+@doc("AgriService solution model.")
+model Solution {
+  @doc("Application name of the solution.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  applicationName?: string;
+
+  @doc("Partner Id.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  partnerId?: string;
+
+  @doc("Marketplace publisher Id.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  marketPlacePublisherId?: string;
+
+  @doc("Saas subscription Id.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  saasSubscriptionId?: string;
+
+  @doc("Saas subscription name.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  saasSubscriptionName?: string;
+
+  @doc("Plan Id.")
+  @visibility("read", "create", "update")
+  @minLength(2)
+  planId?: string;
 }
 
 @doc("Configuration of the managed on behalf of resource.")
@@ -108,7 +212,6 @@ model ManagedOnBehalfOfConfiguration {
 @doc("MoboBroker resource.")
 model MoboBrokerResource {
   @visibility("read")
-  @doc("Resource Id of MoboBrokerResource")
   id: string;
 }
 
@@ -116,11 +219,82 @@ model MoboBrokerResource {
 interface AgriService {
   get is ArmResourceRead<AgriServiceResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<AgriServiceResource>;
-  update is ArmResourcePatchAsync<
+  update is ArmCustomPatchAsync<
     AgriServiceResource,
-    AgriServiceResourceProperties
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      AgriServiceResource,
+      AgriServiceResourceProperties
+    >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<AgriServiceResource>;
   listByResourceGroup is ArmResourceListByParent<AgriServiceResource>;
   listBySubscription is ArmListBySubscription<AgriServiceResource>;
+
+  @doc("Returns the list of available agri solutions.")
+  listAvailableSolutions is ArmResourceListActionSync<
+    AgriServiceResource,
+    AvailableAgriSolutionListResult
+  >;
+}
+
+// note this is a template for an empty body resource action, which will be added to the library at some point
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "This is a template"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "This is a template"
+@armResourceAction(TResource)
+@post
+op ArmResourceListActionSync<
+  TResource extends Azure.ResourceManager.Foundations.Resource,
+  TResponse extends {},
+  TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
+>(
+  ...ResourceInstanceParameters<TResource, TBaseParameters>,
+): ArmResponse<TResponse> | ErrorResponse;
+
+@doc("The list of available agri solutions.")
+model AvailableAgriSolutionListResult {
+  @doc("Agri solutions list.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  solutions: AgriSolution[];
+}
+
+@doc("Available agri solution.")
+model AgriSolution {
+  @doc("Partner Id.")
+  partnerId: string;
+
+  @doc("Solution Id.")
+  solutionId: string;
+
+  @doc("Partner tenant Id.")
+  partnerTenantId: string;
+
+  @doc("Data access scopes.")
+  dataAccessScopes: string[];
+
+  @doc("Marketplace offer details.")
+  marketPlaceOfferDetails: MarketPlaceOfferDetails;
+
+  @doc("Open Api specs dictionary.")
+  openApiSpecsDictionary: Record<object>;
+
+  @doc("Saas application Id.")
+  saasApplicationId: string;
+
+  @doc("Entra application Id used to access azure data manager for agriculture instance.")
+  accessAzureDataManagerForAgricultureApplicationId: string;
+
+  @doc("Entra application name used to access azure data manager for agriculture instance.")
+  accessAzureDataManagerForAgricultureApplicationName: string;
+
+  @doc("Whether solution inference will validate input.")
+  isValidateInput: boolean;
+}
+
+@doc("Marketplace offer details of agri solution.")
+model MarketPlaceOfferDetails {
+  @doc("Saas offer Id.")
+  saasOfferId: string;
+
+  @doc("Publisher Id.")
+  publisherId: string;
 }
