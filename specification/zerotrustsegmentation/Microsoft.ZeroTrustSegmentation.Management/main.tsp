@@ -31,7 +31,7 @@ model SegmentationManager is TrackedResource<SegmentationManagerProperties> {
   @key("segmentationManagerName")
   @pattern("^[a-zA-Z0-9-]{3,250}$")
   @path
-  @segment("SegmentationManagers")
+  @segment("segmentationManagers")
   name: string;
 }
 
@@ -94,6 +94,7 @@ model SetLabelRecord {
   @doc("Role label")
   roleLabel?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
   @doc("Additional labels as key-value pairs")
   additionalLabels?: Record<string>;
 }
@@ -104,6 +105,7 @@ model SetLabelsRequest {
   tenantid: string;
 
   @doc("List of labels that need to be updated")
+  @OpenAPI.extension("x-ms-identifiers", [])
   labels: SetLabelRecord[];
 }
 
@@ -128,6 +130,7 @@ model Graph {
   vertices: Vertex[];
 
   @doc("List of edges connecting the vertices in the graph")
+  @OpenAPI.extension("x-ms-identifiers", [])
   edges: Edge[];
 }
 
@@ -151,6 +154,7 @@ model Vertex {
   @doc("Name of the vertex")
   name?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
   @doc("Labels associated with the vertex as key-value pairs")
   labels: Record<string>;
 }
