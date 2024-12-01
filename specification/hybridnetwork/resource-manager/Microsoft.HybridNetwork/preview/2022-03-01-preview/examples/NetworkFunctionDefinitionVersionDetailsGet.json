@@ -1,0 +1,40 @@
+{
+  "parameters": {
+    "api-version": "2022-03-01",
+    "subscriptionId": "subid",
+    "publisherName": "testPublisher",
+    "networkFunctionDefinitionGroupName": "TestNetworkFunctionDefinitionGroupName",
+    "networkFunctionDefinitionVersionName": "TestNetworkFunctionDefinitionVersionName"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "networkFunctionType": "ContainerizedNetworkFunction",
+        "nfviType": "AzureArcKubernetes",
+        "deployParameters": {
+          "releaseName": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        },
+        "networkFunctionApplications": [
+          {
+            "name": "TestApp",
+            "artifactType": "HelmPackage",
+            "deployParametersMappingRuleProfile": {
+              "helmMappingRuleProfile": {
+                "releaseNamespace": "[deployParameters.namesapce]",
+                "releaseName": "[deployParameters.releaseName]",
+                "enablement": "Enabled",
+                "helmPackageVersion": "2.1.3",
+                "values": {}
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

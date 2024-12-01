@@ -25,21 +25,35 @@ These are the global settings for the networkanalytics.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-11-15
+tag: package-2023-04-30
 ```
 
-``` yaml
-modelerfour:
-  flatten-models: false
-```
 
-### Tag: package-2023-11-15
+### Tag: package-2022-11-15-preview
 
-These settings apply only when `--tag=package-2023-11-15` is specified on the command line.
+These settings apply only when `--tag=package-2022-11-15-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-11-15'
+```yaml $(tag) == 'package-2022-11-15-preview'
 input-file:
-  - Microsoft.NetworkAnalytics/stable/2023-11-15/networkanalytics.json
+  - Microsoft.NetworkAnalytics/preview/2022-11-15-preview/networkanalytics.json
+```
+
+### Tag: package-2023-03-31
+
+These settings apply only when `--tag=package-2023-03-31` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-03-31'
+input-file:
+  - Microsoft.NetworkAnalytics/stable/2023-03-31/networkanalytics.json
+```
+
+### Tag: package-2023-04-30
+
+These settings apply only when `--tag=package-2023-04-30` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-04-30'
+input-file:
+  - Microsoft.NetworkAnalytics/stable/2023-04-30/networkanalytics.json
 ```
 
 # Code Generation
@@ -51,7 +65,7 @@ This is not used by Autorest itself.
 
 ``` yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-python
+  - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js

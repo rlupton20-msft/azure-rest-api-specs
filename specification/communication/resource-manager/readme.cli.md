@@ -1,9 +1,9 @@
-<!-- region Generated -->
-# Az.Communication
-This directory contains the Cli common model for the Spool Communication service.
+## CLI
 
-> Metadata
-``` yaml
-# Migrated from Powershell's readme
+These settings apply only when `--cli` is specified on the command line.
 
+``` yaml $(cli)
+#cli:
+#  test-scenario:
+#    - name: Example_CreateOrUpdate
 ```

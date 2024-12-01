@@ -72,7 +72,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/BgpPeerListResult"
             }
@@ -119,7 +119,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/BgpPeer"
             }
@@ -231,19 +231,19 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -280,7 +280,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LoadBalancerListResult"
             }
@@ -327,7 +327,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/LoadBalancer"
             }
@@ -439,19 +439,19 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -488,7 +488,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ServiceResourceListResult"
             }
@@ -535,7 +535,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ServiceResource"
             }
@@ -637,7 +637,7 @@
             "description": "Resource deleted successfully."
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -670,7 +670,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/StorageClassResourceListResult"
             }
@@ -717,7 +717,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/StorageClassResource"
             }
@@ -836,7 +836,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/StorageClassResource"
             }
@@ -844,14 +844,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -898,19 +898,19 @@
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -944,7 +944,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
@@ -1022,19 +1022,18 @@
         ]
       }
     },
-    "Azure.Core.uuid": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Universally Unique Identifier"
-    },
     "BgpPeer": {
       "type": "object",
-      "description": "A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)",
+      "description": "A BgpPeer resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/BgpPeerProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [
@@ -1182,12 +1181,16 @@
     },
     "LoadBalancer": {
       "type": "object",
-      "description": "A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)",
+      "description": "A LoadBalancer resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/LoadBalancerProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [
@@ -1238,6 +1241,13 @@
         "advertiseMode": {
           "$ref": "#/definitions/AdvertiseMode",
           "description": "Advertise Mode"
+        },
+        "bgpPeers": {
+          "type": "array",
+          "description": "The list of BGP peers it should advertise to. Null or empty means to advertise to all peers.",
+          "items": {
+            "type": "string"
+          }
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1483,7 +1493,7 @@
       "description": "Properties for the service resource",
       "properties": {
         "rpObjectId": {
-          "$ref": "#/definitions/Azure.Core.uuid",
+          "type": "string",
           "description": "The object id of the service principal of the RP provisioned in the tenant",
           "readOnly": true
         },
@@ -1496,12 +1506,16 @@
     },
     "ServiceResource": {
       "type": "object",
-      "description": "A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)",
+      "description": "A Service resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/ServiceProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [
@@ -1702,12 +1716,16 @@
     },
     "StorageClassResource": {
       "type": "object",
-      "description": "A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)",
+      "description": "A StorageClass resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/StorageClassProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [

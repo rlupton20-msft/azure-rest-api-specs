@@ -34,64 +34,22 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries": {
-      "get": {
-        "operationId": "UpdateSummaries_List",
-        "description": "List all Update summaries under the HCI cluster",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ClusterNameParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/UpdateSummariesList"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Get Update summaries under cluster resource": {
-            "$ref": "./examples/ListUpdateSummaries.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries/default": {
       "get": {
         "operationId": "UpdateSummaries_Get",
         "description": "Get all Update summaries under the HCI cluster",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "#/parameters/ClusterNameParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -104,7 +62,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -117,30 +75,12 @@
     }
   },
   "definitions": {
-    "UpdateSummariesList": {
-      "description": "List of Update Summaries",
-      "type": "object",
-      "properties": {
-        "value": {
-          "description": "List of Update Summaries",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/UpdateSummaries"
-          }
-        },
-        "nextLink": {
-          "description": "Link to the next set of results.",
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
     "UpdateSummaries": {
       "description": "Get the update summaries for the cluster",
       "type": "object",
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
         }
       ],
       "properties": {
@@ -190,6 +130,12 @@
           "type": "string",
           "x-ms-client-flatten": true
         },
+        "lastChecked": {
+          "description": "Last time the update service successfully checked for updates.",
+          "type": "string",
+          "format": "date-time",
+          "x-ms-client-flatten": true
+        },
         "packageVersions": {
           "description": "Current version of each updatable component.",
           "type": "array",
@@ -202,6 +148,12 @@
         "currentVersion": {
           "description": "Current Solution Bundle version of the stamp.",
           "type": "string",
+          "x-ms-client-flatten": true
+        },
+        "lastUpdated": {
+          "description": "Last time an update installation completed successfully.",
+          "type": "string",
+          "format": "date-time",
           "x-ms-client-flatten": true
         },
         "state": {

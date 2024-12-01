@@ -907,6 +907,43 @@
           }
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/outboundNetworkDependenciesEndpoints": {
+      "parameters": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+        },
+        {
+          "$ref": "#/parameters/NetworkConnectionName"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Network Connections"
+        ],
+        "operationId": "NetworkConnections_ListOutboundNetworkDependenciesEndpoints",
+        "description": "Lists the endpoints that agents may call as part of VDI service administration.",
+        "responses": {
+          "200": {
+            "description": "The operation was successful. The response contains a list of outbound network dependencies.",
+            "schema": {
+              "$ref": "#/definitions/OutboundEnvironmentEndpointCollection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "commonDefinitions.json#/definitions/CloudError"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1475,6 +1512,79 @@
         "name": "ScheduledFrequency",
         "modelAsString": true
       }
+    },
+    "OutboundEnvironmentEndpointCollection": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/OutboundEnvironmentEndpoint"
+          },
+          "description": "The collection of outbound network dependency endpoints returned by the listing operation."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The continuation token."
+        }
+      },
+      "description": "Values returned by the List operation."
+    },
+    "OutboundEnvironmentEndpoint": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The type of service that the agent connects to."
+        },
+        "endpoints": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/EndpointDependency"
+          },
+          "description": "The endpoints for this service to which the agentoutbound calls."
+        }
+      },
+      "description": "A collection of related endpoints from the same service for which the agent requires outbound access."
+    },
+    "EndpointDependency": {
+      "type": "object",
+      "properties": {
+        "domainName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard."
+        },
+        "description": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Human-readable supplemental information about the dependency and when it is applicable."
+        },
+        "endpointDetails": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/EndpointDetail"
+          },
+          "description": "The list of connection details for this endpoint."
+        }
+      },
+      "description": "A domain name and connection details used to access a dependency."
+    },
+    "EndpointDetail": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "description": "The port an endpoint is connected to."
+        }
+      },
+      "description": "Details about the connection between the Batch service and the endpoint."
     }
   },
   "parameters": {

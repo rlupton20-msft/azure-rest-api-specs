@@ -6,49 +6,108 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.AzureStackHCI;
+/**
+ * The storage container resource definition.
+ */
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
-#suppress "@azure-tools/typespec-azure-core/no-openapi" "x-ms-azure-resource legacy"
-@doc("The storage container resource definition.")
-@extension("x-ms-azure-resource", true)
-model StorageContainer is TrackedResource<StorageContainerProperties> {
-  @doc("Name of the storage container")
-  @pattern("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$")
+@includeInapplicableMetadataInPayload(false)
+@Azure.ResourceManager.Private.armResourceInternal(StorageContainerProperties)
+model StorageContainers extends TrackedResourceBase {
+  /**
+   * Name of the storage container
+   */
+  @maxLength(80)
+  @minLength(1)
+  @pattern("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[_a-zA-Z0-9]$")
   @path
   @key("storageContainerName")
   @segment("storageContainers")
   @visibility("read")
   name: string;
 
-  @doc("The extendedLocation of the resource.")
+  /**
+   * The extendedLocation of the resource.
+   */
   extendedLocation?: ExtendedLocation;
+
+  /**
+   * Properties under the storage container resource
+   */
+  @extension("x-ms-client-flatten", true)
+  properties?: StorageContainerProperties;
 }
 
 @armResourceOperations
-interface StorageContainers {
-  @doc("Gets a storage container")
-  get is ArmResourceRead<StorageContainer>;
+@projectedName("client", "StorageContainers")
+interface StorageContainersOperationGroup {
+  /**
+   * Gets a storage container
+   */
+  get is ArmResourceRead<StorageContainers>;
 
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @doc("The operation to create or update a storage container. Please note some properties can be set only during storage container creation.")
-  @Azure.Core.useFinalStateVia("azure-async-operation")
+  /**
+   * The operation to create or update a storage container. Please note some properties can be set only during storage container creation.
+   */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    StorageContainer,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
+    StorageContainers,
+    BaseParameters<StorageContainers>,
+    ArmAsyncOperationHeader
   >;
 
-  @doc("The operation to update a storage container.")
-  update is ArmTagsPatchAsync<StorageContainer>;
+  /**
+   * The operation to update a storage container.
+   */
+  @parameterVisibility("read")
+  update is ArmCustomPatchAsync<
+    StorageContainers,
+    StorageContainersUpdateRequest,
+    BaseParameters<StorageContainers>,
+    ArmAsyncOperationHeader
+  >;
 
-  @doc("The operation to delete a storage container.")
-  delete is ArmResourceDeleteWithoutOkAsync<StorageContainer>;
+  /**
+   * The operation to delete a storage container.
+   */
+  delete is ArmResourceDeleteWithoutOkAsync<
+    StorageContainers,
+    BaseParameters<StorageContainers>,
+    ArmAsyncOperationHeader
+  >;
 
-  @doc("Lists all of the storage containers in the specified resource group. Use the nextLink property in the response to get the next page of storage containers.")
-  listByResourceGroup is ArmResourceListByParent<StorageContainer>;
+  /**
+   * Lists all of the storage containers in the specified resource group. Use the nextLink property in the response to get the next page of storage containers.
+   */
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("StorageContainers_List")
+  list is ArmResourceListByParent<StorageContainers>;
 
-  @doc("Lists all of the storage containers in the specified subscription. Use the nextLink property in the response to get the next page of storage containers.")
-  listAll is ArmListBySubscription<StorageContainer>;
+  /**
+   * Lists all of the storage containers in the specified subscription. Use the nextLink property in the response to get the next page of storage containers.
+   */
+  listAll is ArmListBySubscription<StorageContainers>;
 }
+
+@@projectedName(StorageContainersOperationGroup.createOrUpdate::parameters.resource,
+  "json",
+  "storageContainers"
+);
+@@extension(StorageContainersOperationGroup.createOrUpdate::parameters.resource,
+  "x-ms-client-name",
+  "storageContainers"
+);
+@@doc(StorageContainersOperationGroup.createOrUpdate::parameters.resource, "");
+@@projectedName(StorageContainersOperationGroup.update::parameters.properties,
+  "json",
+  "storageContainers"
+);
+@@extension(StorageContainersOperationGroup.update::parameters.properties,
+  "x-ms-client-name",
+  "storageContainers"
+);
+@@doc(StorageContainersOperationGroup.update::parameters.properties, "");

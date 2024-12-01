@@ -1,0 +1,599 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-autorest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-resource-manager";
+import "./rulelist.cadl";
+
+namespace PaloAltoNetworks.Cloudngfw;
+
+using Azure.ResourceManager;
+using Cadl.Http;
+
+@doc("Properties specific to the Firewall resource deployment.")
+model FirewallDeploymentProperties {
+  @doc("panEtag info")
+  panEtag?: string;
+
+  @doc("Network settings")
+  networkProfile: NetworkProfile;
+
+  @doc("Panorama Managed: Default is False. Default will be CloudSec managed")
+  isPanoramaManaged?: BooleanEnum;
+
+  @doc("Panorama Configuration")
+  panoramaConfig?: PanoramaConfig;
+
+  @doc("Associated Rulestack")
+  associatedRulestack?: RulestackDetails;
+
+  @doc("DNS settings for Firewall")
+  dnsSettings: DNSSettings;
+
+  @doc("Frontend settings for Firewall")
+  frontEndSettings?: FrontendSetting[];
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ProvisioningState;
+
+  @doc("Billing plan information.")
+  planData: PlanData;
+
+  @doc("Marketplace details")
+  marketplaceDetails: MarketplaceDetails;
+}
+
+@doc("Panorama Config")
+model PanoramaConfig {
+  @doc("Base64 encoded string representing Panorama parameters to be used by Firewall to connect to Panorama. This string is generated via azure plugin in Panorama")
+  configString: string;
+
+  @doc("VM auth key for panorama connectivity")
+  @visibility("read")
+  vmAuthKey?: string;
+
+  @doc("Primary Panorama Server IP address value in dotted format for IPv4")
+  @visibility("read")
+  panoramaServer?: string;
+
+  @doc("Secondary Panorama Server IP address value in dotted format for IPv4")
+  @visibility("read")
+  panoramaServer2?: string;
+
+  @doc("Panorama Device Group to join")
+  @visibility("read")
+  dgName?: string;
+
+  @doc("Panorama Template Stack to join - (Once configured we can not edit the value)")
+  @visibility("read")
+  tplName?: string;
+
+  @doc("Panorama Collector Group to join - (Once configured we can not edit the value)")
+  @visibility("read")
+  cgName?: string;
+
+  @doc("Resource name(may be unique) for PN admin")
+  @visibility("read")
+  hostName?: string;
+}
+
+@doc("MarketplaceDetails of PAN Firewall resource")
+model MarketplaceDetails {
+  @doc("Marketplace Subscription Id")
+  @visibility("read")
+  marketplaceSubscriptionId?: string;
+
+  @doc("Offer Id")
+  offerId: string;
+
+  @doc("Publisher Id")
+  publisherId: string;
+
+  @doc("Marketplace Subscription Status")
+  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+
+  // @doc("Additional Properties")
+  // additionalProperties?:  Map<string,string>;
+}
+
+@doc("Marketplace Subscription Status Values")
+enum MarketplaceSubscriptionStatusValues {
+  "PendingFulfillmentStart",
+  "Subscribed",
+  "Suspended",
+  "Unsubscribed",
+  "NotStarted",
+  "FulfillmentRequested",
+}
+
+@doc("Marketplace Subscription Status")
+@knownValues(MarketplaceSubscriptionStatusValues)
+model MarketplaceSubscriptionStatus is string {}
+
+@doc("Associated rulestack details")
+model RulestackDetails {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Associated rulestack Id")
+  rulestackId?: string;
+
+  @doc("Rulestack location")
+  location?: string;
+}
+
+@doc("Log Settings for Firewall")
+model LogSettings {
+  @doc("One of possible log type")
+  logType?: LogType;
+
+  @doc("Log option SAME/INDIVIDUAL")
+  logOption?: LogOption;
+
+  @doc("Application Insight details")
+  applicationInsights?: ApplicationInsights;
+
+  @doc("Common destination configurations")
+  commonDestination?: LogDestination;
+
+  @doc("Traffic destination configurations")
+  trafficLogDestination?: LogDestination;
+
+  @doc("Threat destination configurations")
+  threatLogDestination?: LogDestination;
+
+  @doc("Decrypt destination configurations")
+  decryptLogDestination?: LogDestination;
+}
+
+@doc("Possible log types")
+enum LogTypeValues {
+  "TRAFFIC",
+  "THREAT",
+  "DECRYPTION",
+  "WILDFIRE",
+  "DLP",
+  "AUDIT",
+}
+
+@knownValues(LogTypeValues)
+model LogType is string {}
+
+@doc("Log options possible")
+enum LogOptionValues {
+  "SAME_DESTINATION",
+  "INDIVIDUAL_DESTINATION",
+}
+
+@knownValues(LogOptionValues)
+model LogOption is string {}
+
+@doc("Application Insights key")
+model ApplicationInsights {
+  @doc("Resource id for Application Insights")
+  id?: string;
+
+  @doc("Application Insights key")
+  key?: string;
+}
+
+@doc("Log Destination")
+model LogDestination {
+  @doc("Storage account configurations")
+  storageConfigurations?: StorageAccount;
+
+  @doc("Event Hub configurations")
+  eventHubConfigurations?: EventHub;
+
+  @doc("Monitor Log configurations")
+  monitorConfigurations?: MonitorLog;
+}
+
+@doc("Storage Account configurations")
+model StorageAccount {
+  @doc("Resource ID of storage account")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("Storage account name")
+  accountName?: string;
+}
+
+@doc("EventHub configurations")
+model EventHub {
+  @doc("Resource ID of EventHub")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("EventHub name")
+  name?: string;
+
+  @doc("EventHub namespace")
+  nameSpace?: string;
+
+  @doc("EventHub policy name")
+  policyName?: string;
+}
+
+@doc("MonitorLog configurations")
+model MonitorLog {
+  @doc("Resource ID of MonitorLog")
+  id?: string;
+
+  @doc("Subscription Id")
+  subscriptionId?: string;
+
+  @doc("MonitorLog workspace")
+  workspace?: string;
+
+  @doc("Primary Key value for Monitor")
+  primaryKey?: string;
+
+  @doc("Secondary Key value for Monitor")
+  secondaryKey?: string;
+}
+
+@doc("Provisioning state of the firewall resource.")
+enum ProvisioningStateValues {
+  "Accepted",
+  "Creating",
+  "Updating",
+  "Deleting",
+  "Succeeded",
+  "Failed",
+  "Canceled",
+  "Deleted",
+  "NotSpecified",
+}
+
+@knownValues(ProvisioningStateValues)
+model ProvisioningState is string {}
+
+@doc("Provisioning state of the firewall resource.")
+enum ReadOnlyProvisioningStateValues {
+  "Succeeded",
+  "Failed",
+  "Deleted",
+}
+
+@knownValues(ReadOnlyProvisioningStateValues)
+model ReadOnlyProvisioningState is string {}
+
+// @doc("Shorthand for setting length limit.")
+// @maxLength(50)
+// model MediumString is string {}
+
+@doc("Billing plan information.")
+model PlanData {
+  @doc("different usage type like PAYG/COMMITTED")
+  usageType?: UsageType;
+
+  @doc("different billing cycles like MONTHLY/WEEKLY")
+  billingCycle: BillingCycle;
+
+  @doc("plan id as published by Liftr.PAN")
+  @maxLength(50)
+  planId: string;
+
+  @visibility("read")
+  @doc("date when plan was applied")
+  effectiveDate?: zonedDateTime;
+}
+
+@doc("Billing cycle")
+enum BillingCycleValues {
+  "WEEKLY",
+  "MONTHLY",
+}
+
+@knownValues(BillingCycleValues)
+model BillingCycle is string {}
+
+@doc("Usage Type")
+enum UsageTypeValues {
+  "PAYG",
+  "COMMITTED",
+}
+
+@knownValues(UsageTypeValues)
+model UsageType is string {}
+
+@doc("DNS Proxy")
+enum DNSProxyValues {
+  "DISABLED",
+  "ENABLED",
+}
+
+@knownValues(DNSProxyValues)
+model DNSProxy is string {}
+
+@doc("Enabled DNS type values")
+enum EnabledDNSTypeValues {
+  "CUSTOM",
+  "AZURE",
+}
+
+@knownValues(EnabledDNSTypeValues)
+model EnabledDNSType is string {}
+
+@doc("Egress NAT")
+enum EgressNatValues {
+  "DISABLED",
+  "ENABLED",
+}
+
+@knownValues(EgressNatValues)
+model EgressNat is string {}
+
+@doc("Service Chain")
+enum ServiceChainValues {
+  "DISABLED",
+  "ENABLED",
+}
+
+@knownValues(ServiceChainValues)
+model ServiceChain is string {}
+
+@doc("Rulestack job status")
+model taskRulestack {
+  @doc("Job ID")
+  jobId: string;
+
+  @doc("Job kind")
+  kind: KindEnum;
+}
+
+@doc("Kind Enum")
+enum KindEnumValues {
+  "COMMIT",
+  "VALIDATE",
+  "REVERT",
+}
+
+@knownValues(KindEnumValues)
+model KindEnum is string {}
+
+@doc("NetworkType Enum")
+enum NetworkTypeValues {
+  "VNET",
+  "VWAN",
+}
+
+@knownValues(NetworkTypeValues)
+model NetworkType is string {}
+
+@doc("Protocol Enum")
+enum ProtocolValues {
+  "TCP",
+  "UDP",
+}
+
+@knownValues(ProtocolValues)
+model ProtocolType is string {}
+
+@doc("DNS Proxy settings for Firewall")
+model DNSSettings {
+  @doc("Enable DNS proxy, disabled by default")
+  enableDnsProxy?: DNSProxy;
+
+  @doc("Enabled DNS proxy type, disabled by default")
+  enabledDnsType?: EnabledDNSType;
+
+  @doc("List of IPs associated with the Firewall")
+  dnsServers?: IPAddress[];
+}
+
+@doc("Network settings for Firewall")
+model NetworkProfile {
+  @doc("Vnet configurations")
+  vnetConfiguration?: VnetConfiguration;
+
+  @doc("Vwan configurations")
+  vwanConfiguration?: VwanConfiguration;
+
+  @doc("vnet or vwan, cannot be updated")
+  networkType: NetworkType;
+
+  @doc("List of IPs associated with the Firewall")
+  publicIps: IPAddress[];
+
+  @doc("Enable egress NAT, enabled by default")
+  enableEgressNat: EgressNat;
+
+  @doc("Egress nat IP to use")
+  egressNatIp?: IPAddress[];
+
+  @doc("Non-RFC 1918 address")
+  trustedRanges?: string[];
+
+  @doc("Array of ipv4 destination address for which source NAT is to be performed")
+  privateSourceNatRulesDestination?: string[];
+}
+
+@doc("VnetInfo for Firewall Networking")
+model VnetConfiguration {
+  @doc("Azure Virtual Network")
+  vnet: IPAddressSpace;
+
+  @doc("Trust Subnet")
+  trustSubnet: IPAddressSpace;
+
+  @doc("Untrust Subnet")
+  unTrustSubnet: IPAddressSpace;
+
+  @doc("IP of trust subnet for UDR")
+  ipOfTrustSubnetForUdr?: IPAddress;
+}
+
+@doc("VwanInfo for Firewall Networking")
+model VwanConfiguration {
+  @doc("Network Virtual Appliance resource ID ")
+  networkVirtualApplianceId?: string;
+
+  @doc("vHub Address")
+  vHub: IPAddressSpace;
+
+  @doc("Trust Subnet")
+  trustSubnet?: IPAddressSpace;
+
+  @doc("Untrust Subnet")
+  unTrustSubnet?: IPAddressSpace;
+
+  @doc("IP of trust subnet for UDR")
+  ipOfTrustSubnetForUdr?: IPAddress;
+}
+
+@doc("IP Address")
+model IPAddress {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Address value")
+  address?: string;
+}
+
+@doc("IP Address Space")
+model IPAddressSpace {
+  @doc("Resource Id")
+  resourceId?: string;
+
+  @doc("Address Space")
+  addressSpace?: string;
+}
+
+@doc("Endpoint Configuration for frontend and backend")
+model EndpointConfiguration {
+  @doc("port ID")
+  port: string;
+
+  @doc("Address Space")
+  address: IPAddress;
+}
+
+@doc("Frontend setting for Firewall")
+model FrontendSetting {
+  @doc("Settings name")
+  name: string;
+
+  @doc("Protocol Type")
+  protocol: ProtocolType;
+
+  @doc("Frontend configurations")
+  frontendConfiguration: EndpointConfiguration;
+
+  @doc("Backend configurations")
+  backendConfiguration: EndpointConfiguration;
+}
+
+@doc("List of firewalls")
+model FirewallList {
+  @visibility("read")
+  @doc("List of Firewalls")
+  firewalls?: RulestackFirewallDescription[];
+}
+
+@doc("Firewall Description for Rulestack")
+model RulestackFirewallDescription {
+  @doc("firewall name")
+  name: string;
+
+  @doc("firewall Resource Id")
+  resourceId: string;
+}
+
+@doc("Support information for the resource")
+model SupportInfo {
+  @doc("product SKU associated with given resource")
+  productSku?: string;
+
+  @doc("product Serial associated with given resource")
+  productSerial?: string;
+
+  @doc("account registered in Customer Support Portal")
+  accountRegistered?: BooleanEnum;
+
+  @doc("Support account associated with given resource")
+  accountId?: string;
+
+  @doc("user domain is supported in Customer Support Portal")
+  userDomainSupported?: BooleanEnum;
+
+  @doc("user registered in Customer Support Portal")
+  userRegistered?: BooleanEnum;
+
+  @doc("Product usage is in free trial period")
+  freeTrial?: BooleanEnum;
+
+  @doc("Free trial days remaining")
+  freeTrialDaysLeft?: int32;
+
+  @doc("Free trial credit remaining")
+  freeTrialCreditLeft?: int32;
+
+  @doc("URL for paloaltonetworks live community")
+  helpURL?: string;
+
+  @doc("URL for paloaltonetworks Customer Service Portal")
+  supportURL?: string;
+
+  @doc("URL for registering product in paloaltonetworks Customer Service Portal")
+  registerURL?: string;
+}
+
+enum HealthStatusValues {
+  "GREEN",
+  "YELLOW",
+  "RED",
+  "INITIALIZING",
+}
+
+@doc("Status Codes for the Firewall")
+@knownValues(HealthStatusValues)
+model HealthStatus is string {}
+
+enum ServerStatusValues {
+  "UP",
+  "DOWN",
+}
+
+@doc("Connectivity Status for Panorama Server")
+@knownValues(ServerStatusValues)
+model ServerStatus is string {}
+
+@doc("Panorama connectivity information")
+model PanoramaStatus {
+  @doc("Primary Panorama connection status")
+  @visibility("read")
+  panoramaServerStatus?: ServerStatus;
+
+  @doc("Secondary Panorama connection status")
+  @visibility("read")
+  panoramaServer2Status?: ServerStatus;
+}
+
+@doc("Firewall Status")
+model FirewallStatusProperty {
+  @doc("Panorama Managed: Default is False. Default will be CloudSec managed")
+  @visibility("read")
+  isPanoramaManaged?: BooleanEnum;
+
+  @doc("Current status of the Firewall")
+  @visibility("read")
+  healthStatus?: HealthStatus;
+
+  @doc("Detail description of current health of the Firewall")
+  @visibility("read")
+  healthReason?: string;
+
+  @doc("Panorama Status")
+  @visibility("read")
+  panoramaStatus?: PanoramaStatus;
+
+  @visibility("read")
+  @doc("Provisioning state of the resource.")
+  provisioningState?: ReadOnlyProvisioningState;
+}

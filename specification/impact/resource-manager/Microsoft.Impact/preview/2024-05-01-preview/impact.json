@@ -39,6 +39,9 @@
   },
   "tags": [
     {
+      "name": "UploadService"
+    },
+    {
       "name": "Operations"
     },
     {
@@ -168,7 +171,7 @@
           }
         },
         "x-ms-examples": {
-          "Connectors_Get": {
+          "GetConnector": {
             "$ref": "./examples/Connectors_Get.json"
           }
         }
@@ -236,7 +239,7 @@
           }
         },
         "x-ms-examples": {
-          "Connectors_CreateOrUpdate": {
+          "CreateConnector": {
             "$ref": "./examples/Connectors_CreateOrUpdate.json"
           }
         },
@@ -335,6 +338,37 @@
         "x-ms-examples": {
           "Connectors_Delete": {
             "$ref": "./examples/Connectors_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/getUploadToken": {
+      "post": {
+        "operationId": "UploadService_GetUploadToken",
+        "tags": [
+          "UploadService"
+        ],
+        "description": "Customer can use this POST endpoint to trigger an action, where the UserRP/AzImpactRP service creates and returns a user-delegate SAS token for the storage account/container unique to the customer (identified by subscription ID).",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/UploadTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
@@ -727,6 +761,9 @@
           }
         },
         "x-ms-examples": {
+          "Get Insight resources by workloadImpactName and insightName": {
+            "$ref": "./examples/Insights_Get.json"
+          },
           "Get Insight sample for Diagnostics category": {
             "$ref": "./examples/Insights_Get_diagnostics.json"
           },
@@ -1744,6 +1781,19 @@
           }
         ]
       }
+    },
+    "UploadTokenResponse": {
+      "type": "object",
+      "description": "Define the model for the Upload Token response. Should be akin to https://<storage-account-name>.blob.core.windows.net/<container-name>/<ENTER YOUR BLOB NAME HERE>?<SAS-token>",
+      "properties": {
+        "uploadUrl": {
+          "type": "string",
+          "description": "The SAS token URL for uploading"
+        }
+      },
+      "required": [
+        "uploadUrl"
+      ]
     },
     "Workload": {
       "type": "object",

@@ -1,0 +1,66 @@
+using OpenAPI;
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+namespace Microsoft.FinancialDataServices;
+
+@doc("State of the third party license")
+enum LicenseStateKV {
+    Inactive,
+    Active
+}
+
+@doc("Supported license providers")
+enum LicenseProvidersKV {
+    Test
+}
+
+@knownValues(LicenseStateKV)
+model LicenseState is string;
+
+@knownValues(LicenseProvidersKV)
+model LicenseProvider is string;
+
+@doc("ThirdPartyLicense resource")
+@parentResource(Account)
+model ThirdPartyLicense is ProxyResource<ThirdPartyLicenseProperties> {
+    @pattern("^[a-zA-Z0-9-]{3,24}$")
+    @key("licenseName")
+    @segment("thirdPartyLicenses")
+    @doc("Third party license name. Names are from supported providers")
+    @path
+    name: string;
+}
+
+
+@doc("Details of ThirdPartyLicense")
+model ThirdPartyLicenseProperties {
+    @visibility("read")
+    @doc("The status of the last operation.")
+    provisioningState?: ProvisioningState;
+
+    @doc("The license state")
+    @visibility("read")
+    licenseState?: LicenseState;    
+
+    @doc("The license provider name")
+    licenseProvider:  LicenseProvider;
+}
+
+@armResourceOperations
+interface ThirdPartyLicenses
+    extends ProxyResourceOperations<ThirdPartyLicense> {
+    @post
+    @doc("Activate a license")
+    @segment("activateLicense")
+    @armResourceAction(ThirdPartyLicense)
+    ActivateLicense(
+        ...ResourceInstanceParameters<ThirdPartyLicense>,
+
+        @body
+        @doc("Raw license Base64 encoded")
+        licenseData: bytes
+    ): ArmResponse<ThirdPartyLicenseProperties> | ErrorResponse;
+}

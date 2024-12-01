@@ -6,84 +6,153 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.AzureStackHCI;
+/**
+ * The virtual machine instance resource definition.
+ */
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
-#suppress "@azure-tools/typespec-azure-core/no-openapi" "x-ms-azure-resource legacy"
-@doc("The virtual machine instance resource definition.")
-@extension("x-ms-azure-resource", true)
 @singleton("default")
-model VirtualMachineInstance
-  is ExtensionResource<VirtualMachineInstanceProperties> {
-  @doc("name of virtual machine")
-  @pattern("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$")
+@includeInapplicableMetadataInPayload(false)
+@Azure.ResourceManager.Private.armResourceInternal(
+  VirtualMachineInstanceProperties
+)
+model VirtualMachineInstance extends ExtensionResourceBase {
   @key("virtualMachineInstance")
   @segment("virtualMachineInstances")
   @visibility("read")
-  @path
   name: string;
 
-  @doc("The extendedLocation of the resource.")
+  /**
+   * The extendedLocation of the resource.
+   */
   extendedLocation?: ExtendedLocation;
 
-  ...ManagedServiceIdentityProperty;
+  /**
+   * Properties under the virtual machine instance resource
+   */
+  @extension("x-ms-client-flatten", true)
+  properties?: VirtualMachineInstanceProperties;
+
+  ...Azure.ResourceManager.ManagedServiceIdentity;
 }
 
 @armResourceOperations
 interface VirtualMachineInstances {
-  @doc("Gets a virtual machine instance")
+  /**
+   * Gets a virtual machine instance
+   */
   get is ArmResourceRead<VirtualMachineInstance>;
 
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @doc("The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.")
-  @Azure.Core.useFinalStateVia("azure-async-operation")
+  /**
+   * The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
+   */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<
     VirtualMachineInstance,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
+    BaseParameters<VirtualMachineInstance>,
+    ArmAsyncOperationHeader
   >;
 
-  @doc("The operation to update a virtual machine instance.")
-  @parameterVisibility
+  /**
+   * The operation to update a virtual machine instance.
+   */
+  @parameterVisibility("read")
   update is ArmCustomPatchAsync<
     VirtualMachineInstance,
-    VirtualMachineInstanceUpdateRequest
+    VirtualMachineInstanceUpdateRequest,
+    BaseParameters<VirtualMachineInstance>,
+    ArmAsyncOperationHeader
   >;
 
-  @doc("The operation to delete a virtual machine instance.")
-  delete is ArmResourceDeleteWithoutOkAsync<VirtualMachineInstance>;
+  /**
+   * The operation to delete a virtual machine instance.
+   */
+  delete is ArmResourceDeleteWithoutOkAsync<
+    VirtualMachineInstance,
+    BaseParameters<VirtualMachineInstance>,
+    ArmAsyncOperationHeader
+  >;
 
-  @doc("Lists all of the virtual machine instances within the specified parent resource.")
+  /**
+   * Lists all of the virtual machine instances within the specified parent resource.
+   */
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("VirtualMachineInstances_List")
   list is ArmResourceListByParent<VirtualMachineInstance>;
 
-  @doc("The operation to start a virtual machine instance.")
-  start is ArmResourceActionNoResponseContentAsync<
+  /**
+   * The operation to start a virtual machine instance.
+   */
+  start is ArmResourceActionAsync<
     VirtualMachineInstance,
-    Request = void
+    void,
+    VirtualMachineInstance,
+    BaseParameters<VirtualMachineInstance>,
+    ArmLroLocationHeader
   >;
 
-  @doc("The operation to stop a virtual machine instance.")
-  stop is ArmResourceActionNoResponseContentAsync<
+  /**
+   * The operation to stop a virtual machine instance.
+   */
+  stop is ArmResourceActionAsync<
     VirtualMachineInstance,
-    Request = void
+    void,
+    VirtualMachineInstance,
+    BaseParameters<VirtualMachineInstance>,
+    ArmLroLocationHeader
   >;
 
-  @doc("The operation to restart a virtual machine instance.")
-  restart is ArmResourceActionNoResponseContentAsync<
+  /**
+   * The operation to restart a virtual machine instance.
+   */
+  restart is ArmResourceActionAsync<
     VirtualMachineInstance,
-    Request = void
+    void,
+    VirtualMachineInstance,
+    BaseParameters<VirtualMachineInstance>,
+    ArmLroLocationHeader
   >;
 
-  @doc("The operation to pause a virtual machine instance.")
-  pause is ArmResourceActionNoResponseContentAsync<
-    VirtualMachineInstance,
-    Request = void
-  >;
-
-  @doc("The operation to save a virtual machine instance.")
-  save is ArmResourceActionNoResponseContentAsync<
-    VirtualMachineInstance,
-    Request = void
+  /**
+   * Implements AttestationStatus GET method.
+   */
+  // FIXME: AttestationStatus_Get could not be converted to a resource operation
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("AttestationStatus_Get")
+  @summary("Gets AttestationStatus.")
+  @route("/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/AttestationStatus/default")
+  @get
+  getAttestationStatus is Azure.Core.Foundations.Operation<
+    {
+      /**
+       * The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended.
+       */
+      @path
+      resourceUri: string;
+    },
+    AttestationStatus
   >;
 }
+
+@@projectedName(VirtualMachineInstances.createOrUpdate::parameters.resource,
+  "json",
+  "virtualMachineInstance"
+);
+@@extension(VirtualMachineInstances.createOrUpdate::parameters.resource,
+  "x-ms-client-name",
+  "virtualMachineInstance"
+);
+@@doc(VirtualMachineInstances.createOrUpdate::parameters.resource, "");
+@@projectedName(VirtualMachineInstances.update::parameters.properties,
+  "json",
+  "virtualMachineInstance"
+);
+@@extension(VirtualMachineInstances.update::parameters.properties,
+  "x-ms-client-name",
+  "virtualMachineInstance"
+);
+@@doc(VirtualMachineInstances.update::parameters.properties, "");

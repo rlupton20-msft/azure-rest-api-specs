@@ -10,7 +10,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Microsoft.IoTOperations;
+namespace Private.IoTOperations;
 
 @doc("A Instance resource is a logical container for a set of child resources.")
 model InstanceResource is TrackedResource<InstanceProperties> {

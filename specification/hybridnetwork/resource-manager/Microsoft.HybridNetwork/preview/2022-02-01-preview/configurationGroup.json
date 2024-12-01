@@ -1,0 +1,347 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "HybridNetworkManagementClient",
+    "description": "The resources in this swagger specification will be used to manage the hybrid network configuration group.",
+    "version": "2022-02-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroups/{configurationGroupName}": {
+      "delete": {
+        "tags": [
+          "configurationGroups"
+        ],
+        "operationId": "configurationGroups_Delete",
+        "description": "Deletes the specified hybrid configuration group.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/ConfigurationGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete successful."
+          },
+          "202": {
+            "description": "Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "204": {
+            "description": "Request successful. Resource does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete hybrid configuration group resource": {
+            "$ref": "./examples/configurationGroupDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      },
+      "get": {
+        "tags": [
+          "configurationGroups"
+        ],
+        "operationId": "configurationGroups_Get",
+        "description": "Gets information about the specified hybrid configuration group.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/ConfigurationGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns the resulting hybrid configuration group resource.",
+            "schema": {
+              "$ref": "#/definitions/configurationGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get hybrid configuration group": {
+            "$ref": "./examples/configurationGroupGet.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "configurationGroups"
+        ],
+        "operationId": "configurationGroups_CreateOrUpdate",
+        "description": "Creates or updates a hybrid configuration group.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/ConfigurationGroupNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/configurationGroup"
+            },
+            "description": "Parameters supplied to the create or update hybrid configuration group operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Creation or update is successful.",
+            "schema": {
+              "$ref": "#/definitions/configurationGroup"
+            }
+          },
+          "201": {
+            "description": "Creation or update is successful. The header contains 'Azure-AsyncOperation' header pointing to an operations resource. The operation URI can be queried to find the current state of the operation.",
+            "schema": {
+              "$ref": "#/definitions/configurationGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update hybrid configuration group": {
+            "$ref": "./examples/configurationGroupCreate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "configurationGroups"
+        ],
+        "operationId": "configurationGroups_UpdateTags",
+        "description": "Updates a hybrid configuration group tags.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/ConfigurationGroupNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./common.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to the update hybrid configuration group tags operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update is successful. The operation returns the resulting hybrid configuration group resource.",
+            "schema": {
+              "$ref": "#/definitions/configurationGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update hybrid configuration group tags": {
+            "$ref": "./examples/configurationGroupUpdateTags.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroups": {
+      "get": {
+        "tags": [
+          "configurationGroups"
+        ],
+        "operationId": "configurationGroups_ListBySubscription",
+        "description": "Lists all the hybrid network configurationGroups in a subscription.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of hybrid configuration group resources.",
+            "schema": {
+              "$ref": "#/definitions/configurationGroupListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all hybrid network configurationGroups in a subscription.": {
+            "$ref": "./examples/configurationGroupListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "configurationGroup": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/configurationGroupPropertiesFormat",
+          "description": "Hybrid configuration group properties."
+        },
+        "systemData": {
+          "x-ms-client-flatten": true,
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true,
+          "description": "Metadata pertaining to creation and last modification of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Hybrid configuration group resource."
+    },
+    "configurationGroupPropertiesFormat": {
+      "type": "object",
+      "description": "Hybrid configuration group properties.",
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "./common.json#/definitions/ProvisioningState",
+          "description": "The provisioning state of the site resource."
+        },
+        "networkServiceDesign": {
+          "$ref": "./common.json#/definitions/NetworkServiceDesign",
+          "description": "The network function design details"
+        },
+        "configurationGroupName": {
+          "type": "string",
+          "description": "The name for the group."
+        },
+        "configuration": {
+          "$ref": "./common.json#/definitions/ConfigurationGroup",
+          "description": "The parameters for the configuration group."
+        },
+        "siteSpecificConfiguration": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SiteDetail"
+          },
+          "description": "The site specific configuration list."
+        }
+      }
+    }, 
+    "SiteDetail": {
+      "type": "object",
+      "properties": {
+        "site": {
+          "$ref": "./common.json#/definitions/SubResource",
+          "description": "The reference to the site resource."
+        },
+        "configuration": {
+          "$ref": "./common.json#/definitions/ConfigurationGroups",
+          "description": "The parameters for the configuration groups."
+        }
+      },
+      "description": "The network function definition configuration."
+    },
+    "configurationGroupListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/configurationGroup"
+          },
+          "description": "A list of hybrid configurationGroups."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for hybrid configurationGroups API service call."
+    }
+  }
+}

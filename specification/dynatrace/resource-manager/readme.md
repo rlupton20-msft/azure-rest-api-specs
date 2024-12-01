@@ -27,34 +27,16 @@ These are the global settings for the dynatrace.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-04-27
+tag: package-2021-06-01-preview
 ```
 
-### Tag: package-2023-04-27
+### Tag: package-2021-06-01-preview
 
-These settings apply only when `--tag=package-2023-04-27` is specified on the command line.
+These settings apply only when `--tag=package-2021-06-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-04-27'
+```yaml $(tag) == 'package-2021-06-01-preview'
 input-file:
-  - Dynatrace.Observability/stable/2023-04-27/dynatrace.json
-```
-
-### Tag: package-2021-09-01
-
-These settings apply only when `--tag=package-2021-09-01` is specified on the command line.
-
-```yaml $(tag) == 'package-2021-09-01'
-input-file:
-  - Dynatrace.Observability/stable/2021-09-01/dynatrace.json
-```
-
-### Tag: package-2021-09-01-preview
-
-These settings apply only when `--tag=package-2021-09-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2021-09-01-preview'
-input-file:
-  - Dynatrace.Observability/preview/2021-09-01-preview/dynatrace.json
+  - Dynatrace.Observability/preview/2021-06-01-preview/dynatrace.json
 ```
 
 ---
@@ -76,16 +58,17 @@ swagger-to-sdk:
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_dynatrace']
 ```
-
 ## Suppression
-
-``` yaml
-suppressions:
-  - code: SECRET_PROPERTY
-    from: Dynatrace.Observability/preview/2021-06-01-preview/dynatrace.json
-    where: $.definitions.VMIngestionDetailsResponse.properties.ingestionKey
+```
+directive:
+  - suppress: SECRET_PROPERTY
+    from:
+      - Dynatrace.Observability/preview/2021-06-01-preview/dynatrace.json
+    where:
+      - $.definitions.VMIngestionDetailsResponse.properties.ingestionKey
     reason: Secrets are OK to return in a POST response.
 ```
+
 
 ## Go
 

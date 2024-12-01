@@ -1,0 +1,436 @@
+  {
+    "swagger": "2.0",
+    "info": {
+      "title": "Akri",
+      "description": "The Deislabs.Akri Rest API spec.",
+      "version": "2020-06-01-preview",
+      "x-ms-code-generation-settings": {
+        "name": "AkriClient"
+      }
+    },
+    "host": "management.azure.com",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Deislabs.Akri/configurations/{configurationsName}": {
+        "get": {
+          "operationId": "configurations_Retrieve",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/configurationsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Retrieves the configurations resource.",
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            }
+          }
+        },
+        "put": {
+          "operationId": "configurations_CreateOrUpdate",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/configurationsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "configurations",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Updates the configurations resource.",
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            },
+            "201": {
+              "description": "Creates the configurations resource.",
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            }
+          }
+        },
+        "delete": {
+          "operationId": "configurations_Delete",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/configurationsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Deletes the configurations resource."
+            }
+          }
+        },
+        "patch": {
+          "operationId": "configurations_Update",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/configurationsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "configurations",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/configurationsPatch"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Updates the configurations resource.",
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            },
+            "201": {
+              "description": "Updates the configurations resource.",
+              "schema": {
+                "$ref": "#/definitions/configurations"
+              }
+            }
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Deislabs.Akri/configurations": {
+        "get": {
+          "operationId": "configurations_ListByResourceGroup",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lists all configurations under the resouce group.",
+              "schema": {
+                "$ref": "#/definitions/configurationsListResult"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/providers/Deislabs.Akri/configurations": {
+        "get": {
+          "operationId": "configurations_ListBySubscription",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lists all configurations under the subscription.",
+              "schema": {
+                "$ref": "#/definitions/configurationsListResult"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      },
+      "/providers/Deislabs.Akri/operations": {
+        "get": {
+          "operationId": "Operations_List",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Describe the result of a successful operation.",
+              "schema": {
+                "$ref": "#/definitions/ResourceProviderOperationList"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "configurationsProperties": {
+        "type": "object",
+        "properties": {
+          "discoveryHandler": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "discoveryDetails": {
+                "type": "string"
+              }
+            }
+          },
+          "capacity": {
+            "type": "integer"
+          },
+          "brokerSpec": {
+            "type": "object",
+            "properties": {
+              "brokerJobSpec": {
+                "type": "object",
+                "x-kubernetes-preserve-unknown-fields": "true"
+              },
+              "brokerPodSpec": {
+                "type": "object",
+                "x-kubernetes-preserve-unknown-fields": "true"
+              }
+            }
+          },
+          "instanceServiceSpec": {
+            "type": "object",
+            "x-kubernetes-preserve-unknown-fields": "true"
+          },
+          "configurationServiceSpec": {
+            "type": "object",
+            "x-kubernetes-preserve-unknown-fields": "true"
+          },
+          "brokerProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "provisioningState": {
+            "type": "string"
+          },
+          "status": {
+            "properties": {}
+          }
+        }
+      },
+      "configurations": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "$ref": "#/definitions/configurationsProperties"
+          },
+          "id": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Id"
+          },
+          "name": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Name"
+          },
+          "type": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Type"
+          },
+          "location": {
+            "type": "string",
+            "description": "The resource location"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Resource tags"
+          },
+          "extendedLocation": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The extended location type."
+              },
+              "name": {
+                "type": "string",
+                "description": "The extended location name."
+              }
+            }
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "description": "The configurations resource definition."
+      },
+      "configurationsPatch": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Resource tags"
+          }
+        },
+        "description": "The configurations resource patch definition."
+      },
+      "configurationsListResult": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/configurations"
+            }
+          },
+          "nextLink": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceProviderOperationList": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ResourceProviderOperation"
+            }
+          },
+          "nextLink": {
+            "type": "string"
+          }
+        },
+        "description": "Results of the request to list operations."
+      },
+      "ResourceProviderOperation": {
+        "type": "object",
+        "properties": {
+          "isDataAction": {
+            "type": "string",
+            "description": "Indicates whether the operation applies to data-plane."
+          },
+          "name": {
+            "type": "string",
+            "description": "Operation name, in format of {provider}/{resource}/{operation}"
+          },
+          "display": {
+            "type": "object",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "description": "The resource provider."
+              },
+              "resource": {
+                "type": "string",
+                "description": "Resource on which the operation is performed."
+              },
+              "operation": {
+                "type": "string",
+                "description": "Type of operation: get, read, delete, etc."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of this operation."
+              }
+            },
+            "description": "Display metadata associated with the operation."
+          }
+        },
+        "description": "Results of the request to list operations."
+      }
+    },
+    "parameters": {
+      "configurationsNameParameter": {
+        "name": "configurationsName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "maxLength": 64,
+        "minLength": 3
+      },
+      "SubscriptionIdParameter": {
+        "name": "subscriptionId",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)"
+      },
+      "ResourceGroupNameParameter": {
+        "name": "resourceGroupName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The name of the resource group."
+      },
+      "ApiVersionParameter": {
+        "name": "api-version",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "The API version to be used with the HTTP request (e.g. YYYY-MM-DD)."
+      }
+    }
+  }

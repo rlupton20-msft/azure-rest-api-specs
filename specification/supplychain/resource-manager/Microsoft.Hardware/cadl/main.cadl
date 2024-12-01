@@ -1,0 +1,207 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+using Cadl.Http;
+using Cadl.Rest;
+using Cadl.Versioning;
+using Azure.Core;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+@service({
+  title: "HardwareResourceProvider",
+  version: "2023-02-22-preview",
+})
+@doc("Hardware Resource Provider management API.")
+@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+namespace Microsoft.Hardware;
+
+interface Operations extends Azure.ResourceManager.Operations {}
+
+@doc("A Hardware Resource Provider Order resource")
+model Order is TrackedResource<OrderProperties> {
+  @doc("Order Name")
+  @key("orderId")
+  @path
+  @segment("orders")
+  name: string;
+}
+
+@doc("Forward Order")
+model OrderProperties {
+  @doc("Customer PurchaseOrder")
+  purchaseOrder?: PurchaseOrder;
+
+  @doc("Order status")
+  @visibility("read")
+  status?: OrderStatus;
+   
+  @doc("Order line details")
+  @OpenAPI.extension("x-ms-identifiers",["id"])
+  orderLines:OrderLine[];
+
+  @doc("Order line details")
+  @visibility("read")
+  currency?:string;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("Customer PurchaseOrder")
+model PurchaseOrder {
+  @doc("Customer PurchaseOrder Id")
+  id: string;
+
+  @doc("Customer PurchaseOrder Date")
+  createdDateTime: plainDate;
+}
+
+@doc("Order Line")
+model OrderLine {
+  @doc("Order lineId")
+  id: integer;
+  @doc("Order line status")
+  @visibility("read")
+  status?: OrderLineStatus;
+  @doc("Order line date")
+  @visibility("read")
+  createdDateTime?: zonedDateTime;
+  @doc("Order line qty")
+  quantity: OrderLineQty;
+  @doc("order line Product")
+  product: Product;
+  @doc("line level Price")
+  price:Price;
+  @doc("shipTo Address")
+  shipTo: ShipTo;
+  @doc("Shipping Method")
+  shippingMethod: ShippingMethod;
+  @doc(" Requested Delivery Date")
+  requestedDeliveryDate:plainDate;
+  @doc("Estimated Deliver Date")
+  @visibility("read")
+  estimatedDeliverDateTime?:plainDate;
+  @doc("Estimated Shipped Date")
+  @visibility("read")
+  estimatedShippedDateTime?:plainDate;
+}
+
+@doc("Order Line Qty")
+model OrderLineQty {
+  @doc("Order lineId Ordered Quantity")
+  ordered: integer;
+  @doc("Order lineId Confirmed Quantity")
+  @visibility("read")
+  confirmed?: integer;
+  @doc("Order lineId Shipped Quantity")
+  @visibility("read")
+  shipped?:integer;
+  @doc("Order lineId Returned Quantity")
+  @visibility("read")
+  returned?:integer;
+}
+
+@doc("Order line Product")
+model Product {
+  @doc("ProductId")
+  id: string;
+  @doc("ProductId Type")
+  type:ProductIdType;
+}
+
+@doc("Order line Price")
+model Price {
+  @doc("Price per Unit")
+  unitAmount: numeric;
+  @doc("Tax for this line")
+  @visibility("read")
+  tax?: numeric;
+  @doc("Fees for this line")
+  @visibility("read")
+  @OpenAPI.extension("x-ms-identifiers",["type"])
+  fees?: Fee[];
+}
+
+@doc("Fee model")
+model Fee{
+  @doc("Fee charged")
+  feeAmount: numeric;
+  @doc("Fee Type")
+  type: FeeType;
+}
+
+@doc("ShipTo Id")
+model ShipTo{
+  @doc("ShipTo Id")
+  id: string;
+  @doc("ShipTo Type")
+  type: shipToIdType;
+}
+
+@armResourceOperations
+interface Orders
+{
+  @Autorest.example("./examples/Orders_Get.json","OrderById")
+  get is ArmResourceRead<Order>;
+  @Autorest.example("./examples/Orders_Create.json","CreateOrder")
+  create is ArmResourceCreateOrUpdateAsync<Order>;
+  @Autorest.example("./examples/Orders_Update.json","UpdateOrder")
+  update is ArmResourcePatchSync<Order, OrderProperties>;
+  @Autorest.example("./examples/Orders_Delete.json","DeleteOrder")
+  delete is ArmResourceDeleteSync<Order>;
+  @Autorest.example("./examples/Orders_ListByResourceGroup.json","GetByResourceGroup")
+  listByResourceGroup is ArmResourceListByParent<Order>;
+  @Autorest.example("./examples/Orders_ListBySubscription.json","GetBySubscription")
+  listBySubscription is ArmListBySubscription<Order>;
+}
+
+@doc("ProductId Type")
+enum ProductIdType{
+  UPN,
+  PSA,
+  MS
+}
+@doc("Shipping Method")
+enum ShippingMethod{
+  Ground,
+  OverNight
+}
+@doc("shipToId Type")
+enum shipToIdType{
+  BusinessLocation,
+  ExternalId
+}
+@doc("Fee Type")
+enum FeeType{
+  Recycling
+}
+@doc("Order Status")
+enum OrderStatus{
+  Pending,
+  Created,
+  Confirmed,
+  PartiallyConfirmed,
+  PartiallyShipped,
+  Shipped
+}
+@doc("Order Line Status")
+enum OrderLineStatus{
+  Pending,
+  Created,
+  Confirmed,
+  PartiallyConfirmed,
+  PartiallyShipped,
+  Shipped
+}
+
+@doc("Provisioning State")
+@lroStatus
+enum ProvisioningState {
+  ...ResourceProvisioningState,
+  Pending
+}

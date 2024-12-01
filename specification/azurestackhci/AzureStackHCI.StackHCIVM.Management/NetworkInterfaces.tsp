@@ -6,51 +6,108 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.AzureStackHCI;
-
+/**
+ * The network interface resource definition.
+ */
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
-#suppress "@azure-tools/typespec-azure-core/no-openapi" "x-ms-azure-resource legacy"
-@doc("The network interface resource definition.")
-@extension("x-ms-azure-resource", true)
-model NetworkInterface is TrackedResource<NetworkInterfaceProperties> {
-  @doc("Name of the network interface")
-  @pattern("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$")
+@includeInapplicableMetadataInPayload(false)
+@Azure.ResourceManager.Private.armResourceInternal(NetworkInterfaceProperties)
+model NetworkInterfaces extends TrackedResourceBase {
+  /**
+   * Name of the network interface
+   */
+  @maxLength(80)
+  @minLength(1)
+  @pattern("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[_a-zA-Z0-9]$")
   @path
   @key("networkInterfaceName")
   @segment("networkInterfaces")
   @visibility("read")
   name: string;
 
-  @doc("The extendedLocation of the resource.")
+  /**
+   * The extendedLocation of the resource.
+   */
   extendedLocation?: ExtendedLocation;
+
+  /**
+   * Properties under the network interface resource
+   */
+  @extension("x-ms-client-flatten", true)
+  properties?: NetworkInterfaceProperties;
 }
 
 @armResourceOperations
-interface NetworkInterfaces {
-  @doc("Gets a network interface")
-  get is ArmResourceRead<NetworkInterface>;
+@projectedName("client", "NetworkInterfaces")
+interface NetworkInterfacesOperationGroup {
+  /**
+   * Gets a network interface
+   */
+  get is ArmResourceRead<NetworkInterfaces>;
 
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @doc("The operation to create or update a network interface. Please note some properties can be set only during network interface creation.")
-  @Azure.Core.useFinalStateVia("azure-async-operation")
+  /**
+   * The operation to create or update a network interface. Please note some properties can be set only during network interface creation.
+   */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    NetworkInterface,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
+    NetworkInterfaces,
+    BaseParameters<NetworkInterfaces>,
+    ArmAsyncOperationHeader
   >;
 
-  @doc("The operation to update a network interface.")
-  @parameterVisibility
-  update is ArmCustomPatchAsync<NetworkInterface>;
+  /**
+   * The operation to update a network interface.
+   */
+  @parameterVisibility("read")
+  update is ArmCustomPatchAsync<
+    NetworkInterfaces,
+    NetworkInterfacesUpdateRequest,
+    BaseParameters<NetworkInterfaces>,
+    ArmAsyncOperationHeader
+  >;
 
-  @doc("The operation to delete a network interface.")
-  delete is ArmResourceDeleteWithoutOkAsync<NetworkInterface>;
+  /**
+   * The operation to delete a network interface.
+   */
+  delete is ArmResourceDeleteWithoutOkAsync<
+    NetworkInterfaces,
+    BaseParameters<NetworkInterfaces>,
+    ArmAsyncOperationHeader
+  >;
 
-  @doc("Lists all of the network interfaces in the specified resource group. Use the nextLink property in the response to get the next page of network interfaces.")
-  listByResourceGroup is ArmResourceListByParent<NetworkInterface>;
+  /**
+   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in the response to get the next page of network interfaces.
+   */
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("NetworkInterfaces_List")
+  list is ArmResourceListByParent<NetworkInterfaces>;
 
-  @doc("Lists all of the network interfaces in the specified subscription. Use the nextLink property in the response to get the next page of network interfaces.")
-  listAll is ArmListBySubscription<NetworkInterface>;
+  /**
+   * Lists all of the network interfaces in the specified subscription. Use the nextLink property in the response to get the next page of network interfaces.
+   */
+  listAll is ArmListBySubscription<NetworkInterfaces>;
 }
+
+@@projectedName(NetworkInterfacesOperationGroup.createOrUpdate::parameters.resource,
+  "json",
+  "networkInterfaces"
+);
+@@extension(NetworkInterfacesOperationGroup.createOrUpdate::parameters.resource,
+  "x-ms-client-name",
+  "networkInterfaces"
+);
+@@doc(NetworkInterfacesOperationGroup.createOrUpdate::parameters.resource, "");
+@@projectedName(NetworkInterfacesOperationGroup.update::parameters.properties,
+  "json",
+  "networkInterfaces"
+);
+@@extension(NetworkInterfacesOperationGroup.update::parameters.properties,
+  "x-ms-client-name",
+  "networkInterfaces"
+);
+@@doc(NetworkInterfacesOperationGroup.update::parameters.properties, "");

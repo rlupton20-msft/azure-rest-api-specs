@@ -1,0 +1,1143 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TypeSpaceClient",
+    "version": "2023-07-01-preview",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "Namespaces"
+    },
+    {
+      "name": "ResourceTypes"
+    },
+    {
+      "name": "TypeApiVersions"
+    },
+    {
+      "name": "Annotations"
+    },
+    {
+      "name": "VersionOperations"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.TypeSpace/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.TypeSpace/nameSpaces/{nameSpaceName}": {
+      "get": {
+        "operationId": "Namespaces_Get",
+        "tags": [
+          "Namespaces"
+        ],
+        "description": "Get a NameSpace",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NameSpace"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Namespaces_Put",
+        "tags": [
+          "Namespaces"
+        ],
+        "description": "Create a NameSpace",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NameSpace"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NameSpace"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Namespaces_Delete",
+        "tags": [
+          "Namespaces"
+        ],
+        "description": "Delete a NameSpace",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.TypeSpace/nameSpaces/{nameSpaceName}/types/{typeName}": {
+      "get": {
+        "operationId": "ResourceTypes_Get",
+        "tags": [
+          "ResourceTypes"
+        ],
+        "description": "Get a Type",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Type"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ResourceTypes_Put",
+        "tags": [
+          "ResourceTypes"
+        ],
+        "description": "Create a Type",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Type"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ResourceTypes_Delete",
+        "tags": [
+          "ResourceTypes"
+        ],
+        "description": "Delete a Type",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.TypeSpace/nameSpaces/{nameSpaceName}/types/{typeName}/annotations/{annotationName}": {
+      "get": {
+        "operationId": "Annotations_Get",
+        "tags": [
+          "Annotations"
+        ],
+        "description": "Get a Annotation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "annotationName",
+            "in": "path",
+            "description": "The annotations of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Annotation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Annotations_Put",
+        "tags": [
+          "Annotations"
+        ],
+        "description": "Create a Annotation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "annotationName",
+            "in": "path",
+            "description": "The annotations of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Annotation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Annotation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Annotations_Delete",
+        "tags": [
+          "Annotations"
+        ],
+        "description": "Delete a Annotation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "annotationName",
+            "in": "path",
+            "description": "The annotations of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.TypeSpace/nameSpaces/{nameSpaceName}/types/{typeName}/versions/{version}": {
+      "get": {
+        "operationId": "TypeApiVersions_Get",
+        "tags": [
+          "TypeApiVersions"
+        ],
+        "description": "Get a Version",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "TypeApiVersions_Put",
+        "tags": [
+          "TypeApiVersions"
+        ],
+        "description": "Create a Version",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "TypeApiVersions_Delete",
+        "tags": [
+          "TypeApiVersions"
+        ],
+        "description": "Delete a Version",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.TypeSpace/nameSpaces/{nameSpaceName}/types/{typeName}/versions/{version}/operations/{operation}": {
+      "get": {
+        "operationId": "VersionOperations_Get",
+        "tags": [
+          "VersionOperations"
+        ],
+        "description": "Get a Operation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operation",
+            "in": "path",
+            "description": "The name of the operation",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "VersionOperations_Put",
+        "tags": [
+          "VersionOperations"
+        ],
+        "description": "Create a Operation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operation",
+            "in": "path",
+            "description": "The name of the operation",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,50}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "VersionOperations_Delete",
+        "tags": [
+          "VersionOperations"
+        ],
+        "description": "Delete a Operation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "nameSpaceName",
+            "in": "path",
+            "description": "The namespace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "typeName",
+            "in": "path",
+            "description": "The name of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The version of the type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operation",
+            "in": "path",
+            "description": "The name of the operation",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Annotation": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AnnotationProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AnnotationProperties": {
+      "type": "object",
+      "description": "The properties of the annotations",
+      "properties": {
+        "nameSpace": {
+          "type": "string",
+          "description": "The resource namespace"
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type"
+        },
+        "annotation": {
+          "type": "string",
+          "description": "The annotation"
+        },
+        "values": {
+          "type": "object",
+          "description": "The annotation values for each property path",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "nameSpace",
+        "type",
+        "annotation",
+        "values"
+      ]
+    },
+    "NameSpace": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NameSpaceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "NameSpaceProperties": {
+      "type": "object",
+      "description": "The properties of the namespace",
+      "properties": {
+        "nameSpace": {
+          "type": "string",
+          "description": "The namespace"
+        },
+        "types": {
+          "type": "array",
+          "description": "The list of types under the namespace",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "nameSpace",
+        "types"
+      ]
+    },
+    "Operation": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/OperationProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "OperationProperties": {
+      "type": "object",
+      "description": "The properties of the resource operation",
+      "properties": {
+        "nameSpace": {
+          "type": "string",
+          "description": "The resource namespace, ex. Microsoft.Compute"
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type, ex. virtualMachines"
+        },
+        "version": {
+          "type": "string",
+          "description": "The API Version"
+        },
+        "operationId": {
+          "type": "string",
+          "description": "The operation ID, ex. /Microsoft.Computey/virtualMachines/2022-11-01/GET/200"
+        },
+        "operation": {
+          "type": "string",
+          "description": "The operation name, ex. GET"
+        },
+        "responseCode": {
+          "type": "string",
+          "description": "The possible response codes"
+        },
+        "typeProperties": {
+          "type": "object",
+          "description": "The properties of the resource type",
+          "additionalProperties": {
+            "$ref": "#/definitions/TypePropertyBag"
+          }
+        }
+      },
+      "required": [
+        "nameSpace",
+        "type",
+        "version",
+        "operationId",
+        "operation",
+        "responseCode",
+        "typeProperties"
+      ]
+    },
+    "Type": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TypeProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "TypeProperties": {
+      "type": "object",
+      "description": "The properties of the type",
+      "properties": {
+        "nameSpace": {
+          "type": "string",
+          "description": "The resource type namespace"
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type name"
+        },
+        "versions": {
+          "type": "array",
+          "description": "The list of API versions for the type",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "nameSpace",
+        "type",
+        "versions"
+      ]
+    },
+    "TypePropertyBag": {
+      "type": "object",
+      "description": "The property bag of the resource type",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of the resource property, ex. string"
+        },
+        "propertyFlags": {
+          "type": "array",
+          "description": "The property flags of the resource property",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "The defaultValue of the property, TODO: make required when enum is in propertyFlag"
+        },
+        "enums": {
+          "type": "array",
+          "description": "The enum storing all values of the property, TODO: make required when enum is in propertyFlag",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "Version": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VersionProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "VersionProperties": {
+      "type": "object",
+      "description": "The properties of the version",
+      "properties": {
+        "nameSpace": {
+          "type": "string",
+          "description": "The resource namespace"
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type"
+        },
+        "operations": {
+          "type": "array",
+          "description": "The list of operations under the API version",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "nameSpace",
+        "type",
+        "operations"
+      ]
+    }
+  },
+  "parameters": {}
+}

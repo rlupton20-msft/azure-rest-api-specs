@@ -1,0 +1,594 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "projectstaircase",
+    "description": "projectstaircase provider",
+    "version": "2021-01-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [ "https" ],
+  "consumes": [ "application/json" ],
+  "produces": [ "application/json" ],
+  "security": [
+    {
+      "azure_auth": [ "user_impersonation" ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/microsoft.projectstaircase/solutions": {
+      "get": {
+        "description": "Returns list of solutions by subscription.",
+        "operationId": "solutions_SubscriptionList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "solutions details.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.projectstaircase/solutions": {
+      "get": {
+        "description": "Returns list of solutions by resource group.",
+        "operationId": "solutions_ResourceGroupList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "solutions details.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResourceList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.projectstaircase/solutions/{resourceName}": {
+      "get": {
+        "description": "Returns solutions resource for a given name.",
+        "operationId": "solutions_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "solutions details.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update solutions resource.",
+        "operationId": "solutions_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          },
+          {
+            "name": "solutionsResource",
+            "description": "solutions details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete solutions resource.",
+        "operationId": "solutions_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Update solutions details.",
+        "operationId": "solutions_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          },
+          {
+            "name": "solutionsPatchResource",
+            "description": "solutions patch details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/solutionsPatchResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.projectstaircase/solutions/{resourceName}/result": {
+      "post": {
+        "description": "Returns nested resources for a given solutions name",
+        "operationId": "solution_Results",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solutions results.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResult"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.projectstaircase/solutions/{resourceName}/questionnaire": {
+      "post": {
+        "description": "Returns nested resources for a given solutions name",
+        "operationId": "solution_GetQuestionaire",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of questions.",
+            "schema": {
+              "$ref": "#/definitions/questionsResourceList"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.projectstaircase/solutions/{resourceName}/guidedDeployment": {
+      "post": {
+        "description": "Create or update solutions resource.",
+        "operationId": "solutions_GuidedDeploymentUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/solutionsNameParameter"
+          },
+          {
+            "name": "solutionsResource",
+            "description": "solutions details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful.",
+            "schema": {
+              "$ref": "#/definitions/solutionsResource"
+            }
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      }
+    },
+
+    "/providers/microsoft.projectstaircase/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operation_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "solutionsResource": {
+      "type": "object",
+      "description": "solutions details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [ "properties" ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [ "solutionType" ],
+          "properties": {
+            "solutionType": {
+              "type": "string",
+              "description": "Name of the solution type.",
+              "minLength": 3,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9-_]+$"
+            },
+            "solutionMetadata": {
+              "type": "object",
+              "description": "Solution metadata.",
+              "uniqueItems": true,
+              "maxProperties": 25
+            }
+          }
+        }
+      }
+    },
+    "solutionsPatchResource": {
+      "type": "object",
+      "description": "solutions patch properties",
+      "properties": {
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "solutionsResourceList": {
+      "description": "The list of solutions.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of solutions list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of solutions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/solutionsResource"
+          }
+        }
+      }
+    },
+    "solutionsResult": {
+      "type": "object",
+      "description": "solutions result",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path to ARM template."
+        },
+        "parameters": {
+          "type": "string",
+          "description": "ARM template parameters."
+        },
+        "json": {
+          "type": "string",
+          "description": "ARM template."
+        },
+        "items": {
+          "type": "array",
+          "description": "List of resources to be created.",
+          "items": {
+            "$ref": "#/definitions/resourceResults"
+          }
+        },
+        "costItems": {
+          "type": "array",
+          "description": "List of total resource costs.",
+          "items": {
+            "$ref": "#/definitions/resourceResults"
+          }
+        }
+      }
+    },
+    "resourceResults": {
+      "description": "Resource list to be created with associated costs.",
+      "properties": {
+        "count": {
+          "description": "Count of resources.",
+          "type": "integer",
+          "readOnly": true
+        },
+        "resourceType": {
+          "description": "Resource Type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Name of resource",
+          "type": "string",
+          "readOnly": true
+        },
+        "cost": {
+          "description": "Cost of resource",
+          "type": "number",
+          "readOnly": true
+        }
+      }
+    },
+    "questionsResource": {
+      "type": "object",
+      "description": "solutions details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "questionsResourceList": {
+      "description": "The list of nested resources.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of nested resources list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/questionsResource"
+          }
+        }
+      }
+    },
+
+    "operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "operationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      },
+      "required": [ "value" ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "solutionsNameParameter": {
+      "name": "resourceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name solutions resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

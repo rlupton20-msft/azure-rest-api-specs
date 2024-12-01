@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Informatica.DataManagement
+  namespace: Microsoft.Informatica
   output-folder: $(csharp-sdks-folder)/informatica/management/Informatica.DataManagement/GeneratedProtocol
 ```

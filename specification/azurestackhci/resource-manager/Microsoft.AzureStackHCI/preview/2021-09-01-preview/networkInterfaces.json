@@ -40,7 +40,6 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkinterfaces/{networkinterfacesName}": {
       "get": {
         "operationId": "networkinterfaces_Retrieve",
-        "description": "Gets network interfaces by resource name",
         "x-ms-examples": {
           "GetNetworkInterface": {
             "$ref": "./examples/GetNetworkInterface.json"
@@ -68,7 +67,7 @@
             }
           },
           "200": {
-            "description": "Retrieved the network interface resource.",
+            "description": "Retrieves the networkinterfaces resource.",
             "schema": {
               "$ref": "#/definitions/networkinterfaces"
             }
@@ -116,13 +115,13 @@
             }
           },
           "200": {
-            "description": "Updates the network interface resource.",
+            "description": "Updates the networkinterfaces resource.",
             "schema": {
               "$ref": "#/definitions/networkinterfaces"
             }
           },
           "201": {
-            "description": "Creates the network interface resource.",
+            "description": "Creates the networkinterfaces resource.",
             "schema": {
               "$ref": "#/definitions/networkinterfaces"
             }
@@ -158,7 +157,7 @@
             }
           },
           "200": {
-            "description": "Deletes the network interface resource."
+            "description": "Deletes the networkinterfaces resource."
           },
           "204": {
             "description": "No content"
@@ -202,13 +201,13 @@
             }
           },
           "200": {
-            "description": "Updates the network interface resource.",
+            "description": "Updates the networkinterfaces resource.",
             "schema": {
               "$ref": "#/definitions/networkinterfaces"
             }
           },
           "201": {
-            "description": "Updates the network interface resource.",
+            "description": "Updates the networkinterfaces resource.",
             "schema": {
               "$ref": "#/definitions/networkinterfaces"
             }
@@ -243,7 +242,7 @@
             }
           },
           "200": {
-            "description": "Lists all network interfaces under the resource group.",
+            "description": "Lists all networkinterfaces under the resource group.",
             "schema": {
               "$ref": "#/definitions/networkinterfacesListResult"
             }
@@ -278,7 +277,7 @@
             }
           },
           "200": {
-            "description": "Lists all network interfaces under the subscription.",
+            "description": "Lists all networkinterfaces under the subscription.",
             "schema": {
               "$ref": "#/definitions/networkinterfacesListResult"
             }
@@ -331,8 +330,7 @@
             "Failed",
             "InProgress",
             "Accepted",
-            "Deleting",
-            "Canceled"
+            "Deleting"
           ],
           "x-ms-enum": {
             "name": "ProvisioningStateEnum",
@@ -344,13 +342,12 @@
           "description": "name of the object to be used in moc"
         },
         "status": {
-          "$ref": "#/definitions/NetworkInterfaceStatus"
+          "$ref": "#/definitions/networkInterfaceStatus"
         }
       },
-      "description": "Properties of a network interface resource"
+      "description": "networkInterfacesProperties defines a list of properties under networkinterfaces"
     },
-    "NetworkInterfaceStatus": {
-      "type": "object",
+    "networkInterfaceStatus": {
       "x-ms-client-flatten": true,
       "readOnly": true,
       "properties": {
@@ -363,8 +360,6 @@
           "description": "Descriptive error message"
         },
         "provisioningStatus": {
-          "type": "object",
-          "description": "The provisioning status of the network interface",
           "properties": {
             "operationId": {
               "type": "string",
@@ -379,14 +374,14 @@
                 "InProgress"
               ],
               "x-ms-enum": {
-                "name": "ProvisioningStatusEnum",
+                "name": "Status",
                 "modelAsString": true
               }
             }
           }
         }
       },
-      "description": "NetworkInterfaceStatus defines the observed state of network interfaces"
+      "description": "networkInterfaceStatus defines the observed state of networkinterfaces"
     },
     "ipConfiguration": {
       "type": "object",
@@ -442,7 +437,7 @@
     },
     "networkinterfaces": {
       "type": "object",
-      "description": "The network interface resource definition.",
+      "description": "The networkinterfaces resource definition.",
       "x-ms-azure-resource": true,
       "x-ms-client-flatten": true,
       "properties": {
@@ -451,16 +446,22 @@
           "$ref": "#/definitions/networkinterfacesProperties"
         },
         "extendedLocation": {
-          "$ref": "./common.json#/definitions/ExtendedLocation",
-          "description": "The extendedLocation of the resource."
-        },
-        "systemData": {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          }
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
         }
       ]
     },
@@ -475,7 +476,7 @@
           "description": "Resource tags"
         }
       },
-      "description": "The network interface resource patch definition."
+      "description": "The networkinterfaces resource patch definition."
     },
     "networkinterfacesListResult": {
       "type": "object",

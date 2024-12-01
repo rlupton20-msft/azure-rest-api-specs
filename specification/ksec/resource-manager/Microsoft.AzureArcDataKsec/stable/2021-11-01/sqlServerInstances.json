@@ -1,0 +1,293 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2021-11-01",
+    "title": "AzureArcDataManagementClient",
+    "description": "The AzureArcData management API provides a RESTful set of web APIs to manage Azure Data Services on Azure Arc Resources."
+  },
+  "paths": {},
+  "definitions": {
+    "SqlServerInstance": {
+      "description": "A SqlServerInstance.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SqlServerInstanceProperties",
+          "description": "null",
+          "x-ms-client-flatten": false
+        }
+      }
+    },
+    "SqlServerInstanceProperties": {
+      "description": "Properties of SqlServerInstance.",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "SQL Server version.",
+          "enum": [
+            "SQL Server 2019",
+            "SQL Server 2017",
+            "SQL Server 2016"
+          ],
+          "x-ms-enum": {
+            "name": "sqlVersion",
+            "modelAsString": true
+          }
+        },
+        "edition": {
+          "type": "string",
+          "description": "SQL Server edition.",
+          "enum": [
+            "Evaluation",
+            "Enterprise",
+            "Standard",
+            "Web",
+            "Developer",
+            "Express"
+          ],
+          "x-ms-enum": {
+            "name": "editionType",
+            "modelAsString": true
+          }
+        },
+        "containerResourceId": {
+          "type": "string",
+          "description": "ARM Resource id of the container resource (Azure Arc for Servers)."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time when the resource was created.",
+          "readOnly": true
+        },
+        "vCore": {
+          "type": "string",
+          "description": "The number of logical processors used by the SQL Server instance."
+        },
+        "status": {
+          "type": "string",
+          "description": "The cloud connectivity status.",
+          "enum": [
+            "Connected",
+            "Disconnected",
+            "Unknown"
+          ],
+          "x-ms-enum": {
+            "name": "ConnectionStatus",
+            "modelAsString": true
+          }
+        },
+        "patchLevel": {
+          "type": "string",
+          "description": "SQL Server update level."
+        },
+        "collation": {
+          "type": "string",
+          "description": "SQL Server collation."
+        },
+        "currentVersion": {
+          "type": "string",
+          "description": "SQL Server current version."
+        },
+        "instanceName": {
+          "type": "string",
+          "description": "SQL Server instance name."
+        },
+        "tcpDynamicPorts": {
+          "type": "string",
+          "description": "Dynamic TCP ports used by SQL Server."
+        },
+        "tcpStaticPorts": {
+          "type": "string",
+          "description": "Static TCP ports used by SQL Server."
+        },
+        "productId": {
+          "type": "string",
+          "description": "SQL Server product ID."
+        },
+        "licenseType": {
+          "type": "string",
+          "description": "SQL Server license type.",
+          "enum": [
+            "Paid",
+            "Free",
+            "HADR",
+            "Undefined"
+          ],
+          "x-ms-enum": {
+            "name": "arcSqlServerLicenseType",
+            "modelAsString": true
+          }
+        },
+        "azureDefenderStatusLastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last Azure Defender status update."
+        },
+        "azureDefenderStatus": {
+          "type": "string",
+          "description": "Status of Azure Defender.",
+          "enum": [
+            "Protected",
+            "Unprotected",
+            "Unknown"
+          ],
+          "x-ms-enum": {
+            "name": "defenderStatus",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "containerResourceId",
+        "status"
+      ]
+    },
+    "SqlServerInstanceUpdate": {
+      "description": "An update to a SQL Server Instance.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SqlServerInstanceListResult": {
+      "description": "A list of SqlServerInstance.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SqlServerInstance"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ObjectManagementType": {
+      "description": "An enum for the object management type",
+      "type": "string",
+      "enum": [
+        "SERVICE MANAGED",
+        "CUSTOMER MANAGED"
+      ],
+      "x-ms-enum": {
+        "name": "objectManagementType",
+        "modelAsString": true
+      }
+    },
+    "azureADConfig": {
+      "description": "An update to a SQL Server Instance.",
+      "type": "object",
+      "required": [
+        "managedCertType",
+        "managedAppType",
+        "sqlInstanceName",
+        "administrators",
+        "tenantId"
+      ],
+      "properties": {
+        "managedCertType": {
+          "description":"Type of management for the certificate",
+          "$ref": "#/definitions/ObjectManagementType"
+        },
+        "managedAppType": {
+          "description":"Type of management for the app registration",
+          "$ref": "#/definitions/ObjectManagementType"
+        },
+        "sqlInstanceName": {
+          "type": "string",
+          "description": "SQL Server instance name."
+        },
+        "administrators": {
+          "type": "array",
+          "description": "List of Azure AD accounts to add as administrators to the SQL Server instance",
+          "items": {
+            "description": "An Azure AD account to add as a SQL Server admin",
+            "type": "object",
+            "required": [
+              "login",
+              "sid"
+            ],
+            "properties": {
+              "login": {
+                "description": "Name of the Azure AD principal.",
+                "type": "string"
+              },
+              "sid": {
+                "description": "SID / Object ID of Azure AD principal",
+                "type": "string"
+              },
+              "principalType": {
+                "description": "The type of the Azure AD principal",
+                "type": "string",
+                "enum": [
+                  "USER",
+                  "GROUP"
+                ],
+                "x-ms-enum": {
+                  "name": "adminPrincipalType",
+                  "modelAsString": true
+                }
+              }
+            }
+          }
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID for the Azure AD tenant the SQL Server instance will authenticate to"
+        },
+        "keyVaultUri": {
+          "type": "string",
+          "description": "URI for the Azure key vault instance the service-managed certificate will be stored in"
+        },
+        "certificateUri": {
+          "type": "string",
+          "description": "URI for the certificate in Azure Key Vault which the SQL Server instance will use to authenticate to Azure"
+        },
+        "secretId": {
+          "type": "string",
+          "description": "URI for the secret in Azure Key Vault for the certificate which the SQL Server instance will use to authenticate to Azure"
+        },
+        "appRegistration": {
+          "type": "object",
+          "description": "Preexisting app registration that SQL Server will use when authenticating to Azure",
+          "required": [
+            "principalName",
+            "clientId"
+          ],
+          "properties": {
+            "principalName": {
+              "description": "Name of the app registration",
+              "type": "string"
+            },
+            "clientId": {
+              "description": "Client ID of the app registration",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,22 +12,22 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.SecretSyncController")
+@armProviderNamespace("Private.SecretSyncController")
 @service({
-  title: "Microsoft.SecretSyncController",
+  title: "Private.SecretSyncController",
 })
-@doc("Microsoft.SecretSyncController resource provider.")
-@versioned(Microsoft.SecretSyncController.Versions)
-namespace Microsoft.SecretSyncController;
+@doc("Private.SecretSyncController resource provider.")
+@versioned(Versions)
+namespace Private.SecretSyncController;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("Supported API versions for the Microsoft.SecretSyncController resource provider.")
+@doc("Supported API versions for the Private.SecretSyncController resource provider.")
 enum Versions {
   // Private preview - 2024-08-21
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  @doc("The 2024-08-21-preview API.")
-  v2024_08_21_preview: "2024-08-21-preview",
+  @doc("The 2021-10-01-privatepreview API.")
+  v2021_10_01_privatepreview: "2021-10-01-privatepreview",
 }

@@ -1,0 +1,722 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AKSArcCapabilityCheckClient",
+    "version": "2024-11-01-preview",
+    "description": "AKS Arc Capability Resource Provider management API.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "AksCapabilities"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.AksCapability/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AksCapability/aksCapabilities": {
+      "get": {
+        "operationId": "AksCapabilities_ListBySubscription",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "List AksCapability resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AksCapabilityListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AksCapability/aksCapabilities": {
+      "get": {
+        "operationId": "AksCapabilities_ListByResourceGroup",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "List AksCapability resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AksCapabilityListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AksCapability/aksCapabilities/{aksCapabilityName}": {
+      "get": {
+        "operationId": "AksCapabilities_Get",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "Get a AksCapability",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "aksCapabilityName",
+            "in": "path",
+            "description": "The name of the AksCapability",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AksCapability"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AksCapabilities_Create",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "Creates resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "aksCapabilityName",
+            "in": "path",
+            "description": "The name of the AksCapability",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AksCapability"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AksCapability' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AksCapability"
+            }
+          },
+          "201": {
+            "description": "Resource 'AksCapability' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AksCapability"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "AksCapabilities_Update",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "Update resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "aksCapabilityName",
+            "in": "path",
+            "description": "The name of the AksCapability",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AksCapabilityUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AksCapability"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AksCapabilities_Delete",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "Delete resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "aksCapabilityName",
+            "in": "path",
+            "description": "The name of the AksCapability",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AksCapability/aksCapabilities/{aksCapabilityName}/precheckNewDeployment": {
+      "post": {
+        "operationId": "AksCapabilities_PrecheckNewDeployment",
+        "tags": [
+          "AksCapabilities"
+        ],
+        "description": "Simulate a new deployment and return the potential issues",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "aksCapabilityName",
+            "in": "path",
+            "description": "The name of the AksCapability",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PrecheckRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PrecheckResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AksCapability": {
+      "type": "object",
+      "description": "ClusterInfo resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AksCapabilityProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "AksCapabilityListResult": {
+      "type": "object",
+      "description": "The response of a AksCapability list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AksCapability items on this page",
+          "items": {
+            "$ref": "#/definitions/AksCapability"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AksCapabilityProperties": {
+      "type": "object",
+      "description": "ClusterInfo properties",
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "description": "Information of nodes in the cluster",
+          "items": {
+            "$ref": "#/definitions/AksNodeInfo"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "nodeIp"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "AksCapabilityUpdate": {
+      "type": "object",
+      "description": "ClusterInfo resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AksCapabilityProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
+    "AksNodeInfo": {
+      "type": "object",
+      "description": "NodeInfo",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the node"
+        },
+        "nodeIp": {
+          "type": "string",
+          "description": "Node IP"
+        },
+        "osType": {
+          "type": "string",
+          "description": "OS type of the node"
+        },
+        "osKernelVersion": {
+          "type": "string",
+          "description": "OS kernel version of the node"
+        },
+        "containerRuntimeVersion": {
+          "type": "string",
+          "description": "Container runtime version running on the node"
+        },
+        "kubernetesVersion": {
+          "type": "string",
+          "description": "Kubernetes version running on the node"
+        },
+        "nodeAllocableMemory": {
+          "type": "string",
+          "description": "Total memory allocable by the node"
+        },
+        "nodeAvailableMemory": {
+          "type": "string",
+          "description": "Available memory of the node"
+        },
+        "gpus": {
+          "type": "array",
+          "description": "List of GPUs present on the node",
+          "items": {
+            "$ref": "#/definitions/GpuInformation"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "AmdGpuInformation": {
+      "type": "object",
+      "description": "AMD GPU Information",
+      "properties": {
+        "kernelDriverVersion": {
+          "type": "string",
+          "description": "Placeholder for AMD-specific GPU informationKernel driver version of the GPU"
+        }
+      }
+    },
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
+    "GpuInformation": {
+      "type": "object",
+      "description": "GPU Information",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the GPU"
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Vendor of the GPU"
+        },
+        "totalMemory": {
+          "type": "string",
+          "description": "Total memory of the GPU in MB"
+        },
+        "availableMemory": {
+          "type": "string",
+          "description": "Available memory of the GPU in MB"
+        },
+        "nvidiaInfo": {
+          "$ref": "#/definitions/NvidiaGpuInformation",
+          "description": "Nvidia-specific GPU information"
+        },
+        "amdInfo": {
+          "$ref": "#/definitions/AmdGpuInformation",
+          "description": "AMD-specific GPU information"
+        },
+        "intelInfo": {
+          "$ref": "#/definitions/IntelGpuInformation",
+          "description": "Intel-specific GPU information"
+        }
+      }
+    },
+    "IntelGpuInformation": {
+      "type": "object",
+      "description": "Intel GPU Information",
+      "properties": {
+        "kernelDriverVersion": {
+          "type": "string",
+          "description": "Placeholder for Intel-specific GPU informationKernel driver version of the GPU"
+        }
+      }
+    },
+    "NvidiaGpuInformation": {
+      "type": "object",
+      "description": "Nvidia GPU Information",
+      "properties": {
+        "migSupport": {
+          "type": "boolean",
+          "description": "MIG support status of the GPU"
+        },
+        "mpsSupport": {
+          "type": "boolean",
+          "description": "MPS support status of the GPU"
+        },
+        "kernelDriverVersion": {
+          "type": "string",
+          "description": "Kernel driver version of the GPU"
+        },
+        "devicePluginVersion": {
+          "type": "string",
+          "description": "GPU Kubernetes device plugin version"
+        },
+        "sharedGpuSupport": {
+          "type": "boolean",
+          "description": "Shared GPU support status"
+        },
+        "cudaDriverVersion": {
+          "type": "string",
+          "description": "CUDA driver version details"
+        },
+        "cudaRuntimeVersion": {
+          "type": "string",
+          "description": "CUDA runtime version details"
+        }
+      }
+    },
+    "PrecheckRequest": {
+      "type": "object",
+      "description": "Request of the precheckNewDeployment action",
+      "properties": {
+        "yamlFile": {
+          "type": "string",
+          "description": "yaml file of k8s deployment"
+        },
+        "helmPackage": {
+          "type": "string",
+          "description": "helm package to deploy"
+        },
+        "helmValuesFile": {
+          "type": "string",
+          "description": "helm values file used for deployment"
+        }
+      }
+    },
+    "PrecheckResponse": {
+      "type": "object",
+      "description": "Response of the precheckNewDeployment action",
+      "properties": {
+        "potentialIssues": {
+          "type": "array",
+          "description": "The list of potential issues, if empty, the deployment can safely proceed",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "potentialIssues"
+      ]
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "The provisioning state of a resource.",
+      "enum": [
+        "Accepted",
+        "Provisioning",
+        "Updating",
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Deleting"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "The resource create request has been accepted"
+          },
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "The resource is being provisioned"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "The resource is updating"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Deleting",
+            "value": "Deleting",
+            "description": "The resource is being deleted"
+          }
+        ]
+      },
+      "readOnly": true
+    }
+  },
+  "parameters": {}
+}

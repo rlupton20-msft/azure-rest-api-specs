@@ -24,63 +24,48 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 These are the global settings for the azurestackhci.
 
-```yaml
+``` yaml
 title: Microsoft.AzureStackHCI
 description: Azure Stack HCI management service
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-preview-2024-08-01-preview
+tag: package-preview-2024-02-01 
 ```
 
 ## Suppression
 
-```yaml
+``` yaml
 directive:
   - suppress: R3020
     from:
-      - stackhcivm.json
+      - galleryImages.json
+      - logicalNetworks.json
+      - marketplaceGalleryImages.json
+      - networkInterfaces.json
       - operations.json
+      - storageContainers.json
+      - virtualHardDisks.json
+      - virtualMachines.json
+      - virtualMachineInstances.json
+      - virtualNetworks.json
     reason: Microsoft.AzureStackHCI is the correct name for our RP.
 suppressions:
   - code: PathResourceProviderNamePascalCase
     reason: We had already gone to production with "HCI" in our namespace, so changing it to "Hci" now would be disruptive.
-    from: 
-      - stackhcivm.json
-      - operations.json
+  - code: TopLevelResourcesListBySubscription
+    reason: It is reporting issue for proxy extension resource which doesn't have use case to ListBySubscription as this resource will always tied to one parent resource only. Additionally, there is a 1:1 relationship between HybridCompute Machines and AzureStackHCI VirtualMachineInstances.
+  - code: PropertiesTypeObjectNoDefinition
+    reason: These are existing properties already supported as part of PUT extensions call. Same properties are being supported for extensions Patch now.  
+    from: extensions.json
   - code: DefinitionsPropertiesNamesCamelCase
-    reason: There is a false positive reporting the two letter acronym ID should be lower camel case. The property is correctly capitalized according to guidance.
-    from: 
-      - stackhcivm.json
-      - operations.json
-  - code:  XmsPageableForListCalls
-    reason: XmsPageable not needed for GET calls
-    from:
-      - stackhcivm.json
-  - code: EvenSegmentedPathForPutOperation
-    reason: resourceUri in virtualmachineinstances is the parent resource. It consists of an even number of segmented paths. 
-    from: 
-      - stackhcivm.json
+    reason: There is a false positive reporting the two letter acronym ID should be lower camel case. The property is correctly capitalized according to guidance. 
+    from: logicalNetworks.json
+  - code: ResourceNameRestriction
+    reason: publisherName, publisherName etc didn't have a pattern initially, adding the constraint now will cause a breaking change.
+  - code: DefinitionsPropertiesNamesCamelCase
+    reason: We have a dependency on other team which is already using these values, changing it will break backward compatibility.
 ```
 
-### Tag: package-preview-2024-08
-
-These settings apply only when `--tag=package-preview-2024-08` is specified on the command line.
-
-```yaml $(tag) == 'package-preview-2024-08'
-input-file:
-  - preview/2024-08-01-preview/stackhcivm.json
-  - ../operations/preview/2024-08-01-preview/operations.json
-```
-
-### Tag: package-preview-2024-05
-
-These settings apply only when `--tag=package-preview-2024-05-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-preview-2024-05-01-preview'
-input-file:
-  - preview/2024-05-01-preview/stackhcivm.json
-  - ../operations/preview/2024-05-01-preview/operations.json
-```
 
 ### Tag: package-preview-2024-02
 
@@ -88,6 +73,13 @@ These settings apply only when `--tag=package-preview-2024-02-01` is specified o
 
 ```yaml $(tag) == 'package-preview-2024-02-01'
 input-file:
-  - preview/2024-02-01-preview/stackhcivm.json
-  - ../operations/preview/2024-02-01-preview/operations.json
+  - preview/2024-02-01-preview/common.json
+  - preview/2024-02-01-preview/galleryImages.json
+  - preview/2024-02-01-preview/logicalNetworks.json
+  - preview/2024-02-01-preview/marketplaceGalleryImages.json
+  - preview/2024-02-01-preview/networkInterfaces.json
+  - preview/2024-02-01-preview/storageContainers.json
+  - preview/2024-02-01-preview/virtualHardDisks.json
+  - preview/2024-02-01-preview/virtualMachineInstances.json
+  - operations/preview/2024-02-01-preview/operations.json
 ```

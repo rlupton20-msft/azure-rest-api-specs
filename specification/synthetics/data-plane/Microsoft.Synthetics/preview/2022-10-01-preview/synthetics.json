@@ -1,0 +1,713 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2022-10-01-preview",
+    "title": "SyntheticsServiceClient",
+    "description": "Description of the Synthetics service",
+    "x-ms-code-generation-settings": {
+      "name": "SyntheticsClient"
+    },
+    "x-ms-parameterized-host": {
+      "hostTemplate": "{syntheticsWorkspaceUrl}",
+      "useSchemePrefix": false,
+      "positionInOperation": "first",
+      "parameters": [
+        {
+          "$ref": "#/parameters/syntheticsWorkspaceUrl"
+        }
+      ]
+    }
+  },
+  "paths": {
+    "/simulations/{simulationId}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "#/parameters/SimulationIdParameter"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Simulations"
+        ],
+        "x-ms-long-running-operation": false,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "operationId": "Simulations_Create",
+        "summary": "Creates a new simulation.",
+        "description": "Creates a new simulation with the specified ID.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "SimulationRequest",
+            "description": "The simulation to create.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SimulationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successfully created simulation.",
+            "headers": {
+              "Location": {
+                "description": "GET this URL to retrieve the status of the asynchronous operation.",
+                "type": "string"
+              },
+              "Retry-After": {
+                "description": "The amount of delay to use while the status of the operation is checked. The value is expressed in seconds.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "Simulations_Get",
+        "summary": "Gets a simulation.",
+        "description": "Gets a simulation based on ID.",
+        "tags": [
+          "Simulations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Simulation response.",
+            "schema": {
+              "$ref": "#/definitions/SimulationEntity"
+            },
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/simulations/{simulationId}/cancel": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "#/parameters/SimulationIdParameter"
+        }
+      ],
+      "post": {
+        "operationId": "Simulations_Cancel",
+        "summary": "Cancels a simulation.",
+        "description": "Cancels a simulation based on ID.",
+        "tags": [
+          "Simulations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "202": {
+            "description": "The cancel request has been accepted.",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+                  "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/simulations/{simulationId}/retry": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "#/parameters/SimulationIdParameter"
+        }
+      ],
+      "post": {
+        "operationId": "Simulations_Retry",
+        "summary": "Retry a simulation.",
+        "description": "Retry a past simulation based on ID.",
+        "tags": [
+          "Simulations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "SimulationRetryRequest",
+            "in": "body",
+            "description": "The simulation retry configuration.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SimulationRetryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The retry request has been accepted.",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/simulations/{simulationId}/generateresultssas": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "#/parameters/SimulationIdParameter"
+        }
+      ],
+      "post": {
+        "operationId": "Simulations_GenerateResultsSas",
+        "summary": "Generates a container read SAS URL for the simulation's results.",
+        "description": "Generates a container read SAS URL for the simulation's results.",
+        "tags": [
+          "Simulations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The SAS generation request has succeeded.",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/GenerateResultsSasResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/simulations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/ApiVersionParameter"
+        }
+      ],
+      "get": {
+        "operationId": "Simulations_List",
+        "summary": "List simulations.",
+        "description": "List simulations with optional filtering.",
+        "tags": [
+          "Simulations"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/SimulationStatusParameter"
+          },
+          {
+            "$ref": "#/parameters/CreatedTimeFromParameter"
+          },
+          {
+            "$ref": "#/parameters/CreatedTimeToParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Simulation response.",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/SimulationCollection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/info": {
+      "get": {
+        "operationId": "ServerInfo_Get",
+        "summary": "Gets server information.",
+        "description": "Gets server information.",
+        "tags": [
+          "Info"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Server information response.",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "A unique identifier for the request that was made to the Synth service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Synth Account against which the request was made, and the region that Account resides in.",
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ServerInfo"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SimulationRequest": {
+      "description": "Parameters used to create a simulation job.",
+      "type": "object",
+      "required": [
+        "assetUri",
+        "assetContainerSas",
+        "configUri",
+        "outputUri",
+        "outputContainerSas"
+      ],
+      "properties": {
+        "assetUri": {
+          "description": "The Uri where the source asset can be downloaded from.",
+          "type": "string"
+        },
+        "assetContainerSas": {
+          "description": "The shared access signature token for the container for assetUri. Must include read, write and create permissions.",
+          "type": "string"
+        },
+        "configUri": {
+          "description": "The Uri of the simulation configuration, including the shared access signature to read the file.",
+          "type": "string"
+        },
+        "outputUri": {
+          "description": "The Uri to the location where simulation artifacts and results should be stored.",
+          "type": "string"
+        },
+        "outputContainerSas": {
+          "description": "The shared access signature token for the container for outputUri. Must include read, write and create permissions.",
+          "type": "string"
+        },
+        "engineVersion": {
+          "description": "The engine bits to simulate against.",
+          "type": "string"
+        },
+        "renderer": {
+          "description": "The name of the renderer to use.",
+          "type": "string"
+        },
+        "maxConcurrency": {
+          "description": "The maximum number of workers to run job in parallel.",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "The duration (in hours) that the simulation is allowed to execute before timing out. Defaults to 24.",
+          "type": "number"
+        },
+        "batchPoolId": {
+          "description": "The custom batch pool name.",
+          "type": "string"
+        },
+        "postProcessing": {
+          "description": "Postprocessing tool to run after the simulation.",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Job metadata.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SimulationStatus": {
+      "type": "string",
+      "title": "The status of Simulation.",
+      "enum": [
+        "Running",
+        "Failed",
+        "Completed"
+      ],
+      "x-ms-enum": {
+        "name": "SimulationStatus",
+        "modelAsString": false,
+        "values": [
+          {
+            "value": "Running",
+            "description": "The simulation is in progress."
+          },
+          {
+            "value": "Failed",
+            "description": "The simulation ended in failure."
+          },
+          {
+            "value": "Completed",
+            "description": "The simulation ran to completion."
+          }
+        ]
+      }
+    },
+    "SimulationEntity": {
+      "description": "Represents a simulation.",
+      "type": "object",
+      "required": [
+        "assetUri",
+        "configUri",
+        "outputUri",
+        "createdDateTime",
+        "lastActionDateTime",
+        "status"
+      ],
+      "properties": {
+        "assetUri": {
+          "description": "The Uri of the source asset.",
+          "type": "string",
+          "format": "uri"
+        },
+        "configUri": {
+          "description": "The Uri of the simulation configuration file.",
+          "type": "string",
+          "format": "uri"
+        },
+        "outputUri": {
+          "description": "The Uri to the location where simulation artifacts and results are stored.",
+          "type": "string",
+          "format": "uri"
+        },
+        "engineVersion": {
+          "description": "The specific engine version (if requested) for this simulation.",
+          "type": "string"
+        },
+        "renderer": {
+          "description": "The name of the renderer used.",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Simulation job metadata.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "createdDateTime": {
+          "description": "The date and time when the simulation was created.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastActionDateTime": {
+          "description": "The date and time when the simulation was last updated.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/SimulationStatus"
+        },
+        "subStatus": {
+          "description": "Additional information about the current status of the simulation.",
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "resultsUri": {
+          "description": "The Uri of the location where simulation results will be stored.",
+          "type": "string",
+          "format": "uri"
+        },
+        "cancellationRequested": {
+          "description": "A boolean indicator of whether there is a cancel request on this simulation.",
+          "type": "boolean"
+        },
+        "postProcessing": {
+          "description": "Postprocessing tool to run after the simulation.",
+          "type": "string"
+        },
+        "traceId": {
+          "description": "The unique id to trace the telemetry of a simulation workflow.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition"
+        },
+        "errorLogsUri": {
+          "description": "The Uri of the location where error logs will be dumped.",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "SimulationRetryRequest": {
+      "description": "Parameters used to retry a simulation job.",
+      "type": "object",
+      "required": [
+        "retrySimulationId",
+        "assetContainerSasToken",
+        "configSasToken",
+        "outputContainerSasToken"
+      ],
+      "properties": {
+        "retrySimulationId": {
+          "description": "The id of the retry simulation job.",
+          "type": "string"
+        },
+        "assetContainerSasToken": {
+          "description": "The SAS token of the source asset.",
+          "type": "string"
+        },
+        "configSasToken": {
+          "description": "The SAS token of the simulation configuration file.",
+          "type": "string"
+        },
+        "outputContainerSasToken": {
+          "description": "The SAS token of the simulation job output container.",
+          "type": "string"
+        }
+      }
+    },
+    "SimulationListItem": {
+      "description": "Item in List of simulations.",
+      "type": "object",
+      "required": [
+        "simulationId"
+      ],
+      "properties": {
+        "simulationId": {
+          "type": "string",
+          "description": "The ID of the simulation."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SimulationEntity"
+        }
+      ]
+    },
+    "SimulationCollection": {
+      "description": "A paged list of simulations.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "Simulations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimulationListItem"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "Error response.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition"
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error.",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ServerInfo": {
+      "description": "Server information response.",
+      "type": "object",
+      "properties": {
+        "buildVersion": {
+          "description": "Version of the build the service is currently running.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tools": {
+          "description": "Additional information about the Synthetics tool set, including client-side tools.",
+          "type": "object",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "GenerateResultsSasResponse": {
+      "description": "Generate results SAS URL response.",
+      "type": "object",
+      "required": [
+        "resultsSasUri"
+      ],
+      "properties": {
+        "resultsSasUri": {
+          "description": "The container read SAS URL for the simulation's results.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version.",
+      "x-ms-parameter-location": "client"
+    },
+    "SimulationIdParameter": {
+      "name": "simulationId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "description": "The ID of the simulation job.",
+      "x-ms-parameter-location": "method"
+    },
+    "SimulationStatusParameter": {
+      "name": "simulationStatus",
+      "in": "query",
+      "required": false,
+      "enum": [
+        "Running",
+        "Failed",
+        "Completed"
+      ],
+      "description": "The ID of the simulation job.",
+      "x-ms-parameter-location": "method"
+    },
+    "CreatedTimeFromParameter": {
+      "name": "createdTimeFrom",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "format": "date-time",
+      "description": "Filter only jobs after the specified time."
+    },
+    "CreatedTimeToParameter": {
+      "name": "createdTimeTo",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "format": "date-time",
+      "description": "Filter only jobs before the specified time."
+    },
+    "syntheticsWorkspaceUrl": {
+      "name": "syntheticsWorkspaceUrl",
+      "x-ms-parameter-location": "client",
+      "required": true,
+      "type": "string",
+      "in": "path",
+      "x-ms-skip-url-encoding": true,
+      "description": "The base URL for Azure Synthetics workspace service requests."
+    }
+  },
+  "x-path-unused": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "x-ms-parameter-location": "client"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "minLength": 1,
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "client"
+    }
+  }
+}

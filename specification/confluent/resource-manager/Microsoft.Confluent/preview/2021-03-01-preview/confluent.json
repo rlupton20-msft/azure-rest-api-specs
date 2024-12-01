@@ -251,6 +251,51 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/validations/default/orgfilter": {
+      "post": {
+        "tags": [
+          "Filters"
+        ],
+        "summary": "List all Organizations filtered by the given parameters.",
+        "operationId": "Organization_ListByFilter",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "in": "body",
+            "name": "filterParameters",
+            "description": "Organization filter parameters",
+            "schema": {
+              "$ref": "#/definitions/OrganizationFilterParameters"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OrganizationResourceListResult"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderDefaultErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}": {
       "get": {
         "tags": [
@@ -582,11 +627,6 @@
           "type": "string",
           "readOnly": true
         },
-        "systemData": {
-          "description": "Metadata pertaining to creation and last modification of the resource",
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
-          "readOnly": true
-        },
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/ConfluentAgreementProperties",
@@ -710,6 +750,35 @@
         }
       }
     },
+    "OrganizationSoftDeleteState": {
+      "enum": [
+        "New",
+        "SoftDeleteInProgress",
+        "SoftDeleted",
+        "RecoveryInProgress",
+        "Recovered"
+      ],
+      "type": "string",
+      "description": "Soft Delete states for Organization resource.",
+      "title": "OrganizationSoftDeleteState",
+      "x-ms-enum": {
+        "name": "OrganizationSoftDeleteState",
+        "modelAsString": true
+      }
+    },
+    "OrganizationKind": {
+      "enum": [
+        "Active",
+        "SoftDeleted"
+      ],
+      "type": "string",
+      "description": "Kinds of organizations",
+      "title": "OrganizationKind",
+      "x-ms-enum": {
+        "name": "OrganizationKind",
+        "modelAsString": true
+      }
+    },
     "ProvisioningState": {
       "enum": [
         "Accepted",
@@ -789,8 +858,7 @@
         },
         "status": {
           "description": "SaaS Offer Status",
-          "$ref": "#/definitions/SaaSOfferStatus",
-          "readOnly": true
+          "$ref": "#/definitions/SaaSOfferStatus"
         }
       }
     },
@@ -847,23 +915,42 @@
           "type": "string",
           "readOnly": true
         },
+        "softDeleteLastOpsTime": {
+          "format": "date-time",
+          "description": "The time of the latest Soft Delete operation done on the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "softDeleteState": {
+          "description": "Soft delete state for Organization resource.",
+          "$ref": "#/definitions/OrganizationSoftDeleteState",
+          "readOnly": true
+        },
         "offerDetail": {
           "description": "Confluent offer detail",
-          "$ref": "#/definitions/OfferDetail"
+          "allOf": [
+            {
+              "$ref": "#/definitions/OfferDetail"
+            }
+          ]
         },
         "userDetail": {
           "description": "Subscriber detail",
-          "$ref": "#/definitions/UserDetail"
+          "allOf": [
+            {
+              "$ref": "#/definitions/UserDetail"
+            }
+          ]
         }
       }
     },
     "OrganizationResource": {
       "description": "Organization resource.",
       "type": "object",
-      "x-ms-azure-resource": true,
       "required": [
         "properties"
       ],
+      "x-ms-azure-resource": true,
       "properties": {
         "id": {
           "description": "The ARM id of the resource.",
@@ -880,6 +967,11 @@
           "type": "string",
           "readOnly": true
         },
+        "kind": {
+          "description": "Kinds of organizations",
+          "$ref": "#/definitions/OrganizationKind",
+          "readonly": true
+        },
         "systemData": {
           "description": "Metadata pertaining to creation and last modification of the resource",
           "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
@@ -888,7 +980,11 @@
         "properties": {
           "x-ms-client-flatten": true,
           "description": "Organization resource properties",
-          "$ref": "#/definitions/OrganizationResourceProperties"
+          "allOf": [
+            {
+              "$ref": "#/definitions/OrganizationResourceProperties"
+            }
+          ]
         },
         "tags": {
           "type": "object",
@@ -900,6 +996,23 @@
         "location": {
           "description": "Location of Organization resource",
           "type": "string"
+        }
+      }
+    },
+    "OrganizationFilterParameters": {
+      "description": "Filtering parameters for listing organizations",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "softDeleteState": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrganizationSoftDeleteState"
+              }
+            }
+          }
         }
       }
     },
@@ -930,6 +1043,9 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "properties": {
+          "$ref": "#/definitions/OrganizationResourceProperties"
         }
       }
     }
@@ -967,6 +1083,13 @@
       "required": true,
       "type": "string",
       "x-ms-parameter-location": "method"
+    },
+    "OperationIdParameter": {
+      "in": "path",
+      "name": "operationId",
+      "description": "Operation ID for an async operation",
+      "required": true,
+      "type": "string"
     }
   }
 }

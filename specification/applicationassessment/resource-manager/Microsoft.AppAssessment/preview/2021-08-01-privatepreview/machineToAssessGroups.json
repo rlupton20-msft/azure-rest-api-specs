@@ -1,0 +1,312 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2021-08-01-privatepreview",
+    "title": "ApplicationAssessment",
+    "description": "Application assessments when migrating to Azure or upgrading to new OS versions"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppAssessment/migrateProjects/{projectName}/machineToAssessGroups": {
+      "get": {
+        "tags": [
+          "migrateProjects_listMachineToAssessGroups"
+        ],
+        "operationId": "machineToAssessGroups_ListByMigrateProject",
+        "description": "List the machinesToAssessGroups",
+        "x-ms-examples": {
+          "machineToAssessGroups_listByProject": {
+            "$ref": "./examples/migrateProjects_listMachineToAssessGroups.json"
+          }
+        },
+        "x-ms-pageable": {
+          "itemName": "value",
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "projectName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the project"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/SkipParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/TopParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/FilterParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assessment was found",
+            "schema": {
+              "$ref": "#/definitions/machineToAssessGroupList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppAssessment/migrateProjects/{projectName}/machineToAssessGroups/{groupName}": {
+      "get": {
+        "tags": [
+          "migrateProjects_machinesToAssessGroups"
+        ],
+        "operationId": "migrateProjects_getMachineToAssessGroupById",
+        "description": "Gets machine to assess group",
+        "x-ms-examples": {
+          "migrateProjects_getMachineToAssessGroupById": {
+            "$ref": "./examples/migrateProjects_getMachineToAssessGroupById.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "projectName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the project"
+          },
+          {
+            "name": "groupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the group"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group created successfully",
+            "schema": {
+              "$ref": "#/definitions/machineToAssessGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "migrateProjects_machineToAssessGroups"
+        ],
+        "operationId": "migrateProjects_createMachineToAssessGroup",
+        "description": "Creates a machine assessment group",
+        "x-ms-examples": {
+          "migrateProjects_createMachineToAssessGroup": {
+            "$ref": "./examples/migrateProjects_createMachineToAssessGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "projectName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the project"
+          },
+          {
+            "name": "groupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the group"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "required": true,
+            "description": "Request body. Properties to define the group",
+            "schema": {
+              "$ref": "#/definitions/machineToAssessGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Machine was created",
+            "schema": {
+              "$ref": "#/definitions/machineToAssessGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "migrateProjects_machineToAssessGroups"
+        ],
+        "operationId": "migrateProjects_deleteMachineToAssessGroups",
+        "description": "Delete a machine to assess group",
+        "x-ms-examples": {
+          "migrateProjectsAssessment_deleteMachineToAssessGroups": {
+            "$ref": "./examples/migrateProjects_deleteMachineToAssessGroups.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "projectName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the project"
+          },
+          {
+            "name": "groupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the group"
+          },
+          {
+            "$ref": "definitions.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project was deleted"
+          },
+          "204": {
+            "description": "No content"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "machineToAssessGroup": {
+      "type": "object",
+      "description": "Information about the machine to assess",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "Properties of the machine to assess resource",
+          "x-ms-client-flatten": true,
+          "properties": {
+            "machines": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "The resource id of the machine to assess under a site e.g. /subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/testRG/providers/Microsoft.AppAssessment/migrateProjects/test/sites/vmware-site-001/machines/2b5bba8f-4beb-4cee-a037-9d8d11f1843b"
+              },
+              "description": "Array of resource ids of the machines to assess",
+              "maxLength": 1000
+            },
+            "provisioningState": {
+              "type": "string",
+              "readOnly": true,
+              "description": "The provisioning state of the resource in Azure"
+            }
+          }
+        }
+      }
+    },
+    "machineToAssessGroupList": {
+      "type": "object",
+      "description": "List of machineToAssessGroups in the project",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of machineToAssessGroups",
+          "items": {
+            "$ref": "#/definitions/machineToAssessGroup"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Link to next page of results, null if at end of results"
+        }
+      }
+    }
+  }
+}

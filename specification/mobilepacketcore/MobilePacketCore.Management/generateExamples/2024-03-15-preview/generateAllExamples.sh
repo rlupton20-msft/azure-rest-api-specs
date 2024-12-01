@@ -1,0 +1,10 @@
+./generateExamples.sh smfDeployment smfDeployment1 smfdeploymentget.txt smfdeploymentput.txt SmfDeployment
+./generateExamples.sh nrfDeployment nrfDeployment1 nrfdeploymentget.txt nrfdeploymentput.txt NrfDeployment
+./generateExamples.sh amfDeployment amfDeployment1 amfdeploymentget.txt amfdeploymentput.txt AmfDeployment
+./generateExamples.sh upfDeployment upfDeployment1 upfdeploymentget.txt upfdeploymentput.txt UpfDeployment
+./generateExamples.sh nssfDeployment nssfDeployment1 nssfdeploymentget.txt nssfdeploymentput.txt NssfDeployment
+./generateExamples.sh mmeDeployment virtualizedMmeDeployment1 virtualizedmmedeploymentget.txt virtualizedmmedeploymentput.txt VirtualizedMmeDeployment
+./generateExamples.sh vnfAgentDeployment vnfAgentDeployment1 vnfAgentdeploymentget.txt vnfAgentdeploymentput.txt VnfAgentDeployment
+./generateExamples.sh observabilityService observabilityService1 observabilityserviceget.txt observabilityserviceput.txt ObservabilityService
+./generateExamples.sh clusterService clusterService1 clusterserviceget.txt clusterserviceput.txt ClusterService
+./generateExamples.sh sdmDeployment sdmDeployment1 sdmdeploymentget.txt sdmdeploymentput.txt SdmDeployment

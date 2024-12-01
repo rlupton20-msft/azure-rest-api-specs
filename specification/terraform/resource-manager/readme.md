@@ -29,7 +29,7 @@ title: AzureTerraformManagementClient
 description: AzureTerraform Client
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-07-01-preview
+tag: package-2023-07
 ```
 
 
@@ -39,7 +39,7 @@ These settings apply only when `--tag=package-2023-07-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-07-01-preview'
 input-file:
-  - Microsoft.AzureTerraform/preview/2023-07-01-preview/export.json
+  - Private.AzureTerraform/preview/2023-07-01-preview/export.json
 ```
 
 ---
@@ -53,6 +53,7 @@ This is not used by Autorest itself.
 
 ``` yaml $(swagger-to-sdk)
 swagger-to-sdk:
+  - repo: azure-sdk-for-net
   - repo: azure-sdk-for-net-track2
   - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java

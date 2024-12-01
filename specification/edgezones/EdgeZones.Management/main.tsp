@@ -21,7 +21,13 @@ namespace Microsoft.EdgeZones;
 enum Versions {
   /** 2024-04-01-preview api version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   `2024-04-01-preview`,
+
+  /** 2024-08-01 api version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  `2024-08-01`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -120,6 +126,19 @@ model ExtendedZone is ProxyResource<ExtendedZoneProperties> {
   name: string;
 }
 
+// We will use this in an interface
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "All operations must be inside an interface declaration."
+@autoRoute
+@armResourceAction(TResource)
+@post
+@doc("Arm Resource Action Taking no request body object and returning result object")
+op ArmResourceActionNoBodySync<
+  TResource extends CommonTypes.Resource,
+  TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
+>(
+  ...ResourceInstanceParameters<TResource, TBaseParameters>,
+): ArmResponse<TResource> | ErrorResponse;
+
 @doc("ExtendedZone operations")
 @armResourceOperations
 interface ExtendedZones {
@@ -130,8 +149,8 @@ interface ExtendedZones {
   listBySubscription is ArmListBySubscription<ExtendedZone>;
 
   @doc("Registers a subscription for an Extended Zone")
-  register is ArmResourceActionSync<ExtendedZone, void, ExtendedZone>;
+  register is ArmResourceActionNoBodySync<ExtendedZone>;
 
   @doc("Unregisters a subscription for an Extended Zone")
-  unregister is ArmResourceActionSync<ExtendedZone, void, ExtendedZone>;
+  unregister is ArmResourceActionNoBodySync<ExtendedZone>;
 }

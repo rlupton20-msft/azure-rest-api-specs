@@ -457,7 +457,7 @@
           }
         },
         "sourceDatabaseId": {
-          "description": "The name of the source database associated with create operation of this database.",
+          "description": "The resource identifier of the source database associated with create operation of this database.",
           "type": "string",
           "format": "arm-id"
         },
@@ -478,28 +478,28 @@
           "readOnly": true
         },
         "migration": {
-          "$ref": "#/definitions/DataBaseMigration"
+          "$ref": "#/definitions/Migration"
         }
       }
     },
-    "DataBaseMigration": {
+    "Migration": {
       "description": "Migration related configuration.",
       "type": "object",
       "properties": {
         "assessment": {
           "description": "Migration assessments related configuration.",
-          "$ref": "#/definitions/DataBaseMigrationAssessment"
+          "$ref": "#/definitions/MigrationAssessment"
         }
       }
     },
-    "DataBaseMigrationAssessment": {
+    "MigrationAssessment": {
       "description": "The migration assessment related configuration.",
       "type": "object",
       "properties": {
         "assessmentUploadTime": {
           "type": "string",
           "format": "date-time",
-          "description": "The time when Migration Assessment Report upload was last performed.",
+          "description": "The time when Migration Assessment Report upload was last performed for this database.",
           "readOnly": true
         },
         "databaseAssessments": {
@@ -556,7 +556,7 @@
           "$ref": "#/definitions/SkuRecommendationResultsNumberOfBlockerIssues"
         },
         "recommendationStatus": {
-          "$ref": "./common.json#/definitions/SkuRecommendationResultsRecommendationStatus"
+          "$ref": "#/definitions/SkuRecommendationResultsRecommendationStatus"
         }
       }
     },
@@ -564,6 +564,19 @@
       "description": "Number of blocker issues to fix before migrating this database to the target platform.",
       "type": "integer",
       "format": "int32"
+    },
+    "SkuRecommendationResultsRecommendationStatus": {
+      "description": "The target recommendation Status for this database.",
+      "type": "string",
+      "enum": [
+        "NotReady",
+        "Ready",
+        "Unknown"
+      ],
+      "x-ms-enum": {
+        "name": "recommendationStatus",
+        "modelAsString": true
+      }
     },
     "SqlServerDatabaseUpdate": {
       "description": "An update to database resource.",

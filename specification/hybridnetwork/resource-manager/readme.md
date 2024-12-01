@@ -14,7 +14,9 @@ To see additional help and options, run:
 
 > `autorest --help`
 
-## For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
+For other options on installation see [Installing AutoRest](https://aka.ms/autorest/install) on the AutoRest github page.
+---
+
 
 ## Configuration
 
@@ -25,75 +27,66 @@ These are the global settings for the hybridnetwork.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-04-15
+tag: package-2021-05-01
 ```
 
-### Tag: package-2024-04-15
+### Tag: package-2023-04-01-preview
 
-These settings apply only when `--tag=package-2024-04-15` is specified on the command line.
+These settings apply only when `--tag=package-2023-04-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-04-15'
+```yaml $(tag) == 'package-2023-04-01-preview'
 input-file:
-  - Microsoft.HybridNetwork/stable/2024-04-15/common.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/configurationGroupSchema.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/configurationGroupValues.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/networkFunction.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/networkFunctionDefinition.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/networkServiceDesign.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/operation.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/publisher.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/pureProxyArtifact.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/site.json
-  - Microsoft.HybridNetwork/stable/2024-04-15/siteNetworkService.json
-suppressions:
-  - code: PatchSkuProperty
-    from: siteNetworkService.json
-    reason: sku cannot be patched
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/common.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/networkFunction.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/publisher.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/networkFunctionDefinition.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/proxyPublisher.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/pureProxyArtifact.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/operation.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/configurationGroupSchema.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/networkServiceDesign.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/site.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/siteNetworkService.json
+  - Microsoft.HybridNetwork/preview/2023-04-01-preview/configurationGroupValues.json
 ```
 
-### Tag: package-2023-09-01
+### Tag: package-2023-01-01
 
-These settings apply only when `--tag=package-2023-09-01` is specified on the command line.
+These settings apply only when `--tag=package-2023-01-01` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-09-01'
+```yaml $(tag) == 'package-2023-01-01'
 input-file:
-  - Microsoft.HybridNetwork/stable/2023-09-01/common.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/configurationGroupSchema.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/configurationGroupValues.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/networkFunction.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/networkFunctionDefinition.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/networkServiceDesign.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/operation.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/publisher.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/pureProxyArtifact.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/site.json
-  - Microsoft.HybridNetwork/stable/2023-09-01/siteNetworkService.json
-
-suppressions:
-  - code: PatchSkuProperty
-    from: siteNetworkService.json
-    reason: sku cannot be patched
+  - Microsoft.HybridNetwork/stable/2023-01-01/common.json
+  - Microsoft.HybridNetwork/stable/2023-01-01/networkFunction.json
+  - Microsoft.HybridNetwork/stable/2023-01-01/publisher.json
+  - Microsoft.HybridNetwork/stable/2023-01-01/networkFunctionDefinition.json
+  - Microsoft.HybridNetwork/stable/2023-01-01/operation.json
 ```
 
-### Tag: package-2022-01-01-preview
+### Tag: package-2022-09-01-preview
 
-These settings apply only when `--tag=package-2022-01-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-2022-09-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2022-01-01-preview'
+```yaml $(tag) == 'package-2022-09-01-preview'
 input-file:
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/common.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/device.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/networkFunction.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/networkFunctionVendor.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/operation.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/vendor.json
-  - Microsoft.HybridNetwork/preview/2022-01-01-preview/vendorNetworkFunction.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/common.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/networkFunction.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/publisher.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/networkFunctionDefinition.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/proxyPublisher.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/operation.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/configurationGroupSchema.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/networkServiceDesign.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/site.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/siteNetworkService.json
+  - Microsoft.HybridNetwork/preview/2022-09-01-preview/configurationGroupValues.json
 ```
+
 ### Tag: package-2021-05-01
 
 These settings apply only when `--tag=package-2021-05-01` is specified on the command line.
 
-``` yaml $(tag) == 'package-2021-05-01'
+```yaml $(tag) == 'package-2021-05-01'
 input-file:
   - Microsoft.HybridNetwork/stable/2021-05-01/common.json
   - Microsoft.HybridNetwork/stable/2021-05-01/networkFunction.json
@@ -108,7 +101,7 @@ input-file:
 
 These settings apply only when `--tag=package-2020-01-01-preview` is specified on the command line.
 
-``` yaml $(tag) == 'package-2020-01-01-preview'
+```yaml $(tag) == 'package-2020-01-01-preview'
 input-file:
   - Microsoft.HybridNetwork/preview/2020-01-01-preview/common.json
   - Microsoft.HybridNetwork/preview/2020-01-01-preview/networkFunction.json
@@ -118,7 +111,20 @@ input-file:
   - Microsoft.HybridNetwork/preview/2020-01-01-preview/networkFunctionVendor.json
   - Microsoft.HybridNetwork/preview/2020-01-01-preview/vendorNetworkFunction.json
 ```
+### Tag: package-2021-05-01
 
+These settings apply only when `--tag=package-2021-05-01` is specified on the command line.
+
+```yaml $(tag) == 'package-2021-05-01'
+input-file:
+  - Microsoft.HybridNetwork/stable/2021-05-01/common.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/networkFunction.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/device.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/operation.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/vendor.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/networkFunctionVendor.json
+  - Microsoft.HybridNetwork/stable/2021-05-01/vendorNetworkFunction.json```
+---
 # Code Generation
 
 ## Swagger to SDK
@@ -126,7 +132,7 @@ input-file:
 This section describes what SDK should be generated by the automatic system.
 This is not used by Autorest itself.
 
-``` yaml $(swagger-to-sdk)
+```yaml $(swagger-to-sdk)
 swagger-to-sdk:
   - repo: azure-sdk-for-python
   - repo: azure-sdk-for-java
@@ -135,8 +141,6 @@ swagger-to-sdk:
   - repo: azure-sdk-for-ruby
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_hybridnetwork']
-  - repo: azure-resource-manager-schemas
-  - repo: azure-powershell
 ```
 
 ## Go

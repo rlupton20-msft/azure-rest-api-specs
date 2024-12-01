@@ -1,0 +1,594 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "2022-04-01-preview",
+        "title": "azureedgezones",
+        "description": "RPaaS service for managing Elephant resources"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "security": [
+        {
+            "azure_auth": [
+                "user_impersonation"
+            ]
+        }
+    ],
+    "securityDefinitions": {
+        "azure_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+            "flow": "implicit",
+            "description": "Azure Active Directory OAuth2 Flow",
+            "scopes": {
+                "user_impersonation": "impersonate your user account"
+            }
+        }
+    },
+    "paths": {
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Elephant/virtualMachines": {
+            "get": {
+                "tags": [
+                    "???"
+                ],
+                "operationId": "VirtualMachines_ListBySubscription",
+                "description": "List all virtual machines in the subscription.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of virtual machines successful. The operation returns the resulting virtualMachines resources.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachineListResult"
+                        }
+                    },
+                    "default": {
+                        "description": "Default response is a failure.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "SubscriptionListVirtualMachine": {
+                        "$ref": "./examples/VirtualMachineSubscriptionList.json"
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elephant/virtualMachines": {
+            "get": {
+                "tags": [
+                    "???"
+                ],
+                "operationId": "VirtualMachines_List",
+                "description": "List all virtual machines in the resource group.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of virtual machines successful. The operation returns the resulting virtualMachines resources.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachineListResult"
+                        }
+                    },
+                    "default": {
+                        "description": "Default response is a failure.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "ListVirtualMachine": {
+                        "$ref": "./examples/VirtualMachineList.json"
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elephant/virtualMachines/{virtualMachineName}": {
+            "delete": {
+                "tags": [
+                    "???"
+                ],
+                "operationId": "VirtualMachines_Delete",
+                "description": "Deletes the specified virtual machine.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/VirtualMachineNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted and the operation will complete asynchronously."
+                    },
+                    "204": {
+                        "description": "Request successful. Resource with the specified name does not exist"
+                    },
+                    "200": {
+                        "description": "Delete successful."
+                    },
+                    "default": {
+                        "description": "Default response is a failure.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "DeleteVirtualMachine": {
+                        "$ref": "./examples/VirtualMachineDelete.json"
+                    }
+                },
+                "x-ms-long-running-operation": true
+            },
+            "get": {
+                "tags": [
+                    "Tag1"
+                ],
+                "operationId": "VirtualMachines_Get",
+                "description": "This is a sample get operation, please see guidelines in azure-rest-api-specs repository for more info",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/VirtualMachineNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Describe the result of a successful operation.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachine"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "GetVirtualMachine": {
+                        "$ref": "./examples/VirtualMachineGet.json"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "???"
+                ],
+                "operationId": "VirtualMachines_CreateOrUpdate",
+                "description": "Creates or updates the specified virtual machine.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/VirtualMachineNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachine"
+                        },
+                        "description": "Parameters supplied to the create or update virtualMachine operation."
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Create successful. The operation returns the resulting virtualMachine resource.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachine"
+                        }
+                    },
+                    "200": {
+                        "description": "Update successful. The operation returns the resulting virtualMachine resource.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachine"
+                        }
+                    },
+                    "default": {
+                        "description": "Default response is a failure.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "PutVirtualMachine": {
+                        "$ref": "./examples/VirtualMachinePut.json"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "???"
+                ],
+                "operationId": "VirtualMachines_Update",
+                "description": "Updates the specified virtual machine.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/VirtualMachineNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "x-ms-client-flatten": true,
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachinePropertiesUpdate"
+                        },
+                        "description": "Parameters supplied to the update virtualMachine operation."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update successful. The operation returns the resulting virtualMachine resource.",
+                        "schema": {
+                            "$ref": "#/definitions/VirtualMachine"
+                        }
+                    },
+                    "default": {
+                        "description": "Default response is a failure.",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-examples": {
+                    "PatchVirtualMachine": {
+                        "$ref": "./examples/VirtualMachinePatch.json"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Result": {
+            "description": "Sample result definition",
+            "properties": {
+                "sampleProperty": {
+                    "type": "string",
+                    "description": "Sample property of type string"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "description": "Error response.",
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/ErrorDefinition",
+                    "description": "The error details."
+                }
+            }
+        },
+        "ErrorDefinition": {
+            "description": "Error definition.",
+            "properties": {
+                "code": {
+                    "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "message": {
+                    "description": "Description of the error.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "details": {
+                    "description": "Internal error details.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ErrorDefinition"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
+        "ExtendedLocation": {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The type of the extended location.",
+                    "x-ms-enum": {
+                        "name": "type"
+                    },
+                    "enum": [ "EdgeZone" ]
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the extended location."
+                }
+            }
+        },
+        "Resource": {
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "description": "Resource ID."
+                },
+                "name": {
+                    "readOnly": true,
+                    "type": "string",
+                    "description": "Resource name."
+                },
+                "type": {
+                    "readOnly": true,
+                    "type": "string",
+                    "description": "Resource type."
+                },
+                "location": {
+                    "type": "string",
+                    "description": "Resource location."
+                },
+                "extendedLocation": {
+                    "$ref": "#/definitions/ExtendedLocation",
+                    "description": "Extended Location"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Resource tags."
+                }
+            },
+            "title": "Resource",
+            "description": "Common fields that are returned in the response for all Azure Resource Manager resources",
+            "type": "object",
+            "x-ms-azure-resource": true
+        },
+        "ProvisioningState": {
+            "type": "string",
+            "readOnly": true,
+            "description": "The current provisioning state.",
+            "enum": [
+              "Succeeded",
+              "Updating",
+              "Deleting",
+              "Failed"
+            ],
+            "x-ms-enum": {
+              "name": "ProvisioningState",
+              "modelAsString": true
+            }
+        },
+        "HardwareProfile": {
+            "properties": {
+              "vmSize": {
+                "type": "string",
+                "description": "Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set.",
+                "x-ms-enum": {
+                    "name": "vmSize"
+                },
+                "enum": [
+                    "Standard_DS1_v2",
+                    "Standard_DS2_v2",
+                    "Standard_DS3_v2",
+                    "Standard_DS4_v2",
+                    "Standard_DS5_v2"
+                    ]
+                }
+            },
+            "description": "Specifies the size of the virtual machine. This element is required to create a virtual machine but cannot be changed once the virtual machine is created."
+        },
+        "ImageReference": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The image id to use for the virtual machine."
+              },
+              "offer": {
+                "type": "string",
+                "description": "The image offer name"
+              },
+              "publisher": {
+                "type": "string",
+                "description": "The image publisher"
+              },
+              "sku": {
+                "type": "string",
+                "description": "The image sku"
+              }
+            },
+            "description": "Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set."
+        },
+        "StorageProfile": {
+            "properties": {
+              "imageReference": {
+                "$ref": "#/definitions/ImageReference",
+                "description": "Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations."
+              }
+            },
+            "description": "Specifies the storage settings for the virtual machine disks."
+        },
+        "OSProfile": {
+            "properties": {
+              "computerName": {
+                "type": "string",
+                "description": "Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules)."
+              },
+              "adminUsername": {
+                "type": "string",
+                "description": "Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in \".\" <br><br> **Disallowed values:** \"administrator\", \"admin\", \"user\", \"user1\", \"test\", \"user2\", \"test1\", \"user3\", \"admin1\", \"1\", \"123\", \"a\", \"actuser\", \"adm\", \"admin2\", \"aspnet\", \"backup\", \"console\", \"david\", \"guest\", \"john\", \"owner\", \"root\", \"server\", \"sql\", \"support\", \"support_388945a0\", \"sys\", \"test2\", \"test3\", \"user4\", \"user5\". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters."
+              },
+              "adminPassword": {
+                "type": "string",
+                "description": "Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\\W_]) <br><br> **Disallowed values:** \"abc@123\", \"P@$$w0rd\", \"P@ssw0rd\", \"P@ssword123\", \"Pa$$word\", \"pass@word1\", \"Password!\", \"Password1\", \"Password22\", \"iloveyou!\" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)"
+              }
+            },
+            "description": "Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned."
+        },
+        "VirtualMachinePropertiesFormat": {
+            "properties": {
+                "provisioningState": {
+                    "readOnly": true,
+                    "description": "The provisioning state of the resource.",
+                    "$ref": "#/definitions/ProvisioningState"
+                },
+                "hardwareProfile": {
+                    "$ref": "#/definitions/HardwareProfile",
+                    "description": "Specifies the hardware settings for the virtual machine."
+                },
+                "osProfile": {
+                    "$ref": "#/definitions/OSProfile",
+                    "description": "Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned."
+                },
+                "storageProfile": {
+                    "$ref": "#/definitions/StorageProfile",
+                    "description": "Specifies the storage settings for the virtual machine disks."
+                }
+            },
+            "description": "Properties of the virtual machine."
+        },
+        "VirtualMachine": {
+            "title": "Virtual Machine Resource",
+            "description": "The model definition for a virutal machine resource.",
+            "type": "object",
+            "properties": {
+                "properties": {
+                    "x-ms-client-flatten": true,
+                    "$ref": "#/definitions/VirtualMachinePropertiesFormat",
+                    "description": "Properties of the virtual machine."
+                },
+                "etag": {
+                    "type": "string",
+                    "readOnly": true,
+                    "description": "Gets a unique read-only string that changes whenever the resource is updated."
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Resource"
+                }
+            ],
+            "required": [
+                "properties"
+            ]
+        },
+        "VirtualMachinePropertiesUpdate": {
+            "description": "The properties for a virtual machine update operation.",
+            "properties": {
+                "osProfile": {
+                    "$ref": "#/definitions/OSProfile",
+                    "description": "Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned."
+                }
+            }
+        },
+        "VirtualMachineListResult": {
+            "properties": {
+              "value": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/VirtualMachine"
+                },
+                "readOnly": true,
+                "description": "A response message containing a list of virtual machines in the specified scope."
+              },
+              "nextLink": {
+                "type": "string",
+                "readOnly": true,
+                "description": "The URL to get the next set of virtual machines."
+              }
+            },
+            "description": "The virtual machine list result."
+        }
+    },
+    "parameters": {
+        "SubscriptionIdParameter": {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)"
+        },
+        "ResourceGroupNameParameter": {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group.",
+            "x-ms-parameter-location": "method"
+        },
+        "VirtualMachineNameParameter": {
+            "name": "virtualMachineName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the virtual machine.",
+            "x-ms-parameter-location": "method"
+        },
+        "ApiVersionParameter": {
+            "name": "api-version",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The API version to be used with the HTTP request."
+        }
+    }
+}

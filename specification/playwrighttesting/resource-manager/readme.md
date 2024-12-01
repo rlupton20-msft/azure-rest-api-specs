@@ -18,6 +18,25 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ---
 
+## Suppression
+
+```yaml $(suppression)
+directive:
+  - suppress: ResourceNameRestriction
+    from:
+      - playwrighttesting.json
+    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
+  - suppress: ProvisioningStateMustBeReadOnly
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as the visibility is set to read in the TypeSpec already.
+  - suppress: DeleteResponseCode
+    from:
+      - playwrighttesting.json
+    reason: Seems like a took bug, as default operations are generated from the TrackedResourceOperations in the TypeSpec.
+```
+---
+
 ## Configuration
 
 ### Basic Information
@@ -39,23 +58,6 @@ These settings apply only when `--tag=package-2024-12-01` is specified on the co
 ```yaml $(tag) == 'package-2024-12-01'
 input-file:
   - Microsoft.AzurePlaywrightService/stable/2024-12-01/playwrighttesting.json
-suppressions:
-  - code: ResourceNameRestriction
-    from: playwrighttesting.json
-    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
-  - code: ProvisioningStateMustBeReadOnly
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as the visibility is set to read only in the TypeSpec already.
-  - code: DeleteResponseCodes
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as default operations with codes are generated from the TrackedResourceOperations in the TypeSpec.
-    where:
-      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"].delete
-```
-
-``` yaml
-modelerfour:
-  flatten-models: false
 ```
 
 ### Tag: package-2024-08-01-preview
@@ -65,23 +67,6 @@ These settings apply only when `--tag=package-2024-08-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-08-01-preview'
 input-file:
   - Microsoft.AzurePlaywrightService/preview/2024-08-01-preview/playwrighttesting.json
-suppressions:
-  - code: ResourceNameRestriction
-    from: playwrighttesting.json
-    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
-  - code: ProvisioningStateMustBeReadOnly
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as the visibility is set to read only in the TypeSpec already.
-  - code: DeleteResponseCodes
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as default operations with codes are generated from the TrackedResourceOperations in the TypeSpec.
-    where:
-      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"].delete
-```
-
-``` yaml
-modelerfour:
-  flatten-models: false
 ```
 
 ### Tag: package-2024-02-01-preview
@@ -91,23 +76,15 @@ These settings apply only when `--tag=package-2024-02-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-02-01-preview'
 input-file:
   - Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/playwrighttesting.json
-suppressions:
-  - code: ResourceNameRestriction
-    from: playwrighttesting.json
-    reason: We have enums defined for quota resource names which doesn't support string pattern validation.
-  - code: ProvisioningStateMustBeReadOnly
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as the visibility is set to read only in the TypeSpec already.
-  - code: DeleteResponseCodes
-    from: playwrighttesting.json
-    reason: Seems like a tool bug, as default operations with codes are generated from the TrackedResourceOperations in the TypeSpec.
-    where:
-      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"].delete
 ```
 
-``` yaml
-modelerfour:
-  flatten-models: false
+### Tag: package-2024-01-01-preview
+
+These settings apply only when `--tag=package-2024-01-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-01-01-preview'
+input-file:
+  - Microsoft.AzurePlaywrightService/preview/2024-01-01-preview/playwrighttesting.json
 ```
 
 ### Tag: package-2023-10-01-preview
@@ -130,7 +107,7 @@ This is not used by Autorest itself.
 
 ```yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-python
+  - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js

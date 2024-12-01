@@ -913,7 +913,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionsets": {
       "get": {
         "tags": [
           "EncryptionSets"
@@ -961,7 +961,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionsets/{encryptionSetName}": {
       "get": {
         "tags": [
           "EncryptionSets"
@@ -4700,6 +4700,107 @@
           }
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/imageDefinitions": {
+      "parameters": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+        },
+        {
+          "$ref": "#/parameters/ProjectNameParameter"
+        },
+        {
+          "$ref": "#/parameters/CatalogNameParameter"
+        },
+        {
+          "$ref": "commonDefinitions.json#/parameters/TopParameter"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Image Definitions"
+        ],
+        "description": "List Image Definitions in the catalog.",
+        "operationId": "ImageDefinitions_ListByProjectCatalog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ImageDefinitionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "ImageDefinitions_ListByProjectCatalog": {
+            "$ref": "./examples/ImageDefinitions_ListByProjectCatalog.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/imageDefinitions/{imageDefinitionName}": {
+      "parameters": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+        },
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+        },
+        {
+          "$ref": "#/parameters/ProjectNameParameter"
+        },
+        {
+          "$ref": "#/parameters/CatalogNameParameter"
+        },
+        {
+          "$ref": "#/parameters/ImageDefinitionNameParameter"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Image Definitions"
+        ],
+        "description": "Gets an Image Definition from the catalog",
+        "operationId": "ImageDefinitions_GetByProjectCatalog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ImageDefinition"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ImageDefinitions_GetByProjectCatalog": {
+            "$ref": "./examples/ImageDefinitions_GetByProjectCatalog.json"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4777,11 +4878,6 @@
         "tags": {
           "$ref": "commonDefinitions.json#/definitions/Tags",
           "description": "Resource tags."
-        },
-        "provisioningState": {
-          "description": "The provisioning state of the resource.",
-          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
-          "readOnly": true
         }
       }
     },
@@ -6648,6 +6744,79 @@
           "type": "string"
         }
       }
+    },
+    "ImageDefinitionListResult": {
+      "description": "Results of the Image Definition list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Current page of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageDefinition"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "URL to get the next set of results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageDefinition": {
+      "description": "Represents a definition for an Image.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Image Definition properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ImageDefinitionProperties"
+        }
+      }
+    },
+    "ImageDefinitionProperties": {
+      "description": "Properties of an Image Definition.",
+      "type": "object",
+      "properties": {
+        "imageReference": {
+          "$ref": "vdi.json#/definitions/ImageReference",
+          "description": "Image reference information."
+        },
+        "provisioningState": {
+          "description": "The provisioning state of the resource.",
+          "$ref": "commonDefinitions.json#/definitions/ProvisioningState",
+          "readOnly": true
+        },
+        "imageValidationStatus": {
+          "description": "Validation status of the configured image.",
+          "$ref": "vdi.json#/definitions/ImageValidationStatus",
+          "readOnly": true
+        },
+        "imageValidationErrorDetails": {
+          "description": "Details for image validator error. Populated when the image validation is not successful.",
+          "$ref": "vdi.json#/definitions/ImageValidationErrorDetails",
+          "readOnly": true
+        },
+        "validationStatus": {
+          "description": "Validation status for the Image Definition.",
+          "$ref": "vdi.json#/definitions/CatalogResourceValidationStatus",
+          "readOnly": true
+        },
+        "activeImageReference": {
+          "$ref": "vdi.json#/definitions/ImageReference",
+          "description": "Image reference information for the currently active image (only populated during updates).",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "imageReference"
+      ]
     }
   },
   "parameters": {
@@ -6824,6 +6993,17 @@
       "required": true,
       "type": "string",
       "description": "The name of the Environment Definition.",
+      "x-ms-parameter-location": "method",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+      "minLength": 3,
+      "maxLength": 63
+    },
+    "ImageDefinitionNameParameter": {
+      "name": "imageDefinitionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the Image Definition.",
       "x-ms-parameter-location": "method",
       "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
       "minLength": 3,

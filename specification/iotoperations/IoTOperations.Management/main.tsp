@@ -25,18 +25,18 @@ using Azure.ResourceManager;
 #suppress "@azure-tools/typespec-azure-core/casing-style"
 @armProviderNamespace
 @service({
-  title: "Microsoft.IoTOperations management service.",
+  title: "Private.IoTOperations management service.",
 })
-@doc("Microsoft.IoTOperations Resource Provider management API.")
+@doc("Private.IoTOperations Resource Provider management API.")
 @versioned(Versions)
-namespace Microsoft.IoTOperations;
+namespace Private.IoTOperations;
 
 /** Api versions */
 enum Versions {
-  /** 2024-11-01 version */
+  /** 2024-09-15-preview version */
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2024-11-01`,
+  `2024-09-15-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

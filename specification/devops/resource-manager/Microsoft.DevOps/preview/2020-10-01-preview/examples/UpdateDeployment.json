@@ -1,0 +1,69 @@
+{
+  "parameters": {
+    "subscriptionId": "{subscriptionId}",
+    "resourceGroupName": "myDeploymentResource-rg",
+    "deploymentName": "myDeployment",
+    "api-version": "2020-06-01-preview",
+    "deploymentParameters": {}
+  },
+  "responses": {
+    "200": {
+      "description": "The Deployment resource has been configured successfully.",
+      "body": {
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/myDeploymentResource-rg/providers/Microsoft.Devops/deploymentv2/myDeployment",
+        "name": "myDeployment",
+        "type": "Microsoft.Devops/deploymentv2",
+        "properties": {
+          "targetResource": {
+            "name": "contoso-k8s-cluster",
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/k8s-rg/providers/Microsoft.ContainerService/managedClusters/contoso-k8s-cluster",
+            "location": "westus",
+            "type": "Microsoft.ContainerService/ManagedClusters",
+            "properties": {
+              "namespace": "prod-wcus",
+              "kubernetesObjects": [
+                {
+                  "kind": "service",
+                  "url": "/api/v1/namespaces/prod-wcus/services/contoso-service"
+                },
+                {
+                  "kind": "deployment",
+                  "url": "/apis/apps/v1/namespaces/prod-wcus/deployments/contoso-deployment"
+                }
+              ]
+            }
+          },
+          "workflowRun": {
+            "provider": "GitHub",
+            "properties": {
+              "repository": "contoso/contoso-app",
+              "workflow": "./github/workflow/cd.yml",
+              "run": "123",
+              "runUri": "https://github.com/contoso/contoso-app/actions/runs/123",
+              "createdBy": "contosoUser",
+              "branch": "release",
+              "jobName": "build-and-deploy",
+              "creationTimestamp": "2020-06-04T07:59:40Z",
+              "modifiedTimestamp": "2020-06-04T08:59:40Z",
+              "status": "success",
+              "commit": "870d8ae5d7558661d59c1d805d41fd53e43a9a6c"
+            }
+          },
+          "artifacts": [
+            {
+              "type": "container",
+              "properties": {
+                "image": "contosoImage",
+                "dockerFile": "build/dockerfile",
+                "helm": "charts/charts.yaml",
+                "manifests": [
+                  "manifest/manifest.yml"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

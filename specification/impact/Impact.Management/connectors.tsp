@@ -9,7 +9,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Microsoft.Impact;
+namespace Private.Impact;
 
 @doc("A connector is a resource that can be used to proactively report impacts against workloads in Azure to Microsoft.")
 @subscriptionResource

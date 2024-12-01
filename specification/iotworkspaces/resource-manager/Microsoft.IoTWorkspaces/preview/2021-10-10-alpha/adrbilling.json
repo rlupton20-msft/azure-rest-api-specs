@@ -1,0 +1,221 @@
+{
+    "x-generator": "NSwag v13.16.0.0 (NJsonSchema v10.7.1.0 (Newtonsoft.Json v12.0.0.0))",
+    "swagger": "2.0",
+    "info": {
+        "title": "Azure Device Registry Scale Resource",
+        "version": "2021-10-10-alpha"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/subscriptions/{subscriptionId}/providers/Microsoft.IoTWorkspaces/billingContainers": {
+            "get": {
+                "tags": [
+                    "billingContainers"
+                ],
+                "operationId": "List_billingContainers_Subscription",
+                "description": "List all billingContainers in a subscription.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainersResponseList"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/providers/Microsoft.IoTWorkspaces/billingContainers/{billingContainerName}": {
+            "put": {
+                "tags": [
+                    "RootbillingContainerg"
+                ],
+                "operationId": "Create_Or_Replace_billingContainer",
+                "description": "Create a new device or replace an existing ARM device.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/billingContainerNameParameter"
+                    },
+                    {
+                        "name": "billingContainer",
+                        "in": "body",
+                        "required": true,
+                        "description": "Resource create parameters.",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainer"
+                        }
+                    },
+                    "201": {
+                        "x-nullable": false,
+                        "description": "Async operation to create or update.",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainer"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "RootbillingContainer"
+                ],
+                "operationId": "Update_billingContainer",
+                "description": "Update specific ARM billingContainer properties.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/billingContainerNameParameter"
+                    },
+                    {
+                        "name": "billingContainer",
+                        "in": "body",
+                        "required": true,
+                        "description": "Resource Patch parameters.",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "RootbillingContainer"
+                ],
+                "operationId": "Delete_billingContainer",
+                "description": "Delete a billingContainer.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/billingContainerNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "202": {
+                        "headers": {
+                            "Location": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Async operation to delete the adr billings."
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "RootbillingContainer"
+                ],
+                "operationId": "Read_billingContainer",
+                "description": "Retrieve a single billingContainer.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/billingContainerNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/billingContainer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "billingContainerNameParameter": {
+            "name": "billingContainerName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 3
+        }
+    },
+    "definitions": {
+        "billingContainersResponseList": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/billingContainer"
+                    }
+                },
+                "nextLink": {
+                    "type": "string"
+                }
+            },
+            "description": "List of ARM Devices."
+        },
+        "billingContainer": {
+            "type": "object",
+            "properties": {
+                "properties": {
+                    "$ref": "#/definitions/billingContainerProperties",
+                    "description": "Resource properties."
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+                }
+            ]
+        },
+        "billingContainerProperties": {}
+    }
+}

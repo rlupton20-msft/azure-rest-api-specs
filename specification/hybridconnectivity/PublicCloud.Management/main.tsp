@@ -55,7 +55,7 @@ model SolutionTypeSettings {
 //------------------- Test Permissions -------------------
 
 @doc("Public connector permissions.")
-model TestPermissionResult {
+model TestPermissionResponse {
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
   @doc("Solution type permissions.")
   solutionTypes: Array<SolutionTypePermissions>;
@@ -104,7 +104,6 @@ union Status {
 @doc("Public Cloud Connector")
 model PublicCloudConnector is TrackedResource<PublicCloudConnectorProperties> {
   @doc("Represent public cloud connectors resource.")
-  @pattern("^[a-zA-Z0-9-]{3,63}$")
   @key("publicCloudConnector")
   @path
   @segment("publicCloudConnectors")
@@ -158,7 +157,6 @@ model AwsCloudProfile {
 model SolutionConfiguration
   is ExtensionResource<SolutionConfigurationProperties> {
   @doc("Represent Solution Configuration Resource.")
-  @pattern("^[a-zA-Z0-9-]{3,63}$")
   @key("solutionConfiguration")
   @path
   @segment("solutionConfigurations")
@@ -301,7 +299,6 @@ union CloudNativeType {
 
 //------------------- Shared -------------------
 
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "will move to a more structured model when stable/GA"
 @doc("Solution settings")
 model SolutionSettings is Record<string>;
@@ -309,7 +306,6 @@ model SolutionSettings is Record<string>;
 //---------------------------------------------- Operations ----------------------------------------------
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Need to remove autoroute"
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
 @route("/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/")
 interface GenerateAwsTemplate {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "Need to remove autoroute"
@@ -343,7 +339,7 @@ interface PublicCloudConnectors {
   testPermissions is ArmResourceActionAsync<
     PublicCloudConnector,
     void,
-    Azure.ResourceManager.Foundations.OperationStatusResult
+    TestPermissionResponse
   >;
 }
 
@@ -359,10 +355,9 @@ interface SolutionConfigurations {
   listByWidget is ArmResourceListAtScope<SolutionConfiguration>;
 
   @doc("Trigger immediate sync with source cloud")
-  syncNow is ArmResourceActionAsync<
+  syncNow is ArmResourceActionNoResponseContentAsync<
     SolutionConfiguration,
-    void,
-    Azure.ResourceManager.Foundations.OperationStatusResult
+    void
   >;
 }
 

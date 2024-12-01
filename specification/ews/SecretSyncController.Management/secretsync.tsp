@@ -8,8 +8,8 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.SecretSyncController")
-namespace Microsoft.SecretSyncController;
+@armProviderNamespace("Private.SecretSyncController")
+namespace Private.SecretSyncController;
 
 @doc("The SecretSync resource.")
 model SecretSync is TrackedResource<SecretSyncProperties> {
@@ -155,10 +155,10 @@ interface SecretSyncs {
   get is ArmResourceRead<SecretSync>;
 
   @doc("Creates new or updates a SecretSync instance.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SecretSync>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<SecretSync>;
 
   @doc("Updates a SecretSync instance.")
-  update is ArmCustomPatchAsync<
+  update is ArmCustomPatchSync<
     SecretSync,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       SecretSync,
@@ -167,7 +167,7 @@ interface SecretSyncs {
   >;
 
   @doc("Deletes a SecretSync instance.")
-  delete is ArmResourceDeleteWithoutOkAsync<SecretSync>;
+  delete is ArmResourceDeleteSync<SecretSync>;
 
   @doc("Lists the SecretSync instances within a resource group.")
   listByResourceGroup is ArmResourceListByParent<SecretSync>;

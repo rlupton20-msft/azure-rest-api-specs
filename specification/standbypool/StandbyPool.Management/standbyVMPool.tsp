@@ -6,6 +6,7 @@
 
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./service.tsp";
@@ -33,6 +34,12 @@ model StandbyVirtualMachinePoolResource
 
 @doc("Details of the StandbyVirtualMachinePool.")
 model StandbyVirtualMachinePoolResourceProperties {
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning"
+  @doc("Specifies maximum number of standby VMs. When the pool is attached to VMScaleSets, the limit applies to each VMScaleSet.")
+  @maxValue(2000)
+  @removed(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
+  maxReadyCapacity: int64;
+
   @doc("Specifies the elasticity profile of the standby virtual machine pools.")
   @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
   elasticityProfile?: StandbyVirtualMachinePoolElasticityProfile;
@@ -41,9 +48,14 @@ model StandbyVirtualMachinePoolResourceProperties {
   @extension("x-ms-identifiers", ["vmState"])
   virtualMachineState: VirtualMachineState;
 
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning"
+  @doc("Specifies list of VMScaleSets' fully qualified resource IDs the pool is attached to. When multiple VMScaleSets are specified, standby VMs are created for each VMScaleSet independently.")
+  @removed(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
+  attachedVirtualMachineScaleSetIds?: string[];
+
   @doc("Specifies the fully qualified resource ID of a virtual machine scale set the pool is attached to.")
   @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
-  attachedVirtualMachineScaleSetId?: armResourceIdentifier<[
+  attachedVirtualMachineScaleSetId?: ResourceIdentifier<[
     {
       type: "Microsoft.Compute/virtualMachineScaleSet";
     }
@@ -55,48 +67,31 @@ model StandbyVirtualMachinePoolResourceProperties {
 }
 
 @doc("State of standby virtual machines")
-union VirtualMachineState {
-  string,
-
+enum VirtualMachineState {
   @doc("The virtual machine is up and running.")
-  Running: "Running",
+  Running,
 
   @doc("The virtual machine has released the lease on the underlying hardware and is powered off.")
-  Deallocated: "Deallocated",
+  Deallocated,
 }
 
 @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
 @doc("Details of the elasticity profile.")
 model StandbyVirtualMachinePoolElasticityProfile {
-  @doc("Specifies the maximum number of virtual machines in the standby virtual machine pool.")
+  @doc("Specifies maximum number of virtual machines in the standby virtual machine pool.")
   @maxValue(2000)
   @minValue(0)
   maxReadyCapacity: int64;
-
-  @added(Microsoft.StandbyPool.Versions.`2024-03-01-preview`)
-  @doc("Specifies the desired minimum number of virtual machines in the standby virtual machine pool. MinReadyCapacity cannot exceed MaxReadyCapacity.")
-  @maxValue(2000)
-  @minValue(0)
-  minReadyCapacity?: int64;
 }
 
 @armResourceOperations
 interface StandbyVirtualMachinePools {
   get is ArmResourceRead<StandbyVirtualMachinePoolResource>;
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @Azure.Core.useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<
-    StandbyVirtualMachinePoolResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<StandbyVirtualMachinePoolResource>;
   delete is ArmResourceDeleteWithoutOkAsync<StandbyVirtualMachinePoolResource>;
-  @parameterVisibility
-  update is ArmCustomPatchSync<
+  update is ArmResourcePatchSync<
     StandbyVirtualMachinePoolResource,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      StandbyVirtualMachinePoolResource,
-      StandbyVirtualMachinePoolResourceProperties
-    >
+    StandbyVirtualMachinePoolResourceProperties
   >;
   listByResourceGroup is ArmResourceListByParent<StandbyVirtualMachinePoolResource>;
   listBySubscription is ArmListBySubscription<StandbyVirtualMachinePoolResource>;

@@ -27,22 +27,16 @@ These are the global settings for the informatica.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-05-08
+tag: package-2023-03-01-preview
 ```
 
-``` yaml
-modelerfour:
-  flatten-models: false
-```
+### Tag: package-2023-03-01-preview
 
-### Tag: package-2024-05-08
+These settings apply only when `--tag=package-2023-03-01-preview` is specified on the command line.
 
-These settings apply only when `--tag=package-2024-05-08` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-05-08'
+```yaml $(tag) == 'package-2023-03-01-preview'
 input-file:
-  - Informatica.DataManagement/stable/2024-05-08/openapi.json
-
+  - Informatica.DataManagement/preview/2023-03-01-preview/informatica.json
 ```
 
 ---
@@ -62,7 +56,7 @@ swagger-to-sdk:
   - repo: azure-sdk-for-js
   - repo: azure-sdk-for-ruby
     after_scripts:
-      - bundle install && rake arm:regen_all_profiles['azure_mgmt_informaticadatamanagement']
+      - bundle install && rake arm:regen_all_profiles['azure_mgmt_informatica']
 ```
 
 
@@ -85,17 +79,3 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
-
-## Java
-
-See configuration in [readme.java.md](./readme.java.md)
-
-### AutoRest v3 Suppressions
-
-``` yaml
-suppressions:
-    
-  - code: OperationIdNounVerb
-    reason: Any changes on top of this spec may induce a breaking change as this is already getting followed in the preview version.
-
-```

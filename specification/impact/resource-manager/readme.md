@@ -19,16 +19,25 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 ## Suppression
 
 ### AutoRest v3 Suppressions
-
-```yaml
+``` yaml
 suppressions:
-  - code: AvoidAdditionalProperties
+    
+  - code: PathForPutOperation
+    reason: Design forces us to not have resources under resource group but only have under subscription. proxy resources
     from: impact.json
-    where: $.definitions.WorkloadImpactProperties.properties
-    reason:
-      Property additionalProperties in WorkloadImpactProperties is necessary to be dynamic since it contains metadata
-      and will be different for different categories
+    where:
+        - $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}"]
+        - $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.Impact/topologyImpacts/{topologyImpactName}"]
+    
+  - code: PutRequestResponseSchemeArm
+    reason: False positive both request and response are same. proxy resources
+    from: impact.json
+    where:
+        - $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}"].put
+        - $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.Impact/topologyImpacts/{topologyImpactName}"].put
+  
 ```
+
 
 ## Configuration
 
@@ -49,6 +58,43 @@ These settings apply only when `--tag=package-2024-05-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-05-01-preview'
 input-file:
   - Microsoft.Impact/preview/2024-05-01-preview/impact.json
+tag: package-2023-12-01-preview
+```
+
+### Tag: package-2023-12-01-preview
+
+These settings apply only when `--tag=package-2023-12-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-12-01-preview'
+input-file:
+  - Microsoft.Impact/preview/2023-12-01-preview/impact.json
+```
+
+### Tag: package-2023-07-01-preview
+
+These settings apply only when `--tag=package-2023-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-07-01-preview'
+input-file:
+  - Microsoft.Impact/preview/2023-07-01-preview/impact.json
+```
+
+### Tag: package-2023-02-01-preview
+
+These settings apply only when `--tag=package-2023-02-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-02-01-preview'
+input-file:
+  - Microsoft.Impact/preview/2023-02-01-preview/impact.json
+```
+
+### Tag: package-2022-11-01-preview
+
+These settings apply only when `--tag=package-2022-11-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2022-11-01-preview'
+input-file:
+  - Microsoft.Impact/preview/2022-11-01-preview/impact.json
 ```
 
 ---
@@ -66,12 +112,12 @@ swagger-to-sdk:
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
+  - repo: azure-sdk-for-net
   - repo: azure-sdk-for-net-track2
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions
   - repo: azure-powershell
 ```
-
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)

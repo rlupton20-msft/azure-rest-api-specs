@@ -40,7 +40,6 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualharddisks/{virtualharddisksName}": {
       "get": {
         "operationId": "virtualharddisks_Retrieve",
-        "description": "Gets virtualharddisks by resource name",
         "x-ms-examples": {
           "GetVirtualHardDisk": {
             "$ref": "./examples/GetVirtualHardDisk.json"
@@ -68,7 +67,7 @@
             }
           },
           "200": {
-            "description": "Retrieved the virtual hard disk resource.",
+            "description": "Retrieves the virtualharddisks resource.",
             "schema": {
               "$ref": "#/definitions/virtualharddisks"
             }
@@ -116,13 +115,13 @@
             }
           },
           "200": {
-            "description": "Updates the virtual hard disk resource.",
+            "description": "Updates the virtualharddisks resource.",
             "schema": {
               "$ref": "#/definitions/virtualharddisks"
             }
           },
           "201": {
-            "description": "Creates the virtual hard disk resource.",
+            "description": "Creates the virtualharddisks resource.",
             "schema": {
               "$ref": "#/definitions/virtualharddisks"
             }
@@ -158,7 +157,7 @@
             }
           },
           "200": {
-            "description": "Deletes the virtual hard disk resource."
+            "description": "Deletes the virtualharddisks resource."
           },
           "204": {
             "description": "No content"
@@ -202,13 +201,13 @@
             }
           },
           "200": {
-            "description": "Updates the virtual hard disk resource.",
+            "description": "Updates the virtualharddisks resource.",
             "schema": {
               "$ref": "#/definitions/virtualharddisks"
             }
           },
           "201": {
-            "description": "Updates the virtual hard disk resource.",
+            "description": "Updates the virtualharddisks resource.",
             "schema": {
               "$ref": "#/definitions/virtualharddisks"
             }
@@ -340,19 +339,7 @@
           }
         },
         "provisioningState": {
-          "type": "string",
-          "readOnly": true,
-          "enum": [
-            "Succeeded",
-            "Failed",
-            "InProgress",
-            "Accepted",
-            "Deleting"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningStateEnum",
-            "modelAsString": true
-          }
+          "type": "string"
         },
         "containerId": {
           "type": "string",
@@ -363,13 +350,12 @@
           "description": "name of the object to be used in moc"
         },
         "status": {
-          "$ref": "#/definitions/VirtualHardDiskStatus"
+          "$ref": "#/definitions/virtualHardDiskStatus"
         }
       },
-      "description": "Properties of a virtual hard disk resource"
+      "description": "virtualharddisksProperties defines a list of properties under virtualharddisks"
     },
-    "VirtualHardDiskStatus": {
-      "type": "object",
+    "virtualHardDiskStatus": {
       "x-ms-client-flatten": true,
       "readOnly": true,
       "properties": {
@@ -382,34 +368,32 @@
           "description": "Descriptive error message"
         },
         "provisioningStatus": {
-          "type": "object",
-          "description": "The provisioning status of the virtual hard disk",
           "properties": {
             "operationId": {
               "type": "string",
-              "description": "The ID of the operation performed on the virtual hard disk"
+              "description": "The ID of the operation performed on the virtual harddisk"
             },
             "status": {
               "type": "string",
-              "description": "The status of the operation performed on the virtual hard disk [Succeeded, Failed, InProgress]",
+              "description": "The status of the operation performed on the virtual harddisk [Succeeded, Failed, InProgress]",
               "enum": [
                 "Succeeded",
                 "Failed",
                 "InProgress"
               ],
               "x-ms-enum": {
-                "name": "ProvisioningStatusEnum",
+                "name": "Status",
                 "modelAsString": true
               }
             }
           }
         }
       },
-      "description": "VirtualHardDiskStatus defines the observed state of virtualharddisks"
+      "description": "virtualHardDiskStatus defines the observed state of virtualharddisks"
     },
     "virtualharddisks": {
       "type": "object",
-      "description": "The virtual hard disk resource definition.",
+      "description": "The virtualharddisks resource definition.",
       "x-ms-azure-resource": true,
       "x-ms-client-flatten": true,
       "properties": {
@@ -418,16 +402,22 @@
           "$ref": "#/definitions/virtualharddisksProperties"
         },
         "extendedLocation": {
-          "$ref": "./common.json#/definitions/ExtendedLocation",
-          "description": "The extendedLocation of the resource."
-        },
-        "systemData": {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData"
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          }
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
         }
       ]
     },
@@ -442,7 +432,7 @@
           "description": "Resource tags"
         }
       },
-      "description": "The virtual hard disk resource patch definition."
+      "description": "The virtualharddisks resource patch definition."
     },
     "virtualharddisksListResult": {
       "type": "object",

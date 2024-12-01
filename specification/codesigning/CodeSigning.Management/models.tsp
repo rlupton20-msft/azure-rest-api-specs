@@ -1,10 +1,10 @@
 import "@typespec/rest";
 import "@typespec/http";
+import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@typespec/openapi";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
-import "@typespec/versioning";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -231,8 +231,8 @@ model CertificateProfileProperties {
   @doc("Whether to include PC in the certificate subject name.")
   includePostalCode?: boolean = false;
 
-  @removed(Versions.v2024_09_30_preview)
   @doc("Enhanced key usage of the certificate.")
+  @removed(Versions.v2024_09_30_preview)
   @visibility("read")
   enhancedKeyUsage?: string;
 

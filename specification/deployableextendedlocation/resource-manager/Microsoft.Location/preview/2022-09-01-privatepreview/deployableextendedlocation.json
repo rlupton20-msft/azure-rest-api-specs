@@ -1,0 +1,511 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LocationProviderClient",
+    "version": "2022-09-01-preview",
+    "description": "Location Provider management API."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "deployableExtendedLocations"
+    }
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Location/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/OperationGroupGet.json" }
+        },
+        "description": "List the operations for Microsoft.Location",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Location/deployableextendedlocation": {
+      "get": {
+        "tags": [
+          "deployableExtendedLocations"
+        ],
+        "operationId": "deployableExtendedLocations_ListBySubscription",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/DeployableExtendedLocationGroupGet.json" }
+        },
+        "description": "List DeployableExtendedLocation resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocationListResult"
+            }
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Location/deployableextendedlocation/{deployableExtendedLocationName}": {
+      "get": {
+        "tags": [
+          "deployableExtendedLocations"
+        ],
+        "operationId": "deployableExtendedLocations_Get",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/DeployableExtendedLocationGet.json" }
+        },
+        "description": "Get a DeployableExtendedLocation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DeployableExtendedLocationNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocation"
+            }
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "deployableExtendedLocations"
+        ],
+        "operationId": "deployableExtendedLocations_CreateOrUpdate",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/DeployableExtendedLocationCreate.json" }
+        },
+        "description": "Create a DeployableExtendedLocation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DeployableExtendedLocationNameParameter"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "required": true,
+            "description": "Resource create parameters.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocation"
+            }
+          },
+          "201": {
+            "description": "ARM create operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocation"
+            }
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "tags": [
+          "deployableExtendedLocations"
+        ],
+        "operationId": "deployableExtendedLocations_Update",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/DeployableExtendedLocationUpdate.json" }
+        },
+        "description": "Update a DeployableExtendedLocation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DeployableExtendedLocationNameParameter"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "required": true,
+            "description": "The resource properties to be updated.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocationUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeployableExtendedLocation"
+            }
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "deployableExtendedLocations"
+        ],
+        "operationId": "deployableExtendedLocations_Delete",
+        "x-ms-examples": {
+          "Operations_List": { "$ref": "./examples/DeployableExtendedLocationDelete.json" }
+        },
+        "description": "Delete a DeployableExtendedLocation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DeployableExtendedLocationNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "202": {
+            "description": "Resource deletion accepted."
+          },
+          "204": {
+            "description": "Resource deleted successfully."
+          },
+          "default": {
+            "description": "Common error response for all Azure Resource Manager APIs to return error details for failed operations.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "DeployableExtendedLocation": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeployableExtendedLocationProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-client-flatten": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "description": "System metadata for this resource.",
+          "readOnly": true
+        }
+      },
+      "description": "A deployableExtendedLocation resource",
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DeployableExtendedLocationListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeployableExtendedLocation"
+          },
+          "x-cadl-name": "DeployableExtendedLocation[]",
+          "description": "The items on this page"
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next page of items"
+        }
+      },
+      "description": "The response of a DeployableExtendedLocation list operation.",
+      "required": [
+        "value"
+      ]
+    },
+    "DeployableExtendedLocationProperties": {
+      "type": "object",
+      "properties": {
+        "homeLocation": {
+          "type": "string",
+          "description": "The region for the extended location",
+          "title": "homeLocation"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The extended location's display name",
+          "title": "displayName"
+        },
+        "regionalDisplayName": {
+          "type": "string",
+          "description": "The home region's display name",
+          "title": "regionalDisplayName"
+        },
+        "regionType": {
+          "type": "string",
+          "description": "The type location",
+          "title": "regionType"
+        },
+        "regionCategory": {
+          "type": "string",
+          "description": "The category of the location",
+          "title": "regionCategory"
+        },
+        "geographyGroup": {
+          "type": "string",
+          "description": "The geography group of the location",
+          "title": "geographyGroup"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate for the location",
+          "title": "longitude"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate for the location",
+          "title": "latitude"
+        },
+        "physicalLocation": {
+          "type": "string",
+          "description": "Physical location for  the location"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "description": "DeployableExtendedLocation resource properties",
+      "title": "Model DeployableExtendedLocation properties",
+      "required": [
+        "homeLocation",
+        "displayName",
+        "regionalDisplayName",
+        "regionType",
+        "regionCategory",
+        "geographyGroup",
+        "longitude",
+        "latitude",
+        "physicalLocation"
+      ]
+    },
+    "DeployableExtendedLocationUpdate": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        },
+        "properties": {
+          "$ref": "#/definitions/DeployableExtendedLocationUpdateProperties"
+        }
+      },
+      "description": "The updatable properties of the DeployableExtendedLocation."
+    },
+    "DeployableExtendedLocationUpdateProperties": {
+      "type": "object",
+      "properties": {
+        "homeLocation": {
+          "type": "string",
+          "description": "The region for the extended location",
+          "title": "homeLocation"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The extended location's display name",
+          "title": "displayName"
+        },
+        "regionalDisplayName": {
+          "type": "string",
+          "description": "The home region's display name",
+          "title": "regionalDisplayName"
+        },
+        "regionType": {
+          "type": "string",
+          "description": "The type location",
+          "title": "regionType"
+        },
+        "regionCategory": {
+          "type": "string",
+          "description": "The category of the location",
+          "title": "regionCategory"
+        },
+        "geographyGroup": {
+          "type": "string",
+          "description": "The geography group of the location",
+          "title": "geographyGroup"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate for the location",
+          "title":  "longitude"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate for the location",
+          "title":  "latitude"
+        },
+        "physicalLocation": {
+          "type": "string",
+          "description": "Physical location for  the location",
+          "title": "physicalLocation"
+        }
+      },
+      "description": "The updatable properties of DeployableExtendedLocationProperties",
+      "title":  "DeployableExtendedLocationUpdateProperties"
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "description": "Provisioning Sate",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Provisioning",
+        "Updating",
+        "Deleting",
+        "Accepted"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    }
+  },
+  "parameters": {
+    "DeployableExtendedLocationNameParameter": {
+      "name": "deployableExtendedLocationName",
+      "in": "path",
+      "required": true,
+      "description": "Allowed chars in location name",
+      "pattern": "^[a-zA-Z0-9-]{3,24}$",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}
