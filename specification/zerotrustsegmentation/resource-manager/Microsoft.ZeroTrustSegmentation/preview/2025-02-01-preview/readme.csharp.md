@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.ZeroTrustSegmentation
-  output-folder: $(csharp-sdks-folder)/zeroTrustSegmentation/management/Microsoft.ZeroTrustSegmentation/GeneratedProtocol
+  namespace: Private.ZeroTrustSegmentation
+  output-folder: $(csharp-sdks-folder)/zeroTrustSegmentation/management/Private.ZeroTrustSegmentation/GeneratedProtocol
 ```
