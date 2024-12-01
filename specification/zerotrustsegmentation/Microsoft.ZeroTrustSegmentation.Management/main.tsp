@@ -16,7 +16,7 @@ using Azure.ResourceManager;
 })
 @versioned(Versions)
 @doc("ZeroTrustSegmentation resource provider API.")
-namespace Private.ZeroTrustSegmentation;
+namespace Microsoft.ZeroTrustSegmentation;
 
 /** ZeroTrustSegmentation API versions */
 enum Versions {
