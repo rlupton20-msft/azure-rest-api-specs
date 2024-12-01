@@ -22,7 +22,7 @@ namespace Microsoft.ZeroTrustSegmentation;
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  `2025-02-01-preview`,
+  v2025_05_01_preview: "2025-02-01-preview",
 }
 
 @doc("A zero trust segmentation resource. this resource defines the SegmentationManager.")
@@ -48,10 +48,10 @@ model SegmentationManagerProperties {
   analysisRunType: AnalysisRunType;
 
   @doc("The start time of a snapshot run")
-  startTime?: offsetDateTime;
+  startTime?: utcDateTime;
 
   @doc("The end time of a snapshot run")
-  endTime?: offsetDateTime;
+  endTime?: utcDateTime;
 
   @doc("Enable/disable automatic labeling functionality")
   enableAutomaticSegmentation: boolean;
@@ -61,18 +61,20 @@ model SegmentationManagerProperties {
 
   @visibility("read")
   @doc("The status of the last provisioning operation performed on the resource.")
-  provisioningState: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   ...ManagedByProperty;
 }
 
 @doc("AnalysisRunType")
-enum AnalysisRunType {
+union AnalysisRunType {
+  string,
+
   @doc("Single run")
-  OneTime,
+  OneTime: "OneTime",
 
   @doc("Continuous run")
-  Continuous,
+  Continuous: "Continuous",
 }
 
 @doc("Set label record")
@@ -108,10 +110,10 @@ model SetLabelsRequest {
 @doc("The request model for the GetGraph API")
 model GetGraphRequest {
   @doc("The start time of the graph")
-  startTime: offsetDateTime;
+  startTime: utcDateTime;
 
   @doc("The end time of the graph")
-  endTime: offsetDateTime;
+  endTime: utcDateTime;
 }
 
 @doc("The response model for the GetGraph API")
@@ -189,6 +191,8 @@ model TrafficWeights {
   outConnWeight: float32;
 }
 
+interface Operations extends Azure.ResourceManager.Operations {}
+
 @armResourceOperations
 interface SegmentationManagers {
   get is ArmResourceRead<SegmentationManager>;
@@ -201,7 +205,7 @@ interface SegmentationManagers {
   listByResourceGroup is ArmResourceListByParent<SegmentationManager>;
   listBySubscription is ArmListBySubscription<SegmentationManager>;
 
-  SetLabels is ArmResourceActionNoContentSync<
+  setLabels is ArmResourceActionNoContentSync<
     SegmentationManager,
     SetLabelsRequest
   >;

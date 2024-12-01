@@ -40,10 +40,49 @@
   },
   "tags": [
     {
+      "name": "Operations"
+    },
+    {
       "name": "SegmentationManagers"
     }
   ],
   "paths": {
+    "/providers/Private.ZeroTrustSegmentation/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all provider operations": {
+            "$ref": "./examples/OperationsList.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.ZeroTrustSegmentation/SegmentationManagers": {
       "get": {
         "operationId": "SegmentationManagers_ListBySubscription",
@@ -451,7 +490,7 @@
       ],
       "x-ms-enum": {
         "name": "AnalysisRunType",
-        "modelAsString": false,
+        "modelAsString": true,
         "values": [
           {
             "name": "OneTime",
@@ -692,8 +731,7 @@
       "required": [
         "logSources",
         "analysisRunType",
-        "enableAutomaticSegmentation",
-        "provisioningState"
+        "enableAutomaticSegmentation"
       ]
     },
     "SegmentationManagerPropertiesUpdate": {
