@@ -154,7 +154,7 @@ model Vertex {
   macAddress: string;
 
   @doc("Geographical location of the vertex")
-  @OpenAPI.extension("x-ms-mutability", ["read", "create"])
+  @visibility("read", "create")
   location: string;
 
   @doc("Azure Resource Manager ID of the vertex")

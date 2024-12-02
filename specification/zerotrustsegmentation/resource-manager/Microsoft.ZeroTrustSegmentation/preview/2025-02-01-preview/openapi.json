@@ -483,7 +483,7 @@
   "definitions": {
     "AnalysisRunType": {
       "type": "string",
-      "description": "AnalysisRunType",
+      "description": "Analysis run type",
       "enum": [
         "OneTime",
         "Continuous"
@@ -501,6 +501,30 @@
             "name": "Continuous",
             "value": "Continuous",
             "description": "Continuous run"
+          }
+        ]
+      }
+    },
+    "AutomaticSegmentationState": {
+      "type": "string",
+      "description": "Automatic segmentation labeling functionality state",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "AutomaticSegmentationState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Automatic segmentation is enabled"
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Automatic segmentation is disabled"
           }
         ]
       }
@@ -711,7 +735,7 @@
           "description": "The end time of a snapshot run"
         },
         "enableAutomaticSegmentation": {
-          "type": "boolean",
+          "$ref": "#/definitions/AutomaticSegmentationState",
           "description": "Enable/disable automatic labeling functionality"
         },
         "description": {
@@ -720,7 +744,7 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
-          "description": "The status of the last provisioning operation performed on the resource.",
+          "description": "The provisioning state of the resource.",
           "readOnly": true
         },
         "managedBy": {
@@ -769,7 +793,7 @@
           "description": "The end time of a snapshot run"
         },
         "enableAutomaticSegmentation": {
-          "type": "boolean",
+          "$ref": "#/definitions/AutomaticSegmentationState",
           "description": "Enable/disable automatic labeling functionality"
         },
         "description": {
@@ -918,7 +942,11 @@
         },
         "location": {
           "type": "string",
-          "description": "Geographical location of the vertex"
+          "description": "Geographical location of the vertex",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "armId": {
           "type": "string",
