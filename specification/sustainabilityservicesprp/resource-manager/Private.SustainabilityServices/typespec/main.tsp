@@ -12,7 +12,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Private.SustainabilityServices")
 @service({
-  title: "Private.SustainabilityServices"
+  title: "Private.SustainabilityServices",
 })
 @versioned(Private.SustainabilityServices.Versions)
 namespace Private.SustainabilityServices;
@@ -123,7 +123,7 @@ model CalculationResourceProperties {
 
   @visibility("read", "create", "update")
   @doc("Enable Public Access.")
-  enablePublicAccess?: boolean;
+  enablePublicEndpoint?: boolean;
 
   @visibility("read")
   @doc("Configuration of the managed resource group associated with the resource.")
