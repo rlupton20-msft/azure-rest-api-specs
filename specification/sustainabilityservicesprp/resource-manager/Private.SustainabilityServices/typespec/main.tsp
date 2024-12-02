@@ -10,12 +10,12 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Private.SustainabilityServices")
+@armProviderNamespace("Microsoft.SustainabilityServices")
 @service({
-  title: "Private.SustainabilityServices"
+  title: "Microsoft.SustainabilityServices",
 })
-@versioned(Private.SustainabilityServices.Versions)
-namespace Private.SustainabilityServices;
+@versioned(Microsoft.SustainabilityServices.Versions)
+namespace Microsoft.SustainabilityServices;
 
 @doc("Supported API versions for the Microsoft.SustainabilityServices resource provider.")
 enum Versions {
@@ -123,7 +123,7 @@ model CalculationResourceProperties {
 
   @visibility("read", "create", "update")
   @doc("Enable Public Access.")
-  enablePublicAccess?: boolean;
+  enablePublicEndpoint?: boolean;
 
   @visibility("read")
   @doc("Configuration of the managed resource group associated with the resource.")
