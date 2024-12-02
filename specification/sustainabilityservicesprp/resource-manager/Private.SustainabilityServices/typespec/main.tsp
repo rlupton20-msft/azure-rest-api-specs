@@ -10,12 +10,12 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.SustainabilityServices")
+@armProviderNamespace("Private.SustainabilityServices")
 @service({
-  title: "Microsoft.SustainabilityServices",
+  title: "Private.SustainabilityServices",
 })
-@versioned(Microsoft.SustainabilityServices.Versions)
-namespace Microsoft.SustainabilityServices;
+@versioned(Private.SustainabilityServices.Versions)
+namespace Private.SustainabilityServices;
 
 @doc("Supported API versions for the Microsoft.SustainabilityServices resource provider.")
 enum Versions {
