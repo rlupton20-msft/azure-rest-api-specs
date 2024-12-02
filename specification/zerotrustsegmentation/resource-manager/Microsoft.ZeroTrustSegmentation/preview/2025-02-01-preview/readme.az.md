@@ -2,7 +2,7 @@
 
 These settings apply only when `--az` is specified on the command line.
 
-``` yaml $(az) && $(target-mode) != 'core'
+```yaml $(az) && $(target-mode) != 'core'
 az:
   extensions: zeroTrustSegmentation
   namespace: azure.mgmt.zeroTrustSegmentation
