@@ -54,19 +54,27 @@ model SegmentationManagerProperties {
   endTime?: utcDateTime;
 
   @doc("Enable/disable automatic labeling functionality")
-  enableAutomaticSegmentation: boolean;
+  enableAutomaticSegmentation: AutomaticSegmentationState;
 
   @doc("The description of the segmentation manager")
   description?: string;
 
-  @visibility("read")
-  @doc("The status of the last provisioning operation performed on the resource.")
-  provisioningState?: ResourceProvisioningState;
-
+  ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
 }
 
-@doc("AnalysisRunType")
+@doc("Automatic segmentation labeling functionality state")
+union AutomaticSegmentationState {
+  string,
+
+  @doc("Automatic segmentation is enabled")
+  Enabled: "Enabled",
+
+  @doc("Automatic segmentation is disabled")
+  Disabled: "Disabled",
+}
+
+@doc("Analysis run type")
 union AnalysisRunType {
   string,
 
@@ -146,6 +154,7 @@ model Vertex {
   macAddress: string;
 
   @doc("Geographical location of the vertex")
+  @OpenAPI.extension("x-ms-mutability", ["read", "create"])
   location: string;
 
   @doc("Azure Resource Manager ID of the vertex")
@@ -154,7 +163,7 @@ model Vertex {
   @doc("Name of the vertex")
   name?: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("Labels associated with the vertex as key-value pairs")
   labels: Record<string>;
 }
