@@ -124,13 +124,13 @@ union MdsEnvironment {
   string,
 }
 
-@doc("genericGenevaActions Resource")
+@doc("genevaLogsAccount Resource")
 model GenevaLogsAccountResource
   is ProxyResource<GenevaLogsAccountResourceProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("genericGenevaActions") // start with lower case
+  @segment("genevaLogsAccounts") // start with lower case
   @visibility("read")
   @path
   name: string;

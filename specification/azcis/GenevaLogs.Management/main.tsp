@@ -1,5 +1,6 @@
 import "./versions.tsp";
 import "./genevalogsaccount.tsp";
+import "./genevalogsaccountconfiguration.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
