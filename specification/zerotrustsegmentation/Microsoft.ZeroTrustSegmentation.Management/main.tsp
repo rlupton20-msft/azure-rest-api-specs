@@ -60,11 +60,7 @@ model SegmentationManagerProperties {
   @doc("The description of the segmentation manager")
   description?: string;
 
-  @doc("The provisioning state of the resource.")
-  @visibility("read")
-  @lroStatus
-  provisioningState?: ResourceProvisioningState;
-
+  ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
 }
 
