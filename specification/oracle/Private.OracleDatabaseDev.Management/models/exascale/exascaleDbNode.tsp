@@ -43,7 +43,7 @@ model ExascaleDbNodeProperties {
   lifecycleState: DbNodeProvisioningState;
 
   @doc("The type of database node maintenance.")
-  maintenanceType?: ExascaleDbNodeMaintenanceType;
+  maintenanceType?: string;
 
   @doc("The allocated memory in GBs on the Db node.")
   memorySizeInGbs?: int32;
@@ -62,18 +62,6 @@ model ExascaleDbNodeProperties {
 
   @doc("The total number of CPU cores reserved on the Db node.")
   totalCpuCoreCount?: int32;
-}
-
-@added(Versions.v20241201_preview)
-@doc("The type of database node maintenance.")
-union ExascaleDbNodeMaintenanceType {
-  @doc("VMDB reboot migration maintenance type")
-  VmdbRebootMigration: "VmdbRebootMigration",
-
-  @doc("ExaDbXs reboot migration maintenance type")
-  ExaDbXsRebootMigration: "ExaDbXsRebootMigration",
-
-  string,
 }
 
 @added(Versions.v20241201_preview)

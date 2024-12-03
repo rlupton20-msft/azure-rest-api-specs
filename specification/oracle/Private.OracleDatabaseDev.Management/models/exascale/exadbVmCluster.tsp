@@ -141,7 +141,7 @@ model ExadbVmClusterProperties {
   listenerPort?: int32;
 
   @doc("The shape of the Exadata VM cluster on Exascale Infrastructure resource")
-  @visibility("read", "create")
+  @visibility("create", "read")
   shape: string;
 
   @doc("The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.")

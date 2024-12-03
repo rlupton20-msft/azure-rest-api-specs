@@ -61,29 +61,5 @@ model GiMinorVersionProperties {
 model GiMinorVersionFilter {
   @query
   @doc("If provided, filters the results to the set of database versions which are supported for the given shape family.")
-  shapeFamily?: ShapeFamily;
-}
-
-@added(Versions.v20241201_preview)
-@doc("DnNode provisioning state enum")
-union ShapeFamily {
-  @doc("Indicates single node shape family")
-  SingleNode: "SingleNode",
-
-  @doc("Indicates yoda shape family")
-  Yoda: "Yoda",
-
-  @doc("Indicates virtual machine shape family")
-  VirtualMachine: "VirtualMachine",
-
-  @doc("Indicates exadata shape family")
-  Exadata: "Exadata",
-
-  @doc("Indicates EXACC shape family")
-  Exacc: "Exacc",
-
-  @doc("indicates ExadbXS shape family")
-  ExadbXs: "ExadbXs",
-
-  string,
+  shapeFamily?: string;
 }
