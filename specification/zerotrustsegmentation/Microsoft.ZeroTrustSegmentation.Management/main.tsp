@@ -7,6 +7,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.Core.Foundations;
 using Azure.ResourceManager;
 
@@ -59,7 +60,11 @@ model SegmentationManagerProperties {
   @doc("The description of the segmentation manager")
   description?: string;
 
-  ...DefaultProvisioningStateProperty;
+  @doc("The provisioning state of the resource.")
+  @visibility("read")
+  @lroStatus
+  provisioningState?: ResourceProvisioningState;
+
   ...ManagedByProperty;
 }
 
@@ -93,18 +98,18 @@ model SetLabelRecord {
   @doc("MAC address of the workload")
   macAddress: string;
 
-  @doc("Application label")
-  appLabel?: string;
+  @doc("Labels as key-value pairs")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  labels?: LabelPair[];
+}
 
-  @doc("Environment label")
-  envLabel?: string;
+@doc("Represent a label as key-value pair")
+model LabelPair {
+  @doc("Label key")
+  key: string;
 
-  @doc("Role label")
-  roleLabel?: string;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
-  @doc("Additional labels as key-value pairs")
-  additionalLabels?: Record<string>;
+  @doc("Label value")
+  value: string;
 }
 
 @doc("The request model for the SetLabels API")
@@ -163,9 +168,9 @@ model Vertex {
   @doc("Name of the vertex")
   name?: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("Labels associated with the vertex as key-value pairs")
-  labels: Record<string>;
+  @OpenAPI.extension("x-ms-identifiers", [])
+  labels: LabelPair[];
 }
 
 @doc("Edge model representing a connection between two vertices")

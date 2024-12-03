@@ -664,6 +664,24 @@
         "edges"
       ]
     },
+    "LabelPair": {
+      "type": "object",
+      "description": "Represent a label as key-value pair",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key"
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "SegmentationManager": {
       "type": "object",
       "description": "A zero trust segmentation resource. this resource defines the SegmentationManager.",
@@ -833,24 +851,13 @@
           "type": "string",
           "description": "MAC address of the workload"
         },
-        "appLabel": {
-          "type": "string",
-          "description": "Application label"
-        },
-        "envLabel": {
-          "type": "string",
-          "description": "Environment label"
-        },
-        "roleLabel": {
-          "type": "string",
-          "description": "Role label"
-        },
-        "additionalLabels": {
-          "type": "object",
-          "description": "Additional labels as key-value pairs",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "labels": {
+          "type": "array",
+          "description": "Labels as key-value pairs",
+          "items": {
+            "$ref": "#/definitions/LabelPair"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -957,11 +964,12 @@
           "description": "Name of the vertex"
         },
         "labels": {
-          "type": "object",
+          "type": "array",
           "description": "Labels associated with the vertex as key-value pairs",
-          "additionalProperties": {
-            "type": "string"
-          }
+          "items": {
+            "$ref": "#/definitions/LabelPair"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
