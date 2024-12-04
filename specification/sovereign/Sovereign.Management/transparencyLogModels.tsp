@@ -16,12 +16,14 @@ model TransparencyLogProperties {
   emailCultures: Culture[];
 
   @doc("The format of Transparency Log email attachments.")
-  emailAttachmentFormat?: FileFormat = "CSV";
+  emailAttachmentFormat?: FileFormat;
 }
 
 @doc("Supported cultures.")
 @added(Versions.Preview20240331)
 union Culture {
+  string,
+
   @doc("Czech (Czechia)")
   cs_CZ: "cs-CZ",
 
@@ -81,18 +83,16 @@ union Culture {
 
   @doc("Chinese (Traditional)")
   zh_TW: "zh-TW",
-
-  string,
 }
 
 @doc("Supported file formats.")
 @added(Versions.Preview20240331)
 union FileFormat {
-  @doc("None.")
+  string,
+
+  @doc("No file requested.")
   None: "None",
 
   @doc("Comma separated values.")
   CSV: "CSV",
-
-  string,
 }

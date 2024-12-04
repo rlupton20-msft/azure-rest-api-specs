@@ -25,4 +25,8 @@ model LandingZoneRegistrationResourceProperties {
       type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }
   ]>;
+
+  @added(Versions.Preview20250227)
+  @doc("The managed identity to be tied to this landing zone registration")
+  managedIdentity: ManagedIdentityProperties;
 }

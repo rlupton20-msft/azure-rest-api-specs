@@ -36,6 +36,10 @@ model LandingZoneConfigurationResourceProperties {
     }
   ]>;
 
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+
   @doc("To deploy firewall, choose the Standard/Premium based on the desired SKU. Choose None for no firewall and UseExisting for a pre existing one.")
   firewallCreationOption: FirewallCreationOptions;
 
@@ -94,13 +98,14 @@ model LandingZoneConfigurationResourceProperties {
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
 
-  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  tags?: Tags[];
-
   @added(Versions.Preview20241031)
   @doc("The managed identity to be tied to this landing zone configuration")
   managedIdentity: ManagedIdentityProperties;
+
+  @added(Versions.Preview20250227)
+  @doc("Platform children management group properties.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  platformMgChildren?: PlatformManagementGroupProperties[];
 }
 
 @added(Versions.Preview20241031)
@@ -378,4 +383,13 @@ model CreateLandingZoneConfigurationCopyResponse {
       type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }
   ]>;
+}
+
+@added(Versions.Preview20250227)
+@doc("Platform management group properties.")
+model PlatformManagementGroupProperties {
+  ...ManagementGroupProperties;
+
+  @doc("Management group name.")
+  name: string;
 }

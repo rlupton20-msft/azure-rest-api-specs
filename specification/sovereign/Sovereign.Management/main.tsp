@@ -260,7 +260,13 @@ model TransparencyLog is ProxyResource<TransparencyLogProperties> {
 interface TransparencyLogs {
   get is ArmResourceRead<TransparencyLog>;
   create is ArmResourceCreateOrReplaceSync<TransparencyLog>;
-  update is ArmResourcePatchSync<TransparencyLog, TransparencyLogProperties>;
+  update is ArmCustomPatchSync<
+    TransparencyLog,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      TransparencyLog,
+      TransparencyLogProperties
+    >
+  >;
   delete is ArmResourceDeleteSync<TransparencyLog>;
   listByTenant is ArmResourceListByParent<TransparencyLog>;
 }
