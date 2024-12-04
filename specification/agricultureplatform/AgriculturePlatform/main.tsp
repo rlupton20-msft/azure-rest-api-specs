@@ -85,7 +85,7 @@ model AgriServiceResourceProperties {
 
   @doc("AgriService installed solutions.")
   @visibility("read", "create", "update")
-  solutions?: Record<Solution>;
+  installedSolutions?: Record<Solution>;
 }
 
 @doc("Config of the AgriService resource instance.")
@@ -155,16 +155,16 @@ model DataConnectorCredentials {
   keyVersion?: string;
 }
 
-@doc("Types of different kind of Data connector auth credentials supported.")
-union AuthCredentialsKind {
-  string,
-  /** OAuth Client Credential type */
-  OAuthClientCredentials:"OAuthClientCredentials",
-  /** API Key Auth Credential type */
-  ApiKeyAuthCredentials:"ApiKeyAuthCredentials",
+@doc("Enum for different kind of Data connector auth credentials supported.")
+enum AuthCredentialsKind {
+  @doc("OAuthClientCredentials kind.")
+  OAuthClientCredentials,
+
+  @doc("ApiKeyAuthCredentials kind.")
+  ApiKeyAuthCredentials,
 }
 
-@doc("AgriService solution model.")
+@doc("Installed data manager for Agriculture solution detail.")
 model Solution {
   @doc("Application name of the solution.")
   @visibility("read", "create", "update")
@@ -240,11 +240,11 @@ op ArmResourceListActionSync<
 model AvailableAgriSolutionListResult {
   @doc("Agri solutions list.")
   @OpenAPI.extension("x-ms-identifiers", [])
-  solutions: AgriSolution[];
+  solutions: DataManagerForAgricultureSolution[];
 }
 
-@doc("Available agri solution.")
-model AgriSolution {
+@doc("Data Manager for Agriculture solution.")
+model DataManagerForAgricultureSolution {
   @doc("Partner Id.")
   partnerId: string;
 
@@ -260,9 +260,6 @@ model AgriSolution {
   @doc("Marketplace offer details.")
   marketPlaceOfferDetails: MarketPlaceOfferDetails;
 
-  @doc("Open Api specs dictionary.")
-  openApiSpecsDictionary: Record<object>;
-
   @doc("Saas application Id.")
   saasApplicationId: string;
 
@@ -276,7 +273,7 @@ model AgriSolution {
   isValidateInput: boolean;
 }
 
-@doc("Marketplace offer details of agri solution.")
+@doc("Marketplace offer details of Agri solution.")
 model MarketPlaceOfferDetails {
   @doc("Saas offer Id.")
   saasOfferId: string;

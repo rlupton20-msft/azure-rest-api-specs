@@ -595,7 +595,7 @@
             "create"
           ]
         },
-        "solutions": {
+        "installedSolutions": {
           "type": "object",
           "description": "AgriService installed solutions.",
           "additionalProperties": {
@@ -659,7 +659,7 @@
             "create"
           ]
         },
-        "solutions": {
+        "installedSolutions": {
           "type": "object",
           "description": "AgriService installed solutions.",
           "additionalProperties": {
@@ -673,90 +673,26 @@
         }
       }
     },
-    "AgriSolution": {
-      "type": "object",
-      "description": "Available agri solution.",
-      "properties": {
-        "partnerId": {
-          "type": "string",
-          "description": "Partner Id."
-        },
-        "solutionId": {
-          "type": "string",
-          "description": "Solution Id."
-        },
-        "partnerTenantId": {
-          "type": "string",
-          "description": "Partner tenant Id."
-        },
-        "dataAccessScopes": {
-          "type": "array",
-          "description": "Data access scopes.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "marketPlaceOfferDetails": {
-          "$ref": "#/definitions/MarketPlaceOfferDetails",
-          "description": "Marketplace offer details."
-        },
-        "openApiSpecsDictionary": {
-          "type": "object",
-          "description": "Open Api specs dictionary.",
-          "additionalProperties": {
-            "$ref": "#/definitions/object"
-          }
-        },
-        "saasApplicationId": {
-          "type": "string",
-          "description": "Saas application Id."
-        },
-        "accessAzureDataManagerForAgricultureApplicationId": {
-          "type": "string",
-          "description": "Entra application Id used to access azure data manager for agriculture instance."
-        },
-        "accessAzureDataManagerForAgricultureApplicationName": {
-          "type": "string",
-          "description": "Entra application name used to access azure data manager for agriculture instance."
-        },
-        "isValidateInput": {
-          "type": "boolean",
-          "description": "Whether solution inference will validate input."
-        }
-      },
-      "required": [
-        "partnerId",
-        "solutionId",
-        "partnerTenantId",
-        "dataAccessScopes",
-        "marketPlaceOfferDetails",
-        "openApiSpecsDictionary",
-        "saasApplicationId",
-        "accessAzureDataManagerForAgricultureApplicationId",
-        "accessAzureDataManagerForAgricultureApplicationName",
-        "isValidateInput"
-      ]
-    },
     "AuthCredentialsKind": {
       "type": "string",
-      "description": "Types of different kind of Data connector auth credentials supported.",
+      "description": "Enum for different kind of Data connector auth credentials supported.",
       "enum": [
         "OAuthClientCredentials",
         "ApiKeyAuthCredentials"
       ],
       "x-ms-enum": {
         "name": "AuthCredentialsKind",
-        "modelAsString": true,
+        "modelAsString": false,
         "values": [
           {
             "name": "OAuthClientCredentials",
             "value": "OAuthClientCredentials",
-            "description": "OAuth Client Credential type"
+            "description": "OAuthClientCredentials kind."
           },
           {
             "name": "ApiKeyAuthCredentials",
             "value": "ApiKeyAuthCredentials",
-            "description": "API Key Auth Credential type"
+            "description": "ApiKeyAuthCredentials kind."
           }
         ]
       }
@@ -769,7 +705,7 @@
           "type": "array",
           "description": "Agri solutions list.",
           "items": {
-            "$ref": "#/definitions/AgriSolution"
+            "$ref": "#/definitions/DataManagerForAgricultureSolution"
           },
           "x-ms-identifiers": []
         }
@@ -883,6 +819,62 @@
         }
       }
     },
+    "DataManagerForAgricultureSolution": {
+      "type": "object",
+      "description": "Data Manager for Agriculture solution.",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "description": "Partner Id."
+        },
+        "solutionId": {
+          "type": "string",
+          "description": "Solution Id."
+        },
+        "partnerTenantId": {
+          "type": "string",
+          "description": "Partner tenant Id."
+        },
+        "dataAccessScopes": {
+          "type": "array",
+          "description": "Data access scopes.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "marketPlaceOfferDetails": {
+          "$ref": "#/definitions/MarketPlaceOfferDetails",
+          "description": "Marketplace offer details."
+        },
+        "saasApplicationId": {
+          "type": "string",
+          "description": "Saas application Id."
+        },
+        "accessAzureDataManagerForAgricultureApplicationId": {
+          "type": "string",
+          "description": "Entra application Id used to access azure data manager for agriculture instance."
+        },
+        "accessAzureDataManagerForAgricultureApplicationName": {
+          "type": "string",
+          "description": "Entra application name used to access azure data manager for agriculture instance."
+        },
+        "isValidateInput": {
+          "type": "boolean",
+          "description": "Whether solution inference will validate input."
+        }
+      },
+      "required": [
+        "partnerId",
+        "solutionId",
+        "partnerTenantId",
+        "dataAccessScopes",
+        "marketPlaceOfferDetails",
+        "saasApplicationId",
+        "accessAzureDataManagerForAgricultureApplicationId",
+        "accessAzureDataManagerForAgricultureApplicationName",
+        "isValidateInput"
+      ]
+    },
     "ManagedOnBehalfOfConfiguration": {
       "type": "object",
       "description": "Configuration of the managed on behalf of resource.",
@@ -902,7 +894,7 @@
     },
     "MarketPlaceOfferDetails": {
       "type": "object",
-      "description": "Marketplace offer details of agri solution.",
+      "description": "Marketplace offer details of Agri solution.",
       "properties": {
         "saasOfferId": {
           "type": "string",
@@ -988,7 +980,7 @@
     },
     "Solution": {
       "type": "object",
-      "description": "AgriService solution model.",
+      "description": "Installed data manager for Agriculture solution detail.",
       "properties": {
         "applicationName": {
           "type": "string",
@@ -1051,10 +1043,6 @@
           ]
         }
       }
-    },
-    "object": {
-      "type": "object",
-      "description": "Represent a model"
     }
   },
   "parameters": {}
