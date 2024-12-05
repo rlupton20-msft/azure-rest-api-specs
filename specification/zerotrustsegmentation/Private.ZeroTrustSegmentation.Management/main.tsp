@@ -111,7 +111,7 @@ model LabelPair {
 @doc("The request model for the SetLabels API")
 model SetLabelsRequest {
   @doc("Tenant ID")
-  tenantid: string;
+  tenantId: string;
 
   @doc("List of labels that need to be updated")
   @OpenAPI.extension("x-ms-identifiers", [])
@@ -133,7 +133,7 @@ model GetGraphResponse {
   graph: Graph;
 }
 
-@doc("Graph representaion model")
+@doc("Graph representation model")
 model Graph {
   @doc("List of vertices in the graph")
   vertices: Vertex[];
