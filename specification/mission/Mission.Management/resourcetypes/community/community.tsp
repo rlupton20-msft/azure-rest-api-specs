@@ -125,7 +125,7 @@ union ApprovalPolicy {
 
 @added(Microsoft.Mission.Versions.v2024_12_01_preview)
 @doc("Approver Metadata for approvals request.")
-model Approver {
+model MandatoryApprover {
   @doc("EntraId of the approver")
   approverEntraId: string;
 }
@@ -169,7 +169,7 @@ model ApprovalSettings {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
   @doc("List of mandatory approvers for the approval request")
-  mandatoryApprovers?: Approver[];
+  mandatoryApprovers?: MandatoryApprover[];
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Minimum number of approvers required for the approval request")
