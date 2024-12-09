@@ -1,7 +1,6 @@
 import "@azure-tools/typespec-liftr-base";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@typespec/openapi";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -30,92 +29,79 @@ enum Versions {
 }
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("Configure Tenant")
-model TenantConfiguration {
-  @doc("user details")
-  userDetails: UserDetails;
+@doc("A Commvault Cloud Account Resource")
+model CloudAccount is TrackedResource<CloudAccountProperties> {
+  @key("cloudAccountName")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
+  @segment("cloudAccounts")
+  @minLength(1)
+  @maxLength(50)
+  @doc("Name of the Cloud Account resource")
+  @example("cloudAccountName")
+  @path
+  name: string;
 
-  @doc("Single Signon properties")
-  singleSignOnProperties?: SingleSignOnProperties;
-}
-@armResourceOperations
-interface ProviderOperations {
-  @doc("Configure tenant level details")
-  @post
-  configureTenant is ArmProviderActionSync<
-    Request = TenantConfiguration,
-    Scope = TenantActionScope
-  >;
-
-  @doc("Get tenant level Configurations")
-  @get
-  tenantDetails is ArmProviderActionSync<
-    Response = TenantConfiguration,
-    Scope = TenantActionScope
-  >;
-}
-
-@doc("A Commvault Entity Resource")
-model Entity is TrackedResource<EntityProperties> {
-  ...ResourceNameParameter<
-    Entity,
-    "entityName",
-    "entities",
-    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
-  >;
   ...ManagedServiceIdentityProperty;
 }
-@@doc(Entity.name, "Name of the Entity resource");
 
 @armResourceOperations
-interface Entities {
-  get is ArmResourceRead<Entity>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Entity>;
-  update is ArmResourcePatchAsync<Entity, EntityProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Entity>;
-  listByResourceGroup is ArmResourceListByParent<Entity>;
-  listBySubscription is ArmListBySubscription<Entity>;
+interface CloudAccounts {
+  get is ArmResourceRead<CloudAccount>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<CloudAccount>;
+  update is ArmResourcePatchAsync<CloudAccount, CloudAccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<CloudAccount>;
+  listByResourceGroup is ArmResourceListByParent<CloudAccount>;
+  listBySubscription is ArmListBySubscription<CloudAccount>;
 }
 
-@doc("Properties specific to Commvault Entity resource")
-model EntityProperties is BaseResourceProperties;
+@doc("Properties specific to Commvault Cloud Account resource")
+model CloudAccountProperties is BaseResourceProperties;
 
 @doc("A Commvault Storage Resource")
-@parentResource(Entity)
+@parentResource(CloudAccount)
 model Storage is ProxyResource<StorageProperties> {
-  ...ResourceNameParameter<
-    Storage,
-    "storageName",
-    "storages",
-    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
-  >;
+  @key("storageName")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
+  @segment("storages")
+  @minLength(1)
+  @maxLength(50)
+  @doc("Name of the Storage resource")
+  @path
+  name: string;
 }
-@@doc(Storage.name, "Name of the Storage resource");
 
 @doc("The properties of Commvault Storage")
 model StorageProperties {
-  @doc("The type of Commvault Storage")
+  @doc("Location of the Commvault Storage")
   @visibility("read", "create")
+  @minLength(1)
+  @maxLength(50)
+  location: string;
+
+  @doc("The type of Commvault Storage")
   storageType: "Air_Gap_Protect";
 
   @doc("The vendor of Commvault Storage")
-  @visibility("read", "create")
-  vendor: "Azure_Blob_Storage";
+  vendor: Vendor;
 
   @doc("The class of Commvault Storage")
-  @visibility("read", "create", "update")
-  class: StorageClass;
-
-  @doc("Details of the user.")
-  user: UserDetails;
+  class: StorageClassType;
 
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
 }
 
-@doc("The class of Commvault Storage")
-union StorageClass {
+@doc("Vendor of Commvault Storage")
+union Vendor {
+  @doc("Azure Blob Storage")
+  AzureBlobStorage: "Azure_Blob_Storage",
+
+  string,
+}
+
+@doc("Class of Commvault Storage")
+union StorageClassType {
   @doc("Cool storage class")
   Cool: "COOL",
 
@@ -130,23 +116,30 @@ interface Storages {
   get is ArmResourceRead<Storage>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<Storage>;
   delete is ArmResourceDeleteWithoutOkAsync<Storage>;
-  listByEntity is ArmResourceListByParent<Storage>;
+  listByCloudAccount is ArmResourceListByParent<Storage>;
 }
 
-@parentResource(Entity)
+@parentResource(CloudAccount)
 @doc("A Commvault Plan Resource")
 model CommvaultPlan is ProxyResource<PlanProperties> {
-  ...ResourceNameParameter<
-    CommvaultPlan,
-    "planName",
-    "plans",
-    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
-  >;
+  @key("planName")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
+  @segment("plans")
+  @minLength(1)
+  @maxLength(50)
+  @doc("Name of the Plan resource")
+  @path
+  name: string;
 }
-@@doc(CommvaultPlan.name, "Name of the Commvault Plan resource");
 
 @doc("The properties of Commvault Plan")
 model PlanProperties {
+  @doc("Location of the Commvault Plan")
+  @visibility("read", "create")
+  @minLength(1)
+  @maxLength(50)
+  location: string;
+
   @doc("The storage plans associated with the Commvault Plan")
   @visibility("read", "create")
   @minItems(1)
@@ -156,7 +149,10 @@ model PlanProperties {
 
   @doc("The Commvault Plan Schedule")
   @visibility("read", "create", "update")
-  schedule: Schedule;
+  @minItems(1)
+  @maxItems(11)
+  @OpenAPI.extension("x-ms-identifiers", [])
+  schedules?: Schedule[];
 
   @doc("The Commvault Plan Retention")
   @visibility("read", "create", "update")
@@ -175,8 +171,11 @@ model StoragePlan {
   @doc("The name of the Storage resource")
   name: string;
 
-  @doc("Indicates if this is the primary storage plan")
-  isPrimary: boolean;
+  @doc("Copy Name from Commvault")
+  copyName?: string;
+
+  @doc("Precedence of the Storage Plan, 1 is the highest precedence, 2 is the next highest, and so on")
+  copyPrecedence?: int32;
 
   @doc("Indicates the retention period valid only if the type of retention chosen in CUSTOM")
   retentionPeriod?: int32;
@@ -184,11 +183,55 @@ model StoragePlan {
   @doc("Indicates the retention timeframe valid only if the type of retention chosen in CUSTOM")
   retentionTime?: RetentionTime;
 
+  @doc("Backup Rule Type")
+  backupRuleType?: BackupRuleType;
+
   @doc("Indicates the monthlyFull retention time valid only if the type of retention chosen in CUSTOM")
   monthlyRetention?: int32;
 
   @doc("Indicates the yearly Full retention time valid only if the type of retention chosen in CUSTOM")
   yearlyRetention?: int32;
+}
+
+@doc("Extended Retention Time")
+model ExtendedRetentionTime {
+  @doc("Retention time for Extended Retention")
+  retentionTime?: RetentionTime;
+
+  @doc("Retention period for Extended Retention")
+  retentionPeriod?: int32;
+}
+
+@doc("The type of backup rule")
+union BackupRuleType {
+  @doc("All Jobs")
+  AllJobs: "ALL_JOBS",
+
+  @doc("All Fulls")
+  AllFulls: "ALL_FULLS",
+
+  @doc("Hourly Fulls")
+  HourlyFulls: "HOURLY_FULLS",
+
+  @doc("Daily Fulls")
+  DailyFulls: "DAILY_FULLS",
+
+  @doc("Weekly Fulls")
+  WeeklyFulls: "WEEKLY_FULLS",
+
+  @doc("Monthly Fulls")
+  MonthlyFulls: "MONTHLY_FULLS",
+
+  @doc("Yearly Fulls")
+  YearlyFulls: "YEARLY_FULLS",
+
+  @doc("Quarterly Fulls")
+  QuarterlyFulls: "QUARTERLY_FULLS",
+
+  @doc("Half Yearly Fulls")
+  HalfYearlyFulls: "HALF_YEARLY_FULLS",
+
+  string,
 }
 
 @doc("The retention time for Commvault Plan")
@@ -207,16 +250,23 @@ model Schedule {
   @doc("Type of Backup")
   backupType: BackUpType;
 
-  @visibility("read", "create", "update")
   @doc("Full BackUp Details")
-  fullbackupDetails?: ScheduleDetails;
+  fullBackUpDetails?: ScheduleDetails;
 
-  @visibility("read", "create", "update")
   @doc("Incremental BackUp Details")
-  incrementalbackUpDetails?: ScheduleDetails;
+  incrementalBackUpDetails?: ScheduleDetails;
 
   @doc("Type of Retention")
-  retentionType: RetentionType;
+  retentionType?: RetentionType;
+
+  @doc("Frequency of Retention")
+  frequency?: Frequency;
+
+  @doc("Time of Retention")
+  time?: string; //should have zone info as well
+
+  @doc("Time Zone")
+  timeZone?: string;
 }
 
 @doc("The type of backup")
@@ -265,6 +315,15 @@ union Frequency {
   @doc("Weekly backups")
   Weekly: "weekly",
 
+  @doc("Monthly backups")
+  Monthly: "monthly",
+
+  @doc("Yearly backups")
+  Yearly: "yearly",
+
+  @doc("Minutes backups")
+  Minutes: "minutes",
+
   string,
 }
 
@@ -272,11 +331,11 @@ union Frequency {
 model Retention {
   @doc("Number of Snapshots")
   @visibility("read", "create", "update")
-  numberOfSnapshots: int32;
+  numberOfSnapshots?: int32;
 
   @doc("Type of retention")
   @visibility("read", "create", "update")
-  type: RetentionType;
+  type?: RetentionType;
 }
 
 @armResourceOperations
@@ -284,20 +343,21 @@ interface Plans {
   get is ArmResourceRead<CommvaultPlan>;
   createOrupdate is ArmResourceCreateOrUpdateAsync<CommvaultPlan>;
   delete is ArmResourceDeleteWithoutOkAsync<CommvaultPlan>;
-  listByEntity is ArmResourceListByParent<CommvaultPlan>;
+  listByCloudAccount is ArmResourceListByParent<CommvaultPlan>;
 }
 
-@parentResource(Entity)
+@parentResource(CloudAccount)
 @doc("A Commvault Plan Resource")
 model ProtectionGroup is ProxyResource<ProtectionGroupProperties> {
-  ...ResourceNameParameter<
-    ProtectionGroup,
-    "protectionGroupName",
-    "protectionGroups",
-    NamePattern = "^[a-fA-F0-9\\-]{1,50}$"
-  >;
+  @key("protectionGroupName")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9_\\-.: ]*$")
+  @segment("protectionGroups")
+  @minLength(1)
+  @maxLength(50)
+  @doc("Name of the ProtectionGroup resource")
+  @path
+  name: string;
 }
-@@doc(ProtectionGroup.name, "Name of the Protection Group resource");
 
 @doc("The properties of Commvault Protection Group")
 model ProtectionGroupProperties {
@@ -403,13 +463,13 @@ union RuleProperty {
   Status: "status",
 
   @doc("The power state of the rule")
-  PowerState: "powerstate",
+  PowerState: "powerState",
 
   @doc("The virtual machine of the rule")
-  VirtualMachine: "virtualmachine",
+  VirtualMachine: "virtualMachine",
 
   @doc("The virtual machine pattern of the rule")
-  VirtualMachinePattern: "virtualmachinepattern",
+  VirtualMachinePattern: "virtualMachinePattern",
 
   string,
 }
@@ -420,10 +480,10 @@ union Operator {
   Contains: "contains",
 
   @doc("The operator does not contains")
-  DoesNotContains: "doesnotcontains",
+  DoesNotContains: "doesNotContains",
 
   @doc("The operator does not equal")
-  DoesNotEqual: "doesnotequal",
+  DoesNotEqual: "doesNotEqual",
 
   @doc("The operator starts with")
   StartsWith: "startsWith",
@@ -453,7 +513,7 @@ interface ProtectionGroups {
   get is ArmResourceRead<ProtectionGroup>;
   createOrupdate is ArmResourceCreateOrUpdateAsync<ProtectionGroup>;
   delete is ArmResourceDeleteWithoutOkAsync<ProtectionGroup>;
-  listByEntity is ArmResourceListByParent<ProtectionGroup>;
+  listByCloudAccount is ArmResourceListByParent<ProtectionGroup>;
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "DO NOT COPY - TODO migrate to LRO apis"
   @doc("Stop Backup for a Protection Group")
   @armResourceAction(ProtectionGroup)
@@ -472,7 +532,7 @@ interface ProtectionGroups {
 model ProtectedItem is ProxyResource<ProtectedItemProperties> {
   @pattern("^[a-zA-Z0-9\\-_]{1,127}$")
   @doc("The protectedItem name")
-  @segment("protecteditems")
+  @segment("protectedItems")
   @key("protectedItemName")
   @visibility("read")
   @path
