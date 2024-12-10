@@ -1816,6 +1816,23 @@
         ]
       }
     },
+    "CustomFormula": {
+      "type": "object",
+      "description": "The details for the custom resource override.",
+      "properties": {
+        "resourceType": {
+          "$ref": "#/definitions/ResourceType",
+          "description": "The type of the resource."
+        },
+        "formula": {
+          "type": "string",
+          "description": "The custom formula for the resource type."
+        }
+      },
+      "required": [
+        "resourceType"
+      ]
+    },
     "DecommissionedManagementGroupProperties": {
       "type": "object",
       "description": "Decommissioned management group properties.",
@@ -1996,7 +2013,11 @@
         },
         "organization": {
           "type": "string",
-          "description": "The name of the country/region or agency the landing zone is being deployed for"
+          "description": "The name of the organization or agency the landing zone is being deployed for."
+        },
+        "environment": {
+          "type": "string",
+          "description": "The environment for which the landing zone is being deployed"
         }
       },
       "required": [
@@ -2369,6 +2390,10 @@
             "$ref": "#/definitions/PlatformManagementGroupProperties"
           },
           "x-ms-identifiers": []
+        },
+        "namingConvention": {
+          "$ref": "#/definitions/NamingConvention",
+          "description": "The naming convention to be used for this landing zone configuration"
         }
       },
       "required": [
@@ -2520,6 +2545,10 @@
             "$ref": "#/definitions/PlatformManagementGroupProperties"
           },
           "x-ms-identifiers": []
+        },
+        "namingConvention": {
+          "$ref": "#/definitions/NamingConventionUpdate",
+          "description": "The naming convention to be used for this landing zone configuration"
         }
       }
     },
@@ -2791,6 +2820,45 @@
         }
       }
     },
+    "NamingConvention": {
+      "type": "object",
+      "description": "The naming convention configuration for deployed resources.",
+      "properties": {
+        "defaultFormula": {
+          "type": "string",
+          "description": "The default formula for naming convention."
+        },
+        "customFormulas": {
+          "type": "array",
+          "description": "The resource type overrides.",
+          "items": {
+            "$ref": "#/definitions/CustomFormula"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "defaultFormula"
+      ]
+    },
+    "NamingConventionUpdate": {
+      "type": "object",
+      "description": "The naming convention configuration for deployed resources.",
+      "properties": {
+        "defaultFormula": {
+          "type": "string",
+          "description": "The default formula for naming convention."
+        },
+        "customFormulas": {
+          "type": "array",
+          "description": "The resource type overrides.",
+          "items": {
+            "$ref": "#/definitions/CustomFormula"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "PlatformManagementGroupProperties": {
       "type": "object",
       "description": "Platform management group properties.",
@@ -2858,6 +2926,108 @@
             "name": "UseExisting",
             "value": "UseExisting",
             "description": "Value to use an existing resource."
+          }
+        ]
+      }
+    },
+    "ResourceType": {
+      "type": "string",
+      "description": "The input values for creating or using an existing firewall resource.",
+      "enum": [
+        "azureFirewalls",
+        "resourceGroups",
+        "subscriptions",
+        "managementGroups",
+        "workspaces",
+        "automationAccounts",
+        "dashboards",
+        "userAssignedIdentities",
+        "publicIPAddresses",
+        "bastionHosts",
+        "ddosProtectionPlans",
+        "networkSecurityGroups",
+        "expressRouteCircuits",
+        "virtualNetworks",
+        "routeTables"
+      ],
+      "x-ms-enum": {
+        "name": "ResourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "azureFirewalls",
+            "value": "azureFirewalls",
+            "description": "Value when customer wants to provide custom naming convention for Azure Firewall."
+          },
+          {
+            "name": "resourceGroups",
+            "value": "resourceGroups",
+            "description": "Value when customer wants to provide custom naming convention for resource group."
+          },
+          {
+            "name": "subscriptions",
+            "value": "subscriptions",
+            "description": "Value when customer wants to provide custom naming convention for subscription."
+          },
+          {
+            "name": "managementGroups",
+            "value": "managementGroups",
+            "description": "Value when customer wants to provide custom naming convention for management group."
+          },
+          {
+            "name": "workspaces",
+            "value": "workspaces",
+            "description": "Value when customer wants to provide custom naming convention for Log Analytics workspace."
+          },
+          {
+            "name": "automationAccounts",
+            "value": "automationAccounts",
+            "description": "Value when customer wants to provide custom naming convention for automation account."
+          },
+          {
+            "name": "dashboards",
+            "value": "dashboards",
+            "description": "Value when customer wants to provide custom naming convention for dashboard."
+          },
+          {
+            "name": "userAssignedIdentities",
+            "value": "userAssignedIdentities",
+            "description": "Value when customer wants to provide custom naming convention for managed identity."
+          },
+          {
+            "name": "publicIPAddresses",
+            "value": "publicIPAddresses",
+            "description": "Value when customer wants to provide custom naming convention for public IP address."
+          },
+          {
+            "name": "bastionHosts",
+            "value": "bastionHosts",
+            "description": "Value when customer wants to provide custom naming convention for Bastion."
+          },
+          {
+            "name": "ddosProtectionPlans",
+            "value": "ddosProtectionPlans",
+            "description": "Value when customer wants to provide custom naming convention for DDoS protection plan."
+          },
+          {
+            "name": "networkSecurityGroups",
+            "value": "networkSecurityGroups",
+            "description": "Value when customer wants to provide custom naming convention for Bastion NSG."
+          },
+          {
+            "name": "expressRouteCircuits",
+            "value": "expressRouteCircuits",
+            "description": "Value when customer wants to provide custom naming convention for ExpressRoute."
+          },
+          {
+            "name": "virtualNetworks",
+            "value": "virtualNetworks",
+            "description": "Value when customer wants to provide custom naming convention for virtual network."
+          },
+          {
+            "name": "routeTables",
+            "value": "routeTables",
+            "description": "Value when customer wants to provide custom naming convention for route table."
           }
         ]
       }

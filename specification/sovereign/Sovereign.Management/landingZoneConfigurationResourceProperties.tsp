@@ -106,6 +106,10 @@ model LandingZoneConfigurationResourceProperties {
   @doc("Platform children management group properties.")
   @OpenAPI.extension("x-ms-identifiers", [])
   platformMgChildren?: PlatformManagementGroupProperties[];
+
+  @added(Versions.Preview20250227)
+  @doc("The naming convention to be used for this landing zone configuration")
+  namingConvention?: NamingConvention;
 }
 
 @added(Versions.Preview20241031)
@@ -241,8 +245,12 @@ model GenerateLandingZoneRequest {
   @pattern("^([a-zA-Z0-9]+)$")
   deploymentLocation: string;
 
-  @doc("The name of the country/region or agency the landing zone is being deployed for")
+  @doc("The name of the organization or agency the landing zone is being deployed for.")
   organization?: string;
+
+  @added(Versions.Preview20250227)
+  @doc("The environment for which the landing zone is being deployed")
+  environment?: string;
 }
 
 @doc("The response for the request to generate landing zone code.")
@@ -383,6 +391,78 @@ model CreateLandingZoneConfigurationCopyResponse {
       type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }
   ]>;
+}
+
+@added(Versions.Preview20250227)
+@doc("The naming convention configuration for deployed resources.")
+model NamingConvention {
+  @doc("The default formula for naming convention.")
+  defaultFormula: string;
+
+  @doc("The resource type overrides.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  customFormulas?: CustomFormula[];
+}
+
+@doc("The details for the custom resource override.")
+@added(Versions.Preview20250227)
+model CustomFormula {
+  @doc("The type of the resource.")
+  resourceType: ResourceType;
+
+  @doc("The custom formula for the resource type.")
+  formula?: string;
+}
+
+@doc("The input values for creating or using an existing firewall resource.")
+@added(Versions.Preview20250227)
+union ResourceType {
+  @doc("Value when customer wants to provide custom naming convention for Azure Firewall.")
+  azureFirewalls: "azureFirewalls",
+
+  @doc("Value when customer wants to provide custom naming convention for resource group.")
+  resourceGroups: "resourceGroups",
+
+  @doc("Value when customer wants to provide custom naming convention for subscription.")
+  subscriptions: "subscriptions",
+
+  @doc("Value when customer wants to provide custom naming convention for management group.")
+  managementGroups: "managementGroups",
+
+  @doc("Value when customer wants to provide custom naming convention for Log Analytics workspace.")
+  workspaces: "workspaces",
+
+  @doc("Value when customer wants to provide custom naming convention for automation account.")
+  automationAccounts: "automationAccounts",
+
+  @doc("Value when customer wants to provide custom naming convention for dashboard.")
+  dashboards: "dashboards",
+
+  @doc("Value when customer wants to provide custom naming convention for managed identity.")
+  userAssignedIdentities: "userAssignedIdentities",
+
+  @doc("Value when customer wants to provide custom naming convention for public IP address.")
+  publicIPAddresses: "publicIPAddresses",
+
+  @doc("Value when customer wants to provide custom naming convention for Bastion.")
+  bastionHosts: "bastionHosts",
+
+  @doc("Value when customer wants to provide custom naming convention for DDoS protection plan.")
+  ddosProtectionPlans: "ddosProtectionPlans",
+
+  @doc("Value when customer wants to provide custom naming convention for Bastion NSG.")
+  networkSecurityGroups: "networkSecurityGroups",
+
+  @doc("Value when customer wants to provide custom naming convention for ExpressRoute.")
+  expressRouteCircuits: "expressRouteCircuits",
+
+  @doc("Value when customer wants to provide custom naming convention for virtual network.")
+  virtualNetworks: "virtualNetworks",
+
+  @doc("Value when customer wants to provide custom naming convention for route table.")
+  routeTables: "routeTables",
+
+  string,
 }
 
 @added(Versions.Preview20250227)
