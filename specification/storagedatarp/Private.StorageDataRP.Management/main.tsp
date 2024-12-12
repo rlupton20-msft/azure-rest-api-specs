@@ -3,20 +3,19 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./storageAccount.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.Storage")
+@armProviderNamespace("Private.StorageDataRp")
 @service({
   title: "Storage Data Resource Provider",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Microsoft.Storage;
+namespace Private.StorageDataRp;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -25,7 +24,6 @@ enum Versions {
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
-@parentResource(StorageAccount)
 @doc("A Connector is a tracked ARM resource modeled as a sub-resource of a Storage Account")
 model Connector is TrackedResource<ConnectorProperties> {
   @doc("The name of the connector")
