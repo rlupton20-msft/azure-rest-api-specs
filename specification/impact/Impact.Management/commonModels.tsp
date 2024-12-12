@@ -233,6 +233,37 @@ union Protocol {
   Other: "Other",
 }
 
+@doc("List of detection types")
+union DetectionType {
+  string,
+
+  /** Use this when impact is alert based. */
+  BusinessAlert: "BusinessAlert",
+
+  /** Use this when impact is metrics or expectations based. */
+  MetricsThreshold: "MetricsThreshold",
+
+  /** Use this when impact is outlier based. */
+  MetricsAnomaly: "MetricsAnomaly",
+}
+
+@doc("List of severity of an impact.")
+union Severity {
+  string,
+
+  /** Use this when the issue is critical. Consider this to be similar to severity 1 incidents. */
+  Critical: "Critical",
+
+  /** Use this when the issue is high impact similar to severity 2 incidents. */
+  High: "High",
+
+  /** Use this when the issue is medium impact similar to severity 3 incidents. */
+  Medium: "Medium",
+
+  /** Use this for issues that are low impact similar to severity 4 and 5 incidents. */
+  Low: "Low",
+}
+
 @doc("Resource details")
 model SourceOrTarget {
   @doc("Azure resource id, example /subscription/{subscription}/resourceGroup/{rg}/Microsoft.compute/virtualMachine/{vmName}")

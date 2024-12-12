@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Private.Impact",
-    "version": "2024-05-01-preview",
+    "version": "2025-01-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -370,6 +370,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get upload token to use for log upload": {
+            "$ref": "./examples/UploadService_GetUploadToken.json"
+          }
         }
       }
     },
@@ -618,6 +623,9 @@
           },
           "Reporting performance related impact": {
             "$ref": "./examples/WorkloadPerformance_Create.json"
+          },
+          "WorkloadImpacts_Create_MaximumSet": {
+            "$ref": "./examples/WorkloadImpact_Create_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -990,6 +998,10 @@
         "properties": {
           "$ref": "#/definitions/ConnectorProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssigned",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -1018,6 +1030,16 @@
       "required": [
         "value"
       ]
+    },
+    "ConnectorManagedUserAssignedIdentityProperty": {
+      "type": "object",
+      "description": "The managed service identities envelope.",
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssigned",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
     },
     "ConnectorProperties": {
       "type": "object",
@@ -1085,6 +1107,10 @@
         "properties": {
           "$ref": "#/definitions/ConnectorPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentityOnlyUserAssignedUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -1510,6 +1536,79 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "ManagedServiceIdentityOnlyUserAssigned": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedServiceIdentityTypeOnlyUserAssigned",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ManagedServiceIdentityOnlyUserAssignedUpdate": {
+      "type": "object",
+      "description": "Managed service identity (system assigned and/or user assigned identities)",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ManagedServiceIdentityTypeOnlyUserAssigned",
+          "description": "The type of managed identity assigned to this resource."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The identities assigned to this resource by the user.",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+              }
+            ],
+            "type": "object",
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "ManagedServiceIdentityTypeOnlyUserAssigned": {
+      "type": "string",
+      "description": "Type of managed service identity, where only UserAssigned type is allowed.",
+      "enum": [
+        "UserAssigned",
+        "None"
+      ],
+      "x-ms-enum": {
+        "name": "ManagedServiceIdentityTypeOnlyUserAssigned",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "UserAssigned",
+            "value": "UserAssigned",
+            "description": "User assigned managed identity."
+          },
+          {
+            "name": "None",
+            "value": "None",
+            "description": "No identity."
+          }
+        ]
+      }
     },
     "MetricUnit": {
       "type": "string",
@@ -2037,6 +2136,12 @@
           "type": "number",
           "format": "double",
           "description": "This field represents the duration margin in seconds that can be provided while providing endDateTime.",
+          "minimum": 0
+        },
+        "hitCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "This field represents the number of times a particular issue was observed over a given time range.",
           "minimum": 0
         }
       },
