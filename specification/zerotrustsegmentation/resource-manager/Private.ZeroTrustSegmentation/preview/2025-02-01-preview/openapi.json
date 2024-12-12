@@ -505,30 +505,6 @@
         ]
       }
     },
-    "AutomaticSegmentationState": {
-      "type": "string",
-      "description": "Automatic segmentation labeling functionality state",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "x-ms-enum": {
-        "name": "AutomaticSegmentationState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Automatic segmentation is enabled"
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Automatic segmentation is disabled"
-          }
-        ]
-      }
-    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
@@ -658,11 +634,16 @@
             "$ref": "#/definitions/Edge"
           },
           "x-ms-identifiers": []
+        },
+        "totalTrafficWeights": {
+          "$ref": "#/definitions/TotalTrafficWeights",
+          "description": "Total weights for all edges in the graph"
         }
       },
       "required": [
         "vertices",
-        "edges"
+        "edges",
+        "totalTrafficWeights"
       ]
     },
     "LabelPair": {
@@ -753,9 +734,9 @@
           "format": "date-time",
           "description": "The end time of a snapshot run"
         },
-        "enableAutomaticSegmentation": {
-          "$ref": "#/definitions/AutomaticSegmentationState",
-          "description": "Enable/disable automatic labeling functionality"
+        "segmentationMode": {
+          "$ref": "#/definitions/SegmentationMode",
+          "description": "The mode of segmentation to be applied"
         },
         "description": {
           "type": "string",
@@ -774,7 +755,7 @@
       "required": [
         "logSources",
         "analysisRunType",
-        "enableAutomaticSegmentation"
+        "segmentationMode"
       ]
     },
     "SegmentationManagerPropertiesUpdate": {
@@ -811,9 +792,9 @@
           "format": "date-time",
           "description": "The end time of a snapshot run"
         },
-        "enableAutomaticSegmentation": {
-          "$ref": "#/definitions/AutomaticSegmentationState",
-          "description": "Enable/disable automatic labeling functionality"
+        "segmentationMode": {
+          "$ref": "#/definitions/SegmentationMode",
+          "description": "The mode of segmentation to be applied"
         },
         "description": {
           "type": "string",
@@ -839,6 +820,30 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "SegmentationMode": {
+      "type": "string",
+      "description": "Specifies the mode of segmentation to be applied.",
+      "enum": [
+        "None",
+        "Automatic"
+      ],
+      "x-ms-enum": {
+        "name": "SegmentationMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "None",
+            "value": "None",
+            "description": "No segmentation applied"
+          },
+          {
+            "name": "Automatic",
+            "value": "Automatic",
+            "description": "Automatic Mode"
+          }
+        ]
+      }
     },
     "SetLabelRecord": {
       "type": "object",
@@ -870,10 +875,6 @@
       "type": "object",
       "description": "The request model for the SetLabels API",
       "properties": {
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant ID"
-        },
         "labels": {
           "type": "array",
           "description": "List of labels that need to be updated",
@@ -884,15 +885,58 @@
         }
       },
       "required": [
-        "tenantId",
         "labels"
+      ]
+    },
+    "TotalTrafficWeights": {
+      "type": "object",
+      "description": "Total traffic weights for all edges in the graph",
+      "properties": {
+        "totalInPackets": {
+          "type": "number",
+          "format": "float",
+          "description": "Total incoming packets"
+        },
+        "totalInBytes": {
+          "type": "number",
+          "format": "float",
+          "description": "Total incoming bytes"
+        },
+        "totalInConnections": {
+          "type": "number",
+          "format": "float",
+          "description": "Total incoming connections"
+        },
+        "totalOutPackets": {
+          "type": "number",
+          "format": "float",
+          "description": "Total outgoing packets"
+        },
+        "totalOutBytes": {
+          "type": "number",
+          "format": "float",
+          "description": "Total outgoing bytes"
+        },
+        "totalOutConnections": {
+          "type": "number",
+          "format": "float",
+          "description": "Total outgoing connections"
+        }
+      },
+      "required": [
+        "totalInPackets",
+        "totalInBytes",
+        "totalInConnections",
+        "totalOutPackets",
+        "totalOutBytes",
+        "totalOutConnections"
       ]
     },
     "TrafficWeights": {
       "type": "object",
       "description": "TrafficWeights model",
       "properties": {
-        "inPktWeight": {
+        "inPacketWeight": {
           "type": "number",
           "format": "float",
           "description": "Incoming packet weight as a percentage"
@@ -902,12 +946,12 @@
           "format": "float",
           "description": "Incoming byte weight as a percentage"
         },
-        "inConnWeight": {
+        "inConnectionWeight": {
           "type": "number",
           "format": "float",
           "description": "Incoming connection weight as a percentage"
         },
-        "outPktWeight": {
+        "outPacketWeight": {
           "type": "number",
           "format": "float",
           "description": "Outgoing packet weight as a percentage"
@@ -917,19 +961,19 @@
           "format": "float",
           "description": "Outgoing byte weight as a percentage"
         },
-        "outConnWeight": {
+        "outConnectionWeight": {
           "type": "number",
           "format": "float",
           "description": "Outgoing connection weight as a percentage"
         }
       },
       "required": [
-        "inPktWeight",
+        "inPacketWeight",
         "inByteWeight",
-        "inConnWeight",
-        "outPktWeight",
+        "inConnectionWeight",
+        "outPacketWeight",
         "outByteWeight",
-        "outConnWeight"
+        "outConnectionWeight"
       ]
     },
     "Vertex": {
@@ -950,11 +994,7 @@
         },
         "location": {
           "type": "string",
-          "description": "Geographical location of the vertex",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "Geographical location of the vertex"
         },
         "armId": {
           "type": "string",

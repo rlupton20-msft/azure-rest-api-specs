@@ -54,8 +54,8 @@ model SegmentationManagerProperties {
   @doc("The end time of a snapshot run")
   endTime?: utcDateTime;
 
-  @doc("Enable/disable automatic labeling functionality")
-  enableAutomaticSegmentation: AutomaticSegmentationState;
+  @doc("The mode of segmentation to be applied")
+  segmentationMode: SegmentationMode;
 
   @doc("The description of the segmentation manager")
   description?: string;
@@ -64,15 +64,15 @@ model SegmentationManagerProperties {
   ...ManagedByProperty;
 }
 
-@doc("Automatic segmentation labeling functionality state")
-union AutomaticSegmentationState {
+@doc("Specifies the mode of segmentation to be applied.")
+union SegmentationMode {
   string,
 
-  @doc("Automatic segmentation is enabled")
-  Enabled: "Enabled",
+  @doc("No segmentation applied")
+  None: "None",
 
-  @doc("Automatic segmentation is disabled")
-  Disabled: "Disabled",
+  @doc("Automatic Mode")
+  Automatic: "Automatic",
 }
 
 @doc("Analysis run type")
@@ -110,9 +110,6 @@ model LabelPair {
 
 @doc("The request model for the SetLabels API")
 model SetLabelsRequest {
-  @doc("Tenant ID")
-  tenantId: string;
-
   @doc("List of labels that need to be updated")
   @OpenAPI.extension("x-ms-identifiers", [])
   labels: SetLabelRecord[];
@@ -141,6 +138,9 @@ model Graph {
   @doc("List of edges connecting the vertices in the graph")
   @OpenAPI.extension("x-ms-identifiers", [])
   edges: Edge[];
+
+  @doc("Total weights for all edges in the graph")
+  totalTrafficWeights: TotalTrafficWeights;
 }
 
 @doc("Vertex model representing a node in the network")
@@ -155,7 +155,6 @@ model Vertex {
   macAddress: string;
 
   @doc("Geographical location of the vertex")
-  @visibility("read", "create")
   location: string;
 
   @doc("Azure Resource Manager ID of the vertex")
@@ -184,25 +183,46 @@ model Edge {
   trafficWeights: TrafficWeights;
 }
 
+@doc("Total traffic weights for all edges in the graph")
+model TotalTrafficWeights {
+  @doc("Total incoming packets")
+  totalInPackets: float32;
+
+  @doc("Total incoming bytes")
+  totalInBytes: float32;
+
+  @doc("Total incoming connections")
+  totalInConnections: float32;
+
+  @doc("Total outgoing packets")
+  totalOutPackets: float32;
+
+  @doc("Total outgoing bytes")
+  totalOutBytes: float32;
+
+  @doc("Total outgoing connections")
+  totalOutConnections: float32;
+}
+
 @doc("TrafficWeights model")
 model TrafficWeights {
   @doc("Incoming packet weight as a percentage")
-  inPktWeight: float32;
+  inPacketWeight: float32;
 
   @doc("Incoming byte weight as a percentage")
   inByteWeight: float32;
 
   @doc("Incoming connection weight as a percentage")
-  inConnWeight: float32;
+  inConnectionWeight: float32;
 
   @doc("Outgoing packet weight as a percentage")
-  outPktWeight: float32;
+  outPacketWeight: float32;
 
   @doc("Outgoing byte weight as a percentage")
   outByteWeight: float32;
 
   @doc("Outgoing connection weight as a percentage")
-  outConnWeight: float32;
+  outConnectionWeight: float32;
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
