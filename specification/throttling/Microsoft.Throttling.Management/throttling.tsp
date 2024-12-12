@@ -10,7 +10,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 })
 @versioned(Versions)
 @armProviderNamespace
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
 namespace Microsoft.Throttling;
 
 @doc("Service versions")
