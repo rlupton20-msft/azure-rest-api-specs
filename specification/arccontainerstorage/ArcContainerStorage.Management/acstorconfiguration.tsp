@@ -12,10 +12,9 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" ""
-@doc("ACStorConfiguration is a custom resource that defines the configuration for a storage system.")
-model ACStorConfiguration is ExtensionResource<ACStorConfigurationProperties> {
-  @doc("The name of the ACStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.")
+@doc("AcStorConfiguration is a custom resource that defines the configuration for a storage system.")
+model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
+  @doc("The name of the AcStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.")
   @key("acstorConfigurationName")
   @path
   @minLength(3)
@@ -25,10 +24,9 @@ model ACStorConfiguration is ExtensionResource<ACStorConfigurationProperties> {
   name: string;
 }
 
-// Define the properties for the ACStorConfiguration
-#suppress "@azure-tools/typespec-azure-core/casing-style" ""
-@doc("Defines the properties of the ACStorConfiguration resource.")
-model ACStorConfigurationProperties {
+// Define the properties for the AcStorConfiguration
+@doc("Defines the properties of the AcStorConfiguration resource.")
+model AcStorConfigurationProperties {
   @doc("The mount point for the disk.")
   diskMountPoint: string = "/mnt"; // Default value is "/mnt"
 
@@ -85,10 +83,9 @@ union EngineTypes {
   string,
 }
 
-// Define the status properties for the ACStorConfiguration
-#suppress "@azure-tools/typespec-azure-core/casing-style" ""
-@doc("Defines the observed status of the ACStorConfiguration resource.")
-model ACStorConfigurationStatus {
+// Define the status properties for the AcStorConfiguration
+@doc("Defines the observed status of the AcStorConfiguration resource.")
+model AcStorConfigurationStatus {
   @doc("The current state of the configuration.")
   state: string;
 
@@ -96,12 +93,12 @@ model ACStorConfigurationStatus {
   details: string;
 }
 
-// Define the operations for the ACStorConfiguration resource
+// Define the operations for the AcStorConfiguration resource
 #suppress "@azure-tools/typespec-azure-core/casing-style" ""
 @armResourceOperations
-interface ACStorConfigurations {
-  get is ArmResourceRead<ACStorConfiguration>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<ACStorConfiguration>;
-  delete is ArmResourceDeleteWithoutOkAsync<ACStorConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<ACStorConfiguration>;
+interface AcStorConfigurations {
+  get is ArmResourceRead<AcStorConfiguration>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<AcStorConfiguration>;
+  delete is ArmResourceDeleteWithoutOkAsync<AcStorConfiguration>;
+  listByResourceGroup is ArmResourceListByParent<AcStorConfiguration>;
 }
