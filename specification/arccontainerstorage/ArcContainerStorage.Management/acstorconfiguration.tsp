@@ -94,7 +94,6 @@ model AcStorConfigurationStatus {
 }
 
 // Define the operations for the AcStorConfiguration resource
-#suppress "@azure-tools/typespec-azure-core/casing-style" ""
 @armResourceOperations
 interface AcStorConfigurations {
   get is ArmResourceRead<AcStorConfiguration>;
