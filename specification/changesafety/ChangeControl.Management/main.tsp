@@ -18,8 +18,8 @@ using Azure.ResourceManager;
 @service({
   title: "Microsoft.ChangeSafety management service",
 })
-@versioned(Microsoft.ChangeSafety.Versions)
-namespace Microsoft.ChangeSafety;
+@versioned(Versions)
+namespace Private.ChangeSafety;
 
 /** The available API versions. */
 enum Versions {

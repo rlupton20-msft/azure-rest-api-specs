@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 
-namespace Microsoft.ChangeSafety;
+namespace Private.ChangeSafety;
 
 @doc("Resource allows the user to define the change that they intended to execute & indicate the progression it will use.")
 model ChangeState is ProxyResource<ChangeStateProperties> {
@@ -307,7 +307,7 @@ union ArmOperation {
 scalar ChangeStateResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.ChangeSafety/changeStates",
+      type: "Private.ChangeSafety/changeStates",
     }
   ]>;
 
