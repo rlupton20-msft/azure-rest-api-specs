@@ -9,7 +9,7 @@ using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 @doc("Resource provides details about stages a deployment goes through.")
 model StageMap is ProxyResource<StageMapProperties> {
@@ -69,7 +69,7 @@ model Stage {
 scalar StageMapResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.ChangeSafety/stageMaps",
+      type: "Microsoft.ChangeSafety/stageMaps",
     }
   ]>;
 

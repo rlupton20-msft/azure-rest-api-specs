@@ -19,7 +19,7 @@ using Azure.ResourceManager;
   title: "Microsoft.ChangeSafety management service",
 })
 @versioned(Versions)
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 /** The available API versions. */
 enum Versions {
