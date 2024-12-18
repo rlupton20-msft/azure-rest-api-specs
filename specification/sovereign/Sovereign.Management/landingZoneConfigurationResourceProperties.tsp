@@ -108,8 +108,13 @@ model LandingZoneConfigurationResourceProperties {
   platformMgChildren?: PlatformManagementGroupProperties[];
 
   @added(Versions.Preview20250227)
-  @doc("The naming convention to be used for this landing zone configuration")
-  namingConvention?: NamingConvention;
+  @doc("The naming convention that's used by default for all resource types for this landing zone configuration")
+  namingConventionFormula?: string;
+
+  @added(Versions.Preview20250227)
+  @doc("The customized naming convention for one or more resource types in this landing zone configuration")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  customNamingConvention?: CustomNamingConvention[];
 }
 
 @added(Versions.Preview20241031)
@@ -393,28 +398,17 @@ model CreateLandingZoneConfigurationCopyResponse {
   ]>;
 }
 
-@added(Versions.Preview20250227)
-@doc("The naming convention configuration for deployed resources.")
-model NamingConvention {
-  @doc("The default formula for naming convention.")
-  defaultFormula: string;
-
-  @doc("The resource type overrides.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  customFormulas?: CustomFormula[];
-}
-
 @doc("The details for the custom resource override.")
 @added(Versions.Preview20250227)
-model CustomFormula {
+model CustomNamingConvention {
   @doc("The type of the resource.")
   resourceType: ResourceType;
 
   @doc("The custom formula for the resource type.")
-  formula?: string;
+  formula: string;
 }
 
-@doc("The input values for creating or using an existing firewall resource.")
+@doc("The input values for defining resource types for naming conventions.")
 @added(Versions.Preview20250227)
 union ResourceType {
   @doc("Value when customer wants to provide custom naming convention for Azure Firewall.")
