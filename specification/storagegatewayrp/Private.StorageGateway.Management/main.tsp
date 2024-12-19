@@ -27,7 +27,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A StorageGatewayProviderHub resource")
-model agent is TrackedResource<agentProperties> {
+model Agent is TrackedResource<AgentProperties> {
   @doc("The name of the agent")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("agentName")
@@ -55,18 +55,18 @@ union ProvisioningState {
 }
 
 @doc("Details of the StorageGateway Agent.")
-model agentProperties {
+model AgentProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
 
-@armResourceOperations(agent)
-interface agents {
-  get is ArmResourceRead<agent>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<agent>;
-  update is ArmResourcePatchSync<agent, agentProperties>;
-  delete is ArmResourceDeleteSync<agent>;
-  listByResourceGroup is ArmResourceListByParent<agent>;
-  listBySubscription is ArmListBySubscription<agent>;
+@armResourceOperations(Agent)
+interface Agents {
+  get is ArmResourceRead<Agent>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Agent>;
+  update is ArmResourcePatchSync<Agent, AgentProperties>;
+  delete is ArmResourceDeleteSync<Agent>;
+  listByResourceGroup is ArmResourceListByParent<Agent>;
+  listBySubscription is ArmListBySubscription<Agent>;
 }
