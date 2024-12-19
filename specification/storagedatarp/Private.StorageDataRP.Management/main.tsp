@@ -48,8 +48,11 @@ interface Connectors {
   @doc("Delete a Storage Connector.")
   delete is ArmResourceDeleteSync<Connector>;
 
-  @doc("List all Storage Connectors in a Storage Account.")
-  listByStorageAccount is ArmResourceListByParent<Connector>;
+  @doc("List all Storage Connectors in a Resource Group.")
+  listByResourceGroup is ArmResourceListByParent<Connector>;
+
+  @doc("List all Storage Connectors in a Subscription.")
+  listBySubscription is ArmListBySubscription<Connector>;
 
   @doc("This method is used to verify that the connection to the backing data store works. This API is designed to be used for monitoring and debugging purposes. From the caller’s perspective, this method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc. If the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte.")
   existingConnectionTest is ArmResourceActionSync<

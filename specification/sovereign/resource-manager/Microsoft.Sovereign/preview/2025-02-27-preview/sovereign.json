@@ -1816,7 +1816,7 @@
         ]
       }
     },
-    "CustomFormula": {
+    "CustomNamingConvention": {
       "type": "object",
       "description": "The details for the custom resource override.",
       "properties": {
@@ -1830,7 +1830,8 @@
         }
       },
       "required": [
-        "resourceType"
+        "resourceType",
+        "formula"
       ]
     },
     "DecommissionedManagementGroupProperties": {
@@ -2391,9 +2392,17 @@
           },
           "x-ms-identifiers": []
         },
-        "namingConvention": {
-          "$ref": "#/definitions/NamingConvention",
-          "description": "The naming convention to be used for this landing zone configuration"
+        "namingConventionFormula": {
+          "type": "string",
+          "description": "The naming convention that's used by default for all resource types for this landing zone configuration"
+        },
+        "customNamingConvention": {
+          "type": "array",
+          "description": "The customized naming convention for one or more resource types in this landing zone configuration",
+          "items": {
+            "$ref": "#/definitions/CustomNamingConvention"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -2546,9 +2555,17 @@
           },
           "x-ms-identifiers": []
         },
-        "namingConvention": {
-          "$ref": "#/definitions/NamingConventionUpdate",
-          "description": "The naming convention to be used for this landing zone configuration"
+        "namingConventionFormula": {
+          "type": "string",
+          "description": "The naming convention that's used by default for all resource types for this landing zone configuration"
+        },
+        "customNamingConvention": {
+          "type": "array",
+          "description": "The customized naming convention for one or more resource types in this landing zone configuration",
+          "items": {
+            "$ref": "#/definitions/CustomNamingConvention"
+          },
+          "x-ms-identifiers": []
         }
       }
     },
@@ -2820,45 +2837,6 @@
         }
       }
     },
-    "NamingConvention": {
-      "type": "object",
-      "description": "The naming convention configuration for deployed resources.",
-      "properties": {
-        "defaultFormula": {
-          "type": "string",
-          "description": "The default formula for naming convention."
-        },
-        "customFormulas": {
-          "type": "array",
-          "description": "The resource type overrides.",
-          "items": {
-            "$ref": "#/definitions/CustomFormula"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "defaultFormula"
-      ]
-    },
-    "NamingConventionUpdate": {
-      "type": "object",
-      "description": "The naming convention configuration for deployed resources.",
-      "properties": {
-        "defaultFormula": {
-          "type": "string",
-          "description": "The default formula for naming convention."
-        },
-        "customFormulas": {
-          "type": "array",
-          "description": "The resource type overrides.",
-          "items": {
-            "$ref": "#/definitions/CustomFormula"
-          },
-          "x-ms-identifiers": []
-        }
-      }
-    },
     "PlatformManagementGroupProperties": {
       "type": "object",
       "description": "Platform management group properties.",
@@ -2932,7 +2910,7 @@
     },
     "ResourceType": {
       "type": "string",
-      "description": "The input values for creating or using an existing firewall resource.",
+      "description": "The input values for defining resource types for naming conventions.",
       "enum": [
         "azureFirewalls",
         "resourceGroups",
@@ -3086,8 +3064,7 @@
         }
       },
       "required": [
-        "name",
-        "value"
+        "name"
       ]
     },
     "TransparencyLog": {
