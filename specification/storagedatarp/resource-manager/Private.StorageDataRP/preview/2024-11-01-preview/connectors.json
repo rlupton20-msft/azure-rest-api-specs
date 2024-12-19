@@ -82,13 +82,52 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataRp/connectors": {
+    "/subscriptions/{subscriptionId}/providers/Private.StorageDataRp/connectors": {
       "get": {
-        "operationId": "Connectors_ListByStorageAccount",
+        "operationId": "Connectors_ListBySubscription",
         "tags": [
           "Connectors"
         ],
-        "description": "List all Storage Connectors in a Storage Account.",
+        "description": "List all Storage Connectors in a Subscription.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConnectorListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListConnectors": {
+            "$ref": "./examples/Connectors_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataRp/connectors": {
+      "get": {
+        "operationId": "Connectors_ListByResourceGroup",
+        "tags": [
+          "Connectors"
+        ],
+        "description": "List all Storage Connectors in a Resource Group.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -116,7 +155,7 @@
         },
         "x-ms-examples": {
           "ListConnectors": {
-            "$ref": "./examples/Connectors_ListByStorageAccount.json"
+            "$ref": "./examples/Connectors_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
