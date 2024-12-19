@@ -149,7 +149,8 @@ model Tags {
   name: string;
 
   @doc("A tag value.")
-  value: string;
+  @madeOptional(Versions.Preview20250227)
+  value?: string;
 }
 
 @doc("Landing zone management group properties.")
