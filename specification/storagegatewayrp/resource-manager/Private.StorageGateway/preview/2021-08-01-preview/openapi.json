@@ -42,7 +42,7 @@
       "name": "Operations"
     },
     {
-      "name": "agents"
+      "name": "Agents"
     }
   ],
   "paths": {
@@ -81,9 +81,9 @@
       "get": {
         "operationId": "Agents_ListBySubscription",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "List agent resources by subscription ID",
+        "description": "List Agent resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -96,7 +96,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/agentListResult"
+              "$ref": "#/definitions/AgentListResult"
             }
           },
           "default": {
@@ -115,9 +115,9 @@
       "get": {
         "operationId": "Agents_ListByResourceGroup",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "List agent resources by resource group",
+        "description": "List Agent resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -133,7 +133,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/agentListResult"
+              "$ref": "#/definitions/AgentListResult"
             }
           },
           "default": {
@@ -152,9 +152,9 @@
       "get": {
         "operationId": "Agents_Get",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "Get a agent",
+        "description": "Get a Agent",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -178,7 +178,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/agent"
+              "$ref": "#/definitions/Agent"
             }
           },
           "default": {
@@ -197,9 +197,9 @@
       "put": {
         "operationId": "Agents_CreateOrUpdate",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "Create a agent",
+        "description": "Create a Agent",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -224,21 +224,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/agent"
+              "$ref": "#/definitions/Agent"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'agent' update operation succeeded",
+            "description": "Resource 'Agent' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/agent"
+              "$ref": "#/definitions/Agent"
             }
           },
           "201": {
-            "description": "Resource 'agent' create operation succeeded",
+            "description": "Resource 'Agent' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/agent"
+              "$ref": "#/definitions/Agent"
             },
             "headers": {
               "Azure-AsyncOperation": {
@@ -272,9 +272,9 @@
       "patch": {
         "operationId": "Agents_Update",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "Update a agent",
+        "description": "Update a Agent",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -299,7 +299,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/agentUpdate"
+              "$ref": "#/definitions/AgentUpdate"
             }
           }
         ],
@@ -307,7 +307,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/agent"
+              "$ref": "#/definitions/Agent"
             }
           },
           "default": {
@@ -321,9 +321,9 @@
       "delete": {
         "operationId": "Agents_Delete",
         "tags": [
-          "agents"
+          "Agents"
         ],
-        "description": "Delete a agent",
+        "description": "Delete a Agent",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -361,6 +361,68 @@
     }
   },
   "definitions": {
+    "Agent": {
+      "type": "object",
+      "description": "A StorageGatewayProviderHub resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AgentProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "AgentListResult": {
+      "type": "object",
+      "description": "The response of a Agent list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Agent items on this page",
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AgentProperties": {
+      "type": "object",
+      "description": "Details of the StorageGateway Agent.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "AgentUpdate": {
+      "type": "object",
+      "description": "A StorageGatewayProviderHub resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AgentProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
@@ -433,68 +495,6 @@
         ]
       },
       "readOnly": true
-    },
-    "agent": {
-      "type": "object",
-      "description": "A StorageGatewayProviderHub resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/agentProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "agentListResult": {
-      "type": "object",
-      "description": "The response of a agent list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The agent items on this page",
-          "items": {
-            "$ref": "#/definitions/agent"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "agentProperties": {
-      "type": "object",
-      "description": "Details of the StorageGateway Agent.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        }
-      }
-    },
-    "agentUpdate": {
-      "type": "object",
-      "description": "A StorageGatewayProviderHub resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/agentProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
-        }
-      ]
     }
   },
   "parameters": {}
