@@ -2137,6 +2137,10 @@
           "$ref": "#/definitions/messagingOptions",
           "description": "The messaging options for this flow"
         },
+        "couplerOptions": {
+          "$ref": "#/definitions/couplerOptions",
+          "description": "The coupler configuration options for coupler flow type."
+        },
         "customerManagedKeyVaultUri": {
           "type": "string",
           "format": "url",
@@ -2870,7 +2874,8 @@
         "Standard",
         "StreamingVideo",
         "Opaque",
-        "MissionOpaqueXML"
+        "MissionOpaqueXML",
+        "Coupler"
       ],
       "type": "string",
       "x-ms-enum": {
@@ -2914,6 +2919,67 @@
         }
       },
       "description": "The option associated with messaging flows."
+    },
+    "couplerOptions": {
+      "type": "object",
+      "description": "Properties specific to Coupler Flow",
+      "properties": {
+        "remoteEndpoint": {
+          "type": "string",
+          "description": "Remote host to which communication needs to be made",
+          "example": "SDK - https://<hostname>:<port>/endpoint, EPC - https://<hostname>:<port>"
+        },
+        "cname": {
+          "type": "string",
+          "description": "Unique CNAME to represent the CTS Coupler Instance"
+        },
+        "apiMode": {
+          "enum": [
+            "SDK",
+            "Endpoint"
+          ],
+          "type": "string",
+          "description": "Coupler Remote Calling Mode in advanced option",
+          "x-ms-enum": {
+            "name": "couplerApiMode",
+            "modelAsString": true
+          }
+        },
+        "identityTranslation": {
+          "enum": [
+            "UserIdentity",
+            "ServiceIdentity"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CouplerIdentityTranslation",
+            "modelAsString": true
+          },
+          "description": "Flag for if Coupler should extract the user token"
+        },
+        "authTokenIssuerType": {
+          "enum": [
+            "None",
+            "dSTS",
+            "eSTS",
+            "torusSTS"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "couplerAuthTokenIssuerType",
+            "modelAsString": true
+          },
+          "description": "Token provider for the flow"
+        },
+        "senderClientId": {
+          "type": "string",
+          "description": "Sender's app user assigned MI client ID"
+        },
+        "remoteCallingModeClientId": {
+          "type": "string",
+          "description": "Remote stub app registration Client ID. Only applicable when CustomerManaged mode is checked"
+        }
+      }
     },
     "streamSourceAddresses": {
       "type": "object",
