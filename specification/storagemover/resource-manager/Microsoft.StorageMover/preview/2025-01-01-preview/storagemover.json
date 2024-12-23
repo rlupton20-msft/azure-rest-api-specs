@@ -2453,46 +2453,51 @@
           "readOnly": true
         },
         "sourceTargetMap": {
-          "type": "array",
           "description": "The list of cloud endpoints to migrate.",
-          "items": {
-            "$ref": "#/definitions/SourceTargetMap"
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceTargetMap"
+              },
+              "readOnly": true
+            }
+          },
+          "latestJobRunStatus": {
+            "enum": [
+              "Queued",
+              "Started",
+              "Running",
+              "CancelRequested",
+              "Canceling",
+              "Canceled",
+              "Failed",
+              "Succeeded"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "JobRunStatus",
+              "modelAsString": true
+            },
+            "description": "The current status of the Job Run in a non-terminal state, if exists.",
+            "readOnly": true
+          },
+          "agentName": {
+            "type": "string",
+            "description": "Name of the Agent to assign for new Job Runs of this Job Definition."
+          },
+          "agentResourceId": {
+            "type": "string",
+            "description": "Fully qualified resource id of the Agent to assign for new Job Runs of this Job Definition.",
+            "readOnly": true
+          },
+          "provisioningState": {
+            "description": "The provisioning state of this resource.",
+            "$ref": "#/definitions/ProvisioningState",
+            "readOnly": true
           }
         },
-        "latestJobRunStatus": {
-          "enum": [
-            "Queued",
-            "Started",
-            "Running",
-            "CancelRequested",
-            "Canceling",
-            "Canceled",
-            "Failed",
-            "Succeeded"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "JobRunStatus",
-            "modelAsString": true
-          },
-          "description": "The current status of the Job Run in a non-terminal state, if exists.",
-          "readOnly": true
-        },
-        "agentName": {
-          "type": "string",
-          "description": "Name of the Agent to assign for new Job Runs of this Job Definition."
-        },
-        "agentResourceId": {
-          "type": "string",
-          "description": "Fully qualified resource id of the Agent to assign for new Job Runs of this Job Definition.",
-          "readOnly": true
-        },
-        "provisioningState": {
-          "description": "The provisioning state of this resource.",
-          "$ref": "#/definitions/ProvisioningState",
-          "readOnly": true
-        }
-      },
       "required": [
         "jobType",
         "copyMode",
