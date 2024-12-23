@@ -76,6 +76,7 @@ model EndpointConnection extends Connection {
   type: ConnectionType.Endpoint;
 
   @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: https://203.0.113.1:9000/AllowSelfSignedCerts Bucket: https://data.contoso.com/bucketname .")
+  @minLength(4)
   endpoint: string;
 
   @doc("Options – Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
@@ -91,14 +92,19 @@ model PrivateLinkConnection extends Connection {
   privateLinkIdType: PrivateLinkIdType;
 
   @doc("The identifier of the Private Link resource, over which the backing data store can be accessed. Depending on the “privateLinkIdType”, should either be an ARM Resource ID or an Private Link alias.")
+  @minLength(3)
   privateLinkId: string;
 
+  @doc("The private Link resource group id")
+  @minLength(3)
   privateLinkGroupId: string;
 
   @doc("Azure region of the private link.")
+  @minLength(3)
   privateLinkLocation: string;
 
   @doc("The message to send to the owner of the private link via a manual request, when Azure Storage is creating a Private Endpoint to communicate with the Private Link.")
+  @minLength(1)
   requestMessage: string;
 
   @visibility("read")
@@ -106,6 +112,7 @@ model PrivateLinkConnection extends Connection {
   privateLinkStatus: PrivateLinkStatus;
 
   @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: Storage Account: https://myaccount.blob.core.windows.net/containername Bucket: https://data.contoso.com/bucketname Note that this will be the endpoint as seen by the target of the Private Link in HTTP(s) requests. It is not a Private Endpoint used to connect to the Private Link.")
+  @minLength(3)
   endpoint: string;
 
   @doc("Options – Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
@@ -125,10 +132,12 @@ model AccessKeyProperties extends AuthProperties {
   type: AuthType.AccessKey;
 
   @doc("Access key ID for the backing data store.")
+  @minLength(3)
   accessKeyId: string;
 
   @doc("Secret access key. Redacted when read via a Get or List API.")
   @secret
+  @minLength(3)
   secretAccessKey: string;
 
   @doc("Region to use in the signing algorithm.  If not provided, defaults to us-east-1.")
@@ -146,12 +155,15 @@ model ExistingConnectionTestRequest {
 @doc("The test connection response")
 model TestConnectionResponse {
   @doc("Which request attempt failed. Valid values are List and GetBlob.")
+  @minLength(1)
   storageConnectorMethodName: string;
 
   @doc("A string representing the error received from the backing data store. Format will vary depending on the data store type.  This will be capped at 1 MB in size.")
+  @minLength(1)
   storageConnectorErrorMessage: string;
 
   @doc("The request ID associated with the request sent to the backing data store for validation.")
+  @minLength(1)
   storageConnectorRequestId: string;
 }
 

@@ -22,6 +22,8 @@ namespace Private.StorageDataRp;
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2024-11-01-preview`,
+
+  `2025-01-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
