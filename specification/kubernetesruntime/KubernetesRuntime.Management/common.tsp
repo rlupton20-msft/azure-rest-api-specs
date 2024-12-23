@@ -1,6 +1,7 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -12,39 +13,28 @@ using Azure.ResourceManager;
 @armProviderNamespace("Microsoft.KubernetesRuntime")
 @service({
   title: "Microsoft.KubernetesRuntime",
+  version: "2023-10-01-preview",
 })
-@versioned(Microsoft.KubernetesRuntime.Versions)
+@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.KubernetesRuntime;
-
-@doc("Versions of KubernetesRuntime service")
-enum Versions {
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("2023-10-01-preview")
-  v2023_10_01_preview: "2023-10-01-preview",
-
-  @doc("2024-03-01, added bgpPeers field in LoadBalancer")
-  v2024_03_01: "2024-03-01",
-}
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
-union ProvisioningState {
-  string,
-  ResourceProvisioningState,
+enum ProvisioningState {
+  ...ResourceProvisioningState,
 
   @doc("Initial provisioning in progress")
-  Provisioning: "Provisioning",
+  Provisioning,
 
   @doc("Update in progress")
-  Updating: "Updating",
+  Updating,
 
   @doc("Deletion in progress")
-  Deleting: "Deleting",
+  Deleting,
 
   @doc("Change accepted for processing")
-  Accepted: "Accepted",
+  Accepted,
 }

@@ -1,0 +1,112 @@
+{
+  "title": "WorkloadResourceDefinitions_Update",
+  "operationId": "WorkloadResourceDefinitions_Update",
+  "parameters": {
+    "api-version": "2023-10-01-preview",
+    "subscriptionId": "49d64d54-e966-4c46-a868-1999802b762c",
+    "resourceGroupName": "test-wrd-def-rg",
+    "workloadResourceDefinitionName": "samplewebapp",
+    "properties": {
+      "Description": "Internal Web Application",
+      "annotations": {
+        "purpose": "Handles web traffic for internal and external users"
+      },
+      "workloadSpecification": {
+        "nodes": [
+          {
+            "nodeId": "e20069dc-fb02-47e7-9c13-21f05c941fdb",
+            "nodename": "Presentation-WebTier",
+            "resourceSku": "Standard_D2ds_v5",
+            "minResourceCount": 3,
+            "additionalDetails": {
+              "environment": "production"
+            }
+          },
+          {
+            "nodeId": "eb1ff183-79ef-4595-bd63-981313a3b3ae",
+            "nodename": "Database-ODBVM",
+            "resourceSku": "Standard_D2ds_v5",
+            "minResourceCount": 3,
+            "additionalDetails": {
+              "environment": "production"
+            },
+            "relationShipWith": "Presentation-WebTier",
+            "relationShipType": "DependsOn"
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "location": "southeastasia",
+        "id": "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-wrd-def-rg/providers/Microsoft.Workloads/WorkloadResourceDefinitions/test",
+        "name": "samplewebapp",
+        "systemData": {
+          "createdBy": "pamedasa",
+          "createdByType": "User",
+          "createdAt": "2024-08-19T00:28:48.610Z",
+          "lastModifiedBy": "mohit",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2024-08-19T00:28:48.610Z"
+        },
+        "properties": {
+          "Description": "Internal Web Application",
+          "type": "Microsoft.Workloads/WorkloadResourceDefinitions",
+          "annotations": {
+            "appType": "webApplication",
+            "purpose": "Handles web traffic for internal and external users"
+          },
+          "workloadSpecification": {
+            "version": "1.0",
+            "definitionId": "8e0d265f-9108-4e18-a7cc-ca246d564937",
+            "scope": "Subscription",
+            "nodes": [
+              {
+                "nodeId": "e20069dc-fb02-47e7-9c13-21f05c941fdb",
+                "nodename": "Presentation-WebTier",
+                "Component": "Presentation",
+                "Role": "Web",
+                "nodetype": "AzureResource",
+                "resourceType": "Microsoft.Compute/virtualMachines",
+                "resourceSku": "Standard_D2ds_v5",
+                "minResourceCount": 3,
+                "additionalDetails": {
+                  "environment": "production"
+                }
+              },
+              {
+                "nodeId": "eb1ff183-79ef-4595-bd63-981313a3b3ae",
+                "nodename": "Database-ODBVM",
+                "Component": "Database",
+                "Role": "ODB",
+                "nodetype": "AzureResource",
+                "resourceType": "Microsoft.Compute/virtualMachines",
+                "resourceSku": "Standard_D2ds_v5",
+                "minResourceCount": 3,
+                "additionalDetails": {
+                  "environment": "production"
+                }
+              }
+            ],
+            "routes": [
+              {
+                "routeId": "0365f235-d473-44ae-9bd9-5eb1e8829db4",
+                "sourceNodeId": "e20069dc-fb02-47e7-9c13-21f05c941fdb",
+                "targetNodeId": "eb1ff183-79ef-4595-bd63-981313a3b3ae",
+                "relationShip": "DependsOn"
+              }
+            ]
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
+    },
+    "202": {
+      "headers": {
+        "azure-AsyncOperation": "https://management.azure.com/subscriptions/40449e6d-a5d2-40f1-a151-0b76f21a48c0/providers/Private.Workloads/locations/southeastasia/operationStatuses/3e212ea1-5a1e-4944-8ffd-34189b25761e?api-version=2023-10-01-preview"
+      }
+    }
+  }
+}

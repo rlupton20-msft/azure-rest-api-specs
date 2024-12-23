@@ -1,0 +1,482 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2022-09-25",
+    "title": "azcertify",
+    "description": "Description of the new service",
+    "x-ms-code-generation-settings": {
+      "name": "azcertifyClient"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.AzCertify/operations": {
+      "get": {
+        "description": "Lists all of the available Microsoft.AzCertify provider operations",
+        "operationId": "Operation_List",
+        "tags": [
+          "operationList"
+        ],
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operation_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operation_List_MaximumSet_Gen.json"
+          },
+          "Operation_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operation_List_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.AzCertify/artifactTypes": {
+      "get": {
+        "description": "Returns list of artifact types supported by the Microsoft.AzCertify",
+        "operationId": "ArtifactType_ListByProvider",
+        "tags": [
+          "artifactTypeListByProvider"
+        ],
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Describe the result of a successful operation.",
+            "schema": {
+              "$ref": "#/definitions/ArtifactTypeResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "ArtifactType_ListByProvider_MaximumSet_Gen": {
+            "$ref": "./examples/ArtifactType_ListByProvider_MaximumSet_Gen.json"
+          },
+          "ArtifactType_ListByProvider_MinimumSet_Gen": {
+            "$ref": "./examples/ArtifactType_ListByProvider_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzCertify/validationJobs": {
+      "get": {
+        "description": "Returns all the validations created in a particular resource group",
+        "operationId": "ValidationJob_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ArtifactTypeQueryParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Describe the result of a successful operation.",
+            "schema": {
+              "$ref": "#/definitions/ValidationJobListResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "ValidationJob_ListByResourceGroup_List_MaximumSet_Gen": {
+            "$ref": "./examples/ValidationJob_ListByResourceGroup_MaximumSet_Gen.json"
+          },
+          "ValidationJob_ListByResourceGroup_List_MinimumSet_Gen": {
+            "$ref": "./examples/ValidationJob_ListByResourceGroup_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzCertify/artifactTypes/{artifactTypeName}/validationJobs/{validationJobName}": {
+      "put": {
+        "description": "Create a new Validation job for a given artifact type.",
+        "operationId": "ValidationJob_CreateAndUpdate",
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "in": "path",
+            "name": "artifactTypeName",
+            "required": true,
+            "type": "string",
+            "description": "Name of artifact type for which the validation job is created"
+          },
+          {
+            "in": "path",
+            "name": "validationJobName",
+            "required": true,
+            "type": "string",
+            "description": "Name of the Validation job",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Request payload containing the ValidationJOb parameters for the selected artifact type.",
+            "schema": {
+              "$ref": "#/definitions/ValidationJobItem"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ValidationJobItem"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/ValidationJobItem"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-examples": {
+          "ValidationJob_CreateAndUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/ValidationJob_CreateAndUpdate_MaximumSet_Gen.json"
+          },
+          "ValidationJob_CreateAndUpdate_MinimumSet_Gen": {
+            "$ref": "./examples/ValidationJob_CreateAndUpdate_MinimumSet_Gen.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-ms-mutability": [
+        "read",
+        "create",
+        "update"
+      ],
+      "description": "Resource tags"
+    },
+    "ValidationJobListResponse": {
+      "description": "Defines the Validation Jobs list.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of validation jobs.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of validation jobs already created.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValidationJob"
+          }
+        }
+      }
+    },
+    "ValidationJob": {
+      "type": "object",
+      "description": "Describes the validation job details.",
+      "required": [
+        "id",
+        "name",
+        "location",
+        "artifactTypeName"
+      ],
+      "properties": {
+        "id": {
+          "description": "Id to uniquely define a validation job.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the valdiation job",
+          "type": "string"
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string"
+        },
+        "artifactTypeName": {
+          "description": "the artifact type for which the validation job was created.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactTypeResult": {
+      "description": "Describes the artifact type list supported.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of supported artifact types.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of supported artifact types.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactType"
+          }
+        }
+      }
+    },
+    "ArtifactType": {
+      "type": "object",
+      "description": "Describes the artifact type for Validation.",
+      "properties": {
+        "id": {
+          "description": "Artifact Type Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Artifact Type name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "short description of the Artifact Type.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ValidationJobList": {
+      "description": "List of validation Jobs.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of validation jobs.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of already created validation jobs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValidationJobItem"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ValidationJobItem": {
+      "description": "Defines the details of a validation job.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/Resource",
+          "description": "The resource model definition for an Azure Resource Manager resource. It will have everything other than required location and tags."
+        },
+        {
+          "$ref": "#/definitions/Tags"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Validation job resource properties.",
+          "$ref": "#/definitions/ValidationJobItemProperties"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ValidationJobItemProperties": {
+      "description": "Defines the validation resource properties.",
+      "required": [
+        "artifactType",
+        "name"
+      ],
+      "discriminator": "artifactType",
+      "type": "object",
+      "properties": {
+        "artifactType": {
+          "description": "The artifact type.",
+          "$ref": "#/definitions/ArtifactTypeRequest"
+        },
+        "name": {
+          "description": "Name of Validation Job",
+          "type": "string"
+        }
+      }
+    },
+    "VmImageItem": {
+      "description": "The VmImage aritifact request details.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValidationJobItemProperties"
+        }
+      ],
+      "required": [
+        "osType",
+        "hyperVGenerationType",
+        "inputType",
+        "imageSasUrl"
+      ],
+      "properties": {
+        "osType": {
+          "type": "string",
+          "description": "The Os type of the VM image",
+          "enum": [
+            "linux",
+            "windows"
+          ]
+        },
+        "hyperVGenerationType": {
+          "type": "string",
+          "description": "The Hyper V generation of the VM"
+        },
+        "inputType": {
+          "type": "string",
+          "description": "The input type of the Source VM image",
+          "enum": [
+            "sasUrl",
+            "sigImageUrl"
+          ]
+        },
+        "imageSasUrl": {
+          "type": "string",
+          "description": "field to unput the image SAS url"
+        }
+      },
+      "x-ms-discriminator-value": "VmImage"
+    },
+    "ContainerItem": {
+      "description": "The Container aritifact request details.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValidationJobItemProperties"
+        }
+      ],
+      "properties": {
+        "inputType": {
+          "type": "string",
+          "description": "The input type of the Source container image",
+          "enum": [
+            "azureCpntainerRegister",
+            "dockerRegistry"
+          ]
+        },
+        "registryUri": {
+          "type": "string",
+          "description": "field to unput the container registery url"
+        }
+      },
+      "x-ms-discriminator-value": "Container"
+    },
+    "ArtifactTypeRequest": {
+      "type": "string",
+      "description": "The Artifact types supported by the service.",
+      "enum": [
+        "VmImage",
+        "Container",
+        "VmExtension"
+      ],
+      "x-ms-enum": {
+        "name": "ArtifactTypeRequest",
+        "modelAsString": true
+      }
+    }
+  },
+  "parameters": {
+    "ArtifactTypeQueryParameter": {
+      "name": "artifactQueryType",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The artifact type of the validation job."
+    }
+  }
+}

@@ -27,52 +27,9 @@ These are the global settings for the Kubernetes Connect RP.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-12-01-preview
-```
-### Tag: package-2024-12-01-preview
-
-These settings apply only when `--tag=package-2024-12-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-12-01-preview'
-input-file:
-  - Microsoft.Kubernetes/preview/2024-12-01-preview/connectedClusters.json
+tag: package-2024-01
 ```
 
-### Tag: package-2024-07-15-preview
-
-These settings apply only when `--tag=package-2024-07-15-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-07-15-preview'
-input-file:
-  - Microsoft.Kubernetes/preview/2024-07-15-preview/connectedClusters.json
-```
-
-### Tag: package-2024-07-01-preview
-
-These settings apply only when `--tag=package-2024-07-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-07-01-preview'
-input-file:
-  - Microsoft.Kubernetes/preview/2024-07-01-preview/connectedClusters.json
-```
-
-### Tag: package-preview-2024-06-01
-
-These settings apply only when `--tag=package-preview-2024-06-01` is specified on the command line.
-
-```yaml $(tag) == 'package-preview-2024-06-01'
-input-file:
-  - Microsoft.Kubernetes/preview/2024-06-01-preview/connectedClusters.json
-```
-
-### Tag: package-preview-2024-02-01
-
-These settings apply only when `--tag=package-preview-2024-02-01` is specified on the command line.
-
-```yaml $(tag) == 'package-preview-2024-02-01'
-input-file:
-  - Microsoft.Kubernetes/preview/2024-02-01-preview/connectedClusters.json
-```
 
 ### Tag: package-2024-01
 
@@ -136,15 +93,6 @@ input-file:
 - Microsoft.Kubernetes/preview/2022-05-01-preview/connectedClusters.json
 ```
 
-### Tag: package-2022-10-01-preview
-
-These settings apply only when `--tag=package-2022-10-01-preview` is specified on the command line.
-
-``` yaml $(tag) == 'package-2022-10-01-preview'
-input-file:
-- Microsoft.Kubernetes/preview/2022-10-01-preview/connectedClusters.json
-```
-
 ---
 
 # Code Generation
@@ -156,15 +104,14 @@ This is not used by Autorest itself.
 
 ``` yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-python
+  - repo: azure-sdk-for-python-track2
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-ruby
-  - repo: azure-sdk-for-net-track2
+  - repo: azure-sdk-for-net
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_hybridkubernetes']
   - repo: azure-resource-manager-schemas
-  - repo: azure-powershell
 ```
 
 ## Go
@@ -186,13 +133,3 @@ See configuration in [readme.csharp.md](./readme.csharp.md)
 ## Java
 
 See configuration in [readme.java.md](./readme.java.md)
-
-## Suppression
-
-``` yaml
-suppressions:
-  - code: DefinitionsPropertiesNamesCamelCase
-    from: connectedClusters.json
-    where: $.definitions.AadProfile.properties.enableAzureRBAC
-    reason: enableAzureRBAC is already used in Managed Clusters. so to ensure consistency between Managed Clusters and Connected Clusters usage of aadProfile.    
-```

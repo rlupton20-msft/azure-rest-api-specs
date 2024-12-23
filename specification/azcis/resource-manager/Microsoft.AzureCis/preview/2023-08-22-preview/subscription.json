@@ -1,0 +1,594 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure CIS FRP",
+    "version": "2023-08-22-preview",
+    "description": "Subscription Provider",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "Subscription"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.AzureCis/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Operations Subscription": {
+            "$ref": "./examples/Subscription_Operations.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCis/subscriptions": {
+      "get": {
+        "operationId": "Subscription_ListBySubscription",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "List SubscriptionResource resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListBySubscription Subscription": {
+            "$ref": "./examples/Subscription_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/subscriptions": {
+      "get": {
+        "operationId": "Subscription_ListByResourceGroup",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "List SubscriptionResource resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListByResourceGroup Subscription": {
+            "$ref": "./examples/Subscription_ListByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/subscriptions/{resourceName}": {
+      "get": {
+        "operationId": "Subscription_Get",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Get a SubscriptionResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,80}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get Subscription": {
+            "$ref": "./examples/Subscription_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "Subscription_CreateOrUpdate",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Create a SubscriptionResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "description": "The name of resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,80}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SubscriptionResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'SubscriptionResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create Subscription": {
+            "$ref": "./examples/Subscription_CreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "definitions": {
+    "ArmFeatureRegistration": {
+      "type": "object",
+      "description": "ARM Feature registration.",
+      "properties": {
+        "resourceProviderNamespace": {
+          "type": "string",
+          "description": "Resource Provider namespace."
+        },
+        "featureName": {
+          "type": "string",
+          "description": "Feature name."
+        }
+      },
+      "required": [
+        "resourceProviderNamespace",
+        "featureName"
+      ]
+    },
+    "Azure.Core.azureLocation": {
+      "type": "string",
+      "description": "Represents an Azure geography region where supported resource providers live."
+    },
+    "DsmsFolderWhitelist": {
+      "type": "object",
+      "description": "DSMS Root Folder Whitelist.",
+      "properties": {
+        "folderPath": {
+          "type": "string",
+          "description": "DSMS Root Folder path."
+        },
+        "whitelistType": {
+          "type": "string",
+          "description": "DSMS Whitelist type."
+        }
+      },
+      "required": [
+        "folderPath",
+        "whitelistType"
+      ]
+    },
+    "RbacRole": {
+      "type": "object",
+      "description": "RBAC Role.",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant id."
+        },
+        "objectId": {
+          "type": "string",
+          "description": "Object id."
+        },
+        "roleDefinitionId": {
+          "type": "string",
+          "description": "RoleDefinition id."
+        },
+        "principalType": {
+          "type": "string",
+          "description": "Principal Type."
+        }
+      },
+      "required": [
+        "tenantId",
+        "objectId",
+        "roleDefinitionId",
+        "principalType"
+      ]
+    },
+    "SubscriptionProvisioningState": {
+      "type": "string",
+      "description": "Provisioning status of the resource.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "Accepted"
+      ],
+      "x-ms-enum": {
+        "name": "SubscriptionProvisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Resource has been created."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Resource creation failed."
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Resource creation was canceled."
+          },
+          {
+            "name": "Accepted",
+            "value": "Accepted",
+            "description": "Accepted State"
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "SubscriptionResource": {
+      "type": "object",
+      "description": "Subscription resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SubscriptionResourceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SubscriptionResourceListResult": {
+      "type": "object",
+      "description": "The response of a SubscriptionResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SubscriptionResource items on this page",
+          "items": {
+            "$ref": "#/definitions/SubscriptionResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SubscriptionResourceProperties": {
+      "type": "object",
+      "description": "Subscription properties.",
+      "properties": {
+        "alias": {
+          "type": "string",
+          "description": "The unique identifier for CIS to locate the subscription provisioned."
+        },
+        "subscriptionName": {
+          "type": "string",
+          "description": "Name of the subscription that needs to be provisioned."
+        },
+        "serviceTreeEnvironment": {
+          "type": "string",
+          "description": "Service Tree Environment, Production or NonProduction."
+        },
+        "enrollmentAccountId": {
+          "type": "string",
+          "description": "Enrollment Account id for the subscription creation."
+        },
+        "pcCode": {
+          "type": "string",
+          "description": "The Profit Center that the subscription will be billed to."
+        },
+        "costCategory": {
+          "type": "string",
+          "description": "Cost category is a sub-classification within the chosen Profit Center code."
+        },
+        "offerType": {
+          "type": "string",
+          "description": "Offer type for the subscription creation."
+        },
+        "subscriptionTenantId": {
+          "type": "string",
+          "description": "Subscription Tenant id."
+        },
+        "enrollmentAccountTenantId": {
+          "type": "string",
+          "description": "Enrollment Account Tenant id."
+        },
+        "ownerObjectId": {
+          "type": "string",
+          "description": "The object id of the team's AAD Application that will be assigned an Azure RBAC Owner Role of the subscription to be provisioned."
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "Service id for tagging the subscription."
+        },
+        "managementCert": {
+          "type": "string",
+          "description": "Secret store path of management cert for the subscription."
+        },
+        "hostedOnBehalfOfCustomer": {
+          "type": "boolean",
+          "description": "True if the subscription to be provisioned is hosted on behalf of external customer, False otherwise."
+        },
+        "maxStorageAccountCount": {
+          "type": "string",
+          "description": "Maximum number of storage accounts allowed for the subscription."
+        },
+        "customRoles": {
+          "type": "string",
+          "description": "Additional Azure RBAC roles to be added to the subscription to be provisioned (ex. [{role1...},{role2...}])."
+        },
+        "disableRbacRoleCheck": {
+          "type": "boolean",
+          "description": "True to disable RBAC role check, False otherwise."
+        },
+        "sampleSubscription": {
+          "type": "string",
+          "description": "An existing subscription under the same enrollment account of the subscription to be provisioned."
+        },
+        "rdfeProvisioningPolicy": {
+          "type": "string",
+          "description": "Rdfe Provisioning Policy control # of VM/VNet etc. default: AzureCIS."
+        },
+        "billingAccountId": {
+          "type": "string",
+          "description": "The id of the billing account. Usually, this is a constant for every service team."
+        },
+        "billingProfileId": {
+          "type": "string",
+          "description": "The id of the billing profile, Usually, this is a team's service group id."
+        },
+        "invoiceSectionId": {
+          "type": "string",
+          "description": "The id of the invoice section. Usually, this is a team's service tree id."
+        },
+        "workLoad": {
+          "type": "string",
+          "description": "The workload type of the subscription. Allowed values are Production and DevTest."
+        },
+        "ev2SubscriptionKey": {
+          "type": "string",
+          "description": "Ev2 Subscription Key of an existing subscription which is created by Ev2."
+        },
+        "ev2ServiceGroup": {
+          "type": "string",
+          "description": "Ev2 Service Group of an existing subscription which is created by Ev2."
+        },
+        "dsmsFolderWhitelists": {
+          "type": "array",
+          "description": "DSMS Root Folders of SubscriptionManagement.",
+          "items": {
+            "$ref": "#/definitions/DsmsFolderWhitelist"
+          },
+          "x-ms-identifiers": []
+        },
+        "azureLocation": {
+          "$ref": "#/definitions/Azure.Core.azureLocation",
+          "description": "The Azure location."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/SubscriptionProvisioningState",
+          "description": "Provisioning status of the resource.",
+          "readOnly": true
+        },
+        "subscriptionId": {
+          "type": "array",
+          "description": "List of Subscription IDs; a part of provisioning ResultData output.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "rbacRoles": {
+          "type": "array",
+          "description": "List of RBAC Roles; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/RbacRole"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "armFeatures": {
+          "type": "array",
+          "description": "List of ARM Features; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/ArmFeatureRegistration"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "dsmsRootFolderWhitelists": {
+          "type": "array",
+          "description": "List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.",
+          "items": {
+            "$ref": "#/definitions/DsmsFolderWhitelist"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "alias",
+        "subscriptionName",
+        "subscriptionTenantId",
+        "enrollmentAccountTenantId"
+      ]
+    }
+  },
+  "parameters": {}
+}

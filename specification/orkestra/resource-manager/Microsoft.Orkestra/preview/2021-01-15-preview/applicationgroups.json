@@ -1,0 +1,927 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Orkestra",
+    "description": "The Microsoft.Orkestra Rest API spec.",
+    "version": "2021-01-15-preview",
+    "x-ms-code-generation-settings": {
+      "name": "OrkestraClient"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orkestra/applicationgroups/{applicationgroupsName}": {
+      "get": {
+        "operationId": "applicationgroups_Retrieve",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/applicationgroupsNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves the applicationgroups resource.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "applicationgroups_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/applicationgroupsNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "applicationgroups",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the applicationgroups resource.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          },
+          "201": {
+            "description": "Creates the applicationgroups resource.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "applicationgroups_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/applicationgroupsNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletes the applicationgroups resource."
+          }
+        }
+      },
+      "patch": {
+        "operationId": "applicationgroups_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/applicationgroupsNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "applicationgroups",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/applicationgroupsPatch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the applicationgroups resource.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          },
+          "201": {
+            "description": "Updates the applicationgroups resource.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroups"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orkestra/applicationgroups": {
+      "get": {
+        "operationId": "applicationgroups_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lists all applicationgroups under the resouce group.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroupsListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Orkestra/applicationgroups": {
+      "get": {
+        "operationId": "applicationgroups_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lists all applicationgroups under the subscription.",
+            "schema": {
+              "$ref": "#/definitions/applicationgroupsListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/providers/Microsoft.Orkestra/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Describe the result of a successful operation.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderOperationList"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "applicationgroupsProperties": {
+      "type": "object",
+      "properties": {
+        "applications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dependencies": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Dependencies on other applications by name"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the application"
+              },
+              "spec": {
+                "type": "object",
+                "properties": {
+                  "chart": {
+                    "type": "object",
+                    "properties": {
+                      "authSecretRef": {
+                        "type": "object",
+                        "properties": {
+                          "apiVersion": {
+                            "type": "string",
+                            "description": "API version of the referent."
+                          },
+                          "fieldPath": {
+                            "type": "string",
+                            "description": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future."
+                          },
+                          "kind": {
+                            "type": "string",
+                            "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names"
+                          },
+                          "namespace": {
+                            "type": "string",
+                            "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+                          },
+                          "resourceVersion": {
+                            "type": "string",
+                            "description": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency"
+                          },
+                          "uid": {
+                            "type": "string",
+                            "description": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids"
+                          }
+                        },
+                        "description": "AuthSecretRef is a reference to the auth secret to access a private helm repository"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name or path the Helm chart is available at in the SourceRef."
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "The Helm repository URL, a valid URL contains at least a protocol and host."
+                      },
+                      "version": {
+                        "type": "string",
+                        "description": "Version semver expression, ignored for charts from v1beta1.GitRepository and v1beta1.Bucket sources. Defaults to latest when omitted.",
+                        "default": "*"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "url"
+                    ],
+                    "description": "Chart holds the values needed to pull the chart"
+                  },
+                  "release": {
+                    "type": "object",
+                    "properties": {
+                      "install": {
+                        "type": "object",
+                        "properties": {
+                          "createNamespace": {
+                            "type": "boolean",
+                            "description": "CreateNamespace tells the Helm install action to create the HelmReleaseSpec.TargetNamespace if it does not exist yet. On uninstall, the namespace will not be garbage collected."
+                          },
+                          "disableHooks": {
+                            "type": "boolean",
+                            "description": "DisableHooks prevents hooks from running during the Helm install action."
+                          },
+                          "disableOpenAPIValidation": {
+                            "type": "boolean",
+                            "description": "DisableOpenAPIValidation prevents the Helm install action from validating rendered templates against the Kubernetes OpenAPI Schema."
+                          },
+                          "disableWait": {
+                            "type": "boolean",
+                            "description": "DisableWait disables the waiting for resources to be ready after a Helm install has been performed."
+                          },
+                          "remediation": {
+                            "type": "object",
+                            "properties": {
+                              "ignoreTestFailures": {
+                                "type": "boolean",
+                                "description": "IgnoreTestFailures tells the controller to skip remediation when the Helm tests are run after an install action but fail. Defaults to 'Test.IgnoreFailures'."
+                              },
+                              "remediateLastFailure": {
+                                "type": "boolean",
+                                "description": "RemediateLastFailure tells the controller to remediate the last failure, when no retries remain. Defaults to 'false'."
+                              },
+                              "retries": {
+                                "type": "integer",
+                                "description": "Retries is the number of retries that should be attempted on failures before bailing. Remediation, using an uninstall, is performed between each attempt. Defaults to '0', a negative integer equals to unlimited retries."
+                              }
+                            },
+                            "description": "Remediation holds the remediation configuration for when the Helm install action for the HelmRelease fails. The default is to not perform any action."
+                          },
+                          "replace": {
+                            "type": "boolean",
+                            "description": "Replace tells the Helm install action to re-use the 'ReleaseName', but only if that name is a deleted release which remains in the history."
+                          },
+                          "skipCRDs": {
+                            "type": "boolean",
+                            "description": "SkipCRDs tells the Helm install action to not install any CRDs. By default, CRDs are installed if not already present."
+                          },
+                          "timeout": {
+                            "type": "string",
+                            "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm install action. Defaults to 'HelmReleaseSpec.Timeout'."
+                          }
+                        },
+                        "description": "Install holds the configuration for Helm install actions for this HelmRelease."
+                      },
+                      "interval": {
+                        "type": "string",
+                        "description": "Interval at which to reconcile the Helm release.",
+                        "default": "5m"
+                      },
+                      "rollback": {
+                        "type": "object",
+                        "properties": {
+                          "cleanupOnFail": {
+                            "type": "boolean",
+                            "description": "CleanupOnFail allows deletion of new resources created during the Helm rollback action when it fails."
+                          },
+                          "disableHooks": {
+                            "type": "boolean",
+                            "description": "DisableHooks prevents hooks from running during the Helm rollback action."
+                          },
+                          "disableWait": {
+                            "type": "boolean",
+                            "description": "DisableWait disables the waiting for resources to be ready after a Helm rollback has been performed."
+                          },
+                          "force": {
+                            "type": "boolean",
+                            "description": "Force forces resource updates through a replacement strategy."
+                          },
+                          "recreate": {
+                            "type": "boolean",
+                            "description": "Recreate performs pod restarts for the resource if applicable."
+                          },
+                          "timeout": {
+                            "type": "string",
+                            "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm rollback action. Defaults to 'HelmReleaseSpec.Timeout'."
+                          }
+                        },
+                        "description": "Rollback holds the configuration for Helm rollback actions for this HelmRelease."
+                      },
+                      "targetNamespace": {
+                        "type": "string",
+                        "description": "TargetNamespace to target when performing operations for the HelmRelease. Defaults to the namespace of the HelmRelease.",
+                        "maxLength": 63,
+                        "minLength": 1
+                      },
+                      "timeout": {
+                        "type": "string",
+                        "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm action. Defaults to '5m0s'."
+                      },
+                      "uninstall": {
+                        "type": "object",
+                        "properties": {
+                          "disableHooks": {
+                            "type": "boolean",
+                            "description": "DisableHooks prevents hooks from running during the Helm rollback action."
+                          },
+                          "keepHistory": {
+                            "type": "boolean",
+                            "description": "KeepHistory tells Helm to remove all associated resources and mark the release as deleted, but retain the release history."
+                          },
+                          "timeout": {
+                            "type": "string",
+                            "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm uninstall action. Defaults to 'HelmReleaseSpec.Timeout'."
+                          }
+                        },
+                        "description": "Rollback holds the configuration for Helm uninstall actions for this HelmRelease."
+                      },
+                      "upgrade": {
+                        "type": "object",
+                        "properties": {
+                          "cleanupOnFail": {
+                            "type": "boolean",
+                            "description": "CleanupOnFail allows deletion of new resources created during the Helm upgrade action when it fails."
+                          },
+                          "disableHooks": {
+                            "type": "boolean",
+                            "description": "DisableHooks prevents hooks from running during the Helm upgrade action."
+                          },
+                          "disableOpenAPIValidation": {
+                            "type": "boolean",
+                            "description": "DisableOpenAPIValidation prevents the Helm upgrade action from validating rendered templates against the Kubernetes OpenAPI Schema."
+                          },
+                          "disableWait": {
+                            "type": "boolean",
+                            "description": "DisableWait disables the waiting for resources to be ready after a Helm upgrade has been performed."
+                          },
+                          "force": {
+                            "type": "boolean",
+                            "description": "Force forces resource updates through a replacement strategy."
+                          },
+                          "preserveValues": {
+                            "type": "boolean",
+                            "description": "PreserveValues will make Helm reuse the last release's values and merge in overrides from 'Values'. Setting this flag makes the HelmRelease non-declarative."
+                          },
+                          "remediation": {
+                            "type": "object",
+                            "properties": {
+                              "ignoreTestFailures": {
+                                "type": "boolean",
+                                "description": "IgnoreTestFailures tells the controller to skip remediation when the Helm tests are run after an upgrade action but fail. Defaults to 'Test.IgnoreFailures'."
+                              },
+                              "remediateLastFailure": {
+                                "type": "boolean",
+                                "description": "RemediateLastFailure tells the controller to remediate the last failure, when no retries remain. Defaults to 'false' unless 'Retries' is greater than 0."
+                              },
+                              "retries": {
+                                "type": "integer",
+                                "description": "Retries is the number of retries that should be attempted on failures before bailing. Remediation, using 'Strategy', is performed between each attempt. Defaults to '0', a negative integer equals to unlimited retries."
+                              },
+                              "strategy": {
+                                "type": "string",
+                                "description": "Strategy to use for failure remediation. Defaults to 'rollback'.",
+                                "enum": [
+                                  "rollback",
+                                  "uninstall"
+                                ]
+                              }
+                            },
+                            "description": "Remediation holds the remediation configuration for when the Helm upgrade action for the HelmRelease fails. The default is to not perform any action."
+                          },
+                          "timeout": {
+                            "type": "string",
+                            "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm upgrade action. Defaults to 'HelmReleaseSpec.Timeout'."
+                          }
+                        },
+                        "description": "Upgrade holds the configuration for Helm upgrade actions for this HelmRelease."
+                      },
+                      "values": {
+                        "description": "Values holds the values for this Helm release.",
+                        "x-kubernetes-preserve-unknown-fields": "true"
+                      }
+                    },
+                    "description": "Release holds the values to apply to the helm release"
+                  },
+                  "subcharts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dependencies": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Dependencies on other applications by name"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the application"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "description": "DAG contains the dependency information"
+                    },
+                    "description": "Subcharts provides the dependency order among the subcharts of the application"
+                  }
+                },
+                "required": [
+                  "chart",
+                  "release"
+                ],
+                "description": "Spec contains the application spec including the chart info and overlay values"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "description": "Application spec and dependency on other applications"
+          },
+          "description": "Applications that make up the application group",
+          "minItems": 1
+        },
+        "interval": {
+          "type": "string",
+          "description": "Interval specifies the between reconciliations of the ApplicationGroup Defaults to 5s for short requeue and 30s for long requeue"
+        },
+        "provisioningState": {
+          "type": "string"
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "applications": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "conditions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "lastTransitionTime": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable."
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                          "maxLength": 32768
+                        },
+                        "observedGeneration": {
+                          "type": "integer",
+                          "format": "int64",
+                          "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                          "minimum": 0.0
+                        },
+                        "reason": {
+                          "type": "string",
+                          "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                          "maxLength": 1024,
+                          "minLength": 1,
+                          "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "status of the condition, one of True, False, Unknown.",
+                          "enum": [
+                            "True",
+                            "False",
+                            "Unknown"
+                          ]
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                          "maxLength": 316,
+                          "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+                        }
+                      },
+                      "required": [
+                        "lastTransitionTime",
+                        "message",
+                        "reason",
+                        "status",
+                        "type"
+                      ],
+                      "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+                    },
+                    "description": "Conditions holds the conditions for the ChartStatus"
+                  },
+                  "error": {
+                    "type": "string",
+                    "description": "Error string from the error during reconciliation (if any)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the application"
+                  },
+                  "staged": {
+                    "type": "boolean",
+                    "description": "Staged if true denotes that the chart/subchart has been pushed to the staging helm repo"
+                  },
+                  "subcharts": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "description": "ChartStatus shows the current status of the Application Reconciliation process",
+                      "properties": {
+                        "conditions": {
+                          "description": "Conditions holds the conditions for the ChartStatus",
+                          "items": {
+                            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+                            "properties": {
+                              "lastTransitionTime": {
+                                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "message": {
+                                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                                "maxLength": 32768,
+                                "type": "string"
+                              },
+                              "observedGeneration": {
+                                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                                "format": "int64",
+                                "minimum": 0,
+                                "type": "integer"
+                              },
+                              "reason": {
+                                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                                "maxLength": 1024,
+                                "minLength": 1,
+                                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$",
+                                "type": "string"
+                              },
+                              "status": {
+                                "description": "status of the condition, one of True, False, Unknown.",
+                                "enum": [
+                                  "True",
+                                  "False",
+                                  "Unknown"
+                                ],
+                                "type": "string"
+                              },
+                              "type": {
+                                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                                "maxLength": 316,
+                                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "lastTransitionTime",
+                              "message",
+                              "reason",
+                              "status",
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "error": {
+                          "description": "Error string from the error during reconciliation (if any)",
+                          "type": "string"
+                        },
+                        "staged": {
+                          "description": "Staged if true denotes that the chart/subchart has been pushed to the staging helm repo",
+                          "type": "boolean"
+                        },
+                        "version": {
+                          "description": "Version of the chart/subchart",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "description": "Subcharts contains the subchart chart status"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Version of the chart/subchart"
+                  }
+                },
+                "description": "ApplicationStatus shows the current status of the application helm release"
+              },
+              "description": "Applications status"
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "lastTransitionTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                    "maxLength": 32768
+                  },
+                  "observedGeneration": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                    "minimum": 0.0
+                  },
+                  "reason": {
+                    "type": "string",
+                    "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                    "maxLength": 1024,
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "status of the condition, one of True, False, Unknown.",
+                    "enum": [
+                      "True",
+                      "False",
+                      "Unknown"
+                    ]
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                    "maxLength": 316,
+                    "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+                  }
+                },
+                "required": [
+                  "lastTransitionTime",
+                  "message",
+                  "reason",
+                  "status",
+                  "type"
+                ],
+                "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+              },
+              "description": "Conditions holds the conditions of the ApplicationGroup"
+            },
+            "lastSucceededGeneration": {
+              "type": "integer",
+              "format": "int64",
+              "description": "LastSucceededGeneration captures the last generation that has successfully completed a full workflow rollout of the application group"
+            },
+            "observedGeneration": {
+              "type": "integer",
+              "format": "int64",
+              "description": "ObservedGeneration captures the last generation that was captured and completed by the reconciler"
+            }
+          },
+          "description": "ApplicationGroupStatus defines the observed state of ApplicationGroup"
+        }
+      },
+      "description": "ApplicationGroupSpec defines the desired state of ApplicationGroup"
+    },
+    "applicationgroups": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/applicationgroupsProperties"
+        },
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Resource Id"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Resource Name"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Resource Type"
+        },
+        "location": {
+          "type": "string",
+          "description": "The resource location"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        },
+        "extendedLocation": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          }
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "description": "The applicationgroups resource definition."
+    },
+    "applicationgroupsPatch": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        }
+      },
+      "description": "The applicationgroups resource patch definition."
+    },
+    "applicationgroupsListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/applicationgroups"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      }
+    },
+    "ResourceProviderOperationList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceProviderOperation"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      },
+      "description": "Results of the request to list operations."
+    },
+    "ResourceProviderOperation": {
+      "type": "object",
+      "properties": {
+        "isDataAction": {
+          "type": "string",
+          "description": "Indicates whether the operation applies to data-plane."
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation name, in format of {provider}/{resource}/{operation}"
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "The resource provider."
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource on which the operation is performed."
+            },
+            "operation": {
+              "type": "string",
+              "description": "Type of operation: get, read, delete, etc."
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of this operation."
+            }
+          },
+          "description": "Display metadata associated with the operation."
+        }
+      },
+      "description": "Results of the request to list operations."
+    }
+  },
+  "parameters": {
+    "applicationgroupsNameParameter": {
+      "name": "applicationgroupsName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 3
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to be used with the HTTP request (e.g. YYYY-MM-DD)."
+    }
+  }
+}

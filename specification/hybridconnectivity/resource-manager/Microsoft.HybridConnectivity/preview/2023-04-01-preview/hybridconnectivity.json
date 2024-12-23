@@ -1,0 +1,4404 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hybrid Connectivity Management API",
+    "description": "REST API for Hybrid Connectivity used for connectivity of on premises resources",
+    "version": "2023-04-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.HybridConnectivity/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "description": "Lists the available Hybrid Connectivity REST API operations.",
+        "operationId": "Operations_List",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityOperationsList": {
+            "$ref": "./examples/OperationsList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Retrieve the list of endpoints.",
+        "operationId": "Endpoints_List",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsGet": {
+            "$ref": "./examples/EndpointsList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of endpoints.",
+            "schema": {
+              "$ref": "#/definitions/EndpointsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Retrieve the endpoint resource associated with given endpoint name.",
+        "operationId": "Endpoints_Get",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsGetDefault": {
+            "$ref": "./examples/EndpointsGetDefault.json"
+          },
+          "HybridConnectivityEndpointsGetCustom": {
+            "$ref": "./examples/EndpointsGetCustom.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoint details",
+            "schema": {
+              "$ref": "#/definitions/EndpointResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Create or update the endpoint to the target resource.",
+        "operationId": "Endpoints_CreateOrUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsPutDefault": {
+            "$ref": "./examples/EndpointsPutDefault.json"
+          },
+          "HybridConnectivityEndpointsPutCustom": {
+            "$ref": "./examples/EndpointsPutCustom.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          },
+          {
+            "name": "EndpointResource",
+            "description": "Endpoint details",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EndpointResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoint details.",
+            "schema": {
+              "$ref": "#/definitions/EndpointResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Update the endpoint to the target resource.",
+        "operationId": "Endpoints_Update",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsPatchDefault": {
+            "$ref": "./examples/EndpointsPatchDefault.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          },
+          {
+            "name": "EndpointResource",
+            "description": "Endpoint details",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EndpointResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoint resource.",
+            "schema": {
+              "$ref": "#/definitions/EndpointResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Deletes the endpoint access to the target resource.",
+        "operationId": "Endpoints_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsDeleteDefault": {
+            "$ref": "./examples/EndpointsDeleteDefault.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The endpoint is deleted successfully."
+          },
+          "204": {
+            "description": "The endpoint has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Gets the endpoint access credentials to the resource.",
+        "operationId": "Endpoints_ListCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsPostListCredentials": {
+            "$ref": "./examples/EndpointsPostListCredentials.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessTokenExpirationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoint access credentials",
+            "schema": {
+              "$ref": "#/definitions/EndpointAccessResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Gets the ingress gateway endpoint credentials ",
+        "operationId": "Endpoints_ListIngressGatewayCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsPostListIngressGatewayCredentials": {
+            "$ref": "./examples/EndpointsPostListIngressGatewayCredentials.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessTokenExpirationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ingress gateway access",
+            "schema": {
+              "$ref": "#/definitions/IngressGatewayResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "description": "Fetches the managed proxy details ",
+        "operationId": "Endpoints_ListManagedProxyDetails",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityEndpointsPostListManagedProxyDetails": {
+            "$ref": "./examples/EndpointsPostListManagedProxyDetails.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/EndpointNameParameter"
+          },
+          {
+            "name": "ManagedProxyRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManagedProxyRequest"
+            },
+            "description": "Object of type ManagedProxyRequest"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Managed Proxy",
+            "schema": {
+              "$ref": "#/definitions/ManagedProxyResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes": {
+      "get": {
+        "tags": [
+          "SolutionTypes"
+        ],
+        "description": "Retrieve the list of available solution types.",
+        "operationId": "SolutionTypes_List",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionTypesListBySubscription": {
+            "$ref": "./examples/SolutionTypesList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of solution types available",
+            "schema": {
+              "$ref": "#/definitions/SolutionTypeList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes/{solutionType}": {
+      "get": {
+        "tags": [
+          "SolutionTypes"
+        ],
+        "description": "Retrieve the solution type by provided solution type.",
+        "operationId": "SolutionTypes_Get",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionTypesGet": {
+            "$ref": "./examples/SolutionTypesGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionTypeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solution type details",
+            "schema": {
+              "$ref": "#/definitions/SolutionTypeResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors": {
+      "get": {
+        "tags": [
+          "publicCloudConnectors"
+        ],
+        "description": "Gets the public cloud connectors in the subscription.",
+        "operationId": "publicCloudConnectors_SubscriptionList",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "PublicCloudConnectorsListBySubscription": {
+            "$ref": "./examples/PublicCloudConnectorsListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of PublicCloudConnectors resource",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors": {
+      "get": {
+        "tags": [
+          "publicCloudConnectors"
+        ],
+        "description": "Gets the publicCloudConnector in the resource group.",
+        "operationId": "publicCloudConnectors_ResourceGroupList",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "PublicCloudConnectorsGetByResourceGroup": {
+            "$ref": "./examples/PublicCloudConnectorsListByResourceGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of PublicCloudConnectors resource",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}": {
+      "put": {
+        "tags": [
+          "publicCloudConnectors"
+        ],
+        "description": "Creates public cloud connectors resource.",
+        "operationId": "publicCloudConnectors_CreatePublicCloudConnectors",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityPublicCloudConnectorsPut": {
+            "$ref": "./examples/PublicCloudConnectorsPut.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "name": "PublicCloudConnectorsRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsResource"
+            },
+            "description": "Object of type PublicCloudConnectorsResource."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public cloud connectors response.",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsResource"
+            }
+          },
+          "201": {
+            "description": "Public cloud connectors created",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": [
+          "PublicCloudConnectors"
+        ],
+        "description": "Gets the public cloud connectors.",
+        "operationId": "publicCloudConnectors_Get",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityPublicCloudConnectorsGet": {
+            "$ref": "./examples/PublicCloudConnectorsGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The details of public cloud connectors.",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "PublicCloudConnectors"
+        ],
+        "description": "Update the public cloud connectors resource.",
+        "operationId": "publicCloudConnectors_Update",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityPublicCloudConnectorsPatch": {
+            "$ref": "./examples/PublicCloudConnectorsPatch.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "name": "PublicCloudConnectorsPatchRequest",
+            "description": "The details of public cloud connectors resource.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchablePublicCloudConnectorsResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The details of public cloud connectors resource.",
+            "schema": {
+              "$ref": "#/definitions/PublicCloudConnectorsResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PublicCloudConnectors"
+        ],
+        "description": "Deletes the public cloud connectors resource.",
+        "operationId": "publicConnectors_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivityPublicCloudConnectorsDelete": {
+            "$ref": "./examples/PublicCloudConnectorsDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The public cloud connector is deleted successfully."
+          },
+          "204": {
+            "description": "The public cloud connector has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations": {
+      "get": {
+        "tags": [
+          "SolutionConfiguration"
+        ],
+        "description": "Retrieve the List of solution configuration resources.",
+        "operationId": "SolutionConfiguration_List",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionConfigurationsGet": {
+            "$ref": "./examples/SolutionConfigurationsList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of solution configuration resources.",
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionName}": {
+      "put": {
+        "tags": [
+          "SolutionConfiguration"
+        ],
+        "description": "Creates solution configuration with provided solution name",
+        "operationId": "SolutionConfiguration_CreateOrUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionConfigurationPut": {
+            "$ref": "./examples/SolutionConfigurationsPut.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          },
+          {
+            "name": "SolutionConfigurationRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationResource"
+            },
+            "description": "Object of type SolutionConfigurationRequest"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solution Configuration response",
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": [
+          "SolutionConfiguration"
+        ],
+        "description": "Retrieve the solution configuration identified by solution name.",
+        "operationId": "SolutionConfiguration_Get",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionConfigurationGet": {
+            "$ref": "./examples/SolutionConfigurationsGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solution COnfiguration response",
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "SolutionConfiguration"
+        ],
+        "description": "Updates the solution configuration for solution name.",
+        "operationId": "SolutionConfiguration_Update",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionConfigurationPatch": {
+            "$ref": "./examples/SolutionConfigurationsPatch.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          },
+          {
+            "name": "SolutionConfigurationRequest",
+            "description": "Solution configurations details",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solution Configuration response",
+            "schema": {
+              "$ref": "#/definitions/SolutionConfigurationResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "SolutionConfiguration"
+        ],
+        "description": "Deletes the solution configuration with provided solution name.",
+        "operationId": "SolutionConfiguration_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "HybridConnectivitySolutionConfigurationDelete": {
+            "$ref": "./examples/SolutionConfigurationsDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The solution configuration is deleted successfully."
+          },
+          "204": {
+            "description": "The solution configuration has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionName}/inventory/{inventoryId}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Retrieve the inventory identified by inventory id.",
+        "operationId": "Inventory_GetBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Get inventory": {
+            "$ref": "./examples/InventoryGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          },
+          {
+            "$ref": "#/parameters/InventoryIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inventory details",
+            "schema": {
+              "$ref": "#/definitions/Inventory"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionName}/inventory": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Retrieve a list of inventory by solution name.",
+        "operationId": "Inventory_ListBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List inventory by solution name": {
+            "$ref": "./examples/InventoryList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceUriParameter"
+          },
+          {
+            "$ref": "#/parameters/SolutionNameParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List inventory details by solution name",
+            "schema": {
+              "$ref": "#/definitions/InventoryListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSEC2": {
+      "get": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Retrieve a list of EC2 assets in the subscription.",
+        "operationId": "EC2_SubscriptionList",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List of EC2 in subscription": {
+            "$ref": "./examples/EC2ListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List EC2 assets by subscription.",
+            "schema": {
+              "$ref": "#/definitions/EC2ListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/GenerateAWSTemplate": {
+      "post": {
+        "tags": [
+          "GenerateAWSTemplate"
+        ],
+        "description": "Retrieve AWS Cloud Formation template",
+        "operationId": "GenerateAWSTemplateRP_GET",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Generated AWS CFT Template": {
+            "$ref": "./examples/GenerateAWSTemplateRP_GET.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "GenerateAWSTemplateRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateAWSTemplateRequest"
+            },
+            "description": "ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cloud formation template for specified solution types.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSEC2": {
+      "get": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Retrieve a list of EC2 assets by public cloud connector.",
+        "operationId": "EC2_ListBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List inventory by solution name": {
+            "$ref": "./examples/EC2List.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List EC2 assets by public cloud connector.",
+            "schema": {
+              "$ref": "#/definitions/EC2ListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSEC2/{assetId}": {
+      "get": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Retrieve the EC2 identified by asset Id.",
+        "operationId": "EC2_GetBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Get EC2": {
+            "$ref": "./examples/EC2Get.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get EC2 asset details.",
+            "schema": {
+              "$ref": "#/definitions/EC2"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Creates an EC2 asset.",
+        "operationId": "EC2_PutBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Put EC2": {
+            "$ref": "./examples/EC2Put.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSEC2Request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EC2"
+            },
+            "description": "Object of type AWSEC2."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get EC2 asset details.",
+            "schema": {
+              "$ref": "#/definitions/EC2"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Updates the tags of EC2 identified by asset Id.",
+        "operationId": "EC2_PatchBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Patch EC2": {
+            "$ref": "./examples/EC2Patch.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSEC2PatchRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EC2Patch"
+            },
+            "description": "EC2 patch properties."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get EC2 asset details.",
+            "schema": {
+              "$ref": "#/definitions/EC2"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "description": "Deletes the EC2 identified by assetId.",
+        "operationId": "EC2_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Delete EC2": {
+            "$ref": "./examples/EC2Delete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The EC2 asset is deleted successfully."
+          },
+          "204": {
+            "description": "The EC2 asset has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSEC2/{assetId}/stop": {
+      "post": {
+        "tags": [
+          "AWSEC2"
+        ],
+        "operationId": "EC2_Stop",
+        "description": "Stop the AWS EC2 instance identified by assetId.",
+        "x-ms-examples": {
+          "Stop EC2": {
+            "$ref": "./examples/EC2Stop.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSLambda": {
+      "get": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Retrieve a list of Lambda assets in the subscription.",
+        "operationId": "Lambda_SubscriptionList",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List of Lambda in subscription": {
+            "$ref": "./examples/LambdaListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List Lambda assets by subscription.",
+            "schema": {
+              "$ref": "#/definitions/LambdaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSS3": {
+      "get": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Retrieve a list of S3 assets in the subscription.",
+        "operationId": "S3_SubscriptionList",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List of S3 in subscription": {
+            "$ref": "./examples/S3ListBySubscription.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List S3 assets by subscription.",
+            "schema": {
+              "$ref": "#/definitions/S3ListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSLambda": {
+      "get": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Retrieve a list of Lambda assets by public cloud connector.",
+        "operationId": "Lambda_ListBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List inventory by solution name": {
+            "$ref": "./examples/LambdaList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List Lambda assets by public cloud connector.",
+            "schema": {
+              "$ref": "#/definitions/LambdaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSS3": {
+      "get": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Retrieve a list of S3 assets by public cloud connector.",
+        "operationId": "S3_ListBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "List inventory by solution name": {
+            "$ref": "./examples/S3List.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List S3 assets by public cloud connector.",
+            "schema": {
+              "$ref": "#/definitions/S3ListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSLambda/{assetId}": {
+      "get": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Retrieve the Lambda identified by asset id.",
+        "operationId": "Lambda_GetBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Get Lambda": {
+            "$ref": "./examples/LambdaGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Lambda asset details.",
+            "schema": {
+              "$ref": "#/definitions/Lambda"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Create a Lambda asset.",
+        "operationId": "Lambda_PutBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Put Lambda": {
+            "$ref": "./examples/LambdaPut.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSLambdaRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Lambda"
+            },
+            "description": "Object of type AWSLambda."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Lambda asset detail.",
+            "schema": {
+              "$ref": "#/definitions/LambdaListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Updates the tags of Lambda identified by asset Id.",
+        "operationId": "Lambda_PatchBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Patch EC2": {
+            "$ref": "./examples/LambdaPatch.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSLambdaPatchRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LambdaPatch"
+            },
+            "description": "Lambda patch properties."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Lambda asset details.",
+            "schema": {
+              "$ref": "#/definitions/Lambda"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AWSLambda"
+        ],
+        "description": "Deletes the Lambda identified by assetId.",
+        "operationId": "Lambda_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Delete Lambda": {
+            "$ref": "./examples/LambdaDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Lambda asset is deleted successfully."
+          },
+          "204": {
+            "description": "The Lambda asset has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/AWSS3/{assetId}": {
+      "get": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Retrieve the Lambda identified by asset id.",
+        "operationId": "S3_GetBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Get Lambda": {
+            "$ref": "./examples/S3Get.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get S3 asset details.",
+            "schema": {
+              "$ref": "#/definitions/S3"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Create a S3 asset.",
+        "operationId": "S3_PutBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Put Lambda": {
+            "$ref": "./examples/S3Put.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSS3Request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/S3"
+            },
+            "description": "Object of type AWSS3."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get S3 asset detail.",
+            "schema": {
+              "$ref": "#/definitions/S3"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Updates the tags of S3 identified by asset Id.",
+        "operationId": "S3_PatchBySolution",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Patch EC2": {
+            "$ref": "./examples/S3Patch.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          },
+          {
+            "name": "AWSS3PatchRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/S3Patch"
+            },
+            "description": "S3 patch properties."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get S3 asset details.",
+            "schema": {
+              "$ref": "#/definitions/S3"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AWSS3"
+        ],
+        "description": "Deletes the S3 identified by assetId.",
+        "operationId": "S3_Delete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-examples": {
+          "Delete Lambda": {
+            "$ref": "./examples/S3Delete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PublicCloudConnectorParameter"
+          },
+          {
+            "$ref": "#/parameters/AssetIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The S3 asset is deleted successfully."
+          },
+          "204": {
+            "description": "The S3 asset has been deleted already."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RelayNamespaceAccessProperties": {
+      "type": "object",
+      "description": "Azure relay hybrid connection access properties",
+      "required": [
+        "namespaceName",
+        "namespaceNameSuffix",
+        "hybridConnectionName"
+      ],
+      "properties": {
+        "namespaceName": {
+          "type": "string",
+          "description": "The namespace name.",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "namespaceNameSuffix": {
+          "type": "string",
+          "description": "The suffix domain name of relay namespace.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "hybridConnectionName": {
+          "type": "string",
+          "description": "Azure Relay hybrid connection name for the resource."
+        },
+        "accessKey": {
+          "type": "string",
+          "description": "Access key for hybrid connection.",
+          "readOnly": true
+        },
+        "expiresOn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The expiration of access key in unix time."
+        }
+      }
+    },
+    "IngressGatewayResource": {
+      "description": "The ingress gateway access credentials",
+      "type": "object",
+      "properties": {
+        "relay": {
+          "$ref": "#/definitions/RelayNamespaceAccessProperties",
+          "x-ms-client-flatten": true
+        },
+        "ingress": {
+          "$ref": "#/definitions/IngressProfileProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "IngressProfileProperties": {
+      "type": "object",
+      "description": "Ingress gateway profile",
+      "required": [
+        "hostname",
+        "aadProfile"
+      ],
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "The ingress hostname."
+        },
+        "aadProfile": {
+          "$ref": "#/definitions/AADProfileProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "AADProfileProperties": {
+      "type": "object",
+      "description": "The AAD Profile",
+      "required": [
+        "serverId",
+        "tenantId"
+      ],
+      "properties": {
+        "serverId": {
+          "type": "string",
+          "description": "The arc ingress gateway server app id."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The target resource home tenant id."
+        }
+      }
+    },
+    "EndpointAccessResource": {
+      "description": "The endpoint access for the target resource.",
+      "type": "object",
+      "properties": {
+        "relay": {
+          "$ref": "#/definitions/RelayNamespaceAccessProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EndpointProperties": {
+      "type": "object",
+      "description": "Endpoint details",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of endpoint.",
+          "enum": [
+            "default",
+            "custom"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "The resource Id of the connectivity endpoint (optional)."
+        },
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource provisioning state.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "EndpointResource": {
+      "description": "The endpoint for the target resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "The endpoint properties.",
+          "$ref": "#/definitions/EndpointProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EndpointsList": {
+      "description": "The list of endpoints.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of endpoints list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of endpoint.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EndpointResource"
+          }
+        }
+      }
+    },
+    "ManagedProxyResource": {
+      "type": "object",
+      "description": "Managed Proxy",
+      "required": [
+        "proxy",
+        "expiresOn"
+      ],
+      "properties": {
+        "proxy": {
+          "type": "string",
+          "description": "The short lived proxy name."
+        },
+        "expiresOn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The expiration time of short lived proxy name in unix epoch."
+        }
+      }
+    },
+    "ManagedProxyRequest": {
+      "type": "object",
+      "description": "Represent ManageProxy Request object.",
+      "required": [
+        "service"
+      ],
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "The name of the service."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The target host name."
+        }
+      }
+    },
+    "PublicCloudConnectorsList": {
+      "description": "The list of public cloud connectors.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of public cloud connectors list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of public cloud connectors.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PublicCloudConnectorsResource"
+          }
+        }
+      }
+    },
+    "PatchablePublicCloudConnectorsResource": {
+      "type": "object",
+      "description": "Represent public cloud connectors resource.",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The public cloud connectors properties",
+          "$ref": "#/definitions/PublicCloudConnectorsProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "PublicCloudConnectorsResource": {
+      "type": "object",
+      "description": "Represent public cloud connectors resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The public cloud connectors properties",
+          "$ref": "#/definitions/PublicCloudConnectorsProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "PublicCloudConnectorsProperties": {
+      "type": "object",
+      "description": "The properties of public cloud connectors",
+      "required": [
+        "hostType"
+      ],
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource provisioning state.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        },
+        "hostType": {
+          "description": "Type of host the public cloud connector is referencing.",
+          "type": "string",
+          "enum": [
+            "AWS",
+            "GCP"
+          ],
+          "x-ms-enum": {
+            "name": "HostType",
+            "modelAsString": true
+          }
+        },
+        "awsCloudProfile": {
+          "type": "object",
+          "description": "The cloud profile for AWS.",
+          "$ref": "#/definitions/AwsCloudProfile",
+          "x-ms-client-flatten": true
+        },
+        "gcpCloudProfile": {
+          "type": "object",
+          "description": "The cloud profile for GCP.",
+          "$ref": "#/definitions/GcpCloudProfile",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "AwsCloudProfile": {
+      "type": "object",
+      "description": "The cloud profile for AWS.",
+      "required": [
+        "accountId"
+      ],
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "Account id for the AWS account."
+        },
+        "excludedAccounts": {
+          "type": "array",
+          "description": "List of AWS accounts which needs to be excluded.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isOrganizationalAccount": {
+          "type": "boolean",
+          "description": "Boolean value that indicates whether the account is organizational or not. True represents organization account, whereas false represents single account."
+        }
+      }
+    },
+    "GcpCloudProfile": {
+      "type": "object",
+      "description": "The cloud profile for GCP.",
+      "required": [
+        "singleProject"
+      ],
+      "properties": {
+        "singleProject": {
+          "type": "object",
+          "description": "Project information for GCP.",
+          "$ref": "#/definitions/GcpSingleProject",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "GcpSingleProject": {
+      "type": "object",
+      "description": "Single project information for GCP.",
+      "required": [
+        "projectId",
+        "projectNumber"
+      ],
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "Project id for the GCP project."
+        },
+        "projectNumber": {
+          "type": "string",
+          "description": "Project number for the GCP project."
+        }
+      }
+    },
+    "SolutionConfigurationList": {
+      "description": "The list of solution configuration.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of solution configuration list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of solution configuration.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SolutionConfigurationResource"
+          }
+        }
+      }
+    },
+    "SolutionConfigurationResource": {
+      "type": "object",
+      "description": "Represent Solution configuration resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The solution configuration properties",
+          "$ref": "#/definitions/SolutionConfigurationProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SolutionConfigurationProperties": {
+      "type": "object",
+      "description": "The properties of Solution Configuration",
+      "required": [
+        "solutionType"
+      ],
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource provisioning state.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        },
+        "solutionType": {
+          "type": "string",
+          "description": "The type of the solution"
+        },
+        "solutionSettings": {
+          "type": "object",
+          "description": "solution settings",
+          "x-nullable": true,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The status of solution configurations",
+          "enum": [
+            "New",
+            "InProgress",
+            "Completed",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "solutionConfigurationStatus",
+            "modelAsString": true
+          }
+        },
+        "statusDetails": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The detailed message of status details"
+        },
+        "lastExecutionTime": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "The last execution time of solution configuration"
+        }
+      }
+    },
+    "SolutionTypeList": {
+      "type": "object",
+      "description": "Response for solution types api",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of solution type list.",
+          "type": "string"
+        },
+        "value": {
+          "type": "array",
+          "description": "The list of solution types.",
+          "items": {
+            "$ref": "#/definitions/SolutionTypeResource"
+          }
+        }
+      }
+    },
+    "SolutionTypeResource": {
+      "type": "object",
+      "description": "Represent Solution type resource.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "The solution type properties",
+          "$ref": "#/definitions/SolutionTypeProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SolutionTypeProperties": {
+      "type": "object",
+      "description": "The properties of each solution",
+      "properties": {
+        "solutionType": {
+          "type": "string",
+          "description": "The name of the solution type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of solution type"
+        },
+        "awsIamConfigurationTemplateUri": {
+          "type": "string",
+          "description": "The link to aws cloud formation template."
+        },
+        "gcpProjectConfigurationTemplateUri": {
+          "type": "string",
+          "description": "The link to gcp script."
+        },
+        "supportedAzureRegions": {
+          "type": "array",
+          "description": "The locations this solution is supported",
+          "items": {
+            "type": "string"
+          }
+        },
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource provisioning state.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "GenerateAWSTemplateRequest": {
+      "type": "object",
+      "properties": {
+        "connectorId": {
+          "type": "string",
+          "description": "The name of public cloud connector."
+        },
+        "solutionTypes": {
+          "type": "array",
+          "description": "The list of solution types and their settings.",
+          "items": {
+            "$ref": "#/definitions/SolutionConfigurationProperties"
+          }
+        }
+      }
+    },
+    "Inventory": {
+      "type": "object",
+      "description": "Definition of inventory.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/InventoryProperties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the id of the inventory."
+        }
+      }
+    },
+    "InventoryProperties": {
+      "type": "object",
+      "description": "Definition of inventory.",
+      "properties": {
+        "cloudNativeType": {
+          "type": "string",
+          "description": "Gets or sets the cloud native resource type.",
+          "enum": [
+            "ec2"
+          ],
+          "x-ms-enum": {
+            "name": "cloudNativeResourceType",
+            "modelAsString": true
+          }
+        },
+        "cloudNativeResourceId": {
+          "type": "string",
+          "description": "Gets or sets the cloud native resource name."
+        },
+        "azureResourceId": {
+          "type": "string",
+          "description": "Gets or sets the mapped azure resource id."
+        },
+        "status": {
+          "type": "string",
+          "description": "Gets or sets the status of the inventory.",
+          "enum": [
+            "New",
+            "InProgress",
+            "Completed",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "inventoryStatus",
+            "modelAsString": true
+          }
+        },
+        "statusDetails": {
+          "type": "string",
+          "description": "Gets or sets the status details."
+        },
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource provisioning state.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "InventoryListResult": {
+      "type": "object",
+      "description": "The response model for the list of inventory operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Inventory"
+          },
+          "description": "A list of inventory."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        }
+      }
+    },
+    "EC2": {
+      "type": "object",
+      "description": "Definition of EC2",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AssetCommonProperties"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EC2Properties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the id of the EC2."
+        }
+      }
+    },
+    "EC2Patch": {
+      "type": "object",
+      "description": "EC2 patch properties.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "EC2Properties": {
+      "type": "object",
+      "description": "Definition of EC2 properties.",
+      "properties": {
+        "amiLaunchIndex": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets or sets the AmiLaunchIndex."
+        },
+        "architecture": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "Gets or sets the architecture.",
+              "enum": [
+                "arm64",
+                "arm64_mac",
+                "i386",
+                "x86_64",
+                "x86_64_mac"
+              ],
+              "x-ms-enum": {
+                "name": "architecture",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "blockDeviceMappings": {
+          "type": "array",
+          "description": "Gets or sets the BlockDeviceMappings.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "deviceName": {
+                "type": "string"
+              },
+              "ebs": {
+                "type": "object",
+                "properties": {
+                  "attachTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "deleteOnTermination": {
+                    "type": "boolean"
+                  },
+                  "status": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "enum": [
+                          "attached",
+                          "attaching",
+                          "detached",
+                          "detaching"
+                        ],
+                        "x-ms-enum": {
+                          "name": "attachmentStatus",
+                          "modelAsString": true
+                        }
+                      }
+                    }
+                  },
+                  "volumeId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "bootMode": {
+          "$ref": "#/definitions/BootMode"
+        },
+        "capacityReservationId": {
+          "type": "string",
+          "description": "Gets or sets ID of the Capacity Reservation."
+        },
+        "capacityReservationSpecification": {
+          "type": "object",
+          "description": "Gets or sets the Capacity Reservation targeting option.",
+          "properties": {
+            "capacityReservationPreference": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "open"
+                  ],
+                  "x-ms-enum": {
+                    "name": "capacityReservationPreference",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "capacityReservationTarget": {
+              "type": "object",
+              "properties": {
+                "capacityReservationId": {
+                  "type": "string"
+                },
+                "capacityReservationResourceGroupArn": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "clientToken": {
+          "type": "string",
+          "description": "Gets or sets the client token."
+        },
+        "cpuOptions": {
+          "type": "object",
+          "description": "Gets or sets CPU options.",
+          "properties": {
+            "coreCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "threadsPerCore": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "currentInstanceBootMode": {
+          "description": "Gets or sets current boot mode.",
+          "$ref": "#/definitions/BootMode"
+        },
+        "ebsOptimized": {
+          "type": "boolean",
+          "description": "Gets or sets EbsOptimized."
+        },
+        "elasticGpuAssociations": {
+          "type": "array",
+          "description": "Gets or sets ElasticGpuAssociations.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "elasticGpuAssociationId": {
+                "type": "string"
+              },
+              "elasticGpuAssociationState": {
+                "type": "string"
+              },
+              "elasticGpuAssociationTime": {
+                "type": "string"
+              },
+              "elasticGpuId": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "elasticInferenceAcceleratorAssociations": {
+          "type": "array",
+          "description": "Gets or sets ElasticInferenceAcceleratorAssociations.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "elasticInferenceAcceleratorArn": {
+                "type": "string"
+              },
+              "elasticInferenceAcceleratorAssociationId": {
+                "type": "string"
+              },
+              "elasticInferenceAcceleratorAssociationState": {
+                "type": "string"
+              },
+              "elasticInferenceAcceleratorAssociationTime": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "enaSupport": {
+          "type": "boolean",
+          "description": "Gets or sets EnaSupport."
+        },
+        "enclaveOptions": {
+          "type": "object",
+          "description": "Gets or sets EnclaveOptions.",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "hibernationOptions": {
+          "type": "object",
+          "description": "Gets or sets HibernationOptions.",
+          "properties": {
+            "configured": {
+              "type": "boolean"
+            }
+          }
+        },
+        "hypervisor": {
+          "type": "object",
+          "description": "Gets or sets Hypervisor.",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "ovm",
+                "xen"
+              ],
+              "x-ms-enum": {
+                "name": "hypervisorType ",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "iamInstanceProfile": {
+          "type": "object",
+          "description": "Gets or sets IAM instance profile.",
+          "properties": {
+            "arn": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "imageId": {
+          "type": "string",
+          "description": "Gets or sets ImageId."
+        },
+        "instanceId": {
+          "type": "string",
+          "description": "Gets or sets InstanceId."
+        },
+        "instanceLifecycle": {
+          "type": "object",
+          "description": "Gets or sets InstanceLifecycle.",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "Scheduled",
+                "Spot"
+              ],
+              "x-ms-enum": {
+                "name": "instanceLifecycleType ",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "instanceType": {
+          "type": "object",
+          "description": "Gets or sets InstanceType.",
+          "properties": {
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "ipv6Address": {
+          "type": "string",
+          "description": "Gets or sets Ipv6Address."
+        },
+        "kernelId": {
+          "type": "string",
+          "description": "Gets or sets KernelId."
+        },
+        "keyName": {
+          "type": "string",
+          "description": "Gets or sets the name of key pair."
+        },
+        "launchTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets the instance's LaunchTime."
+        },
+        "licenses": {
+          "type": "array",
+          "description": "Gets or sets license configurations.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "licenseConfigurationArn": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "maintenanceOptions": {
+          "type": "object",
+          "description": "Gets or sets MaintenanceOptions.",
+          "properties": {
+            "autoRecovery": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "default",
+                    "disabled"
+                  ],
+                  "x-ms-enum": {
+                    "name": "instanceAutoRecoveryState",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "metadataOptions": {
+          "type": "object",
+          "description": "Gets or sets MetadataOptions.",
+          "properties": {
+            "httpEndpoint": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "disabled",
+                    "enabled"
+                  ],
+                  "x-ms-enum": {
+                    "name": "httpEndpoint ",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "httpProtocolIpv6": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "enum": [
+                    "disabled",
+                    "enabled"
+                  ],
+                  "x-ms-enum": {
+                    "name": "httpProtocolIpv6 ",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "httpPutResponseHopLimit": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "httpTokens": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "optional",
+                    "required"
+                  ],
+                  "x-ms-enum": {
+                    "name": "httpTokens ",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "instanceMetadataTags": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "disabled",
+                    "enabled"
+                  ],
+                  "x-ms-enum": {
+                    "name": "instanceMetadataTags ",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "state": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "applied",
+                    "pending"
+                  ],
+                  "x-ms-enum": {
+                    "name": "instanceMetadataOptionsState",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "monitoring": {
+          "type": "object",
+          "description": "Gets or sets Monitoring.",
+          "properties": {
+            "state": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "disabled",
+                    "disabling",
+                    "enabled",
+                    "pending"
+                  ],
+                  "x-ms-enum": {
+                    "name": "monitoringState",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "networkInterfaces": {
+          "type": "array",
+          "description": "Gets or sets NetworkInterfaces.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "association": {
+                "type": "object",
+                "properties": {
+                  "carrierIp": {
+                    "type": "string"
+                  },
+                  "customerOwnedIp": {
+                    "type": "string"
+                  },
+                  "ipOwnerId": {
+                    "type": "string"
+                  },
+                  "publicDnsName": {
+                    "type": "string"
+                  },
+                  "publicIp": {
+                    "type": "string"
+                  }
+                }
+              },
+              "attachment": {
+                "type": "object",
+                "properties": {
+                  "attachmentId": {
+                    "type": "string"
+                  },
+                  "attachTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "deleteOnTermination": {
+                    "type": "boolean"
+                  },
+                  "deviceIndex": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "networkCardIndex": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "status": {
+                    "type": "object",
+                    "properties": {
+                      "Value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "description": {
+                "type": "string"
+              },
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "groupId": {
+                      "type": "string"
+                    },
+                    "groupName": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "interfaceType": {
+                "type": "string"
+              },
+              "ipv4Prefixes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Ipv4Prefix": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "ipv6Addresses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ipv6Address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "ipv6Prefixes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ipv6Prefix": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "macAddress": {
+                "type": "string"
+              },
+              "networkInterfaceId": {
+                "type": "string"
+              },
+              "ownerId": {
+                "type": "string"
+              },
+              "privateDnsName": {
+                "type": "string"
+              },
+              "privateIpAddress": {
+                "type": "string"
+              },
+              "privateIpAddresses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "association": {
+                      "type": "object",
+                      "properties": {
+                        "carrierIp": {
+                          "type": "string"
+                        },
+                        "customerOwnedIp": {
+                          "type": "string"
+                        },
+                        "ipOwnerId": {
+                          "type": "string"
+                        },
+                        "publicDnsName": {
+                          "type": "string"
+                        },
+                        "publicIp": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "primary": {
+                      "type": "boolean"
+                    },
+                    "privateDnsName": {
+                      "type": "string"
+                    },
+                    "privateIpAddress": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "sourceDestCheck": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "subnetId": {
+                "type": "string"
+              },
+              "vpcId": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "outpostArn": {
+          "type": "string",
+          "description": "Gets or sets OutpostArn."
+        },
+        "placement": {
+          "type": "object",
+          "description": "Gets or sets Placement.",
+          "properties": {
+            "affinity": {
+              "type": "string"
+            },
+            "availabilityZone": {
+              "type": "string"
+            },
+            "groupId": {
+              "type": "string"
+            },
+            "groupName": {
+              "type": "string"
+            },
+            "hostId": {
+              "type": "string"
+            },
+            "hostResourceGroupArn": {
+              "type": "string"
+            },
+            "partitionNumber": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "spreadDomain": {
+              "type": "string"
+            },
+            "tenancy": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "dedicated",
+                    "default",
+                    "host"
+                  ],
+                  "x-ms-enum": {
+                    "name": "tenancyType",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "platform": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "Gets or sets the platform.",
+              "enum": [
+                "Windows"
+              ],
+              "x-ms-enum": {
+                "name": "platformValue",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "platformDetails": {
+          "type": "string",
+          "description": "Gets or sets the PlatformDetails."
+        },
+        "privateDnsName": {
+          "type": "string",
+          "description": "Gets or sets the PrivateDnsName."
+        },
+        "privateDnsNameOptions": {
+          "type": "object",
+          "description": "Gets or sets PrivateDnsNameOptions.",
+          "properties": {
+            "enableResourceNameDnsAAAARecord": {
+              "type": "boolean"
+            },
+            "enableResourceNameDnsARecord": {
+              "type": "boolean"
+            },
+            "hostnameType": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "IpName",
+                    "ResourceName"
+                  ],
+                  "x-ms-enum": {
+                    "name": "hostnameType",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "privateIpAddress": {
+          "type": "string",
+          "description": "Gets or sets PrivateIpAddress."
+        },
+        "productCodes": {
+          "type": "array",
+          "description": "Gets or sets ProductCodes.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productCodeId": {
+                "type": "string"
+              },
+              "productCodeType": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "enum": [
+                      "Devpay",
+                      "Marketplace"
+                    ],
+                    "x-ms-enum": {
+                      "name": "productCodeValues",
+                      "modelAsString": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "publicDnsName": {
+          "type": "string",
+          "description": "Gets or sets PublicDnsName."
+        },
+        "publicIpAddress": {
+          "type": "string",
+          "description": "Gets or sets PublicIpAddress."
+        },
+        "ramdiskId": {
+          "type": "string",
+          "description": "Gets or sets RamdiskId."
+        },
+        "rootDeviceName": {
+          "type": "string",
+          "description": "Gets or sets RootDeviceName."
+        },
+        "rootDeviceType": {
+          "type": "object",
+          "description": "Gets or sets RootDeviceType.",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "ebs",
+                "instanceStore"
+              ],
+              "x-ms-enum": {
+                "name": "deviceType",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "securityGroups": {
+          "type": "array",
+          "description": "Gets or sets SecurityGroups.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string"
+              },
+              "groupName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "sourceDestCheck": {
+          "type": "boolean",
+          "description": "Gets or sets SourceDestCheck."
+        },
+        "spotInstanceRequestId": {
+          "type": "string",
+          "description": "Gets or sets SpotInstanceRequestId."
+        },
+        "sriovNetSupport": {
+          "type": "string",
+          "description": "Gets or sets SriovNetSupport."
+        },
+        "state": {
+          "type": "object",
+          "description": "Gets or sets the State.",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "name": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "enum": [
+                    "pending",
+                    "running",
+                    "shuttingDown",
+                    "stopped",
+                    "stopping",
+                    "terminated"
+                  ],
+                  "x-ms-enum": {
+                    "name": "ec2State",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "stateReason": {
+          "type": "object",
+          "description": "Gets or sets StateReason.",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "stateTransitionReason": {
+          "type": "string",
+          "description": "Gets or sets StateTransitionReason."
+        },
+        "subnetId": {
+          "type": "string",
+          "description": "Gets or sets SubnetId."
+        },
+        "tpmSupport": {
+          "type": "string",
+          "description": "Gets or sets TpmSupport."
+        },
+        "usageOperation": {
+          "type": "string",
+          "description": "Gets or sets UsageOperation."
+        },
+        "usageOperationUpdateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets UsageOperationUpdateTime."
+        },
+        "virtualizationType": {
+          "type": "object",
+          "description": "Gets or sets VirtualizationType.",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "hvm",
+                "paravirtual"
+              ],
+              "x-ms-enum": {
+                "name": "virtualizationType",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "vpcId": {
+          "type": "string",
+          "description": "Gets or sets VpcId."
+        }
+      }
+    },
+    "BootMode": {
+      "type": "object",
+      "description": "Gets or sets the boot mode.",
+      "properties": {
+        "value": {
+          "type": "string",
+          "enum": [
+            "LegacyBios",
+            "Uefi",
+            "UefiPreferred"
+          ],
+          "x-ms-enum": {
+            "name": "bootMode",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "Lambda": {
+      "type": "object",
+      "description": "Definition of Lambda",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AssetCommonProperties"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LambdaProperties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the id of the Lambda."
+        }
+      }
+    },
+    "S3": {
+      "type": "object",
+      "description": "Definition of S3",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AssetCommonProperties"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/S3Properties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the id of the S3."
+        }
+      }
+    },
+    "LambdaPatch": {
+      "type": "object",
+      "description": "Lambda patch properties.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "ErrorCode": {
+          "type": "string"
+        },
+        "Message": {
+          "type": "string"
+        }
+      }
+    },
+    "LambdaProperties": {
+      "type": "object",
+      "description": "Definition of Lambda properties.",
+      "properties": {
+        "architectures": {
+          "type": "array",
+          "description": "Gets or sets the size of the architecture.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "codeSha256": {
+          "type": "string",
+          "description": "Gets or sets the size of the function's deployment package's SHA256."
+        },
+        "codeSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets or sets the size of the function's deployment package's size."
+        },
+        "deadLetterConfig": {
+          "type": "object",
+          "description": "Gets or sets the size of the function's dead letter queue.",
+          "properties": {
+            "targetArn": {
+              "type": "string"
+            }
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Gets or sets the size of the description."
+        },
+        "environment": {
+          "type": "object",
+          "description": "Gets or sets the size of the Environment.",
+          "properties": {
+            "error": {
+              "$ref": "#/definitions/Error"
+            },
+            "variables": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "ephemeralStorage": {
+          "type": "object",
+          "description": "Gets or sets the size of the function's EphemeralStorage.",
+          "properties": {
+            "size": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "fileSystemConfigs": {
+          "type": "array",
+          "description": "Gets or sets the Amazon EFS file system.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "arn": {
+                "type": "string"
+              },
+              "localMountPath": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "functionArn": {
+          "type": "string",
+          "description": "Gets or sets the function name."
+        },
+        "functionName": {
+          "type": "string",
+          "description": "Gets or sets the function name."
+        },
+        "handler": {
+          "type": "string",
+          "description": "Gets or sets the handler."
+        },
+        "imageConfigResponse": {
+          "type": "object",
+          "description": "Gets or sets the function's image configuration values.",
+          "properties": {
+            "error": {
+              "$ref": "#/definitions/Error"
+            },
+            "imageConfig": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "entryPoint": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "isCommandSet": {
+                  "type": "boolean"
+                },
+                "isEntryPointSet": {
+                  "type": "boolean"
+                },
+                "functionName": {
+                  "type": "string"
+                },
+                "workingDirectory": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "kMSKeyArn": {
+          "type": "string",
+          "description": "Gets or sets the KMSKeyArn."
+        },
+        "lastModified": {
+          "type": "string",
+          "description": "Gets or sets the last modified."
+        },
+        "lastUpdateStatus": {
+          "type": "string",
+          "description": "Gets or sets the last update state.",
+          "enum": [
+            "Failed",
+            "InProgress",
+            "Successful"
+          ],
+          "x-ms-enum": {
+            "name": "lastUpdateStatus",
+            "modelAsString": true
+          }
+        },
+        "lastUpdateStatusReason": {
+          "type": "string",
+          "description": "Gets or sets the last update state reason."
+        },
+        "lastUpdateStatusReasonCode": {
+          "type": "string",
+          "description": "Gets or sets the code of last update state reason."
+        },
+        "layers": {
+          "type": "array",
+          "description": "Gets or sets the layer.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "arn": {
+                "type": "string"
+              },
+              "codeSize": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "signingJobArn": {
+                "type": "string"
+              },
+              "signingProfileVersionArn": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "masterArn": {
+          "type": "string",
+          "description": "Gets or sets the master ARN."
+        },
+        "memorySize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets or sets the memory size."
+        },
+        "packageType": {
+          "type": "object",
+          "description": "Gets or sets the type of deployment package.",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "Image",
+                "Zip"
+              ],
+              "x-ms-enum": {
+                "name": "packageType",
+                "modelAsString": true
+              }
+            }
+          }
+        },
+        "revisionId": {
+          "type": "string",
+          "description": "Gets or sets the revision Id."
+        },
+        "role": {
+          "type": "string",
+          "description": "Gets or sets the function's execution role."
+        },
+        "runtime": {
+          "type": "object",
+          "description": "Gets or sets the runtime.",
+          "properties": {
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "runtimeVersionConfig": {
+          "type": "object",
+          "description": "Gets or sets the runtime version config.",
+          "properties": {
+            "runtimeVersionArn": {
+              "type": "string"
+            }
+          }
+        },
+        "signingJobArn": {
+          "type": "string",
+          "description": "Gets or sets the ARN of the signing job."
+        },
+        "signingProfileVersionArn": {
+          "type": "string",
+          "description": "Gets or sets the ARN of the signing profile version."
+        },
+        "snapStart": {
+          "type": "object",
+          "description": "Gets or sets the SnapStart.",
+          "properties": {
+            "applyOn": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Gets or sets the snap start optimization status.",
+                  "enum": [
+                    "None",
+                    "PublishedVersions"
+                  ],
+                  "x-ms-enum": {
+                    "name": "OptimizationStatus",
+                    "modelAsString": true
+                  }
+                }
+              }
+            },
+            "optimizationStatus": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Gets or sets the snap start optimization status.",
+                  "enum": [
+                    "Off",
+                    "On"
+                  ],
+                  "x-ms-enum": {
+                    "name": "OptimizationStatus",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "state": {
+          "type": "string",
+          "description": "Gets or sets the state.",
+          "enum": [
+            "Failed",
+            "InProgress",
+            "Successful"
+          ],
+          "x-ms-enum": {
+            "name": "lambdaState",
+            "modelAsString": true
+          }
+        },
+        "stateReason": {
+          "type": "string",
+          "description": "Gets or sets the state reason."
+        },
+        "stateReasonCode": {
+          "type": "string",
+          "description": "Gets or sets the code of state reason."
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets or sets the timeout."
+        },
+        "tracingConfig": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Gets or sets the tracing mode.",
+                  "enum": [
+                    "Active",
+                    "PassThrough"
+                  ],
+                  "x-ms-enum": {
+                    "name": "tracingMode",
+                    "modelAsString": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "version": {
+          "type": "string",
+          "description": "Gets or sets the version."
+        },
+        "vpcConfig": {
+          "$ref": "#/definitions/VpcConfig"
+        }
+      }
+    },
+    "S3Patch": {
+      "type": "object",
+      "description": "S3 patch properties.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "S3Properties": {
+      "type": "object",
+      "description": "Definition of S3 properties.",
+      "properties": {
+        "publicCloudConnectorsResourceId": {
+          "type": "string",
+          "description": "Gets or sets the public cloud connector resource id."
+        },
+        "awsAccountId": {
+          "type": "string",
+          "description": "Aws account id of the customer."
+        },
+        "awsResourceName": {
+          "type": "string",
+          "description": "Arn of aws resource."
+        },
+        "awsSdkVersion": {
+          "type": "string",
+          "description": "Sdk version representing the properties of the resource"
+        },
+        "awsRegion": {
+          "type": "string",
+          "description": "Region where this resource exists in AWS"
+        },
+        "awsProperties": {
+          "type": "object",
+          "description": "Aws specific properties for this resource",
+          "properties": {
+            "bucketName": {
+              "type": "string",
+              "description": "Name of the s3 bucket"
+            },
+            "creationDate": {
+              "type": "string",
+              "description": "The date this s3 bucket was created"
+            }
+          }
+        }
+      }
+    },
+    "VpcConfig": {
+      "type": "object",
+      "description": "Definition of VPC Config.",
+      "properties": {
+        "securityGroupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Gets or sets the VPC security group IDs."
+        },
+        "subnetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Gets or sets the VPC subnet IDs."
+        },
+        "vpcId": {
+          "type": "string",
+          "description": "Gets or sets the ID of the VPC."
+        }
+      }
+    },
+    "EC2ListResult": {
+      "type": "object",
+      "description": "The response model for the list of EC2 assets.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EC2"
+          },
+          "description": "A list of EC2 assets."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        }
+      }
+    },
+    "LambdaListResult": {
+      "type": "object",
+      "description": "The response model for the list of Lambda assets.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lambda"
+          },
+          "description": "A list of Lambda assets."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        }
+      }
+    },
+    "S3ListResult": {
+      "type": "object",
+      "description": "The response model for the list of Lambda assets.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/S3"
+          },
+          "description": "A list of S3 assets."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        }
+      }
+    },
+    "AssetCommonProperties": {
+      "type": "object",
+      "description": "Common properties of assets.",
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "Gets or sets the resource type."
+        },
+        "cloudProvider": {
+          "type": "string",
+          "description": "Gets or sets the platform of asset.",
+          "enum": [
+            "AWS",
+            "GCP"
+          ],
+          "x-ms-enum": {
+            "name": "cloudProviderName",
+            "modelAsString": true
+          }
+        },
+        "cloudNativeUniqueId": {
+          "type": "string",
+          "description": "Gets or sets asset's unique Id from cloud provider."
+        },
+        "cloudNativeRegion": {
+          "type": "string",
+          "description": "Gets or sets the asset region from cloud provider."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The fully qualified Azure Resource manager identifier of the resource to be connected.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "EndpointNameParameter": {
+      "name": "endpointName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The endpoint name.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "AccessTokenExpirationParameter": {
+      "name": "expiresin",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int64",
+      "default": 10800,
+      "minimum": 600,
+      "maximum": 10800,
+      "description": "The is how long the endpoint access token is valid (in seconds).",
+      "x-ms-parameter-location": "method"
+    },
+    "SolutionNameParameter": {
+      "name": "solutionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The solution name.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "SolutionTypeParameter": {
+      "name": "solutionType",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of solution type to fetch the details",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "InventoryIdParameter": {
+      "name": "inventoryId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The inventory id.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    },
+    "AssetIdParameter": {
+      "name": "assetId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The asset id.",
+      "x-ms-skip-url-encoding": false,
+      "x-ms-parameter-location": "method"
+    },
+    "PublicCloudConnectorParameter": {
+      "name": "publicCloudConnector",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of public cloud connector.",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

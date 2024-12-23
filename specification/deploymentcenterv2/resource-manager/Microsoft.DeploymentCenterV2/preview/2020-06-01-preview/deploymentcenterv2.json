@@ -1,0 +1,646 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DeploymentCenterV2",
+    "description": "Microsoft Deployment Center V2 resource provider.",
+    "version": "2020-06-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "Impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.DeploymentCenterV2/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "description": "Lists all the operations supported by Microsoft.DeploymentCenterV2 resource provider.",
+        "tags": [
+          "Operations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of supported operations has been fetched successfully.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentCenterV2/deploymentsv2/{deploymentName}": {
+      "get": {
+        "description": "Returns the deployment resource.",
+        "operationId": "deployments_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment details.",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/GetDeployment.json"
+          }
+        }
+      },
+      "put": {
+        "description": "Creates or updates Deployment.",
+        "operationId": "Deployments_Create",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "deploymentParameters",
+            "description": "Deployment payload.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeploymentPayload"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Async operation to create or update Deployment was created.",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "200": {
+            "description": "The Deployment resource has been configured successfully.",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/CreateDeployment.json"
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes deployment.",
+        "operationId": "Deployments_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deployment resource has been deleted successfully."
+          },
+          "204": {
+            "description": "Deployment has been already deleted."
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/DeleteDeployment.json"
+          }
+        }
+      },
+      "patch": {
+        "description": "Updates deployemnt resource",
+        "operationId": "Deployments_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DeploymentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "deploymentParameters",
+            "description": "Deployment payload.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeploymentPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/UpdateDeployment.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentCenterV2/deploymentsv2": {
+      "get": {
+        "description": "Lists the deployment resources under the resource group.",
+        "operationId": "deployments_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment list details.",
+            "schema": {
+              "$ref": "#/definitions/DeploymentListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/ListDeploymentsByResourceGroup.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DeploymentCenterV2/deploymentsv2": {
+      "get": {
+        "description": "Lists the deployment resources under the subscription.",
+        "operationId": "deployments_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment list details.",
+            "schema": {
+              "$ref": "#/definitions/DeploymentListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Get a deployment resource": {
+            "$ref": "./examples/ListDeploymentsBySubscription.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "description": "Error response indicates that the service is not able to process the incoming request.",
+      "properties": {
+        "code": {
+          "description": "The error status code.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorDefinition",
+          "description": "The error details."
+        }
+      }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "properties": {
+        "code": {
+          "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Description of the error.",
+          "type": "string",
+          "readOnly": true
+        },
+        "details": {
+          "description": "Internal error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDefinition"
+          }
+        }
+      }
+    },
+    "DeploymentListResult": {
+      "description": "Result of a request to list all deployments under a given scope.",
+      "properties": {
+        "value": {
+          "description": "List of deployments.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Deployment"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of Deployments, if there are any."
+        }
+      }
+    },
+    "Deployment": {
+      "type": "object",
+      "description": "The deployment resource representing a deployment being made to an azure resource.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the deployment",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the deployment",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the deployment",
+          "readOnly": true
+        },
+        "location": {
+          "type": "string",
+          "description": "location of the deployment resource"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Deployment resource properties",
+          "$ref": "#/definitions/DeploymentProperties"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "DeploymentProperties": {
+      "type": "object",
+      "description": "Deployment resource properties object.",
+      "properties": {
+        "targetResource": {
+          "type": "object",
+          "description": "Target resource properties",
+          "$ref": "#/definitions/TargetResource"
+        },
+        "deployer": {
+          "type": "object",
+          "description": "Deployer properties",
+          "$ref": "#/definitions/Deployer"
+        },
+        "resourceChanges": {
+          "type": "object",
+          "description": "Resource change properties",
+          "$ref": "#/definitions/ResourceChanges"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the resource"
+        },
+        "startedAt": {
+          "type": "string",
+          "description": "Time when deployment started"
+        },
+        "finishedAt": {
+          "type": "string",
+          "description": "Time when deployment finished"
+        }
+      }
+    },
+    "TargetResource": {
+      "type": "object",
+      "description": "Target resource properties.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Target resource identifier"
+        },
+        "type": {
+          "type": "string",
+          "description": "Target resource type"
+        },
+        "dataProperties": {
+          "type": "object",
+          "description": "Target resource data properties",
+          "properties": {
+            "namespaces": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of namespaces."
+            }
+          }
+        }
+      }
+    },
+    "Deployer": {
+      "type": "object",
+      "description": "Deployer properties.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Deployer type"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Deployer properties",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "The provider"
+            },
+            "repository": {
+              "type": "string",
+              "description": "The workflow repository"
+            },
+            "workflowId": {
+              "type": "string",
+              "readOnly": true,
+              "description": "The workflow Id"
+            },
+            "workflowRunId": {
+              "type": "string",
+              "description": "The workflow run id"
+            },
+            "workflowRunproperties": {
+              "type": "object",
+              "description": "The workflow run properties"
+            }
+          }
+        }
+      }
+    },
+    "ResourceChanges": {
+      "type": "object",
+      "description": "Resource changes properties.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Resource changes type"
+        },
+        "armDeploymentId": {
+          "type": "string",
+          "description": "The arm deployment id"
+        },
+        "armPropertyChanges": {
+          "type": "string",
+          "description": "The arm property changes"
+        },
+        "dataPropertyChanges": {
+          "type": "object",
+          "description": "Data property changes",
+          "properties": {
+            "namespace": {
+              "type": "string",
+              "description": "The changed namespace"
+            },
+            "dockerFile": {
+              "type": "string",
+              "description": "The Dockerfile used in deployment"
+            },
+            "manifests": {
+              "type": "object",
+              "description": "The deployed manifests",
+              "properties": {
+                "deployment": {
+                  "type": "string",
+                  "description": "Deployment manifest"
+                },
+                "service": {
+                  "type": "string",
+                  "description": "Service manifest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DeploymentPayload": {
+      "type": "object",
+      "description": "The payload for the deployment resource"
+    },
+    "OperationListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of operations supported by Microsoft.DeploymentCenterV2 resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of operations, if there are any."
+        }
+      },
+      "description": "Result of a request to list all operations supported by Microsoft.DeploymentCenterV2 resource provider."
+    },
+    "Operation": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Name of the operation."
+        },
+        "isDataAction": {
+          "type": "string",
+          "description": "Indicates whether the operation applies to data-plane."
+        },
+        "display": {
+          "description": "Display information of the operation.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationDisplayValue"
+        }
+      },
+      "description": "Properties of an Operation."
+    },
+    "OperationDisplayValue": {
+      "properties": {
+        "operation": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Friendly name of the operation."
+        },
+        "resource": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Friendly name of the resource type the operation applies to."
+        },
+        "description": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Friendly description of the operation."
+        },
+        "provider": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Friendly name of the resource provider."
+        }
+      },
+      "description": "Display information of an operation."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "ADU schema API version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The resource group name.",
+      "x-ms-parameter-location": "method"
+    },
+    "DeploymentNameParameter": {
+      "name": "deploymentName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The deployment name",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

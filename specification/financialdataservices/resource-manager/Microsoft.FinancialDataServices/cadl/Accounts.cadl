@@ -1,0 +1,30 @@
+using OpenAPI;
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@armProviderNamespace
+namespace Microsoft.FinancialDataServices;
+
+@doc("Account resource")
+model Account is TrackedResource<AccountProperties> {
+    @pattern("^[a-zA-Z0-9-]{3,24}$")
+    @key("accountName")
+    @segment("accounts")
+    @doc("Name of the account")
+    @path
+    name: string;
+}
+
+@doc("Details of Account")
+model AccountProperties {
+    @visibility("read")
+    @doc("The status of the last operation.")
+    provisioningState?: ProvisioningState;
+
+    @doc("Email address to send share invitations to")
+    shareRecipientEmail : string
+}
+
+@armResourceOperations
+interface Accounts extends ResourceOperations<Account, AccountProperties> {}

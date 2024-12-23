@@ -1,0 +1,582 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2020-11-01-preview",
+    "title": "sczedgedevice",
+    "description": "Use this API to allocate IoTHub Resource for a SCZdevice",
+    "x-ms-code-generation-settings": {
+      "name": "sczedgedeviceClient"
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "security": [
+    {
+      "azure_auth": ["user_impersonation"]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.Sczedgedevice/operations": {
+      "get": {
+        "tags": [
+            "Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "Retrieves a list of available API operations",
+        "summary": "Retrieves a list of available API operations under this Resource Provider.",
+        "parameters": [
+            {
+            "$ref": "#/parameters/ApiVersionParameter"
+            }
+        ],
+        "responses": {
+          "200": {
+              "description": "The request was successful; response contains the list of operations under Microsoft.Sczedgedevice resource provider.",
+              "schema": {
+                  "$ref": "#/definitions/OperationListResult"
+              }
+          },
+          "default": {
+              "description": "Error response describing why the request failed.",
+              "schema": {
+                  "$ref": "#/definitions/ErrorResponse"
+              }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sczedgedevice/edgeDevice": {
+      "get": {
+        "description": "Returns list of edgeDevices.",
+        "operationId": "EdgeDevices_ListBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of edgeDevices.",
+            "schema": {
+              "$ref": "#/definitions/SCZdeviceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sczedgedevice/edgeDevice": {
+      "get": {
+        "description": "Returns list of edgeDevices.",
+        "operationId": "EdgeDevices_ListByResourceGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of edgeDevices.",
+            "schema": {
+              "$ref": "#/definitions/SCZdeviceList"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sczedgedevice/edgeDevice/{iothubName}": {
+      "get": {
+        "description": "Returns SCZ edge device resource for a given iothub name.",
+        "operationId": "SCZResource_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/IotHubNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource details.",
+            "schema": {
+              "$ref": "#/definitions/SCZdeviceResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the request failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {}
+      },
+      "put": {
+        "tags": ["PUT"],
+        "description": "Create SCZ device resource.",
+        "operationId": "SCZdevice_Create",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/IotHubNameParameter"
+          },
+          {
+            "name": "SCZdeviceResource",
+            "description": "The name of the SCZ edge device.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SCZdeviceResource"
+            }
+          }
+        ],
+        "responses": {
+            "200": {
+              "description": "SCZedge device creation or update initiated.",
+              "schema": {
+                "$ref": "#/definitions/SCZdeviceResource"
+              }
+            },
+            "201": {
+              "description": "long running operation to create resource.",
+              "schema": {
+                "$ref": "#/definitions/SCZdeviceResource"
+              }
+            },
+            "default": {
+              "description": "Error response describing why the request failed.",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+        },
+        "x-ms-examples": {
+          "Create SCZ device resource": {
+            "$ref": "./examples/Sczdevice_Create.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["DELETE"],
+        "description": "Delete SCZ edge device resource for a given iothub",
+        "operationId": "SCZdevice_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/IotHubNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If resource is deleted successfully, the service should return 200."
+          },
+          "204": {
+            "description": "No content."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {}
+      },
+      "patch": {
+        "description": "Updates account's tags.",
+        "operationId": "SCZdevice_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/IotHubNameParameter"
+          },
+          {
+            "name": "tagUpdatePayload",
+            "description": "Updated tags.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TagUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource updated successfully.",
+            "schema": {
+              "$ref": "#/definitions/SCZdeviceResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing the reason for operation failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {}
+      }
+    }
+  },
+  "definitions": {
+    "SCZdeviceResource": {
+      "type": "object",
+      "description": "Input values.",
+      "allOf": [
+          {
+                "$ref": "#/definitions/Resource"
+          }
+      ],
+      "required": ["properties"],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties":{
+            "provisioningState": {
+              "description": "Provisioning state.",
+              "type": "string",
+              "enum": [
+                "Succeeded",
+                "Deleted",
+                "Failed",
+                "Canceled",
+                "Accepted",
+                "Creating"
+              ],
+              "readOnly": true,
+              "x-ms-enum": {
+                "name": "ProvisioningState",
+                "modelAsString": true
+              }
+            },
+            "devicename": {
+              "description": "The name of of the SCZ edge device.",
+              "type": "string"
+            }
+          }
+        }
+      } 
+    },
+    "SCZdeviceList": {
+      "description": "List of SCZdevice.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of SCZdevice list.",
+          "type": "string"
+        },
+        "value": {
+          "description": "List of SCZdevice.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SCZdeviceResource"
+          }
+        }
+      }
+    },
+    "Resource": {
+        "description": "result for 200",
+        "properties": {
+          "id": {
+              "description": "Azure resource Id.",
+              "type": "string",
+              "readOnly": true
+          },
+          "name": {
+              "description": "Azure resource name.",
+              "type": "string",
+              "readOnly": true
+          },
+          "type": {
+              "description": "Azure resource type.",
+              "type": "string",
+              "readOnly": true
+          },
+          "location": {
+            "type": "string",
+            "description": "The resource location.",
+            "x-ms-mutability": [
+              "read",
+              "create"
+            ]
+          },
+          "systemData": {
+            "description": "Metadata pertaining to creation and last modification of the resource.",
+            "$ref": "#/definitions/SystemData",
+            "readOnly": true
+          },
+          "tags": {
+            "description": "Resource tags.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
+    },
+    "SystemData": {
+      "description": "Metadata pertaining to creation and last modification of the resource.",
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "createdBy": {
+          "type": "string",
+          "description": "The identity that created the resource."
+        },
+        "createdByType": {
+          "type": "string",
+          "description": "The type of identity that created the resource.",
+          "enum": [
+            "User",
+            "Application",
+            "ManagedIdentity",
+            "Key"
+          ],
+          "x-ms-enum": {
+            "name": "createdByType",
+            "modelAsString": true
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp of resource creation (UTC)."
+        },
+        "lastModifiedBy": {
+          "type": "string",
+          "description": "The identity that last modified the resource."
+        },
+        "lastModifiedByType": {
+          "type": "string",
+          "description": "The type of identity that last modified the resource.",
+          "enum": [
+            "User",
+            "Application",
+            "ManagedIdentity",
+            "Key"
+          ],
+          "x-ms-enum": {
+            "name": "createdByType",
+            "modelAsString": true
+          }
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The type of identity that last modified the resource."
+        }
+      }
+    },
+    "TagUpdate": {
+      "description": "Request payload used to update an existing resource's tags.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "List of key value pairs that describe the resource. This will overwrite the existing tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+        "description": "Error response.",
+        "properties": {
+            "error": {
+                "$ref": "#/definitions/ErrorDefinition",
+                "description": "The error details."
+            }
+        }
+    },
+    "ErrorDefinition": {
+      "description": "Error definition.",
+      "properties": {
+          "code": {
+              "description": "Service specific error code which serves as the substatus for the HTTP error code.",
+              "type": "string",
+              "readOnly": true
+          },
+          "message": {
+              "description": "Description of the error.",
+              "type": "string",
+              "readOnly": true
+          }
+      }
+    },
+    "OperationListResult": {
+      "description": "Available operations of the service",
+      "properties": {
+        "value": {
+          "description": "List of operations supported by the Microsoft.Sczedgedevice resource provider.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    },
+    "Operation": {
+      "description": "Azure Percept REST API operation.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Operation name: {provider}/{resource}/{read | write | action | delete}."
+        },
+        "isDataAction": {
+          "description": "Indicates whether the operation is a data action",
+          "type": "boolean"
+        },
+        "display": {
+          "description": "The operation supported by Azure Percept.",
+          "properties": {
+            "provider": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Service provider: Microsoft Azure Percept."
+            },
+            "resource": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Resource on which the operation is performed."
+            },
+            "operation": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Name of the operation."
+            },
+            "description": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Description of the operation."
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+      "SubscriptionIdParameter": {
+          "name": "subscriptionId",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The Azure subscription ID."
+      },
+      "ApiVersionParameter": {
+          "name": "api-version",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "Client Api Version."
+      },
+      "ResourceGroupNameParameter": {
+          "name": "resourceGroupName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The name of the resource group.",
+          "x-ms-parameter-location": "method"
+      },
+      "IotHubNameParameter": {
+          "name": "iothubName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The name iothub name.",
+          "x-ms-parameter-location": "method"
+      }
+  }
+}

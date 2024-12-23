@@ -1,0 +1,47 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+
+@armNamespace
+@serviceTitle("Microsoft.Music")
+@serviceVersion("2021-08-01-preview")
+namespace Microsoft.Music;
+
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+
+@doc("A MusicProviderHub resource")
+model Song is TrackedResource<SongProperties> {
+  @doc("Name of a Song")
+  @path("/name")
+  @visibility("read")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("SongName")
+  @segment("Songs")
+  name: string;
+}
+
+@doc("The status of the current operation.")
+@knownValues(ProvisioningStateKV)
+model ProvisioningState is string {}
+enum ProvisioningStateKV {
+  Succeeded,
+  Failed,
+  Canceled,
+  Provisioning,
+  Updating,
+  Deleting,
+  Accepted,
+}
+
+@doc("Details of the Music Song.")
+model SongProperties {
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+}
+
+@armResourceOperations
+interface Songs extends ResourceOperations<Song, SongProperties> {}

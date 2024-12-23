@@ -1,0 +1,621 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-providerhub-controller";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+import "./tenantResource.cadl";
+import "./models.cadl";
+import "./rulestackModels.cadl";
+import "./SecurityProfile.cadl";
+import "./rulelist.cadl";
+import "./securityObject.cadl";
+import "./advSecurityObjectModel.cadl";
+import "./CertificateObjectModels.cadl";
+import "./appIdVersion.cadl";
+
+/**
+* Manual changes :
+  - Removed SystemData from the 3 Resource Properties object.
+  - Replace ARM with Azure
+  - Updated Response Description for 201 and 204.-- not done in 7/7 ARM API review
+*/
+
+@armNamespace
+@serviceTitle("PaloAltoNetworks.Cloudngfw")
+@serviceVersion("2023-10-10-preview")
+namespace PaloAltoNetworks.Cloudngfw;
+
+using Azure.ResourceManager;
+using Cadl.Rest;
+using Cadl.Http;
+using ARM.TenantResource;
+using OpenAPI;
+using Autorest;
+
+@doc("PaloAltoNetworks Firewall")
+model FirewallResource is TrackedResource<FirewallDeploymentProperties> {
+  @doc("Firewall resource name")
+  @key("firewallName")
+  @segment("firewalls")
+  @path
+  name: string;
+  ...ManagedServiceIdentity;
+}
+
+@armResourceOperations(FirewallResource)
+interface Firewalls
+  extends ResourceOperations<FirewallResource, FirewallDeploymentProperties> {
+  @post
+  @segment("getLogProfile")
+  @doc("Log Profile for Firewall")
+  @armResourceAction(FirewallResource)
+  getLogProfile(
+    ...ResourceInstanceParameters<FirewallResource>
+  ): OkResponse<LogSettings> | ErrorResponse;
+
+  @post
+  @segment("saveLogProfile")
+  @doc("Log Profile for Firewall")
+  @armResourceAction(FirewallResource)
+  saveLogProfile(
+    ...ResourceInstanceParameters<FirewallResource>,
+    logSettings?: LogSettings
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("getGlobalRulestack")
+  @doc("Get Global Rulestack associated with the Firewall")
+  @armResourceAction(FirewallResource)
+  getGlobalRulestack(
+    ...ResourceInstanceParameters<FirewallResource>
+  ): OkResponse<GlobalRulestackInfo> | ErrorResponse;
+
+  @post
+  @segment("getSupportInfo")
+  @doc("support info for firewall.")
+  @armResourceAction(FirewallResource)
+  getSupportInfo(
+    ...ResourceInstanceParameters<FirewallResource>,
+
+    @doc("email address on behalf of which this API called")
+    @query
+    email?: string
+  ): OkResponse<SupportInfo> | ErrorResponse;
+}
+
+@doc("Firewall Status")
+@parentResource(FirewallResource)
+@singleton
+model FirewallStatusResource is ProxyResource<FirewallStatusProperty> {
+  @doc("Firewall Status resource name")
+  @key("name")
+  @segment("statuses")
+  @path
+  name: string;
+}
+
+@armResourceOperations(FirewallStatusResource)
+interface FirewallStatus
+  extends ResourceRead<FirewallStatusResource>,
+    ResourceListByParent<FirewallStatusResource> {}
+
+@doc("PaloAltoNetworks GlobalRulestack")
+model GlobalRulestackResource is ProxyResource<RulestackProperties> {
+  @doc("GlobalRulestack resource name")
+  @key("globalRulestackName")
+  @segment("globalRulestacks")
+  @path
+  name: string;
+
+  @doc("Global Location")
+  location: string;
+  ...ManagedServiceIdentity;
+}
+
+@armResourceOperations(GlobalRulestackResource)
+interface GlobalRulestack
+  extends TenantInstanceOperations<GlobalRulestackResource, RulestackProperties> {
+  @post
+  @segment("commit")
+  @doc("Commit rulestack configuration")
+  @armResourceAction(GlobalRulestackResource)
+  @extension("x-ms-long-running-operation", true)
+  @asyncOperationOptions("location")
+  commit(
+    ...TenantInstanceParameters<GlobalRulestackResource>
+  ): AcceptedResponse | ErrorResponse;
+
+  @post
+  @segment("revert")
+  @doc("Revert rulestack configuration")
+  @armResourceAction(GlobalRulestackResource)
+  revert(
+    ...TenantInstanceParameters<GlobalRulestackResource>
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("getChangeLog")
+  @doc("Get changelog")
+  @armResourceAction(GlobalRulestackResource)
+  getChangeLog(
+    ...TenantInstanceParameters<GlobalRulestackResource>
+  ): OkResponse<Changelog> | ErrorResponse;
+
+  @post
+  @segment("listFirewalls")
+  @doc("List of Firewalls associated with Rulestack")
+  @armResourceAction(GlobalRulestackResource)
+  listFirewalls(
+    ...TenantInstanceParameters<GlobalRulestackResource>
+  ): OkResponse<ListFirewallsResponse> | ErrorResponse;
+
+  @post
+  @segment("listCountries")
+  @doc("List of countries for Rulestack")
+  @armResourceAction(GlobalRulestackResource)
+  listCountries(
+    ...TenantInstanceParameters<GlobalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<CountriesResponse> | ErrorResponse;
+
+  @post
+  @segment("listAdvancedSecurityObjects")
+  @doc("Get the list of advanced security objects")
+  @armResourceAction(GlobalRulestackResource)
+  listAdvancedSecurityObjects(
+    ...TenantInstanceParameters<GlobalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32,
+
+    @doc("Available values : urlCustom, feeds")
+    @query
+    type: AdvSecurityObjectTypeEnum
+  ): OkResponse<advSecurityObjectListResponse> | ErrorResponse;
+
+  @post
+  @segment("listSecurityServices")
+  @doc("List the security services for rulestack")
+  @armResourceAction(GlobalRulestackResource)
+  listSecurityServices(
+    ...TenantInstanceParameters<GlobalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32,
+
+    @query
+    type: SecurityServicesTypeEnum
+  ): OkResponse<securityServicesResponse> | ErrorResponse;
+
+  @post
+  @segment("listPredefinedUrlCategories")
+  @doc("List predefined URL categories for rulestack")
+  @armResourceAction(GlobalRulestackResource)
+  listPredefinedUrlCategories(
+    ...TenantInstanceParameters<GlobalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<PredefinedUrlCategoriesResponse> | ErrorResponse;
+
+  @post
+  @segment("listAppIds")
+  @doc("List of AppIds for GlobalRulestack ApiVersion")
+  @armResourceAction(GlobalRulestackResource)
+  listAppIds(
+    ...TenantInstanceParameters<GlobalRulestackResource>,
+
+    @query
+    appIdVersion?: string,
+
+    @query
+    appPrefix?: string,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<ListAppIdResponse> | ErrorResponse;
+}
+
+@doc("PaloAltoNetworks LocalRulestack")
+model LocalRulestackResource is TrackedResource<RulestackProperties> {
+  @doc("LocalRulestack resource name")
+  @key("localRulestackName")
+  @segment("localRulestacks")
+  @path
+  name: string;
+  ...ManagedServiceIdentity;
+}
+
+@armResourceOperations(LocalRulestackResource)
+interface LocalRulestacks
+  extends ResourceOperations<LocalRulestackResource, RulestackProperties> {
+  @post
+  @segment("commit")
+  @doc("Commit rulestack configuration")
+  @armResourceAction(LocalRulestackResource)
+  @extension("x-ms-long-running-operation", true)
+  @asyncOperationOptions("location")
+  commit(
+    ...ResourceInstanceParameters<LocalRulestackResource>
+  ): AcceptedResponse | ErrorResponse;
+
+  @post
+  @segment("revert")
+  @doc("Revert rulestack configuration")
+  @armResourceAction(LocalRulestackResource)
+  revert(
+    ...ResourceInstanceParameters<LocalRulestackResource>
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("getChangeLog")
+  @doc("Get changelog")
+  @armResourceAction(LocalRulestackResource)
+  getChangeLog(
+    ...ResourceInstanceParameters<LocalRulestackResource>
+  ): OkResponse<Changelog> | ErrorResponse;
+
+  @post
+  @segment("listFirewalls")
+  @doc("List of Firewalls associated with Rulestack")
+  @armResourceAction(LocalRulestackResource)
+  listFirewalls(
+    ...ResourceInstanceParameters<LocalRulestackResource>
+  ): OkResponse<ListFirewallsResponse> | ErrorResponse;
+
+  @post
+  @segment("listCountries")
+  @doc("List of countries for Rulestack")
+  @armResourceAction(LocalRulestackResource)
+  @extension(
+    "x-ms-pageable",
+    {
+      nextLinkName: "nextLink",
+      operationName: "LocalRulestacks_listCountries",
+    }
+  )
+  listCountries(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<CountriesResponse> | ErrorResponse;
+
+  @post
+  @segment("listAdvancedSecurityObjects")
+  @doc("Get the list of advanced security objects")
+  @armResourceAction(LocalRulestackResource)
+  listAdvancedSecurityObjects(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32,
+
+    @doc("Available values : urlCustom, feeds")
+    @query
+    type: AdvSecurityObjectTypeEnum
+  ): OkResponse<advSecurityObjectListResponse> | ErrorResponse;
+
+  @post
+  @segment("listSecurityServices")
+  @doc("List the security services for rulestack")
+  @armResourceAction(LocalRulestackResource)
+  listSecurityServices(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32,
+
+    @query
+    type: SecurityServicesTypeEnum
+  ): OkResponse<securityServicesResponse> | ErrorResponse;
+
+  @post
+  @segment("listPredefinedUrlCategories")
+  @doc("List predefined URL categories for rulestack")
+  @armResourceAction(LocalRulestackResource)
+  @extension(
+    "x-ms-pageable",
+    {
+      nextLinkName: "nextLink",
+      operationName: "LocalRulestacks_listPredefinedUrlCategories",
+    }
+  )
+  listPredefinedUrlCategories(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<PredefinedUrlCategoriesResponse> | ErrorResponse;
+
+  @post
+  @segment("listAppIds")
+  @doc("List of AppIds for LocalRulestack ApiVersion")
+  @armResourceAction(LocalRulestackResource)
+  @extension(
+    "x-ms-pageable",
+    {
+      nextLinkName: "nextLink",
+      operationName: "LocalRulestacks_listAppIds",
+    }
+  )
+  listAppIds(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @query
+    appIdVersion?: string,
+
+    @query
+    appPrefix?: string,
+
+    @query
+    skip?: string,
+
+    @query
+    top?: int32
+  ): OkResponse<ListAppIdResponse> | ErrorResponse;
+
+  @post
+  @segment("getSupportInfo")
+  @doc("support info for rulestack.")
+  @armResourceAction(LocalRulestackResource)
+  getSupportInfo(
+    ...ResourceInstanceParameters<LocalRulestackResource>,
+
+    @doc("email address on behalf of which this API called")
+    @query
+    email?: string
+  ): OkResponse<SupportInfo> | ErrorResponse;
+}
+
+@doc("LocalRulestack rule list")
+@parentResource(LocalRulestackResource)
+model LocalRulesResource is ProxyResource<RuleEntry> {
+  @doc("Local Rule priority")
+  @key("priority")
+  @segment("localRules")
+  @path
+  name: string;
+}
+
+@armResourceOperations(LocalRulesResource)
+interface LocalRules extends ProxyResourceOperations<LocalRulesResource> {
+  @post
+  @segment("getCounters")
+  @doc("Get counters")
+  @armResourceAction(LocalRulesResource)
+  getCounters(
+    ...ResourceInstanceParameters<LocalRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounter> | ErrorResponse;
+
+  @post
+  @segment("refreshCounters")
+  @doc("Refresh counters")
+  @armResourceAction(LocalRulesResource)
+  refreshCounters(
+    ...ResourceInstanceParameters<LocalRulesResource>,
+
+    @query
+    firewallName?: string
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("resetCounters")
+  @doc("Reset counters")
+  @armResourceAction(LocalRulesResource)
+  resetCounters(
+    ...ResourceInstanceParameters<LocalRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounterReset> | ErrorResponse;
+}
+
+@doc("PreRulestack rule list")
+@parentResource(GlobalRulestackResource)
+model PreRulesResource is ProxyResource<RuleEntry> {
+  @doc("Pre Rule priority")
+  @key("priority")
+  @segment("preRules")
+  @path
+  name: string;
+}
+
+@armResourceOperations(PreRulesResource)
+interface PreRules extends TenantProxyResourceOperations<PreRulesResource> {
+  @post
+  @segment("getCounters")
+  @doc("Get counters")
+  @armResourceAction(PreRulesResource)
+  getCounters(
+    ...TenantInstanceParameters<PreRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounter> | ErrorResponse;
+
+  @post
+  @segment("refreshCounters")
+  @doc("Refresh counters")
+  @armResourceAction(LocalRulesResource)
+  refreshCounters(
+    ...TenantInstanceParameters<PreRulesResource>,
+
+    @query
+    firewallName?: string
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("resetCounters")
+  @doc("Reset counters")
+  @armResourceAction(PreRulesResource)
+  resetCounters(
+    ...TenantInstanceParameters<PreRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounterReset> | ErrorResponse;
+}
+
+@doc("PostRulestack rule list")
+@parentResource(GlobalRulestackResource)
+model PostRulesResource is ProxyResource<RuleEntry> {
+  @doc("Post Rule priority")
+  @key("priority")
+  @segment("postRules")
+  @path
+  name: string;
+}
+
+@armResourceOperations(PostRulesResource)
+interface PostRules extends TenantProxyResourceOperations<PostRulesResource> {
+  @post
+  @segment("getCounters")
+  @doc("Get counters")
+  @armResourceAction(PostRulesResource)
+  getCounters(
+    ...TenantInstanceParameters<PostRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounter> | ErrorResponse;
+
+  @post
+  @segment("refreshCounters")
+  @doc("Refresh counters")
+  @armResourceAction(LocalRulesResource)
+  refreshCounters(
+    ...TenantInstanceParameters<PostRulesResource>,
+
+    @query
+    firewallName?: string
+  ): NoContentResponse | ErrorResponse;
+
+  @post
+  @segment("resetCounters")
+  @doc("Reset counters")
+  @armResourceAction(PostRulesResource)
+  resetCounters(
+    ...TenantInstanceParameters<PostRulesResource>,
+
+    @query
+    firewallName?: string
+  ): OkResponse<RuleCounterReset> | ErrorResponse;
+}
+
+@doc("LocalRulestack prefixList")
+@parentResource(LocalRulestackResource)
+model PrefixListResource is ProxyResource<PrefixObject> {
+  @doc("Local Rule priority")
+  @key("name")
+  @segment("prefixlists")
+  @path
+  name: string;
+}
+
+@armResourceOperations(PrefixListResource)
+interface PrefixListLocalRulestack
+  extends ProxyResourceOperations<PrefixListResource> {}
+
+@doc("GlobalRulestack prefixList")
+@parentResource(GlobalRulestackResource)
+model PrefixListGlobalRulestackResource is ProxyResource<PrefixObject> {
+  @doc("Local Rule priority")
+  @key("name")
+  @segment("prefixlists")
+  @path
+  name: string;
+}
+
+@armResourceOperations(PrefixListGlobalRulestackResource)
+interface PrefixListGlobalRulestack
+  extends TenantProxyResourceOperations<PrefixListGlobalRulestackResource> {}
+
+@doc("LocalRulestack fqdnList")
+@parentResource(LocalRulestackResource)
+model FqdnListLocalRulestackResource is ProxyResource<FqdnObject> {
+  @doc("fqdn list name")
+  @key("name")
+  @segment("fqdnlists")
+  @path
+  name: string;
+}
+
+@armResourceOperations(FqdnListLocalRulestackResource)
+interface FqdnListLocalRulestack
+  extends ProxyResourceOperations<FqdnListLocalRulestackResource> {}
+
+@doc("GlobalRulestack fqdnList")
+@parentResource(GlobalRulestackResource)
+model FqdnListGlobalRulestackResource is ProxyResource<FqdnObject> {
+  @doc("fqdn list name")
+  @key("name")
+  @segment("fqdnlists")
+  @path
+  name: string;
+}
+
+@armResourceOperations(FqdnListGlobalRulestackResource)
+interface FqdnListGlobalRulestack
+  extends TenantProxyResourceOperations<FqdnListGlobalRulestackResource> {}
+
+@doc("LocalRulestack Certificate Object")
+@parentResource(LocalRulestackResource)
+model CertificateObjectLocalRulestackResource is ProxyResource<CertificateObject> {
+  @doc("certificate name")
+  @key("name")
+  @segment("certificates")
+  @path
+  name: string;
+}
+
+@armResourceOperations(CertificateObjectLocalRulestackResource)
+interface CertificateObjectLocalRulestack
+  extends ProxyResourceOperations<CertificateObjectLocalRulestackResource> {}
+
+@doc("GlobalRulestack Certificate Object")
+@parentResource(GlobalRulestackResource)
+model CertificateObjectGlobalRulestackResource is ProxyResource<CertificateObject> {
+  @doc("certificate name")
+  @key("name")
+  @segment("certificates")
+  @path
+  name: string;
+}
+
+@armResourceOperations(CertificateObjectGlobalRulestackResource)
+interface CertificateObjectGlobalRulestack
+  extends TenantProxyResourceOperations<CertificateObjectGlobalRulestackResource> {}

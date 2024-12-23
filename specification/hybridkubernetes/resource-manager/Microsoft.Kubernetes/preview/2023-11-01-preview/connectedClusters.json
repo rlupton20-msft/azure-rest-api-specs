@@ -161,9 +161,6 @@
         "x-ms-examples": {
           "GetClusterExample": {
             "$ref": "./examples/GetClusterExample.json"
-          },
-          "GetProvisionedClusterExample": {
-            "$ref": "./examples/GetProvisionedClusterExample.json"
           }
         },
         "parameters": [
@@ -357,7 +354,7 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "GetClustersBySubscriptionExample": {
+          "GetClustersExample": {
             "$ref": "./examples/GetClustersBySubscriptionExample.json"
           }
         },
@@ -427,7 +424,6 @@
   },
   "definitions": {
     "OperationList": {
-      "type": "object",
       "description": "The paginated list of connected cluster API operations.",
       "properties": {
         "value": {
@@ -457,7 +453,6 @@
           "description": "Operation name: {Microsoft.Kubernetes}/{resource}/{operation}"
         },
         "display": {
-          "type": "object",
           "readOnly": true,
           "description": "The object that represents the operation.",
           "properties": {
@@ -510,8 +505,7 @@
           "description": "The identity of the connected cluster."
         },
         "kind": {
-          "$ref": "#/definitions/ConnectedClusterKind",
-          "description": "The kind of connected cluster."
+          "$ref": "#/definitions/ConnectedClusterKind"
         },
         "properties": {
           "x-ms-client-flatten": true,
@@ -576,9 +570,6 @@
     },
     "ConnectedClusterProperties": {
       "type": "object",
-      "required": [
-        "agentPublicKeyCertificate"
-      ],
       "properties": {
         "agentPublicKeyCertificate": {
           "type": "string",
@@ -606,7 +597,21 @@
           "description": "Version of the agent running on the connected cluster resource"
         },
         "provisioningState": {
-          "$ref": "#/definitions/ConnectedClusterProvisioningState",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "Provisioning",
+            "Updating",
+            "Deleting",
+            "Accepted"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": true
+          },
           "description": "Provisioning state of the connected cluster resource."
         },
         "distribution": {
@@ -704,7 +709,6 @@
       "description": "Properties of the connected cluster."
     },
     "CredentialResults": {
-      "type": "object",
       "properties": {
         "hybridConnectionConfig": {
           "$ref": "#/definitions/HybridConnectionConfig",
@@ -741,23 +745,6 @@
         }
       },
       "description": "The credential result response."
-    },
-    "ConnectedClusterProvisioningState": {
-      "type": "string",
-      "description": "The current deployment state of connectedClusters.",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Provisioning",
-        "Updating",
-        "Deleting",
-        "Accepted"
-      ],
-      "x-ms-enum": {
-        "name": "ProvisioningState",
-        "modelAsString": true
-      }
     },
     "ConnectedClusterPatch": {
       "type": "object",
@@ -805,7 +792,6 @@
       "description": "Properties which can be patched on the connected cluster resource."
     },
     "HybridConnectionConfig": {
-      "type": "object",
       "description": "Contains the REP (rendezvous endpoint) and “Sender” access token.",
       "properties": {
         "expirationTime": {
@@ -852,6 +838,7 @@
         }
       }
     },
+
     "ArcAgentProfile": {
       "description": "Defines the Arc Agent properties for the clusters.",
       "type": "object",

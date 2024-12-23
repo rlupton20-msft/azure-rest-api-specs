@@ -1,0 +1,798 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "RPaaS ADR Learning",
+        "description": "RPaaS ADR Learning resource provider.",
+        "version": "2023-05-24-preview"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/subscriptions/{subscriptionId}/providers/Microsoft.AliGilani/Tracks": {
+            "get": {
+                "tags": [
+                    "Tracks"
+                ],
+                "operationId": "Tracks_ListBySubscription",
+                "description": "List all Tracks in a Subscription.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/TrackResponseList"
+                        }
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AliGilani/Tracks": {
+            "get": {
+                "tags": [
+                    "Tracks"
+                ],
+                "operationId": "Tracks_ListByResourceGroup",
+                "description": "List all Tracks in a resource group.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/TrackResponseList"
+                        }
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AliGilani/Tracks/{TrackName}": {
+            "put": {
+                "tags": [
+                    "Tracks"
+                ],
+                "description": "Create a new Tracks or replace an existing Tracks.",
+                "operationId": "Tracks_CreateOrReplace",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "name": "Tracks",
+                        "in": "body",
+                        "required": true,
+                        "description": "Resource create parameters.",
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "Tracks is created successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    },
+                    "201": {
+                        "x-nullable": false,
+                        "description": "Async operation to create or update the Tracks is created.",
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Tracks"
+                ],
+                "description": "Update specific Trackded properties.",
+                "operationId": "Tracks_Update",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "name": "TracksUpdatePayload",
+                        "in": "body",
+                        "required": true,
+                        "description": "Tracks Parameters to patch",
+                        "schema": {
+                            "$ref": "#/definitions/TrackUpdatePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tracks is updated successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    },
+                    "202": {
+                        "description": "Async operation to update Tracks is Accepted.",
+                        "headers": {
+                            "Location": {
+                                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                                "type": "string"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tracks"
+                ],
+                "operationId": "Tracks_Delete",
+                "description": "Delete a Track.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Track deletion is successful."
+                    },
+                    "202": {
+                        "description": "Async operation to delete the Proxy is created.",
+                        "headers": {
+                            "Location": {
+                                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Tracks"
+                ],
+                "operationId": "Tracks_Get",
+                "description": "Retrieve a single Proxy.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Track"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AliGilani/Tracks/{TrackName}/Proxies": {
+            "get": {
+                "tags": [
+                    "Proxies"
+                ],
+                "operationId": "Proxies_ListByResourceGroup",
+                "description": "List all Proxies in a resource group.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/ProxyResponseList"
+                        }
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AliGilani/Tracks/{TrackName}/Proxies/{ProxyName}": {
+            "get": {
+                "tags": [
+                    "Proxies"
+                ],
+                "operationId": "Proxies_Get",
+                "description": "Retrieve a single Proxy.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/proxyNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Proxies"
+                ],
+                "description": "Create a new Proxy or replace an existing Proxy.",
+                "operationId": "Proxies_CreateOrReplace",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/proxyNameParameter"
+                    },
+                    {
+                        "name": "Proxy",
+                        "in": "body",
+                        "required": true,
+                        "description": "Resource create parameters.",
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "Proxy is created successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    },
+                    "201": {
+                        "x-nullable": false,
+                        "description": "Async operation to create or update the Proxy is created.",
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Proxies"
+                ],
+                "description": "Update specific Proxy properties.",
+                "operationId": "Proxies_Update",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/proxyNameParameter"
+                    },
+                    {
+                        "name": "ProxyUpdatePayload",
+                        "in": "body",
+                        "required": true,
+                        "description": "Proxy Parameters to patch",
+                        "schema": {
+                            "$ref": "#/definitions/ProxyUpdatePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proxy is updated successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    },
+                    "202": {
+                        "description": "Async operation to update Proxy is Accepted.",
+                        "headers": {
+                            "Location": {
+                                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                                "type": "string"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/AbstractProxy"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Proxies"
+                ],
+                "operationId": "Proxies_Delete",
+                "description": "Delete a Proxy.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/trackNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/proxyNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proxy deletion is successful."
+                    },
+                    "202": {
+                        "description": "Async operation to delete the Proxy is created.",
+                        "headers": {
+                            "Location": {
+                                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/providers/Microsoft.AliGilani/locations/{location}/operationStatuses/{operationId}": {
+            "get": {
+                "tags": [
+                    "Locations OperationStatuses"
+                ],
+                "operationId": "Get_Operation_Status",
+                "description": "Returns the current status of an async operation.",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/LocationParameter"
+                    },
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/OperationIdParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Requested operation status",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationStatusResult"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/providers/Microsoft.AliGilani/operations": {
+            "get": {
+                "description": "Returns list of operations.",
+                "operationId": "Operations_List",
+                "parameters": [
+                    {
+                        "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Operations returned if request was successful.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/OperationListResult"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response returned if request was unsuccessful.",
+                        "schema": {
+                            "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "x-ms-pageable": {
+                    "nextLinkName": "nextLink"
+                }
+            }
+        }
+    },
+    "parameters": {
+        "proxyNameParameter": {
+            "name": "ProxyName",
+            "description": "Name of the Proxy.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 3
+        },
+        "trackNameParameter": {
+            "name": "TrackName",
+            "description": "Name of the Proxy.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 3
+        }
+    },
+    "definitions": {
+        "ProxyUpdatePayload": {
+            "description": "Request payload used to update Proxy.",
+            "type": "object",
+            "properties": {
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Resource tags."
+                },
+                "properties": {
+                    "$ref": "#/definitions/ProxyUpdateProperties"
+                }
+            }
+        },
+        "ProxyUpdateProperties": {
+            "description": "Proxy Properties that can be updated",
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {}
+                }
+            }
+        },
+        "ProxyResponseList": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AbstractProxy"
+                    }
+                },
+                "nextLink": {
+                    "type": "string"
+                }
+            },
+            "description": "List of Proxies."
+        },
+        "AbstractProxy": {
+            "description": "Proxy details.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+                }
+            ],
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "description": "Specifies the kind of usage details.",
+                    "enum": [
+                        "ForwardProxy",
+                        "ReverseProxy",
+                        "DefaultProxy"
+                    ]
+                }
+            },
+            "required": [
+                "kind"
+            ],
+            "discriminator": "kind"
+        },
+        "AbstractProxyProperties": {
+            "description": "Base Proxy properties.",
+            "type": "object",
+            "properties": {
+                "provisioningState": {
+                    "description": "Provisioning state of the ArcSetting proxy resource.",
+                    "type": "string",
+                    "enum": [
+                        "NotSpecified",
+                        "Error",
+                        "Succeeded",
+                        "Failed",
+                        "Canceled",
+                        "Connected",
+                        "Disconnected",
+                        "Deleted",
+                        "Creating",
+                        "Updating",
+                        "Deleting",
+                        "Moving",
+                        "PartiallySucceeded",
+                        "PartiallyConnected",
+                        "InProgress",
+                        "Accepted",
+                        "Provisioning",
+                        "DisableInProgress"
+                    ],
+                    "readOnly": true
+                },
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {}
+                }
+            }
+        },
+        "DefaultProxy": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxy"
+                }
+            ],
+            "properties": {
+                "properties": {
+                    "$ref": "#/definitions/DefaultProxyProperties"
+                }
+            },
+            "required": [
+                "kind"
+            ],
+            "x-ms-discriminator-value": "DefaultProxy"
+        },
+        "DefaultProxyProperties": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxyProperties"
+                }
+            ]
+        },
+        "ForwardProxy": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxy"
+                }
+            ],
+            "properties": {
+                "properties": {
+                    "$ref": "#/definitions/ForwardProxyProperties"
+                }
+            },
+            "required": [
+                "kind"
+            ],
+            "x-ms-discriminator-value": "ForwardProxy"
+        },
+        "ForwardProxyProperties": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxyProperties"
+                }
+            ],
+            "properties": {
+                "downstreamEndpoint": {
+                    "description": "downstreamEndpoint",
+                    "type": "string"
+                }
+            }
+        },
+        "ReverseProxy": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxy"
+                }
+            ],
+            "properties": {
+                "properties": {
+                    "$ref": "#/definitions/ReverseProxyProperties"
+                }
+            },
+            "required": [
+                "kind"
+            ],
+            "x-ms-discriminator-value": "ReverseProxy"
+        },
+        "ReverseProxyProperties": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AbstractProxyProperties"
+                }
+            ],
+            "properties": {
+                "upstreamEndpoint": {
+                    "description": "downstreamEndpoint",
+                    "type": "string"
+                }
+            }
+        },
+        "TrackUpdatePayload": {
+            "description": "Request payload used to update Track.",
+            "type": "object",
+            "properties": {
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Resource tags."
+                },
+                "properties": {
+                    "$ref": "#/definitions/TrackUpdateProperties"
+                }
+            }
+        },
+        "TrackUpdateProperties": {
+            "description": "Track Properties that can be updated",
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {}
+                }
+            }
+        },
+        "TrackResponseList": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Track"
+                    }
+                },
+                "nextLink": {
+                    "type": "string"
+                }
+            },
+            "description": "List of Proxies."
+        },
+        "Track": {
+            "description": "Track Model as ARM resource",
+            "type": "object",
+            "properties": {
+                "etag": {
+                    "type": "string",
+                    "description": "Resource Tag",
+                    "readOnly": true
+                },
+                "properties": {
+                    "$ref": "#/definitions/TrackProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+                }
+            ]
+        },
+        "TrackProperties": {
+            "description": "Defines the Track properties.",
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "provisioningState": {
+                    "description": "Provisioning state of the resource.",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        }
+    }
+}

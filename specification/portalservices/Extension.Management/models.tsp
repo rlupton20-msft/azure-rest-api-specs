@@ -1,5 +1,15 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using OpenAPI;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 
 namespace Microsoft.PortalServices;
 
@@ -223,6 +233,7 @@ model DeploymentConfig {
   /**
    * Defines the deployment stages, regions to deploy to for each stage and sequence to rollout to individual stages.
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   @extension("x-ms-identifiers", [])
   stageDefinition?: Record<Array<string>>;
 }
@@ -290,7 +301,7 @@ model ArmCommonProperties {
   /**
    * Resource tags
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   tags?: Record<string>;
 
   /**
@@ -302,7 +313,7 @@ model ArmCommonProperties {
    * Metadata pertaining to creation and last modification of the resource.
    */
   @visibility("read")
-  systemData?: Azure.ResourceManager.Foundations.SystemData;
+  systemData?: SystemData;
 }
 
 /**
@@ -317,7 +328,7 @@ model PatchablePortalExtension {
   /**
    * Resource tags
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   tags?: Record<string>;
 }
 
@@ -349,7 +360,7 @@ model PortalExtensionAlterAlterationsItem {
   /**
    * The content of the file.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   content?: Record<unknown>;
 
   /**
@@ -370,46 +381,32 @@ model PortalExtensionCompileFile {
   /**
    * The contents of the file.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   contents?: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   stringSource?: Record<unknown>;
 }
 
 /**
  * The result of contents of the file to compile.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "For matching existin APIs on the service model."
 model PortalExtensionCompileFileResult is Record<unknown>;
 
 /**
  * The export extension request
  */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
 model PortalExtensionExport {
   /**
    * The kind of the source package.
    */
   kind?: ExportKind;
-}
-
-/**
- * The result of the export extension request
- */
-model PortalExtensionExportResult {
-  /**
-   * The kind of the source package.
-   */
-  kind?: ExportKind;
-
-  /**
-   * The uri of the source package.
-   */
-  uri?: string;
 }
 
 /**
@@ -424,26 +421,30 @@ model PortalExtensionListSourcesFolder {
   /**
    * The list of child folders
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   folders?: Record<PortalExtensionListSourcesFolder>;
 
   /**
    * The list of child files
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   files?: Record<PortalExtensionListSourcesFile>;
 }
 
 /**
  * The content metadata of a file
  */
-#suppress "@azure-tools/typespec-azure-core/no-string-discriminator" "Existing"
 @discriminator("kind")
 model PortalExtensionListSourcesFile {
   /**
    * The last time stamp the file was modified.
    */
   lastModifiedAt: string;
+
+  /**
+   * The kind of source file.
+   */
+  kind: SourceFileKind;
 }
 
 /**
@@ -510,7 +511,7 @@ model PatchableExtensionVersion {
   /**
    * Resource tags
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   tags?: Record<string>;
 }
 
@@ -578,7 +579,7 @@ model PatchableExtensionDeployment {
   /**
    * Resource tags
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   tags?: Record<string>;
 }
 
@@ -631,7 +632,7 @@ model PatchableExtensionSlot {
   /**
    * Resource tags
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   tags?: Record<string>;
 }
 
@@ -643,16 +644,19 @@ model PortalTenantCompileFileProperties {
   /**
    * The contents of the file.
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   contents: Record<unknown>;
 
   /**
    * The contents of the string source.
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   stringSource?: Record<unknown>;
 
   /**
    * The contents of referenced files. The property name is the relative file path and the value is its contents.
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
   files?: Record<unknown>;
 
   /**
@@ -665,12 +669,12 @@ model PortalTenantCompileFileProperties {
 /**
  * The contents of the file to compile.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "existing API"
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "For matching existin APIs on the service model."
 model PortalTenantCompileFileResult is Record<unknown>;
 
 /**
- * The extension list source SVG.
+ * The extenson list source SVG.
  */
 model PortalExtensionListSourcesSvgFile extends PortalExtensionListSourcesFile {
   /**
@@ -730,4 +734,20 @@ model PortalExtensionListSourcesOtherFile
    * The content kind
    */
   kind: "Other";
+}
+
+union SourceFileKind {
+  string,
+
+  @doc("The file is a SVG image.")
+  Svg: "Svg",
+
+  @doc("The file is an asset type.")
+  AssetType: "AssetType",
+
+  @doc("The file is a view.")
+  View: "View",
+
+  @doc("The file is of other kind.")
+  Other: "Other",
 }

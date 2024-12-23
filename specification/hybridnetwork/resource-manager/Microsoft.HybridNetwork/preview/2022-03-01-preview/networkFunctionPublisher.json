@@ -1,0 +1,497 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "HybridNetworkManagementClient",
+    "description": "The resources in this swagger specification will be used to manage the network function publisher in a Hybrid Network resource provider.",
+    "version": "2022-03-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "NetworkFunctionPublishers_ListBySubscription",
+        "description": "Lists all the available network function definition publishers.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of available publishers.",
+            "schema": {
+              "$ref": "#/definitions/NetworkFunctionPublisherOverviewList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List publishers under a subscription": {
+            "$ref": "./examples/NetworkFunctionPublisherListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers/{publisherName}": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "networkFunctionPublishers_Get",
+        "description": "Get a publisher details information.",
+        "parameters": [
+          {
+            "name": "publisherName",
+            "description": "The name of the network function publisher.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a publisher details.",
+            "schema": {
+              "$ref": "#/definitions/PublisherDetails"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a publisher details": {
+            "$ref": "./examples/NetworkFunctionPublisherDetailsGet.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers/{publisherName}/networkFunctionDefinitionGroups": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "NetworkFunctionDefinitionGroups_ListByPublisher",
+        "description": "Lists all available network function definition group under a publisher.",
+        "parameters": [
+          {
+            "name": "publisherName",
+            "description": "The name of the network function publisher.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of network function publisher networkFunctionDefinitions.",
+            "schema": {
+              "$ref": "#/definitions/NetworkFunctionDefinitionGroupOverviewList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List network function definition groups under a publisher": {
+            "$ref": "./examples/NetworkFunctionDefinitionGroupListByPublisher.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers/{publisherName}/publisherNetworkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "NetworkFunctionDefinitionGroups_Get",
+        "description": "Lists information about network function definition details.",
+        "parameters": [
+          {
+            "name": "publisherName",
+            "description": "The name of the network function publisher.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "networkFunctionDefinitionGroupName",
+            "description": "The name of the network function definition group.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns the resulting network function publisher network function definition group details.",
+            "schema": {
+              "$ref": "#/definitions/NetworkFunctionDefinitionGroupDetails"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get network function definition group details": {
+            "$ref": "./examples/NetworkFunctionDefinitionGroupDetailsGet.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers/{publisherName}/publisherNetworkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/publisherNetworkFunctionDefinitionVersions": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "NetworkFunctionDefinitionVersions_ListByNetworkFunctionDefinitionGroup",
+        "description": "Lists available network function versions under a network function definition group.",
+        "parameters": [
+          {
+            "name": "publisherName",
+            "description": "The name of the network function publisher.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "networkFunctionDefinitionGroupName",
+            "description": "The name of the network function definition group.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns the resulting available network function publisher network function definition versions of a network function definition group.",
+            "schema": {
+              "$ref": "#/definitions/NetworkFunctionDefinitionVersionOverviewList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Lists available network function versions under a network function definition group": {
+            "$ref": "./examples/NetworkFunctionDefinitionVersionsList.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctionPublishers/{publisherName}/publisherNetworkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/publisherNetworkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}": {
+      "get": {
+        "tags": [
+          "networkFunctionPublishers"
+        ],
+        "operationId": "NetworkFunctionDefinitionVersions_Get",
+        "description": "Lists information about network function definition version details.",
+        "parameters": [
+          {
+            "name": "publisherName",
+            "description": "The name of the network function publisher.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "networkFunctionDefinitionGroupName",
+            "description": "The name of the network function network function definition.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "networkFunctionDefinitionVersionName",
+            "description": "The name of the network function network function definition.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns the resulting network function publisher network function definition version details.",
+            "schema": {
+              "$ref": "#/definitions/NetworkFunctionDefinitionVersionDetails"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get network function definition version details": {
+            "$ref": "./examples/NetworkFunctionDefinitionVersionDetailsGet.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NetworkFunctionPublisherOverviewList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PublisherOverview"
+          },
+          "x-ms-identifiers": [
+            "publisherName"
+          ],
+          "description": "A list of available publishers."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "The publisher list result."
+    },
+    "PublisherOverview": {
+      "type": "object",
+      "properties": {
+        "publisherName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The publisher name."
+        }
+      },
+      "description": "The publisher overview."
+    },
+    "PublisherDetails": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "description": "The publisher scope.",
+          "readOnly": true,
+          "$ref": "./common.json#/definitions/ProvisioningState"
+        }
+      },
+      "description": "The publisher details."
+    },
+    "NetworkFunctionDefinitionGroupOverviewList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkFunctionDefinitionGroupOverview"
+          },
+          "x-ms-identifiers": [
+            "networkFunctionDefinitionGroupName"
+          ],
+          "description": "The network function group list properties."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "A list of available network function definition groups."
+    },
+    "NetworkFunctionDefinitionGroupOverview": {
+      "description": "Network function definition group overview.",
+      "type": "object",
+      "properties": {
+        "networkFunctionDefinitionGroupName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The network function definition group name."
+        }
+      }
+    },
+    "NetworkFunctionDefinitionGroupDetails": {
+      "description": "Network function definition group details.",
+      "type": "object",
+      "properties": {}
+    },
+    "NetworkFunctionDefinitionVersionOverviewList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkFunctionDefinitionVersionOverview"
+          },
+          "x-ms-identifiers": [
+            "networkFunctionDefinitionVersionName"
+          ],
+          "description": "The network function definition overview properties."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "A list of available network function definition groups."
+    },
+    "NetworkFunctionDefinitionVersionOverview": {
+      "description": "The network function definition overview.",
+      "type": "object",
+      "properties": {
+        "networkFunctionDefinitionVersionName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The network function definition version name."
+        }
+      }
+    },
+    "NetworkFunctionDefinitionVersionDetails": {
+      "type": "object",
+      "properties": {
+        "networkFunctionType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The network function type."
+        },
+        "nfviType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The nfvi type."
+        },
+        "deployParameters": {
+          "type": "object",
+          "readOnly": true,
+          "description": "The deployment parameters."
+        },
+        "networkFunctionApplications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkFunctionDefinitionApplicationDetails"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ],
+          "description": "The network function definition application details."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "The network function network function definition details."
+    },
+    "NetworkFunctionDefinitionApplicationDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The name of the application."
+        },
+        "artifactType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The artifact type of the application."
+        },
+        "deployParametersMappingRuleProfile": {
+          "type": "object",
+          "readOnly": true,
+          "description": "The deployment parameters mapping rule profile."
+        }
+      },
+      "description": "The network function definition application details."
+    }
+  }
+}

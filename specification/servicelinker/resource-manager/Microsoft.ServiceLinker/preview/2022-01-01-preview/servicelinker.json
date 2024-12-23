@@ -116,12 +116,6 @@
         "x-ms-examples": {
           "PutLink": {
             "$ref": "./examples/PutLink.json"
-          },
-          "PutLinkWithServiceEndpoint": {
-            "$ref": "./examples/PutLinkWithServiceEndpoint.json"
-          },
-          "PutLinkWithSecretStore": {
-            "$ref": "./examples/PutLinkWithSecretStore.json"
           }
         },
         "parameters": [
@@ -280,6 +274,9 @@
         "x-ms-examples": {
           "ValidateLinkSuccess": {
             "$ref": "./examples/ValidateLinkSuccess.json"
+          },
+          "ValidateLinkFailure": {
+            "$ref": "./examples/ValidateLinkFailure.json"
           }
         },
         "parameters": [
@@ -356,13 +353,13 @@
         "tags": [
           "Operations"
         ],
-        "operationId": "Operations_List",
-        "description": "Lists the available ServiceLinker REST API operations.",
         "x-ms-examples": {
-          "GetConfiguration": {
-            "$ref": "./examples/OperationsList.json"
+          "GetOperations": {
+            "$ref": "./examples/GetOperations.json"
           }
         },
+        "operationId": "Operations_List",
+        "description": "Lists the available ServiceLinker REST API operations.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
@@ -441,7 +438,7 @@
         "type"
       ]
     },
-    "AzureResource": {
+    "AzureResourceInfo": {
       "x-ms-discriminator-value": "AzureResource",
       "type": "object",
       "description": "The azure resource info when target service type is AzureResource",
@@ -524,86 +521,6 @@
         "modelAsString": true
       }
     },
-    "SecretType": {
-      "description": "The secret type.",
-      "type": "string",
-      "enum": [
-        "rawValue",
-        "keyVaultSecretUri",
-        "keyVaultSecretReference"
-      ],
-      "x-ms-enum": {
-        "name": "SecretType",
-        "modelAsString": true
-      }
-    },
-    "SecretInfoBase": {
-      "description": "The secret info",
-      "discriminator": "secretType",
-      "type": "object",
-      "properties": {
-        "secretType": {
-          "description": "The secret type.",
-          "$ref": "#/definitions/SecretType"
-        }
-      },
-      "required": [
-        "secretType"
-      ]
-    },
-    "ValueSecretInfo": {
-      "x-ms-discriminator-value": "rawValue",
-      "type": "object",
-      "description": "The secret info when type is rawValue. It's for scenarios that user input the secret.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/SecretInfoBase"
-        }
-      ],
-      "properties": {
-        "value": {
-          "description": "The actual value of the secret.",
-          "type": "string",
-          "x-ms-secret": true
-        }
-      }
-    },
-    "KeyVaultSecretReferenceSecretInfo": {
-      "x-ms-discriminator-value": "keyVaultSecretReference",
-      "type": "object",
-      "description": "The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/SecretInfoBase"
-        }
-      ],
-      "properties": {
-        "name": {
-          "description": "Name of the Key Vault secret.",
-          "type": "string"
-        },
-        "version": {
-          "description": "Version of the Key Vault secret.",
-          "type": "string"
-        }
-      }
-    },
-    "KeyVaultSecretUriSecretInfo": {
-      "x-ms-discriminator-value": "keyVaultSecretUri",
-      "type": "object",
-      "description": "The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/SecretInfoBase"
-        }
-      ],
-      "properties": {
-        "value": {
-          "description": "URI to the keyvault secret",
-          "type": "string"
-        }
-      }
-    },
     "AuthInfoBase": {
       "description": "The authentication info",
       "discriminator": "authType",
@@ -632,9 +549,10 @@
           "description": "Username or account name for secret auth.",
           "type": "string"
         },
-        "secretInfo": {
-          "description": "Password or key vault secret for secret auth.",
-          "$ref": "#/definitions/SecretInfoBase"
+        "secret": {
+          "description": "Password or account key for secret auth.",
+          "type": "string",
+          "x-ms-secret": true
         }
       }
     },
@@ -656,7 +574,11 @@
           "description": "Subscription id for userAssignedIdentity.",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "clientId",
+        "subscriptionId"
+      ]
     },
     "SystemAssignedIdentityAuthInfo": {
       "x-ms-discriminator-value": "systemAssignedIdentity",
@@ -814,22 +736,14 @@
             "modelAsString": true
           }
         },
+        "scope": {
+          "type": "string",
+          "description": "connection scope in source service."
+        },
         "provisioningState": {
           "readOnly": true,
           "type": "string",
           "description": "The provisioning state. "
-        },
-        "vNetSolution": {
-          "description": "The VNet solution.",
-          "$ref": "#/definitions/VNetSolution"
-        },
-        "secretStore": {
-          "description": "An option to store secret value in secure place",
-          "$ref": "#/definitions/SecretStore"
-        },
-        "scope": {
-          "type": "string",
-          "description": "connection scope in source service."
         }
       }
     },
@@ -856,10 +770,7 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SourceConfiguration"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
+          }
         }
       }
     },
@@ -867,13 +778,25 @@
       "description": "The validation result for a linker.",
       "type": "object",
       "properties": {
-        "linkerName": {
+        "name": {
           "description": "The linker name.",
           "type": "string"
         },
-        "isConnectionAvailable": {
-          "description": "A boolean value indicating whether the connection is available or not",
-          "type": "boolean"
+        "linkerStatus": {
+          "description": "Specifies if the linker is healthy.",
+          "type": "string",
+          "enum": [
+            "Healthy",
+            "Not healthy"
+          ],
+          "x-ms-enum": {
+            "name": "linkerStatus",
+            "modelAsString": true
+          }
+        },
+        "reason": {
+          "description": "The reason of the error.",
+          "type": "string"
         },
         "reportStartTimeUtc": {
           "type": "string",
@@ -885,10 +808,6 @@
           "format": "date-time",
           "description": "The end time of the validation report."
         },
-        "sourceId": {
-          "description": "The resource id of the linker source application.",
-          "type": "string"
-        },
         "targetId": {
           "description": "The resource Id of target service.",
           "type": "string"
@@ -896,79 +815,6 @@
         "authType": {
           "description": "The authentication type.",
           "$ref": "#/definitions/AuthType"
-        },
-        "validationDetail": {
-          "description": "The detail of validation result",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ValidationResultItem"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
-        }
-      }
-    },
-    "ValidationResultItem": {
-      "description": "The validation item for a linker.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "The validation item name.",
-          "type": "string"
-        },
-        "description": {
-          "description": "The display name of validation item",
-          "type": "string"
-        },
-        "result": {
-          "description": "The result of validation",
-          "type": "string",
-          "enum": [
-            "success",
-            "failed",
-            "warning"
-          ],
-          "x-ms-enum": {
-            "name": "validationItemResult",
-            "modelAsString": true
-          }
-        },
-        "errorMessage": {
-          "description": "The error message of validation result",
-          "type": "string"
-        },
-        "errorCode": {
-          "description": "The error code of validation result",
-          "type": "string"
-        }
-      }
-    },
-    "VNetSolution": {
-      "type": "object",
-      "description": "The VNet solution for linker",
-      "properties": {
-        "type": {
-          "description": "Type of VNet solution.",
-          "type": "string",
-          "enum": [
-            "serviceEndpoint",
-            "privateLink"
-          ],
-          "x-ms-enum": {
-            "name": "vNetSolutionType",
-            "modelAsString": true
-          }
-        }
-      }
-    },
-    "SecretStore": {
-      "type": "object",
-      "description": "An option to store secret value in secure place",
-      "properties": {
-        "keyVaultId": {
-          "type": "string",
-          "description": "The key vault id to store secret"
         }
       }
     }

@@ -7,7 +7,7 @@ using Azure.ResourceManager;
 
 namespace Microsoft.KubernetesRuntime;
 
-@doc("A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)")
+@doc("A BgpPeer resource")
 model BgpPeer is ExtensionResource<BgpPeerProperties> {
   @doc("The name of the BgpPeer")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -36,19 +36,7 @@ model BgpPeerProperties {
 @armResourceOperations(BgpPeer)
 interface BgpPeers {
   get is ArmResourceRead<BgpPeer>;
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @Azure.Core.useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<
-    BgpPeer,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
-  >;
-  @sharedRoute
-  @added(Versions.v2024_03_01)
-  delete is ArmResourceDeleteSync<BgpPeer>;
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "The intended way to change the delete operation from async to sync. Ref: https://github.com/Azure/typespec-azure/issues/312"
-  @sharedRoute
-  @renamedFrom(Versions.v2024_03_01, "delete")
-  @removed(Versions.v2024_03_01)
-  oldDelete is ArmResourceDeleteWithoutOkAsync<BgpPeer>;
-  list is ArmResourceListByParent<BgpPeer>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<BgpPeer>;
+  delete is ArmResourceDeleteWithoutOkAsync<BgpPeer>;
+  listByParent is ArmResourceListByParent<BgpPeer>;
 }

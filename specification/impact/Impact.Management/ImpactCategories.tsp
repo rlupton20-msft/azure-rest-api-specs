@@ -11,7 +11,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
-namespace Microsoft.Impact;
+namespace Private.Impact;
 
 @doc("ImpactCategory resource")
 @subscriptionResource

@@ -1,0 +1,429 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Consumption Billing Interfaces",
+    "description": "Consumption Billing provider to enable PAGY for resource usage",
+    "version": "2022-01-03-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/microsoft.consumptionbilling/privacy": {
+      "get": {
+        "description": "Returns list of billing models for privacy.",
+        "operationId": "ConsumptionBilling_PrivacyBySubscription",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Billing model details.",
+            "schema": {
+              "$ref": "#/definitions/BillingModelList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.consumptionbilling/privacy": {
+      "get": {
+        "description": "Returns list of billing models for privacy.",
+        "operationId": "ConsumptionBilling_Privacy",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Billing model details.",
+            "schema": {
+              "$ref": "#/definitions/BillingModelList"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.consumptionbilling/privacy/{billingModel}": {
+      "get": {
+        "description": "Returns Billing model enabled for the resource.",
+        "operationId": "BillingModel_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/BillingModelParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Billing model enabled or not.",
+            "schema": {
+              "$ref": "#/definitions/BooleanResource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes Billing model enabled for the resource.",
+        "operationId": "BillingModel_Delete",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/BillingModelParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletes the Billing model enabled."
+          }
+        }
+      },
+      "put": {
+        "description": "Create or update billing model resource.",
+        "operationId": "BillingModel_CreateAndUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/BillingModelParameter"
+          },
+          {
+            "name": "BillingDetailsResource",
+            "description": "Billing details.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BillingDetailsResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful."
+          },
+          "201": {
+            "description": "Long running operation."
+          }
+        }
+      }
+    },
+    "/providers/microsoft.consumptionbilling/operations": {
+      "get": {
+        "description": "Returns list of operations.",
+        "operationId": "Operation_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation details.",
+            "schema": {
+              "$ref": "#/definitions/operationsList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "Azure resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Azure resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Azure resource type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tags": {
+          "description": "resource tags.",
+          "type": "object",
+          "readOnly": false,
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "BillingDetailsResource": {
+      "type": "object",
+      "description": "Billing Resource details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "tenantId",
+            "enabled"
+          ],
+          "properties": {
+            "tenantId": {
+              "type": "string",
+              "description": "Tenant Id of the billing model enabler.",
+              "minLength": 1,
+              "maxLength": 45,
+              "pattern": "^[A-Za-z0-9-._]+$"
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "particular billing model enabled or not."
+            }
+          }
+        }
+      }
+    },
+    "BillingModelResource": {
+      "type": "object",
+      "description": "Resource details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "billingModel",
+            "enabled"
+            ],
+          "properties": {
+			"billingModel": {
+			  "type": "string",
+			  "description": "Billing model name.",
+			  "minLength": 1,
+			  "maxLength": 10,
+			  "pattern": "^[A-Za-z0-9-._]+$"
+			},
+			"enabled": {
+			  "type": "boolean",
+			  "description": "Boolean value."
+			}
+		  }
+		}
+	  }
+    },
+    "BooleanResource": {
+      "type": "object",
+      "description": "Boolean resource",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "enabled"
+            ],
+          "properties": {
+			"enabled": {
+			  "type": "boolean",
+			  "description": "Boolean value."
+			}
+		  }
+		}
+	  }
+    },
+    "BillingModelList": {
+      "description": "The billing models.",
+      "type": "object",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [
+            "models"
+            ],
+      "properties": {
+        "models": {
+          "description": "The list of Billing models.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BillingModelResource"
+			 }
+			}
+		  }
+		}
+	  }
+    },
+    "operation": {
+      "description": "Operation provided by provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operation"
+        },
+        "display": {
+          "type": "object",
+          "description": "Properties of the operation",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "Provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "Operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the operation"
+            }
+          }
+        }
+      }
+    },
+    "operationsList": {
+      "description": "Lists the operations available.",
+      "properties": {
+        "nextLink": {
+          "description": "Url to follow for getting next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Array of operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "BillingModelParameter": {
+      "name": "billingModel",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Billing model of the resource.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

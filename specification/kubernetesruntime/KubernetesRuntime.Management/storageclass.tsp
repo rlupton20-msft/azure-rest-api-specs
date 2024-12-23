@@ -8,104 +8,90 @@ using Azure.ResourceManager;
 namespace Microsoft.KubernetesRuntime;
 
 @doc("Performance tier of a storage class")
-union PerformanceTier {
-  string,
-
+enum PerformanceTier {
   @doc("Undefined Performance Tier")
-  Undefined: "Undefined",
+  Undefined,
 
   @doc("Basic Performance Tier")
-  Basic: "Basic",
+  Basic,
 
   @doc("Standard Performance Tier")
-  Standard: "Standard",
+  Standard,
 
   @doc("Premium Performance Tier")
-  Premium: "Premium",
+  Premium,
 
   @doc("Ultra Performance Tier")
-  Ultra: "Ultra",
+  Ultra,
 }
 
 @doc("Failover tier of a storage class")
-union FailoverTier {
-  string,
-
+enum FailoverTier {
   @doc("Not available Failover Tier")
-  NotAvailable: "NotAvailable",
+  NotAvailable,
 
   @doc("Slow Failover Tier")
-  Slow: "Slow",
+  Slow,
 
   @doc("Fast Failover Tier")
-  Fast: "Fast",
+  Fast,
 
   @doc("Super Failover Tier")
-  Super: "Super",
+  Super,
 }
 
 @doc("Type of a storage class")
-union SCType {
-  string,
-
+enum SCType {
   @doc("Native storage class")
-  Native: "Native",
+  Native,
 
   @doc("RWX storage class")
-  RWX: "RWX",
+  RWX,
 
   @doc("Blob storage class")
-  Blob: "Blob",
+  Blob,
 
   @doc("NFS storage class")
-  NFS: "NFS",
+  NFS,
 
   @doc("SMB storage class")
-  SMB: "SMB",
+  SMB,
 }
 
 @doc("Data resilience tier of a storage class")
-union DataResilienceTier {
-  string,
-
+enum DataResilienceTier {
   @doc("Not data resilient")
-  NotDataResilient: "NotDataResilient",
+  NotDataResilient,
 
   @doc("Data resilient")
-  DataResilient: "DataResilient",
+  DataResilient,
 }
 
 @doc("Ability to expand volumes of a storage class")
-union VolumeExpansion {
-  string,
-
+enum VolumeExpansion {
   @doc("Allow volume expansion")
-  Allow: "Allow",
+  Allow,
 
   @doc("Disallow volume expansion")
-  Disallow: "Disallow",
+  Disallow,
 }
 
 @doc("Storage Class Access Mode")
-union AccessMode {
-  string,
-
+enum AccessMode {
   @doc("Read Write Once (RWO) access mode")
-  ReadWriteOnce: "ReadWriteOnce",
+  ReadWriteOnce,
 
   @doc("Read Write Many (RWX) access mode")
-  ReadWriteMany: "ReadWriteMany",
+  ReadWriteMany,
 }
 
 @doc("Storage class volume binding mode")
-union VolumeBindingMode {
-  string,
-
+enum VolumeBindingMode {
   @doc("Immediate binding mode")
-  Immediate: "Immediate",
+  Immediate,
 
   @doc("Wait for first consumer binding mode")
-  WaitForFirstConsumer: "WaitForFirstConsumer",
+  WaitForFirstConsumer,
 }
 
 @doc("Details of the StorageClass StorageClass.")
@@ -188,14 +174,12 @@ model BlobStorageClassTypeProperties extends StorageClassTypeProperties {
 }
 
 @doc("The action to take when a NFS volume is deleted")
-union NfsDirectoryActionOnVolumeDeletion {
-  string,
-
+enum NfsDirectoryActionOnVolumeDeletion {
   @doc("When the volume is deleted, delete the directory")
-  Delete: "Delete",
+  Delete,
 
   @doc("When the volume is deleted, retain the directory")
-  Retain: "Retain",
+  Retain,
 }
 
 @doc("The properties of NFS StorageClass")
@@ -269,7 +253,7 @@ model StorageClassResourceUpdate {
   properties?: StorageClassPropertiesUpdate;
 }
 
-@doc("A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters)")
+@doc("A StorageClass resource")
 model StorageClassResource is ExtensionResource<StorageClassProperties> {
   @doc("The name of the the storage class")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -282,16 +266,11 @@ model StorageClassResource is ExtensionResource<StorageClassProperties> {
 @armResourceOperations(StorageClassResource)
 interface StorageClass {
   get is ArmResourceRead<StorageClassResource>;
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @Azure.Core.useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<
-    StorageClassResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<StorageClassResource>;
   update is ArmCustomPatchAsync<
     StorageClassResource,
     StorageClassResourceUpdate
   >;
   delete is ArmResourceDeleteWithoutOkAsync<StorageClassResource>;
-  list is ArmResourceListByParent<StorageClassResource>;
+  listByParent is ArmResourceListByParent<StorageClassResource>;
 }

@@ -1,0 +1,424 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Crossplane",
+      "description": "The Microsoft.Crossplane Rest API spec.",
+      "version": "2021-06-01-preview",
+      "x-ms-code-generation-settings": {
+        "name": "CrossplaneClient"
+      }
+    },
+    "host": "management.azure.com",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Crossplane/buckets/{bucketsName}": {
+        "get": {
+          "operationId": "buckets_Retrieve",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/bucketsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Retrieves the buckets resource.",
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            }
+          }
+        },
+        "put": {
+          "operationId": "buckets_CreateOrUpdate",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/bucketsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "buckets",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Updates the buckets resource.",
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            },
+            "201": {
+              "description": "Creates the buckets resource.",
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            }
+          }
+        },
+        "delete": {
+          "operationId": "buckets_Delete",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/bucketsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Deletes the buckets resource."
+            }
+          }
+        },
+        "patch": {
+          "operationId": "buckets_Update",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/bucketsNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "name": "buckets",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/bucketsPatch"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Updates the buckets resource.",
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            },
+            "201": {
+              "description": "Updates the buckets resource.",
+              "schema": {
+                "$ref": "#/definitions/buckets"
+              }
+            }
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Crossplane/buckets": {
+        "get": {
+          "operationId": "buckets_ListByResourceGroup",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lists all buckets under the resouce group.",
+              "schema": {
+                "$ref": "#/definitions/bucketsListResult"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Crossplane/buckets": {
+        "get": {
+          "operationId": "buckets_ListBySubscription",
+          "parameters": [
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lists all buckets under the subscription.",
+              "schema": {
+                "$ref": "#/definitions/bucketsListResult"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      },
+      "/providers/Microsoft.Crossplane/operations": {
+        "get": {
+          "operationId": "Operations_List",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Describe the result of a successful operation.",
+              "schema": {
+                "$ref": "#/definitions/ResourceProviderOperationList"
+              }
+            }
+          },
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "bucketsProperties": {
+        "type": "object",
+        "properties": {
+          "compositionSelector": {
+            "type": "object",
+            "properties": {
+              "matchLabels": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "matchLabels"
+            ]
+          },
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "bucketName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "bucketName"
+            ]
+          },
+          "provisioningState": {
+            "type": "string"
+          },
+          "status": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "required": [
+            "parameters"
+        ]
+      },
+      "buckets": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "$ref": "#/definitions/bucketsProperties"
+          },
+          "id": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Id"
+          },
+          "name": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Name"
+          },
+          "type": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource Type"
+          },
+          "location": {
+            "type": "string",
+            "description": "The resource location"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Resource tags"
+          },
+          "extendedLocation": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The extended location type."
+              },
+              "name": {
+                "type": "string",
+                "description": "The extended location name."
+              }
+            }
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "description": "The buckets resource definition."
+      },
+      "bucketsPatch": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Resource tags"
+          }
+        },
+        "description": "The buckets resource patch definition."
+      },
+      "bucketsListResult": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/buckets"
+            }
+          },
+          "nextLink": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceProviderOperationList": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ResourceProviderOperation"
+            }
+          },
+          "nextLink": {
+            "type": "string"
+          }
+        },
+        "description": "Results of the request to list operations."
+      },
+      "ResourceProviderOperation": {
+        "type": "object",
+        "properties": {
+          "isDataAction": {
+            "type": "string",
+            "description": "Indicates whether the operation applies to data-plane."
+          },
+          "name": {
+            "type": "string",
+            "description": "Operation name, in format of {provider}/{resource}/{operation}"
+          },
+          "display": {
+            "type": "object",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "description": "The resource provider."
+              },
+              "resource": {
+                "type": "string",
+                "description": "Resource on which the operation is performed."
+              },
+              "operation": {
+                "type": "string",
+                "description": "Type of operation: get, read, delete, etc."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of this operation."
+              }
+            },
+            "description": "Display metadata associated with the operation."
+          }
+        },
+        "description": "Results of the request to list operations."
+      }
+    },
+    "parameters": {
+      "bucketsNameParameter": {
+        "name": "bucketsName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "maxLength": 64,
+        "minLength": 3
+      },
+      "SubscriptionIdParameter": {
+        "name": "subscriptionId",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)"
+      },
+      "ResourceGroupNameParameter": {
+        "name": "resourceGroupName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The name of the resource group."
+      },
+      "ApiVersionParameter": {
+        "name": "api-version",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "The API version to be used with the HTTP request (e.g. YYYY-MM-DD)."
+      }
+    }
+  }

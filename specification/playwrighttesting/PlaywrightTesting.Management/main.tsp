@@ -20,10 +20,10 @@ namespace Microsoft.AzurePlaywrightService;
 
 @doc("Microsoft.AzurePlaywrightService Management API Versions.")
 enum Versions {
-  /** 2024-08-01-preview version */
+  /** 2024-12-01 version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  `2024-08-01-preview`,
+  `2024-12-01`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -64,14 +64,12 @@ model AccountProperties {
 }
 
 @doc("The enablement status of a feature.")
-union EnablementStatus {
-  string,
-
+enum EnablementStatus {
   @doc("The feature is Enabled.")
-  Enabled: "Enabled",
+  Enabled,
 
   @doc("The feature is Disabled.")
-  Disabled: "Disabled",
+  Disabled,
 }
 
 @doc("The status of the current operation.")
@@ -95,22 +93,6 @@ interface Accounts
   extends TrackedResourceOperations<Account, AccountProperties> {
   @doc("Adds check global name availability operation, normally used if a resource name must be globally unique.")
   checkNameAvailability is checkGlobalNameAvailability;
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST REMOVE AT NEXT API VERSION UPDATE"
-  @Azure.Core.useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<
-    Account,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
-  >;
-
-  delete is ArmResourceDeleteWithoutOkAsync<Account>;
-
-  update is ArmCustomPatchSync<
-    Account,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      Account,
-      OmitDefaults<AccountProperties>
-    >
-  >;
 }
 
 @doc("The location of subscription quota resource.")
@@ -127,7 +109,6 @@ model Location {
 @doc("A subscription quota resource.")
 @parentResource(Location)
 model Quota is ProxyResource<QuotaProperties> {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-pattern" "existing api"
   @doc("The quota name.")
   @key("quotaName")
   @path
@@ -137,13 +118,13 @@ model Quota is ProxyResource<QuotaProperties> {
 
 @doc("The enum for quota name.")
 union QuotaNames {
-  string,
-
   @doc("The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations.")
-  "ScalableExecution",
+  ScalableExecution: "ScalableExecution",
 
   @doc("The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.")
   Reporting: "Reporting",
+
+  string,
 }
 
 @doc("The subscription quota resource properties.")
@@ -174,7 +155,6 @@ model FreeTrialProperties {
 @doc("A quota resource for a Playwright service account.")
 @parentResource(Account)
 model AccountQuota is ProxyResource<AccountQuotaProperties> {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-pattern" "existing api"
   @doc("The Playwright service account quota name.")
   @key("quotaName")
   @path
@@ -218,37 +198,33 @@ model AccountFreeTrialProperties {
 }
 
 @doc("The free-trial state.")
-union FreeTrialState {
-  string,
-
+enum FreeTrialState {
   @doc("The free-trial is Active.")
-  "Active",
+  Active,
 
   @doc("The free-trial is Expired.")
-  "Expired",
+  Expired,
 
   @doc("The free-trial is Not Eligible.")
-  "NotEligible",
+  NotEligible,
 
   @doc("The free-trial is Not Registered.")
-  "NotRegistered",
+  NotRegistered,
 }
 
 @doc("Offering type state.")
-union OfferingType {
-  string,
-
+enum OfferingType {
   @doc("The offeringType is NotApplicable.")
-  "NotApplicable",
+  NotApplicable,
 
   @doc("The offeringType is PrivatePreview.")
-  "PrivatePreview",
+  PrivatePreview,
 
   @doc("The offeringType is PublicPreview.")
-  "PublicPreview",
+  PublicPreview,
 
   @doc("The offeringType is GeneralAvailability.")
-  "GeneralAvailability",
+  GeneralAvailability,
 }
 
 @armResourceOperations

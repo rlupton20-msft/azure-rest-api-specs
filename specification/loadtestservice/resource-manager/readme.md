@@ -27,35 +27,81 @@ These are the global settings for the loadtestservice.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2022-12-01
+tag: package-preview-2023-12
 ```
 
-### Tag: package-2023-12-01-preview
+## Suppression
 
-These settings apply only when `--tag=package-2023-12-01` is specified on the command line.
+```yaml
+directive:
+  - suppress: NoDuplicatePathsForScopeParameter
+    from: loadtestservice.json
+    reason: They are two different APIs.( loadtestMappings and loadTestMappings/loadtestMappingName)
+```
 
-```yaml $(tag) == 'package-2023-12-01-preview'
+
+### Tag: package-preview-2023-12
+
+These settings apply only when `--tag=package-preview-2023-12` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2023-12'
 input-file:
   - Microsoft.LoadTestService/preview/2023-12-01-preview/loadtestservice.json
 ```
-
 ### Tag: package-2022-12-01
 
 These settings apply only when `--tag=package-2022-12-01` is specified on the command line.
 
-```yaml $(tag) == 'package-2022-12-01'
+``` yaml $(tag) == 'package-2022-12-01'
 input-file:
   - Microsoft.LoadTestService/stable/2022-12-01/loadtestservice.json
+```
+
+### Tag: package-2022-09-01-preview
+
+These settings apply only when `--tag=package-2022-09-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-09-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2022-09-01-preview/loadtestservice.json
+```
+
+### Tag: package-2022-08-01-preview
+
+These settings apply only when `--tag=package-2022-08-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-08-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2022-08-01-preview/loadtestservice.json
 ```
 
 ### Tag: package-2022-04-15-preview
 
 These settings apply only when `--tag=package-2022-04-15-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2022-04-15-preview'
+``` yaml $(tag) == 'package-2022-04-15-preview'
 input-file:
   - Microsoft.LoadTestService/preview/2022-04-15-preview/loadtestservice.json
 ```
+
+### Tag: package-2022-04-01-preview
+
+These settings apply only when `--tag=package-2022-04-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-04-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2022-04-01-preview/loadtestservice.json
+```
+
+### Tag: package-2022-03-01-preview
+
+These settings apply only when `--tag=package-2022-03-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2022-03-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2022-03-01-preview/loadtestservice.json
+```
+
 ### Tag: package-2021-12-01-preview
 
 These settings apply only when `--tag=package-2021-12-01-preview` is specified on the command line.
@@ -64,6 +110,35 @@ These settings apply only when `--tag=package-2021-12-01-preview` is specified o
 input-file:
   - Microsoft.LoadTestService/preview/2021-12-01-preview/loadtestservice.json
 ```
+
+### Tag: package-2021-11-01-preview
+
+These settings apply only when `--tag=package-2021-11-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2021-11-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2021-11-01-preview/loadtestservice.json
+```
+
+### Tag: package-2021-09-01-preview
+
+These settings apply only when `--tag=package-2021-09-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2021-09-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2021-09-01-preview/loadtestservice.json
+```
+
+### Tag: package-2020-09-01-preview
+
+These settings apply only when `--tag=package-2020-09-01-preview` is specified on the command line.
+
+``` yaml $(tag) == 'package-2020-09-01-preview'
+input-file:
+  - Microsoft.LoadTestService/preview/2020-09-01-preview/loadtestservice.json
+```
+
+---
 
 # Code Generation
 
@@ -76,12 +151,11 @@ This is not used by Autorest itself.
 swagger-to-sdk:
   - repo: azure-sdk-for-python
   - repo: azure-sdk-for-java
-  - repo: azure-sdk-for-go
+  - repo: azure-sdk-for-go-track2
   - repo: azure-sdk-for-js
   - repo: azure-sdk-for-ruby
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_loadtesting']
-  - repo: azure-powershell
 ```
 
 ## Go
@@ -103,7 +177,3 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
-
-## Java
-
-See configuration in [readme.java.md](./readme.java.md)

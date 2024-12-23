@@ -1,9 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "VerifiedIdMgmtClient",
+    "title": "Microsoft.VerifiedId",
     "version": "2024-01-26-preview",
-    "description": "VerifiedId Resource Provider management API.",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -61,7 +60,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
@@ -100,7 +99,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AuthorityListResult"
             }
@@ -142,7 +141,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AuthorityListResult"
             }
@@ -164,7 +163,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VerifiedId/authorities/{authorityName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VerifiedId/authorities/{name}": {
       "get": {
         "operationId": "Authorities_Get",
         "tags": [
@@ -182,17 +181,17 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "authorityName",
+            "name": "name",
             "in": "path",
             "description": "The ID of the authority",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           }
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Authority"
             }
@@ -227,12 +226,12 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "authorityName",
+            "name": "name",
             "in": "path",
             "description": "The ID of the authority",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
             "name": "resource",
@@ -298,12 +297,12 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "authorityName",
+            "name": "name",
             "in": "path",
             "description": "The ID of the authority",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
             "name": "properties",
@@ -317,7 +316,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Authority"
             }
@@ -352,12 +351,12 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "authorityName",
+            "name": "name",
             "in": "path",
             "description": "The ID of the authority",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           }
         ],
         "responses": {
@@ -365,7 +364,7 @@
             "description": "Resource deleted successfully."
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -385,12 +384,16 @@
   "definitions": {
     "Authority": {
       "type": "object",
-      "description": "A VerifiedId authority resource",
+      "description": "A VerifiedIdProviderHub resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/AuthorityProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [

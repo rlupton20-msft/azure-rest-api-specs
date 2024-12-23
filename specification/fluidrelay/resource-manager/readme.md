@@ -28,7 +28,16 @@ These are the global settings for the adp.
 title: FluidRelayManagementClient
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2022-06-01
+tag: package-2022-04-21
+```
+
+### Tag: package-2021-03-01-preview
+
+These settings apply only when `--tag=package-2021-03-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2021-03-01-preview'
+input-file:
+  - Microsoft.FluidRelay/preview/2021-03-01-preview/fluidrelay.json
 ```
 
 ### Tag: package-2021-03-12-preview
@@ -64,16 +73,16 @@ These settings apply only when `--tag=package-2021-09-10-preview` is specified o
 
 ```yaml $(tag) == 'package-2021-09-10-preview'
 input-file:
-  - Microsoft.FluidRelay/preview/2021-09-10-preview/fluidrelay.json
+  - Microsoft.FluidRelay/preview/2021-09-10-preview/fluidrelay.json  
 ```
 
-### Tag: package-2022-02-15
+### Tag: package-2022-02-23-preview
 
-These settings apply only when `--tag=package-2022-02-15` is specified on the command line.
+These settings apply only when `--tag=package-2022-02-23-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2022-02-15'
+```yaml $(tag) == 'package-2022-02-23-preview'
 input-file:
-  - Microsoft.FluidRelay/stable/2022-02-15/fluidrelay.json
+  - Microsoft.FluidRelay/preview/2022-02-23-preview/fluidrelay.json
 ```
 
 ### Tag: package-2022-04-21
@@ -85,34 +94,8 @@ input-file:
   - Microsoft.FluidRelay/stable/2022-04-21/fluidrelay.json
 ```
 
-### Tag: package-2022-05-11
-
-These settings apply only when `--tag=package-2022-05-11` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-05-11'
-input-file:
-  - Microsoft.FluidRelay/stable/2022-05-11/fluidrelay.json
-```
-
-### Tag: package-2022-05-26
-
-These settings apply only when `--tag=package-2022-05-26` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-05-26'
-input-file:
-  - Microsoft.FluidRelay/stable/2022-05-26/fluidrelay.json
-```
-
-### Tag: package-2022-06-01
-
-These settings apply only when `--tag=package-2022-06-01` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-06-01'
-input-file:
-  - Microsoft.FluidRelay/stable/2022-06-01/fluidrelay.json
-```
-
 ---
+
 
 # Code Generation
 
@@ -123,7 +106,6 @@ This is not used by Autorest itself.
 
 ```yaml $(swagger-to-sdk)
 swagger-to-sdk:
-  - repo: azure-sdk-for-net-track2
   - repo: azure-sdk-for-python
   - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
@@ -131,7 +113,6 @@ swagger-to-sdk:
   - repo: azure-sdk-for-ruby
     after_scripts:
       - bundle install && rake arm:regen_all_profiles['azure_mgmt_fluidrelay']
-  - repo: azure-powershell
 ```
 
 ## Go
@@ -152,14 +133,4 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 
 ## CSharp
 
-```yaml $(csharp)
-csharp:
-  azure-arm: true
-  license-header: MICROSOFT_MIT_NO_VERSION
-  payload-flattening-threshold: 1
-  clear-output-folder: true
-  client-side-validation: false
-  namespace: Microsoft.FluidRelay
-  output-folder: $(csharp-sdks-folder)/fluidrelay/management/Microsoft.FluidRelay/GeneratedProtocol
-```
-
+See configuration in [readme.csharp.md](./readme.csharp.md)

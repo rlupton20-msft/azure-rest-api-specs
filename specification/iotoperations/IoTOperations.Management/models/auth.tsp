@@ -2,7 +2,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using Azure.ResourceManager;
 
-namespace Microsoft.IoTOperations;
+namespace Private.IoTOperations;
 
 /**
  *

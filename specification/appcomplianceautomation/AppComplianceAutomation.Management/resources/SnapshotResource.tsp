@@ -7,6 +7,7 @@ import "./ReportResource.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using OpenAPI;
 
@@ -16,11 +17,10 @@ namespace Microsoft.AppComplianceAutomation;
  */
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "For backward compatibility"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "For backward compatibility"
-#suppress "@azure-tools/typespec-azure-core/no-private-usage" "Legacy DO NOT EVER COPY THIS"
 @parentResource(ReportResource)
 @includeInapplicableMetadataInPayload(false)
 @Azure.ResourceManager.Private.armResourceInternal(SnapshotProperties)
-model SnapshotResource extends Azure.ResourceManager.Foundations.ProxyResource {
+model SnapshotResource extends ProxyResourceBase {
   /**
    * Snapshot Name.
    */
@@ -28,36 +28,36 @@ model SnapshotResource extends Azure.ResourceManager.Foundations.ProxyResource {
   @key("snapshotName")
   @segment("snapshots")
   @visibility("read")
-  @pattern("^[a-zA-Z0-9-_]{1,64}$")
+  @pattern("^[a-zA-Z0-9-]{1,64}$")
   name: string;
 
   /**
-   * Snapshot's property.
+   * Snapshot's property'.
    */
-  #suppress "deprecated" "Legacy flatten"
-  @Azure.ClientGenerator.Core.flattenProperty
+  @extension("x-ms-client-flatten", true)
+  @extension("x-ms-client-name", "properties")
   properties?: SnapshotProperties;
 }
 
 @armResourceOperations
 @tag("AppComplianceAutomation")
-interface Snapshot {
+interface SnapshotResources {
   /**
    * Get the AppComplianceAutomation snapshot and its properties.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "For backward compatibility"
-  @operationId("Snapshot_Get")
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("Snapshots_Get")
   get is ArmResourceRead<SnapshotResource>;
 
   /**
    * Get the AppComplianceAutomation snapshot list.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "For backward compatibility"
-  @operationId("Snapshot_List")
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("Snapshots_List")
   list is ArmResourceListByParent<
     SnapshotResource,
     {
-      ...Azure.ResourceManager.Foundations.BaseParameters<SnapshotResource>;
+      ...BaseParameters<SnapshotResource>;
       ...QueryParameters;
     }
   >;
@@ -65,14 +65,16 @@ interface Snapshot {
   /**
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "For backward compatibility"
-  @operationId("Snapshot_Download")
+  #suppress "@azure-tools/typespec-azure-core/no-operation-id" "For backward compatibility"
+  @operationId("Snapshots_Download")
   download is ArmResourceActionAsync<
     SnapshotResource,
     SnapshotDownloadRequest,
     DownloadResponse,
-    Azure.ResourceManager.Foundations.BaseParameters<SnapshotResource>
+    BaseParameters<SnapshotResource>
   >;
 }
 
-@@doc(Snapshot.download::parameters.body, "Parameters for the query operation");
+@@doc(SnapshotResources.download::parameters.body,
+  "Parameters for the query operation"
+);

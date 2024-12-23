@@ -1,0 +1,76 @@
+import "@cadl-lang/rest";
+import "@azure-tools/cadl-providerhub";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-azure-resource-manager";
+import "@azure-tools/cadl-providerhub-controller";
+import "@azure-tools/cadl-autorest";
+
+@armNamespace
+@serviceTitle("Microsoft.WindowsPushNotificationServices")
+@serviceVersion("2022-09-12-preview")
+namespace Microsoft.WindowsPushNotificationServices;
+
+using Cadl.Http;
+using Cadl.Rest;
+using Azure.ResourceManager;
+using Autorest;
+
+@doc("A WindowsPushNotificationServices resource")
+model Registration is TrackedResource<RegistrationProperties> {
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("registrationName")
+  @segment("registrationsTest")
+  @path("/name")
+  @visibility("read")
+  @doc("Name of the Registration")
+  name: string;
+}
+
+@doc("The status of the current operation.")
+@knownValues(ProvisioningStateKV)
+model ProvisioningState is string {}
+enum ProvisioningStateKV {
+  Succeeded,
+  Failed,
+  Canceled,
+  Provisioning,
+  Updating,
+  Deleting,
+  Accepted,
+}
+
+@doc("Details of the WindowsPushNotificationServices Registration.")
+model RegistrationProperties {
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+
+  @doc("Application Id")
+  appId: string;
+
+  @doc("Service Principal Id")
+  objectId: string;
+
+  @doc("Package Family Name")
+  pfn?: string;
+
+  @doc("App Sid")
+  appSid?: string;
+
+  @doc("Tier Level")
+  tier: Tier;
+
+  @visibility("read")
+  @doc("Number of Notifications Sent")
+  numberOfNotifications?: int64
+}
+
+@armResourceOperations
+interface Registrations extends ResourceOperations<Registration, RegistrationProperties> {}
+
+@doc("Tier Info Enum")
+enum Tier {
+  Free,
+  Basic,
+  Premium
+}

@@ -27,19 +27,18 @@ These are the global settings for the scom.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2023-07-07-preview
+tag: package-2021-06-30-preview
 ```
 
-### Tag: package-2023-07-07-preview
+### Tag: package-2021-06-30-preview
 
-These settings apply only when `--tag=package-2023-07-07-preview` is specified on the command line.
+These settings apply only when `--tag=package-2021-06-30-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-07-07-preview'
+```yaml $(tag) == 'package-2021-06-30-preview'
 input-file:
-  - Microsoft.Scom/preview/2023-07-07-preview/scom.json
-  - Microsoft.Scom/preview/2023-07-07-preview/monitoredResources.json
-  - Microsoft.Scom/preview/2023-07-07-preview/managedGateways.json
+  - Microsoft.SCOM/preview/2021-06-30-preview/scom.json
 ```
+
 ---
 
 # Code Generation
@@ -83,8 +82,3 @@ See configuration in [readme.csharp.md](./readme.csharp.md)
 ## AzureResourceSchema
 
 See configuration in [readme.azureresourceschema.md](./readme.azureresourceschema.md)
-
-### Suppress lint rules
-
-``` yaml
-```

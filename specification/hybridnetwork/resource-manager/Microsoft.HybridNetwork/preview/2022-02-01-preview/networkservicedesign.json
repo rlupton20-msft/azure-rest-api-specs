@@ -1,0 +1,459 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "HybridNetworkManagementClient",
+    "description": "The resources in this swagger specification will be used to manage the hybrid network service design.",
+    "version": "2022-02-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkServiceDesigns/{networkServiceDesignName}": {
+      "delete": {
+        "tags": [
+          "networkServiceDesigns"
+        ],
+        "operationId": "networkServiceDesigns_Delete",
+        "description": "Deletes the specified hybrid network service design.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/NetworkServiceDesignNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete successful."
+          },
+          "202": {
+            "description": "Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation."
+          },
+          "204": {
+            "description": "Request successful. Resource does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete hybrid network service design resource": {
+            "$ref": "./examples/NetworkServiceDesignDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      },
+      "get": {
+        "tags": [
+          "networkServiceDesigns"
+        ],
+        "operationId": "networkServiceDesigns_Get",
+        "description": "Gets information about the specified hybrid network service design.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/NetworkServiceDesignNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns the resulting hybrid network service design resource.",
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesign"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get hybrid network service design": {
+            "$ref": "./examples/NetworkServiceDesignGet.json"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "networkServiceDesigns"
+        ],
+        "operationId": "networkServiceDesigns_CreateOrUpdate",
+        "description": "Creates or updates a hybrid network service design.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "./common.json#/parameters/NetworkServiceDesignNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesign"
+            },
+            "description": "Parameters supplied to the create or update hybrid network service design operation."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Creation or update is successful.",
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesign"
+            }
+          },
+          "201": {
+            "description": "Creation or update is successful. The header contains 'Azure-AsyncOperation' header pointing to an operations resource. The operation URI can be queried to find the current state of the operation.",
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesign"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update hybrid network service design": {
+            "$ref": "./examples/NetworkServiceDesignCreate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "networkServiceDesigns"
+        ],
+        "operationId": "networkServiceDesigns_UpdateTags",
+        "description": "Updates a hybrid network service design tags.",
+        "parameters": [
+          {
+            "$ref": "./common.json#/parameters/NetworkServiceDesignNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./common.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to the update hybrid network service design tags operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update is successful. The operation returns the resulting hybrid network service design resource.",
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesign"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update hybrid network service design tags": {
+            "$ref": "./examples/NetworkServiceDesignUpdateTags.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkServiceDesigns": {
+      "get": {
+        "tags": [
+          "networkServiceDesigns"
+        ],
+        "operationId": "networkServiceDesigns_ListBySubscription",
+        "description": "Lists all the hybrid network networkServiceDesigns in a subscription.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request is successful. The operation returns a list of hybrid network service design resources.",
+            "schema": {
+              "$ref": "#/definitions/NetworkServiceDesignListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all hybrid network networkServiceDesigns in a subscription.": {
+            "$ref": "./examples/NetworkServiceDesignListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NetworkServiceDesign": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkServiceDesignPropertiesFormat",
+          "description": "Hybrid network service design properties."
+        },
+        "systemData": {
+          "x-ms-client-flatten": true,
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true,
+          "description": "Metadata pertaining to creation and last modification of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Hybrid network service design resource."
+    },
+    "NetworkServiceDesignPropertiesFormat": {
+      "type": "object",
+      "description": "Hybrid network service design properties.",
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "./common.json#/definitions/ProvisioningState",
+          "description": "The provisioning state of the site resource."
+        },
+        "configurationGroups": {
+          "$ref": "./common.json#/definitions/ConfigurationGroups",
+          "description": "The parameters for the configuration groups."
+        },
+        "resourcesPerNfvi": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourcePerNfvi"
+          },
+          "description": "The resources per Nfvi."
+        },
+        "linkedNetworkServiceInstanceReferences": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "./common.json#/definitions/SubResource"
+          },
+          "description": "The list of network functions deployed using NSD."
+        }
+      }
+    },
+    "ResourcePerNfvi": {
+      "type": "object",
+      "properties": {
+        "groupName": {
+          "type": "string",
+          "description": "The name for the group."
+        },
+        "nfviType": {
+          "type": "string",
+					"$ref": "./common.json#/definitions/NFVIType",
+					"description": "The NFVI type."
+				},
+        "nfviName": {
+          "type": "string",
+          "description": "The Nfvi name."
+        },
+        "networkFunctionDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkFunctionDefinition"
+          },
+          "description": "The array of network function definitions"
+        }
+      },
+      "description": "The network function definition configuration."
+    },
+    "NetworkFunctionDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name for the network function."
+        },
+        "skuName": {
+          "type": "string",
+          "description": "The sku name for the network function."
+        },
+        "vendorName": {
+          "type": "string",
+          "description": "The vendor name for the network function."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "(^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$)",
+          "description": "A 4 number format for the version number of this template file. For example, 1.0.0.0"
+        },
+        "skuConfigurations": {
+          "$ref": "./common.json#/definitions/GenericParameters",
+          "description": "The parameters for the descriptor."
+        },
+        "dayNConfiguration": {
+          "$ref": "#/definitions/DayNConfiguration",
+          "description": "The day N configuraion."
+        },
+        "dependsOn": {
+					"$ref": "#/definitions/DependsOn",
+					"description": "Collection of resources this resource depends on"
+				},
+        "sdpPolicy": {
+					"$ref": "#/definitions/SDPPolicy",
+					"description": "The day N configuraion."
+				}
+      },
+      "description": "The network function definition configuration."
+    },
+    "DayNConfiguration": {
+      "type": "object",
+      "properties": {
+        "nfType": {
+          "type": "string",
+          "description": "The nfType name."
+        },
+        "resourceAtomType": {
+          "type": "string",
+          "description": "The resourceAtomType name."
+        },
+        "payloadStorageUri": {
+          "type": "string",
+          "description": "URL for paylaod."
+        },
+        "mappingRules": {
+          "type": "object",
+          "description": "Mapping rules",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+				"payloadStorageUri"
+			],
+      "description": "The day N configuraion."
+    },
+    "DependsOn": {
+      "type": "object",
+      "properties": {
+        "nfdNames": {
+          "type": "array",
+					"items": {
+						"type": "string"
+					},
+          "description": "List of NFDs."
+        },
+        "nsdNames": {
+          "type": "array",
+					"items": {
+						"type": "string"
+					},
+          "description": "List of NSDs."
+        }
+      },
+      "description": "The day N configuraion."
+    },
+    "SDPPolicy": {
+      "type": "object",
+      "properties": {
+        "continueOnFailure": {
+					"type": "boolean",
+					"description": "Whether to continue of deployment in case of failure"
+				}
+      },
+      "description": "The SDP policy."
+    },
+    "NetworkServiceDesignListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkServiceDesign"
+          },
+          "description": "A list of hybrid networkServiceDesigns."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for hybrid networkServiceDesigns API service call."
+    }
+  }
+}

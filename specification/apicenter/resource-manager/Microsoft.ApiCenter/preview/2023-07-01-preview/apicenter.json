@@ -362,6 +362,22 @@
     "Service": {
       "type": "object",
       "properties": {
+        "location": {
+          "type": "string",
+          "description": "The resource location.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-typespec-name": "Record<string>",
+          "description": "Resource tags."
+        },
         "properties": {
           "$ref": "#/definitions/ServiceProperties",
           "description": "The properties of the service.",
@@ -372,14 +388,14 @@
           ]
         },
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
+          "$ref": "#/definitions/ServiceIdentity",
           "description": "The identity of the service."
         }
       },
       "description": "The service entity.",
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
         }
       ]
     },
@@ -425,6 +441,60 @@
         }
       },
       "description": "The service properties to be updated."
+    },
+    "ServiceIdentity": {
+      "description": "The properties of the service identity.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.",
+          "enum": [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "IdentityType",
+            "modelAsString": true
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The principal ID of the identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The client tenant ID of the identity."
+        },
+        "userAssignedIdentities": {
+          "description": "The list of user identities associated with the resource. The user identity \r\ndictionary key references will be ARM resource IDs in the form: \r\n'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/\r\n    providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/UserIdentityProperties"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "UserIdentityProperties": {
+      "type": "object",
+      "properties": {
+        "principalId": {
+          "description": "The principal ID of user assigned identity.",
+          "type": "string"
+        },
+        "clientId": {
+          "description": "The client ID of user assigned identity.",
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {
@@ -434,8 +504,7 @@
       "required": true,
       "description": "Service name",
       "pattern": "^[a-zA-Z0-9\\-]{1,64}$",
-      "type": "string",
-      "x-ms-parameter-location": "method"
+      "type": "string"
     }
   }
 }

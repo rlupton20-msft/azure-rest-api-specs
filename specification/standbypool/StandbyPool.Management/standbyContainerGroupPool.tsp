@@ -6,6 +6,7 @@
 
 import "@typespec/rest";
 import "@typespec/versioning";
+import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./service.tsp";
@@ -36,7 +37,7 @@ model StandbyContainerGroupPoolResource
 @doc("Details of the StandbyContainerGroupPool.")
 model StandbyContainerGroupPoolResourceProperties {
   @doc("Specifies elasticity profile of standby container group pools.")
-  elasticityProfile: StandbyContainerGroupPoolElasticityProfile;
+  elasticityProfile: ElasticityProfile;
 
   @doc("Specifies container group properties of standby container group pools.")
   containerGroupProperties: ContainerGroupProperties;
@@ -47,9 +48,9 @@ model StandbyContainerGroupPoolResourceProperties {
 }
 
 @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
-@doc("Specifies the elasticity profile of the standby container group pools.")
-model StandbyContainerGroupPoolElasticityProfile {
-  @doc("Specifies maximum number of standby container groups in the standby pool.")
+@doc("Details of the ElasticityProfile.")
+model ElasticityProfile {
+  @doc("Specifies maximum number of standby container groups.")
   @maxValue(2000)
   @minValue(0)
   maxReadyCapacity: int64;
@@ -72,11 +73,7 @@ model ContainerGroupProperties {
 @doc("Details of the ContainerGroupProfile.")
 model ContainerGroupProfile {
   @doc("Specifies container group profile id of standby container groups.")
-  id: armResourceIdentifier<[
-    {
-      type: "Microsoft.ContainerInstance/containerGroupProfiles";
-    }
-  ]>;
+  id: string;
 
   @doc("Specifies revision of container group profile.")
   revision?: int64;
@@ -84,42 +81,27 @@ model ContainerGroupProfile {
 
 @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
 @doc("Refill policy of standby pool")
-union RefillPolicy {
-  string,
-
+enum RefillPolicy {
   @doc("A refill policy that standby pool is automatically refilled to maintain maxReadyCapacity.")
-  always: "always",
+  always,
 }
 
 @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
 @doc("Subnet of container group")
 model Subnet {
   @doc("Specifies ARM resource id of the subnet.")
-  id: armResourceIdentifier<[
-    {
-      type: "Microsoft.Network/virtualNetworks/subnets";
-    }
-  ]>;
+  id: string;
 }
 
 @added(Microsoft.StandbyPool.Versions.`2023-12-01-preview`)
 @armResourceOperations
 interface StandbyContainerGroupPools {
   get is ArmResourceRead<StandbyContainerGroupPoolResource>;
-  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "MUST CHANGE ON NEXT UPDATE"
-  @Azure.Core.useFinalStateVia("azure-async-operation")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<
-    StandbyContainerGroupPoolResource,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
-  >;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<StandbyContainerGroupPoolResource>;
   delete is ArmResourceDeleteWithoutOkAsync<StandbyContainerGroupPoolResource>;
-  @parameterVisibility
-  update is ArmCustomPatchSync<
+  update is ArmResourcePatchSync<
     StandbyContainerGroupPoolResource,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      StandbyContainerGroupPoolResource,
-      StandbyContainerGroupPoolResourceProperties
-    >
+    StandbyContainerGroupPoolResourceProperties
   >;
   listByResourceGroup is ArmResourceListByParent<StandbyContainerGroupPoolResource>;
   listBySubscription is ArmListBySubscription<StandbyContainerGroupPoolResource>;

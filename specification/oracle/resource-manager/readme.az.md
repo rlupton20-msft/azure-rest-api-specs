@@ -6,11 +6,11 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 
 ``` yaml $(az) && $(target-mode) != 'core'
 az:
-    extensions: Oracle.Database
-    namespace: azure.mgmt.Oracle.Database
-    package-name: azure-mgmt-Oracle.Database
-az-output-folder: $(azure-cli-extension-folder)/src/Oracle.Database
-python-sdk-output-folder: "$(az-output-folder)/azext_Oracle.Database/vendored_sdks/Oracle.Database"
+    extensions: Private.OracleDatabaseDev
+    namespace: azure.mgmt.Private.OracleDatabaseDev
+    package-name: azure-mgmt-Private.OracleDatabaseDev
+az-output-folder: $(azure-cli-extension-folder)/src/Private.OracleDatabaseDev
+python-sdk-output-folder: "$(az-output-folder)/azext_Private.OracleDatabaseDev/vendored_sdks/Private.OracleDatabaseDev"
 # add additional configuration here specific for Azure CLI
 # refer to the faq.md for more details
 ```
@@ -20,9 +20,9 @@ python-sdk-output-folder: "$(az-output-folder)/azext_Oracle.Database/vendored_sd
 This is for command modules that already in azure cli main repo. 
 ``` yaml $(az) && $(target-mode) == 'core'
 az:
-  extensions: Oracle.Database
-  namespace: azure.mgmt.Oracle.Database
-  package-name: azure-mgmt-Oracle.Database
-az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/Oracle.Database
-python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/Oracle.Database"
+  extensions: Private.OracleDatabaseDev
+  namespace: azure.mgmt.Private.OracleDatabaseDev
+  package-name: azure-mgmt-Private.OracleDatabaseDev
+az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/Private.OracleDatabaseDev
+python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/Private.OracleDatabaseDev"
 ``` 

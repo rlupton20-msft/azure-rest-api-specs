@@ -49,6 +49,9 @@
     },
     {
       "name": "SharedPrivateLinkResources"
+    },
+    {
+      "name": "PrivateLinkResources"
     }
   ],
   "paths": {
@@ -66,7 +69,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/OperationListResult"
             }
@@ -105,7 +108,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WatcherListResult"
             }
@@ -147,7 +150,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WatcherListResult"
             }
@@ -197,7 +200,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Watcher"
             }
@@ -322,7 +325,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Watcher"
             }
@@ -330,14 +333,14 @@
           "202": {
             "description": "Resource update request accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
@@ -384,22 +387,25 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -417,6 +423,56 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/privateLinkResources": {
+      "get": {
+        "operationId": "PrivateLinkResources_ListByWatcher",
+        "tags": [
+          "PrivateLinkResources"
+        ],
+        "description": "List PrivateLinkResource resources by Watcher",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "watcherName",
+            "in": "path",
+            "description": "The database watcher name.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{1}[a-zA-Z0-9-_]{3,60}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ARM operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PrivateLinkResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PrivateLinkResources_ListByWatcher": {
+            "$ref": "./examples/PrivateLinkResources_ListByWatcher_200.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources": {
@@ -447,7 +503,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/SharedPrivateLinkResourceListResult"
             }
@@ -505,7 +561,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/SharedPrivateLinkResource"
             }
@@ -636,22 +692,25 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
           "202": {
             "description": "Resource deletion accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
                 "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
               }
             }
           },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -699,7 +758,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Watcher"
             }
@@ -707,10 +766,6 @@
           "202": {
             "description": "Resource operation accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -764,7 +819,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Watcher"
             }
@@ -772,10 +827,6 @@
           "202": {
             "description": "Resource operation accepted.",
             "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
@@ -829,7 +880,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/TargetListResult"
             }
@@ -887,7 +938,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "ARM operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/Target"
             }
@@ -958,6 +1009,13 @@
             "description": "Resource 'Target' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Target"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -971,7 +1029,11 @@
           "Targets_CreateOrUpdate": {
             "$ref": "./examples/Targets_CreateOrUpdate_200.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "Targets_Delete",
@@ -1010,8 +1072,22 @@
           "200": {
             "description": "Resource deleted successfully."
           },
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
           "204": {
-            "description": "Resource does not exist."
+            "description": "Resource deleted successfully."
           },
           "default": {
             "description": "An unexpected error response.",
@@ -1024,7 +1100,11 @@
           "Targets_Delete": {
             "$ref": "./examples/Targets_Delete_200.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     }
   },
@@ -1057,8 +1137,7 @@
             "description": "Resource creation was canceled."
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "DatabaseWatcherProvisioningState": {
       "type": "string",
@@ -1088,8 +1167,7 @@
             "description": "Resource creation was canceled."
           }
         ]
-      },
-      "readOnly": true
+      }
     },
     "Datastore": {
       "type": "object",
@@ -1098,7 +1176,7 @@
         "adxClusterResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure Data Explorer cluster.",
+          "description": "The ARM ResourceId of an Azure Data Explorer cluster.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1147,7 +1225,7 @@
         "adxClusterResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure Data Explorer cluster.",
+          "description": "The ARM ResourceId of an Azure Data Explorer cluster.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1212,6 +1290,131 @@
         ]
       }
     },
+    "PrivateLinkResource": {
+      "type": "object",
+      "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PrivateLinkResourceProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "PrivateLinkResourceListResult": {
+      "type": "object",
+      "description": "The response of a PrivateLinkResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The PrivateLinkResource items on this page",
+          "items": {
+            "$ref": "#/definitions/PrivateLinkResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "PrivateLinkResourceProperties": {
+      "type": "object",
+      "description": "Properties of a private link resource.",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "The private link resource group id.",
+          "readOnly": true
+        },
+        "requiredMembers": {
+          "type": "array",
+          "description": "The private link resource required member names.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "requiredZoneNames": {
+          "type": "array",
+          "description": "The private link resource private link DNS zone name.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "shareablePrivateLinkResourceTypes": {
+          "type": "array",
+          "description": "The list of resource types that support Azure Private Link, and are supported by database watcher.",
+          "items": {
+            "$ref": "#/definitions/ShareablePrivateLinkResourceType"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": [
+            "name"
+          ]
+        }
+      }
+    },
+    "ShareablePrivateLinkResourceProperties": {
+      "type": "object",
+      "description": "The properties of a resource type that supports Azure Private Link, supported by database watcher.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The resource provider type for the resource that supports Azure Private Link.",
+          "readOnly": true
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The resource provider group id for the resource that supports Azure Private Link.",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the resource type that supports Azure Private Link.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "type",
+        "groupId",
+        "description"
+      ]
+    },
+    "ShareablePrivateLinkResourceType": {
+      "type": "object",
+      "description": "The resources that that support Azure Private Link, and are supported by database watcher.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the resource type that supports Azure Private Link, supported by database watcher.",
+          "readOnly": true
+        },
+        "properties": {
+          "$ref": "#/definitions/ShareablePrivateLinkResourceProperties",
+          "description": "The properties of a resource type that supports Azure Private Link, supported by database watcher.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name",
+        "properties"
+      ]
+    },
     "SharedPrivateLinkResource": {
       "type": "object",
       "description": "Concrete proxy resource types can be created by aliasing this type using a specific property type.",
@@ -1219,7 +1422,11 @@
         "properties": {
           "$ref": "#/definitions/SharedPrivateLinkResourceProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [
@@ -1256,7 +1463,10 @@
         "privateLinkResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The resource id of the resource the shared private link resource is for."
+          "description": "The resource id of the resource the shared private link resource is for.",
+          "x-ms-arm-id-details": {
+            "allowedResources": []
+          }
         },
         "groupId": {
           "type": "string",
@@ -1266,9 +1476,9 @@
           "type": "string",
           "description": "The request message for requesting approval of the shared private link resource."
         },
-        "dnsZone": {
+        "resourceRegion": {
           "type": "string",
-          "description": "The DNS zone to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances. The value to use is the second segment of the host FQDN name of the resource that the shared private link resource is for."
+          "description": "Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Kusto)."
         },
         "status": {
           "$ref": "#/definitions/SharedPrivateLinkResourceStatus",
@@ -1330,11 +1540,11 @@
         "sqlEpResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure SQL DB elastic pool target.",
+          "description": "The ARM ResourceId of an Azure SQL DB elastic pool target.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Sql/servers/elasticPools"
+                "type": "Microsoft.Sql/servers/elasticpools"
               }
             ]
           }
@@ -1342,7 +1552,7 @@
         "anchorDatabaseResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of the anchor database used to connect to an elastic pool.",
+          "description": "The ARM ResourceId of the anchor database used to connect to an elastic pool.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1375,7 +1585,7 @@
         "sqlDbResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure SQL DB single database target.",
+          "description": "The ARM ResourceId of an Azure SQL DB single database target.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1407,7 +1617,7 @@
         "sqlMiResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure SQL Managed Instance target.",
+          "description": "The ARM ResourceId of an Azure SQL Managed Instance target.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1445,7 +1655,7 @@
         "sqlVmResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of an Azure SQL VM target.",
+          "description": "The ARM ResourceId of an Azure SQL VM target.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1482,7 +1692,11 @@
         "properties": {
           "$ref": "#/definitions/TargetProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "allOf": [
@@ -1511,6 +1725,30 @@
             "name": "Sql",
             "value": "Sql",
             "description": "The SQL password authentication."
+          }
+        ]
+      }
+    },
+    "TargetCollectionStatus": {
+      "type": "string",
+      "description": "The target states.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "TargetCollectionStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Denotes a target that is enabled."
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Denotes a target that is disabled."
           }
         ]
       }
@@ -1557,6 +1795,30 @@
           "description": "The server name to use in the connection string when connecting to a target. Port number and instance name must be specified separately.",
           "maxLength": 200
         },
+        "targetCollectionStatus": {
+          "type": "string",
+          "description": "The target collection status.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "string",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Enabled",
+                "value": "Enabled",
+                "description": "Denotes a target that is enabled."
+              },
+              {
+                "name": "Disabled",
+                "value": "Disabled",
+                "description": "Denotes a target that is disabled."
+              }
+            ]
+          }
+        },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
           "description": "The provisioning state of the resource.",
@@ -1577,7 +1839,7 @@
         "akvResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "The Azure ResourceId of the Key Vault instance storing database authentication secrets.",
+          "description": "The ARM ResourceId of the Key Vault instance storing database authentication secrets.",
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
@@ -1588,14 +1850,36 @@
         },
         "akvTargetUser": {
           "type": "string",
-          "description": "The path to the Key Vault secret storing the login name (aka user name, aka account name) for authentication to a target.",
-          "pattern": "^[a-zA-Z0-9-]{1,127}$"
+          "description": "The path to the Key Vault secret storing the login name (aka user name, aka account name) for authentication to a target."
         },
         "akvTargetPassword": {
           "type": "string",
-          "description": "The path to the Key Vault secret storing the password for authentication to a target.",
-          "pattern": "^[a-zA-Z0-9-]{1,127}$"
+          "description": "The path to the Key Vault secret storing the password for authentication to a target."
         }
+      }
+    },
+    "Versions": {
+      "type": "string",
+      "description": "Versions info.",
+      "enum": [
+        "2023-03-01-preview",
+        "2023-09-01-preview"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "v2023_03_01_preview",
+            "value": "2023-03-01-preview",
+            "description": "The 2023-03-01-preview version."
+          },
+          {
+            "name": "v2023_09_01_preview",
+            "value": "2023-09-01-preview",
+            "description": "The 2023-09-01-preview version."
+          }
+        ]
       }
     },
     "Watcher": {
@@ -1605,7 +1889,11 @@
         "properties": {
           "$ref": "#/definitions/WatcherProperties",
           "description": "The resource-specific properties for this resource.",
-          "x-ms-client-flatten": true
+          "x-ms-client-flatten": true,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v4/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -1718,7 +2006,6 @@
         },
         "properties": {
           "$ref": "#/definitions/WatcherUpdateProperties",
-          "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
       }

@@ -66,6 +66,11 @@
           "description": "ARM Resource id of the container resource (Azure Arc for Servers).",
           "readOnly": true
         },
+        "vmId": {
+          "type": "string",
+          "description": "Unique server ID for the server on which sql instances are present.",
+          "readOnly": true
+        },
         "createTime": {
           "type": "string",
           "description": "The time when the resource was created.",
@@ -269,10 +274,6 @@
         "clientConnection": {
           "description": "Client connection related configuration.",
           "$ref": "#/definitions/ClientConnection"
-        },
-        "serviceType": {
-          "description": "Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host.",
-          "$ref": "#/definitions/ServiceType"
         }
       }
     },
@@ -518,10 +519,6 @@
         "clientConnection": {
           "description": "Client connection related configuration.",
           "$ref": "#/definitions/ClientConnection"
-        },
-        "serviceType": {
-          "description": "Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host.",
-          "$ref": "#/definitions/ServiceType"
         }
       }
     },
@@ -556,12 +553,12 @@
         },
         "encryptionAlgorithm": {
           "description": "Encryption Algorithm",
-          "$ref": "./common.json#/definitions/EncryptionAlgorithm",
+          "$ref": "./azurearcdata.json#/definitions/EncryptionAlgorithm",
           "readOnly": true
         },
         "connectionAuth": {
           "description": "The type of connection authentication required for connections to this endpoint",
-          "$ref": "./common.json#/definitions/ConnectionAuth",
+          "$ref": "./azurearcdata.json#/definitions/ConnectionAuth",
           "readOnly": true
         },
         "port": {
@@ -748,43 +745,6 @@
         }
       }
     },
-    "ServiceType": {
-      "description": "Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host.",
-      "type": "string",
-      "enum": [
-        "Engine",
-        "SSRS",
-        "SSAS",
-        "SSIS",
-        "PBIRS"
-      ],
-      "x-ms-enum": {
-        "name": "serviceType",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "Engine",
-            "description": "SQL Server Database Services."
-          },
-          {
-            "value": "SSRS",
-            "description": "SQL Server Reporting Services."
-          },
-          {
-            "value": "SSAS",
-            "description": "SQL Server Analysis Services."
-          },
-          {
-            "value": "SSIS",
-            "description": "SQL Server Integration Services."
-          },
-          {
-            "value": "PBIRS",
-            "description": "Power BI Report Server."
-          }
-        ]
-      }
-    },
     "ServerAssessments": {
       "description": "Issues and warnings impacting the migration of SQL Server instance to particular Azure Migration Target.",
       "readOnly": true,
@@ -845,7 +805,7 @@
       "type": "object",
       "properties": {
         "recommendationStatus": {
-          "$ref": "./common.json#/definitions/SkuRecommendationResultsRecommendationStatus"
+          "$ref": "#/definitions/SkuRecommendationResultsRecommendationStatus"
         },
         "numberOfServerBlockerIssues": {
           "$ref": "#/definitions/SkuRecommendationResultsNumberOfServerBlockerIssues"
@@ -890,7 +850,7 @@
       "type": "object",
       "properties": {
         "recommendationStatus": {
-          "$ref": "./common.json#/definitions/SkuRecommendationResultsRecommendationStatus"
+          "$ref": "#/definitions/SkuRecommendationResultsRecommendationStatus"
         },
         "numberOfServerBlockerIssues": {
           "$ref": "#/definitions/SkuRecommendationResultsNumberOfServerBlockerIssues"
@@ -935,7 +895,7 @@
       "type": "object",
       "properties": {
         "recommendationStatus": {
-          "$ref": "./common.json#/definitions/SkuRecommendationResultsRecommendationStatus"
+          "$ref": "#/definitions/SkuRecommendationResultsRecommendationStatus"
         },
         "numberOfServerBlockerIssues": {
           "$ref": "#/definitions/SkuRecommendationResultsNumberOfServerBlockerIssues"
@@ -964,6 +924,19 @@
             }
           }
         }
+      }
+    },
+    "SkuRecommendationResultsRecommendationStatus": {
+      "description": "The target recommendation Status.",
+      "type": "string",
+      "enum": [
+        "NotReady",
+        "Ready",
+        "Unknown"
+      ],
+      "x-ms-enum": {
+        "name": "recommendationStatus",
+        "modelAsString": true
       }
     },
     "SkuRecommendationResultsNumberOfServerBlockerIssues": {
@@ -1116,49 +1089,7 @@
     "SqlServerInstanceRunMigrationAssessmentResponse": {
       "description": "The response for running migration assessment on the SQL Server instance.",
       "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "The unique identifier of the job."
-        },
-        "instanceName": {
-          "type": "string",
-          "description": "The name of the SQL Server instance."
-        },
-        "jobStatus": {
-          "type": "string",
-          "description": "The status of the job.",
-          "enum": [
-            "NotStarted",
-            "InProgress",
-            "Succeeded",
-            "Failed"
-          ],
-          "x-ms-enum": {
-            "name": "jobStatus",
-            "modelAsString": true
-          }
-        },
-        "jobException": {
-          "type": "string",
-          "description": "The exception message if the job failed."
-        },
-        "backgroundJob": {
-          "type": "object",
-          "description": "The background job details.",
-          "$ref": "#/definitions/BackgroundJob"
-        },
-        "sequencerActions": {
-          "type": "array",
-          "description": "The list of sequencer actions.",
-          "items": {
-            "$ref": "#/definitions/SequencerAction"
-          },
-          "x-ms-identifiers": [
-            "actionId"
-          ]
-        }
-      }
+      "$ref": "#/definitions/SqlServerInstanceJobStatus"
     },
     "SqlServerInstanceJobsStatusRequest": {
       "description": "The request for the status of the jobs running on the SQL Server instance.",

@@ -6,19 +6,18 @@ These settings apply only when `--azureresourceschema` is specified on the comma
 
 ``` yaml $(azureresourceschema) && $(multiapi)
 batch:
-  - tag: schema-scom-2023-07-07-preview
+  - tag: schema-scom-2021-06-30-preview
   
 ```
 
 Please also specify `--azureresourceschema-folder=<path to the root directory of your azure-resource-manager-schemas clone>`.
 
-### Tag: schema-scom-2023-07-07-preview and azureresourceschema
+### Tag: schema-scom-2021-06-30-preview and azureresourceschema
 
-``` yaml $(tag) == 'schema-scom-2023-07-07-preview' && $(azureresourceschema)
+``` yaml $(tag) == 'schema-scom-2021-06-30-preview' && $(azureresourceschema)
 output-folder: $(azureresourceschema-folder)/schemas
 
 # all the input files in this apiVersion
 input-file:
-  - Microsoft.Scom/preview/2023-07-07-preview/scom.json
-  
+  - Microsoft.SCOM/preview/2021-06-30-preview/scom.json
 ```

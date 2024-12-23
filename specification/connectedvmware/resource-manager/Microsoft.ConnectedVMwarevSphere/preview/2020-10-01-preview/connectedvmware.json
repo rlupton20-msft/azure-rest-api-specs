@@ -1876,9 +1876,6 @@
               "$ref": "#/definitions/VirtualMachine"
             }
           },
-          "202": {
-            "description": "Accepted"
-          },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
@@ -3607,12 +3604,12 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/guestAgents/{name}": {
       "put": {
         "tags": [
           "GuestAgents"
         ],
-        "operationId": "GuestAgents_Create",
+        "operationId": "GuestAgent_Create",
         "description": "Create Or Update GuestAgent.",
         "summary": "Implements GuestAgent PUT method.",
         "x-ms-examples": {
@@ -3632,13 +3629,6 @@
           },
           {
             "$ref": "#/parameters/resourceGroupName"
-          },
-          {
-            "in": "path",
-            "name": "virtualMachineName",
-            "required": true,
-            "type": "string",
-            "description": "Name of the vm."
           },
           {
             "in": "path",
@@ -3688,7 +3678,7 @@
         "tags": [
           "GuestAgents"
         ],
-        "operationId": "GuestAgents_Get",
+        "operationId": "GuestAgent_Get",
         "summary": "Gets GuestAgent.",
         "description": "Implements GuestAgent GET method.",
         "x-ms-examples": {
@@ -3705,13 +3695,6 @@
           },
           {
             "$ref": "#/parameters/resourceGroupName"
-          },
-          {
-            "in": "path",
-            "name": "virtualMachineName",
-            "required": true,
-            "type": "string",
-            "description": "Name of the vm."
           },
           {
             "in": "path",
@@ -3743,7 +3726,7 @@
         "tags": [
           "GuestAgents"
         ],
-        "operationId": "GuestAgents_Delete",
+        "operationId": "GuestAgent_Delete",
         "summary": "Deletes an GuestAgent.",
         "description": "Implements GuestAgent DELETE method.",
         "x-ms-examples": {
@@ -3760,13 +3743,6 @@
           },
           {
             "$ref": "#/parameters/resourceGroupName"
-          },
-          {
-            "in": "path",
-            "name": "virtualMachineName",
-            "required": true,
-            "type": "string",
-            "description": "Name of the vm."
           },
           {
             "in": "path",
@@ -3799,12 +3775,59 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/start": {
+      "post": {
+        "tags": [
+          "VirtualMachines"
+        ],
+        "operationId": "VirtualMachines_Start1",
+        "description": "Test post action.",
+        "summary": "Implements the operation to stop a virtual machine.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupName"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Virtualmachine stop action payload.",
+            "schema": {
+              "$ref": "#/definitions/StopVirtualMachineOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/guestAgents": {
       "get": {
         "tags": [
           "GuestAgents"
         ],
-        "operationId": "GuestAgents_ListByVm",
+        "operationId": "GuestAgent_ListByVm",
         "summary": "Implements GET GuestAgent in a vm.",
         "description": "Returns the list of GuestAgent of the given vm.",
         "x-ms-examples": {
@@ -3821,13 +3844,6 @@
           },
           {
             "$ref": "#/parameters/resourceGroupName"
-          },
-          {
-            "in": "path",
-            "name": "virtualMachineName",
-            "required": true,
-            "type": "string",
-            "description": "Name of the vm."
           },
           {
             "$ref": "#/parameters/api-version"
@@ -4007,7 +4023,6 @@
     },
     "ResourcePoolsList": {
       "description": "List of ResourcePools.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of ResourcePools.",
@@ -4046,7 +4061,6 @@
     },
     "ResourceStatus": {
       "description": "The resource status information.",
-      "type": "object",
       "properties": {
         "type": {
           "description": "The type of the condition.",
@@ -4187,7 +4201,6 @@
     },
     "VirtualDisk": {
       "description": "Virtual disk model",
-      "type": "object",
       "properties": {
         "name": {
           "description": "Gets or sets the name of the virtual disk.",
@@ -4239,7 +4252,6 @@
     },
     "Condition": {
       "description": "Condition defines an extension to status.",
-      "type": "object",
       "properties": {
         "status": {
           "description": "Status of the condition.",
@@ -4323,7 +4335,6 @@
     },
     "VCentersList": {
       "description": "List of VCenters.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of VCenters.",
@@ -4840,7 +4851,6 @@
     },
     "VirtualMachinesList": {
       "description": "List of VirtualMachines.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of VirtualMachines.",
@@ -5445,7 +5455,6 @@
     },
     "VirtualMachineTemplatesList": {
       "description": "List of VirtualMachineTemplates.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of VirtualMachineTemplates.",
@@ -5569,7 +5578,6 @@
     },
     "VirtualNetworksList": {
       "description": "List of VirtualNetworks.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of VirtualNetworks.",
@@ -5616,7 +5624,6 @@
     },
     "NetworkInterface": {
       "description": "Network Interface model",
-      "type": "object",
       "properties": {
         "name": {
           "description": "Gets or sets the name of the network interface.",
@@ -5861,7 +5868,6 @@
     },
     "operation": {
       "description": "Operation provided by provider",
-      "type": "object",
       "properties": {
         "name": {
           "type": "string",
@@ -5897,7 +5903,6 @@
     },
     "operationsList": {
       "description": "Lists the operations available.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of operations.",
@@ -5918,7 +5923,6 @@
     },
     "ErrorResponse": {
       "description": "Error response.",
-      "type": "object",
       "properties": {
         "error": {
           "$ref": "#/definitions/ErrorDefinition",
@@ -5928,7 +5932,6 @@
     },
     "ErrorDefinition": {
       "description": "Error definition.",
-      "type": "object",
       "properties": {
         "code": {
           "description": "Service specific error code which serves as the substatus for the HTTP error code.",
@@ -5952,7 +5955,6 @@
     },
     "InventoryItemsList": {
       "description": "List of InventoryItems.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of InventoryItems.",
@@ -6243,7 +6245,6 @@
     },
     "HybridIdentityMetadataList": {
       "description": "List of HybridIdentityMetadata.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of HybridIdentityMetadata.",
@@ -6343,7 +6344,6 @@
     },
     "MachineExtension": {
       "x-ms-azure-resource": true,
-      "type": "object",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
@@ -6388,7 +6388,6 @@
       "description": "Describes a Machine Extension."
     },
     "MachineExtensionUpdate": {
-      "type": "object",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
@@ -6404,7 +6403,6 @@
       "description": "Describes a Machine Extension Update."
     },
     "MachineExtensionProperties": {
-      "type": "object",
       "properties": {
         "forceUpdateTag": {
           "type": "string",
@@ -6452,7 +6450,6 @@
       "description": "Describes the properties of a Machine Extension."
     },
     "MachineExtensionUpdateProperties": {
-      "type": "object",
       "properties": {
         "forceUpdateTag": {
           "type": "string",
@@ -6487,7 +6484,6 @@
       "description": "Describes the properties of a Machine Extension."
     },
     "MachineExtensionInstanceView": {
-      "type": "object",
       "properties": {
         "name": {
           "type": "string",
@@ -6505,7 +6501,6 @@
           "description": "Specifies the version of the script handler."
         },
         "status": {
-          "type": "object",
           "properties": {
             "code": {
               "type": "string",
@@ -6549,7 +6544,6 @@
       "description": "Describes the Machine Extension Instance View."
     },
     "MachineExtensionsListResult": {
-      "type": "object",
       "properties": {
         "value": {
           "type": "array",
@@ -6609,7 +6603,6 @@
     },
     "GuestAgentList": {
       "description": "List of GuestAgent.",
-      "type": "object",
       "properties": {
         "nextLink": {
           "description": "Url to follow for getting next page of GuestAgent.",
@@ -6648,6 +6641,10 @@
         "systemData": {
           "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
           "description": "The system data."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Gets or sets the extended location."
         }
       },
       "x-ms-azure-resource": true

@@ -327,6 +327,65 @@
           "nextLinkName": "nextLink"
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/executeRequest": {
+      "post": {
+        "tags": [
+          "NetworkFunctions"
+        ],
+        "operationId": "NetworkFunctions_sendRequestToNFServices",
+        "description": "Executes a request by sending to services on a network function.",
+        "parameters": [
+          {
+            "name": "networkFunctionName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Name of the network function."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExecuteRequestParameters"
+            },
+            "description": "Parameters supplied to the Capture Virtual Machine operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "202": {
+            "description": "Accepted. The header contains 'Azure-AsyncOperation' header which can be used to monitor the progress of the operation."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Execute Request on NF services": {
+            "$ref": "./examples/NetworkFunctionsSendRequestToNFServices.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        }
+      }
     }
   },
   "definitions": {
@@ -360,6 +419,10 @@
         "device": {
           "$ref": "./common.json#/definitions/SubResource",
           "description": "The reference to the device resource."
+        },
+        "customLocation": {
+          "$ref": "./common.json#/definitions/SubResource",
+          "description": "The reference to the custom location resource."
         },
         "skuName": {
           "type": "string",
@@ -447,6 +510,49 @@
         }
       },
       "description": "The network function user configuration."
+    },
+    "ExecuteRequestParameters":{
+      "properties": {
+        "serviceEndPoint": {
+          "type": "string",
+          "description": "The endpoint of service to call."
+        },
+        "requestMetaData": {
+          "$ref": "#/definitions/RequestMetaData",
+          "description": "The request meta data."
+        }
+      },
+      "required": [
+        "serviceEndPoint",
+        "requestMetaData"
+      ],
+      "description": "Execute Request Post payload."
+    },
+    "RequestMetaData":{
+      "properties": {
+        "relativeUrl": {
+          "type": "string",
+          "description": "The relative url of request"
+        },
+        "httpMethod": {
+          "type": "string",
+          "description": "The http method of request"
+        },
+        "serializedBody": {
+          "type": "string",
+          "description": "The body of request"
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "The api version of request"
+        }
+      },
+      "required": [
+        "relativeUrl",
+        "httpMethod",
+        "serializedBody"
+      ],
+      "description": "Request Meta data of  NF services Post payload."
     }
   }
 }
