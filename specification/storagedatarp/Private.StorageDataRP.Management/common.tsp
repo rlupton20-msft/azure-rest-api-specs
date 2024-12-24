@@ -11,7 +11,6 @@ using Azure.ResourceManager;
 
 namespace Private.StorageDataRp;
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The status of the current operation.")
 @Azure.Core.lroStatus
 union ProvisioningState {
@@ -28,16 +27,15 @@ union ProvisioningState {
 
   @doc("Change accepted for processing")
   Accepted: "Accepted",
+
+  string,
 }
 
-// Add the "@azure-tools/typespec-azure-core/no-closed-literal-union" suppression
-// and remove "string" literal once new properties are added.
+#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The type of the backing data source")
 union SourceType {
   @doc("Source type - Bucket")
   Bucket: "Bucket",
-
-  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
@@ -54,14 +52,11 @@ union State {
   Restricted: "Restricted",
 }
 
-// Add the "@azure-tools/typespec-azure-core/no-closed-literal-union" suppression
-// and remove "string" literal once new properties are added.
+#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The auth type supported for bucket connection.")
 union AuthType {
   @doc("Access Key auth type")
   AccessKey: "AccessKey",
-
-  string,
 }
 
 #suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
@@ -94,7 +89,6 @@ union PrivateLinkIdType {
   Alias: "Alias",
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The status of the private link")
 union PrivateLinkStatus {
   @doc("Private Link in pending")
@@ -111,4 +105,6 @@ union PrivateLinkStatus {
 
   @doc("Private Link Provisioning timed out")
   Timeout: "Timeout",
+
+  string,
 }
