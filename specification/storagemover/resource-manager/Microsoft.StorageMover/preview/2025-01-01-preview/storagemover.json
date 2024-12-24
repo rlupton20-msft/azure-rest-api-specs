@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2024-07-01",
+    "version": "2025-01-01-preview",
     "title": "StorageMoverClient",
     "description": "The Azure Storage Mover REST API."
   },
@@ -643,8 +643,11 @@
         "operationId": "Endpoints_Get",
         "description": "Gets an Endpoint resource.",
         "x-ms-examples": {
-          "Endpoints_Get_AWSS3Bucket": {
-            "$ref": "./examples/Endpoints_Get_AWSS3Bucket.json"
+          "Endpoints_Get_AzurStorageAccounts": {
+            "$ref": "./examples/Endpoints_Get_AzureStorageAccounts.json"
+          },
+          "Endpoints_Get_AzureMultiCloudConnector": {
+            "$ref": "./examples/Endpoints_Get_AzureMultiCloudConnector.json"
           },
           "Endpoints_Get_AzureStorageBlobContainer": {
             "$ref": "./examples/Endpoints_Get_AzureStorageBlobContainer.json"
@@ -698,8 +701,11 @@
         "operationId": "Endpoints_CreateOrUpdate",
         "description": "Creates or updates an Endpoint resource, which represents a data transfer source or destination.",
         "x-ms-examples": {
-          "Endpoints_CreateOrUpdate_AWSS3Bucket": {
-            "$ref": "./examples/Endpoints_CreateOrUpdate_AWSS3Bucket.json"
+          "Endpoints_CreateOrUpdate_AzurStorageAccounts": {
+            "$ref": "./examples/Endpoints_CreateOrUpdate_AzureStorageAccounts.json"
+          },
+          "Endpoints_CreateOrUpdate_AzureMultiCloudConnector": {
+            "$ref": "./examples/Endpoints_CreateOrUpdate_AzureMultiCloudConnector.json"
           },
           "Endpoints_CreateOrUpdate_AzureStorageBlobContainer": {
             "$ref": "./examples/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json"
@@ -761,8 +767,11 @@
         "operationId": "Endpoints_Update",
         "description": "Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.",
         "x-ms-examples": {
-          "Endpoints_Update_AWSS3Bucket": {
-            "$ref": "./examples/Endpoints_Update_AWSS3Bucket.json"
+          "Endpoints_Update_AzureStorageAccounts": {
+            "$ref": "./examples/Endpoints_Update_AzureStorageAccounts.json"
+          },
+          "Endpoints_Update_AzureMultiCloudConnector": {
+            "$ref": "./examples/Endpoints_Update_AzureMultiCloudConnector.json"
           },
           "Endpoints_Update_AzureStorageBlobContainer": {
             "$ref": "./examples/Endpoints_Update_AzureStorageBlobContainer.json"
@@ -2033,9 +2042,6 @@
         "properties": {
           "$ref": "#/definitions/EndpointBaseUpdateProperties"
         }
-      },
-      "identity": {
-        "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/Identity"
       }
     },
     "EndpointList": {
@@ -2056,10 +2062,46 @@
         }
       }
     },
-    "AWSS3BucketEndpointProperties": {
+    "AzureStorageAccountsEndpointProperties": {
+      "type": "object",
+      "description": "The properties of Azure storage accounts type endpoint.",
+      "properties": {
+        "storageAccounts": {
+          "description": "The list of target storage accounts for cloud to cloud migration.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StorageAccounts"
+          }
+        }
+      },
+      "required": [
+        "storageAccounts"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EndpointBaseProperties"
+        }
+      ]
+    },
+    "StorageAccounts": {
+      "description": "The Azure Resource ID of the storage account that is the target destination.",
+      "type": "string",
+      "format": "arm-id",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.Storage/storageAccounts"
+          }
+        ]
+      },
+      "x-ms-mutability": [
+        "read",
+        "create"
+      ]
+    },
+    "AzureMultiCloudConnectorEndpointProperties": {
       "type": "object",
       "description": "The properties of AWS S3 Bucket endpoint.",
-      "x-ms-discriminator-value": "Multi cloud connector",
       "properties": {
         "multiCloudConnectorId": {
           "description": "The Azure Resource ID of the Multi-Cloud Connector which has the AWS S3 buckets.",
@@ -2126,9 +2168,18 @@
         }
       ]
     },
-    "AWSS3BucketEndpointUpdateProperties": {
+    "AzureStorageAccountsEndpointUpdateProperties": {
       "type": "object",
-      "x-ms-discriminator-value": "AWSS3Bucket",
+      "x-ms-discriminator-value": "AzureStorageAccounts",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EndpointBaseUpdateProperties"
+        }
+      ]
+    },
+    "AzureMultiCloudConnectorEndpointUpdateProperties": {
+      "type": "object",
+      "x-ms-discriminator-value": "AzureMultiCloudConnector",
       "allOf": [
         {
           "$ref": "#/definitions/EndpointBaseUpdateProperties"
@@ -2311,7 +2362,8 @@
         "NfsMount",
         "AzureStorageSmbFileShare",
         "SmbMount",
-        "AWSS3Bucket"
+        "AzureMultiCloudConnector",
+        "AzureStorageAccounts"
       ],
       "type": "string",
       "x-ms-enum": {
@@ -2465,40 +2517,40 @@
             }
           }
         },
-          "latestJobRunStatus": {
-            "enum": [
-              "Queued",
-              "Started",
-              "Running",
-              "CancelRequested",
-              "Canceling",
-              "Canceled",
-              "Failed",
-              "Succeeded"
-            ],
-            "type": "string",
-            "x-ms-enum": {
-              "name": "JobRunStatus",
-              "modelAsString": true
-            },
-            "description": "The current status of the Job Run in a non-terminal state, if exists.",
-            "readOnly": true
+        "latestJobRunStatus": {
+          "enum": [
+            "Queued",
+            "Started",
+            "Running",
+            "CancelRequested",
+            "Canceling",
+            "Canceled",
+            "Failed",
+            "Succeeded"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "JobRunStatus",
+            "modelAsString": true
           },
-          "agentName": {
-            "type": "string",
-            "description": "Name of the Agent to assign for new Job Runs of this Job Definition."
-          },
-          "agentResourceId": {
-            "type": "string",
-            "description": "Fully qualified resource id of the Agent to assign for new Job Runs of this Job Definition.",
-            "readOnly": true
-          },
-          "provisioningState": {
-            "description": "The provisioning state of this resource.",
-            "$ref": "#/definitions/ProvisioningState",
-            "readOnly": true
-          }
+          "description": "The current status of the Job Run in a non-terminal state, if exists.",
+          "readOnly": true
         },
+        "agentName": {
+          "type": "string",
+          "description": "Name of the Agent to assign for new Job Runs of this Job Definition."
+        },
+        "agentResourceId": {
+          "type": "string",
+          "description": "Fully qualified resource id of the Agent to assign for new Job Runs of this Job Definition.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning state of this resource.",
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true
+        }
+      },
       "required": [
         "jobType",
         "copyMode",
@@ -2554,63 +2606,63 @@
               "type": "string",
               "description": "The AWS account ID of the AWS S3 bucket."
             }
-          },
-          "targetEndpoint": {
-            "type": "object",
-            "description": "The properties of the cloud targert endpoint to migrate.",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "The name of the cloud target endpoint to migrate."
-              },
-              "targetEndpointResourceId": {
-                "type": "string",
-                "description": "The fully qualified ARM resource ID of the cloud target endpoint to migrate.",
-                "format": "arm-id",
-                "x-ms-arm-id-details": {
-                  "allowedResources": [
-                    {
-                      "type": "Microsoft.StorageMover/storageMovers/endpoints"
-                    }
-                  ]
-                },
-                "x-ms-mutability": [
-                  "read",
-                  "create"
-                ]
-              },
-              "azureStorageResourceId": {
-                "type": "string",
-                "description": "The fully qualified ARM resource ID of the Azure Storage account.",
-                "format": "arm-id",
-                "x-ms-arm-id-details": {
-                  "allowedResources": [
-                    {
-                      "type": "Microsoft.Storage/storageAccounts"
-                    }
-                  ]
-                },
-                "x-ms-mutability": [
-                  "read",
-                  "create"
-                ]
-              },
-              "azureStorageBlobContainerName": {
-                "type": "string",
-                "description": "The name of the Azure Storage blob container.",
-                "x-ms-mutability": [
-                  "read",
-                  "create"
-                ]
-              }
-            }
           }
         },
-        "required": [
-          "sourceEndpoint",
-          "targetEndpoint"
-        ]
-      }
+        "targetEndpoint": {
+          "type": "object",
+          "description": "The properties of the cloud targert endpoint to migrate.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the cloud target endpoint to migrate."
+            },
+            "targetEndpointResourceId": {
+              "type": "string",
+              "description": "The fully qualified ARM resource ID of the cloud target endpoint to migrate.",
+              "format": "arm-id",
+              "x-ms-arm-id-details": {
+                "allowedResources": [
+                  {
+                    "type": "Microsoft.StorageMover/storageMovers/endpoints"
+                  }
+                ]
+              },
+              "x-ms-mutability": [
+                "read",
+                "create"
+              ]
+            },
+            "azureStorageResourceId": {
+              "type": "string",
+              "description": "The fully qualified ARM resource ID of the Azure Storage account.",
+              "format": "arm-id",
+              "x-ms-arm-id-details": {
+                "allowedResources": [
+                  {
+                    "type": "Microsoft.Storage/storageAccounts"
+                  }
+                ]
+              },
+              "x-ms-mutability": [
+                "read",
+                "create"
+              ]
+            },
+            "azureStorageBlobContainerName": {
+              "type": "string",
+              "description": "The name of the Azure Storage blob container.",
+              "x-ms-mutability": [
+                "read",
+                "create"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "sourceEndpoint",
+        "targetEndpoint"
+      ]
     },
     "JobDefinition": {
       "description": "The Job Definition resource.",
