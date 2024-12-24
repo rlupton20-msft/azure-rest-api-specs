@@ -74,6 +74,14 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
         }
       }
     },
@@ -108,6 +116,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Calculations_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_ListBySubscription_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -145,6 +158,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Calculations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -186,6 +204,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Calculations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -257,7 +280,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Calculations_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
       },
       "patch": {
         "operationId": "Calculations_Update",
@@ -324,7 +352,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Calculations_Update_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_Update_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "Calculations_Delete",
@@ -379,7 +412,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Calculations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/Calculations_Delete_MaximumSet_Gen.json"
+          }
+        }
       }
     }
   },
@@ -580,6 +618,45 @@
           "$ref": "#/definitions/AzureFrontDoorProfile",
           "description": "Profile of Azure FrontDoor Resource Created.",
           "readOnly": true
+        },
+        "cachingType": {
+          "type": "string",
+          "description": "Caching Type.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "enablePublicEndpoint": {
+          "type": "boolean",
+          "description": "Enable Public Access.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "managedResourceGroupConfiguration": {
+          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
+          "description": "Configuration of the managed resource group associated with the resource.",
+          "readOnly": true
+        },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed On Behalf Of Configuration.",
+          "readOnly": true
+        },
+        "denyAssignmentExclusions": {
+          "type": "array",
+          "description": "Deny Assignments exclusion list.",
+          "items": {
+            "$ref": "#/definitions/DenyAssignmentExclusion"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         }
       },
       "required": [
@@ -623,8 +700,111 @@
             "update",
             "create"
           ]
+        },
+        "cachingType": {
+          "type": "string",
+          "description": "Caching Type.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "enablePublicEndpoint": {
+          "type": "boolean",
+          "description": "Enable Public Access.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "denyAssignmentExclusions": {
+          "type": "array",
+          "description": "Deny Assignments exclusion list.",
+          "items": {
+            "$ref": "#/definitions/DenyAssignmentExclusion"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
         }
       }
+    },
+    "DenyAssignmentExclusion": {
+      "type": "object",
+      "description": "The properties related to Deny Assignment Exclusions",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Object Id of Identity",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of Identity",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "ManagedOnBehalfOfConfiguration": {
+      "type": "object",
+      "description": "Configuration of the managed on behalf of resource.",
+      "properties": {
+        "moboBrokerResources": {
+          "type": "array",
+          "description": "Associated MoboBrokerResources.",
+          "items": {
+            "$ref": "#/definitions/MoboBrokerResource"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "moboBrokerResources"
+      ]
+    },
+    "ManagedResourceGroupConfiguration": {
+      "type": "object",
+      "description": "Configuration of the managed resource group associated with the resource.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource group name."
+        },
+        "location": {
+          "type": "string",
+          "description": "The resource group location."
+        }
+      },
+      "required": [
+        "name",
+        "location"
+      ]
+    },
+    "MoboBrokerResource": {
+      "type": "object",
+      "description": "MoboBroker resource.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "MonitoringProfile": {
       "type": "object",
