@@ -47,6 +47,9 @@
     },
     {
       "name": "AcStorConfigurations"
+    },
+    {
+      "name": "EdgeIngestPolicies"
     }
   ],
   "paths": {
@@ -81,6 +84,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "AcStorConfigurations_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/AcStorConfigurations_ListByResourceGroup_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -121,6 +129,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "AcStorConfigurations_Get_MaximumSet_Gen": {
+            "$ref": "./examples/AcStorConfigurations_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -191,7 +204,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "AcStorConfigurations_CreateOrReplace_MaximumSet_Gen": {
+            "$ref": "./examples/AcStorConfigurations_CreateOrReplace_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "AcStorConfigurations_Delete",
@@ -245,7 +263,233 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "AcStorConfigurations_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/AcStorConfigurations_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgeingestpolicies": {
+      "get": {
+        "operationId": "EdgeIngestPolicies_ListByResourceGroup",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "List EdgeIngestPolicy resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "EdgeIngestPolicies_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/EdgeIngestPolicies_ListByResourceGroup_MaximumSet_Gen.json"
+          },
+          "EdgeIngestPolicies_ListByResourceGroup_MinimumSet_Gen": {
+            "$ref": "./examples/EdgeIngestPolicies_ListByResourceGroup_MinimumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgeingestpolicies/{edgeIngestPolicyName}": {
+      "get": {
+        "operationId": "EdgeIngestPolicies_Get",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Get a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EdgeIngestPolicies_Get_MaximumSet_Gen": {
+            "$ref": "./examples/EdgeIngestPolicies_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeIngestPolicies_CreateOrReplace",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Create a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeIngestPolicy' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeIngestPolicy' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EdgeIngestPolicies_CreateOrReplace_MaximumSet_Gen": {
+            "$ref": "./examples/EdgeIngestPolicies_CreateOrReplace_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeIngestPolicies_Delete",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Delete a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "EdgeIngestPolicies_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/EdgeIngestPolicies_Delete_MaximumSet_Gen.json"
+          }
+        }
       }
     },
     "/providers/Private.ArcContainerStorage/operations": {
@@ -276,6 +520,14 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "Operations_List_MaximumSet_Gen": {
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet_Gen": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
+          }
         }
       }
     },
@@ -312,6 +564,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "OperationStatus_Get_MaximumSet_Gen": {
+            "$ref": "./examples/OperationStatus_Get_MaximumSet_Gen.json"
           }
         }
       }
@@ -383,6 +640,174 @@
         "diskMountPoint",
         "diskCapacity",
         "createStoragePool"
+      ]
+    },
+    "EdgeIngestPolicy": {
+      "type": "object",
+      "description": "EdgeIngestPolicy is a custom resource that defines the configuration for edge ingest policies.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeIngestPolicyProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeIngestPolicyListResult": {
+      "type": "object",
+      "description": "The response of a EdgeIngestPolicy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EdgeIngestPolicy items on this page",
+          "items": {
+            "$ref": "#/definitions/EdgeIngestPolicy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EdgeIngestPolicyProperties": {
+      "type": "object",
+      "description": "Defines the properties of the EdgeIngestPolicy resource.",
+      "properties": {
+        "ingest": {
+          "$ref": "#/definitions/IngestConfig",
+          "description": "Defines the configuration for ingest policies."
+        },
+        "eviction": {
+          "$ref": "#/definitions/EvictionConfig",
+          "description": "Defines the configuration for eviction policies."
+        },
+        "onDelete": {
+          "type": "string",
+          "description": "Possible values: trigger-immediate-ingest or abandon. Can be extended to other string values.",
+          "default": "trigger-immediate-ingest",
+          "enum": [
+            "trigger-immediate-ingest",
+            "abandon"
+          ],
+          "x-ms-enum": {
+            "name": "OnDeleteAction",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "trigger-immediate-ingest",
+                "value": "trigger-immediate-ingest",
+                "description": "Trigger immediate ingestion for linked EdgeSubVolumes."
+              },
+              {
+                "name": "abandon",
+                "value": "abandon",
+                "description": "Abandon linked EdgeSubVolumes without any action."
+              }
+            ]
+          }
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/provisioningState",
+          "description": "The provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "ingest",
+        "eviction",
+        "onDelete"
+      ]
+    },
+    "EvictionConfig": {
+      "type": "object",
+      "description": "Defines the configuration for eviction policies.",
+      "properties": {
+        "order": {
+          "type": "string",
+          "description": "The order in which clean files will be evicted.",
+          "default": "unordered",
+          "enum": [
+            "never",
+            "unordered"
+          ],
+          "x-ms-enum": {
+            "name": "EvictionOrder",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "never",
+                "value": "never",
+                "description": "Do not evict any files."
+              },
+              {
+                "name": "unordered",
+                "value": "unordered",
+                "description": "Evict files in an unordered manner."
+              }
+            ]
+          }
+        },
+        "minDelaySec": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of seconds before a clean file is eligible for eviction.",
+          "default": 300
+        }
+      },
+      "required": [
+        "order",
+        "minDelaySec"
+      ]
+    },
+    "IngestConfig": {
+      "type": "object",
+      "description": "Defines the configuration for ingest policies.",
+      "properties": {
+        "order": {
+          "type": "string",
+          "description": "The order in which dirty files will be uploaded.",
+          "default": "oldest-first",
+          "enum": [
+            "oldest-first",
+            "newest-first"
+          ],
+          "x-ms-enum": {
+            "name": "IngestOrder",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "oldest-first",
+                "value": "oldest-first",
+                "description": "Upload dirty files in the order of oldest first."
+              },
+              {
+                "name": "newest-first",
+                "value": "newest-first",
+                "description": "Upload dirty files in the order of newest first."
+              }
+            ]
+          }
+        },
+        "minDelaySec": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of seconds before a dirty file is eligible for ingest.",
+          "default": 60
+        }
+      },
+      "required": [
+        "order",
+        "minDelaySec"
       ]
     },
     "StoragePoolConfig": {

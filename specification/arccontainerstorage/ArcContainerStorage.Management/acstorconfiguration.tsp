@@ -3,6 +3,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./provisioningState.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -40,20 +41,6 @@ model AcStorConfigurationProperties {
   @doc("The provisioning state of the resource.")
   @visibility("read")
   provisioningState?: provisioningState;
-}
-
-@doc("provisioningState")
-union provisioningState {
-  @doc("Succeeded")
-  Succeeded: "Succeeded",
-
-  @doc("Failed")
-  Failed: "Failed",
-
-  @doc("Canceled")
-  Canceled: "Canceled",
-
-  string,
 }
 
 // Define the storage pool configuration
