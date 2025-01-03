@@ -8,7 +8,7 @@ using TypeSpec.Http;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
 
-namespace Private.EdgeInternal;
+namespace Private.Edge;
 
 /**
  * Connection Intent
@@ -116,7 +116,7 @@ model DisconnectedOperationDeploymentManifest {
   @doc("The resource Id of the disconnected operations resource")
   resourceId: Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.EdgeInternal/disconnectedOperations";
+      type: "Private.Edge/disconnectedOperations";
     }
   ]>;
 
@@ -192,7 +192,7 @@ model ImageProperties {
 }
 
 @doc("The image download properties")
-model ImageDownloadResult {
+model ImageDownloadResponse {
   ...ImageProperties;
 
   @visibility("read")
