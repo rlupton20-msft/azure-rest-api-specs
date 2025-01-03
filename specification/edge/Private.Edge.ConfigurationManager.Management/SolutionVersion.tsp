@@ -5,7 +5,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
-import "./Solution.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -17,53 +16,34 @@ using Azure.ResourceManager;
 namespace Private.Edge;
 
 @doc("Solution Version Properties")
-model HelmSolutionProperties {
-  @doc("Helm Chart URI of helm solution")
-  helmChartUri: string;
+model SolutionVersionProperties {
+  @doc("Latest revision number of resolved config for this solution version")
+  @visibility("read")
+  latestConfigRevision: int32;
 
-  @doc("Helm Chart Version of helm solution")
-  helmChartVersion: string;
+  @doc("Name of applicable target's display name")
+  targetDisplayName: string;
 
-  @doc("Configuration template of helm solution")
-  configurationTemplate: string;
+  @doc("Resolved configuration values")
+  configuration: string;
+
+  @doc("App components spec")
+  specification: string;
 
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("Available solution version types")
-union SolutionVersionType {
-  @doc("Helm solution version")
-  Helm: "Helm",
-
-  string,
-}
-
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 @doc("Solution Version Resource")
 @parentResource(Solution)
-@resource("versions")
-// @discriminator("kind")
-model SolutionVersion is ProxyResource<HelmSolutionProperties> {
+model SolutionVersion is ProxyResource<SolutionVersionProperties> {
   ...ResourceNameParameter<
     SolutionVersion,
-    NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    // Name will be set to solutionTemplateVersion-latestConfigRevision
+    NamePattern = "^[a-zA-Z0-9-]{3,30}$"
   >;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
-  @doc("Kind of solution version")
-  kind: SolutionVersionType.Helm;
 }
-
-// @doc("Helm Use Case Properties")
-// model HelmSolution extends SolutionVersion {
-//   @doc("properties of helm solution")
-//   properties: HelmSolutionProperties;
-
-//   @doc("Kind of solution version")
-//   kind: SolutionVersionType.Helm;
-// }
 
 @armResourceOperations
 interface SolutionVersions {
@@ -73,9 +53,12 @@ interface SolutionVersions {
   @doc("Create or update a Solution Version Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
+  @doc("update an SolutionVersion Resource")
+  update is ArmResourcePatchSync<SolutionVersion, SolutionVersionProperties>;
+
   @doc("Delete a Solution Version Resource")
   delete is ArmResourceDeleteSync<SolutionVersion>;
 
   @doc("List Solution Version Resources")
-  listBySolution is ArmResourceListByParent<SolutionVersion>;
+  listByTarget is ArmResourceListByParent<SolutionVersion>;
 }

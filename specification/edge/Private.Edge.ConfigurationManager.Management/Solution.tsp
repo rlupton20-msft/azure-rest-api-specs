@@ -4,7 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
-import "./CapabilityList.tsp";
+import "./Target.tsp";
 import "./ProvisioningState.tsp";
 
 using TypeSpec.OpenAPI;
@@ -16,32 +16,10 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
-@doc("Configuration Link")
-model ConfigurationLink {
-  @doc("Hierarchy Type of Configuration Link")
-  hierarchyType: string;
-
-  @doc("Configuration Id of Configuration Link")
-  configurationId: string;
-}
-
 @doc("Solution Properties")
 model SolutionProperties {
-  @doc("Current Version of solution")
-  @visibility("read")
-  currentVersion?: string;
-
-  @doc("List of capabilities")
-  @extension("x-ms-identifiers", [])
-  capabilities: Capability[];
-
-  @doc("Description of solution")
-  description: string;
-
-  @doc("List of configuration links")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
-  configurationLinks?: ConfigurationLink[];
+  @doc("Solution template Id")
+  solutionTemplateId: string;
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -49,6 +27,7 @@ model SolutionProperties {
 }
 
 @doc("Solution Resource")
+@parentResource(Target)
 model Solution is TrackedResource<SolutionProperties> {
   ...ResourceNameParameter<Solution>;
 }

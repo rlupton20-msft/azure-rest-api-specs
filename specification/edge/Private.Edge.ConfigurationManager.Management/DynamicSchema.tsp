@@ -45,7 +45,7 @@ interface DynamicSchemas {
   get is ArmResourceRead<DynamicSchema>;
 
   @doc("Create or update a DynamicSchema Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<DynamicSchema>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DynamicSchema>;
 
   @doc("update a DynamicSchema Resource")
   update is ArmResourcePatchSync<DynamicSchema, DynamicSchemaProperties>;
