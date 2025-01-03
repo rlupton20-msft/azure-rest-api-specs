@@ -9,6 +9,14 @@ using OpenAPI;
 namespace Private.OracleDatabaseDev;
 
 @added(Versions.v20241201_preview)
+scalar ExascaleDbNodeResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Private.OracleDatabaseDev/exadbVmCluster/dbNode",
+    }
+  ]>;
+
+@added(Versions.v20241201_preview)
 @doc("The DbNode resource belonging to ExadbVmCluster")
 @parentResource(ExadbVmCluster)
 model ExascaleDbNode is ProxyResource<ExascaleDbNodeProperties> {
@@ -50,9 +58,6 @@ model ExascaleDbNodeProperties {
 
   @doc("The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.")
   softwareStorageSizeInGb?: int32;
-
-  @doc("The date and time that the database node was created.")
-  timeCreated: utcDateTime;
 
   @doc("End date and time of maintenance window.")
   timeMaintenanceWindowEnd?: utcDateTime;

@@ -1,6 +1,7 @@
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 
 namespace Private.OracleDatabaseDev;
 
@@ -22,6 +23,10 @@ model DbSystemShapeProperties {
   @minLength(1)
   @maxLength(255)
   shapeFamily?: string;
+
+  @added(Versions.v20241201_preview)
+  @doc("The shape used for the DB system.")
+  shapeName?: string;
 
   @doc("The maximum number of CPU cores that can be enabled on the DB system for this shape.")
   availableCoreCount: int32;

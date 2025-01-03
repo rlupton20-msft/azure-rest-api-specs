@@ -6,6 +6,7 @@ import "./operations/exadata/virtualNetworkAddressOperations.tsp";
 import "./operations/oraclesubscription/oracleSubscriptionOperations.tsp";
 import "./operations/exadata/dbNodesOperations.tsp";
 import "./operations/exadata/giVersionOperations.tsp";
+import "./operations/exadata/giMinorVersionOperations.tsp";
 import "./operations/exadata/dbSystemShapeOperations.tsp";
 import "./operations/exadata/dnsPrivateViewsOperations.tsp";
 import "./operations/exadata/dnsPrivateZonesOperations.tsp";
