@@ -227,4 +227,9 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
+
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @added(Microsoft.Mission.Versions.v2025_01_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }

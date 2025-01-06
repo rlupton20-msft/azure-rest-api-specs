@@ -107,4 +107,16 @@ model ApprovalProperties {
   @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Minimum number of approvers required for the approval request")
   minimumApproversRequired?: int64;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Ticket ID for the resource approval request")
+  ticketId?: string;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Approval request creation time")
+  createdAt?: utcDateTime;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Approval request state change time, time at which approval request state changed from pending to approved or rejected.")
+  stateChangedAt?: utcDateTime;
 }
