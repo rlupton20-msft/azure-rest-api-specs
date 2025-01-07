@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./acstorconfiguration.tsp";
 import "./edgeingestpolicy.tsp";
 import "./edgestorageconfiguration.tsp";
+import "./edgesubvolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
