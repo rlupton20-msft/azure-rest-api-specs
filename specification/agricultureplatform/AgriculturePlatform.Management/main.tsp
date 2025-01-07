@@ -226,6 +226,10 @@ model ManagedOnBehalfOfConfiguration {
 
 @doc("MoboBroker resource.")
 model MoboBrokerResource {
+  /**
+   * The fully qualified resource ID of the MoboBroker resource.
+   * Example: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`
+   */
   @visibility("read")
   id: string;
 }
