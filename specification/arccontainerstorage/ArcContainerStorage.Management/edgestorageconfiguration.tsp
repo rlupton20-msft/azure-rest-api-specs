@@ -51,7 +51,7 @@ model EdgeStorageConfigurationProperties {
 
 //
 // Service Mesh Enum -- tried writing as a enum https://azure.github.io/typespec-azure/docs/libraries/azure-core/rules/no-enum/
-// because of that used union
+// because of that guideline used union
 //
 @doc("Possible service meshes to use. Field is deprecated; kept for backward compatibility.")
 union ServiceMesh {
