@@ -107,10 +107,6 @@ model PrivateLinkConnection extends Connection {
   @minLength(1)
   requestMessage: string;
 
-  @visibility("read")
-  @doc("Options – Approved or Disconnected or Pending or Rejected or Timeout. Not settable by callers. The state of the connection to the Private Link resource.")
-  privateLinkStatus: PrivateLinkStatus;
-
   @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: Storage Account: https://myaccount.blob.core.windows.net/containername Bucket: https://data.contoso.com/bucketname Note that this will be the endpoint as seen by the target of the Private Link in HTTP(s) requests. It is not a Private Endpoint used to connect to the Private Link.")
   @minLength(3)
   endpoint: string;
