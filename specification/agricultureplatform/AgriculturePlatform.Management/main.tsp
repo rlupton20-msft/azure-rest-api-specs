@@ -85,12 +85,32 @@ model AgriServiceResourceProperties {
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 
   @doc("Data connector credentials of AgriService instance.")
+  @OpenAPI.extension("x-ms-identifiers", ["key"])
   @visibility("read", "create", "update")
-  dataConnectorCredentials?: Record<DataConnectorCredentials>;
+  dataConnectorCredentials?: DataConnectorCredentialMap[];
 
   @doc("AgriService installed solutions.")
+  @OpenAPI.extension("x-ms-identifiers", ["key"])
   @visibility("read", "create", "update")
-  installedSolutions?: Record<Solution>;
+  installedSolutions?: InstalledSolutionMap[];
+}
+
+@doc("Mapping of data connector credentials.")
+model DataConnectorCredentialMap {
+  @doc("The key representing the credential.")
+  key: string;
+
+  @doc("The data connector credential value.")
+  value: DataConnectorCredentials;
+}
+
+@doc("Mapping of installed solutions.")
+model InstalledSolutionMap {
+  @doc("The key representing the installed solution.")
+  key: string;
+
+  @doc("The installed solution value.")
+  value: Solution;
 }
 
 @doc("Config of the AgriService resource instance.")
@@ -213,6 +233,10 @@ model ManagedOnBehalfOfConfiguration {
 
 @doc("MoboBroker resource.")
 model MoboBrokerResource {
+  /**
+   * The fully qualified resource ID of the MoboBroker resource.
+   * Example: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`
+   */
   @visibility("read")
   id: string;
 }

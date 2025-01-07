@@ -584,11 +584,14 @@
           "readOnly": true
         },
         "dataConnectorCredentials": {
-          "type": "object",
+          "type": "array",
           "description": "Data connector credentials of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnectorCredentials"
+          "items": {
+            "$ref": "#/definitions/DataConnectorCredentialMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -596,11 +599,14 @@
           ]
         },
         "installedSolutions": {
-          "type": "object",
+          "type": "array",
           "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
+          "items": {
+            "$ref": "#/definitions/InstalledSolutionMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -648,11 +654,14 @@
           ]
         },
         "dataConnectorCredentials": {
-          "type": "object",
+          "type": "array",
           "description": "Data connector credentials of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnectorCredentials"
+          "items": {
+            "$ref": "#/definitions/DataConnectorCredentialMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -660,11 +669,14 @@
           ]
         },
         "installedSolutions": {
-          "type": "object",
+          "type": "array",
           "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
+          "items": {
+            "$ref": "#/definitions/InstalledSolutionMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -763,6 +775,24 @@
           "description": "If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted."
         }
       }
+    },
+    "DataConnectorCredentialMap": {
+      "type": "object",
+      "description": "Mapping of data connector credentials.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key representing the credential."
+        },
+        "value": {
+          "$ref": "#/definitions/DataConnectorCredentials",
+          "description": "The data connector credential value."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
     },
     "DataConnectorCredentials": {
       "type": "object",
@@ -875,6 +905,24 @@
         "isValidateInput"
       ]
     },
+    "InstalledSolutionMap": {
+      "type": "object",
+      "description": "Mapping of installed solutions.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key representing the installed solution."
+        },
+        "value": {
+          "$ref": "#/definitions/Solution",
+          "description": "The installed solution value."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "ManagedOnBehalfOfConfiguration": {
       "type": "object",
       "description": "Configuration of the managed on behalf of resource.",
@@ -916,6 +964,7 @@
       "properties": {
         "id": {
           "type": "string",
+          "description": "The fully qualified resource ID of the MoboBroker resource.\nExample: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`",
           "readOnly": true
         }
       },
