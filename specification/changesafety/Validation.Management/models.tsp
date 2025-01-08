@@ -134,11 +134,11 @@ model ValidationPropertiesExtended {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
   @doc("The output of the validation. This property will match the output schema in the validator version resource.")
-  validationOutput: {};
+  validationOutput?: {};
 
   @doc("The outcome of the validation.")
   @visibility("read")
-  outcome: Outcome;
+  outcome?: Outcome;
 
   @doc("Time duration in ISO8601 format to retry after, when the outcome property is 'Pending'. For all other values, the retryAfter is not present. This is an indication to the client to 'PATCH' validation after the duration.")
   @visibility("read")
