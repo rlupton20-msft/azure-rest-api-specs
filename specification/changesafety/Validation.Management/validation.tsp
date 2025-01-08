@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 
 namespace Microsoft.ChangeSafety;
 
-model Validation is ProxyResource<ValidationProperties> {
+model Validation is ProxyResource<ValidationPropertiesExtended> {
   @pattern("^[a-zA-Z0-9-]{3,64}$")
   @key("validationName")
   @path
@@ -30,7 +30,7 @@ interface Validations {
   create is ArmResourceCreateOrReplaceAsync<Validation>;
 
   @doc("Validation can be re-run by doing a PUT operation with the same parameters. The output of the validation will be updated based on the new validation run.")
-  update is ArmResourcePatchSync<Validation, ValidationProperties>;
+  update is ArmResourcePatchSync<Validation, ValidationPropertiesExtended>;
 
   @doc("Deletes the validation.")
   delete is ArmResourceDeleteSync<Validation>;
