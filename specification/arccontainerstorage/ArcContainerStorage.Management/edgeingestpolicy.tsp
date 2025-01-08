@@ -89,6 +89,8 @@ model IngestConfig {
   order: IngestOrder = "oldest-first"; // Default value is "oldest-first"
 
   @doc("The minimum number of seconds before a dirty file is eligible for ingest.")
+  @minValue(0) // Minimum value constraint
+  @maxValue(31536000) // Maximum value constraint
   minDelaySec: int32 = 60; // Default value is 60 seconds
 }
 
@@ -99,6 +101,8 @@ model EvictionConfig {
   order: EvictionOrder = "unordered"; // Default value is "unordered"
 
   @doc("The number of seconds before a clean file is eligible for eviction.")
+  @minValue(0) // Minimum value constraint
+  @maxValue(31536000) // Maximum value constraint
   minDelaySec: int32 = 300; // Default value is 300 seconds (5 minutes)
 }
 

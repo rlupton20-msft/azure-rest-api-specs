@@ -35,6 +35,8 @@ model EdgeVolumeProperties {
   requestedSize: string;
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")
+  @minValue(1) // Minimum value constraint
+  @maxValue(256) // Maximum value constraint
   ingestOperationConcurrency?: int32;
 
   @doc("The provisioning state of the resource.")

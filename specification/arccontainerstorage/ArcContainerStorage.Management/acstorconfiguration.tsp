@@ -50,6 +50,8 @@ model StoragePoolConfig {
   enabled: boolean = true; // Default value is true
 
   @doc("The number of replicas to create.")
+  @minValue(1) // Minimum value constraint
+  @maxValue(10) // Maximum value constraint
   replicas: int32 = 3; // Default value is 3
 
   @doc("The name of the storage pool.")
