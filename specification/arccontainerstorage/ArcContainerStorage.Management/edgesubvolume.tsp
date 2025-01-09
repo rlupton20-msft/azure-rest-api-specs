@@ -44,13 +44,13 @@ model EdgeSubvolumeProperties {
   @doc("Top-level path for this subvolume (e.g., /mysubvol).")
   @minLength(1)
   @maxLength(255)
-  // pattern ^/?[a-zA-Z0-9-\\._]*$
+  @pattern("^/?[a-zA-Z0-9-\\._]*$")
   path: string;
 
   @doc("EdgeIngestPolicy used by this subvolume.")
   @minLength(1)
   @maxLength(253)
-  // pattern ^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$")
   ingestPolicy: string = "edgeingestpolicy-default";
 
   @doc("Optional authentication config for certain subvolumes.")
