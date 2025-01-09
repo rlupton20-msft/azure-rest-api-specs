@@ -25,6 +25,10 @@ model EdgeStorageConfiguration
   name: string;
 }
 
+@minLength(1)
+@maxLength(253)
+scalar StorageClass extends string;
+
 //
 // Properties
 //
@@ -32,8 +36,8 @@ model EdgeStorageConfiguration
 model EdgeStorageConfigurationProperties {
   @doc("The default disk storage class(es) to be used for edge volumes. Must not be empty and is immutable once set.")
   @minItems(1)
-  //   @maxLength(253)
-  defaultDiskStorageClasses: string[]; // Additional validations in CRD (immutability, size constraints)
+  @visibility("read")
+  defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
   failoverEdgeVolumeConsumers?: boolean = true;
