@@ -131,9 +131,13 @@ union AuthType {
 @doc("Unix-like ownership of the subvolume via UID/GID.")
 model AuthSysConfig {
   @doc("User ID owning the subvolume (default 4294967294).")
+  @minValue(1) // Minimum value constraint
+  @maxValue(4294967294) // Maximum value constraint
   uid?: int64;
 
   @doc("Group ID owning the subvolume (default 4294967294).")
+  @minValue(1) // Minimum value constraint
+  @maxValue(4294967294) // Maximum value constraint
   gid?: int64;
 }
 
@@ -152,8 +156,6 @@ model EdgeSubvolumeStatus {
   edgeVolumeRef?: string;
 
   @doc("Number of files left to upload.")
-  @minValue(0) // Minimum value constraint
-  @maxValue(1000) // Maximum value constraint
   numberFilesLeftToUpload?: int32;
 
   @doc("Describes the backend connection.")
@@ -176,8 +178,6 @@ model EdgeSubvolumeStatus {
   fileErrors?: FileError[];
 
   @doc("Total count of file errors.")
-  @minValue(0) // Minimum value constraint
-  @maxValue(1000) // Maximum value constraint
   totalFileErrors?: int32;
 }
 
@@ -196,8 +196,6 @@ model FileError {
   error?: string;
 
   @doc("An optional integer code or identifier related to the error.")
-  @minValue(0) // Minimum value constraint
-  @maxValue(10) // Maximum value constraint
   export?: int32;
 }
 
