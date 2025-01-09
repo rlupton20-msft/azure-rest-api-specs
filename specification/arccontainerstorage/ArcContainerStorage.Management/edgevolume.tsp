@@ -32,6 +32,7 @@ model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
 @doc("Defines the desired state (spec) of the EdgeVolume resource.")
 model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
+  @visibility("read")
   requestedSize: string;
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")

@@ -33,9 +33,8 @@ model EdgeSubvolume is ExtensionResource<EdgeSubvolumeProperties> {
 @doc("Defines the properties of the EdgeSubvolume resource.")
 model EdgeSubvolumeProperties {
   @doc("Type of the subvolume.")
+  @visibility("read")
   subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
-
-  // If you want to replicate immutability, add @x-kubernetes-validations with self == oldSelf.
 
   @doc("Name of the EdgeVolume that this subvolume references.")
   @minLength(1)

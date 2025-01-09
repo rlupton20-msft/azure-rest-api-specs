@@ -35,6 +35,7 @@ model SyncSubvolumeProperties {
   @doc("Name of the EdgeSubvolume to sync.")
   @minLength(1)
   @maxLength(255)
+  @visibility("read")
   edgesubvolume: string;
 
   @doc("The provisioning state of the resource.")

@@ -29,13 +29,16 @@ model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
 @doc("Defines the properties of the AcStorConfiguration resource.")
 model AcStorConfigurationProperties {
   @doc("The mount point for the disk.")
+  @visibility("read")
   diskMountPoint: string = "/mnt"; // Default value is "/mnt"
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
+  @visibility("read")
   diskCapacity: string;
 
   @doc("Configuration for creating a storage pool.")
+  @visibility("read")
   createStoragePool: StoragePoolConfig;
 
   @doc("The provisioning state of the resource.")
