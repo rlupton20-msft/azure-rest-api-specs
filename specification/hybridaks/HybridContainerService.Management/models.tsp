@@ -323,6 +323,7 @@ model ProvisionedClusterProperties {
       "minCount",
       "enableAutoScaling",
       "maxPods",
+      "availabilityZones",
       "count",
       "vmSize",
       "kubernetesVersion",
@@ -592,6 +593,11 @@ model AgentPoolProfile {
    * The maximum number of pods that can run on a node.
    */
   maxPods?: int32;
+
+  /**
+   * The list of Availability zones to use for nodes.
+   */
+  availabilityZones?: string[];
 }
 
 /**
@@ -1447,7 +1453,7 @@ model LinuxProfile {
   /**
    * Profile for Linux VMs in the container service cluster.
    */
-  #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "Inital suppression to prevent breaking change"
+  #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "Initial suppression to prevent breaking change"
   linuxProfile?: LinuxProfileProperties;
 }
 
