@@ -21,8 +21,10 @@ model TargetTemplateProperties {
   @doc("Description of Target template")
   description: string;
 
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("target spec")
-  targetSpec: string;
+  targetSpec: Record<unknown>;
 
   @doc("Orchestrator Type")
   orchestratorType: OrchestratorType;
@@ -35,6 +37,7 @@ model TargetTemplateProperties {
 @doc("Target Template Resource")
 model TargetTemplate is TrackedResource<TargetTemplateProperties> {
   ...ResourceNameParameter<TargetTemplate>;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -46,10 +49,10 @@ interface TargetTemplates {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<TargetTemplate>;
 
   @doc("update a Target Template Resource")
-  update is ArmResourcePatchSync<TargetTemplate, TargetTemplateProperties>;
+  update is ArmResourcePatchAsync<TargetTemplate, TargetTemplateProperties>;
 
   @doc("Delete a Target Template Resource")
-  delete is ArmResourceDeleteSync<TargetTemplate>;
+  delete is ArmResourceDeleteWithoutOkAsync<TargetTemplate>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<TargetTemplate>;

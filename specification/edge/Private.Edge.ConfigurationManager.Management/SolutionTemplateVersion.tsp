@@ -30,11 +30,17 @@ model SolutionTemplateVersionProperties {
   @doc("Config expressions for this solution version")
   configurations: string;
 
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("App components spec")
-  spec: string;
+  specification: Record<unknown>;
 
   @doc("Orchestrator type")
   orchestratorType: OrchestratorType;
+
+  @doc("List of capabilities")
+  @visibility("read")
+  capabilities: string[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -50,6 +56,7 @@ model SolutionTemplateVersion
     SolutionTemplateVersion,
     NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
   >;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations

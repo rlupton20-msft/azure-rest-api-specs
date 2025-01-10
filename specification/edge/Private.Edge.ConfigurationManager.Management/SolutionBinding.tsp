@@ -8,6 +8,7 @@ import "./DeploymentTarget.tsp";
 import "./ProvisioningState.tsp";
 import "./SolutionInstance.tsp";
 import "./SolutionBindingConfiguration.tsp";
+import "./ConfiguredSolutionVersion.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -17,15 +18,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
-
-@doc("Configured Solution Version")
-model ConfiguredSolutionVersion {
-  @doc("Solution Version")
-  solutionVersion: string;
-
-  @doc("Latest Configuration Revision")
-  latestConfigRevision: string;
-}
 
 @doc("Solution Configuration Parameter")
 model SolutionConfigurationParameter {

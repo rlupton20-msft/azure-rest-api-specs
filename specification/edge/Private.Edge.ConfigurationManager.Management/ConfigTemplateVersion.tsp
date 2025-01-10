@@ -39,6 +39,7 @@ model ConfigTemplateVersion
     ConfigTemplateVersion,
     NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
   >;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -66,7 +67,7 @@ interface ConfigTemplateVersions {
   >;
 
   @doc("Delete a Config Template Version Resource")
-  delete is ArmResourceDeleteSync<ConfigTemplateVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<ConfigTemplateVersion>;
 
   @doc("List Config Template Version Resources")
   listByConfigTemplate is ArmResourceListByParent<ConfigTemplateVersion>;

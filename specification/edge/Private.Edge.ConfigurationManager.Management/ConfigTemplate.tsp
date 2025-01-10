@@ -28,6 +28,7 @@ model ConfigTemplateProperties {
 @doc("Config Template Resource")
 model ConfigTemplate is TrackedResource<ConfigTemplateProperties> {
   ...ResourceNameParameter<ConfigTemplate>;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -42,7 +43,7 @@ interface ConfigTemplates {
   update is ArmResourcePatchSync<ConfigTemplate, ConfigTemplateProperties>;
 
   @doc("Delete a Config Template Resource")
-  delete is ArmResourceDeleteSync<ConfigTemplate>;
+  delete is ArmResourceDeleteWithoutOkAsync<ConfigTemplate>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<ConfigTemplate>;

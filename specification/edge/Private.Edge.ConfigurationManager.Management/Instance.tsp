@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionBinding.tsp";
+import "./DeploymentStatus.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -13,6 +14,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
@@ -27,54 +29,24 @@ union ActiveState {
   string,
 }
 
-@doc("Component Status")
-model ComponentStatus {
-  @doc("Target name")
-  name: string;
+@doc("Defines a state of the reconciliation policy.")
+union ReconciliationState {
+  string,
 
-  @doc("component status")
-  status: string;
+  @doc("Reconciliation is inactive")
+  inactive: "inactive",
+
+  @doc("Reconciliation is active")
+  active: "active",
 }
 
-@doc("Target Status")
-model TargetStatus {
-  @doc("Target name")
-  name: string;
+@doc("Defines a ReconciliationPolicy")
+model ReconciliationPolicyProperties {
+  @doc("The state of the ReconciliationPolicy")
+  state: ReconciliationState;
 
-  @doc("target status")
-  status: string;
-
-  @doc("component statuses")
-  @extension("x-ms-identifiers", [])
-  componentStatuses: ComponentStatus[];
-}
-
-@doc("Deployment Status")
-model DeploymentStatus {
-  @doc("The lastModified of the Status")
-  lastModified: utcDateTime;
-
-  @doc("Indicates if Instance is deployed")
-  deployed: int32;
-
-  @doc("The expected running job id")
-  expectedRunningJobId: int32;
-
-  @doc("The running job id")
-  runningJobId: int32;
-
-  @doc("Deployment status")
-  status: string;
-
-  @doc("status details")
-  statusDetails: string;
-
-  @doc("deployment Generation")
-  generation: int32;
-
-  @doc("target resource statuses")
-  @extension("x-ms-identifiers", [])
-  targetStatuses?: TargetStatus[];
+  @doc("Policy interval.")
+  interval: string;
 }
 
 @doc("Instance Properties")
@@ -91,12 +63,16 @@ model InstanceProperties {
   @visibility("read")
   activeState?: ActiveState;
 
+  @doc("Reconciliation policy of instance")
+  @visibility("read")
+  reconciliationPolicy?: ReconciliationPolicyProperties;
+
   @doc("Scope of instance")
+  @visibility("read")
   solutionScope?: string;
 
   @doc("Status of instance")
   @visibility("read")
-  @extension("x-ms-identifiers", [])
   status: DeploymentStatus;
 
   @doc("Deployment timestamp of instance")
@@ -110,9 +86,19 @@ model InstanceProperties {
 
 @doc("Instance Resource")
 @parentResource(Solution)
-model Instance is ProxyResource<InstanceProperties> {
+model Instance is Azure.ResourceManager.ProxyResource<InstanceProperties> {
   // Name will be set to solution
-  ...ResourceNameParameter<Instance>;
+  @doc("Name of the instance")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("instanceName")
+  @segment("instances")
+  name: string;
+
+  ...ExtendedLocationProperty;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -124,7 +110,7 @@ interface Instances {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
 
   @doc("update an Instance Resource")
-  update is ArmResourcePatchSync<Instance, InstanceProperties>;
+  update is ArmResourcePatchAsync<Instance, InstanceProperties>;
 
   @doc("Delete Instance Resource")
   delete is ArmResourceDeleteWithoutOkAsync<Instance>;

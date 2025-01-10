@@ -13,30 +13,9 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
-
-@doc("Available Solution Template Version for a solution template")
-model AvailableSolutionTemplateVersion {
-  @doc("Solution template version Id")
-  solutionTemplateVersionId: string;
-
-  @doc("Latest configured revision number for a solution template version")
-  latestConfigRevision: string;
-
-  @doc("Boolean to indicate whether it is configured")
-  isConfigured: boolean;
-}
-
-@doc("Applicable Solution Template - contains all versions of a solution template")
-model ApplicableSolutionTemplate {
-  @doc("Solution template Id")
-  solutionTemplateId: string;
-
-  @doc("All Solution template versions for a solution template")
-  @extension("x-ms-identifiers", [])
-  availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
-}
 
 @doc("Solution Template Version Parameter")
 model SolutionTemplateVersionParameter {
@@ -61,16 +40,8 @@ model TargetProperties {
   @doc("Hierarchy Level")
   hierarchyLevel: string;
 
-  @doc("Custom location of target")
-  customLocation: string;
-
   @doc("Scope of the target resource")
   solutionScope?: string;
-
-  @doc("All applicable solution templates and solution template versions for this target")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
-  applicableSolutionTemplates?: ApplicableSolutionTemplate[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -78,8 +49,18 @@ model TargetProperties {
 }
 
 @doc("Target Resource")
-model Target is TrackedResource<TargetProperties> {
-  ...ResourceNameParameter<Target>;
+model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
+  @doc("Name of the target")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("targetName")
+  @segment("targets")
+  name: string;
+
+  ...EntityTagProperty;
+  ...ExtendedLocationProperty;
 }
 
 @armResourceOperations
@@ -91,7 +72,7 @@ interface Targets {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Target>;
 
   @doc("update a Target Resource")
-  update is ArmResourcePatchSync<Target, TargetProperties>;
+  update is ArmResourcePatchAsync<Target, TargetProperties>;
 
   @doc("Delete a Target Resource")
   delete is ArmResourceDeleteWithoutOkAsync<Target>;

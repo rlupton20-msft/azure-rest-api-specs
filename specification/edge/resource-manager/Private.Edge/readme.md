@@ -33,6 +33,9 @@ directive:
   - suppress: ProvisioningStateSpecifiedForLROPut
     from: configurationmanager.json
     reason: Adding provisioning state will break polymorphism
+  - suppress: AvoidAdditionalProperties
+  - from: configurationmanager.json
+    reason: RP depends on another service called k8s bridge which is facing issues during serialization of data. The changes required in that service will not be implemented before our public preview, so we need to go ahead with using Record which adds this.
 ```
 
 ---

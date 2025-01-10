@@ -38,6 +38,7 @@ model HierarchyListProperties {
 @doc("Hierarchy List Resource")
 model HierarchyList is TrackedResource<HierarchyListProperties> {
   ...ResourceNameParameter<HierarchyList>;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -52,7 +53,7 @@ interface HierarchyLists {
   update is ArmResourcePatchSync<HierarchyList, HierarchyListProperties>;
 
   @doc("Delete a Hierarchy List Resource")
-  delete is ArmResourceDeleteSync<HierarchyList>;
+  delete is ArmResourceDeleteWithoutOkAsync<HierarchyList>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<HierarchyList>;

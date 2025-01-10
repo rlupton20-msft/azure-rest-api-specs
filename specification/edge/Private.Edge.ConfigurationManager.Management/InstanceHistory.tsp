@@ -8,6 +8,7 @@ import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
 import "./Target.tsp";
 import "./Instance.tsp";
+import "./DeploymentStatus.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -15,6 +16,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
@@ -30,8 +32,11 @@ model InstanceHistoryProperties {
 
   @doc("Deployment Status of instance")
   @visibility("read")
-  @extension("x-ms-identifiers", [])
-  deploymentStatus: DeploymentStatus[];
+  status: DeploymentStatus;
+
+  @doc("Reconciliation policy of instance")
+  @visibility("read")
+  reconciliationPolicy?: ReconciliationPolicyProperties;
 
   @doc("Deployment timestamp of instance")
   @visibility("read")
@@ -44,12 +49,21 @@ model InstanceHistoryProperties {
 
 @doc("InstanceHistory Resource")
 @parentResource(Instance)
-model InstanceHistory is ProxyResource<InstanceHistoryProperties> {
-  ...ResourceNameParameter<
-    InstanceHistory,
-    // Name will be set to solutionVersion-deploymentTimestamp
-    NamePattern = "^[a-zA-Z0-9-]{3,40}$"
-  >;
+@resource("histories")
+model InstanceHistory
+  is Azure.ResourceManager.ProxyResource<InstanceHistoryProperties> {
+  // Name will be set to solutionVersion-deploymentTimestamp
+  @doc("Name of the instance history")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("instanceHistoryName")
+  @segment("instanceHistories")
+  name: string;
+
+  ...ExtendedLocationProperty;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -61,10 +75,10 @@ interface InstanceHistories {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<InstanceHistory>;
 
   @doc("update an InstanceHistory Resource")
-  update is ArmResourcePatchSync<InstanceHistory, InstanceHistoryProperties>;
+  update is ArmResourcePatchAsync<InstanceHistory, InstanceHistoryProperties>;
 
   @doc("Delete InstanceHistory Resource")
-  delete is ArmResourceDeleteSync<InstanceHistory>;
+  delete is ArmResourceDeleteWithoutOkAsync<InstanceHistory>;
 
   @doc("List InstanceHistory Resources")
   listByInstance is ArmResourceListByParent<InstanceHistory>;

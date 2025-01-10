@@ -34,6 +34,7 @@ model SolutionTemplateProperties {
 @doc("Solution Template Resource")
 model SolutionTemplate is TrackedResource<SolutionTemplateProperties> {
   ...ResourceNameParameter<SolutionTemplate>;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations

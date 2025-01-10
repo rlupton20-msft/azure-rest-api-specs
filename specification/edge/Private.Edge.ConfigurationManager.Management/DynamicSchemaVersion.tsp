@@ -34,7 +34,7 @@ interface DynamicSchemaVersions {
   update is ArmResourcePatchSync<DynamicSchemaVersion, SchemaVersionProperties>;
 
   @doc("Delete a Dynamic Schema Version Resource")
-  delete is ArmResourceDeleteSync<DynamicSchemaVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<DynamicSchemaVersion>;
 
   @doc("List by Dynamic Schema")
   listByDynamicSchema is ArmResourceListByParent<DynamicSchemaVersion>;

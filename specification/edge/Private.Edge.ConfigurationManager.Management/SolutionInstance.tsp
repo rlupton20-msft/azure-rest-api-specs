@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionBinding.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -15,26 +16,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
-
-@doc("Solution Instance State")
-union State {
-  @doc("Solution Instance is ready to deploy")
-  ReadyToDeploy: "ReadyToDeploy",
-
-  @doc("Solution Instance is deploying")
-  Deploying: "Deploying",
-
-  @doc("Solution Instance is deployed")
-  Deployed: "Deployed",
-
-  @doc("Solution Instance failed to deploy")
-  Failed: "Failed",
-
-  @doc("Solution Instance is undeployed")
-  Undeployed: "Undeployed",
-
-  string,
-}
 
 @doc("Solution Instance Properties")
 model SolutionInstanceProperties {

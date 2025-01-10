@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -12,23 +13,33 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
 @doc("Solution Version Properties")
 model SolutionVersionProperties {
-  @doc("Latest revision number of resolved config for this solution version")
+  @doc("Revision number of resolved config for this solution version")
   @visibility("read")
-  latestConfigRevision: int32;
+  revision: int32;
 
   @doc("Name of applicable target's display name")
+  @visibility("read")
   targetDisplayName: string;
 
   @doc("Resolved configuration values")
+  @visibility("read")
   configuration: string;
 
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("App components spec")
-  specification: string;
+  @visibility("read")
+  specification: Record<unknown>;
+
+  @doc("State of solution instance")
+  @visibility("read")
+  state?: State;
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -37,12 +48,20 @@ model SolutionVersionProperties {
 
 @doc("Solution Version Resource")
 @parentResource(Solution)
-model SolutionVersion is ProxyResource<SolutionVersionProperties> {
-  ...ResourceNameParameter<
-    SolutionVersion,
-    // Name will be set to solutionTemplateVersion-latestConfigRevision
-    NamePattern = "^[a-zA-Z0-9-]{3,30}$"
-  >;
+@resource("versions")
+model SolutionVersion
+  is Azure.ResourceManager.ProxyResource<SolutionVersionProperties> {
+  // Name will be set to solutionTemplateVersion-revision
+  @doc("Name of the solution version")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("solutionVersionName")
+  @segment("solutionVersions")
+  name: string;
+
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -54,10 +73,10 @@ interface SolutionVersions {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
   @doc("update an SolutionVersion Resource")
-  update is ArmResourcePatchSync<SolutionVersion, SolutionVersionProperties>;
+  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
 
   @doc("Delete a Solution Version Resource")
-  delete is ArmResourceDeleteSync<SolutionVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
 
   @doc("List Solution Version Resources")
   listByTarget is ArmResourceListByParent<SolutionVersion>;
