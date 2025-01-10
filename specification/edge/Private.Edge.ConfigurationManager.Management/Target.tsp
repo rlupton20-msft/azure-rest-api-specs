@@ -31,8 +31,10 @@ model TargetProperties {
   @doc("Display name of target")
   displayName: string;
 
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("target spec")
-  targetSpecification: string;
+  targetSpecification: Record<unknown>;
 
   @doc("List of capabilities")
   capabilities: string[];
