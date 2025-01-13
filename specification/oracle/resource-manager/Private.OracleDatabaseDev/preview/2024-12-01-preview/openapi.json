@@ -63,6 +63,9 @@
       "name": "GiVersions"
     },
     {
+      "name": "GiMinorVersions"
+    },
+    {
       "name": "DbSystemShapes"
     },
     {
@@ -91,6 +94,15 @@
     },
     {
       "name": "SystemVersions"
+    },
+    {
+      "name": "ExadbVmClusters"
+    },
+    {
+      "name": "ExascaleDbStorageVaults"
+    },
+    {
+      "name": "ExascaleDbNodes"
     }
   ],
   "paths": {
@@ -213,6 +225,74 @@
             "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/CloudVmClusterListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/exadbVmClusters": {
+      "get": {
+        "operationId": "ExadbVmClusters_ListBySubscription",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "List ExadbVmCluster resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmClusterListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/exascaleDbStorageVaults": {
+      "get": {
+        "operationId": "ExascaleDbStorageVaults_ListBySubscription",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "List ExascaleDbStorageVault resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVaultListResult"
             }
           },
           "default": {
@@ -798,6 +878,9 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/GiVersionFilter"
           }
         ],
         "responses": {
@@ -819,13 +902,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}": {
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}/giMinorVersions": {
       "get": {
-        "operationId": "GiVersions_Get",
+        "operationId": "GiMinorVersions_ListByParent",
         "tags": [
-          "GiVersions"
+          "GiMinorVersions"
         ],
-        "description": "Get a GiVersion",
+        "description": "List GiMinorVersion resources by GiVersion",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -843,13 +926,69 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
+          },
+          {
+            "$ref": "#/parameters/GiMinorVersionFilter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/GiVersion"
+              "$ref": "#/definitions/GiMinorVersionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}/giMinorVersions/{giMinorVersionName}": {
+      "get": {
+        "operationId": "GiMinorVersions_Get",
+        "tags": [
+          "GiMinorVersions"
+        ],
+        "description": "Get a GiMinorVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "giversionname",
+            "in": "path",
+            "description": "GiVersion name",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          },
+          {
+            "name": "giMinorVersionName",
+            "in": "path",
+            "description": "The name of the GiMinorVersion",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/GiMinorVersion"
             }
           },
           "default": {
@@ -3827,6 +3966,789 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters": {
+      "get": {
+        "operationId": "ExadbVmClusters_ListByResourceGroup",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "List ExadbVmCluster resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmClusterListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}": {
+      "get": {
+        "operationId": "ExadbVmClusters_Get",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "Get a ExadbVmCluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ExadbVmClusters_CreateOrUpdate",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "Create a ExadbVmCluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ExadbVmCluster' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            }
+          },
+          "201": {
+            "description": "Resource 'ExadbVmCluster' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ExadbVmClusters_Update",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "Update a ExadbVmCluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExadbVmClusterUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ExadbVmClusters_Delete",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "Delete a ExadbVmCluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes": {
+      "get": {
+        "operationId": "ExascaleDbNodes_ListByParent",
+        "tags": [
+          "ExascaleDbNodes"
+        ],
+        "description": "List ExascaleDbNode resources by ExadbVmCluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbNodeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}": {
+      "get": {
+        "operationId": "ExascaleDbNodes_Get",
+        "tags": [
+          "ExascaleDbNodes"
+        ],
+        "description": "Get a ExascaleDbNode",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "exascaleDbNodeName",
+            "in": "path",
+            "description": "The name of the ExascaleDbNode",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbNode"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}/action": {
+      "post": {
+        "operationId": "ExascaleDbNodes_Action",
+        "tags": [
+          "ExascaleDbNodes"
+        ],
+        "description": "VM actions on DbNode of ExadbVmCluster by the provided filter",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "exascaleDbNodeName",
+            "in": "path",
+            "description": "The name of the ExascaleDbNode",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DbNodeAction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DbActionResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/removeVms": {
+      "post": {
+        "operationId": "ExadbVmClusters_RemoveVms",
+        "tags": [
+          "ExadbVmClusters"
+        ],
+        "description": "Remove VMs from the VM Cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exadbVmClusterName",
+            "in": "path",
+            "description": "The name of the ExadbVmCluster",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RemoveVirtualMachineFromExadbVmClusterDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExadbVmCluster"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exascaleDbStorageVaults": {
+      "get": {
+        "operationId": "ExascaleDbStorageVaults_ListByResourceGroup",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "List ExascaleDbStorageVault resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVaultListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exascaleDbStorageVaults/{exascaleDbStorageVaultName}": {
+      "get": {
+        "operationId": "ExascaleDbStorageVaults_Get",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "Get a ExascaleDbStorageVault",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exascaleDbStorageVaultName",
+            "in": "path",
+            "description": "The name of the ExascaleDbStorageVault",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVault"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ExascaleDbStorageVaults_Create",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "Create a ExascaleDbStorageVault",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exascaleDbStorageVaultName",
+            "in": "path",
+            "description": "The name of the ExascaleDbStorageVault",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVault"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ExascaleDbStorageVault' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVault"
+            }
+          },
+          "201": {
+            "description": "Resource 'ExascaleDbStorageVault' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVault"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ExascaleDbStorageVaults_Update",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "Update a ExascaleDbStorageVault",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exascaleDbStorageVaultName",
+            "in": "path",
+            "description": "The name of the ExascaleDbStorageVault",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVaultTagsUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExascaleDbStorageVault"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ExascaleDbStorageVaults_Delete",
+        "tags": [
+          "ExascaleDbStorageVaults"
+        ],
+        "description": "Delete a ExascaleDbStorageVault",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "exascaleDbStorageVaultName",
+            "in": "path",
+            "description": "The name of the ExascaleDbStorageVault",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
     }
   },
   "definitions": {
@@ -5674,7 +6596,7 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "Indicates that resource in Provisioning state"
           }
         ]
       },
@@ -5751,17 +6673,17 @@
           {
             "name": "Pending",
             "value": "Pending",
-            "description": "Pending value"
+            "description": "Pending - Initial state when Oracle cloud account is not configured"
           },
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Provisioning value"
+            "description": "Provisioning - State when Oracle cloud account is being provisioned"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Available value"
+            "description": "Available - State when Oracle cloud account cloud linking is complete and it is available"
           }
         ]
       }
@@ -6298,11 +7220,11 @@
             "update"
           ]
         },
-        "fileSystemConfigurationDetail": {
+        "fileSystemConfigurationDetails": {
           "type": "array",
           "description": "Array of mount path and size.",
           "items": {
-            "$ref": "#/definitions/FileSystemConfigurationDetail"
+            "$ref": "#/definitions/FileSystemConfigurationDetails"
           },
           "x-ms-identifiers": [],
           "x-ms-mutability": [
@@ -6662,11 +7584,11 @@
             "update"
           ]
         },
-        "fileSystemConfigurationDetail": {
+        "fileSystemConfigurationDetails": {
           "type": "array",
           "description": "Array of mount path and size.",
           "items": {
-            "$ref": "#/definitions/FileSystemConfigurationDetail"
+            "$ref": "#/definitions/FileSystemConfigurationDetails"
           },
           "x-ms-identifiers": [],
           "x-ms-mutability": [
@@ -7103,6 +8025,16 @@
         }
       }
     },
+    "DbActionResponse": {
+      "type": "object",
+      "description": "ExascaleDbNode action response",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "ExascaleDbNode provisioning state"
+        }
+      }
+    },
     "DbIormConfig": {
       "type": "object",
       "description": "DbIormConfig for cloud vm cluster",
@@ -7187,6 +8119,19 @@
           }
         ]
       }
+    },
+    "DbNodeDetails": {
+      "type": "object",
+      "description": "Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only.",
+      "properties": {
+        "dbNodeId": {
+          "$ref": "#/definitions/ExascaleDbNodeResourceId",
+          "description": "Exascale DbNode Azure Resource ID"
+        }
+      },
+      "required": [
+        "dbNodeId"
+      ]
     },
     "DbNodeListResult": {
       "type": "object",
@@ -7734,6 +8679,10 @@
           "minLength": 1,
           "maxLength": 255
         },
+        "shapeName": {
+          "type": "string",
+          "description": "The shape used for the DB system."
+        },
         "availableCoreCount": {
           "type": "integer",
           "format": "int32",
@@ -8267,7 +9216,864 @@
         }
       }
     },
-    "FileSystemConfigurationDetail": {
+    "ExadbVmCluster": {
+      "type": "object",
+      "description": "ExadbVmCluster resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ExadbVmClusterProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "ExadbVmClusterLifecycleState": {
+      "type": "string",
+      "description": "Exadata VM cluster on Exascale Infrastructure lifecycle state enum",
+      "enum": [
+        "Provisioning",
+        "Available",
+        "Updating",
+        "Terminating",
+        "Terminated",
+        "MaintenanceInProgress",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ExadbVmClusterLifecycleState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "Indicates that resource in Provisioning state"
+          },
+          {
+            "name": "Available",
+            "value": "Available",
+            "description": "Indicates that resource in Available state"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Indicates that resource in Updating state"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "Indicates that resource in Terminating state"
+          },
+          {
+            "name": "Terminated",
+            "value": "Terminated",
+            "description": "Indicates that resource in Terminated state"
+          },
+          {
+            "name": "MaintenanceInProgress",
+            "value": "MaintenanceInProgress",
+            "description": "Indicates that resource Maintenance in progress state"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that resource in Failed state"
+          }
+        ]
+      }
+    },
+    "ExadbVmClusterListResult": {
+      "type": "object",
+      "description": "The response of a ExadbVmCluster list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ExadbVmCluster items on this page",
+          "items": {
+            "$ref": "#/definitions/ExadbVmCluster"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ExadbVmClusterProperties": {
+      "type": "object",
+      "description": "ExadbVmCluster resource model",
+      "properties": {
+        "ocid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "ExadbVmCluster ocid",
+          "readOnly": true
+        },
+        "clusterName": {
+          "type": "string",
+          "description": "The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.",
+          "minLength": 1,
+          "maxLength": 11,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "backupSubnetCidr": {
+          "type": "string",
+          "description": "Client OCI backup subnet CIDR, default is 192.168.252.0/22",
+          "minLength": 1,
+          "maxLength": 32,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "nsgUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "Exadata VM cluster on Exascale Infrastructure provisioning state",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/ExadbVmClusterLifecycleState",
+          "description": "CloudVmCluster lifecycle state",
+          "readOnly": true
+        },
+        "vnetId": {
+          "$ref": "#/definitions/VnetId",
+          "description": "VNET for network connectivity",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "subnetId": {
+          "$ref": "#/definitions/SubnetId",
+          "description": "Client subnet",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "dataCollectionOptions": {
+          "$ref": "#/definitions/DataCollectionOptions",
+          "description": "Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display Name",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "domain": {
+          "type": "string",
+          "description": "A domain name used for the Exadata VM cluster on Exascale Infrastructure",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "enabledEcpuCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure.",
+          "minimum": 0,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "exascaleDbStorageVaultId": {
+          "$ref": "#/definitions/ExascaleDbStorageVaultResourceId",
+          "description": "The Azure Resource ID of the Exadata Database Storage Vault.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "gridImageOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Grid Setup will be done using this Grid Image OCID. Can be obtained using giMinorVersions API",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "gridImageType": {
+          "$ref": "#/definitions/GridImageType",
+          "description": "The type of Grid Image",
+          "readOnly": true
+        },
+        "giVersion": {
+          "type": "string",
+          "description": "Oracle Grid Infrastructure (GI) software version",
+          "minLength": 1,
+          "maxLength": 255,
+          "readOnly": true
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The hostname for the  Exadata VM cluster on Exascale Infrastructure.",
+          "minLength": 1,
+          "maxLength": 12,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "licenseModel": {
+          "$ref": "#/definitions/LicenseModel",
+          "description": "The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is LICENSE_INCLUDED. ",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "memorySizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The memory that you want to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.",
+          "readOnly": true
+        },
+        "nodeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of nodes in the Exadata VM cluster on Exascale Infrastructure.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "nsgCidrs": {
+          "type": "array",
+          "description": "CIDR blocks for additional NSG ingress rules. The VNET CIDRs used to provision the VM Cluster will be added by default.",
+          "items": {
+            "$ref": "#/definitions/NsgCidr"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "zoneOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.",
+          "readOnly": true
+        },
+        "privateZoneOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "scanListenerPortTcp": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The TCP Single Client Access Name (SCAN) port. The default port is 1521.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "scanListenerPortTcpSsl": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The TCPS Single Client Access Name (SCAN) port. The default port is 2484.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "listenerPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port number configured for the listener on the Exadata VM cluster on Exascale Infrastructure.",
+          "readOnly": true
+        },
+        "shape": {
+          "type": "string",
+          "description": "The shape of the Exadata VM cluster on Exascale Infrastructure resource",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "sshPublicKeys": {
+          "type": "array",
+          "description": "The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "systemVersion": {
+          "type": "string",
+          "description": "Operating system version of the image.",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The time zone of the Exadata VM cluster on Exascale Infrastructure. For details, see [Exadata Infrastructure Time Zones](/Content/Database/References/timezones.htm).",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "totalEcpuCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure.",
+          "minimum": 2,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "vmFileSystemStorage": {
+          "$ref": "#/definitions/ExadbVmClusterStorageDetails",
+          "description": "Filesystem storage details.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Additional information about the current lifecycle state.",
+          "readOnly": true
+        },
+        "scanDnsName": {
+          "type": "string",
+          "description": "The FQDN of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure. ",
+          "minLength": 1,
+          "maxLength": 72,
+          "readOnly": true
+        },
+        "scanIpIds": {
+          "type": "array",
+          "description": "The Single Client Access Name (SCAN) IP addresses associated with the Exadata VM cluster on Exascale Infrastructure. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. **Note:** For a single-node DB system, this list is empty.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "scanDnsRecordId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure.",
+          "readOnly": true
+        },
+        "snapshotFileSystemStorage": {
+          "$ref": "#/definitions/ExadbVmClusterStorageDetails",
+          "description": "Snapshot filesystem storage details.",
+          "readOnly": true
+        },
+        "totalFileSystemStorage": {
+          "$ref": "#/definitions/ExadbVmClusterStorageDetails",
+          "description": "Total file system storage details.",
+          "readOnly": true
+        },
+        "vipIds": {
+          "type": "array",
+          "description": "The virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "ociUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
+          "readOnly": true
+        },
+        "iormConfigCache": {
+          "$ref": "#/definitions/ExadataIormConfig",
+          "description": "iormConfigCache details for Exadata VM cluster on Exascale Infrastructure.",
+          "readOnly": true
+        },
+        "backupSubnetOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Cluster backup subnet ocid",
+          "readOnly": true
+        },
+        "subnetOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Cluster subnet ocid",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "vnetId",
+        "subnetId",
+        "displayName",
+        "enabledEcpuCount",
+        "exascaleDbStorageVaultId",
+        "hostname",
+        "nodeCount",
+        "shape",
+        "sshPublicKeys",
+        "totalEcpuCount",
+        "vmFileSystemStorage"
+      ]
+    },
+    "ExadbVmClusterStorageDetails": {
+      "type": "object",
+      "description": "Storage Details on the Exadata VM cluster.",
+      "properties": {
+        "totalSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total Capacity"
+        }
+      },
+      "required": [
+        "totalSizeInGbs"
+      ]
+    },
+    "ExadbVmClusterUpdate": {
+      "type": "object",
+      "description": "The type used for update operations of the ExadbVmCluster.",
+      "properties": {
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/ExadbVmClusterUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "ExadbVmClusterUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the ExadbVmCluster.",
+      "properties": {
+        "nodeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of nodes in the Exadata VM cluster on Exascale Infrastructure.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "ExascaleDbNode": {
+      "type": "object",
+      "description": "The DbNode resource belonging to ExadbVmCluster",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ExascaleDbNodeProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ExascaleDbNodeListResult": {
+      "type": "object",
+      "description": "The response of a ExascaleDbNode list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ExascaleDbNode items on this page",
+          "items": {
+            "$ref": "#/definitions/ExascaleDbNode"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ExascaleDbNodeProperties": {
+      "type": "object",
+      "description": "The properties of DbNodeResource",
+      "properties": {
+        "ocid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "DbNode OCID"
+        },
+        "additionalDetails": {
+          "type": "string",
+          "description": "Additional information about the planned maintenance."
+        },
+        "cpuCoreCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of CPU cores enabled on the Db node."
+        },
+        "dbNodeStorageSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The allocated local node storage in GBs on the Db node."
+        },
+        "faultDomain": {
+          "type": "string",
+          "description": "The name of the Fault Domain the instance is contained in.",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The host name for the database node."
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/DbNodeProvisioningState",
+          "description": "The current state of the database node."
+        },
+        "maintenanceType": {
+          "type": "string",
+          "description": "The type of database node maintenance."
+        },
+        "memorySizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The allocated memory in GBs on the Db node."
+        },
+        "softwareStorageSizeInGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems."
+        },
+        "timeMaintenanceWindowEnd": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End date and time of maintenance window."
+        },
+        "timeMaintenanceWindowStart": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date and time of maintenance window."
+        },
+        "totalCpuCoreCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of CPU cores reserved on the Db node."
+        }
+      },
+      "required": [
+        "ocid",
+        "lifecycleState"
+      ]
+    },
+    "ExascaleDbNodeResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.OracleDatabaseDev/exadbVmCluster/dbNode"
+          }
+        ]
+      }
+    },
+    "ExascaleDbStorageDetails": {
+      "type": "object",
+      "description": "Exadata Database Storage Details",
+      "properties": {
+        "availableSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Available Capacity"
+        },
+        "totalSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total Capacity"
+        }
+      }
+    },
+    "ExascaleDbStorageInputDetails": {
+      "type": "object",
+      "description": "Create exadata Database Storage Details model",
+      "properties": {
+        "totalSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total Capacity"
+        }
+      },
+      "required": [
+        "totalSizeInGbs"
+      ]
+    },
+    "ExascaleDbStorageVault": {
+      "type": "object",
+      "description": "ExascaleDbStorageVault resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ExascaleDbStorageVaultProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "zones": {
+          "type": "array",
+          "description": "The availability zones.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "ExascaleDbStorageVaultLifecycleState": {
+      "type": "string",
+      "description": "Exadata Database Storage Vault lifecycle state enum",
+      "enum": [
+        "Provisioning",
+        "Available",
+        "Updating",
+        "Terminating",
+        "Terminated",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ExascaleDbStorageVaultLifecycleState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Provisioning",
+            "value": "Provisioning",
+            "description": "Indicates that resource in Provisioning state"
+          },
+          {
+            "name": "Available",
+            "value": "Available",
+            "description": "Indicates that resource in Available state"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Indicates that resource in Updating state"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "Indicates that resource in Terminating state"
+          },
+          {
+            "name": "Terminated",
+            "value": "Terminated",
+            "description": "Indicates that resource in Terminated state"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that resource in Failed state"
+          }
+        ]
+      }
+    },
+    "ExascaleDbStorageVaultListResult": {
+      "type": "object",
+      "description": "The response of a ExascaleDbStorageVault list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ExascaleDbStorageVault items on this page",
+          "items": {
+            "$ref": "#/definitions/ExascaleDbStorageVault"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ExascaleDbStorageVaultProperties": {
+      "type": "object",
+      "description": "ExascaleDbStorageVault resource model",
+      "properties": {
+        "additionalFlashCacheInPercent": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of additional Flash Cache in percentage of High Capacity database storage.",
+          "minimum": 0,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Exadata Database Storage Vault description.",
+          "minLength": 1,
+          "maxLength": 400,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "highCapacityDatabaseStorageInput": {
+          "$ref": "#/definitions/ExascaleDbStorageInputDetails",
+          "description": "Create exadata Database Storage Details",
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "highCapacityDatabaseStorage": {
+          "$ref": "#/definitions/ExascaleDbStorageDetails",
+          "description": "Response exadata Database Storage Details",
+          "readOnly": true
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The time zone that you want to use for the Exadata Database Storage Vault",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/AzureResourceProvisioningState",
+          "description": "Exadata Database Storage Vault provisioning state",
+          "readOnly": true
+        },
+        "lifecycleState": {
+          "$ref": "#/definitions/ExascaleDbStorageVaultLifecycleState",
+          "description": "Exadata Database Storage Vault lifecycle state",
+          "readOnly": true
+        },
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Additional information about the current lifecycle state.",
+          "readOnly": true
+        },
+        "vmClusterCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of Exadata VM clusters used the Exadata Database Storage Vault.",
+          "readOnly": true
+        },
+        "ocid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the Exadata Database Storage Vault.",
+          "readOnly": true
+        },
+        "ociUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "displayName",
+        "highCapacityDatabaseStorageInput",
+        "lifecycleState"
+      ]
+    },
+    "ExascaleDbStorageVaultResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.OracleDatabaseDev/exascaleDbStorageVaults"
+          }
+        ]
+      }
+    },
+    "ExascaleDbStorageVaultTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in ExascaleDbStorageVault resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FileSystemConfigurationDetails": {
       "type": "object",
       "description": "File configuration options",
       "properties": {
@@ -8328,6 +10134,63 @@
         ]
       }
     },
+    "GiMinorVersion": {
+      "type": "object",
+      "description": "The Oracle Grid Infrastructure (GI) minor version resource definition.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/GiMinorVersionProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "GiMinorVersionListResult": {
+      "type": "object",
+      "description": "The response of a GiMinorVersion list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The GiMinorVersion items on this page",
+          "items": {
+            "$ref": "#/definitions/GiMinorVersion"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "GiMinorVersionProperties": {
+      "type": "object",
+      "description": "The Oracle Grid Infrastructure (GI) minor version properties",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "gridImageOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Grid Infrastructure Image Id",
+          "minLength": 1,
+          "maxLength": 255
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
     "GiVersion": {
       "type": "object",
       "description": "GiVersion resource definition",
@@ -8379,6 +10242,54 @@
         "version"
       ]
     },
+    "GiVersionShapes": {
+      "type": "string",
+      "description": "Allowed values for GI Versions Shape filter",
+      "enum": [
+        "Exadata.X9M",
+        "ExaDbXS"
+      ],
+      "x-ms-enum": {
+        "name": "GiVersionShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ExadataX9M",
+            "value": "Exadata.X9M",
+            "description": "Exadata X9M shape"
+          },
+          {
+            "name": "ExaDbXs",
+            "value": "ExaDbXS",
+            "description": "Exadata DB on Exascale Infrastructure shape"
+          }
+        ]
+      }
+    },
+    "GridImageType": {
+      "type": "string",
+      "description": "GridImageType enum",
+      "enum": [
+        "ReleaseUpdate",
+        "CustomImage"
+      ],
+      "x-ms-enum": {
+        "name": "GridImageType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ReleaseUpdate",
+            "value": "ReleaseUpdate",
+            "description": "Release update"
+          },
+          {
+            "name": "CustomImage",
+            "value": "CustomImage",
+            "description": "Custom image"
+          }
+        ]
+      }
+    },
     "HostFormatType": {
       "type": "string",
       "description": "Host format type enum.",
@@ -8417,12 +10328,12 @@
           {
             "name": "Retain",
             "value": "Retain",
-            "description": "Retain value"
+            "description": "Retain intent"
           },
           {
             "name": "Reset",
             "value": "Reset",
-            "description": "Reset value"
+            "description": "Reset intent"
           }
         ]
       }
@@ -8483,12 +10394,12 @@
           {
             "name": "LicenseIncluded",
             "value": "LicenseIncluded",
-            "description": "LicenseIncluded value"
+            "description": "License included"
           },
           {
             "name": "BringYourOwnLicense",
             "value": "BringYourOwnLicense",
-            "description": "BringYourOwnLicense value"
+            "description": "Bring Your Own License"
           }
         ]
       }
@@ -8682,6 +10593,10 @@
           }
         ]
       }
+    },
+    "MsRpaasNewResourceHeader": {
+      "type": "object",
+      "description": "Header to distinguish between resource creation or update"
     },
     "NsgCidr": {
       "type": "object",
@@ -8968,7 +10883,7 @@
         },
         "azureSubscriptionIds": {
           "type": "array",
-          "description": "Azure subscriptions to be added",
+          "description": "Azure subscriptions associated with this OracleSubscription",
           "items": {
             "type": "string"
           },
@@ -9348,6 +11263,23 @@
         ]
       }
     },
+    "RemoveVirtualMachineFromExadbVmClusterDetails": {
+      "type": "object",
+      "description": "Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.",
+      "properties": {
+        "dbNodes": {
+          "type": "array",
+          "description": "The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed.",
+          "items": {
+            "$ref": "#/definitions/DbNodeDetails"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "dbNodes"
+      ]
+    },
     "RepeatCadenceType": {
       "type": "string",
       "description": "Repeat cadence type enum",
@@ -9607,6 +11539,54 @@
             "name": "Redirect",
             "value": "Redirect",
             "description": "Redirect session mode"
+          }
+        ]
+      }
+    },
+    "ShapeFamily": {
+      "type": "string",
+      "description": "Allowed values for GI Minor Versions shapeFamily filter",
+      "enum": [
+        "SINGLENODE",
+        "YODA",
+        "VIRTUALMACHINE",
+        "EXADATA",
+        "EXACC",
+        "EXADB_XS"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamily",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "Yoda",
+            "value": "YODA",
+            "description": "Family value for Yoda Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          },
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "Exacc",
+            "value": "EXACC",
+            "description": "Family value for Exacc Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
           }
         ]
       }
@@ -9888,12 +11868,12 @@
           {
             "name": "Succeeded",
             "value": "Succeeded",
-            "description": "Succeeded value"
+            "description": "Validation succeeded"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Failed value"
+            "description": "Validation failed"
           }
         ]
       },
@@ -10109,5 +12089,86 @@
       "maxLength": 1024
     }
   },
-  "parameters": {}
+  "parameters": {
+    "GiMinorVersionFilter": {
+      "name": "shapeFamily",
+      "in": "query",
+      "description": "If provided, filters the results to the set of database versions which are supported for the given shape family.",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "SINGLENODE",
+        "YODA",
+        "VIRTUALMACHINE",
+        "EXADATA",
+        "EXACC",
+        "EXADB_XS"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamily",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "Yoda",
+            "value": "YODA",
+            "description": "Family value for Yoda Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          },
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "Exacc",
+            "value": "EXACC",
+            "description": "Family value for Exacc Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
+          }
+        ]
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "GiVersionFilter": {
+      "name": "shape",
+      "in": "query",
+      "description": "If provided, filters the results for the given shape",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "Exadata.X9M",
+        "ExaDbXS"
+      ],
+      "x-ms-enum": {
+        "name": "GiVersionShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ExadataX9M",
+            "value": "Exadata.X9M",
+            "description": "Exadata X9M shape"
+          },
+          {
+            "name": "ExaDbXs",
+            "value": "ExaDbXS",
+            "description": "Exadata DB on Exascale Infrastructure shape"
+          }
+        ]
+      },
+      "x-ms-parameter-location": "method"
+    }
+  }
 }

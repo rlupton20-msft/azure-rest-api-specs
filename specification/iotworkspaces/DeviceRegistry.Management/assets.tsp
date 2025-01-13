@@ -51,4 +51,11 @@ interface Assets {
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;
   listByResourceGroup is ArmResourceListByParent<Asset>;
   listBySubscription is ArmListBySubscription<Asset>;
+  @added(Versions.v2024_09_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  executeAction is ArmResourceActionAsync<
+    Asset,
+    Record<string>,
+    Record<string>
+  >;
 }

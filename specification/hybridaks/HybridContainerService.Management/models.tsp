@@ -17,9 +17,6 @@ union NetworkPolicy {
   /** Use the calico policy */
   calico: "calico",
 
-  /** Use the cilium policy */
-  cilium: "cilium",
-
   string,
 }
 
@@ -248,23 +245,6 @@ union ProvisioningState {
 }
 
 /**
- * The kubernetes distribution
- */
-union KubernetesDistribution {
-  string,
-
-  /**
-   * K8s kubernetes distribution
-   */
-  K8s: "K8s",
-
-  /**
-   * K3s kubernetes distribution
-   */
-  K3s: "K3s",
-}
-
-/**
  * Properties of the provisioned cluster.
  */
 model ProvisionedClusterProperties {
@@ -284,11 +264,6 @@ model ProvisionedClusterProperties {
   kubernetesVersion?: string;
 
   /**
-   * The distribution of Kubernetes in use by the provisioned cluster.
-   */
-  kubernetesDistribution?: KubernetesDistribution;
-
-  /**
    * The network configuration profile for the provisioned cluster.
    */
   networkProfile?: NetworkProfile;
@@ -297,11 +272,6 @@ model ProvisionedClusterProperties {
    * The storage configuration profile for the provisioned cluster.
    */
   storageProfile?: StorageProfile;
-
-  /**
-   * A mock property for Private RP only.
-   */
-  mockProperty: string;
 
   /**
    * The SSH restricted access profile for the VMs in the provisioned cluster.
@@ -395,7 +365,7 @@ model LinuxProfilePropertiesSshPublicKeysItem {
  */
 model ControlPlaneProfile {
   /**
-   * Number of control plane nodes. The default value is 1, and the count should be an odd number
+   * Number of control plane nodes. The default value is 1, and the count can be either 2 or odd numbers.
    */
   count?: int32 = 1;
 
@@ -431,38 +401,14 @@ model NetworkProfile {
   loadBalancerProfile?: NetworkProfileLoadBalancerProfile;
 
   /**
-   * Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'.
+   * Network policy used for building Kubernetes network. Possible values include: 'calico'.
    */
-  networkPolicy?: NetworkPolicy;
+  networkPolicy?: NetworkPolicy = NetworkPolicy.calico;
 
   /**
    * A CIDR notation IP Address range from which to assign pod IPs.
    */
   podCidr?: string;
-
-  /**
-   * An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.
-   */
-  vnetSubnetId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.AzureStackHCI/logicalNetworks";
-    },
-    {
-      type: "Microsoft.HybridContainerService/virtualNetworks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/l2Networks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/l3Networks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/trunkedNetworks";
-    }
-  ]>;
 }
 
 /**
@@ -488,11 +434,6 @@ model StorageProfile {
    * NFS CSI Driver settings for the storage profile.
    */
   nfsCsiDriver?: StorageProfileNfsCSIDriver;
-
-  /**
-   * Local Path Provisioner Driver settings for the storage profile.
-   */
-  localPathProvisionerDriver?: StorageProfileLocalPathDriver;
 }
 
 /**
@@ -501,9 +442,9 @@ model StorageProfile {
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
 model StorageProfileSmbCSIDriver {
   /**
-   * Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal.
+   * Indicates whether to enable SMB CSI Driver. The default value is true.
    */
-  enabled?: boolean;
+  enabled?: boolean = true;
 }
 
 /**
@@ -512,19 +453,9 @@ model StorageProfileSmbCSIDriver {
 #suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
 model StorageProfileNfsCSIDriver {
   /**
-   * Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal.
+   * Indicates whether to enable NFS CSI Driver. The default value is true.
    */
-  enabled?: boolean;
-}
-
-/**
- * Local Path Provisioner Driver settings for the storage profile.
- */
-model StorageProfileLocalPathDriver {
-  /**
-   * Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal.
-   */
-  enabled?: boolean;
+  enabled?: boolean = true;
 }
 
 /**
@@ -565,7 +496,7 @@ model AgentPoolProfile {
   /**
    * The node labels to be persisted across all nodes in agent pool.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Node Labels needs to be record following AKS behavior"
   nodeLabels?: Record<string>;
 
   /**
@@ -648,18 +579,6 @@ model CloudProviderProfileInfraNetworkProfile {
     },
     {
       type: "Microsoft.HybridContainerService/virtualNetworks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/cloudServicesNetworks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/l2Networks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/l3Networks";
-    },
-    {
-      type: "Microsoft.NetworkCloud/trunkedNetworks";
     }
   ]>[];
 }
@@ -1127,6 +1046,7 @@ model KubernetesVersionProperties {
   /**
    * Patch versions of a Kubernetes release
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Patch Versions needs to be record following AKS behavior"
   @visibility("read")
   patchVersions?: Record<KubernetesPatchVersions>;
 }
@@ -1437,6 +1357,7 @@ model VirtualNetworksPatch {
   /**
    * Resource tags
    */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Tags needs to be record"
   tags?: Record<string>;
 }
 
@@ -1447,7 +1368,7 @@ model LinuxProfile {
   /**
    * Profile for Linux VMs in the container service cluster.
    */
-  #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "Inital suppression to prevent breaking change"
+  #suppress "@azure-tools/typespec-azure-core/property-name-conflict" "Initial suppression to prevent breaking change"
   linuxProfile?: LinuxProfileProperties;
 }
 
@@ -1455,9 +1376,8 @@ model LinuxProfile {
  * URI parameter for the connected cluster resource.
  */
 model ConnectedClusterResourceUriParameter {
-  @path
+  @path(#{ allowReserved: true })
   @doc("The fully qualified Azure Resource Manager identifier of the connected cluster resource.")
-  @OpenAPI.extension("x-ms-skip-url-encoding", true)
   connectedClusterResourceUri: string;
 }
 
@@ -1473,9 +1393,8 @@ alias ConnectedClusterResourceUriParameters = {
  * URI parameter for the custom location resource.
  */
 model CustomLocationResourceUriParameter {
-  @path
+  @path(#{ allowReserved: true })
   @doc("The fully qualified Azure Resource Manager identifier of the custom location resource.")
-  @OpenAPI.extension("x-ms-skip-url-encoding", true)
   customLocationResourceUri: string;
 }
 

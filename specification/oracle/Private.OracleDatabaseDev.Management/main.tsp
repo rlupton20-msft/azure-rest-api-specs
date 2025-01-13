@@ -1,5 +1,25 @@
 import "@azure-tools/typespec-autorest";
-import "./operations/main.tsp";
+import "./operations/exadata/exadatainfrastructureOperations.tsp";
+import "./operations/exadata/dbServersOperations.tsp";
+import "./operations/exadata/vmclusterOperations.tsp";
+import "./operations/exadata/virtualNetworkAddressOperations.tsp";
+import "./operations/oraclesubscription/oracleSubscriptionOperations.tsp";
+import "./operations/exadata/dbNodesOperations.tsp";
+import "./operations/exadata/giVersionOperations.tsp";
+import "./operations/exadata/giMinorVersionOperations.tsp";
+import "./operations/exadata/dbSystemShapeOperations.tsp";
+import "./operations/exadata/dnsPrivateViewsOperations.tsp";
+import "./operations/exadata/dnsPrivateZonesOperations.tsp";
+import "./operations/autonomousdatabase/autonomousDatabaseOperations.tsp";
+import "./operations/autonomousdatabase/autonomousDatabaseBackupOperations.tsp";
+import "./operations/autonomousdatabase/autonomousDatabaseCharacterSetOperations.tsp";
+import "./operations/autonomousdatabase/autonomousDatabaseNationalCharacterSetOperations.tsp";
+import "./operations/autonomousdatabase/autonomousDatabaseVersionOperations.tsp";
+import "./operations/oraclesubscription/oracleCloudAccountOperations.tsp";
+import "./operations/exadata/systemVersionOperations.tsp";
+import "./operations/exascale/exadbVmClusterOperations.tsp";
+import "./operations/exascale/exascaleDbStorageVaultOperations.tsp";
+import "./operations/exascale/exascaleDbNodesOperations.tsp";
 import "./versions.tsp";
 
 using TypeSpec.Http;

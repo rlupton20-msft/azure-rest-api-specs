@@ -11,13 +11,13 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.SaaSHub;
 /**
- * A SaaSHub cloud service.
+ * A SaaSHub Saas resource.
  */
 model SaasResource
   is Azure.ResourceManager.ProxyResource<SaasResourceProperties> {
   ...ResourceNameParameter<
     Resource = SaasResource,
-    KeyName = "SaasResourceName",
+    KeyName = "saasResourceName",
     SegmentName = "saasResources",
     NamePattern = "^[-_0-9a-zA-Z]{3,50}$"
   >;
@@ -26,12 +26,12 @@ model SaasResource
 @armResourceOperations
 interface SaasResources {
   /**
-   * Gets a SaaSHub cloud service by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+   * Gets a SaaSHub Saas resource by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
    */
   get is ArmResourceRead<SaasResource, BaseParameters = ApiVersionParameter>;
 
   /**
-   * Creates or updates a SaaSHub cloud service.
+   * Creates or updates a SaaSHub Saas resource.
    */
   create is ArmResourceCreateOrReplaceAsync<
     SaasResource,
@@ -39,7 +39,7 @@ interface SaasResources {
   >;
 
   /**
-   * Updates the properties of a SaaSHub cloud service.
+   * Updates the properties of a SaaSHub Saas resource.
    */
   @parameterVisibility
   update is ArmCustomPatchAsync<
@@ -49,7 +49,7 @@ interface SaasResources {
   >;
 
   /**
-   * Deletes a SaaSHub cloud service resource.
+   * Deletes a SaaSHub Saas resource.
    */
   delete is ArmResourceDeleteWithoutOkAsync<
     SaasResource,
@@ -57,7 +57,7 @@ interface SaasResources {
   >;
 
   /**
-   * Lists the SaaSHub cloud services under the tenant.
+   * Lists the SaaSHub Saas resource under the tenant.
    */
   listByTenant is ArmResourceListByParent<
     SaasResource,
@@ -65,7 +65,7 @@ interface SaasResources {
   >;
 
   /**
-   * Evaluates whether an existing cloud service resource can be cancelled.
+   * Evaluates whether an existing Saas resource can be cancelled.
    */
   canCancel is ArmResourceActionSync<
     SaasResource,
@@ -75,7 +75,7 @@ interface SaasResources {
   >;
 
   /**
-   * Evaluates whether the source cloud service resource can be merged to target cloud service resource.
+   * Evaluates whether the source Saas resource can be merged to target Saas resource.
    */
   canMerge is ArmResourceActionSync<
     SaasResource,
@@ -85,7 +85,7 @@ interface SaasResources {
   >;
 
   /**
-   * Evaluates whether the request payload can update an existing cloud service resource.
+   * Evaluates whether the request payload can update an existing Saas resource.
    */
   canUpdate is ArmResourceActionSync<
     SaasResource,
@@ -95,7 +95,7 @@ interface SaasResources {
   >;
 
   /**
-   * Cancels a SaaSHub cloud service.
+   * Cancels a SaaSHub Saas resource.
    */
   cancel is ArmResourceActionAsync<
     SaasResource,
@@ -105,7 +105,7 @@ interface SaasResources {
   >;
 
   /**
-   * Merges multiple cloud service resources into one target cloud service resource. The resource name in URL is the target, and the list of source cloud service resource and quantity will be specified in request payload
+   * Merges multiple Saas resources into one target Saas resource. The resource name in URL is the target, and the list of source Saas resource and quantity will be specified in request payload
    */
   merge is ArmResourceActionAsync<
     SaasResource,
@@ -118,21 +118,21 @@ interface SaasResources {
 @@maxLength(SaasResource.name, 50);
 @@minLength(SaasResource.name, 3);
 @@doc(SaasResource.name,
-  "The name that uniquely identifies a SaaSHub cloud service."
+  "The name that uniquely identifies a SaaSHub Saas resource."
 );
-@@doc(SaasResource.properties, "The properties of a SaaSHub cloud service.");
+@@doc(SaasResource.properties, "The properties of a SaaSHub Saas resource.");
 @@doc(SaasResources.create::parameters.resource,
-  "Request parameters that are provided to the create SaaSHub cloud service operation."
+  "Request parameters that are provided to the create SaaSHub Saas resource operation."
 );
 @@doc(SaasResources.update::parameters.properties,
-  "Request parameters that are provided to the update SaaSHub cloud service operation."
+  "Request parameters that are provided to the update SaaSHub Saas resource operation."
 );
 @@doc(SaasResources.canMerge::parameters.body,
-  "Request parameters that are provided to the merge SaaSHub cloud service operation."
+  "Request parameters that are provided to the merge SaaSHub Saas resource operation."
 );
 @@doc(SaasResources.canUpdate::parameters.body,
-  "Request parameters that are provided to the update SaaSHub cloud service operation."
+  "Request parameters that are provided to the update SaaSHub Saas resource operation."
 );
 @@doc(SaasResources.merge::parameters.body,
-  "Request parameters that are provided to the merge SaaSHub cloud service operation."
+  "Request parameters that are provided to the merge SaaSHub Saas resource operation."
 );

@@ -8,6 +8,7 @@ import "./DeploymentTarget.tsp";
 import "./ProvisioningState.tsp";
 import "./SolutionInstance.tsp";
 import "./SolutionBindingConfiguration.tsp";
+import "./ConfiguredSolutionVersion.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -17,15 +18,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
-
-@doc("Configured Solution Version")
-model ConfiguredSolutionVersion {
-  @doc("Solution Version")
-  solutionVersion: string;
-
-  @doc("Latest Configuration Revision")
-  latestConfigRevision: string;
-}
 
 @doc("Solution Configuration Parameter")
 model SolutionConfigurationParameter {
@@ -121,6 +113,18 @@ model DeploymentTargetSolutionBinding
   >;
 }
 
+@doc("Solution Publish Parameter")
+model SolutionPublishParameter {
+  @doc("Solution Binding Configuration Name")
+  solutionBindingConfiguration: string;
+}
+
+@doc("Solution Deploy Parameter")
+model SolutionDeployParameter {
+  @doc("Solution Instance Name")
+  solutionInstance: string;
+}
+
 @armResourceOperations
 interface DeploymentTargetSolutionBindings {
   @doc("Get a Solution Binding Resource")
@@ -141,12 +145,6 @@ interface DeploymentTargetSolutionBindings {
   @doc("List by Deployment Target")
   listByDeploymentTarget is ArmResourceListByParent<DeploymentTargetSolutionBinding>;
 
-  @doc("Post request to deploy")
-  deploy is ArmResourceActionNoResponseContentAsync<
-    DeploymentTargetSolutionBinding,
-    SolutionInstance
-  >;
-
   @doc("Post request to resolve configuration")
   resolveConfiguration is ArmResourceActionAsync<
     DeploymentTargetSolutionBinding,
@@ -157,7 +155,13 @@ interface DeploymentTargetSolutionBindings {
   @doc("Post request to publish")
   publish is ArmResourceActionAsync<
     DeploymentTargetSolutionBinding,
-    SolutionInstance,
+    SolutionPublishParameter,
     SolutionInstance
+  >;
+
+  @doc("Post request to deploy")
+  deploy is ArmResourceActionNoResponseContentAsync<
+    DeploymentTargetSolutionBinding,
+    SolutionDeployParameter
   >;
 }

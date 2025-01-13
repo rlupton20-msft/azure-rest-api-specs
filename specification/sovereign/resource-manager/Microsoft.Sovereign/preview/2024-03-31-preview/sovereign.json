@@ -784,6 +784,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "TransparencyLogs_ListByTenant_0": {
+            "$ref": "./examples/TransparencyLogs_ListByTenant.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -821,6 +826,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TransparencyLogs_Get_0": {
+            "$ref": "./examples/TransparencyLogs_Get.json"
           }
         }
       },
@@ -871,6 +881,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "TransparencyLogs_Create_0": {
+            "$ref": "./examples/TransparencyLogs_Create.json"
+          }
         }
       },
       "patch": {
@@ -914,6 +929,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "TransparencyLogs_Update_0": {
+            "$ref": "./examples/TransparencyLogs_Update.json"
+          }
         }
       },
       "delete": {
@@ -947,6 +967,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "TransparencyLogs_Delete_0": {
+            "$ref": "./examples/TransparencyLogs_Delete.json"
           }
         }
       }
@@ -1234,7 +1259,7 @@
           {
             "name": "None",
             "value": "None",
-            "description": "None."
+            "description": "No file requested."
           },
           {
             "name": "CSV",
@@ -1360,7 +1385,7 @@
         },
         "organization": {
           "type": "string",
-          "description": "The name of the country/region or agency the landing zone is being deployed for"
+          "description": "The name of the organization or agency the landing zone is being deployed for."
         }
       },
       "required": [
@@ -1501,6 +1526,14 @@
             ]
           }
         },
+        "tags": {
+          "type": "array",
+          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
+          "items": {
+            "$ref": "#/definitions/Tags"
+          },
+          "x-ms-identifiers": []
+        },
         "firewallCreationOption": {
           "$ref": "#/definitions/FirewallCreationOptions",
           "description": "To deploy firewall, choose the Standard/Premium based on the desired SKU. Choose None for no firewall and UseExisting for a pre existing one."
@@ -1583,14 +1616,6 @@
         "sandboxMgMetadata": {
           "$ref": "#/definitions/SandboxManagementGroupProperties",
           "description": "This will be applied to the sandbox management group."
-        },
-        "tags": {
-          "type": "array",
-          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
-          "items": {
-            "$ref": "#/definitions/Tags"
-          },
-          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -1648,6 +1673,14 @@
               }
             ]
           }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
+          "items": {
+            "$ref": "#/definitions/Tags"
+          },
+          "x-ms-identifiers": []
         },
         "firewallCreationOption": {
           "$ref": "#/definitions/FirewallCreationOptions",
@@ -1731,14 +1764,6 @@
         "sandboxMgMetadata": {
           "$ref": "#/definitions/SandboxManagementGroupPropertiesUpdate",
           "description": "This will be applied to the sandbox management group."
-        },
-        "tags": {
-          "type": "array",
-          "description": "Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.",
-          "items": {
-            "$ref": "#/definitions/Tags"
-          },
-          "x-ms-identifiers": []
         }
       }
     },
@@ -2071,38 +2096,27 @@
           }
         },
         "emailAttachmentFormat": {
-          "type": "string",
-          "description": "The format of Transparency Log email attachments.",
-          "default": "CSV",
-          "enum": [
-            "None",
-            "CSV"
-          ],
-          "x-ms-enum": {
-            "name": "FileFormat",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "None",
-                "value": "None",
-                "description": "None."
-              },
-              {
-                "name": "CSV",
-                "value": "CSV",
-                "description": "Comma separated values."
-              }
-            ]
-          }
+          "$ref": "#/definitions/FileFormat",
+          "description": "The format of Transparency Log email attachments."
         }
       },
       "required": [
         "emailCultures"
       ]
     },
-    "TransparencyLogPropertiesUpdate": {
+    "TransparencyLogUpdate": {
       "type": "object",
-      "description": "The properties of the Transparency Log resource type.",
+      "description": "The type used for update operations of the TransparencyLog.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TransparencyLogUpdateProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
+    },
+    "TransparencyLogUpdateProperties": {
+      "type": "object",
+      "description": "The updatable properties of the TransparencyLog.",
       "properties": {
         "emailCultures": {
           "type": "array",
@@ -2113,46 +2127,10 @@
           }
         },
         "emailAttachmentFormat": {
-          "type": "string",
-          "description": "The format of Transparency Log email attachments.",
-          "default": "CSV",
-          "enum": [
-            "None",
-            "CSV"
-          ],
-          "x-ms-enum": {
-            "name": "FileFormat",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "None",
-                "value": "None",
-                "description": "None."
-              },
-              {
-                "name": "CSV",
-                "value": "CSV",
-                "description": "Comma separated values."
-              }
-            ]
-          }
+          "$ref": "#/definitions/FileFormat",
+          "description": "The format of Transparency Log email attachments."
         }
       }
-    },
-    "TransparencyLogUpdate": {
-      "type": "object",
-      "description": "The Transparency Log resource type.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TransparencyLogPropertiesUpdate",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
     },
     "UpdateAuthoringStatusRequest": {
       "type": "object",

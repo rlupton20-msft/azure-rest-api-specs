@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionBinding.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -15,26 +16,6 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
-
-@doc("Solution Instance State")
-union State {
-  @doc("Solution Instance is ready to deploy")
-  ReadyToDeploy: "ReadyToDeploy",
-
-  @doc("Solution Instance is deploying")
-  Deploying: "Deploying",
-
-  @doc("Solution Instance is deployed")
-  Deployed: "Deployed",
-
-  @doc("Solution Instance failed to deploy")
-  Failed: "Failed",
-
-  @doc("Solution Instance is undeployed")
-  Undeployed: "Undeployed",
-
-  string,
-}
 
 @doc("Solution Instance Properties")
 model SolutionInstanceProperties {
@@ -77,11 +58,30 @@ interface SolutionInstances {
   listBySolutionBinding is ArmResourceListByParent<SolutionInstance>;
 }
 
+@doc("Solution Instance Properties")
+model DeploymentTargetSolutionInstanceProperties {
+  @doc("Solution version of solution instance")
+  @visibility("read")
+  solutionVersionId: string;
+
+  @doc("Configuration version of solution instance")
+  @visibility("read")
+  solutionBindingConfigurationId: string;
+
+  @doc("State of solution instance")
+  @visibility("read")
+  state?: State;
+
+  @doc("Provisioning state of resource")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+}
+
 @doc("Deployment Target Solution Instance Resource")
 @parentResource(DeploymentTargetSolutionBinding)
 @resource("solutionInstances")
 model DeploymentTargetSolutionInstance
-  is ProxyResource<SolutionInstanceProperties> {
+  is ProxyResource<DeploymentTargetSolutionInstanceProperties> {
   ...ResourceNameParameter<DeploymentTargetSolutionInstance>;
 }
 
@@ -96,7 +96,7 @@ interface DeploymentTargetSolutionInstances {
   @doc("update a Solution Instance Resource")
   update is ArmResourcePatchSync<
     DeploymentTargetSolutionInstance,
-    SolutionInstanceProperties
+    DeploymentTargetSolutionInstanceProperties
   >;
 
   @doc("Delete a Solution Instance Resource")

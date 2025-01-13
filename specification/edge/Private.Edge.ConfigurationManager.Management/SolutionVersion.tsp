@@ -5,7 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
-import "./Solution.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -13,57 +13,56 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
 @doc("Solution Version Properties")
-model HelmSolutionProperties {
-  @doc("Helm Chart URI of helm solution")
-  helmChartUri: string;
+model SolutionVersionProperties {
+  @doc("Revision number of resolved config for this solution version")
+  @visibility("read")
+  revision: int32;
 
-  @doc("Helm Chart Version of helm solution")
-  helmChartVersion: string;
+  @doc("Name of applicable target's display name")
+  @visibility("read")
+  targetDisplayName: string;
 
-  @doc("Configuration template of helm solution")
-  configurationTemplate: string;
+  @doc("Resolved configuration values")
+  @visibility("read")
+  configuration: string;
+
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
+  @doc("App components spec")
+  @visibility("read")
+  specification: Record<unknown>;
+
+  @doc("State of solution instance")
+  @visibility("read")
+  state?: State;
 
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("Available solution version types")
-union SolutionVersionType {
-  @doc("Helm solution version")
-  Helm: "Helm",
-
-  string,
-}
-
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" ""
 @doc("Solution Version Resource")
 @parentResource(Solution)
 @resource("versions")
-// @discriminator("kind")
-model SolutionVersion is ProxyResource<HelmSolutionProperties> {
-  ...ResourceNameParameter<
-    SolutionVersion,
-    NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-  >;
+model SolutionVersion
+  is Azure.ResourceManager.ProxyResource<SolutionVersionProperties> {
+  // Name will be set to solutionTemplateVersion-revision
+  @doc("Name of the solution version")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("solutionVersionName")
+  @segment("solutionVersions")
+  name: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
-  @doc("Kind of solution version")
-  kind: SolutionVersionType.Helm;
+  ...EntityTagProperty;
 }
-
-// @doc("Helm Use Case Properties")
-// model HelmSolution extends SolutionVersion {
-//   @doc("properties of helm solution")
-//   properties: HelmSolutionProperties;
-
-//   @doc("Kind of solution version")
-//   kind: SolutionVersionType.Helm;
-// }
 
 @armResourceOperations
 interface SolutionVersions {
@@ -73,9 +72,12 @@ interface SolutionVersions {
   @doc("Create or update a Solution Version Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
+  @doc("update an SolutionVersion Resource")
+  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
+
   @doc("Delete a Solution Version Resource")
-  delete is ArmResourceDeleteSync<SolutionVersion>;
+  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
 
   @doc("List Solution Version Resources")
-  listBySolution is ArmResourceListByParent<SolutionVersion>;
+  listByTarget is ArmResourceListByParent<SolutionVersion>;
 }

@@ -11,11 +11,12 @@ using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
-namespace Microsoft.Impact;
+namespace Private.Impact;
 
 @doc("ImpactCategory resource")
 @subscriptionResource
-model ImpactCategory is ProxyResource<ImpactCategoryProperties> {
+model ImpactCategory
+  is Azure.ResourceManager.ProxyResource<ImpactCategoryProperties> {
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]{3,180}$")
   @key("impactCategoryName")
   @segment("impactCategories")

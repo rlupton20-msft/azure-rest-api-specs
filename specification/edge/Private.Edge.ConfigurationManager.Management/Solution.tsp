@@ -4,8 +4,9 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
-import "./CapabilityList.tsp";
+import "./Target.tsp";
 import "./ProvisioningState.tsp";
+import "./ConfiguredSolutionVersion.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -13,35 +14,20 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
-@doc("Configuration Link")
-model ConfigurationLink {
-  @doc("Hierarchy Type of Configuration Link")
-  hierarchyType: string;
-
-  @doc("Configuration Id of Configuration Link")
-  configurationId: string;
-}
-
 @doc("Solution Properties")
 model SolutionProperties {
-  @doc("Current Version of solution")
+  @doc("Solution template Id")
   @visibility("read")
-  currentVersion?: string;
+  solutionTemplateId: string;
 
-  @doc("List of capabilities")
+  @doc("List of latest revisions for configured solution versions")
   @extension("x-ms-identifiers", [])
-  capabilities: Capability[];
-
-  @doc("Description of solution")
-  description: string;
-
-  @doc("List of configuration links")
   @visibility("read")
-  @extension("x-ms-identifiers", [])
-  configurationLinks?: ConfigurationLink[];
+  configuredSolutionVersions?: ConfiguredSolutionVersion[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -49,8 +35,19 @@ model SolutionProperties {
 }
 
 @doc("Solution Resource")
-model Solution is TrackedResource<SolutionProperties> {
-  ...ResourceNameParameter<Solution>;
+@parentResource(Target)
+model Solution is Azure.ResourceManager.TrackedResource<SolutionProperties> {
+  @doc("Name of the solution")
+  @maxLength(61)
+  @minLength(3)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @path
+  @key("solutionName")
+  @segment("solutions")
+  name: string;
+
+  ...ExtendedLocationProperty;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -62,10 +59,10 @@ interface Solutions {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Solution>;
 
   @doc("update a Solution resource")
-  update is ArmResourcePatchSync<Solution, SolutionProperties>;
+  update is ArmResourcePatchAsync<Solution, SolutionProperties>;
 
   @doc("Delete a Solution resource")
-  delete is ArmResourceDeleteSync<Solution>;
+  delete is ArmResourceDeleteWithoutOkAsync<Solution>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<Solution>;

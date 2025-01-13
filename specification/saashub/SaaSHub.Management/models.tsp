@@ -10,21 +10,19 @@ using Azure.ResourceManager.Foundations;
 
 namespace Microsoft.SaaSHub;
 
-interface Operations extends Azure.ResourceManager.Operations {}
-
 /**
- * Indicates whether auto renewal is turned on or off for a SaaSHub cloud service. The default value will be 'On' for products that support autorenew.
+ * Indicates whether auto renewal is turned on or off for a SaaSHub saas resource. The default value will be 'On' for products that support autorenew.
  */
 union AutoRenew {
   string,
 
   /**
-   * Auto rewnew is turned off
+   * Auto renew is turned off
    */
   Off: "Off",
 
   /**
-   * Auto rewnew is turned on
+   * Auto renew is turned on
    */
   On: "On",
 }
@@ -47,7 +45,7 @@ union Cancellation {
 }
 
 /**
- * Gets the status of the SaaSHub cloud service at the time the operation was called.
+ * Gets the status of the SaaSHub saas resource at the time the operation was called.
  */
 @Azure.Core.lroStatus
 union ProvisioningState {
@@ -77,7 +75,7 @@ union ProvisioningState {
 }
 
 /**
- * The status of the cloud service.
+ * The status of the saas resource.
  */
 union SaasResourceStatus {
   string,
@@ -190,7 +188,7 @@ union CoTermTargetType {
 }
 
 /**
- * Type of the offer for which the cloud service is purchased
+ * Type of the offer for which the saas resource is purchased
  */
 union OfferType {
   string,
@@ -207,11 +205,11 @@ union OfferType {
 }
 
 /**
- * The properties of a SaaSHub cloud service.
+ * The properties of a SaaSHub saas resource.
  */
 model SaasResourceProperties {
   /**
-   * Indicates whether auto renewal is turned on or off for a SaaSHub cloud service. The default value will be 'On' for products that support autorenew.
+   * Indicates whether auto renewal is turned on or off for a SaaSHub saas resource. The default value will be 'On' for products that support autorenew.
    */
   autoRenew?: AutoRenew;
 
@@ -237,18 +235,18 @@ model SaasResourceProperties {
   systemOverrides?: SaasResourcePropertiesSystemOverrides;
 
   /**
-   * The name of the cloud service.
+   * The name of the saas resource.
    */
   displayName?: string;
 
   /**
-   * Type of the product for which the cloud service is purchased
+   * Type of the product for which the saas resource is purchased
    */
   @visibility("read")
   productType?: string;
 
   /**
-   * Type of the offer for which the cloud service is purchased
+   * Type of the offer for which the saas resource is purchased
    */
   @visibility("read")
   offerType?: OfferType;
@@ -265,48 +263,52 @@ model SaasResourceProperties {
   licenseData?: string;
 
   /**
-   * Gets the status of the SaaSHub cloud service at the time the operation was called.
+   * Gets the status of the SaaSHub saas resource at the time the operation was called.
    */
   @visibility("read")
   provisioningState?: ProvisioningState;
 
   /**
-   * The number of licenses purchased for the cloud service
+   * The number of licenses purchased for the saas resource
    */
   quantity?: int64;
 
   /**
-   * Renewal term details of the cloud service.
+   * Renewal term details of the saas resource.
    */
   renewalTerm?: RenewalTermDetails;
 
   /**
-   * The SKU description of the product for which the cloud service is purchased.
+   * The SKU description of the product for which the saas resource is purchased.
    */
   @visibility("read")
   skuDescription?: string;
 
   /**
-   * The status of the cloud service.
+   * The status of the saas resource.
    */
   @visibility("read")
   status?: SaasResourceStatus;
 
   /**
-   * The suspension reason for a cloud service.
+   * The suspension reason for a saas resource.
    */
   @visibility("read")
   suspensionReasons?: string[];
 
   /**
-   * Term details of the cloud service.
+   * Term details of the saas resource.
    */
   term?: TermDetails;
 
   /**
    * The original resource uri, if the new resource will be created by splitting part of the licenses from an existing resource
    */
-  originalResourceUri?: string;
+  originalResourceUri?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.SaaSHub/saasResources";
+    }
+  ]>;
 
   /**
    * The Id of the tenant where licenses will be provisioned for this resource. It will only be populated if licenses are provisioned in a different tenant.
@@ -314,7 +316,7 @@ model SaasResourceProperties {
   provisioningTenantId?: string;
 
   /**
-   * An external Id which could be used to reference other commcerce system entity, such as OMS sub id or proposal id. ExternalId value will have "{externalSystem}:{externalId}", e.g. "oms:1111-2222-444-666"
+   * An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have "{externalSystem}:{externalId}", e.g. "oms:1111-2222-444-666"
    */
   externalId?: string;
 }
@@ -333,16 +335,15 @@ model SaasResourcePropertiesSystemOverrides {
    * The end date in UTC time by when the self-serve cancellation ends.
    */
   @visibility("read")
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   cancellationAllowedEndDate?: utcDateTime;
 }
 
 /**
- * Renewal term details of the cloud service.
+ * Renewal term details of the saas resource.
  */
 model RenewalTermDetails {
   /**
-   * The number of licenses purchased for the cloud service
+   * The number of licenses purchased for the saas resource
    */
   quantity?: int64;
 
@@ -352,13 +353,13 @@ model RenewalTermDetails {
   productCode?: string;
 
   /**
-   * Billing frequency of the product under the cloud service. Example P1Y and P1M
+   * Billing frequency of the product under the saas resource. Example P1Y and P1M
    */
   @visibility("read")
   billingFrequency?: string;
 
   /**
-   * The duration for which you can use the cloud service. Example P1Y and P1M
+   * The duration for which you can use the saas resource. Example P1Y and P1M
    */
   @visibility("read")
   termUnit?: string;
@@ -366,22 +367,21 @@ model RenewalTermDetails {
   /**
    * End date of the term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored
    */
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   endDate?: utcDateTime;
 }
 
 /**
- * Term details of the cloud service.
+ * Term details of the saas resource.
  */
 model TermDetails {
   /**
-   * Billing frequency of the product under the cloud service. Example P1Y and P1M
+   * Billing frequency of the product under the saas resource. Example P1Y and P1M
    */
   @visibility("read")
   billingFrequency?: string;
 
   /**
-   * The duration for which you can use the cloud service. Example P1Y and P1M
+   * The duration for which you can use the saas resource. Example P1Y and P1M
    */
   @visibility("read")
   termUnit?: string;
@@ -390,20 +390,33 @@ model TermDetails {
    * Start date of the term in UTC time.
    */
   @visibility("read")
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   startDate?: utcDateTime;
 
   /**
    * End date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support co-term scenario. When there is a value passed in for PATCH scenario, it is to support extend trial scenario. The time part passed in will be ignored
    */
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   endDate?: utcDateTime;
 }
 
 /**
  * Request to check if the resource can be created
  */
-model CanCreateRequest is SaasResource;
+model CanCreateRequest {
+  /**
+   * Resource name of the saas hub resource to be created.
+   */
+  name: string;
+
+  /**
+   * Resource type to be created, currently only supports SaaS resource type.
+   */
+  type: string;
+
+  /**
+   * The properties of the saas hub resource to be created.
+   */
+  properties: SaasResourceProperties;
+}
 
 /**
  * Validation result for canCreate operation.
@@ -539,7 +552,6 @@ model CanCreateResultFuturePriceInfo {
    * The term end date in UTC time, for resources in this group.
    */
   @visibility("read")
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   termEndDate?: utcDateTime;
 
   /**
@@ -606,7 +618,6 @@ model CoTermDateEligibilityResult {
    * CoTerm end date in UTC time.
    */
   @visibility("read")
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   termEndDate?: utcDateTime;
 
   /**
@@ -653,12 +664,11 @@ model CanCancelResultAdditionalInfo {
    * The end date in UTC time by when the self-serve cancellation ends.
    */
   @visibility("read")
-  // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   cancellationWindowEndTimestamp?: utcDateTime;
 }
 
 /**
- * Request to merge multiple cloud service resources into one target cloud service resource
+ * Request to merge multiple saas resource resources into one target saas resource resource
  */
 model MergeSaasResourceRequest {
   /**
@@ -668,13 +678,17 @@ model MergeSaasResourceRequest {
 }
 
 /**
- * Cloud service to be used in merge operation as source.
+ * Saas resource to be used in merge operation as source.
  */
 model MergeSourceSaasResource {
   /**
-   * Id of the cloud service
+   * Id of the saas resource
    */
-  id?: string;
+  id?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.SaaSHub/saasResources";
+    }
+  ]>;
 
   /**
    * The quantity of license to be merged
@@ -789,7 +803,7 @@ model RefundableQuantityResult {
 }
 
 /**
- * Model to present the refundable license infomation
+ * Model to present the refundable license information
  */
 model RefundableQuantityResultRefundableQuantitiesInfo {
   /**

@@ -123,6 +123,13 @@ union ApprovalPolicy {
   NotRequired: "NotRequired",
 }
 
+@added(Microsoft.Mission.Versions.v2024_12_01_preview)
+@doc("Approver Metadata for approvals request.")
+model MandatoryApprover {
+  @doc("EntraId of the approver")
+  approverEntraId: string;
+}
+
 @added(Microsoft.Mission.Versions.v2024_11_01_preview)
 @doc("ApprovalSettings Properties")
 model ApprovalSettings {
@@ -158,6 +165,15 @@ model ApprovalSettings {
 
   @doc("Approval required for deploying service catalog templates (Required or NotRequired).")
   serviceCatalogDeployment?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
+  @doc("List of mandatory approvers for the approval request")
+  mandatoryApprovers?: MandatoryApprover[];
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Minimum number of approvers required for the approval request")
+  minimumApproversRequired?: int64;
 }
 
 @doc("Community Resource Properties")
@@ -211,4 +227,9 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
+
+  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
+  @added(Microsoft.Mission.Versions.v2025_01_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }

@@ -1,5 +1,3 @@
-import "../../common/operations/commons.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -50,3 +48,18 @@ interface OracleChildResource<
   extends ResourceCreateAsync<T>,
     ResourceRead<T>,
     ResourceDeleteWithoutOkAsync<T> {}
+
+@armResourceOperations
+interface ListActions {
+  @doc("Generic Async Get operation")
+  @autoRoute
+  @armResourceAction(TResource)
+  @post
+  ArmResourceListActionSync<
+    TResource extends Foundations.Resource,
+    TResponse,
+    TBaseParameters = BaseParameters<TResource>
+  >(
+    ...ResourceInstanceParameters<TResource, TBaseParameters>,
+  ): ArmResponse<TResponse> | ErrorResponse;
+}

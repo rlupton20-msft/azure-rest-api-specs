@@ -1451,7 +1451,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SolutionInstance"
+              "$ref": "#/definitions/SolutionDeployParameter"
             }
           }
         ],
@@ -1527,7 +1527,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SolutionInstance"
+              "$ref": "#/definitions/SolutionPublishParameter"
             }
           }
         ],
@@ -5705,7 +5705,7 @@
       "description": "Solution Binding Configuration Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SolutionBindingConfigurationProperties",
+          "$ref": "#/definitions/DeploymentTargetSolutionBindingConfigurationProperties",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -5736,12 +5736,47 @@
         "value"
       ]
     },
+    "DeploymentTargetSolutionBindingConfigurationProperties": {
+      "type": "object",
+      "description": "Solution Binding Configuration Properties",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Value of Solution Binding Configuration",
+          "readOnly": true
+        },
+        "solutionVersionId": {
+          "type": "string",
+          "description": "ARM ID of Solution Version Solution Binding Configuration Resolution",
+          "readOnly": true
+        },
+        "revision": {
+          "type": "string",
+          "description": "Revision of Solution Binding Configuration",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value",
+        "solutionVersionId",
+        "revision"
+      ]
+    },
+    "DeploymentTargetSolutionBindingConfigurationPropertiesUpdate": {
+      "type": "object",
+      "description": "Solution Binding Configuration Properties"
+    },
     "DeploymentTargetSolutionBindingConfigurationUpdate": {
       "type": "object",
       "description": "Solution Binding Configuration Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SolutionBindingConfigurationPropertiesUpdate",
+          "$ref": "#/definitions/DeploymentTargetSolutionBindingConfigurationPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -5792,7 +5827,7 @@
       "description": "Deployment Target Solution Instance Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SolutionInstanceProperties",
+          "$ref": "#/definitions/DeploymentTargetSolutionInstanceProperties",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -5823,12 +5858,46 @@
         "value"
       ]
     },
+    "DeploymentTargetSolutionInstanceProperties": {
+      "type": "object",
+      "description": "Solution Instance Properties",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution version of solution instance",
+          "readOnly": true
+        },
+        "solutionBindingConfigurationId": {
+          "type": "string",
+          "description": "Configuration version of solution instance",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/State",
+          "description": "State of solution instance",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "solutionVersionId",
+        "solutionBindingConfigurationId"
+      ]
+    },
+    "DeploymentTargetSolutionInstancePropertiesUpdate": {
+      "type": "object",
+      "description": "Solution Instance Properties"
+    },
     "DeploymentTargetSolutionInstanceUpdate": {
       "type": "object",
       "description": "Deployment Target Solution Instance Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SolutionInstancePropertiesUpdate",
+          "$ref": "#/definitions/DeploymentTargetSolutionInstancePropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -6596,6 +6665,19 @@
         "solutionVersion"
       ]
     },
+    "SolutionDeployParameter": {
+      "type": "object",
+      "description": "Solution Deploy Parameter",
+      "properties": {
+        "solutionInstance": {
+          "type": "string",
+          "description": "Solution Instance Name"
+        }
+      },
+      "required": [
+        "solutionInstance"
+      ]
+    },
     "SolutionInstance": {
       "type": "object",
       "description": "Solution Instance Resource",
@@ -6768,6 +6850,19 @@
           "description": "Description of solution"
         }
       }
+    },
+    "SolutionPublishParameter": {
+      "type": "object",
+      "description": "Solution Publish Parameter",
+      "properties": {
+        "solutionBindingConfiguration": {
+          "type": "string",
+          "description": "Solution Binding Configuration Name"
+        }
+      },
+      "required": [
+        "solutionBindingConfiguration"
+      ]
     },
     "SolutionUpdate": {
       "type": "object",
