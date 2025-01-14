@@ -25,41 +25,25 @@ model GiVersionProperties {
   version: string;
 }
 
+@added(Versions.v20241201_preview)
 @doc("Provides GiVersion query parameter for list operations.")
 model GiVersionFilter {
+  @added(Versions.v20241201_preview)
   @query
   @doc("If provided, filters the results for the given shape")
   @minLength(1)
   @maxLength(255)
-  shape?: string;
+  shape?: GiVersionShapes;
 }
 
 @added(Versions.v20241201_preview)
-@doc("The Oracle Grid Infrastructure (GI) minor version resource definition.")
-@parentResource(GiVersion)
-model GiMinorVersion is ProxyResource<GiMinorVersionProperties> {
-  ...ResourceNameParameter<GiMinorVersion>;
-}
+@doc("Allowed values for GI Versions Shape filter")
+union GiVersionShapes {
+  @doc("Exadata X9M shape")
+  ExadataX9M: "Exadata.X9M",
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "Read-only resource. No provisioning state provided."
-@added(Versions.v20241201_preview)
-@doc("The Oracle Grid Infrastructure (GI) minor version properties")
-model GiMinorVersionProperties {
-  @doc("A valid Oracle Grid Infrastructure (GI) software version.")
-  @minLength(1)
-  @maxLength(255)
-  version: string;
+  @doc("Exadata DB on Exascale Infrastructure shape")
+  ExaDbXs: "ExaDbXS",
 
-  @doc("Grid Infrastructure Image Id")
-  @minLength(1)
-  @maxLength(255)
-  gridImageId?: string;
-}
-
-@added(Versions.v20241201_preview)
-@doc("Provides GiMinorVersion query parameter for list operations.")
-model GiMinorVersionFilter {
-  @query
-  @doc("If provided, filters the results to the set of database versions which are supported for the given shape family.")
-  shapeFamily?: string;
+  string,
 }

@@ -38,6 +38,7 @@ model CapabilityListProperties {
 @doc("Capability List Resource")
 model CapabilityList is TrackedResource<CapabilityListProperties> {
   ...ResourceNameParameter<CapabilityList>;
+  ...EntityTagProperty;
 }
 
 @armResourceOperations
@@ -52,7 +53,7 @@ interface CapabilityLists {
   update is ArmResourcePatchSync<CapabilityList, CapabilityListProperties>;
 
   @doc("Delete a Capability List Resource")
-  delete is ArmResourceDeleteSync<CapabilityList>;
+  delete is ArmResourceDeleteWithoutOkAsync<CapabilityList>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<CapabilityList>;

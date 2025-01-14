@@ -82,7 +82,7 @@ model CloudVmCluster is TrackedResource<CloudVmClusterProperties> {
 
 @doc("File configuration options")
 @added(Versions.v20241201_preview)
-model FileSystemConfigurationDetail {
+model FileSystemConfigurationDetails {
   @doc("Mount path")
   mountPoint?: string;
 
@@ -112,7 +112,7 @@ model CloudVmClusterProperties {
   @added(Versions.v20241201_preview)
   @visibility("read", "update")
   @extension("x-ms-identifiers", [])
-  fileSystemConfigurationDetail?: FileSystemConfigurationDetail[];
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
 
   @doc("The data disk group size to be allocated in TBs.")
   dataStorageSizeInTbs?: float64;

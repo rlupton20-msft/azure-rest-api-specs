@@ -902,48 +902,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}": {
-      "get": {
-        "operationId": "GiVersions_Get",
-        "tags": [
-          "GiVersions"
-        ],
-        "description": "Get a GiVersion",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "giversionname",
-            "in": "path",
-            "description": "GiVersion name",
-            "required": true,
-            "type": "string",
-            "pattern": ".*"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/GiVersion"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}/giMinorVersions": {
       "get": {
         "operationId": "GiMinorVersions_ListByParent",
@@ -4483,7 +4441,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/DbNodeDetails"
+              "$ref": "#/definitions/RemoveVirtualMachineFromExadbVmClusterDetails"
             }
           }
         ],
@@ -7262,11 +7220,11 @@
             "update"
           ]
         },
-        "fileSystemConfigurationDetail": {
+        "fileSystemConfigurationDetails": {
           "type": "array",
           "description": "Array of mount path and size.",
           "items": {
-            "$ref": "#/definitions/FileSystemConfigurationDetail"
+            "$ref": "#/definitions/FileSystemConfigurationDetails"
           },
           "x-ms-identifiers": [],
           "x-ms-mutability": [
@@ -7626,11 +7584,11 @@
             "update"
           ]
         },
-        "fileSystemConfigurationDetail": {
+        "fileSystemConfigurationDetails": {
           "type": "array",
           "description": "Array of mount path and size.",
           "items": {
-            "$ref": "#/definitions/FileSystemConfigurationDetail"
+            "$ref": "#/definitions/FileSystemConfigurationDetails"
           },
           "x-ms-identifiers": [],
           "x-ms-mutability": [
@@ -8167,8 +8125,8 @@
       "description": "Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only.",
       "properties": {
         "dbNodeId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "DbNode Ocid"
+          "$ref": "#/definitions/ExascaleDbNodeResourceId",
+          "description": "Exascale DbNode Azure Resource ID"
         }
       },
       "required": [
@@ -8720,6 +8678,10 @@
           "description": "The family of the shape used for the DB system.",
           "minLength": 1,
           "maxLength": 255
+        },
+        "shapeName": {
+          "type": "string",
+          "description": "The shape used for the DB system."
         },
         "availableCoreCount": {
           "type": "integer",
@@ -9449,16 +9411,16 @@
           ]
         },
         "exascaleDbStorageVaultId": {
-          "$ref": "#/definitions/ExascaleDbStorageVaultId",
-          "description": "The ID of the Exadata Database Storage Vault.",
+          "$ref": "#/definitions/ExascaleDbStorageVaultResourceId",
+          "description": "The Azure Resource ID of the Exadata Database Storage Vault.",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "gridImageId": {
-          "type": "string",
-          "description": "Grid Setup will be done using this grid image id.",
+        "gridImageOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Grid Setup will be done using this Grid Image OCID. Can be obtained using giMinorVersions API",
           "minLength": 1,
           "maxLength": 255,
           "x-ms-mutability": [
@@ -9524,7 +9486,12 @@
             "create"
           ]
         },
-        "privateZoneId": {
+        "zoneOcid": {
+          "$ref": "#/definitions/Ocid",
+          "description": "The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.",
+          "readOnly": true
+        },
+        "privateZoneOcid": {
           "$ref": "#/definitions/Ocid",
           "description": "The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.",
           "x-ms-mutability": [
@@ -9643,12 +9610,6 @@
           "description": "Snapshot filesystem storage details.",
           "readOnly": true
         },
-        "timeCreated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time that the Exadata VM cluster on Exascale Infrastructure was created.",
-          "readOnly": true
-        },
         "totalFileSystemStorage": {
           "$ref": "#/definitions/ExadbVmClusterStorageDetails",
           "description": "Total file system storage details.",
@@ -9660,11 +9621,6 @@
           "items": {
             "type": "string"
           },
-          "readOnly": true
-        },
-        "zoneId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.",
           "readOnly": true
         },
         "ociUrl": {
@@ -9843,11 +9799,6 @@
           "format": "int32",
           "description": "The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems."
         },
-        "timeCreated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time that the database node was created."
-        },
         "timeMaintenanceWindowEnd": {
           "type": "string",
           "format": "date-time",
@@ -9866,9 +9817,20 @@
       },
       "required": [
         "ocid",
-        "lifecycleState",
-        "timeCreated"
+        "lifecycleState"
       ]
+    },
+    "ExascaleDbNodeResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.OracleDatabaseDev/exadbVmCluster/dbNode"
+          }
+        ]
+      }
     },
     "ExascaleDbStorageDetails": {
       "type": "object",
@@ -9921,18 +9883,6 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
-    },
-    "ExascaleDbStorageVaultId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Oracle.Database/exascaleDbStorageVaults"
-          }
-        ]
-      }
     },
     "ExascaleDbStorageVaultLifecycleState": {
       "type": "string",
@@ -10074,12 +10024,6 @@
           "description": "Additional information about the current lifecycle state.",
           "readOnly": true
         },
-        "timeCreated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time that the Exadata Database Storage Vault was created.",
-          "readOnly": true
-        },
         "vmClusterCount": {
           "type": "integer",
           "format": "int32",
@@ -10101,9 +10045,20 @@
       "required": [
         "displayName",
         "highCapacityDatabaseStorageInput",
-        "highCapacityDatabaseStorage",
         "lifecycleState"
       ]
+    },
+    "ExascaleDbStorageVaultResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.OracleDatabaseDev/exascaleDbStorageVaults"
+          }
+        ]
+      }
     },
     "ExascaleDbStorageVaultTagsUpdate": {
       "type": "object",
@@ -10118,7 +10073,7 @@
         }
       }
     },
-    "FileSystemConfigurationDetail": {
+    "FileSystemConfigurationDetails": {
       "type": "object",
       "description": "File configuration options",
       "properties": {
@@ -10225,8 +10180,8 @@
           "minLength": 1,
           "maxLength": 255
         },
-        "gridImageId": {
-          "type": "string",
+        "gridImageOcid": {
+          "$ref": "#/definitions/Ocid",
           "description": "Grid Infrastructure Image Id",
           "minLength": 1,
           "maxLength": 255
@@ -10286,6 +10241,30 @@
       "required": [
         "version"
       ]
+    },
+    "GiVersionShapes": {
+      "type": "string",
+      "description": "Allowed values for GI Versions Shape filter",
+      "enum": [
+        "Exadata.X9M",
+        "ExaDbXS"
+      ],
+      "x-ms-enum": {
+        "name": "GiVersionShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ExadataX9M",
+            "value": "Exadata.X9M",
+            "description": "Exadata X9M shape"
+          },
+          {
+            "name": "ExaDbXs",
+            "value": "ExaDbXS",
+            "description": "Exadata DB on Exascale Infrastructure shape"
+          }
+        ]
+      }
     },
     "GridImageType": {
       "type": "string",
@@ -11284,6 +11263,23 @@
         ]
       }
     },
+    "RemoveVirtualMachineFromExadbVmClusterDetails": {
+      "type": "object",
+      "description": "Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.",
+      "properties": {
+        "dbNodes": {
+          "type": "array",
+          "description": "The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed.",
+          "items": {
+            "$ref": "#/definitions/DbNodeDetails"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "dbNodes"
+      ]
+    },
     "RepeatCadenceType": {
       "type": "string",
       "description": "Repeat cadence type enum",
@@ -11543,6 +11539,54 @@
             "name": "Redirect",
             "value": "Redirect",
             "description": "Redirect session mode"
+          }
+        ]
+      }
+    },
+    "ShapeFamily": {
+      "type": "string",
+      "description": "Allowed values for GI Minor Versions shapeFamily filter",
+      "enum": [
+        "SINGLENODE",
+        "YODA",
+        "VIRTUALMACHINE",
+        "EXADATA",
+        "EXACC",
+        "EXADB_XS"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamily",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "Yoda",
+            "value": "YODA",
+            "description": "Family value for Yoda Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          },
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "Exacc",
+            "value": "EXACC",
+            "description": "Family value for Exacc Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
           }
         ]
       }
@@ -12052,6 +12096,50 @@
       "description": "If provided, filters the results to the set of database versions which are supported for the given shape family.",
       "required": false,
       "type": "string",
+      "enum": [
+        "SINGLENODE",
+        "YODA",
+        "VIRTUALMACHINE",
+        "EXADATA",
+        "EXACC",
+        "EXADB_XS"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamily",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "Yoda",
+            "value": "YODA",
+            "description": "Family value for Yoda Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          },
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "Exacc",
+            "value": "EXACC",
+            "description": "Family value for Exacc Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
+          }
+        ]
+      },
       "x-ms-parameter-location": "method"
     },
     "GiVersionFilter": {
@@ -12060,8 +12148,26 @@
       "description": "If provided, filters the results for the given shape",
       "required": false,
       "type": "string",
-      "minLength": 1,
-      "maxLength": 255,
+      "enum": [
+        "Exadata.X9M",
+        "ExaDbXS"
+      ],
+      "x-ms-enum": {
+        "name": "GiVersionShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ExadataX9M",
+            "value": "Exadata.X9M",
+            "description": "Exadata X9M shape"
+          },
+          {
+            "name": "ExaDbXs",
+            "value": "ExaDbXS",
+            "description": "Exadata DB on Exascale Infrastructure shape"
+          }
+        ]
+      },
       "x-ms-parameter-location": "method"
     }
   }

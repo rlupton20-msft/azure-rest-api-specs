@@ -9,13 +9,13 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.StorageGateway")
+@armProviderNamespace("Private.StorageGateway")
 @service({
-  title: "Microsoft.StorageGateway",
+  title: "Private.StorageGateway",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Microsoft.StorageGateway;
+namespace Private.StorageGateway;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)

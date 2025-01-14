@@ -88,23 +88,3 @@ union PrivateLinkIdType {
   @doc("Alias for Private Link")
   Alias: "Alias",
 }
-
-@doc("The status of the private link")
-union PrivateLinkStatus {
-  @doc("Private Link in pending")
-  Pending: "Pending",
-
-  @doc("Private Link is approved")
-  Approved: "Approved",
-
-  @doc("Private Link in rejected")
-  Rejected: "Rejected",
-
-  @doc("Private Link is disconnected")
-  Disconnected: "Disconnected",
-
-  @doc("Private Link Provisioning timed out")
-  Timeout: "Timeout",
-
-  string,
-}

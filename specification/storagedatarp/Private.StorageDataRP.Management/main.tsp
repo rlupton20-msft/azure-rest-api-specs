@@ -31,7 +31,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 @doc("A Connector is a tracked ARM resource modeled as a sub-resource of a Storage Account")
 model Connector is TrackedResource<ConnectorProperties> {
   @doc("The name of the connector")
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
   @key("connectorName")
   @segment("connectors")
   @path
