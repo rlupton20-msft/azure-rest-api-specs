@@ -61,6 +61,7 @@ model SolutionVersion
   @segment("solutionVersions")
   name: string;
 
+  ...ExtendedLocationProperty;
   ...EntityTagProperty;
 }
 

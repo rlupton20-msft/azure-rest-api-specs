@@ -24,6 +24,12 @@ import "./Instance.tsp";
 import "./InstanceHistory.tsp";
 import "./ConfigTemplate.tsp";
 import "./ConfigTemplateVersion.tsp";
+import "./Workflow.tsp";
+import "./WorkflowVersion.tsp";
+import "./WorkflowTemplate.tsp";
+import "./WorkflowTemplateVersion.tsp";
+import "./Execution.tsp";
+import "./Diagnostics.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
