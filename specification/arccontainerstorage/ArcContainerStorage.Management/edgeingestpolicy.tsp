@@ -41,6 +41,10 @@ model EdgeIngestPolicyProperties {
   @doc("The provisioning state of the resource.")
   @visibility("read")
   provisioningState?: provisioningState; // Referencing the provisioningState union
+
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
+  status: EdgeIngestPolicyStatus;
 }
 
 // Define the open enum for onDelete

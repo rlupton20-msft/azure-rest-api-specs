@@ -40,7 +40,31 @@ model SyncSubvolumeProperties {
 
   @doc("The provisioning state of the resource.")
   @visibility("read")
-  provisioningState?: provisioningState;
+  provisioningState?: provisioningState | provisioningStateSyncSubVolume;
+
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
+  status?: SyncSubvolumeStatus;
+}
+
+@doc("Adding provisioning state for SyncSubVolume")
+union provisioningStateSyncSubVolume {
+  @doc("Unkown")
+  `unknown`: "unknown",
+
+  @doc("configuring")
+  configuring: "configuring",
+
+  @doc("pending")
+  pending: "pending",
+
+  @doc("cleaning_up")
+  cleaning_up: "cleaning_up",
+
+  @doc("completed")
+  completed: "completed",
+
+  string,
 }
 
 /**
@@ -49,13 +73,13 @@ model SyncSubvolumeProperties {
 @doc("Defines the observed status (status) of the SyncSubvolume resource.")
 model SyncSubvolumeStatus {
   @doc("The current state of the SyncSubvolume. Defaults to 'unknown'.")
-  state?: string = "unknown";
+  state: string = "unknown";
 
   @doc("Additional details about the SyncSubvolume status.")
-  details?: string;
+  details: string;
 
   @doc("Reference to the EdgeSubvolume being synchronized.")
-  edgeSubvolumeRef?: string;
+  edgeSubvolumeRef: string;
 }
 
 /**

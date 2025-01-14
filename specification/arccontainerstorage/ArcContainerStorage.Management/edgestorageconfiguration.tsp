@@ -40,17 +40,21 @@ model EdgeStorageConfigurationProperties {
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
-  failoverEdgeVolumeConsumers?: boolean = true;
+  failoverEdgeVolumeConsumers: boolean = true;
 
   @doc("DEPRECATED field for backward compatibility. Which service mesh to use.")
-  serviceMesh?: ServiceMesh = ServiceMesh.osm; // Default is "osm"
+  serviceMesh: ServiceMesh = ServiceMesh.osm; // Default is "osm"
 
   @doc("Object containing optional workload identity information.")
-  workloadIdentity?: WorkloadIdentity;
+  workloadIdentity: WorkloadIdentity;
 
   @doc("The provisioning state of the resource.")
   @visibility("read")
   provisioningState?: provisioningState;
+
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
+  status: EdgeStorageConfigurationStatus;
 }
 
 //
@@ -78,11 +82,11 @@ union ServiceMesh {
 model WorkloadIdentity {
   @doc("The client ID for the workload identity.")
   @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  clientId?: string;
+  clientId: string;
 
   @doc("The tenant ID for the workload identity.")
   @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  tenantId?: string;
+  tenantId: string;
 }
 
 //
@@ -91,10 +95,10 @@ model WorkloadIdentity {
 @doc("Defines the observed status of the EdgeStorageConfiguration resource.")
 model EdgeStorageConfigurationStatus {
   @doc("The current state of the configuration.")
-  state?: string;
+  state: string;
 
   @doc("Additional details about the configuration's status.")
-  details?: string;
+  details: string;
 }
 
 //

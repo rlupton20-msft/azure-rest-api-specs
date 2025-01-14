@@ -44,6 +44,10 @@ model AcStorConfigurationProperties {
   @doc("The provisioning state of the resource.")
   @visibility("read")
   provisioningState?: provisioningState;
+
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility("read")
+  status: AcStorConfigurationStatus;
 }
 
 // Define the storage pool configuration
