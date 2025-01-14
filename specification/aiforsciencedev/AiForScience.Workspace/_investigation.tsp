@@ -45,7 +45,7 @@ union InvestigationStatus {
 
 @doc("Run response.")
 model RunResponse {
-  /** The ID for the run. This enables treacking the run status. */
+  /** The ID for the run. This enables tracking the run status. */
   runId: string;
 
   /** Run mode */
