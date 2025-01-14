@@ -1,8 +1,8 @@
-# edgeapprovals
+# approvals
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for edgeapprovals.
+This is the AutoRest configuration file for approvals.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the edgeapprovals.
+These are the global settings for the approvals.
 
 ```yaml
 openapi-type: arm

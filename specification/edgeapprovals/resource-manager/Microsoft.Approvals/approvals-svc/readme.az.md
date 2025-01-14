@@ -6,11 +6,11 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 
 ``` yaml $(az) && $(target-mode) != 'core'
 az:
-    extensions: edgeapprovals
-    namespace: azure.mgmt.edgeapprovals
-    package-name: azure-mgmt-edgeapprovals
-az-output-folder: $(azure-cli-extension-folder)/src/edgeapprovals
-python-sdk-output-folder: "$(az-output-folder)/azext_edgeapprovals/vendored_sdks/edgeapprovals"
+    extensions: approvals
+    namespace: azure.mgmt.approvals
+    package-name: azure-mgmt-approvals
+az-output-folder: $(azure-cli-extension-folder)/src/approvals
+python-sdk-output-folder: "$(az-output-folder)/azext_approvals/vendored_sdks/approvals"
 # add additional configuration here specific for Azure CLI
 # refer to the faq.md for more details
 ```
@@ -20,9 +20,9 @@ python-sdk-output-folder: "$(az-output-folder)/azext_edgeapprovals/vendored_sdks
 This is for command modules that already in azure cli main repo. 
 ``` yaml $(az) && $(target-mode) == 'core'
 az:
-  extensions: edgeapprovals
-  namespace: azure.mgmt.edgeapprovals
-  package-name: azure-mgmt-edgeapprovals
-az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/edgeapprovals
-python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/edgeapprovals"
+  extensions: approvals
+  namespace: azure.mgmt.approvals
+  package-name: azure-mgmt-approvals
+az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/approvals
+python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/approvals"
 ``` 

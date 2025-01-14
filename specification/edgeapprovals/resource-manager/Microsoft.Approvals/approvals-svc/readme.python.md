@@ -6,15 +6,15 @@ Please also specify `--python-sdks-folder=<path to the root directory of your az
 ``` yaml $(python)
 azure-arm: true
 license-header: MICROSOFT_MIT_NO_VERSION
-package-name: azure-mgmt-edgeapprovals
-namespace: azure.mgmt.edgeapprovals
+package-name: azure-mgmt-approvals
+namespace: azure.mgmt.approvals
 package-version: 1.0.0b1
 clear-output-folder: true
 ```
 
 ``` yaml $(python)
 no-namespace-folders: true
-output-folder: $(python-sdks-folder)/edgeapprovals/azure-mgmt-edgeapprovals/azure/mgmt/edgeapprovals
+output-folder: $(python-sdks-folder)/approvals/azure-mgmt-approvals/azure/mgmt/approvals
 ```
 
 ``` yaml $(python)

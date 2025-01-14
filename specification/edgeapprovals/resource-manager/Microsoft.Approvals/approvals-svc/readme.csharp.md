@@ -11,5 +11,5 @@ csharp:
   clear-output-folder: true
   client-side-validation: false
   namespace: Microsoft.Approvals
-  output-folder: $(csharp-sdks-folder)/edgeapprovals/management/Microsoft.Approvals/GeneratedProtocol
+  output-folder: $(csharp-sdks-folder)/approvals/management/Microsoft.Approvals/GeneratedProtocol
 ```
