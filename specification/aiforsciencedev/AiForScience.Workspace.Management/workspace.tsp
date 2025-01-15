@@ -19,11 +19,11 @@ namespace Microsoft.AiForScience;
 
 @doc("Linked Storage.")
 model LinkedStorage {
-  @doc("Fully qualified resource ID for the Storage resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
+  @doc("Fully qualified resource ID for the Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.AiForScience/storage";
+      type: "Microsoft.Storage/storageAccounts";
     }
   ]>;
 }
@@ -50,6 +50,17 @@ model LinkedSuperComputer {
   ]>;
 }
 
+@doc("Linked Catalog.")
+model LinkedCatalog {
+  @doc("Fully qualified resource ID for the Catalog resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
+  @visibility("read", "create", "update")
+  id: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/catalog";
+    }
+  ]>;
+}
+
 @doc("Workspace tracked resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
   ...ResourceNameParameter<Workspace>;
@@ -64,11 +75,7 @@ model WorkspaceProperties {
   @visibility("read", "create", "update")
   @doc("List of linked Catalogs.")
   @extension("x-ms-identifiers", ["id"])
-  catalogId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.AiForScience/catalog";
-    }
-  ]>;
+  catalogs?: Array<LinkedCatalog>;
 
   @visibility("read", "create", "update")
   @doc("List of linked Storages.")

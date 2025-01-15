@@ -132,7 +132,7 @@ union RunMode {
   /** Run every step */
   RunAll: "RunAll",
 
-  /** Run after last compelted step step */
+  /** Run after last completed step */
   PauseAfterStep: "PauseAfterStep",
 
   string,
