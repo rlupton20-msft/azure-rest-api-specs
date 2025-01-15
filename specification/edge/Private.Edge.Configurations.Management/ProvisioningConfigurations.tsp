@@ -59,8 +59,8 @@ model ProvisioningConfigurationProperties {
 
 @doc("OwnerKey Types")
 union OwnerKeyType {
-  @doc("MicrosoftManagedKey") MicrosoftManagedKey: "MicrosoftManagedKey",
-  @doc("CustomerManagedKey") CustomerManagedKey: "CustomerManagedKey",
+  @doc("Microsoft Managed Key") MicrosoftManagedKey: "MicrosoftManagedKey",
+  @doc("Customer Managed Key") CustomerManagedKey: "CustomerManagedKey",
   string,
 }
 
@@ -83,4 +83,3 @@ model OwnerKeyProperties {
     }
   ]>;
 }
-
