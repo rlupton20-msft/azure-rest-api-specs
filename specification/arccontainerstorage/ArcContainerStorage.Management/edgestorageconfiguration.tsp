@@ -40,13 +40,10 @@ model EdgeStorageConfigurationProperties {
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
-  failoverEdgeVolumeConsumers: boolean = true;
-
-  @doc("DEPRECATED field for backward compatibility. Which service mesh to use.")
-  serviceMesh: ServiceMesh = ServiceMesh.osm; // Default is "osm"
+  failoverEdgeVolumeConsumers?: boolean = true;
 
   @doc("Object containing optional workload identity information.")
-  workloadIdentity: WorkloadIdentity;
+  workloadIdentity?: WorkloadIdentity;
 
   @doc("The provisioning state of the resource.")
   @visibility("read")
@@ -54,25 +51,7 @@ model EdgeStorageConfigurationProperties {
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility("read")
-  status: EdgeStorageConfigurationStatus;
-}
-
-//
-// Service Mesh Enum -- tried writing as a enum https://azure.github.io/typespec-azure/docs/libraries/azure-core/rules/no-enum/
-// because of that guideline used union
-//
-@doc("Possible service meshes to use. Field is deprecated; kept for backward compatibility.")
-union ServiceMesh {
-  @doc("Open Service Mesh")
-  osm: "osm",
-
-  @doc("Use cert-manager for traffic encryption")
-  `cert-manager`: "cert-manager",
-
-  @doc("No service mesh used")
-  none: "none",
-
-  string,
+  status?: EdgeStorageConfigurationStatus;
 }
 
 //
@@ -95,10 +74,10 @@ model WorkloadIdentity {
 @doc("Defines the observed status of the EdgeStorageConfiguration resource.")
 model EdgeStorageConfigurationStatus {
   @doc("The current state of the configuration.")
-  state: string;
+  state?: string;
 
   @doc("Additional details about the configuration's status.")
-  details: string;
+  details?: string;
 }
 
 //

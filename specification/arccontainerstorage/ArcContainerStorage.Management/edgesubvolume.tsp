@@ -51,19 +51,19 @@ model EdgeSubvolumeProperties {
   @minLength(1)
   @maxLength(253)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$")
-  ingestPolicy: string = "edgeingestpolicy-default";
+  ingestPolicy?: string = "edgeingestpolicy-default";
 
-  @doc("Optional authentication config for certain subvolumes.")
-  auth?: AuthConfig;
+  @doc("Authentication config for certain subvolumes.")
+  auth: AuthConfig;
 
   @doc("Blob storage endpoint, for example: https://mysa.core.windows.net")
   @minLength(3)
   @maxLength(1024)
-  storageaccountendpoint?: string;
+  storageaccountendpoint: string;
 
   @doc("Blob container name.")
   @minLength(3)
-  container?: string;
+  container: string;
 
   @doc("Optional Unix-like ownership info (UID/GID) for the subvolume.")
   authSys?: AuthSysConfig;
@@ -116,11 +116,13 @@ model AuthConfig {
   @doc("Auth method to use.")
   authType: AuthType; // this is required
 
+  //"!(self.authType in ['SAS', 'KEY', 'CONNECTION_STRING']) || (has(self.secretName) && has(self.secretNamespace))"
+
   @doc("Name of the K8s secret storing credentials. Required for SAS/KEY/CONNECTION_STRING.")
-  secretName: string;
+  secretName?: string;
 
   @doc("Namespace of the K8s secret storing credentials.")
-  secretNamespace: string;
+  secretNamespace?: string;
 }
 
 /**
@@ -168,38 +170,38 @@ model AuthSysConfig {
 @doc("Defines the observed status of the EdgeSubvolume resource.")
 model EdgeSubvolumeStatus {
   @doc("The current state of the subvolume. Defaults to 'unknown'.")
-  state: string = "unknown";
+  state?: string = "unknown";
 
   @doc("Last config error message.")
-  lastConfigError: string;
+  lastConfigError?: string;
 
   @doc("A reference to the EdgeVolume resource.")
-  edgeVolumeRef: string;
+  edgeVolumeRef?: string;
 
   @doc("Number of files left to upload.")
-  numberFilesLeftToUpload: int32;
+  numberFilesLeftToUpload?: int32;
 
   @doc("Describes the backend connection.")
-  backendConnection: string;
+  backendConnection?: string;
 
   @doc("The subvolume requested for sync.")
-  requestedSyncSubvolume: string;
+  requestedSyncSubvolume?: string;
 
   @doc("The current running sync state.")
-  runningSync: string;
+  runningSync?: string;
 
   @doc("The connected storage account endpoint in use.")
-  connectedStorageAccountEndpoint: string;
+  connectedStorageAccountEndpoint?: string;
 
   @doc("The connected container in use.")
   connectedContainer: string;
 
   @doc("List of file errors encountered.")
   @OpenAPI.extension("x-ms-identifiers", [])
-  fileErrors: FileError[];
+  fileErrors?: FileError[];
 
   @doc("Total count of file errors.")
-  totalFileErrors: int32;
+  totalFileErrors?: int32;
 }
 
 /**
@@ -208,16 +210,16 @@ model EdgeSubvolumeStatus {
 @doc("File error model for tracking errors on individual files.")
 model FileError {
   @doc("The name of the file that encountered the error.")
-  fileName: string;
+  fileName?: string;
 
   @doc("A timestamp (or date string) indicating when this error was last observed.")
-  lastSeen: string;
+  lastSeen?: string;
 
   @doc("A human-readable description of the error.")
-  error: string;
+  error?: string;
 
   @doc("An optional integer code or identifier related to the error.")
-  export: int32;
+  export?: int32;
 }
 
 /**

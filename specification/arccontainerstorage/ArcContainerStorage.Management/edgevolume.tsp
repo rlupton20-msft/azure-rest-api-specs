@@ -56,19 +56,19 @@ model EdgeVolumeProperties {
 @doc("Defines the observed state (status) of the EdgeVolume resource.")
 model EdgeVolumeStatus {
   @doc("The current state of the EdgeVolume. Defaults to 'unknown'.")
-  state: string = "unknown";
+  state?: string = "unknown";
 
   @doc("Additional details about the EdgeVolume status.")
-  details: string;
+  details?: string;
 
   @doc("The amount of space available (string format, e.g., '500Mi').")
-  spaceAvailable: string;
+  spaceAvailable?: string;
 
   @doc("A reference to the underlying persistent volume.")
-  persistentVolume: string;
+  persistentVolume?: string;
 
   @doc("List of subvolumes (by name or ID) that have encountered errors.")
-  subvolumesWithErrors: string[];
+  subvolumesWithErrors?: string[];
 }
 
 @doc("Adding provisioning state for EdgeSubVolume")

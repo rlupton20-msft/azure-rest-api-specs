@@ -73,13 +73,13 @@ union provisioningStateSyncSubVolume {
 @doc("Defines the observed status (status) of the SyncSubvolume resource.")
 model SyncSubvolumeStatus {
   @doc("The current state of the SyncSubvolume. Defaults to 'unknown'.")
-  state: string = "unknown";
+  state?: string = "unknown";
 
   @doc("Additional details about the SyncSubvolume status.")
-  details: string;
+  details?: string;
 
   @doc("Reference to the EdgeSubvolume being synchronized.")
-  edgeSubvolumeRef: string;
+  edgeSubvolumeRef?: string;
 }
 
 /**
