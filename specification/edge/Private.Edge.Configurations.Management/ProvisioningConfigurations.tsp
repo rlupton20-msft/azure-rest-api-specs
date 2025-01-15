@@ -73,7 +73,7 @@ model OwnerKeyProperties {
     }
   ]>;
 
-  @doc("Uri of ownership certificate")
+  @doc("Uri of ownership certificate. This is certificate identifier in KeyVault without certificate version.")
   ownershipCertificateUri: url;
 
   @doc("User assigned identity")
