@@ -24,7 +24,9 @@ model ApproverSignoffProperties {
 
   @doc("The ARM resource ID of the ApprovalDefinition resource that the ApproverSignoff was created from.")
   approvalDefinitionId: Azure.Core.armResourceIdentifier<[
-    {type: "Microsoft.Approvals/approvalDefinitions"}
+    {
+      type: "Microsoft.Approvals/approvalDefinitions";
+    }
   ]>;
 
   @doc("The one who took the signoff action.")
@@ -60,7 +62,7 @@ union ApproverSignoffAction {
   Approved: "Approved",
 
   @doc("The approver has rejected.")
-  Rejected: "Rejected"
+  Rejected: "Rejected",
 }
 
 @armResourceOperations(ApproverSignoff)

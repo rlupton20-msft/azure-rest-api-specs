@@ -52,14 +52,16 @@ union LogicAppHttpTriggerMethod {
   POST: "POST",
 
   @doc("The Http PUT method.")
-  PUT: "PUT"
+  PUT: "PUT",
 }
 
 @doc("Reference to an Azure Confidential Ledger resource.")
 model LedgerRef {
   @doc("The ARM resource ID of the ledger.")
   resourceId: Azure.Core.armResourceIdentifier<[
-    {type: "Microsoft.ConfidentialLedger/ledgers"}
+    {
+      type: "Microsoft.ConfidentialLedger/ledgers";
+    }
   ]>;
 }
 
@@ -96,7 +98,10 @@ model ApprovalStageDefinition {
 interface ApprovalDefinitions {
   get is ArmResourceRead<ApprovalDefinition>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<ApprovalDefinition>;
-  update is ArmResourcePatchSync<ApprovalDefinition, ApprovalDefinitionProperties>;
+  update is ArmResourcePatchSync<
+    ApprovalDefinition,
+    ApprovalDefinitionProperties
+  >;
   delete is ArmResourceDeleteSync<ApprovalDefinition>;
   listByResourceGroup is ArmResourceListByParent<ApprovalDefinition>;
   listBySubscription is ArmListBySubscription<ApprovalDefinition>;

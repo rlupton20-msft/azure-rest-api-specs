@@ -24,7 +24,9 @@ model ApprovalInstanceProperties {
 
   @doc("The ARM resource ID of the ApprovalDefinition resource that the ApprovalInstance was created from.")
   approvalDefinitionId: Azure.Core.armResourceIdentifier<[
-    {type: "Microsoft.Approvals/approvalDefinitions"}
+    {
+      type: "Microsoft.Approvals/approvalDefinitions";
+    }
   ]>;
 
   @doc("The one who attempted to make the change that triggered the ApprovalInstance.")
@@ -61,7 +63,7 @@ union ApprovalInstanceState {
   Succeeded: "Succeeded",
 
   @doc("The approval workflow instance has ended without approval rules satisfied.")
-  Failed: "Failed"
+  Failed: "Failed",
 }
 
 @doc("Status of an approval stage.")
@@ -74,7 +76,9 @@ model ApprovalStageStatus {
 
   @doc("The resource ids of ApproverSignoffs submitted in the stage.")
   signoffs: Azure.Core.armResourceIdentifier<[
-    {type: "Microsoft.Approvals/approvalInstances/approverSignoffs"}
+    {
+      type: "Microsoft.Approvals/approvalInstances/approverSignoffs";
+    }
   ]>[];
 }
 
@@ -92,12 +96,11 @@ union ApprovalStageState {
   Completed: "Completed",
 
   @doc("The approval stage has ended without approval rules satisfied.")
-  Terminated: "Terminated"
+  Terminated: "Terminated",
 }
 
 @doc("Base info of a stage")
 model ApprovalStageBasicInfo {
-
   @doc("The name of the stage")
   stageName: string;
 }
@@ -110,6 +113,13 @@ interface ApprovalInstances {
   delete is ArmResourceDeleteSync<ApprovalInstance>;
   listByResourceGroup is ArmResourceListByParent<ApprovalInstance>;
   listBySubscription is ArmListBySubscription<ApprovalInstance>;
-  startStage is ArmResourceActionNoContentSync<ApprovalInstance, ApprovalStageBasicInfo>;
-  checkStage is ArmResourceActionSync<ApprovalInstance, ApprovalStageBasicInfo, ApprovalStageStatus>;
+  startStage is ArmResourceActionNoContentSync<
+    ApprovalInstance,
+    ApprovalStageBasicInfo
+  >;
+  checkStage is ArmResourceActionSync<
+    ApprovalInstance,
+    ApprovalStageBasicInfo,
+    ApprovalStageStatus
+  >;
 }
