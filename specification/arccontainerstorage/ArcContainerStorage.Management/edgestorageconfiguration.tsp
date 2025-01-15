@@ -20,7 +20,7 @@ model EdgeStorageConfiguration
   @key("edgeStorageConfigurationName")
   @path
   @segment("edgestorageconfigurations")
-  // Enforce the singleton name 'edge-storage-configuration'
+  // Enforce the singleton name 'edge-storage-configuration -- need to test'
   @pattern("^edge-storage-configuration$")
   name: string;
 }
