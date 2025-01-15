@@ -2,6 +2,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using OpenAPI;
 
 namespace Microsoft.Approvals;
 
@@ -45,6 +46,7 @@ model ApprovalInstanceProperties {
   state: ApprovalInstanceState;
 
   @doc("The latest status of each stage.")
+  @extension("x-ms-identifiers", ["name"])
   stageStatuses: ApprovalStageStatus[];
 }
 

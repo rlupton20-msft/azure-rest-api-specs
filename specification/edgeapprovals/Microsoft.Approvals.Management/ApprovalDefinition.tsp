@@ -2,6 +2,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using OpenAPI;
 
 namespace Microsoft.Approvals;
 
@@ -65,6 +66,7 @@ model LedgerRef {
 @doc("Rule about how an approval workflow can be successfully completed.")
 model ApprovalRule {
   @doc("The definitions of all the stages in the approval workflow.")
+  @extension("x-ms-identifiers", ["name"])
   stageDefinitions: ApprovalStageDefinition[];
 
   @doc("The signature against the approval rule to prove its authenticity.")
@@ -79,6 +81,7 @@ model ApprovalStageDefinition {
   @doc("The name of the stage, unique within a single ApprovalDefinition resource")
   name: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
   @doc("The logic rules in JSON about how the stage depends on other stages.")
   dependsOn: {};
 

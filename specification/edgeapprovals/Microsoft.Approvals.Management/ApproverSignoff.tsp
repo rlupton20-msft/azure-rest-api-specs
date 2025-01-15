@@ -33,6 +33,7 @@ model ApproverSignoffProperties {
   @doc("The name of the approval stage from where the signoff was originated.")
   stageName: string;
 
+  @doc("The action the approver took.")
   signoffAction: ApproverSignoffAction;
 
   @doc("The datetime when the approver took the signoff action.")
