@@ -79,7 +79,7 @@ model EdgeSubvolumeProperties {
 
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateSubVolume {
-  @doc("Unkown")
+  @doc("Unknown")
   `unknown`: "unknown",
 
   @doc("configuring")

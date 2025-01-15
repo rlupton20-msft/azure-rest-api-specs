@@ -35,7 +35,7 @@ model SyncSubvolumeProperties {
   @doc("Name of the EdgeSubvolume to sync.")
   @minLength(1)
   @maxLength(255)
-  @visibility("read")
+  @visibility("create", "read")
   edgesubvolume: string;
 
   @doc("The provisioning state of the resource.")
@@ -49,7 +49,7 @@ model SyncSubvolumeProperties {
 
 @doc("Adding provisioning state for SyncSubVolume")
 union provisioningStateSyncSubVolume {
-  @doc("Unkown")
+  @doc("Unknown")
   `unknown`: "unknown",
 
   @doc("configuring")

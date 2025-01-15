@@ -73,7 +73,7 @@ model EdgeVolumeStatus {
 
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateVolume {
-  @doc("Unkown")
+  @doc("Unknown")
   `unknown`: "unknown",
 
   @doc("deploying")
