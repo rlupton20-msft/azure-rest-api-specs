@@ -7,9 +7,10 @@ namespace Microsoft.Approvals;
 
 @doc("ApprovalDefinition ARM resource")
 model ApprovalDefinition is TrackedResource<ApprovalDefinitionProperties> {
+  @doc("The name of the ApprovalDefinition resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("ApprovalDefinitionName")
-  @segment("ApprovalDefinitions")
+  @key("approvalDefinitionName")
+  @segment("approvalDefinitions")
   @path
   name: string;
 }

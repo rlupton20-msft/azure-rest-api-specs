@@ -8,9 +8,10 @@ namespace Microsoft.Approvals;
 @doc("The ApproverSignoff ARM resource")
 @parentResource(ApprovalInstance)
 model ApproverSignoff is TrackedResource<ApproverSignoffProperties> {
+  @doc("The name of the ApproverSignoff resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("ApproverSignoffName")
-  @segment("ApproverSignoffs")
+  @key("approverSignoffName")
+  @segment("approverSignoffs")
   @path
   name: string;
 }
