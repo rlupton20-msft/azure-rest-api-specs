@@ -79,7 +79,7 @@ model ApprovalStageStatus {
 union ApprovalStageState {
   string,
 
-  @doc("The inital state of the approval stage.")
+  @doc("The initial state of the approval stage.")
   Created: "Created",
 
   @doc("The approval stage is ready to accept signoffs.")

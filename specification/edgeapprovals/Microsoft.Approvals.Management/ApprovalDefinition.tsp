@@ -78,13 +78,13 @@ model ApprovalStageDefinition {
   @doc("The name of the stage, unique within a single ApprovalDefinition resource")
   name: string;
 
-  @doc("The logic rules in JSON about how the stage dependes on other stages.")
+  @doc("The logic rules in JSON about how the stage depends on other stages.")
   dependsOn: {};
 
   @doc("The set of approvers in the stage.")
   approvers: string[];
 
-  @doc("The minimul number of approvals for completing the stage.")
+  @doc("The minimal number of approvals for completing the stage.")
   quorum: int32;
 }
 
