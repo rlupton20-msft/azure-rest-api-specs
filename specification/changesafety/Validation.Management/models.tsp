@@ -66,7 +66,7 @@ model ValidatorProperties {
 @doc("The validator version properties.")
 model ValidatorVersionProperties {
   @doc("The ARM resource id of the parent validator resource.")
-  validatorId: Azure.Core.armResourceIdentifier;
+  validatorId: ValidatorResourceId;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
   @doc("The schema of parameters that is used for validation.")
@@ -104,7 +104,7 @@ model ErrorDefinition {
 @doc("The validation properties.")
 model ValidationProperties {
   @doc("The ARM resource Id of the validator version to use for validation.")
-  validatorVersionId: string;
+  validatorVersionId: ValidatorVersionResourceId;
 
   @doc("The changeState is a new resource that encapsulates the change and tracks the change state. The changeStateId is the ARM resource id of the changeState resource. ")
   changeStateId?: string;
