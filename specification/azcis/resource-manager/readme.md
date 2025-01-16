@@ -69,6 +69,15 @@ input-file:
   - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
 ```
 
+### Tag: 2024-06-24
+
+These settings apply only when `--tag=package-2024-06-24` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-08-22'
+input-file:
+  - Microsoft.AzureCis/stable/2024-06-24/pav2.json
+```
+
 ### Tag: package-2024-11-04-preview
 
 These settings apply only when `--tag=package-2024-11-04-preview` is specified on the command line.
