@@ -9,12 +9,12 @@ using OpenAPI;
 
 namespace Private.OracleDatabaseDev;
 
-@doc("PatchingMode enum")
+@doc("Patching mode enum")
 union PatchingMode {
-  @doc("Rolling value")
+  @doc("Rolling patching")
   Rolling: "Rolling",
 
-  @doc("Non Rolling value")
+  @doc("Non Rolling patching")
   NonRolling: "NonRolling",
 
   string,
@@ -22,10 +22,10 @@ union PatchingMode {
 
 @doc("Preference enum")
 union Preference {
-  @doc("NoPreference value")
+  @doc("No preference")
   NoPreference: "NoPreference",
 
-  @doc("CustomPreference value")
+  @doc("Custom preference")
   CustomPreference: "CustomPreference",
 
   string,
@@ -33,25 +33,25 @@ union Preference {
 
 @doc("CloudExadataInfrastructureLifecycleState enum")
 union CloudExadataInfrastructureLifecycleState {
-  @doc("PROVISIONING value")
+  @doc("Indicates that resource in Provisioning state")
   Provisioning: "Provisioning",
 
-  @doc("AVAILABLE value")
+  @doc("Indicates that resource in Available state")
   Available: "Available",
 
-  @doc("UPDATING value")
+  @doc("Indicates that resource in Updating state")
   Updating: "Updating",
 
-  @doc("TERMINATING value")
+  @doc("Indicates that resource in Terminating state")
   Terminating: "Terminating",
 
-  @doc("TERMINATED value")
+  @doc("Indicates that resource in Terminated state")
   Terminated: "Terminated",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Indicates that resource maintenance in progress state")
   MaintenanceInProgress: "MaintenanceInProgress",
 
-  @doc("FAILED value")
+  @doc("Indicates that resource in Failed state")
   Failed: "Failed",
 
   string,
@@ -218,7 +218,7 @@ model CloudExadataInfrastructureProperties {
 
   @doc("HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.")
   @visibility("read")
-  ociUrl?: string;
+  ociUrl?: url;
 
   @doc("The total number of CPU cores allocated.")
   @visibility("read")
@@ -246,7 +246,7 @@ model CloudExadataInfrastructureProperties {
 
   @doc("The quantity of data in the database, in terabytes.")
   @visibility("read")
-  dataStorageSizeInTbs?: int32;
+  dataStorageSizeInTbs?: float64;
 
   @doc("The total available DATA disk group size.")
   @visibility("read")
@@ -289,4 +289,23 @@ model CloudExadataInfrastructureProperties {
   @doc("Monthly Storage Server version")
   @visibility("read")
   monthlyStorageServerVersion?: string;
+
+  @added(Versions.v20250101_preview)
+  @doc("The database server model type of the cloud Exadata infrastructure resource.")
+  @visibility("create", "read")
+  @minLength(1)
+  @maxLength(255)
+  databaseServerType?: string;
+
+  @added(Versions.v20250101_preview)
+  @doc("The storage server model type of the cloud Exadata infrastructure resource.")
+  @visibility("create", "read")
+  @minLength(1)
+  @maxLength(255)
+  storageServerType?: string;
+
+  @added(Versions.v20250101_preview)
+  @doc("The compute model of the Exadata Infrastructure")
+  @visibility("read")
+  computeModel?: ComputeModel;
 }

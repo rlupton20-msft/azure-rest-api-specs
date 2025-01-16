@@ -2,6 +2,7 @@ import "../common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.OracleDatabaseDev;
@@ -17,18 +18,18 @@ model DbServer is ProxyResource<DbServerProperties> {
   name: Ocid;
 }
 
-@doc("Db Server patching status enum")
+@doc("DB Server patching status enum")
 union DbServerPatchingStatus {
-  @doc("SCHEDULED value")
+  @doc("Patching scheduled")
   Scheduled: "Scheduled",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Patching in progress")
   MaintenanceInProgress: "MaintenanceInProgress",
 
-  @doc("FAILED value")
+  @doc("Patching failed")
   Failed: "Failed",
 
-  @doc("COMPLETE value")
+  @doc("Patching completed")
   Complete: "Complete",
 
   string,
@@ -141,26 +142,31 @@ model DbServerProperties {
   @doc("Azure resource provisioning state.")
   @visibility("read")
   provisioningState?: ResourceProvisioningState;
+
+  @added(Versions.v20250101_preview)
+  @doc("The compute model of the Exadata Infrastructure")
+  @visibility("read")
+  computeModel?: ComputeModel;
 }
 
 @doc("DbServerProvisioningState enum")
 union DbServerProvisioningState {
-  @doc("CREATING value")
+  @doc("Indicates that resource in Creating state")
   Creating: "Creating",
 
-  @doc("AVAILABLE value")
+  @doc("Indicates that resource in Available state")
   Available: "Available",
 
-  @doc("UNAVAILABLE value")
+  @doc("Indicates that resource in Unavailable state")
   Unavailable: "Unavailable",
 
-  @doc("DELETING value")
+  @doc("Indicates that resource in Deleting state")
   Deleting: "Deleting",
 
-  @doc("DELETED value")
+  @doc("Indicates that resource in Deleted state")
   Deleted: "Deleted",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Indicates that resource maintenance in progress state")
   MaintenanceInProgress: "MaintenanceInProgress",
 
   string,
