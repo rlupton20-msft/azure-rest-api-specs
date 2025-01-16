@@ -50,7 +50,7 @@ model ProvisioningConfigurationProperties {
     }
   ]>;
 
-  @doc("Type of OwnerKey. Currently supported types are MicrosoftManagedKey and CustomerManagedKey.")
+  @doc("Type of OwnerKey. Currently supported types are MicrosoftManaged and CustomerManaged.")
   ownerKeyType: OwnerKeyType;
 
   @doc("OwnerKey properties")
@@ -59,8 +59,8 @@ model ProvisioningConfigurationProperties {
 
 @doc("OwnerKey Types")
 union OwnerKeyType {
-  @doc("Microsoft Managed Key") MicrosoftManagedKey: "MicrosoftManagedKey",
-  @doc("Customer Managed Key") CustomerManagedKey: "CustomerManagedKey",
+  @doc("Microsoft Managed Key") MicrosoftManaged: "MicrosoftManaged",
+  @doc("Customer Managed Key") CustomerManaged: "CustomerManaged",
   string,
 }
 
