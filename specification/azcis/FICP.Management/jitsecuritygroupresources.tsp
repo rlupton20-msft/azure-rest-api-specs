@@ -35,13 +35,13 @@ model JitSecurityGroupResourceProperties {
 
 @doc("Resource security group type")
 model ResourceSecurityGroup {
-  @doc("Scenario.")
+  @doc("JIT Scenario.")
   scenario: string;
 
-  @doc("Service name.")
+  @doc("JIT Service name.")
   serviceName: string;
 
-  @doc("Security group.")
+  @doc("JIT Security group.")
   securityGroup: string;
 }
 
