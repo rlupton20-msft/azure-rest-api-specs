@@ -60,10 +60,10 @@ union ApprovalInstanceState {
   InProgress: "InProgress",
 
   @doc("The approval workflow instance has finished with all approval rules satisfied.")
-  Succeeded: "Succeeded",
+  Satisfied: "Satisfied",
 
   @doc("The approval workflow instance has ended without approval rules satisfied.")
-  Failed: "Failed",
+  Dissatisfied: "Dissatisfied",
 }
 
 @doc("Status of an approval stage.")
