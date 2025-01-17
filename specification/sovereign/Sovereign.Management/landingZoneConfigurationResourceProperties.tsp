@@ -427,9 +427,6 @@ union ResourceType {
   @doc("Value when customer wants to provide custom naming convention for managed identity.")
   userAssignedIdentities: "userAssignedIdentities",
 
-  @doc("Value when customer wants to provide custom naming convention for public IP address.")
-  publicIPAddresses: "publicIPAddresses",
-
   @doc("Value when customer wants to provide custom naming convention for Bastion.")
   bastionHosts: "bastionHosts",
 
