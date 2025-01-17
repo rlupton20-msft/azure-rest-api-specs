@@ -9,10 +9,7 @@ namespace Private.OracleDatabaseDev;
 @doc("FlexComponent Resource Definition")
 @parentResource(SubscriptionLocationResource)
 model FlexComponent is ProxyResource<FlexComponentProperties> {
-  ...ResourceNameParameter<
-    FlexComponent,
-    SegmentName = "dbSystemShapes/flexComponents"
-  >;
+  ...ResourceNameParameter<FlexComponent>;
 }
 
 @added(Versions.v20250101_preview)
