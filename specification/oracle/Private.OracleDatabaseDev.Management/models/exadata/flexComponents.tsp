@@ -60,7 +60,7 @@ model FlexComponentProperties {
 
   @doc("The compute model of the DB Server for this Flex Component.")
   @visibility("read")
-  computeModel?: ComputeModel;
+  computeModel?: string;
 
   @doc("The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component.")
   @visibility("read")
