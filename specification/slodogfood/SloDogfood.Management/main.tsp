@@ -228,15 +228,6 @@ model Metric {
   metricName: string;
 }
 
-@doc("Identity model")
-model Identity {
-  @doc("Identity type")
-  type: string;
-
-  @doc("User assigned managed identity")
-  userAssignedIdentities: {};
-}
-
 @armResourceOperations(Slo)
 interface Slos {
   @doc("Gets a Slo")
