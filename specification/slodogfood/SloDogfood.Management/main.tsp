@@ -137,7 +137,7 @@ model SignalSource {
   filters: Filter[];
 
   @doc("Aggregation")
-  spatialAggregation: SpatialAggregation
+  spatialAggregation: SpatialAggregation;
 }
 
 @doc("Filter model")
@@ -183,7 +183,7 @@ model WindowUptimeCriteria {
   temporalAggregation: TemporalAggregation;
 }
 
- @doc("Temporal aggregation model")
+@doc("Temporal aggregation model")
 model TemporalAggregation {
   @doc("Temporal aggregation type")
   type: string;
@@ -225,7 +225,7 @@ model Metric {
   metricNamespace: string;
 
   @doc("Metric name")
-  metricName: string
+  metricName: string;
 }
 
 @doc("Identity model")
