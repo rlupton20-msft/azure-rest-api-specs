@@ -85,7 +85,7 @@ model SloProperties {
 
   @doc("Destination AMW accounts")
   @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
-  destinationAmwAcounts: AmwAccount[];
+  destinationAmwAccounts: AmwAccount[];
 
   @doc("Destination metrics")
   @OpenAPI.extension("x-ms-identifiers", ["metricNamespace", "metricName"])
