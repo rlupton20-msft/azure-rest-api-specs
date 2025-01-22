@@ -247,9 +247,9 @@ interface LandingZoneRegistrationOperations {
   @removed(Versions.Preview20250227)
   @armResourceAction(LandingZoneRegistrationResource)
   drift is ArmResourceActionAsync<
-   LandingZoneRegistrationResource,
-   void,
-   DriftResponseArray
+    LandingZoneRegistrationResource,
+    void,
+    DriftResponseArray
   >;
 }
 

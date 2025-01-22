@@ -67,13 +67,16 @@ model DriftedItems {
 @doc("The JSON response of the drift API call.")
 model DriftResponseArray {
   @doc("The count of drift rules.")
-  totalRulesEvaluated : string;
+  totalRulesEvaluated: string;
 
   @doc("Array of Drift severity count.")
   @OpenAPI.extension("x-ms-identifiers", ["severityType", "count"])
   driftedItemsBySeverity: DriftedItemsBySeverity[];
 
   @doc("Array of Drift JSON response.")
-  @OpenAPI.extension("x-ms-identifiers", ["ruleName", "category", "priority", "detail", "identifier"])
+  @OpenAPI.extension(
+    "x-ms-identifiers",
+    ["ruleName", "category", "priority", "detail", "identifier"]
+  )
   driftedItems: DriftedItems[];
 }
