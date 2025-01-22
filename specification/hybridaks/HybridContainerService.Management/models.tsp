@@ -297,7 +297,8 @@ model ProvisionedClusterProperties {
       "count",
       "vmSize",
       "kubernetesVersion",
-      "name"
+      "name",
+      "gpuCountPerNode"
     ]
   )
   agentPoolProfiles?: NamedAgentPoolProfile[];
@@ -529,6 +530,11 @@ model AgentPoolProfile {
    * The list of Availability zones to use for nodes.
    */
   availabilityZones?: string[];
+
+  /**
+   * The number of gpus attached to a node.
+   */
+  gpuCountPerNode?: int32;
 }
 
 /**
