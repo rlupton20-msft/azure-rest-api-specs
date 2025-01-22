@@ -31,14 +31,14 @@ union ProvisioningState {
   string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The type of the backing data source")
 union SourceType {
   @doc("Source type - Bucket")
   Bucket: "Bucket",
+
+  string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The state of the connector")
 union State {
   @doc("Whether the connector is enabled")
@@ -50,16 +50,18 @@ union State {
   @added(Versions.`2025-01-01-preview`)
   @doc("Whether the connector is restricted with some conditions")
   Restricted: "Restricted",
+
+  string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The auth type supported for bucket connection.")
 union AuthType {
   @doc("Access Key auth type")
   AccessKey: "AccessKey",
+
+  string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The connection type for bucket connection")
 union ConnectionType {
   @doc("Endpoint connection type")
@@ -67,9 +69,10 @@ union ConnectionType {
 
   @doc("Private Link connection type")
   PrivateLink: "PrivateLink",
+
+  string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The TLS Verification options")
 union TlsVerification {
   @doc("Perform TLS Verification")
@@ -77,9 +80,10 @@ union TlsVerification {
 
   @doc("Use AllowSelfSignedCerts as TlsVerification")
   AllowSelfSignedCerts: "AllowSelfSignedCerts",
+
+  string,
 }
 
-#suppress "@azure-tools/typespec-azure-core/no-closed-literal-union" "Suppress warnings for close enums"
 @doc("The supported PrivateLinkId types")
 union PrivateLinkIdType {
   @doc("ResourceId for PrivateLink ID")
@@ -87,4 +91,6 @@ union PrivateLinkIdType {
 
   @doc("Alias for Private Link")
   Alias: "Alias",
+
+  string,
 }
