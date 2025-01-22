@@ -155,7 +155,7 @@ model Query {
   @doc("Dimension name")
   dimensionName: string;
 
-  @doc("Operator")
+  @doc("Query operator")
   operator: string;
 
   @doc("Dimension value")
