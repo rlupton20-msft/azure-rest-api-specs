@@ -44,7 +44,7 @@ model ConnectorProperties {
 @doc("The type of backing data source")
 model Source {
   @doc("Type of the Storage Connector – Bucket. Not mutable once the Storage Connector is created.")
-  type?: SourceType;
+  type: SourceType;
 }
 
 @doc("The properties of the backing data store.")
@@ -161,11 +161,4 @@ model TestConnectionResponse {
   @doc("The request ID associated with the request sent to the backing data store for validation.")
   @minLength(1)
   storageConnectorRequestId: string;
-}
-
-// Connection Update Properties
-@doc("Details for Storage Connector Update")
-model ConnectorUpdateProperties {
-  @doc("Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.")
-  tags?: string[];
 }
