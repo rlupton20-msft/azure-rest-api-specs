@@ -50,7 +50,7 @@
           "200": {
             "description": "Success. The response describe the corresponding QuotaResourceCollection.",
             "schema": {
-              "$ref": "#/definitions/EmailQuotaResourceCollection"
+              "$ref": "#/definitions/QuotaResourceCollection"
             }
           },
           "default": {
@@ -75,8 +75,8 @@
     }
   },
   "definitions": {
-    "QuotaPerHour": {
-      "description": "Quota limit per hour on the subscription",
+    "Quota": {
+      "description": "Quota limit on the subscription",
       "type": "object",
       "properties": {
         "limit": {
@@ -84,54 +84,51 @@
           "type": "integer",
           "format": "int32"
         },
-        "usage": {
+        "currentValue": {
           "description": "Current usage on the subscription",
           "type": "integer",
           "format": "int32"
         }
       }
     },
-    "QuotaPerMinute": {
-      "description": "Quota limit per minute on the subscription",
-      "type": "object",
-      "properties": {
-        "limit": {
-          "description": "Current quota limit per minute allowed on the subscription",
-          "type": "integer",
-          "format": "int32"
-        },
-        "usage": {
-          "description": "Current usage on the subscription",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "EmailQuotaResource": {
-      "description": "Email Quota on the assigned to the subscription",
-      "type": "object",
-      "properties": {
-        "quotaName": {
-          "description": "Name of the quota resource",
-          "type": "string"
-        },
-        "quotaPerHour": {
-          "$ref": "#/definitions/QuotaPerHour"
-        },
-        "quotaPerMinute": {
-          "$ref": "#/definitions/QuotaPerMinute"
-        }
-      }
-    },
-    "EmailQuotaResourceCollection": {
-      "description": "A class representing a collection of EmailQuotaResource.",
+    "quotaName": {
+      "description": "The name of the resource",
       "type": "object",
       "properties": {
         "value": {
-          "description": "List of EmailQuotaResource",
+          "description": "The name of the resource",
+          "type": "string"
+        },
+        "localizedValue": {
+          "description": "The localized name of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "QuotaResource": {
+      "description": "Quota on the assigned to the subscription",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/quotaName"
+        },
+        "quotaPerHour": {
+          "$ref": "#/definitions/Quota"
+        },
+        "quotaPerMinute": {
+          "$ref": "#/definitions/Quota"
+        }
+      }
+    },
+    "QuotaResourceCollection": {
+      "description": "A class representing a collection of QuotaResource.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of QuotaResource",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/EmailQuotaResource"
+            "$ref": "#/definitions/QuotaResource"
           }
         },
         "nextLink": {
