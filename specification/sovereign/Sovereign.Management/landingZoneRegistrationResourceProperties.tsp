@@ -31,6 +31,8 @@ model LandingZoneRegistrationResourceProperties {
   managedIdentity: ManagedIdentityProperties;
 }
 
+@added(Versions.Preview20241031)
+@removed(Versions.Preview20250227)
 @doc("JSON structure for Drift severity count.")
 model DriftedItemsBySeverity {
   @doc("The type of severity.")
@@ -40,6 +42,8 @@ model DriftedItemsBySeverity {
   count: string;
 }
 
+@added(Versions.Preview20241031)
+@removed(Versions.Preview20250227)
 @doc("Structure of each JSON object for Drift API call.")
 model DriftedItems {
   @doc("The name of the affected rule.")
@@ -58,6 +62,8 @@ model DriftedItems {
   identifier: string;
 }
 
+@added(Versions.Preview20241031)
+@removed(Versions.Preview20250227)
 @doc("The JSON response of the drift API call.")
 model DriftResponseArray {
   @doc("The count of drift rules.")

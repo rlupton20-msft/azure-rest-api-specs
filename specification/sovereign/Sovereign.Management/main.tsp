@@ -244,6 +244,7 @@ interface LandingZoneRegistrationOperations {
   @action("drift")
   @doc("Compute drift for landing zone registration.")
   @added(Versions.Preview20241031)
+  @removed(Versions.Preview20250227)
   @armResourceAction(LandingZoneRegistrationResource)
   drift is ArmResourceActionAsync<
    LandingZoneRegistrationResource,
