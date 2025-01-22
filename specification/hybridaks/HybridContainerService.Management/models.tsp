@@ -297,7 +297,8 @@ model ProvisionedClusterProperties {
       "count",
       "vmSize",
       "kubernetesVersion",
-      "name"
+      "name",
+      "gpuCountPerNode"
     ]
   )
   agentPoolProfiles?: NamedAgentPoolProfile[];
