@@ -240,6 +240,17 @@ interface LandingZoneRegistrationOperations {
   listByResourceGroup is ArmResourceListByParent<LandingZoneRegistrationResource>;
   @doc("Lists the landing zone registrations within a subscription.")
   listBySubscription is ArmListBySubscription<LandingZoneRegistrationResource>;
+
+  @action("drift")
+  @doc("Compute drift for landing zone registration.")
+  @added(Versions.Preview20241031)
+  @removed(Versions.Preview20250227)
+  @armResourceAction(LandingZoneRegistrationResource)
+  drift is ArmResourceActionAsync<
+    LandingZoneRegistrationResource,
+    void,
+    DriftResponseArray
+  >;
 }
 
 // Transparency Logs setting Resource Type
