@@ -68,7 +68,7 @@ model SliResource {
   @doc("SLO type")
   sloType: string;
 
-  @doc("SLO evalution type")
+  @doc("SLO evaluation type")
   evaluationType: string;
 
   @doc("SLO properties")
