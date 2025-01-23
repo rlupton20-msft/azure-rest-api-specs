@@ -22,8 +22,6 @@ enum Versions {
   `2025-01-23-preview`,
 }
 
-interface Operations extends Azure.ResourceManager.Operations {}
-
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A SliTestProviderHub resource")
