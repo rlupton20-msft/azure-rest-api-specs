@@ -25,6 +25,6 @@ model OneAssetPhysicalLocation {
   chassis?: string;
 
   @visibility("read")
-  @doc("The slot in the chass")
+  @doc("The slot in the chassis")
   slotNumber?: int32;
 }
