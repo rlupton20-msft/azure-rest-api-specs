@@ -5,7 +5,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
-import "./UpdateType.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -13,7 +12,6 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.Edge;
 
@@ -42,6 +40,10 @@ model SolutionTemplateVersionProperties {
   @visibility("read")
   capabilities: string[];
 
+  @doc("Is this resource deprecated")
+  @visibility("read")
+  isDeprecated?: boolean;
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -51,7 +53,7 @@ model SolutionTemplateVersionProperties {
 @parentResource(SolutionTemplate)
 @resource("versions")
 model SolutionTemplateVersion
-  is Azure.ResourceManager.ProxyResource<SolutionTemplateVersionProperties> {
+  is ProxyResource<SolutionTemplateVersionProperties> {
   ...ResourceNameParameter<
     SolutionTemplateVersion,
     NamePattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -64,27 +66,14 @@ interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
   get is ArmResourceRead<SolutionTemplateVersion>;
 
-  @doc("Create or update a Solution Template Version Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<
-    SolutionTemplateVersion,
-    {
-      ...BaseParameters<SolutionTemplateVersion>;
-      ...VersionUpdateQueryParameters;
-    }
-  >;
-
-  @doc("update a Solution Template Version Resource")
-  update is ArmResourcePatchSync<
-    SolutionTemplateVersion,
-    SolutionTemplateVersionProperties,
-    {
-      ...BaseParameters<SolutionTemplateVersion>;
-      ...VersionUpdateQueryParameters;
-    }
-  >;
-
   @doc("Delete a Solution Template Version Resource")
   delete is ArmResourceDeleteWithoutOkAsync<SolutionTemplateVersion>;
+
+  @doc("Deprecate resource")
+  deprecate is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    void
+  >;
 
   @doc("List Solution Template Version Resources")
   listBySolutionTemplate is ArmResourceListByParent<SolutionTemplateVersion>;

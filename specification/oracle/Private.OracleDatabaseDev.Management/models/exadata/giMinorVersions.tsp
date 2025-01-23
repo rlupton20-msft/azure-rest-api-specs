@@ -33,25 +33,17 @@ model GiMinorVersionFilter {
   @query
   @doc("If provided, filters the results to the set of database versions which are supported for the given shape family.")
   shapeFamily?: ShapeFamily;
+
+  @query
+  @doc("Filters the result for the given Azure Availability Zone")
+  zone?: string;
 }
 
 @added(Versions.v20241201_preview)
 @doc("Allowed values for GI Minor Versions shapeFamily filter")
 union ShapeFamily {
-  @doc("Family value for Single Node Shape")
-  SingleNode: "SINGLENODE",
-
-  @doc("Family value for Yoda Shape")
-  Yoda: "YODA",
-
-  @doc("Family value for Virtual Machine Shape")
-  VirtualMachine: "VIRTUALMACHINE",
-
   @doc("Family value for Exadata Shape")
   Exadata: "EXADATA",
-
-  @doc("Family value for Exacc Shape")
-  Exacc: "EXACC",
 
   @doc("Family value for Exadb XS Shape")
   ExadbXs: "EXADB_XS",

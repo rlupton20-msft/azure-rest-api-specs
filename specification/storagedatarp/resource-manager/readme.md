@@ -1,8 +1,8 @@
-# storageinsights
+# storage data rp
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for storageconnectors.
+This is the AutoRest configuration file for storage connectors.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the storageinsights.
+These are the global settings for the storage data rp.
 
 ```yaml
 openapi-type: arm
@@ -37,6 +37,13 @@ These settings apply only when `--tag=package-2025-01-01-preview` is specified o
 ```yaml $(tag) == 'package-2025-01-01-preview'
 input-file:
   - Private.StorageDataRP/preview/2025-01-01-preview/connectors.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - connectors.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataRp/connectors/{connectorName}"].patch.parameters[4].schema.properties.properties
 ```
 
 ### Tag: package-2024-11-01-preview
@@ -46,6 +53,14 @@ These settings apply only when `--tag=package-2024-11-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-11-01-preview'
 input-file:
   - Private.StorageDataRP/preview/2024-11-01-preview/connectors.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - connectors.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataRp/connectors/{connectorName}"].patch.parameters[4].schema.properties.properties
+
 ```
 
 ---
@@ -67,6 +82,7 @@ swagger-to-sdk:
   - repo: azure-cli-extensions
   - repo: azure-powershell
 ```
+
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)

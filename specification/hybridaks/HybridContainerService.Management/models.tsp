@@ -293,10 +293,12 @@ model ProvisionedClusterProperties {
       "minCount",
       "enableAutoScaling",
       "maxPods",
+      "availabilityZones",
       "count",
       "vmSize",
       "kubernetesVersion",
-      "name"
+      "name",
+      "gpuCountPerNode"
     ]
   )
   agentPoolProfiles?: NamedAgentPoolProfile[];
@@ -523,6 +525,16 @@ model AgentPoolProfile {
    * The maximum number of pods that can run on a node.
    */
   maxPods?: int32;
+
+  /**
+   * The list of Availability zones to use for nodes.
+   */
+  availabilityZones?: string[];
+
+  /**
+   * The number of gpus attached to a node.
+   */
+  gpuCountPerNode?: int32;
 }
 
 /**

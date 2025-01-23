@@ -57,7 +57,7 @@ model RequestMetadata {
 
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Route name for the approval callback")
-  approvalCallbackRoute: string;
+  approvalCallbackRoute?: string;
 
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Payload to be sent upon any action on approval request")
@@ -109,7 +109,7 @@ model ApprovalProperties {
   minimumApproversRequired?: int64;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @doc("Ticket ID for the resource approval request")
+  @doc("Ticket ID for the approval request")
   ticketId?: string;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)

@@ -37,6 +37,10 @@ model SolutionVersionProperties {
   @visibility("read")
   specification: Record<unknown>;
 
+  @doc("Review id of resolved config for this solution version")
+  @visibility("read")
+  reviewId: string;
+
   @doc("State of solution instance")
   @visibility("read")
   state?: State;
@@ -61,6 +65,7 @@ model SolutionVersion
   @segment("solutionVersions")
   name: string;
 
+  ...ExtendedLocationProperty;
   ...EntityTagProperty;
 }
 
@@ -68,15 +73,6 @@ model SolutionVersion
 interface SolutionVersions {
   @doc("Get a Solution Version Resource")
   get is ArmResourceRead<SolutionVersion>;
-
-  @doc("Create or update a Solution Version Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
-
-  @doc("update an SolutionVersion Resource")
-  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
-
-  @doc("Delete a Solution Version Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
 
   @doc("List Solution Version Resources")
   listByTarget is ArmResourceListByParent<SolutionVersion>;

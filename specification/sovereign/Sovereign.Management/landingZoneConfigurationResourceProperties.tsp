@@ -415,15 +415,6 @@ union ResourceType {
   @doc("Value when customer wants to provide custom naming convention for Azure Firewall.")
   azureFirewalls: "azureFirewalls",
 
-  @doc("Value when customer wants to provide custom naming convention for resource group.")
-  resourceGroups: "resourceGroups",
-
-  @doc("Value when customer wants to provide custom naming convention for subscription.")
-  subscriptions: "subscriptions",
-
-  @doc("Value when customer wants to provide custom naming convention for management group.")
-  managementGroups: "managementGroups",
-
   @doc("Value when customer wants to provide custom naming convention for Log Analytics workspace.")
   workspaces: "workspaces",
 
@@ -436,9 +427,6 @@ union ResourceType {
   @doc("Value when customer wants to provide custom naming convention for managed identity.")
   userAssignedIdentities: "userAssignedIdentities",
 
-  @doc("Value when customer wants to provide custom naming convention for public IP address.")
-  publicIPAddresses: "publicIPAddresses",
-
   @doc("Value when customer wants to provide custom naming convention for Bastion.")
   bastionHosts: "bastionHosts",
 
@@ -447,9 +435,6 @@ union ResourceType {
 
   @doc("Value when customer wants to provide custom naming convention for Bastion NSG.")
   networkSecurityGroups: "networkSecurityGroups",
-
-  @doc("Value when customer wants to provide custom naming convention for ExpressRoute.")
-  expressRouteCircuits: "expressRouteCircuits",
 
   @doc("Value when customer wants to provide custom naming convention for virtual network.")
   virtualNetworks: "virtualNetworks",

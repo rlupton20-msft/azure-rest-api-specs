@@ -38,6 +38,7 @@ These settings apply only when `--tag=package-preview-2024-11` is specified on t
 ```yaml $(tag) == 'package-preview-2024-11'
 input-file:
   - Microsoft.Communication/preview/2024-11-01-preview/CommunicationServices.json
+  - Microsoft.Communication/preview/2024-11-01-preview/Locations.json
   - Microsoft.Communication/preview/2024-11-01-preview/Domains.json
   - Microsoft.Communication/preview/2024-11-01-preview/EmailServices.json
   - Microsoft.Communication/preview/2024-11-01-preview/SenderUsernames.json

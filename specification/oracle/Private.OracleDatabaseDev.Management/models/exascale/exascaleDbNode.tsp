@@ -20,7 +20,12 @@ scalar ExascaleDbNodeResourceId
 @doc("The DbNode resource belonging to ExadbVmCluster")
 @parentResource(ExadbVmCluster)
 model ExascaleDbNode is ProxyResource<ExascaleDbNodeProperties> {
-  ...ResourceNameParameter<ExascaleDbNode, SegmentName = "dbNodes">;
+  @doc("The OCID of the ExascaleDbNode")
+  @key("exascaleDbNodeOcid")
+  @segment("dbNodes")
+  @path
+  @pattern(".*")
+  name: Ocid;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "Read-only resource. No provisioning state provided."
@@ -48,9 +53,10 @@ model ExascaleDbNodeProperties {
   hostname?: string;
 
   @doc("The current state of the database node.")
-  lifecycleState: DbNodeProvisioningState;
+  lifecycleState?: DbNodeProvisioningState;
 
   @doc("The type of database node maintenance.")
+  @visibility("read")
   maintenanceType?: string;
 
   @doc("The allocated memory in GBs on the Db node.")
@@ -70,8 +76,8 @@ model ExascaleDbNodeProperties {
 }
 
 @added(Versions.v20241201_preview)
-@doc("ExascaleDbNode action response")
+@doc("Exascale DB Node action response")
 model DbActionResponse {
-  @doc("ExascaleDbNode provisioning state")
+  @doc("Exascale DB Node provisioning state")
   provisioningState?: AzureResourceProvisioningState;
 }

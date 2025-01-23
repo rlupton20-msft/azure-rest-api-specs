@@ -11,8 +11,14 @@ namespace Private.OracleDatabaseDev;
 @added(Versions.v20241201_preview)
 @doc("ExadbVmCluster resource definition")
 model ExadbVmCluster is TrackedResource<ExadbVmClusterProperties> {
-  ...ResourceNameParameter<ExadbVmCluster>;
   ...AvailabilityZonesProperty;
+
+  @doc("The name of the ExadbVmCluster")
+  @key("exadbVmClusterName")
+  @path
+  @segment("exadbVmClusters")
+  @pattern(".*")
+  name: string;
 }
 
 @added(Versions.v20241201_preview)

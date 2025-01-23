@@ -43,11 +43,11 @@ interface Connectors {
   @doc("Get the specified Storage Connector.")
   get is ArmResourceRead<Connector>;
 
-  @doc("Create or update a Storage Connector.")
-  createOrReplace is ArmResourceCreateOrReplaceAsync<Connector>;
+  @doc("Create a Storage Connector if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource. ")
+  create is ArmResourceCreateOrReplaceAsync<Connector>;
 
   @doc("Update a Storage Connector.")
-  update is ArmCustomPatchSync<Connector, ConnectorUpdateProperties>;
+  update is ArmResourcePatchSync<Connector, ConnectorProperties>;
 
   @doc("Delete a Storage Connector.")
   delete is ArmResourceDeleteSync<Connector>;

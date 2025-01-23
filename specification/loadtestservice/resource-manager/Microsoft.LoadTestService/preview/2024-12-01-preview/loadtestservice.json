@@ -1101,13 +1101,15 @@
             "$ref": "./examples/LoadTestResourceLimits_Get.json"
           }
         }
-      },
-      "put": {
-        "operationId": "LoadTestResourceLimits_CreateOrUpdate",
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}/limits/maxMonthlyVirtualUserHours/set": {
+      "post": {
+        "operationId": "LoadTestResourceLimits_Set",
         "tags": [
           "LoadTestResourceLimits"
         ],
-        "description": "Create a MaxMonthlyVirtualUserHoursResource",
+        "description": "Set the limit of max monthly virtual user hours for the load testing resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1126,24 +1128,18 @@
             "type": "string"
           },
           {
-            "name": "resource",
+            "name": "loadTestResourceLimitsSetRequestBody",
             "in": "body",
-            "description": "Resource create parameters.",
+            "description": "The content of the request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MaxMonthlyVirtualUserHoursResource"
+              "$ref": "#/definitions/MaxMonthlyVirtualUserHoursLimitRequest"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'MaxMonthlyVirtualUserHoursResource' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/MaxMonthlyVirtualUserHoursResource"
-            }
-          },
-          "201": {
-            "description": "Resource 'MaxMonthlyVirtualUserHoursResource' create operation succeeded",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/MaxMonthlyVirtualUserHoursResource"
             }
@@ -1153,55 +1149,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Create or update a Max Monthly Virtual Usage Hours limits resource": {
-            "$ref": "./examples/LoadTestResourceLimits_CreateOrUpdate.json"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "LoadTestResourceLimits_Delete",
-        "tags": [
-          "LoadTestResourceLimits"
-        ],
-        "description": "Delete a MaxMonthlyVirtualUserHoursResource",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "loadTestName",
-            "in": "path",
-            "description": "Load Test name",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK -- resource deleted"
-          },
-          "204": {
-            "description": "No Content -- resource deleted"
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Delete a Max Monthly Virtual Usage Hours limits resource": {
-            "$ref": "./examples/LoadTestResourceLimits_Delete.json"
           }
         }
       }
@@ -1747,6 +1694,18 @@
       },
       "description": "Details about the connection between the Batch service and the endpoint."
     },
+    "MaxMonthlyVirtualUserHoursLimitRequest": {
+      "type": "object",
+      "description": "Max monthly virtual usage hours limit request payload.",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The new maxMonthlyVirtualUserHours limit.",
+          "minimum": 0
+        }
+      }
+    },
     "MaxMonthlyVirtualUserHoursResource": {
       "type": "object",
       "description": "Max monthly virtual usage hours quota resource object.",
@@ -1770,8 +1729,7 @@
         "limit": {
           "type": "integer",
           "format": "int32",
-          "description": "Current quota limit of the quota bucket.",
-          "minimum": 0
+          "description": "Current quota limit of the quota bucket."
         },
         "usage": {
           "type": "integer",

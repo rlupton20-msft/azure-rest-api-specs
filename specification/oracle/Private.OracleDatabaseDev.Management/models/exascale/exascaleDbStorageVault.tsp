@@ -20,8 +20,14 @@ scalar ExascaleDbStorageVaultResourceId
 @doc("ExascaleDbStorageVault resource definition")
 model ExascaleDbStorageVault
   is TrackedResource<ExascaleDbStorageVaultProperties> {
-  ...ResourceNameParameter<ExascaleDbStorageVault>;
   ...AvailabilityZonesProperty;
+
+  @doc("The name of the ExascaleDbStorageVault")
+  @key("exascaleDbStorageVaultName")
+  @path
+  @segment("exascaleDbStorageVaults")
+  @pattern(".*")
+  name: string;
 }
 
 @added(Versions.v20241201_preview)
@@ -64,7 +70,7 @@ model ExascaleDbStorageVaultProperties {
 
   @doc("Exadata Database Storage Vault lifecycle state")
   @visibility("read")
-  lifecycleState: ExascaleDbStorageVaultLifecycleState;
+  lifecycleState?: ExascaleDbStorageVaultLifecycleState;
 
   @doc("Additional information about the current lifecycle state.")
   @visibility("read")

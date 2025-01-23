@@ -25,9 +25,13 @@ model CatalogProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("The URI/URL for the catalog user interface.")
+  @doc("The URI/URL for the Catalog user interface.")
   @visibility("read")
   catalogUiUri: string;
+
+  @doc("The managed resource group for the Catalog managed resources.")
+  @visibility("read")
+  managedResourceGroup: string;
 }
 
 @armResourceOperations

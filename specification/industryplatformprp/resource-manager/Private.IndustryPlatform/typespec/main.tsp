@@ -122,11 +122,11 @@ model MoboBrokerResource {
 @doc("The properties related to Deny Assignment Exclusions")
 model DenyAssignmentExclusion {
   @doc("Object Id of Identity")
-  @visibility("read")
+  @visibility("read","update")
   id: string;
 
   @doc("Type of Identity")
-  @visibility("read")
+  @visibility("read","update")
   type: string;
 }
 

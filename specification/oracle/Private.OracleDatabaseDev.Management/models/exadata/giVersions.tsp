@@ -28,22 +28,13 @@ model GiVersionProperties {
 @added(Versions.v20241201_preview)
 @doc("Provides GiVersion query parameter for list operations.")
 model GiVersionFilter {
-  @added(Versions.v20241201_preview)
   @query
   @doc("If provided, filters the results for the given shape")
   @minLength(1)
   @maxLength(255)
-  shape?: GiVersionShapes;
-}
+  shape?: SystemShapes;
 
-@added(Versions.v20241201_preview)
-@doc("Allowed values for GI Versions Shape filter")
-union GiVersionShapes {
-  @doc("Exadata X9M shape")
-  ExadataX9M: "Exadata.X9M",
-
-  @doc("Exadata DB on Exascale Infrastructure shape")
-  ExaDbXs: "ExaDbXS",
-
-  string,
+  @query
+  @doc("Filters the result for the given Azure Availability Zone")
+  zone?: string;
 }
