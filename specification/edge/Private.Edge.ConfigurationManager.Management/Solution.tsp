@@ -6,7 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./Target.tsp";
 import "./ProvisioningState.tsp";
-import "./ConfiguredSolutionVersion.tsp";
+import "./AvailableSolutionTemplateVersion.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -24,10 +24,10 @@ model SolutionProperties {
   @visibility("read")
   solutionTemplateId: string;
 
-  @doc("List of latest revisions for configured solution versions")
+  @doc("List of latest revisions for available solution template versions")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  configuredSolutionVersions?: ConfiguredSolutionVersion[];
+  availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -36,7 +36,7 @@ model SolutionProperties {
 
 @doc("Solution Resource")
 @parentResource(Target)
-model Solution is Azure.ResourceManager.TrackedResource<SolutionProperties> {
+model Solution is Azure.ResourceManager.ProxyResource<SolutionProperties> {
   @doc("Name of the solution")
   @maxLength(61)
   @minLength(3)
@@ -54,15 +54,6 @@ model Solution is Azure.ResourceManager.TrackedResource<SolutionProperties> {
 interface Solutions {
   @doc("Get a Solution resource")
   get is ArmResourceRead<Solution>;
-
-  @doc("Create or update a Solution resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Solution>;
-
-  @doc("update a Solution resource")
-  update is ArmResourcePatchAsync<Solution, SolutionProperties>;
-
-  @doc("Delete a Solution resource")
-  delete is ArmResourceDeleteWithoutOkAsync<Solution>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<Solution>;

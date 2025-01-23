@@ -13,14 +13,36 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
 
-@doc("Solution Template Version Parameter")
-model SolutionTemplateVersionParameter {
-  @doc("Solution Template Version Id")
-  solutionTemplateVersionId: string;
+@doc("Resolved Configuration")
+model ResolvedConfiguration {
+  @doc("Resolved Configuration as string")
+  configuration: string;
+}
+
+@doc("Solution Template Parameter")
+model SolutionTemplateParameter {
+  @doc("Solution Template Name")
+  solutionTemplate: string;
+
+  @doc("Solution Template Version Name")
+  solutionTemplateVersion: string;
+}
+
+@doc("Solution Version Parameter")
+model SolutionVersionParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
+
+  @doc("Review ID")
+  reviewId: string;
 }
 
 @doc("Target Properties")
@@ -45,9 +67,20 @@ model TargetProperties {
   @doc("Scope of the target resource")
   solutionScope?: string;
 
+  @doc("Is this resource deprecated")
+  @visibility("read")
+  isDeprecated?: boolean;
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
+}
+
+@doc("Param that indicates if the delete should be forced")
+model ForceDeleteParameter {
+  @doc("Force delete")
+  @query
+  forceDelete?: boolean = false;
 }
 
 @doc("Target Resource")
@@ -77,7 +110,13 @@ interface Targets {
   update is ArmResourcePatchAsync<Target, TargetProperties>;
 
   @doc("Delete a Target Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<Target>;
+  delete is ArmResourceDeleteWithoutOkAsync<
+    Target,
+    {
+      ...DefaultBaseParameters<Target>;
+      ...ForceDeleteParameter;
+    }
+  >;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<Target>;
@@ -89,16 +128,26 @@ interface Targets {
   deploy is ArmResourceActionAsync<Target, SolutionVersion, Instance>;
 
   @doc("Post request to resolve configuration")
-  resolveConfiguration is ArmResourceActionAsync<
+  resolve is ArmResourceActionAsync<
     Target,
-    SolutionTemplateVersionParameter,
+    SolutionTemplateParameter,
+    ResolvedConfiguration
+  >;
+
+  @doc("Post request to review configuration")
+  review is ArmResourceActionAsync<
+    Target,
+    SolutionTemplateParameter,
     SolutionVersion
   >;
 
   @doc("Post request to publish")
   publish is ArmResourceActionAsync<
     Target,
-    SolutionTemplateVersionParameter,
+    SolutionVersionParameter,
     SolutionVersion
   >;
+
+  @doc("Deprecate resource")
+  deprecate is ArmResourceActionNoResponseContentAsync<Target, void>;
 }

@@ -5,6 +5,8 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
+import "./UpdateType.tsp";
+import "./ConfigTemplateVersion.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -12,6 +14,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 
 namespace Private.Edge;
 
@@ -26,9 +29,19 @@ model ConfigTemplateProperties {
 }
 
 @doc("Config Template Resource")
-model ConfigTemplate is TrackedResource<ConfigTemplateProperties> {
+model ConfigTemplate
+  is Azure.ResourceManager.TrackedResource<ConfigTemplateProperties> {
   ...ResourceNameParameter<ConfigTemplate>;
   ...EntityTagProperty;
+}
+
+@doc("Config Template Version With Update Type")
+model ConfigTemplateVersionWithUpdateType {
+  @doc("Update type")
+  updateType: UpdateType;
+
+  @doc("Config Template Version")
+  configTemplateVersion: ConfigTemplateVersion;
 }
 
 @armResourceOperations
@@ -41,6 +54,13 @@ interface ConfigTemplates {
 
   @doc("update a Config Template Resource")
   update is ArmResourcePatchSync<ConfigTemplate, ConfigTemplateProperties>;
+
+  @doc("Create or update a Config Template Version Resource with the specified UpdateType")
+  createVersion is ArmResourceActionAsync<
+    ConfigTemplate,
+    ConfigTemplateVersionWithUpdateType,
+    ConfigTemplateVersion
+  >;
 
   @doc("Delete a Config Template Resource")
   delete is ArmResourceDeleteWithoutOkAsync<ConfigTemplate>;

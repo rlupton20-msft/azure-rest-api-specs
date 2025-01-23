@@ -71,15 +71,6 @@ interface InstanceHistories {
   @doc("Get InstanceHistory Resource")
   get is ArmResourceRead<InstanceHistory>;
 
-  @doc("Create or update InstanceHistory Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<InstanceHistory>;
-
-  @doc("update an InstanceHistory Resource")
-  update is ArmResourcePatchAsync<InstanceHistory, InstanceHistoryProperties>;
-
-  @doc("Delete InstanceHistory Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<InstanceHistory>;
-
   @doc("List InstanceHistory Resources")
   listByInstance is ArmResourceListByParent<InstanceHistory>;
 }

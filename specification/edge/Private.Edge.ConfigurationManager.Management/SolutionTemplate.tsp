@@ -5,6 +5,9 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
+import "@typespec/openapi";
+import "./ProvisioningState.tsp";
+import "./UpdateType.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -12,6 +15,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 
 namespace Private.Edge;
 
@@ -26,15 +30,29 @@ model SolutionTemplateProperties {
   @doc("Latest solution template version")
   latestVersion: string;
 
+  @doc("Is this resource deprecated")
+  @visibility("read")
+  isDeprecated?: boolean;
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
 @doc("Solution Template Resource")
-model SolutionTemplate is TrackedResource<SolutionTemplateProperties> {
+model SolutionTemplate
+  is Azure.ResourceManager.TrackedResource<SolutionTemplateProperties> {
   ...ResourceNameParameter<SolutionTemplate>;
   ...EntityTagProperty;
+}
+
+@doc("Solution Template Version With Update Type")
+model SolutionTemplateVersionWithUpdateType {
+  @doc("Update type")
+  updateType: UpdateType;
+
+  @doc("Solution Template Version")
+  solutionTemplateVersion: SolutionTemplateVersion;
 }
 
 @armResourceOperations
@@ -47,6 +65,16 @@ interface SolutionTemplates {
 
   @doc("update a Solution Template Resource")
   update is ArmResourcePatchSync<SolutionTemplate, SolutionTemplateProperties>;
+
+  @doc("Create a Solution Template Version Resource")
+  createVersion is ArmResourceActionAsync<
+    SolutionTemplate,
+    SolutionTemplateVersionWithUpdateType,
+    SolutionTemplateVersion
+  >;
+
+  @doc("Deprecate resource")
+  deprecate is ArmResourceActionNoResponseContentAsync<SolutionTemplate, void>;
 
   @doc("Delete a Solution Template Resource")
   delete is ArmResourceDeleteWithoutOkAsync<SolutionTemplate>;
