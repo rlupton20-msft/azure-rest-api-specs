@@ -9,7 +9,7 @@ union DriveType {
   @doc("NVME SSD")
   NvmeSsd: "NVMESSD",
 
-  string
+  string,
 }
 
 @doc("Information about the drive")

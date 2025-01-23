@@ -1,4 +1,3 @@
-
 import "../../Models/SetAccountRequestBody.tsp";
 import "../../Models/RemoveAccountRequestBody.tsp";
 
@@ -36,6 +35,12 @@ model ReservationServerProperties {
 interface ReservationServers {
   get is ArmResourceRead<ReservationServer>;
   listByParent is ArmResourceListByParent<ReservationServer>;
-  setAccount is ArmResourceActionNoResponseContentAsync<ReservationServer, SetAccountRequestBody>;
-  removeAccount is ArmResourceActionNoResponseContentAsync<ReservationServer, RemoveAccountRequestBody>;
+  setAccount is ArmResourceActionNoResponseContentAsync<
+    ReservationServer,
+    SetAccountRequestBody
+  >;
+  removeAccount is ArmResourceActionNoResponseContentAsync<
+    ReservationServer,
+    RemoveAccountRequestBody
+  >;
 }

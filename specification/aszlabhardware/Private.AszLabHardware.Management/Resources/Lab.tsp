@@ -1,4 +1,3 @@
-
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -22,7 +21,6 @@ model LabProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
-
 
 @armResourceOperations
 interface Labs {

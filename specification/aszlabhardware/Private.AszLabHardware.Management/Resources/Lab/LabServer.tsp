@@ -55,7 +55,7 @@ union ReservationStatus {
   @doc("Not Reserved")
   NotReserved: "NotReserved",
 
-  string
+  string,
 }
 
 @doc("The maintenance status of the server")
@@ -121,7 +121,7 @@ union MaintenanceState {
 @doc("The request body model for setMaintenanceState POST call")
 model SetMaintenanceStateRequestBody {
   @doc("The enum describing the maintenance state")
-  maintenanceState: MaintenanceState
+  maintenanceState: MaintenanceState;
 }
 
 @armResourceOperations
@@ -132,13 +132,22 @@ interface LabServers {
   delete is ArmResourceDeleteWithoutOkAsync<LabServer>;
 
   @doc("Set BMC account")
-  setAccount is ArmResourceActionNoResponseContentAsync<LabServer, SetAccountRequestBody>;
-  
+  setAccount is ArmResourceActionNoResponseContentAsync<
+    LabServer,
+    SetAccountRequestBody
+  >;
+
   @doc("Remove BMC account")
-  removeAccount is ArmResourceActionNoResponseContentAsync<LabServer, RemoveAccountRequestBody>;
+  removeAccount is ArmResourceActionNoResponseContentAsync<
+    LabServer,
+    RemoveAccountRequestBody
+  >;
 
   @doc("Assign the server to a pool")
-  assign is ArmResourceActionNoResponseContentAsync<LabServer, AssignRequestBody>;
+  assign is ArmResourceActionNoResponseContentAsync<
+    LabServer,
+    AssignRequestBody
+  >;
 
   @doc("Unassign the server from a pool")
   unassign is ArmResourceActionNoResponseContentAsync<LabServer, void>;
@@ -150,5 +159,8 @@ interface LabServers {
   reset is ArmResourceActionNoResponseContentAsync<LabServer, ResetRequestBody>;
 
   @doc("Request maintenance")
-  setMaintenance is ArmResourceActionNoResponseContentAsync<LabServer, SetMaintenanceStateRequestBody>;
+  setMaintenance is ArmResourceActionNoResponseContentAsync<
+    LabServer,
+    SetMaintenanceStateRequestBody
+  >;
 }

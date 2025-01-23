@@ -37,21 +37,21 @@ model ServerHardware {
 
   @visibility("read")
   @doc("The processors of the server")
-  @extension("x-ms-identifiers",[])
+  @extension("x-ms-identifiers", [])
   processors?: ServerHardwareProcessor[];
 
   @visibility("read")
-  @extension("x-ms-identifiers",[])
+  @extension("x-ms-identifiers", [])
   @doc("The drives of the server")
   drives?: ServerHardwareDrive[];
 
   @visibility("read")
-  @extension("x-ms-identifiers",[])
+  @extension("x-ms-identifiers", [])
   @doc("The GPUs of the server")
   graphicsCards?: ServerHardwareGraphicsCard[];
 
   @visibility("read")
-  @extension("x-ms-identifiers",[])
+  @extension("x-ms-identifiers", [])
   @doc("The network cards of the server")
   networkCards?: ServerHardwareNetworkCard[];
 }
@@ -66,11 +66,12 @@ union PowerState {
 
   @doc("Powering on")
   PoweringOn: "PoweringOn",
-  
+
   @doc("Powering off")
   PoweringOff: "PoweringOff",
-  
+
   @doc("Paused")
   Paused: "Paused",
-  string,  
+
+  string,
 }

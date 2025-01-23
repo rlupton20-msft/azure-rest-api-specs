@@ -5,13 +5,12 @@ import "./HardwareInfo.tsp";
 @discriminator("type")
 @doc("The model describing the physical location")
 union PhysicalLocation {
-	@doc("OneAsset physical location")
-	oneAssetPhysicalLocation: OneAssetPhysicalLocation;
+  @doc("OneAsset physical location")
+  oneAssetPhysicalLocation: OneAssetPhysicalLocation,
 }
 
 @doc("AszLabHardware.Lab/Server properties")
 model ServerPropertiesBase {
-  
   @visibility("read")
   @doc("The Serial Number of the Server.")
   serialNumber: string;

@@ -1,4 +1,3 @@
-
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
