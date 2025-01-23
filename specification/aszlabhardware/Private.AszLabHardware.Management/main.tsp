@@ -6,9 +6,14 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "./ApiVersion.tsp";
 import "./Operations.tsp";
-import "./Resources/LabServer.tsp";
+import "./Resources/LabServerV1.tsp";
 import "./Resources/Server.tsp";
 import "./Resources/Reservation.tsp";
+import "./Resources/Pool.tsp";
+import "./Resources/Lab.tsp";
+import "./Resources/Lab/LabServer.tsp";
+import "./Resources/Pool/PoolServer.tsp";
+import "./Resources/Reservation/ReservationServer.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
