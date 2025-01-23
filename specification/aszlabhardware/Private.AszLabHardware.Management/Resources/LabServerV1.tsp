@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 namespace Private.AszLabHardware;
 
 @doc("A physical computer which can be reserved for use by a user")
-model LabServer is TrackedResource<LabServerProperties> {
+model LabServerV1 is TrackedResource<LabServerV1Properties> {
   @doc("The name of the server")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("serverName")
@@ -19,7 +19,7 @@ model LabServer is TrackedResource<LabServerProperties> {
 }
 
 @doc("Details of the AszLabHw LabServer.")
-model LabServerProperties {
+model LabServerV1Properties {
   @visibility("read")
   @doc("The current status of the GoalState")
   resourceManager?: ResourceManager;
@@ -74,19 +74,19 @@ model LabServerProperties {
 }
 
 @armResourceOperations
-interface LabServers {
-  get is ArmResourceRead<LabServer>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<LabServer>;
+interface LabServerV1s {
+  get is ArmResourceRead<LabServerV1>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<LabServerV1>;
   update is ArmCustomPatchAsync<
-    LabServer,
+    LabServerV1,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      LabServer,
-      LabServerProperties
+      LabServerV1,
+      LabServerV1Properties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<LabServer>;
-  listByResourceGroup is ArmResourceListByParent<LabServer>;
-  listBySubscription is ArmListBySubscription<LabServer>;
+  delete is ArmResourceDeleteWithoutOkAsync<LabServerV1>;
+  listByResourceGroup is ArmResourceListByParent<LabServerV1>;
+  listBySubscription is ArmListBySubscription<LabServerV1>;
   @doc("Collects the inventory of the server")
-  collectInventory is ArmResourceActionSync<LabServer, void, void>;
+  collectInventory is ArmResourceActionSync<LabServerV1, void, void>;
 }
