@@ -116,3 +116,11 @@ interface DataflowEndpoint {
   delete is ArmResourceDeleteWithoutOkAsync<DataflowEndpointResource>;
   listByResourceGroup is ArmResourceListByParent<DataflowEndpointResource>;
 }
+
+// /instance/skynet resource Operations
+@armResourceOperations
+interface Skynet {
+  get is ArmResourceRead<SkynetResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<SkynetResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<SkynetResource>;
+}

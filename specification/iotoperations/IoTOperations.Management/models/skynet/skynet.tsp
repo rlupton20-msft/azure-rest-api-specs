@@ -1,0 +1,55 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@azure-tools/typespec-azure-resource-manager";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using OpenAPI;
+using Azure.ResourceManager;
+
+namespace Private.IoTOperations;
+
+/** ******************* */
+/**
+ * skynet resource type model details.
+ */
+@doc("Instance skynet resource")
+@parentResource(InstanceResource)
+model SkynetResource is ProxyResource<SkynetProperties> {
+  @doc("Name of Instance skynet resource")
+  @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
+  @path
+  @minLength(3)
+  @maxLength(63)
+  @key("SkynetName")
+  @segment("skynet")
+  name: string;
+
+  // Extended location is not included in ProxyResource yet
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
+  @doc("Edge location of the resource.")
+  @visibility("read", "create")
+  extendedLocation: ExtendedLocation;
+}
+
+@doc("Skynet Resource properties")
+model SkynetProperties {
+  @doc("Spec defines the desired identities of skynet settings.")
+  accessLevel?: AccessLevel;
+
+  @doc("To manually scale the dataflow profile, specify the maximum number of instances you want to run.")
+  @maxLength(64)
+  expirationTimeStamp?: string = 1;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
+}
+
+@doc("Skynet AccessLevel Type properties")
+union AccessLevel {
+  string,
+
+  @doc("Diagnose access level")
+  DataExplorer: "Diagnose",
+}
