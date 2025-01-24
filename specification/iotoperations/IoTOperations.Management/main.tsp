@@ -124,4 +124,5 @@ interface Skynet {
   get is ArmResourceRead<SkynetResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<SkynetResource>;
   delete is ArmResourceDeleteWithoutOkAsync<SkynetResource>;
+  listByResourceGroup is ArmResourceListByParent<SkynetResource>;
 }
