@@ -35,7 +35,7 @@ model SkynetResource is ProxyResource<SkynetProperties> {
 @doc("Skynet Resource properties")
 model SkynetProperties {
   @doc("Access level for Skynet.")
-  accessLevel?: SkynetPropertiesAccessLevel;
+  accessLevel?: SkynetPropertiesAccessLevels;
 
   @doc("Expiration timestamp for Skynet.")
   expirationTimeStamp?: string;
@@ -46,7 +46,7 @@ model SkynetProperties {
 }
 
 @doc("SkynetPropertiesAccessLevels allowed")
-union SkynetPropertiesAccessLevel {
+union SkynetPropertiesAccessLevels {
   string,
 
   @doc("Diagnose access level")
