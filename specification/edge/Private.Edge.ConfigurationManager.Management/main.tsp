@@ -24,6 +24,7 @@ import "./WorkflowTemplate.tsp";
 import "./WorkflowTemplateVersion.tsp";
 import "./Execution.tsp";
 import "./Diagnostics.tsp";
+import "./Context.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
