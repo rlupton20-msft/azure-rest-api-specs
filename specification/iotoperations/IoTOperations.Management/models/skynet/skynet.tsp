@@ -22,7 +22,7 @@ model SkynetResource is ProxyResource<SkynetProperties> {
   @path
   @minLength(3)
   @maxLength(63)
-  @segment("skynet")
+  @segment("skynets")
   name: string;
 
   // Extended location is not included in ProxyResource yet
