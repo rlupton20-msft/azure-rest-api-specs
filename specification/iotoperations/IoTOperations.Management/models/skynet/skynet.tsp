@@ -16,15 +16,6 @@ namespace Private.IoTOperations;
 @doc("Instance skynet resource")
 @parentResource(InstanceResource)
 model SkynetResource is ProxyResource<SkynetProperties> {
-  @doc("Name of Instance skynet resource")
-  @pattern("^[a-z0-9][a-z0-9-]*[a-z0-9]$")
-  @path
-  @minLength(3)
-  @maxLength(63)
-  @key("SkynetName")
-  @segment("skynet")
-  name: string;
-
   // Extended location is not included in ProxyResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
@@ -50,5 +41,5 @@ union AccessLevel {
   string,
 
   @doc("Diagnose access level")
-  DataExplorer: "Diagnose",
+  Diagnose: "Diagnose",
 }
