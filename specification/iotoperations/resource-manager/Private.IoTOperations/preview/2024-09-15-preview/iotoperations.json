@@ -2550,6 +2550,179 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/skynet": {
+      "get": {
+        "operationId": "Skynet_Get",
+        "tags": [
+          "Skynet"
+        ],
+        "description": "Get a SkynetResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SkynetResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Skynet_CreateOrUpdate",
+        "tags": [
+          "Skynet"
+        ],
+        "description": "Create a SkynetResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SkynetResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SkynetResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SkynetResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'SkynetResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SkynetResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Skynet_Delete",
+        "tags": [
+          "Skynet"
+        ],
+        "description": "Delete a SkynetResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
     }
   },
   "definitions": {
@@ -6098,6 +6271,68 @@
           }
         ]
       }
+    },
+    "SkynetProperties": {
+      "type": "object",
+      "description": "Skynet Resource properties",
+      "properties": {
+        "accessLevel": {
+          "$ref": "#/definitions/SkynetPropertiesAccessLevels"
+        },
+        "expirationTimeStamp": {
+          "type": "string",
+          "description": "Expiration timestamp for Skynet."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "SkynetPropertiesAccessLevels": {
+      "type": "string",
+      "description": "SkynetPropertiesAccessLevels allowed",
+      "enum": [
+        "Diagnose"
+      ],
+      "x-ms-enum": {
+        "name": "SkynetPropertiesAccessLevels",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Diagnose",
+            "value": "Diagnose",
+            "description": "Diagnose access level"
+          }
+        ]
+      }
+    },
+    "SkynetResource": {
+      "type": "object",
+      "description": "Instance skynet resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SkynetProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "extendedLocation"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "SourceSerializationFormat": {
       "type": "string",
