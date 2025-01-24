@@ -38,8 +38,7 @@ model SkynetProperties {
   accessLevel?: AccessLevel;
 
   @doc("To manually scale the dataflow profile, specify the maximum number of instances you want to run.")
-  @maxLength(64)
-  expirationTimeStamp?: string = 1;
+  expirationTimeStamp?: string;
 
   @visibility("read")
   @doc("The status of the last operation.")
