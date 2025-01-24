@@ -14,6 +14,7 @@ import "./models/broker/listeners.tsp";
 import "./models/dataflows/dataflowEndpoints.tsp";
 import "./models/dataflows/dataflowProfiles.tsp";
 import "./models/dataflows/dataflows.tsp";
+import "./models/skynet/skynet.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
