@@ -34,10 +34,9 @@ model SkynetResource is ProxyResource<SkynetProperties> {
 
 @doc("Skynet Resource properties")
 model SkynetProperties {
-  @doc("Spec defines the desired identities of skynet settings.")
-  accessLevel?: AccessLevel;
+  accessLevel?: SkynetPropertiesAccessLevel;
 
-  @doc("To manually scale the dataflow profile, specify the maximum number of instances you want to run.")
+  @doc("Expiration timestamp for Skynet.")
   expirationTimeStamp?: string;
 
   @visibility("read")
@@ -45,8 +44,8 @@ model SkynetProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Skynet AccessLevel Type properties")
-union AccessLevel {
+@doc("SkynetPropertiesAccessLevels allowed")
+union SkynetPropertiesAccessLevel {
   string,
 
   @doc("Diagnose access level")
