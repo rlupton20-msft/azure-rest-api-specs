@@ -51,32 +51,27 @@ model ReconciliationPolicyProperties {
 @doc("Instance Properties")
 model InstanceProperties {
   @doc("Solution version of instance")
-  @visibility("read")
   solutionVersionId: string;
 
   @doc("Target of instance")
-  @visibility("read")
   targetId: string;
 
   @doc("State of instance")
-  @visibility("read")
   activeState?: ActiveState;
 
   @doc("Reconciliation policy of instance")
-  @visibility("read")
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
   @doc("Scope of instance")
-  @visibility("read")
   solutionScope?: string;
 
   @doc("Status of instance")
   @visibility("read")
-  status: DeploymentStatus;
+  status?: DeploymentStatus;
 
   @doc("Deployment timestamp of instance")
   @visibility("read")
-  deploymentTimestampEpoch: int64;
+  deploymentTimestampEpoch?: int64;
 
   @doc("Provisioning state of resource")
   @visibility("read")

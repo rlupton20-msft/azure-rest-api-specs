@@ -8473,14 +8473,19 @@
           "description": "Target of instance",
           "readOnly": true
         },
-        "status": {
-          "$ref": "#/definitions/DeploymentStatus",
-          "description": "Deployment Status of instance",
+        "solutionScope": {
+          "type": "string",
+          "description": "Scope of instance",
           "readOnly": true
         },
         "reconciliationPolicy": {
           "$ref": "#/definitions/ReconciliationPolicyProperties",
           "description": "Reconciliation policy of instance",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/DeploymentStatus",
+          "description": "Deployment Status of instance",
           "readOnly": true
         },
         "deploymentTimestampEpoch": {
@@ -8497,9 +8502,7 @@
       },
       "required": [
         "solutionVersion",
-        "target",
-        "status",
-        "deploymentTimestampEpoch"
+        "target"
       ]
     },
     "InstanceListResult": {
@@ -8529,28 +8532,23 @@
       "properties": {
         "solutionVersionId": {
           "type": "string",
-          "description": "Solution version of instance",
-          "readOnly": true
+          "description": "Solution version of instance"
         },
         "targetId": {
           "type": "string",
-          "description": "Target of instance",
-          "readOnly": true
+          "description": "Target of instance"
         },
         "activeState": {
           "$ref": "#/definitions/ActiveState",
-          "description": "State of instance",
-          "readOnly": true
+          "description": "State of instance"
         },
         "reconciliationPolicy": {
           "$ref": "#/definitions/ReconciliationPolicyProperties",
-          "description": "Reconciliation policy of instance",
-          "readOnly": true
+          "description": "Reconciliation policy of instance"
         },
         "solutionScope": {
           "type": "string",
-          "description": "Scope of instance",
-          "readOnly": true
+          "description": "Scope of instance"
         },
         "status": {
           "$ref": "#/definitions/DeploymentStatus",
@@ -8571,14 +8569,34 @@
       },
       "required": [
         "solutionVersionId",
-        "targetId",
-        "status",
-        "deploymentTimestampEpoch"
+        "targetId"
       ]
     },
     "InstancePropertiesUpdate": {
       "type": "object",
-      "description": "Instance Properties"
+      "description": "Instance Properties",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution version of instance"
+        },
+        "targetId": {
+          "type": "string",
+          "description": "Target of instance"
+        },
+        "activeState": {
+          "$ref": "#/definitions/ActiveState",
+          "description": "State of instance"
+        },
+        "reconciliationPolicy": {
+          "$ref": "#/definitions/ReconciliationPolicyPropertiesUpdate",
+          "description": "Reconciliation policy of instance"
+        },
+        "solutionScope": {
+          "type": "string",
+          "description": "Scope of instance"
+        }
+      }
     },
     "InstanceUpdate": {
       "type": "object",
@@ -8673,6 +8691,20 @@
         "state",
         "interval"
       ]
+    },
+    "ReconciliationPolicyPropertiesUpdate": {
+      "type": "object",
+      "description": "Defines a ReconciliationPolicy",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/ReconciliationState",
+          "description": "The state of the ReconciliationPolicy"
+        },
+        "interval": {
+          "type": "string",
+          "description": "Policy interval."
+        }
+      }
     },
     "ReconciliationState": {
       "type": "string",
@@ -9378,8 +9410,7 @@
         "specification": {
           "type": "object",
           "description": "App components spec",
-          "additionalProperties": {},
-          "readOnly": true
+          "additionalProperties": {}
         },
         "reviewId": {
           "type": "string",
@@ -9398,16 +9429,19 @@
         }
       },
       "required": [
-        "revision",
-        "targetDisplayName",
-        "configuration",
-        "specification",
-        "reviewId"
+        "specification"
       ]
     },
     "SolutionVersionPropertiesUpdate": {
       "type": "object",
-      "description": "Solution Version Properties"
+      "description": "Solution Version Properties",
+      "properties": {
+        "specification": {
+          "type": "object",
+          "description": "App components spec",
+          "additionalProperties": {}
+        }
+      }
     },
     "SolutionVersionUpdate": {
       "type": "object",
