@@ -115,5 +115,5 @@ interface Instances {
   delete is ArmResourceDeleteWithoutOkAsync<Instance>;
 
   @doc("List Instance Resources")
-  listByTarget is ArmResourceListByParent<Instance>;
+  listBySolution is ArmResourceListByParent<Instance>;
 }
