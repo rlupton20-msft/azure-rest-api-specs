@@ -6,6 +6,7 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -53,39 +54,33 @@ scalar ValidatorVersionResourceId
 interface Validators {
   @doc("Get the validator.")
   get is ArmResourceRead<Validator>;
-  getValidatorAtSubscriptionLevel is ArmResourceRead<
+
+  @added(Versions.v2025_01_15_preview)
+  getAtSubscriptionLevel is ArmResourceRead<
     Validator,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  getValidatorAtTenantLevel is ArmResourceRead<
-    Validator,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
   @doc("Create the validator.")
-  create is ArmResourceCreateOrReplaceAsync<Validator>;
-  createOrUpdateValidatorAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Validator>;
+
+  @added(Versions.v2025_01_15_preview)
+  createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     Validator,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  createOrUpdateValidatorAtTenantLevel is ArmResourceCreateOrReplaceSync<
-    Validator,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
   @doc("Update the validator.")
   update is ArmResourcePatchSync<Validator, ValidatorProperties>;
-  updateValidatorAtSubscriptionLevel is ArmResourcePatchSync<
+
+  @added(Versions.v2025_01_15_preview)
+  updateAtSubscriptionLevel is ArmResourcePatchSync<
     Validator,
     ValidatorProperties,
     {
@@ -93,27 +88,16 @@ interface Validators {
       ...SubscriptionIdParameter;
     }
   >;
-  updateValidatorAtTenantLevel is ArmResourcePatchSync<
-    Validator,
-    ValidatorProperties,
-    {
-      ...ApiVersionParameter;
-    }
-  >;
 
   @doc("Deletes the validator.")
-  delete is ArmResourceDeleteSync<Validator>;
+  delete is ArmResourceDeleteWithoutOkAsync<Validator>;
+
+  @added(Versions.v2025_01_15_preview)
   deleteAtSubscriptionLevel is ArmResourceDeleteWithoutOkAsync<
     Validator,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  deleteAtTenantLevel is ArmResourceDeleteWithoutOkAsync<
-    Validator,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
@@ -123,37 +107,27 @@ interface Validators {
   @doc("List the validators.")
   listBySubscription is ArmListBySubscription<Validator>;
 
-  // TODO: List by tenant
-
   @doc("Get the validator version.")
   getVersion is ArmResourceRead<ValidatorVersion>;
-  getValidatorVersionAtSubscriptionLevel is ArmResourceRead<
+
+  @added(Versions.v2025_01_15_preview)
+  getVersionAtSubscriptionLevel is ArmResourceRead<
     ValidatorVersion,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  getValidatorVersionAtTenantLevel is ArmResourceRead<
-    ValidatorVersion,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
   @doc("Create the validator version.")
-  createVersion is ArmResourceCreateOrReplaceAsync<ValidatorVersion>;
-  createOrUpdateValidatorVersionAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
+  createOrUpdateVersion is ArmResourceCreateOrReplaceAsync<ValidatorVersion>;
+
+  @added(Versions.v2025_01_15_preview)
+  createOrUpdateVersionAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     ValidatorVersion,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  createOrUpdateValidatorVersionAtTenantLevel is ArmResourceCreateOrReplaceSync<
-    ValidatorVersion,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
@@ -162,35 +136,26 @@ interface Validators {
     ValidatorVersion,
     ValidatorVersionProperties
   >;
-  updateValidatorVersionAtSubscriptionLevel is ArmResourcePatchSync<
+
+  @added(Versions.v2025_01_15_preview)
+  updateVersionAtSubscriptionLevel is ArmResourcePatchSync<
     ValidatorVersion,
     ValidatorVersionProperties,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  updateValidatorVersionAtTenantLevel is ArmResourcePatchSync<
-    ValidatorVersion,
-    ValidatorVersionProperties,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
   @doc("Deletes the validator version.")
-  deleteVersion is ArmResourceDeleteSync<ValidatorVersion>;
-  deleteValidatorVersionAtSubscriptionLevel is ArmResourceDeleteWithoutOkAsync<
+  deleteVersion is ArmResourceDeleteWithoutOkAsync<ValidatorVersion>;
+
+  @added(Versions.v2025_01_15_preview)
+  deleteVersionAtSubscriptionLevel is ArmResourceDeleteWithoutOkAsync<
     ValidatorVersion,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  deleteValidatorVersionAtTenantLevel is ArmResourceDeleteWithoutOkAsync<
-    ValidatorVersion,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
@@ -199,6 +164,4 @@ interface Validators {
 
   @doc("List the validator versions.")
   listVersionBySubscription is ArmListBySubscription<ValidatorVersion>;
-
-  // TODO: List by tenant
 }
