@@ -6,6 +6,7 @@ import "./models.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -25,6 +26,8 @@ model Validation is ProxyResource<ValidationPropertiesExtended> {
 interface Validations {
   @doc("Get the validation.")
   get is ArmResourceRead<Validation>;
+
+  @added(Versions.v2025_01_15_preview)
   getAtSubscriptionLevel is ArmResourceRead<
     Validation,
     {
@@ -32,15 +35,11 @@ interface Validations {
       ...SubscriptionIdParameter;
     }
   >;
-  getAtTenantLevel is ArmResourceRead<
-    Validation,
-    {
-      ...ApiVersionParameter;
-    }
-  >;
 
   @doc("Creates a validation.")
-  create is ArmResourceCreateOrReplaceAsync<Validation>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Validation>;
+
+  @added(Versions.v2025_01_15_preview)
   createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     Validation,
     {
@@ -48,15 +47,11 @@ interface Validations {
       ...SubscriptionIdParameter;
     }
   >;
-  createOrUpdateAtTenantLevel is ArmResourceCreateOrReplaceSync<
-    Validation,
-    {
-      ...ApiVersionParameter;
-    }
-  >;
 
   @doc("Validation can be re-run by doing a PUT operation with the same parameters. The output of the validation will be updated based on the new validation run.")
-  update is ArmResourcePatchSync<Validation, ValidationPropertiesExtended>;
+  update is ArmResourcePatchSync<Validation, ValidationProperties>;
+
+  @added(Versions.v2025_01_15_preview)
   updateAtSubscriptionLevel is ArmResourcePatchSync<
     Validation,
     ValidationPropertiesExtended,
@@ -65,27 +60,16 @@ interface Validations {
       ...SubscriptionIdParameter;
     }
   >;
-  updateAtTenantLevel is ArmResourcePatchSync<
-    Validation,
-    ValidationPropertiesExtended,
-    {
-      ...ApiVersionParameter;
-    }
-  >;
 
   @doc("Deletes the validation.")
-  delete is ArmResourceDeleteSync<Validation>;
+  delete is ArmResourceDeleteWithoutOkAsync<Validation>;
+
+  @added(Versions.v2025_01_15_preview)
   deleteAtSubscriptionLevel is ArmResourceDeleteWithoutOkAsync<
     Validation,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  deleteAtTenantLevel is ArmResourceDeleteWithoutOkAsync<
-    Validation,
-    {
-      ...ApiVersionParameter;
     }
   >;
 
@@ -94,6 +78,4 @@ interface Validations {
 
   @doc("List the validations.")
   listBySubscription is ArmListBySubscription<Validation>;
-
-  // TODO: List by tenant
 }
