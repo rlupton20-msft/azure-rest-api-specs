@@ -167,6 +167,18 @@ model ApprovalSettings {
   serviceCatalogDeployment?: ApprovalPolicy;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on creation of an Approval Request")
+  notificationOnApprovalCreation?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on any action taken (Approve/Reject) on an Approval Request")
+  notificationOnApprovalAction?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on deletion of an Approval Request")
+  notificationOnApprovalDeletion?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
   @doc("List of mandatory approvers for the approval request")
   mandatoryApprovers?: MandatoryApprover[];
@@ -228,8 +240,7 @@ model CommunityProperties {
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
 
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  @added(Microsoft.Mission.Versions.v2025_01_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }
