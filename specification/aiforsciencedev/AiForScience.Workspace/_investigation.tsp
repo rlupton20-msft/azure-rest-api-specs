@@ -156,8 +156,11 @@ interface Investigations {
   @doc("Gets status of a Investigation operation.")
   getInvestigationOperationStatus is GetResourceOperationStatus<Investigation>;
 
-  @doc("Creates or updates a Investigation.")
-  createOrUpdateInvestigation is StandardResourceOperations.ResourceCreateOrUpdate<Investigation>;
+  @doc("Creates or replaces Investigation.")
+  createOrReplaceInvestigation is StandardResourceOperations.ResourceCreateOrReplace<InvestigationWithYaml>;
+
+  @doc("Creates or updates Investigation.")
+  createOrUpdateInvestigation is StandardResourceOperations.ResourceCreateOrUpdate<InvestigationWithYaml>;
 
   @doc("Delete a Investigation.")
   deleteInvestigation is ResourceDelete<Investigation>;
@@ -200,11 +203,4 @@ interface Investigations {
 
   @doc("Remove an input.")
   removeInput is Operations.ResourceAction<Investigation, WithInputName, Input>;
-
-  @doc("Update a Investigation YAML by name using specified YAML.")
-  updatePlanBlueprintYaml is Operations.ResourceAction<
-    Investigation,
-    WithYaml,
-    {}
-  >;
 }

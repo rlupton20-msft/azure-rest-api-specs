@@ -149,7 +149,7 @@ model WithRunMode {
 model WithYaml {
   @doc("The plan Blueprint as YAML")
   @visibility("read", "create", "update")
-  planBlueprintYaml: string;
+  planBlueprintYaml?: string;
 }
 
 @doc("For project reference.")

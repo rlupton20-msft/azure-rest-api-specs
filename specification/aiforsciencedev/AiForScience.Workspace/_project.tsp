@@ -86,6 +86,8 @@ model Project {
   dataAssetSettings: ArtifactConfiguration[];
 }
 
+// TODO: Remove un-needed route prefix!
+//@route("copilot")
 interface Projects {
   @doc("Fetch a Project by name.")
   getProject is ResourceRead<Project>;

@@ -27,6 +27,23 @@ model WithConversationId {
   conversationId: string;
 }
 
+@doc("Enumeration for message status.")
+union MessageStatus {
+  /** Accepted */
+  Accepted: "Accepted",
+
+  /** Processing */
+  Processing: "Processing",
+
+  /** Completed */
+  Completed: "Completed",
+
+  /** Failed */
+  Failed: "Failed",
+
+  string,
+}
+
 @access(Access.internal)
 @doc("A base message.")
 model MessageBase {
@@ -47,18 +64,31 @@ model Message {
   @key("messageName")
   name: string;
 
+  @doc("Message status")
+  @visibility("read")
+  status: MessageStatus;
+
   @doc("The plan Blueprint as YAML")
   @visibility("read")
   planBlueprintYaml?: string;
 }
 
+// TODO: Remove un-needed route prefix!
+//@route("copilot")
 interface Messages {
   @doc("Fetch a Message by name.")
   getMessage is ResourceRead<Message>;
 
-  // TODO: Convert to PUT
-  @doc("Add an input.")
-  createMessage is Operations.ResourceAction<Message, MessageBase, Message>;
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Creates or updates Message.")
+  @createsOrReplacesResource(Message)
+  @put
+  @route("/messages")
+  createOrReplaceMessage is Azure.Core.Foundations.Operation<
+    Message,
+    MessageBase,
+    Message
+  >;
 
   //  @doc("Delete a Message asynchronously.")
   //  @pollingOperation(Messages.getMessageOperationStatus)

@@ -27,6 +27,8 @@ model Conversation {
   name: string;
 }
 
+// TODO: Remove un-needed route prefix!
+//@route("copilot")
 interface Conversations {
   @doc("Fetch a Conversation by name.")
   getConversation is ResourceRead<Conversation>;
