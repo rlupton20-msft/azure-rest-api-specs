@@ -125,7 +125,7 @@ interface Targets {
   listBySubscription is ArmListBySubscription<Target>;
 
   @doc("Post request to deploy")
-  deploy is ArmResourceActionAsync<Target, SolutionVersion, Instance>;
+  deploy is ArmResourceActionAsync<Target, SolutionVersionParameter, Instance>;
 
   @doc("Post request to resolve configuration")
   resolve is ArmResourceActionAsync<
