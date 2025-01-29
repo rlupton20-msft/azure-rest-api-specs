@@ -3600,74 +3600,6 @@
             "$ref": "./examples/SolutionTemplateVersions_Get_MaximumSet_Gen.json"
           }
         }
-      },
-      "delete": {
-        "operationId": "SolutionTemplateVersions_Delete",
-        "tags": [
-          "SolutionTemplateVersions"
-        ],
-        "description": "Delete a Solution Template Version Resource",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "solutionTemplateName",
-            "in": "path",
-            "description": "The name of the SolutionTemplate",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "solutionTemplateVersionName",
-            "in": "path",
-            "description": "The name of the SolutionTemplateVersion",
-            "required": true,
-            "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "SolutionTemplateVersions_Delete_MaximumSet": {
-            "$ref": "./examples/SolutionTemplateVersions_Delete_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/deprecate": {
@@ -9518,7 +9450,8 @@
         "ReadyToDeploy",
         "Deploying",
         "Deployed",
-        "Failed"
+        "Failed",
+        "Undeployed"
       ],
       "x-ms-enum": {
         "name": "State",
@@ -9548,6 +9481,11 @@
             "name": "Failed",
             "value": "Failed",
             "description": "Solution Instance failed to deploy"
+          },
+          {
+            "name": "Undeployed",
+            "value": "Undeployed",
+            "description": "Solution Instance is undeployed"
           }
         ]
       }

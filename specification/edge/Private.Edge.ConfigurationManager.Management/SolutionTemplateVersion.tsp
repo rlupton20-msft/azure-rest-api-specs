@@ -66,9 +66,6 @@ interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
   get is ArmResourceRead<SolutionTemplateVersion>;
 
-  @doc("Delete a Solution Template Version Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<SolutionTemplateVersion>;
-
   @doc("Deprecate resource")
   deprecate is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
