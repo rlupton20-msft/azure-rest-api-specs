@@ -33,17 +33,6 @@ model LandingZoneRegistrationResourceProperties {
 
 @added(Versions.Preview20241031)
 @removed(Versions.Preview20250227)
-@doc("JSON structure for Drift severity count.")
-model DriftedItemsBySeverity {
-  @doc("The type of severity.")
-  severityType: string;
-
-  @doc("The count of occurrences.")
-  count: string;
-}
-
-@added(Versions.Preview20241031)
-@removed(Versions.Preview20250227)
 @doc("Structure of each JSON object for Drift API call.")
 model DriftedItems {
   @doc("The name of the affected rule.")
@@ -67,11 +56,13 @@ model DriftedItems {
 @doc("The JSON response of the drift API call.")
 model DriftResponseArray {
   @doc("The count of drift rules.")
-  totalRulesEvaluated: string;
+  totalEvaluatedRules: string;
 
-  @doc("Array of Drift severity count.")
-  @OpenAPI.extension("x-ms-identifiers", ["severityType", "count"])
-  driftedItemsBySeverity: DriftedItemsBySeverity[];
+  @doc("The count of items analyzed.")
+  totalAnalyzedItems: string;
+
+  @doc("The count of drifted items.")
+  totalDriftedItems: string;
 
   @doc("Array of Drift JSON response.")
   @OpenAPI.extension(
