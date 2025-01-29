@@ -19,13 +19,13 @@ namespace Private.Edge;
 
 @doc("Instance State")
 union ActiveState {
+  string,
+
   @doc("Instance is active")
-  Active: "Active",
+  active: "active",
 
   @doc("Instance is inactive")
-  Inactive: "Inactive",
-
-  string,
+  inactive: "inactive",
 }
 
 @doc("Defines a state of the reconciliation policy.")
