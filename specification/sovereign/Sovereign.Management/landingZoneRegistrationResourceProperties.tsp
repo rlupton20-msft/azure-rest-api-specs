@@ -71,13 +71,13 @@ model DriftResponseArray {
   managementGroupId: string;
 
   @doc("The count of drift rules.")
-  totalEvaluatedRules: integer;
+  totalEvaluatedRules: int32;
 
   @doc("The count of items analyzed.")
-  totalAnalyzedItems: integer;
+  totalAnalyzedItems: int32;
 
   @doc("The count of drifted items.")
-  totalDriftedItems: integer;
+  totalDriftedItems: int32;
 
   @doc("Array of Drift JSON response.")
   @OpenAPI.extension(
