@@ -585,7 +585,7 @@ model BinaryHardeningSummaryResource extends SummaryResourceProperties {
   percentNotExecutableStack?: int32;
 
   @doc("Percentage of analyzed files that were compiled to be a position independent executable")
-  percentPositionIndependentExectuable?: int32;
+  percentPositionIndependentExecutable?: int32;
 
   @doc("Percentage of analyzed files that have enabled relocation read-only protections")
   percentRelocationReadOnly?: int32;
