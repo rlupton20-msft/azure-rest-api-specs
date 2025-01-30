@@ -2058,20 +2058,17 @@
       "type": "object",
       "description": "The JSON response of the drift API call.",
       "properties": {
-        "totalRulesEvaluated": {
+        "totalEvaluatedRules": {
           "type": "string",
           "description": "The count of drift rules."
         },
-        "driftedItemsBySeverity": {
-          "type": "array",
-          "description": "Array of Drift severity count.",
-          "items": {
-            "$ref": "#/definitions/DriftedItemsBySeverity"
-          },
-          "x-ms-identifiers": [
-            "severityType",
-            "count"
-          ]
+        "totalAnalyzedItems": {
+          "type": "string",
+          "description": "The count of items analyzed."
+        },
+        "totalDriftedItems": {
+          "type": "string",
+          "description": "The count of drifted items."
         },
         "driftedItems": {
           "type": "array",
@@ -2089,8 +2086,9 @@
         }
       },
       "required": [
-        "totalRulesEvaluated",
-        "driftedItemsBySeverity",
+        "totalEvaluatedRules",
+        "totalAnalyzedItems",
+        "totalDriftedItems",
         "driftedItems"
       ]
     },
@@ -2125,24 +2123,6 @@
         "priority",
         "detail",
         "identifier"
-      ]
-    },
-    "DriftedItemsBySeverity": {
-      "type": "object",
-      "description": "JSON structure for Drift severity count.",
-      "properties": {
-        "severityType": {
-          "type": "string",
-          "description": "The type of severity."
-        },
-        "count": {
-          "type": "string",
-          "description": "The count of occurrences."
-        }
-      },
-      "required": [
-        "severityType",
-        "count"
       ]
     },
     "FileFormat": {
