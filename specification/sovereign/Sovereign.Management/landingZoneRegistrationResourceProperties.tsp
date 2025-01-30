@@ -55,6 +55,21 @@ model DriftedItems {
 @removed(Versions.Preview20250227)
 @doc("The JSON response of the drift API call.")
 model DriftResponseArray {
+  @doc("The time when the drift analysis was run.")
+  reportRuntime: string;
+
+  @doc("The resource id of landing zone account, landing zone registration is part of.")
+  landingZoneAccountId: string;
+
+  @doc("The resource id of landing zone registration where drift operation was triggered from.")
+  landingZoneRegistrationId: string;
+
+  @doc("The resource id of the associated landing zone configuration.")
+  landingZoneConfigurationId: string;
+
+  @doc("The resource id of the associated management group id.")
+  managementGroupId: string;
+
   @doc("The count of drift rules.")
   totalEvaluatedRules: string;
 
