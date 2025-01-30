@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -16,6 +15,7 @@ using Azure.ResourceManager;
   title: "Microsoft.ManufacturingPlatform",
 })
 @versioned(Microsoft.ManufacturingPlatform.Versions)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.ManufacturingPlatform;
 
 @doc("Supported API versions for the Microsoft.ManufacturingPlatform resource provider.")
@@ -33,7 +33,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("A ManufacturingPlatformProviderHub resource")
 model MdsResource is TrackedResource<MdsResourceProperties> {
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,23}$")
   @key("mdsResourceName")
   @segment("manufacturingDataServices")
   @doc("Name.")
@@ -51,20 +51,27 @@ model MdsResource is TrackedResource<MdsResourceProperties> {
 @Azure.Core.lroStatus
 union ProvisioningState {
   string,
+
   /** Resource has been created. */
-  Succeeded:"Succeeded",
+  Succeeded: "Succeeded",
+
   /** Resource creation failed. */
-  Failed:"Failed",
+  Failed: "Failed",
+
   /** Resource creation was canceled. */
-  Canceled:"Canceled",
+  Canceled: "Canceled",
+
   /** The resource is being provisioned */
-  Provisioning:"Provisioning",
+  Provisioning: "Provisioning",
+
   /** The resource is updating */
-  Updating:"Updating",
+  Updating: "Updating",
+
   /** The resource is being deleted */
-  Deleting:"Deleting",
+  Deleting: "Deleting",
+
   /** The resource create request has been accepted */
-  Accepted:"Accepted"
+  Accepted: "Accepted",
 }
 
 @doc("Details of the ManufacturingPlatform MdsResource.")
@@ -161,7 +168,7 @@ model MdsResourceProperties {
   functionAppProfile?: FunctionAppProfile;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
-  @visibility("read","create", "update")
+  @visibility("read", "create", "update")
   @doc("Profile of OpenAI Resource.")
   openAIProfile?: OpenAIProfile;
 
@@ -208,7 +215,17 @@ model MdsResourceProperties {
   @doc("Deny Assignments exclusion list.")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "update")
-  denyAssignmentExclusions?: denyAssignmentExclusion[];
+  denyAssignmentExclusions?: DenyAssignmentExclusion[];
+
+  @doc("Flag for starting stopping the services")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @visibility("read", "update")
+  resourceState?: string;
+
+  @doc("Flag for Toggling Zone redundancy for resources")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @visibility("read", "create")
+  isZoneRedundant?: boolean;
 }
 
 @doc("The properties related to Aks Resource")
@@ -401,13 +418,13 @@ model OpenAIProfile {
 
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
 @doc("The properties related to Deny Assignment Exclusions")
-model denyAssignmentExclusion {
+model DenyAssignmentExclusion {
   @doc("Object Id of Identity")
-  @visibility("read","update")
+  @visibility("read", "update")
   id: string;
 
   @doc("Type of Identity")
-  @visibility("read","update")
+  @visibility("read", "update")
   type: string;
 }
 
@@ -487,7 +504,7 @@ model UserManagedOpenAIProfile {
   @doc("Embedding Model Deployment Name")
   @visibility("read", "create", "update")
   embeddingModelDeploymentName: string;
-  
+
   @doc("Embedding Model Type")
   @visibility("read")
   embeddingModelType?: string;
@@ -499,13 +516,13 @@ interface ManufacturingDataServices {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<MdsResource>;
   // update is ArmResourcePatchAsync<MdsResource, MdsResourceProperties>;
   //temporary fix until typespec fix the issue of generating update classes
-  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource, MdsResourceProperties>>;
+  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource,MdsResourceProperties>>;
   delete is ArmResourceDeleteWithoutOkAsync<MdsResource>;
   listByResourceGroup is ArmResourceListByParent<MdsResource>;
   listBySubscription is ArmListBySubscription<MdsResource>;
 
   @doc("Returns the list of available versions")
-  listAvailableVersions is ArmResourceListActionSync<MdsResource, AvailableVersionListResult>;
+  listAvailableVersions is ArmResourceListActionSync<MdsResource,AvailableVersionListResult>;
 }
 
 // note this is a template for an empty body resource action, which will be added to the library at some point
@@ -538,8 +555,7 @@ model ApplicationVersion {
 
   @doc("Is Preview")
   isPreview: boolean;
-  
+
   @doc("Is Deprecated")
   isDeprecated: boolean;
-
 }
