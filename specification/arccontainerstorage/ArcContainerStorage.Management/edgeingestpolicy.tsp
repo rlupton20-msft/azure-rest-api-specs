@@ -124,7 +124,7 @@ model EdgeIngestPolicyStatus {
 @armResourceOperations
 interface EdgeIngestPolicies {
   get is ArmResourceRead<EdgeIngestPolicy>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeIngestPolicy>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeIngestPolicy>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeIngestPolicy>;
-  listByResourceGroup is ArmResourceListByParent<EdgeIngestPolicy>;
+  list is ArmResourceListByParent<EdgeIngestPolicy>;
 }

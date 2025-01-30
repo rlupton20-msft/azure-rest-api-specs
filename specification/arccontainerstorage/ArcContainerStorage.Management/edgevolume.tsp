@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
+import "./edgesubvolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -33,7 +34,7 @@ model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
 model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
-  @visibility("read")
+  @visibility("create")
   requestedSize: string;
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")
@@ -48,6 +49,9 @@ model EdgeVolumeProperties {
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility("read")
   status?: EdgeVolumeStatus;
+
+  @doc("Subvolumes associated with this EdgeVolume.")
+  subvolumes: EdgeSubvolume[];
 }
 
 /**
@@ -94,7 +98,7 @@ union provisioningStateVolume {
 @armResourceOperations
 interface EdgeVolumes {
   get is ArmResourceRead<EdgeVolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeVolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeVolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeVolume>;
-  listByResourceGroup is ArmResourceListByParent<EdgeVolume>;
+  list is ArmResourceListByParent<EdgeVolume>;
 }

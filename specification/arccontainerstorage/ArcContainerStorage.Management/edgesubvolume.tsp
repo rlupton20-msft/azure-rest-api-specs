@@ -18,7 +18,7 @@ namespace Private.ArcContainerStorage;
  * for an edge subvolume in the Arc Container Storage system.
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
-model EdgeSubvolume is ExtensionResource<EdgeSubvolumeProperties> {
+model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties> {
   @doc("The name of the EdgeSubvolume resource.")
   @key("edgeSubvolumeName")
   @segment("edgesubvolumes")
@@ -228,7 +228,7 @@ model FileError {
 @armResourceOperations
 interface EdgeSubvolumes {
   get is ArmResourceRead<EdgeSubvolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeSubvolume>;
-  listByResourceGroup is ArmResourceListByParent<EdgeSubvolume>;
+  list is ArmResourceListByParent<EdgeSubvolume>;
 }
