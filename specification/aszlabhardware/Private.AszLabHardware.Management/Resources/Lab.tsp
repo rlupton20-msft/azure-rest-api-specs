@@ -1,3 +1,4 @@
+
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -22,10 +23,13 @@ model LabProperties {
   provisioningState?: ProvisioningState;
 }
 
+
+
 @armResourceOperations
 interface Labs {
   get is ArmResourceRead<Lab>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Lab>;
+  update is ArmTagsPatchAsync<Lab, LabProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Lab>;
   listByResourceGroup is ArmResourceListByParent<Lab>;
   listBySubscription is ArmListBySubscription<Lab>;

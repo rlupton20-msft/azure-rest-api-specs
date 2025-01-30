@@ -1,3 +1,4 @@
+
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -26,6 +27,7 @@ model PoolProperties {
 interface Pools {
   get is ArmResourceRead<Pool>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Pool>;
+  update is ArmTagsPatchAsync<Pool, PoolProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Pool>;
   listByResourceGroup is ArmResourceListByParent<Pool>;
   listBySubscription is ArmListBySubscription<Pool>;
