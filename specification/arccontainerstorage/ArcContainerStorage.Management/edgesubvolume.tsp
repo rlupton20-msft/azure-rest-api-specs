@@ -228,7 +228,7 @@ model FileError {
 @armResourceOperations
 interface EdgeSubvolumes {
   get is ArmResourceRead<EdgeSubvolume>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<EdgeSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeSubvolume>;
   list is ArmResourceListByParent<EdgeSubvolume>;
 }

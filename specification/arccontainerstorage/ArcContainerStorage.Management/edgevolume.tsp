@@ -98,7 +98,7 @@ union provisioningStateVolume {
 @armResourceOperations
 interface EdgeVolumes {
   get is ArmResourceRead<EdgeVolume>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<EdgeVolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeVolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeVolume>;
   list is ArmResourceListByParent<EdgeVolume>;
 }

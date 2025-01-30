@@ -88,7 +88,7 @@ model SyncSubvolumeStatus {
 @armResourceOperations
 interface SyncSubvolumes {
   get is ArmResourceRead<SyncSubvolume>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<SyncSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<SyncSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<SyncSubvolume>;
   list is ArmResourceListByParent<SyncSubvolume>;
 }
