@@ -217,12 +217,12 @@ model MdsResourceProperties {
   @visibility("read", "update")
   denyAssignmentExclusions?: DenyAssignmentExclusion[];
 
-  @doc("Flag for starting stopping the services")
+  @doc("State of the resource")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "update")
   resourceState?: string;
 
-  @doc("Flag for Toggling Zone redundancy for resources")
+  @doc("Flag for toggling Zone redundancy for resources")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create")
   isZoneRedundant?: boolean;
