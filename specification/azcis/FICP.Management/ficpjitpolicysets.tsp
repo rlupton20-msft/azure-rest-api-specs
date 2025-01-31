@@ -14,7 +14,7 @@ using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("JIT security group resources properties")
+@doc("Ficp JIT Policy Set properties")
 model FicpJitPolicySetProperties {
   @doc("List of Jit policies")
   @extension("x-ms-identifiers", [])
@@ -31,7 +31,7 @@ model FicpJitPolicySetProperties {
   provisioningState?: FicpProvisioningState;
 }
 
-@doc("Jit policy")
+@doc("Ficp Jit policy")
 model FicpJitPolicy {
   @doc("Unique policy Identifier for a service tree id.")
   policyInvariableId: int64;
