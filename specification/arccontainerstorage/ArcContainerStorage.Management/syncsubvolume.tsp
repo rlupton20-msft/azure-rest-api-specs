@@ -49,14 +49,8 @@ model SyncSubvolumeProperties {
 
 @doc("Adding provisioning state for SyncSubVolume")
 union provisioningStateSyncSubVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
   @doc("configuring")
   configuring: "configuring",
-
-  @doc("pending")
-  pending: "pending",
 
   @doc("cleaning_up")
   cleaning_up: "cleaning_up",
