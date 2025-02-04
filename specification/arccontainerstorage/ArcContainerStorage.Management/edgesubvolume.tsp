@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
+import "./edgevolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -18,6 +19,7 @@ namespace Private.ArcContainerStorage;
  * for an edge subvolume in the Arc Container Storage system.
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
+@parentResource(EdgeVolume)
 model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties> {
   @doc("The name of the EdgeSubvolume resource.")
   @key("edgeSubvolumeName")
@@ -79,9 +81,7 @@ model EdgeSubvolumeProperties {
 
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateSubVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
+  // this union contains additional values for subvolumes, but 'unknown' is provided by the generic provisioningState
   @doc("configuring")
   configuring: "configuring",
 
