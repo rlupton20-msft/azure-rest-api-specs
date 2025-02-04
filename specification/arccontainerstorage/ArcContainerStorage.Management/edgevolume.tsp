@@ -4,7 +4,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
-import "./edgesubvolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -49,9 +48,6 @@ model EdgeVolumeProperties {
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility("read")
   status?: EdgeVolumeStatus;
-
-  @doc("Subvolumes associated with this EdgeVolume.")
-  subvolumes: EdgeSubvolume[];
 }
 
 /**
