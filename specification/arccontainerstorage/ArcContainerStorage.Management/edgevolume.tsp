@@ -17,7 +17,11 @@ namespace Private.ArcContainerStorage;
  * EdgeVolume is a custom resource that defines the configuration for edge volume storage.
  */
 @doc("EdgeVolume is a custom resource for defining an edge volume.")
-model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
+model EdgeVolume
+  is ExtensionResource<
+    EdgeVolumeProperties,
+    false /* Require properties so that requestedSize is required */
+  > {
   @doc("The name of the EdgeVolume resource.")
   @key("edgeVolumeName")
   @pattern("^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$")
