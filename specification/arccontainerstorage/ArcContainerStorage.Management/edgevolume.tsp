@@ -34,7 +34,7 @@ model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility("create")
-  requestedSize: string;
+  requestedSize: string = "1Gi";
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")
   @minValue(1) // Minimum value constraint
