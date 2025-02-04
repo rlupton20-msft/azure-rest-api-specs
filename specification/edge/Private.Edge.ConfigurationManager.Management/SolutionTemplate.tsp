@@ -8,6 +8,8 @@ import "./ProvisioningState.tsp";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./UpdateType.tsp";
+import "./VersionParameter.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -30,9 +32,8 @@ model SolutionTemplateProperties {
   @doc("Latest solution template version")
   latestVersion: string;
 
-  @doc("Is this resource deprecated")
-  @visibility("read")
-  isDeprecated?: boolean;
+  @doc("State of resource")
+  state?: ResourceState;
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -73,8 +74,11 @@ interface SolutionTemplates {
     SolutionTemplateVersion
   >;
 
-  @doc("Deprecate resource")
-  deprecate is ArmResourceActionNoResponseContentAsync<SolutionTemplate, void>;
+  @doc("Delete Solution Template Version Resource")
+  deleteVersion is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplate,
+    VersionParameter
+  >;
 
   @doc("Delete a Solution Template Resource")
   delete is ArmResourceDeleteWithoutOkAsync<SolutionTemplate>;

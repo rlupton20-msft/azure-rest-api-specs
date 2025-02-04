@@ -14,6 +14,17 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
+@doc("Resource Type State")
+union ResourceState {
+  @doc("Resource is active")
+  active: "active",
+
+  @doc("Resource is softdeleted")
+  inactive: "inactive",
+
+  string,
+}
+
 @doc("Solution Instance State")
 union State {
   @doc("Solution Instance is in review")

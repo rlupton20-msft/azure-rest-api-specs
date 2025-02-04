@@ -40,10 +40,6 @@ model SolutionTemplateVersionProperties {
   @visibility("read")
   capabilities: string[];
 
-  @doc("Is this resource deprecated")
-  @visibility("read")
-  isDeprecated?: boolean;
-
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -65,12 +61,6 @@ model SolutionTemplateVersion
 interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
   get is ArmResourceRead<SolutionTemplateVersion>;
-
-  @doc("Deprecate resource")
-  deprecate is ArmResourceActionNoResponseContentAsync<
-    SolutionTemplateVersion,
-    void
-  >;
 
   @doc("List Solution Template Version Resources")
   listBySolutionTemplate is ArmResourceListByParent<SolutionTemplateVersion>;
