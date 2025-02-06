@@ -30,7 +30,8 @@ model SolutionTemplateProperties {
   capabilities: string[];
 
   @doc("Latest solution template version")
-  latestVersion: string;
+  @visibility("read")
+  latestVersion?: string;
 
   @doc("State of resource")
   state?: ResourceState;
