@@ -70,6 +70,10 @@ model TargetProperties {
   @doc("Hierarchy Level")
   hierarchyLevel: string;
 
+  @doc("Status of target")
+  @visibility("read")
+  status?: DeploymentStatus;
+
   @doc("Scope of the target resource")
   solutionScope?: string;
 
