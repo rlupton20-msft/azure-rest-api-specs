@@ -1,29 +1,42 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2023-09-01-preview",
     "title": "Edge Copilot",
+    "version": "2023-09-01-preview",
     "description": "The Azure Edge Copilot API."
   },
-  "host": "management.azure.com",
   "schemes": [
     "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
   ],
   "consumes": [
     "application/json"
   ],
-  "produces": [
-    "application/json"
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
   ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
   "paths": {
     "/providers/Private.Copilot/operations": {
       "get": {
         "operationId": "Operations_List",
-        "x-ms-examples": {
-          "ListOperations": {
-            "$ref": "./examples/Operations.json"
-          }
-        },
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -43,6 +56,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ListOperations": {
+            "$ref": "./examples/Operations.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -50,15 +68,10 @@
     },
     "/subscriptions/{subscriptionId}/providers/Private.Copilot/locations/{location}/chat": {
       "post": {
+        "operationId": "Edge_Chat",
         "tags": [
           "PostChat"
         ],
-        "operationId": "Edge_Chat",
-        "x-ms-examples": {
-          "PostChat": {
-            "$ref": "./examples/PostChat.json"
-          }
-        },
         "description": "Post a message to chatbot",
         "parameters": [
           {
@@ -92,16 +105,93 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "PostChat": {
+            "$ref": "./examples/PostChat.json"
+          }
         }
       }
     }
   },
   "definitions": {
+    "ChatContext": {
+      "type": "object",
+      "properties": {
+        "bladeId": {
+          "type": "string",
+          "description": "The blade id of the current blade."
+        },
+        "resourceIds": {
+          "type": "array",
+          "description": "Resource Ids of the chat is referring to.",
+          "items": {
+            "type": "string",
+            "format": "arm-id"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "bladeId"
+      ]
+    },
+    "ChatMessage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of message. Can only be 'text' or 'action'.",
+          "default": "text",
+          "enum": [
+            "text",
+            "action"
+          ],
+          "x-ms-enum": {
+            "name": "type",
+            "modelAsString": true
+          },
+          "x-ms-client-name": "messageType"
+        },
+        "subType": {
+          "type": "string",
+          "description": "Sub-type of message.",
+          "default": "default",
+          "enum": [
+            "artifact",
+            "default"
+          ],
+          "x-ms-enum": {
+            "name": "subtype",
+            "modelAsString": true
+          }
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of message. Can be 'system', 'assistant', or 'user'.",
+          "default": "user",
+          "enum": [
+            "system",
+            "assistant",
+            "user"
+          ],
+          "x-ms-enum": {
+            "name": "role",
+            "modelAsString": true
+          }
+        },
+        "content": {
+          "type": "string",
+          "description": "Message content from user or assistant."
+        }
+      },
+      "required": [
+        "content"
+      ]
+    },
     "ChatRequest": {
       "type": "object",
-      "required": [
-        "userMessage"
-      ],
+      "description": "Chat request schema. Contains input message from user",
       "properties": {
         "context": {
           "$ref": "#/definitions/ChatContext"
@@ -114,13 +204,13 @@
           "$ref": "#/definitions/ChatMessage"
         }
       },
-      "description": "Chat request schema. Contains input message from user"
+      "required": [
+        "userMessage"
+      ]
     },
     "ChatResponse": {
       "type": "object",
-      "required": [
-        "replyMessages"
-      ],
+      "description": "Chat response schema. Contains reply messages from chatbot.",
       "properties": {
         "sessionId": {
           "type": "string",
@@ -128,107 +218,17 @@
         },
         "replyMessages": {
           "type": "array",
+          "description": "Reply message schema. Contains reply messages from chatbot",
           "items": {
             "$ref": "#/definitions/ChatMessage"
           },
-          "description": "Reply message schema. Contains reply messages from chatbot",
           "x-ms-identifiers": []
         }
       },
-      "description": "Chat response schema. Contains reply messages from chatbot."
-    },
-    "ChatMessage": {
-      "type": "object",
       "required": [
-        "content"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "x-ms-client-name": "messageType",
-          "default": "text",
-          "enum": [
-            "text",
-            "action"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "type"
-          },
-          "description": "Type of message. Can only be 'text' or 'action'."
-        },
-        "subType": {
-          "type": "string",
-          "default": "default",
-          "enum": [
-            "artifact",
-            "default"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "subtype"
-          },
-          "description": "Sub-type of message."
-        },
-        "role": {
-          "type": "string",
-          "default": "user",
-          "enum": [
-            "system",
-            "assistant",
-            "user"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "role"
-          },
-          "description": "Role of message. Can be 'system', 'assistant', or 'user'."
-        },
-        "content": {
-          "type": "string",
-          "description": "Message content from user or assistant."
-        }
-      }
-    },
-    "ChatContext": {
-      "type": "object",
-      "required": [
-        "bladeId"
-      ],
-      "properties": {
-        "bladeId": {
-          "type": "string",
-          "description": "The blade id of the current blade."
-        },
-        "resourceIds": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "arm-id"
-          },
-          "description": "Resource Ids of the chat is referring to.",
-          "x-ms-identifiers": []
-        }
-      }
-    }
-  },
-  "parameters": {},
-  "securityDefinitions": {
-    "azure_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
-      "flow": "implicit",
-      "description": "Azure Active Directory OAuth2 Flow",
-      "scopes": {
-        "user_impersonation": "impersonate your user account"
-      }
-    }
-  },
-  "security": [
-    {
-      "azure_auth": [
-        "user_impersonation"
+        "replyMessages"
       ]
     }
-  ]
+  },
+  "parameters": {}
 }
