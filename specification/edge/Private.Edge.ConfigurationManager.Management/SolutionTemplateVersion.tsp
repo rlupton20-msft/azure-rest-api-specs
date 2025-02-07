@@ -62,12 +62,6 @@ interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
   get is ArmResourceRead<SolutionTemplateVersion>;
 
-  @doc("Create or update a Solution Template Version Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionTemplateVersion>;
-
-  @doc("Delete a Solution Template Version Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<SolutionTemplateVersion>;
-
   @doc("List Solution Template Version Resources")
   listBySolutionTemplate is ArmResourceListByParent<SolutionTemplateVersion>;
 }
