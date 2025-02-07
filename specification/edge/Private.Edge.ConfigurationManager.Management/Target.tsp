@@ -97,7 +97,7 @@ model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
   @doc("Name of the target")
   @maxLength(61)
   @minLength(3)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("targetName")
   @segment("targets")

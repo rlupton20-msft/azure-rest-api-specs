@@ -85,7 +85,7 @@ model Instance is Azure.ResourceManager.ProxyResource<InstanceProperties> {
   @doc("Name of the instance")
   @maxLength(61)
   @minLength(3)
-  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("instanceName")
   @segment("instances")
