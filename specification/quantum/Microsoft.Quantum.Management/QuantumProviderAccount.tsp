@@ -2,21 +2,21 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "@typespec/rest";
-import "./models.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.Core;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 using Versioning;
 
-namespace Microsoft.Quantum;
+namespace Microsoft.Quantum.ProviderAccount;
 /**
  * The resource proxy definition object for Quantum ProviderAccount.
  */
 @added(Versions.v2025_02_15_preview)
 model QuantumProviderAccount
-  is Azure.ResourceManager.TrackedResource<ProviderAccountResourceProperties> {
+  is Azure.ResourceManager.TrackedResource<ProviderAccountProperties> {
   ...ResourceNameParameter<
     Resource = QuantumProviderAccount,
     KeyName = "ProviderAccountName",
@@ -26,7 +26,107 @@ model QuantumProviderAccount
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
+/**
+ * Properties of a ProviderAccount
+ */
+@added(Versions.v2025_02_15_preview)
+model ProviderAccountProperties {
+  /** The status of the last operation. */
+  @visibility("read")
+  provisioningState?: AccountProvisioningState;
+
+  /** Display name of this ProviderAccount. */
+  @minLength(1)
+  @maxLength(50) // max used today is 41 for CMS
+  @visibility("read", "create", "update")
+  displayName: string;
+
+  /** Description of this ProviderAccount. */
+  @minLength(1)
+  @maxLength(300) // max used today is 188 for CMS
+  @visibility("read", "create", "update")
+  description: string;
+
+  /** The name of the company that is providing this ProviderAccount. */
+  @minLength(1)
+  @maxLength(50) // max used today is 17 for Rigetti
+  @visibility("read", "create", "update")
+  companyName: string;
+
+  /** List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount. */
+  @visibility("read", "create", "update")
+  allowedSubscriptions?: SubscriptionId[];
+
+  /** List of Targets available in this ProviderAccount. */
+  @visibility("read", "create", "update")
+  targets?: ProviderAccountTarget[];
+
+  // /** MOBO configuration. */
+  // machineEntity: ...;
+
+  // /** MOBO configuration. */
+  // managedOnBehalfOfConfiguration: ...;
+
+  // /** Quota Dimension definitions for this ProviderAccount. */
+  // @visibility("read", "create", "update")
+  // quotaDimensions?: QuotaDimension[];
+
+  // /** List of subscriptions-level Quotas for this ProviderAccount. */
+  // @visibility("read", "create", "update")
+  // subscriptionQuotaLimits?: SubscriptionQuotaLimit[];
+}
+
+/** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
+@minLength(36)
+@maxLength(36)
+@pattern("^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+scalar SubscriptionId extends string;
+
+/** A Target of a ProviderAccount, in which Workspace Jobs can be targeted at for execution. */
+@added(Versions.v2025_02_15_preview)
+model ProviderAccountTarget {
+  /**
+   * The globally-unique ID of the Target.
+   *
+   * Must be prefixed by the `providerAccountName` and `targetType`, using the format `{providerAccountName}.{targetType}.{targetId}`.
+   * The `targetType` can be `sim` or `qpu`.
+   * The `targetId` itself may include suffixes separated by `-`.
+   * Valid examples:
+   * - "myprovider.qpu.alpha"
+   * - "myprovider.sim.alpha-gen0-v1"
+   *  */
+  @minLength(1)
+  @maxLength(50)
+  @pattern("^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)\\.(sim|qpu)\\.[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$")
+  id: string;
+
+  /** The display name of the target. */
+  @minLength(1)
+  @maxLength(50)
+  name: string;
+}
+
+/** The provisioning state of a resource. */
+@lroStatus
+@added(Versions.v2025_02_15_preview)
+union AccountProvisioningState {
+  ResourceProvisioningState,
+
+  /** The resource create request has been accepted */
+  Accepted: "Accepted",
+
+  /** The resource is being provisioned */
+  Provisioning: "Provisioning",
+
+  /** The resource is updating */
+  Updating: "Updating",
+
+  /** The resource is being deleted */
+  Deleting: "Deleting",
+}
+
 @armResourceOperations
+@added(Versions.v2025_02_15_preview)
 interface ProviderAccounts {
   /**
    * Returns the ProviderAccount resource associated with the given name.
@@ -43,11 +143,10 @@ interface ProviderAccounts {
   /**
    * Updates an existing ProviderAccount's tags.
    */
-  @parameterVisibility
   @added(Versions.v2025_02_15_preview)
-  updateTags is ArmCustomPatchSync<
+  update is ArmResourcePatchSync<
     QuantumProviderAccount,
-    PatchModel = TagsObject
+    ProviderAccountProperties
   >;
 
   /**
@@ -70,14 +169,14 @@ interface ProviderAccounts {
 }
 
 @@doc(QuantumProviderAccount.name,
-  "The name of the quantum providerAccount resource."
+  "The name of the Quantum ProviderAccount resource."
 );
 @@doc(QuantumProviderAccount.properties,
-  "Gets or sets the properties. Define quantum provider account's specific properties."
+  "Gets or sets the properties. Define Quantum provider account's specific properties."
 );
 @@doc(ProviderAccounts.createOrUpdate::parameters.resource,
   "ProviderAccount details."
 );
-@@doc(ProviderAccounts.updateTags::parameters.properties,
-  "Parameters supplied to update tags."
+@@doc(ProviderAccounts.update::parameters.properties,
+  "ProviderAccount details."
 );

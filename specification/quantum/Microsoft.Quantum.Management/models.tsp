@@ -535,8 +535,3 @@ model ApiKeys {
    */
   keys?: KeyType[];
 }
-
-/**
- * Properties of a ProviderAccount
- */
-model ProviderAccountResourceProperties {}
