@@ -23,24 +23,7 @@ using TypeSpec.Versioning;
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.Copilot;
 
-@armResourceOperations
-interface Operations extends Azure.ResourceManager.Operations {
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" ""
-  @tag("Operations")
-  @route("/providers/Private.Copilot/operations")
-  @doc("List the operations for the provider")
-  @OpenAPI.extension(
-    "x-ms-examples",
-    {
-      "ListOperations": {
-        $ref: "./examples/Operations.json",
-      },
-    }
-  )
-  @armResourceRead(Azure.ResourceManager.Foundations.OperationListResult)
-  @get
-  list(...ApiVersionParameter): ArmResponse<Azure.ResourceManager.Foundations.OperationListResult> | ErrorResponse;
-}
+interface Operations extends Azure.ResourceManager.Operations {}
 
 /**
  * The available API versions.

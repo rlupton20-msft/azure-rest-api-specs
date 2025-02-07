@@ -15,12 +15,6 @@ namespace Private.Copilot;
 
 @armResourceOperations
 interface Edge {
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" ""
-  @extension("x-ms-examples", {
-    "PostChat": {
-      "$ref": "./examples/PostChat.json"
-    }
-  })
   /**
    * Post a message to chatbot
    */

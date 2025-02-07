@@ -3,7 +3,12 @@
   "info": {
     "title": "Edge Copilot",
     "version": "2023-09-01-preview",
-    "description": "The Azure Edge Copilot API."
+    "description": "The Azure Edge Copilot API.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
   },
   "schemes": [
     "https"
@@ -25,7 +30,7 @@
   "securityDefinitions": {
     "azure_auth": {
       "type": "oauth2",
-      "description": "Azure Active Directory OAuth2 Flow",
+      "description": "Azure Active Directory OAuth2 Flow.",
       "flow": "implicit",
       "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
       "scopes": {
@@ -33,10 +38,22 @@
       }
     }
   },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "Edge"
+    }
+  ],
   "paths": {
     "/providers/Private.Copilot/operations": {
       "get": {
         "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -44,20 +61,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Describe the result of a successful operation.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
-            "description": "Error response describing why the operation failed.",
+            "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-examples": {
-          "ListOperations": {
+          "EdgeCopilot_ListOperations": {
             "$ref": "./examples/Operations.json"
           }
         },
@@ -70,17 +87,12 @@
       "post": {
         "operationId": "Edge_Chat",
         "tags": [
-          "PostChat"
+          "Edge"
         ],
         "description": "Post a message to chatbot",
         "parameters": [
           {
-            "name": "chatRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ChatRequest"
-            }
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
@@ -89,25 +101,31 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "name": "body",
+            "in": "body",
+            "description": "The request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChatRequest"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK -- return the reply messages from chatbot",
+            "description": "The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/ChatResponse"
             }
           },
           "default": {
-            "description": "Error response describing why the operation failed.",
+            "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-examples": {
-          "PostChat": {
+          "EdgeCopilot_PostChat": {
             "$ref": "./examples/PostChat.json"
           }
         }
@@ -117,6 +135,7 @@
   "definitions": {
     "ChatContext": {
       "type": "object",
+      "description": "Chat context schema. Contains context information of the chat.",
       "properties": {
         "bladeId": {
           "type": "string",
@@ -127,7 +146,8 @@
           "description": "Resource Ids of the chat is referring to.",
           "items": {
             "type": "string",
-            "format": "arm-id"
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource."
           },
           "x-ms-identifiers": []
         }
@@ -138,6 +158,7 @@
     },
     "ChatMessage": {
       "type": "object",
+      "description": "Chat message schema. Contains message content from user or assistant.",
       "properties": {
         "type": {
           "type": "string",
@@ -148,8 +169,20 @@
             "action"
           ],
           "x-ms-enum": {
-            "name": "type",
-            "modelAsString": true
+            "name": "Type",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "text",
+                "value": "text",
+                "description": "Text message."
+              },
+              {
+                "name": "action",
+                "value": "action",
+                "description": "Action message."
+              }
+            ]
           },
           "x-ms-client-name": "messageType"
         },
@@ -162,8 +195,20 @@
             "default"
           ],
           "x-ms-enum": {
-            "name": "subtype",
-            "modelAsString": true
+            "name": "Subtype",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "artifact",
+                "value": "artifact",
+                "description": "Artifact sub-type."
+              },
+              {
+                "name": "default",
+                "value": "default",
+                "description": "Default sub-type."
+              }
+            ]
           }
         },
         "role": {
@@ -176,8 +221,25 @@
             "user"
           ],
           "x-ms-enum": {
-            "name": "role",
-            "modelAsString": true
+            "name": "Role",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "system",
+                "value": "system",
+                "description": "System message."
+              },
+              {
+                "name": "assistant",
+                "value": "assistant",
+                "description": "Assistant message."
+              },
+              {
+                "name": "user",
+                "value": "user",
+                "description": "User message."
+              }
+            ]
           }
         },
         "content": {
@@ -194,14 +256,16 @@
       "description": "Chat request schema. Contains input message from user",
       "properties": {
         "context": {
-          "$ref": "#/definitions/ChatContext"
+          "$ref": "#/definitions/ChatContext",
+          "description": "Chat context schema. Contains context information of the chat."
         },
         "sessionId": {
           "type": "string",
           "description": "Session Id of current chat."
         },
         "userMessage": {
-          "$ref": "#/definitions/ChatMessage"
+          "$ref": "#/definitions/ChatMessage",
+          "description": "User message schema. Contains input message from user."
         }
       },
       "required": [
