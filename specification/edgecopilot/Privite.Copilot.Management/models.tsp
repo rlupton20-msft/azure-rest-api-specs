@@ -17,10 +17,12 @@ union Type {
    * Custom type.
    */
   string,
+
   /**
    * Text message.
    */
   text: "text",
+
   /**
    * Action message.
    */
@@ -35,10 +37,12 @@ union Subtype {
    * Custom sub-type.
    */
   string,
+
   /**
    * Artifact sub-type.
    */
   artifact: "artifact",
+
   /**
    * Default sub-type.
    */
@@ -53,14 +57,17 @@ union Role {
    * Custom role.
    */
   string,
+
   /**
    * System message.
    */
   system: "system",
+
   /**
    * Assistant message.
    */
   assistant: "assistant",
+
   /**
    * User message.
    */
