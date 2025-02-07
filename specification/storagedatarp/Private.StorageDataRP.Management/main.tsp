@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 
 @armProviderNamespace("Private.StorageDataRp")
 @service({
-  title: "Storage Data Resource Provider",
+  title: "Storage Data Management Resource Provider",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
@@ -30,7 +30,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("A Connector is a tracked ARM resource modeled as a sub-resource of a Storage Account")
 model Connector is TrackedResource<ConnectorProperties> {
-  @doc("The name of the connector")
+  @doc("The name of the storage connector")
   @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
   @key("connectorName")
   @segment("connectors")
@@ -59,16 +59,9 @@ interface Connectors {
   listBySubscription is ArmListBySubscription<Connector>;
 
   @doc("This method is used to verify that the connection to the backing data store works. This API is designed to be used for monitoring and debugging purposes. From the caller’s perspective, this method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc. If the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte.")
-  existingConnectionTest is ArmResourceActionSync<
+  testExistingConnection is ArmResourceActionSync<
     Connector,
-    ExistingConnectionTestRequest,
-    TestConnectionResponse
-  >;
-
-  @doc("This method is used to verify that a proposed connection to the backing data store will work, if Create Connector is called with the same Connector information provided in the body of this API request. This API is designed to be used in the initialization flow, where a new user would call Storage Connector Test Proposed Connection, and upon getting a successful response, then call Storage Connector Create with the same input.  See above API “Storage Connectors – Test Existing Connection” for an API designed to be called for monitoring and debugging, once a Connector is created.")
-  proposedConnectionTest is ArmResourceActionSync<
-    Connector,
-    Connector,
+    TestExistingConnectionRequest,
     TestConnectionResponse
   >;
 }

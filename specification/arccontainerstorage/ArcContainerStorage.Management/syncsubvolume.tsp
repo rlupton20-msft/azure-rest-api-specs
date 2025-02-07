@@ -49,14 +49,8 @@ model SyncSubvolumeProperties {
 
 @doc("Adding provisioning state for SyncSubVolume")
 union provisioningStateSyncSubVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
   @doc("configuring")
   configuring: "configuring",
-
-  @doc("pending")
-  pending: "pending",
 
   @doc("cleaning_up")
   cleaning_up: "cleaning_up",
@@ -88,7 +82,7 @@ model SyncSubvolumeStatus {
 @armResourceOperations
 interface SyncSubvolumes {
   get is ArmResourceRead<SyncSubvolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<SyncSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<SyncSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<SyncSubvolume>;
-  listByResourceGroup is ArmResourceListByParent<SyncSubvolume>;
+  list is ArmResourceListByParent<SyncSubvolume>;
 }

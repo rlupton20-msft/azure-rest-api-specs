@@ -30,17 +30,21 @@ model InstanceHistoryProperties {
   @visibility("read")
   target: Target;
 
-  @doc("Deployment Status of instance")
+  @doc("Scope of instance")
   @visibility("read")
-  status: DeploymentStatus;
+  solutionScope?: string;
 
   @doc("Reconciliation policy of instance")
   @visibility("read")
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
+  @doc("Deployment Status of instance")
+  @visibility("read")
+  status?: DeploymentStatus;
+
   @doc("Deployment timestamp of instance")
   @visibility("read")
-  deploymentTimestampEpoch: int64;
+  deploymentTimestampEpoch?: int64;
 
   @doc("Provisioning state of resource")
   @visibility("read")

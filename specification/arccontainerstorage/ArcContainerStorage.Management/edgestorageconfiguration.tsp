@@ -86,7 +86,7 @@ model EdgeStorageConfigurationStatus {
 @armResourceOperations
 interface EdgeStorageConfigurations {
   get is ArmResourceRead<EdgeStorageConfiguration>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeStorageConfiguration>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeStorageConfiguration>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeStorageConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<EdgeStorageConfiguration>;
+  list is ArmResourceListByParent<EdgeStorageConfiguration>;
 }

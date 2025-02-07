@@ -5,7 +5,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
-import "./SolutionBinding.tsp";
 import "./DeploymentStatus.tsp";
 
 using TypeSpec.OpenAPI;
@@ -20,13 +19,13 @@ namespace Private.Edge;
 
 @doc("Instance State")
 union ActiveState {
+  string,
+
   @doc("Instance is active")
-  Active: "Active",
+  active: "active",
 
   @doc("Instance is inactive")
-  Inactive: "Inactive",
-
-  string,
+  inactive: "inactive",
 }
 
 @doc("Defines a state of the reconciliation policy.")
@@ -52,32 +51,27 @@ model ReconciliationPolicyProperties {
 @doc("Instance Properties")
 model InstanceProperties {
   @doc("Solution version of instance")
-  @visibility("read")
   solutionVersionId: string;
 
   @doc("Target of instance")
-  @visibility("read")
   targetId: string;
 
   @doc("State of instance")
-  @visibility("read")
   activeState?: ActiveState;
 
   @doc("Reconciliation policy of instance")
-  @visibility("read")
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
   @doc("Scope of instance")
-  @visibility("read")
   solutionScope?: string;
 
   @doc("Status of instance")
   @visibility("read")
-  status: DeploymentStatus;
+  status?: DeploymentStatus;
 
   @doc("Deployment timestamp of instance")
   @visibility("read")
-  deploymentTimestampEpoch: int64;
+  deploymentTimestampEpoch?: int64;
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -116,5 +110,5 @@ interface Instances {
   delete is ArmResourceDeleteWithoutOkAsync<Instance>;
 
   @doc("List Instance Resources")
-  listByTarget is ArmResourceListByParent<Instance>;
+  listBySolution is ArmResourceListByParent<Instance>;
 }

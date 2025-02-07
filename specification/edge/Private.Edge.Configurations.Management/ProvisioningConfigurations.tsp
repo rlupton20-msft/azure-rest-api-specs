@@ -52,9 +52,6 @@ model ProvisioningConfigurationProperties {
 
   @doc("Type of OwnerKey. Currently supported types are MicrosoftManaged and CustomerManaged.")
   ownerKeyType: OwnerKeyType;
-
-  @doc("OwnerKey properties")
-  ownerKeyProperties?: OwnerKeyProperties;
 }
 
 @doc("OwnerKey Types")
@@ -62,24 +59,4 @@ union OwnerKeyType {
   @doc("Microsoft Managed Key") MicrosoftManaged: "MicrosoftManaged",
   @doc("Customer Managed Key") CustomerManaged: "CustomerManaged",
   string,
-}
-
-@doc("OwnerKey Properties")
-model OwnerKeyProperties {
-  @doc("ResourceId of KeyVault")
-  keyvaultResourceId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.KeyVault/vaults";
-    }
-  ]>;
-
-  @doc("Uri of ownership certificate. This is certificate identifier in KeyVault without certificate version.")
-  ownershipCertificateUri: url;
-
-  @doc("User assigned identity")
-  userAssignedIdentity: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.ManagedIdentity/userAssignedIdentities";
-    }
-  ]>;
 }

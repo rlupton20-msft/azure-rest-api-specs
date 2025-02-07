@@ -21,25 +21,24 @@ namespace Private.Edge;
 model SolutionVersionProperties {
   @doc("Revision number of resolved config for this solution version")
   @visibility("read")
-  revision: int32;
+  revision?: int32;
 
   @doc("Name of applicable target's display name")
   @visibility("read")
-  targetDisplayName: string;
+  targetDisplayName?: string;
 
   @doc("Resolved configuration values")
   @visibility("read")
-  configuration: string;
+  configuration?: string;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("App components spec")
-  @visibility("read")
   specification: Record<unknown>;
 
   @doc("Review id of resolved config for this solution version")
   @visibility("read")
-  reviewId: string;
+  reviewId?: string;
 
   @doc("State of solution instance")
   @visibility("read")
@@ -74,6 +73,15 @@ interface SolutionVersions {
   @doc("Get a Solution Version Resource")
   get is ArmResourceRead<SolutionVersion>;
 
+  @doc("Create or update a Solution Version Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
+
+  @doc("update a Solution Version Resource")
+  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
+
+  @doc("Delete a Solution Version Resource")
+  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
+
   @doc("List Solution Version Resources")
-  listByTarget is ArmResourceListByParent<SolutionVersion>;
+  listBySolution is ArmResourceListByParent<SolutionVersion>;
 }

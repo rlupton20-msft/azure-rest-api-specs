@@ -1,6 +1,7 @@
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -138,6 +139,7 @@ model ValidationPropertiesExtended {
 
   @doc("The outcome of the validation.")
   @visibility("read")
+  @madeOptional(Versions.v2025_01_15_preview)
   outcome?: Outcome;
 
   @doc("Time duration in ISO8601 format to retry after, when the outcome property is 'Pending'. For all other values, the retryAfter is not present. This is an indication to the client to 'PATCH' validation after the duration.")

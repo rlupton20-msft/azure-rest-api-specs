@@ -15,20 +15,6 @@ namespace Private.StorageDataRp;
 @Azure.Core.lroStatus
 union ProvisioningState {
   ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning: "Provisioning",
-
-  @doc("Update in progress")
-  Updating: "Updating",
-
-  @doc("Deletion in progress")
-  Deleting: "Deleting",
-
-  @doc("Change accepted for processing")
-  Accepted: "Accepted",
-
-  string,
 }
 
 @doc("The type of the backing data source")
@@ -47,10 +33,6 @@ union State {
   @doc("Whether the connector is disabled")
   Disabled: "Disabled",
 
-  @added(Versions.`2025-01-01-preview`)
-  @doc("Whether the connector is restricted with some conditions")
-  Restricted: "Restricted",
-
   string,
 }
 
@@ -67,9 +49,6 @@ union ConnectionType {
   @doc("Endpoint connection type")
   Endpoint: "Endpoint",
 
-  @doc("Private Link connection type")
-  PrivateLink: "PrivateLink",
-
   string,
 }
 
@@ -84,13 +63,22 @@ union TlsVerification {
   string,
 }
 
-@doc("The supported PrivateLinkId types")
-union PrivateLinkIdType {
-  @doc("ResourceId for PrivateLink ID")
-  ResourceId: "ResourceId",
+@doc("The type of the backing data source.")
+union DataSourceType {
+  @doc("NetApp ONTAP data source type.")
+  NetApp_ONTAP: "NetApp_ONTAP",
 
-  @doc("Alias for Private Link")
-  Alias: "Alias",
+  @doc("Azure NetApp Files data source type.")
+  Azure_NetApp_Files: "Azure_NetApp_Files",
+
+  @doc("Dell OneFS data source type.")
+  Dell_OneFS: "Dell_OneFS",
+
+  @doc("AWS S3 data source type.")
+  AWS_S3: "AWS_S3",
+
+  @doc("S3 Compatible data source type.")
+  S3_Compatible: "S3_Compatible",
 
   string,
 }

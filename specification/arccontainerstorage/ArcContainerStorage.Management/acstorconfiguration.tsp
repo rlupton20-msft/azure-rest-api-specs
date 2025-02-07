@@ -91,7 +91,7 @@ model AcStorConfigurationStatus {
 @armResourceOperations
 interface AcStorConfigurations {
   get is ArmResourceRead<AcStorConfiguration>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<AcStorConfiguration>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<AcStorConfiguration>;
   delete is ArmResourceDeleteWithoutOkAsync<AcStorConfiguration>;
-  listByResourceGroup is ArmResourceListByParent<AcStorConfiguration>;
+  list is ArmResourceListByParent<AcStorConfiguration>;
 }

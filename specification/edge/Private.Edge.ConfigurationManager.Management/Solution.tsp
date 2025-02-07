@@ -22,7 +22,7 @@ namespace Private.Edge;
 model SolutionProperties {
   @doc("Solution template Id")
   @visibility("read")
-  solutionTemplateId: string;
+  solutionTemplateId?: string;
 
   @doc("List of latest revisions for available solution template versions")
   @extension("x-ms-identifiers", [])
@@ -55,9 +55,15 @@ interface Solutions {
   @doc("Get a Solution resource")
   get is ArmResourceRead<Solution>;
 
-  @doc("List by specified resource group")
-  listByResourceGroup is ArmResourceListByParent<Solution>;
+  @doc("Create or update a Solution Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Solution>;
 
-  @doc("List by subscription")
-  listBySubscription is ArmListBySubscription<Solution>;
+  @doc("update a Solution Resource")
+  update is ArmResourcePatchAsync<Solution, SolutionProperties>;
+
+  @doc("Delete a Solution Resource")
+  delete is ArmResourceDeleteWithoutOkAsync<Solution>;
+
+  @doc("List Solution resources")
+  listByTarget is ArmResourceListByParent<Solution>;
 }

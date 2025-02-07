@@ -118,13 +118,13 @@ model BinaryHardeningResult {
 @doc("Binary hardening features.")
 model BinaryHardeningFeatures {
   @doc("Flag indicating the binary's stack is set to NX (no-execute).")
-  nx?: boolean;
+  noExecute?: boolean;
 
   @doc("Flag indicating the binary was compiled to be a position independent executable.")
-  pie?: boolean;
+  positionIndependentExecutable?: boolean;
 
   @doc("Flag indicating the binary has enabled relocation read-only protections.")
-  relro?: boolean;
+  relocationReadOnly?: boolean;
 
   @doc("Flag indicating if the binary was compiled with stack canaries enabled.")
   canary?: boolean;
@@ -157,13 +157,13 @@ union CertificateUsage {
   KeyCertSign: "keyCertSign",
 
   @doc("This certificate can be used to verift a certificate revocation list")
-  CRLSign: "cRLSign",
+  CRLSign: "crlSign",
 
   @doc("This certificate can be only be used to encrypt data")
   EncipherOnly: "encipherOnly",
 
   @doc("This certificate can only be used to decrypt data")
-  DencipherOnly: "dencipherOnly",
+  DecipherOnly: "decipherOnly",
 
   @doc("This certificate can be used to authenticate a server in a TLS/SSL connection")
   ServerAuthentication: "serverAuth",
@@ -585,7 +585,7 @@ model BinaryHardeningSummaryResource extends SummaryResourceProperties {
   percentNotExecutableStack?: int32;
 
   @doc("Percentage of analyzed files that were compiled to be a position independent executable")
-  percentPositionIndependentExectuable?: int32;
+  percentPositionIndependentExecutable?: int32;
 
   @doc("Percentage of analyzed files that have enabled relocation read-only protections")
   percentRelocationReadOnly?: int32;

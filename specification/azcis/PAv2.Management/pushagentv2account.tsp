@@ -50,11 +50,9 @@ model PushAgentV2AccountResourceProperties {
   errorReportingTable: string;
 
   @doc("The Azure location of the Storage Account. Azure location is different from PAv2/CIS location, e.g. eastus VS. useast.")
-  @madeOptional(Versions.v2024_06_24)
   azureLocation?: azureLocation;
 
   @doc("Tenant ID of the Subscription.")
-  @madeOptional(Versions.v2024_06_24)
   tenantId?: string;
 
   @doc("Provisioning status of the resource.")

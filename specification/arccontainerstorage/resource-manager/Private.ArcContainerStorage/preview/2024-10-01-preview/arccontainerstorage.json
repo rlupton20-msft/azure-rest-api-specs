@@ -67,7 +67,7 @@
   "paths": {
     "/{resourceUri}/providers/Private.ArcContainerStorage/acstorconfigurations": {
       "get": {
-        "operationId": "AcStorConfigurations_ListByResourceGroup",
+        "operationId": "AcStorConfigurations_List",
         "tags": [
           "AcStorConfigurations"
         ],
@@ -181,17 +181,6 @@
             "description": "Resource 'AcStorConfiguration' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/AcStorConfiguration"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -200,11 +189,7 @@
               "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "delete": {
         "operationId": "AcStorConfigurations_Delete",
@@ -262,7 +247,7 @@
     },
     "/{resourceUri}/providers/Private.ArcContainerStorage/edgeingestpolicies": {
       "get": {
-        "operationId": "EdgeIngestPolicies_ListByResourceGroup",
+        "operationId": "EdgeIngestPolicies_List",
         "tags": [
           "EdgeIngestPolicies"
         ],
@@ -378,17 +363,6 @@
             "description": "Resource 'EdgeIngestPolicy' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/EdgeIngestPolicy"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -397,11 +371,7 @@
               "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "delete": {
         "operationId": "EdgeIngestPolicies_Delete",
@@ -460,7 +430,7 @@
     },
     "/{resourceUri}/providers/Private.ArcContainerStorage/edgestorageconfigurations": {
       "get": {
-        "operationId": "EdgeStorageConfigurations_ListByResourceGroup",
+        "operationId": "EdgeStorageConfigurations_List",
         "tags": [
           "EdgeStorageConfigurations"
         ],
@@ -572,17 +542,6 @@
             "description": "Resource 'EdgeStorageConfiguration' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/EdgeStorageConfiguration"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -591,11 +550,7 @@
               "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "delete": {
         "operationId": "EdgeStorageConfigurations_Delete",
@@ -650,201 +605,9 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/{resourceUri}/providers/Private.ArcContainerStorage/edgesubvolumes": {
-      "get": {
-        "operationId": "EdgeSubvolumes_ListByResourceGroup",
-        "tags": [
-          "EdgeSubvolumes"
-        ],
-        "description": "List EdgeSubvolume resources by parent",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/EdgeSubvolumeListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/{resourceUri}/providers/Private.ArcContainerStorage/edgesubvolumes/{edgeSubvolumeName}": {
-      "get": {
-        "operationId": "EdgeSubvolumes_Get",
-        "tags": [
-          "EdgeSubvolumes"
-        ],
-        "description": "Get a EdgeSubvolume",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          },
-          {
-            "name": "edgeSubvolumeName",
-            "in": "path",
-            "description": "The name of the EdgeSubvolume resource.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/EdgeSubvolume"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "EdgeSubvolumes_CreateOrReplace",
-        "tags": [
-          "EdgeSubvolumes"
-        ],
-        "description": "Create a EdgeSubvolume",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          },
-          {
-            "name": "edgeSubvolumeName",
-            "in": "path",
-            "description": "The name of the EdgeSubvolume resource.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EdgeSubvolume"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'EdgeSubvolume' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/EdgeSubvolume"
-            }
-          },
-          "201": {
-            "description": "Resource 'EdgeSubvolume' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/EdgeSubvolume"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "EdgeSubvolumes_Delete",
-        "tags": [
-          "EdgeSubvolumes"
-        ],
-        "description": "Delete a EdgeSubvolume",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
-          },
-          {
-            "name": "edgeSubvolumeName",
-            "in": "path",
-            "description": "The name of the EdgeSubvolume resource.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
     "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes": {
       "get": {
-        "operationId": "EdgeVolumes_ListByResourceGroup",
+        "operationId": "EdgeVolumes_List",
         "tags": [
           "EdgeVolumes"
         ],
@@ -956,17 +719,6 @@
             "description": "Resource 'EdgeVolume' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/EdgeVolume"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -975,11 +727,7 @@
               "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "delete": {
         "operationId": "EdgeVolumes_Delete",
@@ -1034,9 +782,218 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes/{edgeVolumeName}/edgesubvolumes": {
+      "get": {
+        "operationId": "EdgeSubvolumes_List",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "List EdgeSubvolume resources by EdgeVolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolumeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes/{edgeVolumeName}/edgesubvolumes/{edgeSubvolumeName}": {
+      "get": {
+        "operationId": "EdgeSubvolumes_Get",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Get a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeSubvolumes_CreateOrReplace",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Create a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeSubvolume' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeSubvolume' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeSubvolumes_Delete",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Delete a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/{resourceUri}/providers/Private.ArcContainerStorage/syncsubvolumes": {
       "get": {
-        "operationId": "SyncSubvolumes_ListByResourceGroup",
+        "operationId": "SyncSubvolumes_List",
         "tags": [
           "SyncSubvolumes"
         ],
@@ -1148,17 +1105,6 @@
             "description": "Resource 'SyncSubvolume' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/SyncSubvolume"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
             }
           },
           "default": {
@@ -1167,11 +1113,7 @@
               "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
+        }
       },
       "delete": {
         "operationId": "SyncSubvolumes_Delete",
@@ -1779,7 +1721,6 @@
             "Terminating",
             "Updating",
             "Unknown",
-            "unknown",
             "configuring",
             "configured",
             "cleaning_up"
@@ -1835,11 +1776,6 @@
               {
                 "name": "Unknown",
                 "value": "Unknown",
-                "description": "Unknown"
-              },
-              {
-                "name": "unknown",
-                "value": "unknown",
                 "description": "Unknown"
               },
               {
@@ -1945,6 +1881,9 @@
           "x-ms-client-flatten": true
         }
       },
+      "required": [
+        "properties"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
@@ -1979,8 +1918,11 @@
         "requestedSize": {
           "type": "string",
           "description": "Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.",
+          "default": "1Gi",
           "pattern": "^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$",
-          "readOnly": true
+          "x-ms-mutability": [
+            "create"
+          ]
         },
         "ingestOperationConcurrency": {
           "type": "integer",
@@ -2003,7 +1945,6 @@
             "Terminating",
             "Updating",
             "Unknown",
-            "unknown",
             "deploying",
             "deployed",
             "deployment_deletion"
@@ -2059,11 +2000,6 @@
               {
                 "name": "Unknown",
                 "value": "Unknown",
-                "description": "Unknown"
-              },
-              {
-                "name": "unknown",
-                "value": "unknown",
                 "description": "Unknown"
               },
               {
@@ -2348,9 +2284,7 @@
             "Terminating",
             "Updating",
             "Unknown",
-            "unknown",
             "configuring",
-            "pending",
             "cleaning_up",
             "completed"
           ],
@@ -2408,19 +2342,9 @@
                 "description": "Unknown"
               },
               {
-                "name": "unknown",
-                "value": "unknown",
-                "description": "Unknown"
-              },
-              {
                 "name": "configuring",
                 "value": "configuring",
                 "description": "configuring"
-              },
-              {
-                "name": "pending",
-                "value": "pending",
-                "description": "pending"
               },
               {
                 "name": "cleaning_up",

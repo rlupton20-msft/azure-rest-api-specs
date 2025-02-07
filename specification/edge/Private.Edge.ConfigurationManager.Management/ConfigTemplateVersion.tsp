@@ -44,9 +44,6 @@ interface ConfigTemplateVersions {
   @doc("Get a Config Template Version Resource")
   get is ArmResourceRead<ConfigTemplateVersion>;
 
-  @doc("Delete a Config Template Version Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<ConfigTemplateVersion>;
-
   @doc("List Config Template Version Resources")
   listByConfigTemplate is ArmResourceListByParent<ConfigTemplateVersion>;
 }

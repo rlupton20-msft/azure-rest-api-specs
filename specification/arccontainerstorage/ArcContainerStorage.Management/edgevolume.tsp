@@ -17,7 +17,11 @@ namespace Private.ArcContainerStorage;
  * EdgeVolume is a custom resource that defines the configuration for edge volume storage.
  */
 @doc("EdgeVolume is a custom resource for defining an edge volume.")
-model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
+model EdgeVolume
+  is ExtensionResource<
+    EdgeVolumeProperties,
+    false /* Require properties so that requestedSize is required */
+  > {
   @doc("The name of the EdgeVolume resource.")
   @key("edgeVolumeName")
   @pattern("^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$")
@@ -33,8 +37,8 @@ model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
 model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
-  @visibility("read")
-  requestedSize: string;
+  @visibility("create")
+  requestedSize: string = "1Gi";
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")
   @minValue(1) // Minimum value constraint
@@ -73,9 +77,6 @@ model EdgeVolumeStatus {
 
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
   @doc("deploying")
   deploying: "deploying",
 
@@ -94,7 +95,7 @@ union provisioningStateVolume {
 @armResourceOperations
 interface EdgeVolumes {
   get is ArmResourceRead<EdgeVolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeVolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeVolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeVolume>;
-  listByResourceGroup is ArmResourceListByParent<EdgeVolume>;
+  list is ArmResourceListByParent<EdgeVolume>;
 }
