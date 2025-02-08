@@ -35,6 +35,13 @@ model ProviderAccountProperties {
   @visibility("read")
   provisioningState?: AccountProvisioningState;
 
+  /** The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces. */
+  @minLength(1)
+  @maxLength(50)
+  @visibility("read", "create", "update")
+  @pattern("^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)$")
+  providerId: string;
+
   /** Display name of this ProviderAccount. */
   @minLength(1)
   @maxLength(50) // max used today is 41 for CMS
@@ -100,10 +107,16 @@ model ProviderAccountTarget {
   @pattern("^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)\\.(sim|qpu)\\.[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$")
   id: string;
 
-  /** The display name of the target. */
+  /** The display name of the Target. */
   @minLength(1)
   @maxLength(50)
   name: string;
+
+  /** Description of the Target. */
+  @minLength(1)
+  @maxLength(300)
+  @visibility("read", "create", "update")
+  description: string;
 }
 
 /** The provisioning state of a resource. */
