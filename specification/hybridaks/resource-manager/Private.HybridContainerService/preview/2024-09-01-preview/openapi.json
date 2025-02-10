@@ -1751,13 +1751,6 @@
           "format": "int32",
           "description": "The maximum number of pods that can run on a node."
         },
-        "availabilityZones": {
-          "type": "array",
-          "description": "The list of Availability zones to use for nodes.",
-          "items": {
-            "type": "string"
-          }
-        },
         "count": {
           "type": "integer",
           "format": "int32",
@@ -1772,11 +1765,6 @@
           "type": "string",
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
-        },
-        "gpuCountPerNode": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of gpus attached to a node."
         },
         "provisioningState": {
           "$ref": "#/definitions/ResourceProvisioningState",
@@ -1834,13 +1822,29 @@
           "type": "string",
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
-        },
-        "gpuCountPerNode": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of gpus attached to a node."
         }
       }
+    },
+    "AzureBlobWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is AzureBlob.",
+      "properties": {
+        "sasToken": {
+          "type": "string",
+          "description": "The SAS token to access the Azure Blob storage as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBlob"
     },
     "CloudProviderProfile": {
       "type": "object",
@@ -1869,7 +1873,19 @@
                   "type": "Microsoft.AzureStackHCI/logicalNetworks"
                 },
                 {
-                  "type": "Private.HybridContainerService/virtualNetworks"
+                  "type": "Microsoft.HybridContainerService/virtualNetworks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/l2Networks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/l3Networks"
+                },
+                {
+                  "type": "Microsoft.NetworkCloud/trunkedNetworks"
                 }
               ]
             }
@@ -1904,6 +1920,10 @@
         "controlPlaneEndpoint": {
           "$ref": "#/definitions/ControlPlaneProfileControlPlaneEndpoint",
           "description": "IP Address of the Kubernetes API server"
+        },
+        "witness": {
+          "$ref": "#/definitions/WitnessProfile",
+          "description": "Profile of witness to support 2 control plane nodes for provisioned cluster."
         }
       }
     },
@@ -2055,6 +2075,30 @@
           "description": "Provisioning state of the resource",
           "readOnly": true
         }
+      }
+    },
+    "KubernetesDistribution": {
+      "type": "string",
+      "description": "The kubernetes distribution",
+      "enum": [
+        "K8s",
+        "K3s"
+      ],
+      "x-ms-enum": {
+        "name": "KubernetesDistribution",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "K8s",
+            "value": "K8s",
+            "description": "K8s kubernetes distribution"
+          },
+          {
+            "name": "K3s",
+            "value": "K3s",
+            "description": "K3s kubernetes distribution"
+          }
+        ]
       }
     },
     "KubernetesPatchVersions": {
@@ -2350,13 +2394,6 @@
           "format": "int32",
           "description": "The maximum number of pods that can run on a node."
         },
-        "availabilityZones": {
-          "type": "array",
-          "description": "The list of Availability zones to use for nodes.",
-          "items": {
-            "type": "string"
-          }
-        },
         "count": {
           "type": "integer",
           "format": "int32",
@@ -2372,15 +2409,34 @@
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
         },
-        "gpuCountPerNode": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of gpus attached to a node."
-        },
         "name": {
           "type": "string",
           "description": "Unique name of the default agent pool in the context of the provisioned cluster. Default value is <clusterName>-nodepool1"
         }
+      }
+    },
+    "NetworkPolicy": {
+      "type": "string",
+      "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
+      "enum": [
+        "calico",
+        "cilium"
+      ],
+      "x-ms-enum": {
+        "name": "NetworkPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "calico",
+            "value": "calico",
+            "description": "Use the calico policy"
+          },
+          {
+            "name": "cilium",
+            "value": "cilium",
+            "description": "Use the cilium policy"
+          }
+        ]
       }
     },
     "NetworkProfile": {
@@ -2392,27 +2448,39 @@
           "description": "Profile of the HA Proxy load balancer."
         },
         "networkPolicy": {
-          "type": "string",
-          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
-          "default": "calico",
-          "enum": [
-            "calico"
-          ],
-          "x-ms-enum": {
-            "name": "NetworkPolicy",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "calico",
-                "value": "calico",
-                "description": "Use the calico policy"
-              }
-            ]
-          }
+          "$ref": "#/definitions/NetworkPolicy",
+          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'."
         },
         "podCidr": {
           "type": "string",
           "description": "A CIDR notation IP Address range from which to assign pod IPs."
+        },
+        "vnetSubnetId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.AzureStackHCI/logicalNetworks"
+              },
+              {
+                "type": "Microsoft.HybridContainerService/virtualNetworks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/l2Networks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/l3Networks"
+              },
+              {
+                "type": "Microsoft.NetworkCloud/trunkedNetworks"
+              }
+            ]
+          }
         }
       }
     },
@@ -2426,6 +2494,16 @@
           "description": "Number of HA Proxy load balancer VMs. The default value is 0."
         }
       }
+    },
+    "NfsWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is NFS.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "NFS"
     },
     "OSSKU": {
       "type": "string",
@@ -2617,6 +2695,10 @@
           "type": "string",
           "description": "The version of Kubernetes in use by the provisioned cluster."
         },
+        "kubernetesDistribution": {
+          "$ref": "#/definitions/KubernetesDistribution",
+          "description": "The distribution of Kubernetes in use by the provisioned cluster."
+        },
         "networkProfile": {
           "$ref": "#/definitions/NetworkProfile",
           "description": "The network configuration profile for the provisioned cluster."
@@ -2644,12 +2726,10 @@
             "minCount",
             "enableAutoScaling",
             "maxPods",
-            "availabilityZones",
             "count",
             "vmSize",
             "kubernetesVersion",
-            "name",
-            "gpuCountPerNode"
+            "name"
           ]
         },
         "cloudProviderProfile": {
@@ -2955,7 +3035,7 @@
       },
       "readOnly": true
     },
-    "RotateClusterCaProperties": {
+    "RotateClusterCaProeprties": {
       "type": "object",
       "description": "The properties for rotating cluster ca response.",
       "properties": {
@@ -3015,7 +3095,7 @@
           "description": "Error For Rotate CLuster CA Response."
         },
         "properties": {
-          "$ref": "#/definitions/RotateClusterCaProperties",
+          "$ref": "#/definitions/RotateClusterCaProeprties",
           "description": "Message for rotation ca succeeded."
         }
       }
@@ -3034,6 +3114,34 @@
         }
       }
     },
+    "SMBWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is SMB.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The username to access the SMB file share as the witness."
+        },
+        "password": {
+          "type": "string",
+          "description": "The password to access the SMB file share as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "required": [
+        "userName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "SMB"
+    },
     "StorageProfile": {
       "type": "object",
       "description": "The storage configuration profile for the provisioned cluster.",
@@ -3045,6 +3153,20 @@
         "nfsCsiDriver": {
           "$ref": "#/definitions/StorageProfileNfsCSIDriver",
           "description": "NFS CSI Driver settings for the storage profile."
+        },
+        "localPathProvisionerDriver": {
+          "$ref": "#/definitions/StorageProfileLocalPathDriver",
+          "description": "Local Path Provisioner Driver settings for the storage profile."
+        }
+      }
+    },
+    "StorageProfileLocalPathDriver": {
+      "type": "object",
+      "description": "Local Path Provisioner Driver settings for the storage profile.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3054,8 +3176,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable NFS CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3065,8 +3186,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable SMB CSI Driver. The default value is true.",
-          "default": true
+          "description": "Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3414,6 +3534,55 @@
           "description": "The size of the VM SKU",
           "readOnly": true
         }
+      }
+    },
+    "WitnessProfile": {
+      "type": "object",
+      "description": "Schema of common witness property to support provisioned cluster with 2 control plane nodes.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WitnessType",
+          "description": "Specifies the witness type used for provisioned cluster with 2 control plane nodes."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The endpoint of witness for provisioned cluster with 2 control plane nodes."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type",
+        "endpoint"
+      ]
+    },
+    "WitnessType": {
+      "type": "string",
+      "description": "Schema of supported witness types for provisioned cluster with 2 control plane nodes.",
+      "enum": [
+        "NFS",
+        "SMB",
+        "AzureBlob"
+      ],
+      "x-ms-enum": {
+        "name": "WitnessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NFS",
+            "value": "NFS",
+            "description": "Use NFS file share as the witness type."
+          },
+          {
+            "name": "SMB",
+            "value": "SMB",
+            "description": "Use SMB file share as the witness type."
+          },
+          {
+            "name": "AzureBlob",
+            "value": "AzureBlob",
+            "description": "Use Azure Blob storage as the witness type."
+          }
+        ]
       }
     }
   },
