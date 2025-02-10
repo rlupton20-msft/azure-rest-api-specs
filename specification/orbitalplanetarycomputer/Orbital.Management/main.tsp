@@ -29,7 +29,7 @@ enum Versions {
 // partial manifest.
 // interface Operations extends Azure.ResourceManager.Operations {}
 
-@doc("A AOPC catalog resource")
+@doc("A PC Pro catalog resource")
 model GeoCatalog is TrackedResource<GeoCatalogProperties> {
   @doc("The name of the catalog")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
@@ -67,7 +67,18 @@ union ProvisioningState {
   Accepted: "Accepted",
 }
 
-@doc("Details of the AOPC GeoCatalog.")
+@doc("Whether or not public network access is allowed for the GeoCatalog.")
+union PublicNetworkAccess {
+  @doc("Public network access is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Public network access is enabled.")
+  Enabled: "Enabled",
+
+  string,
+}
+
+@doc("Details of the PC Pro GeoCatalog.")
 model GeoCatalogProperties {
   @visibility("create", "read")
   @doc("Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic.")
@@ -80,6 +91,14 @@ model GeoCatalogProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
+
+  @visibility("read")
+  @doc("Private endpoint connections to this GeoCatalog.")
+  privateEndpointConnections?: PrivateEndpoint[];
+
+  @visibility("create", "update", "read")
+  @doc("Whether or not public network access is allowed for the GeoCatalog.")
+  publicNetworkAccess?: PublicNetworkAccess = PublicNetworkAccess.Enabled;
 }
 
 model ManagedServiceIdentityUpdate
@@ -101,4 +120,41 @@ interface GeoCatalogs {
   delete is ArmResourceDeleteWithoutOkAsync<GeoCatalog>;
   listByResourceGroup is ArmResourceListByParent<GeoCatalog>;
   listBySubscription is ArmListBySubscription<GeoCatalog>;
+}
+
+@doc("Holder for private endpoint connections")
+@parentResource(GeoCatalog)
+model PrivateEndpointConnectionResource
+  is ProxyResource<PrivateEndpointConnectionProperties> {
+  ...PrivateEndpointConnectionParameter;
+}
+
+@doc("Private connection operations")
+@armResourceOperations(PrivateEndpointConnectionResource)
+interface PrivateEndpointConnections {
+  @doc("Get a specific private connection")
+  get is ArmResourceRead<PrivateEndpointConnectionResource>;
+
+  @doc("Create a private endpoint connection")
+  create is ArmResourceCreateOrReplaceAsync<PrivateEndpointConnectionResource>;
+
+  @doc("Delete a private endpoint connection")
+  delete is ArmResourceDeleteWithoutOkAsync<PrivateEndpointConnectionResource>;
+
+  @doc("List private endpoint connections on the given resource")
+  listByGeoCatalog is ArmResourceListByParent<PrivateEndpointConnectionResource>;
+}
+
+#suppress "@azure-tools/typespec-providerhub-controller/no-resource-operations" "Expected for private links"
+@doc("Private links for GeoCatalog resource")
+@parentResource(GeoCatalog)
+model PrivateLinkResource is ProxyResource<PrivateLinkResourceProperties> {
+  ...PrivateLinkResourceParameter;
+}
+
+@doc("Operations for the private links on GeoCatalog resource")
+@armResourceOperations(PrivateLinkResource)
+interface PrivateLinks {
+  @doc("List private links on the given resource")
+  listByGeoCatalog is ArmResourceListByParent<PrivateLinkResource>;
 }
