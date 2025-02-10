@@ -61,10 +61,10 @@ model ProviderAccountProperties {
   /** List of Targets available in this ProviderAccount. */
   targets?: ProviderAccountTarget[];
 
-  // /** MOBO configuration. */
+  // /** Azure ARC configuration. */
   // machineEntity: ...;
 
-  // /** MOBO configuration. */
+  // /** Managed On Behalf Of configuration. */
   // managedOnBehalfOfConfiguration: ...;
 
   // /** Quota Dimension definitions for this ProviderAccount. */
@@ -91,10 +91,9 @@ model ProviderAccountTarget {
    * Must be prefixed by the `providerId` using the format `{providerId}.{target}`.
    * The `{target}` itself may include suffixes separated by `.` or `-`.
    * Valid examples:
-   * - "myprovider.mytarget"
-   * - "myprovider.mytarget-01"
-   * - "myprovider.mytarget.modeA"
-   * - "myprovider.mytarget.variant-01"
+   * - "my-provider.my-target"
+   * - "my-provider.my-target-01"
+   * - "my-provider.my-target.variant-01"
    *  */
   @minLength(2)
   @maxLength(50)
