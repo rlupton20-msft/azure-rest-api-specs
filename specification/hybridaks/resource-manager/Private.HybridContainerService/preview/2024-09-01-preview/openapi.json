@@ -140,7 +140,7 @@
         }
       },
       "put": {
-        "operationId": "KubernetesVersionProfiles_PutKubernetesVersions",
+        "operationId": "KubernetesVersionProfiles_CreateKubernetesVersions",
         "tags": [
           "KubernetesVersionProfiles"
         ],
@@ -191,11 +191,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "KubernetesVersionProfiles_PutKubernetesVersions": {
-            "$ref": "./examples/KubernetesVersionProfiles_PutKubernetesVersions_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -735,7 +730,7 @@
         }
       },
       "put": {
-        "operationId": "HybridIdentityMetadataOperationGroup_Put",
+        "operationId": "HybridIdentityMetadataOperationGroup_Create",
         "tags": [
           "HybridIdentityMetadataOperationGroup"
         ],
@@ -775,11 +770,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "HybridIdentityMetadataOperationGroup_Put": {
-            "$ref": "./examples/HybridIdentityMetadataOperationGroup_Put_MaximumSet_Gen.json"
           }
         }
       },
@@ -941,6 +931,64 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/{connectedClusterResourceUri}/providers/Private.HybridContainerService/provisionedClusterInstances/default/rotateClusterCa": {
+      "post": {
+        "operationId": "ProvisionedClusters_RotateClusterCa",
+        "tags": [
+          "ProvisionedClusters"
+        ],
+        "description": "Rotate the cluster certificate authority",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ConnectedClusterResourceUriParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RotateClusterCaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/RotateClusterCaResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/{connectedClusterResourceUri}/providers/Private.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default": {
       "get": {
         "operationId": "ProvisionedClusterUpgradeProfiles_GetUpgradeProfile",
@@ -1052,7 +1100,7 @@
         }
       },
       "put": {
-        "operationId": "VmSkuProfiles_PutVmSkus",
+        "operationId": "VmSkuProfiles_CreateVmSkus",
         "tags": [
           "VmSkuProfiles"
         ],
@@ -1103,11 +1151,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "VmSkuProfiles_PutVmSkus": {
-            "$ref": "./examples/VmSkuProfiles_PutVmSkus_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1284,7 +1327,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HybridContainerService/virtualNetworks/{virtualNetworkName}": {
       "get": {
-        "operationId": "VirtualNetworks_Retrieve",
+        "operationId": "VirtualNetworks_Get",
         "tags": [
           "VirtualNetworks"
         ],
@@ -1322,11 +1365,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "VirtualNetworks_Retrieve": {
-            "$ref": "./examples/VirtualNetworks_Retrieve_MaximumSet_Gen.json"
           }
         }
       },
@@ -1735,6 +1773,11 @@
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
         },
+        "gpuCountPerNode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of gpus attached to a node."
+        },
         "provisioningState": {
           "$ref": "#/definitions/ResourceProvisioningState",
           "description": "The status of the latest long running operation for the agent pool.",
@@ -1791,6 +1834,11 @@
           "type": "string",
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
+        },
+        "gpuCountPerNode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of gpus attached to a node."
         }
       }
     },
@@ -1822,18 +1870,6 @@
                 },
                 {
                   "type": "Private.HybridContainerService/virtualNetworks"
-                },
-                {
-                  "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
-                },
-                {
-                  "type": "Microsoft.NetworkCloud/l2Networks"
-                },
-                {
-                  "type": "Microsoft.NetworkCloud/l3Networks"
-                },
-                {
-                  "type": "Microsoft.NetworkCloud/trunkedNetworks"
                 }
               ]
             }
@@ -1858,7 +1894,7 @@
         "count": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of control plane nodes. The default value is 1, and the count should be an odd number",
+          "description": "Number of control plane nodes. The default value is 1, and the count can be either 2 or odd numbers.",
           "default": 1
         },
         "vmSize": {
@@ -2019,30 +2055,6 @@
           "description": "Provisioning state of the resource",
           "readOnly": true
         }
-      }
-    },
-    "KubernetesDistribution": {
-      "type": "string",
-      "description": "The kubernetes distribution",
-      "enum": [
-        "K8s",
-        "K3s"
-      ],
-      "x-ms-enum": {
-        "name": "KubernetesDistribution",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "K8s",
-            "value": "K8s",
-            "description": "K8s kubernetes distribution"
-          },
-          {
-            "name": "K3s",
-            "value": "K3s",
-            "description": "K3s kubernetes distribution"
-          }
-        ]
       }
     },
     "KubernetesPatchVersions": {
@@ -2360,34 +2372,15 @@
           "description": "Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.",
           "readOnly": true
         },
+        "gpuCountPerNode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of gpus attached to a node."
+        },
         "name": {
           "type": "string",
           "description": "Unique name of the default agent pool in the context of the provisioned cluster. Default value is <clusterName>-nodepool1"
         }
-      }
-    },
-    "NetworkPolicy": {
-      "type": "string",
-      "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
-      "enum": [
-        "calico",
-        "cilium"
-      ],
-      "x-ms-enum": {
-        "name": "NetworkPolicy",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "calico",
-            "value": "calico",
-            "description": "Use the calico policy"
-          },
-          {
-            "name": "cilium",
-            "value": "cilium",
-            "description": "Use the cilium policy"
-          }
-        ]
       }
     },
     "NetworkProfile": {
@@ -2399,39 +2392,27 @@
           "description": "Profile of the HA Proxy load balancer."
         },
         "networkPolicy": {
-          "$ref": "#/definitions/NetworkPolicy",
-          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico', 'cilium'."
+          "type": "string",
+          "description": "Network policy used for building Kubernetes network. Possible values include: 'calico'.",
+          "default": "calico",
+          "enum": [
+            "calico"
+          ],
+          "x-ms-enum": {
+            "name": "NetworkPolicy",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "calico",
+                "value": "calico",
+                "description": "Use the calico policy"
+              }
+            ]
+          }
         },
         "podCidr": {
           "type": "string",
           "description": "A CIDR notation IP Address range from which to assign pod IPs."
-        },
-        "vnetSubnetId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "An ARM ID specifying which network from the global vnetSubnetIds list the default CNI is to be deployed upon. May be left blank if the global vnetSubnetIds list in the cloudProviderProfile.infraNetworkProfile has only one item.",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.AzureStackHCI/logicalNetworks"
-              },
-              {
-                "type": "Private.HybridContainerService/virtualNetworks"
-              },
-              {
-                "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
-              },
-              {
-                "type": "Microsoft.NetworkCloud/l2Networks"
-              },
-              {
-                "type": "Microsoft.NetworkCloud/l3Networks"
-              },
-              {
-                "type": "Microsoft.NetworkCloud/trunkedNetworks"
-              }
-            ]
-          }
         }
       }
     },
@@ -2636,10 +2617,6 @@
           "type": "string",
           "description": "The version of Kubernetes in use by the provisioned cluster."
         },
-        "kubernetesDistribution": {
-          "$ref": "#/definitions/KubernetesDistribution",
-          "description": "The distribution of Kubernetes in use by the provisioned cluster."
-        },
         "networkProfile": {
           "$ref": "#/definitions/NetworkProfile",
           "description": "The network configuration profile for the provisioned cluster."
@@ -2647,10 +2624,6 @@
         "storageProfile": {
           "$ref": "#/definitions/StorageProfile",
           "description": "The storage configuration profile for the provisioned cluster."
-        },
-        "mockProperty": {
-          "type": "string",
-          "description": "A mock property for Private RP only."
         },
         "clusterVMAccessProfile": {
           "$ref": "#/definitions/ClusterVMAccessProfile",
@@ -2675,7 +2648,8 @@
             "count",
             "vmSize",
             "kubernetesVersion",
-            "name"
+            "name",
+            "gpuCountPerNode"
           ]
         },
         "cloudProviderProfile": {
@@ -2700,10 +2674,7 @@
           "$ref": "#/definitions/ProvisionedClusterPropertiesAutoScalerProfile",
           "description": "Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster."
         }
-      },
-      "required": [
-        "mockProperty"
-      ]
+      }
     },
     "ProvisionedClusterPropertiesAutoScalerProfile": {
       "type": "object",
@@ -2984,6 +2955,85 @@
       },
       "readOnly": true
     },
+    "RotateClusterCaProeprties": {
+      "type": "object",
+      "description": "The properties for rotating cluster ca response.",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Message for rotation ca succeeded."
+        }
+      }
+    },
+    "RotateClusterCaRequest": {
+      "type": "object",
+      "description": "The request body to rotate cluster ca.",
+      "properties": {
+        "forceMode": {
+          "type": "boolean",
+          "description": "enable force mode in cluster ca rotation"
+        }
+      },
+      "required": [
+        "forceMode"
+      ]
+    },
+    "RotateClusterCaResponse": {
+      "type": "object",
+      "description": "The rotate cluster ca response.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation Id",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation Name",
+          "readOnly": true
+        },
+        "resourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource Id of the provisioned cluster instance",
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HybridContainerService/provisionedClusterInstances"
+              }
+            ]
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/ResourceProvisioningState",
+          "description": "Provisioning state of the resource",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/RotateClusterCaResponseError",
+          "description": "Error For Rotate CLuster CA Response."
+        },
+        "properties": {
+          "$ref": "#/definitions/RotateClusterCaProeprties",
+          "description": "Message for rotation ca succeeded."
+        }
+      }
+    },
+    "RotateClusterCaResponseError": {
+      "type": "object",
+      "description": "The error for rotating cluster ca response.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        }
+      }
+    },
     "StorageProfile": {
       "type": "object",
       "description": "The storage configuration profile for the provisioned cluster.",
@@ -2995,20 +3045,6 @@
         "nfsCsiDriver": {
           "$ref": "#/definitions/StorageProfileNfsCSIDriver",
           "description": "NFS CSI Driver settings for the storage profile."
-        },
-        "localPathProvisionerDriver": {
-          "$ref": "#/definitions/StorageProfileLocalPathDriver",
-          "description": "Local Path Provisioner Driver settings for the storage profile."
-        }
-      }
-    },
-    "StorageProfileLocalPathDriver": {
-      "type": "object",
-      "description": "Local Path Provisioner Driver settings for the storage profile.",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Indicates whether to enable Local Path Provisioner Driver. The default value is true for hci, and false for linux baremetal."
         }
       }
     },
@@ -3018,7 +3054,8 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable NFS CSI Driver. The default value is true for hci, and false for linux baremetal."
+          "description": "Indicates whether to enable NFS CSI Driver. The default value is true.",
+          "default": true
         }
       }
     },
@@ -3028,7 +3065,8 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Indicates whether to enable SMB CSI Driver. The default value is true for hci, and false for linux baremetal."
+          "description": "Indicates whether to enable SMB CSI Driver. The default value is true.",
+          "default": true
         }
       }
     },
