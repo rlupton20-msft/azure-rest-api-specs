@@ -62,7 +62,7 @@ union SummaryType {
   Firmware: "Firmware",
 
   @doc("The summary contains information about the Common Vulnerabilites and Exposures analysis results")
-  CommonVulnerablityExposure: "CommonVulnerablityExposure",
+  CommonVulnerabilitiesAndExposures: "CommonVulnerabilitiesAndExposures",
 
   @doc("The summary contains information about the binary hardening analysis results")
   BinaryHardening: "BinaryHardening",
@@ -573,7 +573,7 @@ model CveSummary extends SummaryResourceProperties {
   unknownCveCount?: int64;
 
   @doc("Describes the type of summary object.")
-  summaryType: "CommonVulnerablityExposure";
+  summaryType: "CommonVulnerabilitiesAndExposures";
 }
 
 @doc("Properties for a binary hardening analysis summary.")
