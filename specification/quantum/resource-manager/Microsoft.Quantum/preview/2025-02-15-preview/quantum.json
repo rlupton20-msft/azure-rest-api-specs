@@ -316,7 +316,7 @@
             "description": "The name of the Quantum ProviderAccount resource.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+            "pattern": "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
           }
         ],
         "responses": {
@@ -356,7 +356,7 @@
             "description": "The name of the Quantum ProviderAccount resource.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+            "pattern": "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
           },
           {
             "name": "resource",
@@ -426,7 +426,7 @@
             "description": "The name of the Quantum ProviderAccount resource.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+            "pattern": "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
           },
           {
             "name": "properties",
@@ -475,7 +475,7 @@
             "description": "The name of the Quantum ProviderAccount resource.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+            "pattern": "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
           }
         ],
         "responses": {
@@ -702,7 +702,7 @@
             "description": "Parameters supplied to update tags.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/QuantumWorkspaceTagsUpdate"
+              "$ref": "#/definitions/TagsObject"
             }
           }
         ],
@@ -1142,7 +1142,8 @@
             "description": "The resource is being deleted"
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "ProviderAccount.ProviderAccountProperties": {
       "type": "object",
@@ -1153,67 +1154,49 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
+        "providerId": {
+          "type": "string",
+          "description": "The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces.",
+          "minLength": 2,
+          "maxLength": 14,
+          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)$"
+        },
         "displayName": {
           "type": "string",
           "description": "Display name of this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 50,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "minLength": 2,
+          "maxLength": 50
         },
         "description": {
           "type": "string",
           "description": "Description of this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 300,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "default": "",
+          "maxLength": 240
         },
         "companyName": {
           "type": "string",
           "description": "The name of the company that is providing this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 50,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "minLength": 2,
+          "maxLength": 50
         },
         "allowedSubscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.SubscriptionId"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          }
         },
         "targets": {
           "type": "array",
           "description": "List of Targets available in this ProviderAccount.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          }
         }
       },
       "required": [
+        "providerId",
         "displayName",
-        "description",
         "companyName"
       ]
     },
@@ -1221,62 +1204,44 @@
       "type": "object",
       "description": "Properties of a ProviderAccount",
       "properties": {
+        "providerId": {
+          "type": "string",
+          "description": "The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces.",
+          "minLength": 2,
+          "maxLength": 14,
+          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)$"
+        },
         "displayName": {
           "type": "string",
           "description": "Display name of this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 50,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "minLength": 2,
+          "maxLength": 50
         },
         "description": {
           "type": "string",
           "description": "Description of this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 300,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "default": "",
+          "maxLength": 240
         },
         "companyName": {
           "type": "string",
           "description": "The name of the company that is providing this ProviderAccount.",
-          "minLength": 1,
-          "maxLength": 50,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "minLength": 2,
+          "maxLength": 50
         },
         "allowedSubscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.SubscriptionId"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          }
         },
         "targets": {
           "type": "array",
           "description": "List of Targets available in this ProviderAccount.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          }
         }
       }
     },
@@ -1286,16 +1251,22 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The globally-unique ID of the Target.\n\nMust be prefixed by the `providerAccountName` and `targetType`, using the format `{providerAccountName}.{targetType}.{targetId}`.\nThe `targetType` can be `sim` or `qpu`.\nThe `targetId` itself may include suffixes separated by `-`.\nValid examples:\n- \"myprovider.qpu.alpha\"\n- \"myprovider.sim.alpha-gen0-v1\"",
-          "minLength": 1,
+          "description": "The globally-unique ID of the Target.\n\nMust be prefixed by the `providerId` using the format `{providerId}.{target}`.\nThe `{target}` itself may include suffixes separated by `.` or `-`.\nValid examples:\n- \"my-provider.my-target\"\n- \"my-provider.my-target-01\"\n- \"my-provider.my-target.variant-01\"",
+          "minLength": 2,
           "maxLength": 50,
-          "pattern": "^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)\\.(sim|qpu)\\.[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)(\\.([a-z0-9]+(-[a-z0-9]+)*))+$"
         },
         "name": {
           "type": "string",
-          "description": "The display name of the target.",
-          "minLength": 1,
+          "description": "The display name of the Target.",
+          "minLength": 2,
           "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the Target.",
+          "default": "",
+          "maxLength": 240
         }
       },
       "required": [
@@ -1507,7 +1478,8 @@
             "description": "The provider is failed."
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "QuantumProviderAccountListResult": {
       "type": "object",
@@ -1569,19 +1541,6 @@
       "required": [
         "value"
       ]
-    },
-    "QuantumWorkspaceTagsUpdate": {
-      "type": "object",
-      "description": "The type used for updating tags in QuantumWorkspace resources.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
     },
     "QuotaDimension": {
       "type": "object",
@@ -1669,6 +1628,19 @@
           "description": "The list of pricing details for the sku.",
           "items": {
             "$ref": "#/definitions/PricingDetail"
+          }
+        }
+      }
+    },
+    "TagsObject": {
+      "type": "object",
+      "description": "Tags object for patch operations.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       }
@@ -1787,7 +1759,8 @@
             "description": "The Workspace is currently provisioning a provider."
           }
         ]
-      }
+      },
+      "readOnly": true
     },
     "WorkspaceResourceProperties": {
       "type": "object",
