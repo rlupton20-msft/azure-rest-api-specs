@@ -21,7 +21,7 @@ model QuantumProviderAccount
     Resource = QuantumProviderAccount,
     KeyName = "ProviderAccountName",
     SegmentName = "providerAccounts",
-    NamePattern = "^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+    NamePattern = "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
   >;
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
@@ -36,36 +36,29 @@ model ProviderAccountProperties {
   provisioningState?: AccountProvisioningState;
 
   /** The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces. */
-  @minLength(1)
-  @maxLength(50)
-  @visibility("read", "create", "update")
-  @pattern("^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)$")
+  @minLength(2)
+  @maxLength(14)
+  @pattern("^([a-z0-9]+(-[a-z0-9]+)*)$")
   providerId: string;
 
   /** Display name of this ProviderAccount. */
-  @minLength(1)
-  @maxLength(50) // max used today is 41 for CMS
-  @visibility("read", "create", "update")
+  @minLength(2)
+  @maxLength(50)
   displayName: string;
 
   /** Description of this ProviderAccount. */
-  @minLength(1)
-  @maxLength(300) // max used today is 188 for CMS
-  @visibility("read", "create", "update")
-  description: string;
+  @maxLength(240)
+  description?: string = "";
 
   /** The name of the company that is providing this ProviderAccount. */
-  @minLength(1)
-  @maxLength(50) // max used today is 17 for Rigetti
-  @visibility("read", "create", "update")
+  @minLength(2)
+  @maxLength(50)
   companyName: string;
 
   /** List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount. */
-  @visibility("read", "create", "update")
   allowedSubscriptions?: SubscriptionId[];
 
   /** List of Targets available in this ProviderAccount. */
-  @visibility("read", "create", "update")
   targets?: ProviderAccountTarget[];
 
   // /** MOBO configuration. */
@@ -95,28 +88,27 @@ model ProviderAccountTarget {
   /**
    * The globally-unique ID of the Target.
    *
-   * Must be prefixed by the `providerAccountName` and `targetType`, using the format `{providerAccountName}.{targetType}.{targetId}`.
-   * The `targetType` can be `sim` or `qpu`.
-   * The `targetId` itself may include suffixes separated by `-`.
+   * Must be prefixed by the `providerId` using the format `{providerId}.{target}`.
+   * The `{target}` itself may include suffixes separated by `.` or `-`.
    * Valid examples:
-   * - "myprovider.qpu.alpha"
-   * - "myprovider.sim.alpha-gen0-v1"
+   * - "myprovider.mytarget"
+   * - "myprovider.mytarget-01"
+   * - "myprovider.mytarget.modeA"
+   * - "myprovider.mytarget.variant-01"
    *  */
-  @minLength(1)
+  @minLength(2)
   @maxLength(50)
-  @pattern("^([a-zA-Z0-9]+(-*[a-zA-Z0-9])*)\\.(sim|qpu)\\.[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$")
+  @pattern("^([a-z0-9]+(-[a-z0-9]+)*)(\\.([a-z0-9]+(-[a-z0-9]+)*))+$")
   id: string;
 
   /** The display name of the Target. */
-  @minLength(1)
+  @minLength(2)
   @maxLength(50)
   name: string;
 
   /** Description of the Target. */
-  @minLength(1)
-  @maxLength(300)
-  @visibility("read", "create", "update")
-  description: string;
+  @maxLength(240)
+  description?: string = "";
 }
 
 /** The provisioning state of a resource. */
