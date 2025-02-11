@@ -106,6 +106,53 @@ model RetrieveNextStagesResponseItem {
   parameterValues: Record<string | int32>;
 }
 
+@doc("VerifyChangeValidity POST Action reqeust.")
+model VerifyChangeValidityRequest {
+  @doc("The resource operation.")
+  operation: ResourceOperation;
+
+  @doc("The stage progression Id.")
+  stageProgressionId?: armResourceIdentifier;
+}
+
+@doc("Resource operation model.")
+model ResourceOperation {
+  @doc("The uri of the operation.")
+  uri: string;
+
+  @doc("The http method of the operation.")
+  httpMethod: string;
+
+  @doc("The resource operation content.")
+  content: ResourceConent;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
+#suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
+@doc("Resource operation content model.")
+model ResourceConent {
+  @doc("The name of the resource.")
+  name: string;
+
+  @doc("The location of the resource.")
+  location: string;
+
+  @doc("The properties of the resource.")
+  properties: Record<Parameter>;
+}
+
+@doc("VerifyChangeValidity POST Action response.")
+model VerifyChangeValidityResponse {
+  @doc("The outcome of the verification.")
+  outcome: string;
+
+  @doc("The explaination message of the verification.")
+  message: string;
+
+  @doc("The experation time of the change.")
+  validUntil?: utcDateTime;
+}
+
 @doc("Internal status of the ChangeState resource.")
 union ChangeStatus {
   string,
@@ -365,6 +412,26 @@ interface ChangeStates {
     ChangeState,
     void,
     RetrieveNextStagesResponse,
+    {
+      ...ApiVersionParameter;
+      ...SubscriptionIdParameter;
+    }
+  >;
+
+  @doc("Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.")
+  @action("verifyChangeValidity")
+  verifyChangeValidity is ArmResourceActionSync<
+    ChangeState,
+    VerifyChangeValidityRequest,
+    VerifyChangeValidityResponse
+  >;
+
+  @doc("Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.")
+  @action("verifyChangeValidity")
+  verifyChangeValidityAtSubscriptionLevel is ArmResourceActionSync<
+    ChangeState,
+    VerifyChangeValidityRequest,
+    VerifyChangeValidityResponse,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;

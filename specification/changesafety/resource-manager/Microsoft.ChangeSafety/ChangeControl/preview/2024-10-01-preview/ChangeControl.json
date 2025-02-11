@@ -628,6 +628,56 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ChangeSafety/changeStates/{changeStateName}/verifyChangeValidity": {
+      "post": {
+        "operationId": "ChangeStates_VerifyChangeValidityAtSubscriptionLevel",
+        "tags": [
+          "ChangeStates"
+        ],
+        "description": "Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "changeStateName",
+            "in": "path",
+            "description": "The name of the ChangeState resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.ChangeSafety/stageMaps": {
       "get": {
         "operationId": "StageMaps_ListBySubscription",
@@ -1491,6 +1541,67 @@
         "x-ms-examples": {
           "StageProgressions_Delete_MaximumSet": {
             "$ref": "./examples/StageProgressions_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ChangeSafety/changeStates/{changeStateName}/verifyChangeValidity": {
+      "post": {
+        "operationId": "ChangeStates_VerifyChangeValidity",
+        "tags": [
+          "ChangeStates"
+        ],
+        "description": "Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "changeStateName",
+            "in": "path",
+            "description": "The name of the ChangeState resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ChangeStates_VerifyChangeValidity_MaximumSet": {
+            "$ref": "./examples/ChangeStates_VerifyChangeValidity.json"
+          },
+          "ChangeStates_VerifyChangeValidity__At_Subscription_Level": {
+            "$ref": "./examples/ChangeStates_VerifyChangeValidity_At_Subscription_Level.json"
           }
         }
       }
@@ -2551,6 +2662,55 @@
       },
       "readOnly": true
     },
+    "ResourceConent": {
+      "type": "object",
+      "description": "Resource operation content model.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the resource."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the resource."
+        },
+        "properties": {
+          "type": "object",
+          "description": "The properties of the resource.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Parameter"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "location",
+        "properties"
+      ]
+    },
+    "ResourceOperation": {
+      "type": "object",
+      "description": "Resource operation model.",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "The uri of the operation."
+        },
+        "httpMethod": {
+          "type": "string",
+          "description": "The http method of the operation."
+        },
+        "content": {
+          "$ref": "#/definitions/ResourceConent",
+          "description": "The resource operation content."
+        }
+      },
+      "required": [
+        "uri",
+        "httpMethod",
+        "content"
+      ]
+    },
     "RetrieveNextStagesResponse": {
       "type": "object",
       "description": "RetrieveNextStage POST Action response.",
@@ -2936,6 +3096,18 @@
         }
       }
     },
+    "StageProgressionResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "Azure resource Id of a ChangeState.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.ChangeSafety/changeStates/stageProgressions"
+          }
+        ]
+      }
+    },
     "StageProgressionState": {
       "type": "string",
       "description": "Indicates the current status of the progression of the change within the stage.",
@@ -3091,6 +3263,47 @@
         }
       ],
       "x-ms-discriminator-value": "TemplateSpec"
+    },
+    "VerifyChangeValidityRequest": {
+      "type": "object",
+      "description": "VerifyChangeValidity POST Action reqeust.",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/ResourceOperation",
+          "description": "The resource operation."
+        },
+        "stageProgressionId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The stage progression Id."
+        }
+      },
+      "required": [
+        "operation"
+      ]
+    },
+    "VerifyChangeValidityResponse": {
+      "type": "object",
+      "description": "VerifyChangeValidity POST Action response.",
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "description": "The outcome of the verification."
+        },
+        "message": {
+          "type": "string",
+          "description": "The explaination message of the verification."
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The experation time of the change."
+        }
+      },
+      "required": [
+        "outcome",
+        "message"
+      ]
     }
   },
   "parameters": {}
