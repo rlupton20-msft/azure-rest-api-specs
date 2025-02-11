@@ -66,8 +66,6 @@ model OnboardingService
 
 @doc("Details of the EdgeProvisioning OnboardingService.")
 model OnboardingServiceProperties {
-
-  @removed(Versions.v2025_05_01_preview)
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
@@ -154,7 +152,6 @@ model PolicyProperties {
   @doc("The policy status")
   status: PolicyStatusOptions;
 
-  @removed(Versions.v2025_05_01_preview)
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
@@ -432,7 +429,6 @@ model X509BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
 
 @added(Versions.v2024_11_01_preview)
 @removed(Versions.v2024_12_01_preview)
-@removed(Versions.v2025_05_01_preview)
 @doc("The Discovery-based authentication rule for bootstrapping.")
 model DiscoveryBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
@@ -734,7 +730,6 @@ model PolicyPatchProperties {
   status?: PolicyStatusOptions;
 
   @visibility("read")
-  @removed(Versions.v2025_05_01_preview)
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
@@ -742,11 +737,13 @@ model PolicyPatchProperties {
   bootstrapAuthentication?: PatchBootstrapAuthenticationRule;
 
   @doc("Allocation rules.")
+  @removed(Versions.v2025_05_01_preview)
   @extension("x-ms-identifiers", ["name"])
   @maxItems(1)
   allocations?: Array<AllocationRulePatch>;
 
   @doc("Just-in-time rule to create the device resource.")
+  @removed(Versions.v2025_05_01_preview)
   jit?: JitRulePatchUpdate;
 
   @doc("Further details about the policy resource")
@@ -805,7 +802,6 @@ model PatchSelectedIdentity {
 
 @added(Versions.v2024_11_01_preview)
 @removed(Versions.v2024_12_01_preview)
-@removed(Versions.v2025_05_01_preview)
 @doc("The Discovery-based authentication rule for bootstrapping.")
 model PatchDiscoveryBootstrapAuthenticationRule
   extends PatchBootstrapAuthenticationRule {
@@ -1019,7 +1015,6 @@ model DeviceStateProperties {
 
   @visibility("read")
   @doc("The status of the last operation.")
-  @removed(Versions.v2025_05_01_preview)
   provisioningState?: ProvisioningState;
 
   @added(Versions.v2024_12_01_preview)
