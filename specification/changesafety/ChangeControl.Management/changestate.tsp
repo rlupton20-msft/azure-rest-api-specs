@@ -106,7 +106,7 @@ model RetrieveNextStagesResponseItem {
   parameterValues: Record<string | int32>;
 }
 
-@doc("VerifyChangeValidity POST Action reqeust.")
+@doc("VerifyChangeValidity POST Action request.")
 model VerifyChangeValidityRequest {
   @doc("The resource operation.")
   operation: ResourceOperation;
@@ -124,13 +124,13 @@ model ResourceOperation {
   httpMethod: string;
 
   @doc("The resource operation content.")
-  content: ResourceConent;
+  content: ResourceContent;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
 #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
 @doc("Resource operation content model.")
-model ResourceConent {
+model ResourceContent {
   @doc("The name of the resource.")
   name: string;
 
@@ -146,7 +146,7 @@ model VerifyChangeValidityResponse {
   @doc("The outcome of the verification.")
   outcome: string;
 
-  @doc("The explaination message of the verification.")
+  @doc("The explanation message of the verification.")
   message: string;
 
   @doc("The experation time of the change.")
