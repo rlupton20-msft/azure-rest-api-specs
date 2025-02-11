@@ -21,7 +21,7 @@ model QuantumProviderAccount
     Resource = QuantumProviderAccount,
     KeyName = "ProviderAccountName",
     SegmentName = "providerAccounts",
-    NamePattern = "^[a-zA-Z0-9]+(-[a-zA-Z0-9])*$"
+    NamePattern = "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"
   >;
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
