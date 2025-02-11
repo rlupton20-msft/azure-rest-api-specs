@@ -1,50 +1,5 @@
+import "../AiForScience.Shared/all.tsp";
 import "@typespec/http";
-using Azure.Core;
-using Azure.Core.Traits;
-
-alias ServiceTraits = SupportsRepeatableRequests &
-  SupportsConditionalRequests &
-  SupportsClientRequestId;
-
-alias Operations = Azure.Core.ResourceOperations<ServiceTraits>;
-
-@doc("Definition of Tag")
-model Tag {
-  @doc("Property key")
-  key?: string;
-
-  @doc("Property value")
-  value?: string;
-}
-
-@doc("For adding tags.")
-model WithTags {
-  @doc("The tags")
-  @visibility("read", "create", "update")
-  tags?: Tag[];
-}
-
-@doc("For adding title to display instead of name.")
-model WithTitle {
-  @doc("The title")
-  @visibility("read", "create", "update")
-  // Defaults to name."
-  title: string;
-}
-
-@doc("For adding status.")
-model WithStatus<T> {
-  @doc("The status")
-  @visibility("read")
-  status: T;
-}
-
-@doc("For adding status reason")
-model WithStatusReason {
-  @doc("The reason for the current status")
-  @visibility("read")
-  statusReason?: string;
-}
 
 @doc("Enumeration for message sender.")
 union Sender {
@@ -64,39 +19,11 @@ model WithSender {
   sender: Sender;
 }
 
-@doc("For adding description.")
-model WithDescription {
-  @doc("The description")
-  @visibility("read", "create", "update")
-  description: string;
-}
-
 @doc("For adding version ID.")
 model WithVersionId {
   @doc("The version ID")
   @visibility("read")
   versionId: string;
-}
-
-@doc("For adding creation timestamp.")
-model WithCreatedAt {
-  @doc("The timestamp when the resource was created")
-  @visibility("read")
-  createdAt: utcDateTime;
-}
-
-@doc("For tracking who created a resource.")
-model WithCreatedBy {
-  @doc("The ID of the user who created this resource.")
-  @visibility("read")
-  createdBy: string;
-}
-
-@doc("For adding last update timestamp.")
-model WithUpdatedAt {
-  @doc("The timestamp when the resource was last updated")
-  @visibility("read")
-  updatedAt: utcDateTime;
 }
 
 @doc("For project reference.")
@@ -136,6 +63,37 @@ union RunMode {
   PauseAfterStep: "PauseAfterStep",
 
   string,
+}
+
+@doc("Step within a plan")
+model Step {
+  //  @doc("The step name.")
+  //  @visibility("read")
+  //  @key("stepName")
+  //  name: string;
+
+  //  ...WithCreatedAt;
+  //  ...WithUpdatedAt;
+  //  ...WithStatus<RunStatus>;
+  //  ...WithStatusReason;
+  //  ...WithResultUri;
+
+  @doc("The step order.")
+  @visibility("read")
+  stepNumber: int32;
+
+  // TODO: What does actionId mean? I'm not clear how this differs from step name. Is this the same as "activityId" from run step?
+  @doc("The step action ID.")
+  @visibility("read")
+  actionId: string;
+
+  @doc("The ID of the associated Tool within Catalog.")
+  @visibility("read")
+  toolId: string;
+
+  @doc("The step category.")
+  @visibility("read")
+  category: string;
 }
 
 @doc("For adding run mode.")
@@ -180,23 +138,16 @@ model WithQueryInvestigationId {
   investigationId?: string;
 }
 
-@doc("For searching by InvestigationVersion.")
-model WithQueryInvestigationVersionId {
-  @doc("The ID of the associated InvestigationVersion")
-  @TypeSpec.Http.query
-  investigationVersionId?: string;
-}
+//@doc("For searching by InvestigationVersion.")
+//model WithQueryInvestigationVersionId {
+//  @doc("The ID of the associated InvestigationVersion")
+//  @TypeSpec.Http.query
+//  investigationVersionId?: string;
+//}
 
 @doc("For searching by Conversation.")
 model WithQueryConversationId {
   @doc("The ID of the associated Conversation")
   @TypeSpec.Http.query
   conversationId?: string;
-}
-
-@doc("For searching items created after specified timestamp.")
-model WithQueryCreatedSince {
-  @doc("The oldest creation timestamp to keep")
-  @TypeSpec.Http.query
-  createdSince?: utcDateTime;
 }

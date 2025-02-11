@@ -108,9 +108,17 @@ model WithTimeoutAt {
   timeoutAt: utcDateTime;
 }
 
+@doc("For run name")
+model WithRunName {
+  @doc("The name of the run containing the inputs and plan you wish to clone")
+  @visibility("read", "create")
+  runName?: string;
+}
+
 @access(Access.internal)
 @doc("Common properties of investigation and investigation version.")
 model InvestigationCore {
+  ...WithId;
   ...WithDescription;
   ...WithTags;
   ...WithCreatedBy;
@@ -124,13 +132,13 @@ model InvestigationCore {
 @resource("investigations")
 @parentResource(Project)
 model Investigation {
-  ...InvestigationCore;
-  ...WithStatus<InvestigationStatus>;
-
   @doc("The investigation name.")
-  @visibility("read", "create")
+  @visibility("read")
   @key("investigationName")
   name: string;
+
+  ...InvestigationCore;
+  ...WithStatus<InvestigationStatus>;
 
   @doc("The ID of the user who locked the Investigation for editing, if any.")
   @visibility("read")
@@ -183,14 +191,20 @@ interface Investigations {
   @doc("Run an investigation.")
   run is Operations.ResourceAction<Investigation, WithRunMode, WithRunId>;
 
+  //  @doc("Restore the Investigation to the state of this version.")
+  //  restore is Operations.ResourceAction<InvestigationVersion, {}, Investigation>;
+
   @doc("Lock an investigation for editing.")
   lock is Operations.ResourceAction<Investigation, {}, WithTimeoutAt>;
 
   @doc("Unlock an investigation for editing, restoring it to Draft status.")
   unlock is Operations.ResourceAction<Investigation, {}, {}>;
 
-  @doc("Commit an investigation (to enable checkpoint).")
-  createVersion is Operations.ResourceAction<Investigation, {}, WithVersionId>;
+  //  @doc("Commit an investigation (to enable checkpoint).")
+  //  createVersion is Operations.ResourceAction<Investigation, {}, WithVersionId>;
+
+  @doc("Clone investigation (to a new one).")
+  clone is Operations.ResourceAction<Investigation, WithRunName, Investigation>;
 
   @doc("Add an input.")
   addInput is Operations.ResourceAction<

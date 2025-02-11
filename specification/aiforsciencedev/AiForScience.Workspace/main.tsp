@@ -2,12 +2,16 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
+import "./_knowledgeBase.tsp";
+import "./_knowledgeBase_version.tsp";
 import "./_project.tsp";
 import "./_investigation.tsp";
-import "./_investigation_version.tsp";
+//import "./_investigation_version.tsp";
 import "./_run.tsp";
+import "./_run_step.tsp";
 import "./_message.tsp";
 import "./_conversation.tsp";
+import "./_conversation_message.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

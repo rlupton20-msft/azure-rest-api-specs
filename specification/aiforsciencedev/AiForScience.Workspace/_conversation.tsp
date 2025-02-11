@@ -15,16 +15,16 @@ namespace Microsoft.AiForScienceWorkspace;
 @doc("A conversation.")
 @resource("conversations")
 model Conversation {
-  ...WithCreatedAt;
-  ...WithUpdatedAt;
-  ...WithProjectIdOptional;
-  ...WithInvestigationIdOptional;
-  ...WithTitle;
+  ...WithId;
 
   @doc("The conversation name.")
-  @visibility("read", "create")
+  @visibility("read")
   @key("conversationName")
   name: string;
+
+  ...WithTitle;
+  ...WithCreatedAt;
+  ...WithUpdatedAt;
 }
 
 // TODO: Remove un-needed route prefix!
@@ -33,7 +33,18 @@ interface Conversations {
   @doc("Fetch a Conversation by name.")
   getConversation is ResourceRead<Conversation>;
 
-  @doc("Creates or updates a Conversation asynchronously.")
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Creates a Conversation.")
+  @createsOrReplacesResource(Conversation)
+  @route("/conversations")
+  @post
+  createConversation is Azure.Core.Foundations.Operation<
+    {},
+    Conversation,
+    Conversation
+  >;
+
+  @doc("Creates or updates a Conversation.")
   createOrUpdateConversation is StandardResourceOperations.ResourceCreateOrUpdate<Conversation>;
 
   //  @doc("Delete a Conversation asynchronously.")
@@ -43,8 +54,6 @@ interface Conversations {
   @doc("List Conversation resources")
   listConversations is ResourceList<
     Conversation,
-    QueryParametersTrait<WithQueryProjectId &
-      WithQueryInvestigationId &
-      WithQueryCreatedSince>
+    QueryParametersTrait<WithQueryCreatedSince>
   >;
 }

@@ -21,27 +21,43 @@ model Bookshelf is TrackedResource<BookshelfProperties> {
   ...ResourceNameParameter<Bookshelf>;
 }
 
+@doc("Meta-data that should not be in API unless special param is sent")
+model InternalMetaData {
+  @doc("Internal: Azure Sql Server Endpoint")
+  @visibility("read")
+  azureSqlServerEndpoint?: string;
+
+  @doc("Internal: Azure OpenAi Endpoint")
+  @visibility("read")
+  azureOpenAiEndpoint?: string;
+}
+
 @doc("Bookshelf properties")
 model BookshelfProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  // @doc("Fully qualified resource ID for the organization resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-  // @visibility("read", "create")
-  // workspaceId: Azure.Core.armResourceIdentifier<[
-  //   {
-  //     type: "Microsoft.AiForScience/workspaces";
-  //   }
-  // ]>;
+  /** The managed resource group name */
+  @visibility("read")
+  managedResourceGroup: string;
+
+  /** The bookshelf dataplane URI */
+  @visibility("read")
+  bookshelfUri: string;
+
+  ...InternalMetaData;
 }
 
 @armResourceOperations
 interface Bookshelves {
   get is ArmResourceRead<Bookshelf>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Bookshelf>;
-  update is ArmResourcePatchSync<Bookshelf, BookshelfProperties>;
+  update is ArmResourcePatchAsync<Bookshelf, BookshelfProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Bookshelf>;
   listByResourceGroup is ArmResourceListByParent<Bookshelf>;
   listBySubscription is ArmListBySubscription<Bookshelf>;
+
+  // TODO: Do we really need this?
+  checkExistence is ArmResourceCheckExistence<Bookshelf>;
 }
