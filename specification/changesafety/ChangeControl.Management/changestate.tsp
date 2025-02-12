@@ -124,7 +124,7 @@ model ResourceOperation {
   httpMethod: string;
 
   @doc("The resource operation content.")
-  content: ResourceContent;
+  content?: ResourceContent;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
@@ -418,7 +418,7 @@ interface ChangeStates {
     }
   >;
 
-  @doc("Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.")
+  @doc("Verify the change validity.")
   @action("verifyChangeValidity")
   verifyChangeValidity is ArmResourceActionSync<
     ChangeState,
@@ -426,7 +426,7 @@ interface ChangeStates {
     VerifyChangeValidityResponse
   >;
 
-  @doc("Gets list of next stages that are eligible to put in 'InProgress' state in a changestate resource at subscription level.")
+  @doc("Verify the change validity at subscription level.")
   @action("verifyChangeValidity")
   verifyChangeValidityAtSubscriptionLevel is ArmResourceActionSync<
     ChangeState,
