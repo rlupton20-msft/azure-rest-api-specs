@@ -138,7 +138,7 @@ model ResourceContent {
   location?: string;
 
   @doc("The properties of the resource.")
-  properties: Record<Parameter>;
+  properties: Record<unknown>;
 }
 
 @doc("VerifyChangeValidity POST Action response.")
