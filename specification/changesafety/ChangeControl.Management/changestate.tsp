@@ -112,7 +112,7 @@ model VerifyChangeValidityRequest {
   operation: ResourceOperation;
 
   @doc("The stage progression Id.")
-  stageProgressionId?: armResourceIdentifier;
+  stageProgressionId?: string;
 }
 
 @doc("Resource operation model.")
@@ -127,8 +127,7 @@ model ResourceOperation {
   content?: ResourceContent;
 }
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
-#suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
 @doc("Resource operation content model.")
 model ResourceContent {
   @doc("The name of the resource.")
@@ -138,7 +137,7 @@ model ResourceContent {
   location?: string;
 
   @doc("The properties of the resource.")
-  properties: Record<unknown>;
+  properties: {};
 }
 
 @doc("VerifyChangeValidity POST Action response.")
