@@ -41,16 +41,16 @@ model StorageGatewayModel is TrackedResource<StorageGatewayProperties> {
 union ProvisioningState {
   ResourceProvisioningState,
 
-  @doc("Succeeded")
+  @doc("Resource creation Succeeded")
   Succeeded: "Succeeded",
 
-  @doc("Canceled")
+  @doc("Resource creation Canceled")
   Canceled: "Canceled",
 
-  @doc("Failed")
+  @doc("Resource creation Failed")
   Failed: "Failed",
 
-  @doc("Deleting")
+  @doc("Resource Deleting")
   Deleting: "Deleting",
 }
 
