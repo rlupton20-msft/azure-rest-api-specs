@@ -51,7 +51,7 @@ union ProvisioningState {
   Failed: "Failed",
 
   @doc("Deleting")
-  Deleting : "Deleting"
+  Deleting: "Deleting",
 }
 
 @doc("Details of the StorageGateway.")
