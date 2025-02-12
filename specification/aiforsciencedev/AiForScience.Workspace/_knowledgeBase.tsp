@@ -35,28 +35,20 @@ model InputCatalogs {
   ...ResourceReference;
 
   /** Data assets */
-  dataAssets: ResourceReference[];
+  dataAssetIds: string[];
 }
 
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
   ...WithId;
-  ...WithTitle;
   ...WithTags;
   ...WithCreatedAt;
   ...WithUpdatedAt;
   ...WithStatus<IndexingStatus>;
 
-  //  ...WithDescription;
-
-  // Using WithStatus<IndexingStatus> instead for conformity.
-  //  @doc("Indexing status.")
-  //  @visibility("read")
-  //  indexingStatus: IndexingStatus;
-
   @doc("Input catalogs to index.")
   @visibility("read", "create")
-  inputCatalogs: InputCatalogs;
+  dataAssets: ResourceReference[];
 
   @doc("URL to access the knowledge base.")
   @visibility("read")
@@ -79,18 +71,15 @@ model KnowledgeBase {
 }
 
 interface KnowledgeBases {
-  //  @doc("Fetch a KnowledgeBase by name.")
-  //  getKnowledgeBase is ResourceRead<KnowledgeBase>;
-
-  @doc("Creates or replaces a KnowledgeBase.")
-  createOrReplaceKnowledgeBase is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBase>;
-
-  @doc("Creates or updates a KnowledgeBase.")
-  createOrUpdateKnowledgeBase is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBase>;
-
   @doc("List KnowledgeBase resources")
   listKnowledgeBases is ResourceList<KnowledgeBase>;
 
-  //  @doc("Clone KnowledgeBase (to a new one).")
-  //  clone is Operations.ResourceAction<KnowledgeBase, {}, KnowledgeBase>;
+  //  getOperationStatus is Operations.GetResourceOperationStatus<
+  //    KnowledgeBase,
+  //    never
+  //  >;
+
+  @doc("Delete a KnowledgeBase.")
+  //  @pollingOperation(KnowledgeBases.getOperationStatus)
+  deleteKnowledgeBase is ResourceDelete<KnowledgeBase>;
 }

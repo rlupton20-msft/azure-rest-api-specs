@@ -44,7 +44,7 @@ model WithTitle {
 model WithStatus<T> {
   @doc("The status")
   @visibility("read")
-  status: T;
+  status?: T;
 }
 
 @doc("For adding status reason")
@@ -108,9 +108,13 @@ model ResourceReference {
   @visibility("read", "create", "update")
   id: string;
 
-  @doc("Resource name")
-  @visibility("read", "create", "update")
-  name: string;
+  //  @doc("Resource name")
+  //  @visibility("read")
+  //  name?: string;
+  //
+  //  @doc("Resource name")
+  //  @visibility("read")
+  //  title?: string;
 }
 
 @doc("For adding last update timestamp.")
@@ -160,6 +164,6 @@ union Vertical {
 @doc("Settings for configuring associated Science Catalog artifact verticals.")
 model WithVertical {
   @doc("Property for configuring associated verticals.")
-  @visibility("read", "create")
+  @visibility("read", "create", "update")
   vertical: Vertical;
 }

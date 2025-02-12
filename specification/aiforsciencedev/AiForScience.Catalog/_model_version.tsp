@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A model version.")
-@parentResource(Model)
+@parentResource(ModelDefinition)
 @resource("versions")
-model ModelVersion {
+model ModelDefinitionVersion {
   @doc("The model version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseModel;
+  ...BaseModelDefinition;
 }
 
-interface ModelVersions {
-  @doc("Fetch a ModelVersion by name.")
-  getModelVersion is ResourceRead<ModelVersion>;
+@doc("A model version.")
+@parentResource(ModelDefinition)
+@resource("versions")
+model ModelDefinitionVersionWithYaml {
+  @doc("The model version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  @doc("Creates a Model.")
-  createOrReplaceModelVersion is StandardResourceOperations.ResourceCreateOrReplace<ModelVersion>;
+  ...BaseModelDefinition;
+  ...WithDefinitionContents;
+}
 
-  //  @doc("Updates Model.")
-  //  createOrUpdateModelVersion is StandardResourceOperations.ResourceCreateOrUpdate<ModelVersion>;
+interface ModelDefinitionVersions {
+  @doc("Fetch a ModelDefinitionVersion by name.")
+  getModelDefinitionVersion is ResourceRead<ModelDefinitionVersion>;
 
-  @doc("List Model resources")
-  listModelVersions is ResourceList<ModelVersion>;
+  //  @doc("Creates a ModelDefinition.")
+  //  createOrReplaceModelDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<ModelDefinitionVersionWithYaml>;
+
+  @doc("Updates ModelDefinition.")
+  createOrUpdateModelDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<ModelDefinitionVersionWithYaml>;
+
+  @doc("List ModelDefinition resources")
+  listModelDefinitionVersions is ResourceList<ModelDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    ModelVersion,
+    ModelDefinitionVersion,
     {},
     {
       definitionContents: string;

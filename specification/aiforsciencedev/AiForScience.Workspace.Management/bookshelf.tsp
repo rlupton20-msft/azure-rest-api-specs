@@ -21,16 +21,16 @@ model Bookshelf is TrackedResource<BookshelfProperties> {
   ...ResourceNameParameter<Bookshelf>;
 }
 
-@doc("Meta-data that should not be in API unless special param is sent")
-model InternalMetaData {
-  @doc("Internal: Azure Sql Server Endpoint")
-  @visibility("read")
-  azureSqlServerEndpoint?: string;
+// @doc("Meta-data that should not be in API unless special param is sent")
+// model InternalMetaData {
+//   @doc("Internal: Azure Sql Server Endpoint")
+//   @visibility("read")
+//   azureSqlServerEndpoint?: string;
 
-  @doc("Internal: Azure OpenAi Endpoint")
-  @visibility("read")
-  azureOpenAiEndpoint?: string;
-}
+//   @doc("Internal: Azure OpenAi Endpoint")
+//   @visibility("read")
+//   azureOpenAiEndpoint?: string;
+// }
 
 @doc("Bookshelf properties")
 model BookshelfProperties {
@@ -46,7 +46,7 @@ model BookshelfProperties {
   @visibility("read")
   bookshelfUri: string;
 
-  ...InternalMetaData;
+  // ...InternalMetaData;
 }
 
 @armResourceOperations
