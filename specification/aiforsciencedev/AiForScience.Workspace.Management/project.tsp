@@ -36,12 +36,7 @@ model Project is TrackedResource<ProjectProperties> {
 
 @doc("Project properties")
 model ProjectProperties {
-  ...WithTitle;
-
-  //  @doc("The title")
-  //  @visibility("read", "create", "update")
-  //  // Defaults to name."
-  //  title: string;
+  //  ...WithTitle;
 
   @doc("The status of the last operation.")
   @visibility("read")
@@ -49,15 +44,15 @@ model ProjectProperties {
 
   @doc("Settings for configuring Science Catalog tool availability.")
   @visibility("read", "create", "update")
-  catalogToolIds: Artifact[];
+  tools: Artifact[];
 
   @doc("Settings for configuring Science Catalog Model availability.")
   @visibility("read", "create", "update")
-  catalogModelIds: Artifact[];
+  models: Artifact[];
 
   @doc("Settings for configuring Science Catalog Knowledge Base availability.")
   @visibility("read", "create", "update")
-  knowledgeBaseIds: Artifact[];
+  knowledgeBases: Artifact[];
 
   //    @doc("Settings for configuring Science Catalog Data Asset availability.")
   //    @visibility("read", "create", "update")

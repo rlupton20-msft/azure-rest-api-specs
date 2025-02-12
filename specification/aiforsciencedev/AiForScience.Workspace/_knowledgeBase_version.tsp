@@ -38,6 +38,12 @@ model WithRunId {
 }
 
 interface KnowledgeBaseVersions {
+  @doc("Creates or replaces a KnowledgeBaseVersion.")
+  createOrReplaceKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseVersion>;
+
+  @doc("Creates or updates a KnowledgeBaseVersion.")
+  createOrUpdateKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseVersion>;
+
   @doc("Fetch a KnowledgeBaseVersion by name.")
   getKnowledgeBaseVersion is ResourceRead<KnowledgeBaseVersion>;
 
@@ -47,12 +53,22 @@ interface KnowledgeBaseVersions {
     QueryParametersTrait<WithQueryCreatedSince>
   >;
 
+  getIndexingOperationStatus is Operations.GetResourceOperationStatus<
+    KnowledgeBaseVersion,
+    WithRunId
+  >;
+
   @doc("Start indexing.")
-  startIndexing is Operations.ResourceAction<
+  @pollingOperation(KnowledgeBaseVersions.getIndexingOperationStatus)
+  startIndexing is Operations.LongRunningResourceAction<
     KnowledgeBaseVersion,
     WithNodePool,
     WithRunId
   >;
+
+  @doc("Delete a KnowledgeBaseVersion.")
+  //  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
+  deleteKnowledgeBaseVersion is ResourceDelete<KnowledgeBaseVersion>;
 
   //  @doc("Restore the KnowledgeBase to the state of this version.")
   //  restore is Operations.ResourceAction<KnowledgeBaseVersion, {}, KnowledgeBase>;

@@ -15,8 +15,8 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.AiForScienceCatalog.Versions)
 namespace Microsoft.AiForScienceCatalog;
 
-@doc("Model attributes from definitionContents")
-model ModelAttributes {
+@doc("ModelDefinition attributes from definitionContents")
+model ModelDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithLicense;
@@ -32,38 +32,48 @@ model ModelAttributes {
 }
 
 @doc("A base model.")
-model BaseModel {
-  ...Artifact<ModelAttributes>;
+model BaseModelDefinition {
+  ...Artifact<ModelDefinitionAttributes>;
 }
 
 @doc("A model.")
 @parentResource(Catalog)
-@resource("models")
-model Model {
+@resource("modelDefinitions")
+model ModelDefinition {
   @doc("The model name.")
   @visibility("read")
   @key("modelName")
   name: string;
 
-  ...BaseModel;
-  //  ...WithDefinitionContents;
+  ...BaseModelDefinition;
 }
 
-interface Models {
-  @doc("Fetch a Model by name.")
-  getModel is ResourceRead<Model>;
+@doc("A model.")
+@parentResource(Catalog)
+@resource("modelDefinitions")
+model ModelDefinitionWithYaml {
+  @doc("The model name.")
+  @visibility("read")
+  @key("modelName")
+  name: string;
 
-  @doc("Creates a Model.")
-  createOrReplaceModel is StandardResourceOperations.ResourceCreateOrReplace<Model &
-    WithDefinitionContents>;
+  ...BaseModelDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates Model.")
-  createOrUpdateModel is StandardResourceOperations.ResourceCreateOrUpdate<Model &
-    WithDefinitionContents>;
+interface ModelDefinitions {
+  @doc("Fetch a ModelDefinition by name.")
+  getModelDefinition is ResourceRead<ModelDefinition>;
 
-  @doc("List Model resources")
-  listModels is ResourceList<Model>;
+  @doc("Creates a ModelDefinition.")
+  createOrReplaceModelDefinition is StandardResourceOperations.ResourceCreateOrReplace<ModelDefinitionWithYaml>;
 
-  @doc("Delete a Model.")
-  deleteModel is ResourceDelete<Model>;
+  @doc("Updates ModelDefinition.")
+  createOrUpdateModelDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ModelDefinitionWithYaml>;
+
+  @doc("List ModelDefinition resources")
+  listModelDefinitions is ResourceList<ModelDefinition>;
+
+  @doc("Delete a ModelDefinition.")
+  deleteModelDefinition is ResourceDelete<ModelDefinition>;
 }

@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A agent version.")
-@parentResource(Agent)
+@parentResource(AgentDefinition)
 @resource("versions")
-model AgentVersion {
+model AgentDefinitionVersion {
   @doc("The agent version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseAgent;
+  ...BaseAgentDefinition;
 }
 
-interface AgentVersions {
-  @doc("Fetch AgentVersion by name.")
-  getAgentVersion is ResourceRead<AgentVersion>;
+@doc("A agent version.")
+@parentResource(AgentDefinition)
+@resource("versions")
+model AgentDefinitionVersionWithYaml {
+  @doc("The agent version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  @doc("Creates a Agent.")
-  createOrReplaceAgentVersion is StandardResourceOperations.ResourceCreateOrReplace<AgentVersion>;
+  ...BaseAgentDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates Agent.")
-  createOrUpdateAgentVersion is StandardResourceOperations.ResourceCreateOrUpdate<AgentVersion>;
+interface AgentDefinitionVersions {
+  @doc("Fetch AgentDefinitionVersion by name.")
+  getAgentDefinitionVersion is ResourceRead<AgentDefinitionVersion>;
 
-  @doc("List Agent resources")
-  listAgentVersions is ResourceList<AgentVersion>;
+  //  @doc("Creates a AgentDefinition.")
+  //  createOrReplaceAgentDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<AgentDefinitionVersionWithYaml>;
+
+  @doc("Updates AgentDefinition.")
+  createOrUpdateAgentDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<AgentDefinitionVersionWithYaml>;
+
+  @doc("List AgentDefinition resources")
+  listAgentDefinitionVersions is ResourceList<AgentDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    AgentVersion,
+    AgentDefinitionVersion,
     {},
     {
       definitionContents: string;

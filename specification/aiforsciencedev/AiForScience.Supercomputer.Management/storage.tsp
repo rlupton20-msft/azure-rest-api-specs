@@ -32,8 +32,6 @@ model Storage is TrackedResource<StorageProperties> {
 
 @doc("Storage properties")
 model StorageProperties {
-  ...WithTitle;
-
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
