@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A tool version.")
-@parentResource(Tool)
+@parentResource(ToolDefinition)
 @resource("versions")
-model ToolVersion {
+model ToolDefinitionVersion {
   @doc("The tool version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseTool;
+  ...BaseToolDefinition;
 }
 
-interface ToolVersions {
-  @doc("Fetch a ToolVersion by name.")
-  getToolVersion is ResourceRead<ToolVersion>;
+@doc("A tool version.")
+@parentResource(ToolDefinition)
+@resource("versions")
+model ToolDefinitionVersionWithYaml {
+  @doc("The tool version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  @doc("Creates a Tool.")
-  createOrReplaceToolVersion is StandardResourceOperations.ResourceCreateOrReplace<ToolVersion>;
+  ...BaseToolDefinition;
+  ...WithDefinitionContents;
+}
 
-  //  @doc("Updates Tool.")
-  //  createOrUpdateToolVersion is StandardResourceOperations.ResourceCreateOrUpdate<ToolVersion>;
+interface ToolDefinitionVersions {
+  @doc("Fetch a ToolDefinitionVersion by name.")
+  getToolDefinitionVersion is ResourceRead<ToolDefinitionVersion>;
 
-  @doc("List Tool resources")
-  listToolVersions is ResourceList<ToolVersion>;
+  //  @doc("Creates a ToolDefinition.")
+  //  createOrReplaceToolDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<ToolDefinitionVersionWithYaml>;
+
+  @doc("Updates ToolDefinition.")
+  createOrUpdateToolDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<ToolDefinitionVersionWithYaml>;
+
+  @doc("List ToolDefinition resources")
+  listToolDefinitionVersions is ResourceList<ToolDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    ToolVersion,
+    ToolDefinitionVersion,
     {},
     {
       definitionContents: string;

@@ -581,20 +581,20 @@ model BinaryHardeningSummaryResource extends SummaryResourceProperties {
   @doc("Total number of binaries that were analyzed")
   totalFiles?: int64;
 
-  @doc("Percentage of analyzed files that were found to have a nonexecutable stack")
-  percentNotExecutableStack?: int32;
+  @doc("Total number of analyzed files that were found to have a nonexecutable stack")
+  notExecutableStackCount?: int64;
 
-  @doc("Percentage of analyzed files that were compiled to be a position independent executable")
-  percentPositionIndependentExecutable?: int32;
+  @doc("Total number of analyzed files that were compiled to be a position independent executable")
+  positionIndependentExecutableCount?: int64;
 
-  @doc("Percentage of analyzed files that have enabled relocation read-only protections")
-  percentRelocationReadOnly?: int32;
+  @doc("Total number of analyzed files that have enabled relocation read-only protections")
+  relocationReadOnlyCount?: int64;
 
-  @doc("Percentage of analyzed files that have stack canaries enabled")
-  percentWithStackCanary?: int32;
+  @doc("Total number of analyzed files that have stack canaries enabled")
+  stackCanaryCount?: int64;
 
-  @doc("Percentage of analyzed files that have debug symbols stripped")
-  percentWithStrippedSymbols?: int32;
+  @doc("Total number of analyzed files that have debug symbols stripped")
+  strippedBinaryCount?: int64;
 
   @doc("Describes the type of summary object.")
   summaryType: "BinaryHardening";
@@ -603,10 +603,10 @@ model BinaryHardeningSummaryResource extends SummaryResourceProperties {
 @doc("Properties for cryptographic certificate summary.")
 model CryptoCertificateSummaryResource extends SummaryResourceProperties {
   @doc("Total number of certificates found.")
-  totalCertificatesCount?: int64;
+  totalCertificateCount?: int64;
 
   @doc("Total number of paired private keys found for the certificates.")
-  pairedKeysCount?: int64;
+  pairedKeyCount?: int64;
 
   @doc("Total number of expired certificates found.")
   expiredCertificateCount?: int64;
@@ -618,7 +618,7 @@ model CryptoCertificateSummaryResource extends SummaryResourceProperties {
   weakSignatureCount?: int64;
 
   @doc("Total number of certificates found that are self-signed.")
-  selfSignedCertificatesCount?: int64;
+  selfSignedCertificateCount?: int64;
 
   @doc("Total number of certificates found that have an insecure key size for the key algorithm.")
   shortKeySizeCount?: int64;
@@ -630,16 +630,16 @@ model CryptoCertificateSummaryResource extends SummaryResourceProperties {
 @doc("Properties for cryptographic key summary.")
 model CryptoKeySummaryResource extends SummaryResourceProperties {
   @doc("Total number of cryptographic keys found.")
-  totalKeysCount?: int64;
+  totalKeyCount?: int64;
 
   @doc("Total number of (non-certificate) public keys found.")
-  publicKeysCount?: int64;
+  publicKeyCount?: int64;
 
   @doc("Total number of private keys found.")
-  privateKeysCount?: int64;
+  privateKeyCount?: int64;
 
   @doc("Total number of keys found that have a matching paired key or certificate.")
-  pairedKeysCount?: int64;
+  pairedKeyCount?: int64;
 
   @doc("Total number of keys found that have an insecure key size for the algorithm.")
   shortKeySizeCount?: int64;

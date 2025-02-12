@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A extension version.")
-@parentResource(Extension)
+@parentResource(ExtensionDefinition)
 @resource("versions")
-model ExtensionVersion {
+model ExtensionDefinitionVersion {
   @doc("The extension version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseExtension;
+  ...BaseExtensionDefinition;
 }
 
-interface ExtensionVersions {
-  @doc("Fetch a ExtensionVersion by name.")
-  getExtensionVersion is ResourceRead<ExtensionVersion>;
+@doc("A extension version.")
+@parentResource(ExtensionDefinition)
+@resource("versions")
+model ExtensionDefinitionVersionWithYaml {
+  @doc("The extension version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  //  @doc("Creates a Extension.")
-  //  createOrReplaceExtensionVersion is StandardResourceOperations.ResourceCreateOrReplace<ExtensionVersion>;
+  ...BaseExtensionDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates Extension.")
-  createOrUpdateExtensionVersion is StandardResourceOperations.ResourceCreateOrUpdate<ExtensionVersion>;
+interface ExtensionDefinitionVersions {
+  @doc("Fetch a ExtensionDefinitionVersion by name.")
+  getExtensionDefinitionVersion is ResourceRead<ExtensionDefinitionVersion>;
 
-  @doc("List Extension resources")
-  listExtensionVersions is ResourceList<ExtensionVersion>;
+  //    @doc("Creates a ExtensionDefinition.")
+  //    createOrReplaceExtensionDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<ExtensionDefinitionVersionWithYaml>;
+
+  @doc("Updates ExtensionDefinition.")
+  createOrUpdateExtensionDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<ExtensionDefinitionVersionWithYaml>;
+
+  @doc("List ExtensionDefinition resources")
+  listExtensionDefinitionVersions is ResourceList<ExtensionDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    ExtensionVersion,
+    ExtensionDefinitionVersion,
     {},
     {
       definitionContents: string;

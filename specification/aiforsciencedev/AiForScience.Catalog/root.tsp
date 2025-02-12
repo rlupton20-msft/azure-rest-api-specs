@@ -18,10 +18,10 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.AiForScienceCatalog.Versions)
 namespace Microsoft.AiForScienceCatalog;
 
-@doc("A catalog agent.")
-@resource("agents")
-model AgentAnyCatalog {
-  ...BaseAgent;
+@doc("A catalog agent definition.")
+@resource("agentDefinitions")
+model AgentDefinitionAnyCatalog {
+  ...BaseAgentDefinition;
 
   @doc("The agent name.")
   @visibility("read")
@@ -30,9 +30,9 @@ model AgentAnyCatalog {
 }
 
 @doc("A catalog model.")
-@resource("models")
-model ModelAnyCatalog {
-  ...BaseModel;
+@resource("modelDefinitions")
+model ModelDefinitionAnyCatalog {
+  ...BaseModelDefinition;
 
   @doc("The model name.")
   @visibility("read")
@@ -41,9 +41,9 @@ model ModelAnyCatalog {
 }
 
 @doc("A catalog tool.")
-@resource("tools")
-model ToolAnyCatalog {
-  ...BaseTool;
+@resource("toolDefinitions")
+model ToolDefinitionAnyCatalog {
+  ...BaseToolDefinition;
 
   @doc("The tool name.")
   @visibility("read")
@@ -52,9 +52,9 @@ model ToolAnyCatalog {
 }
 
 @doc("A catalog data asset.")
-@resource("dataAssets")
-model DataAssetsAnyCatalog {
-  ...BaseDataAsset;
+@resource("dataAssetDefinitions")
+model DataAssetsDefinitionAnyCatalog {
+  ...BaseDataAssetDefinition;
 
   @doc("The data asset name.")
   @visibility("read")
@@ -63,9 +63,9 @@ model DataAssetsAnyCatalog {
 }
 
 @doc("A catalog extension.")
-@resource("extensions")
-model ExtensionAnyCatalog {
-  ...BaseExtension;
+@resource("extensionDefinitions")
+model ExtensionDefinitionAnyCatalog {
+  ...BaseExtensionDefinition;
 
   @doc("The asset name.")
   @visibility("read")
@@ -74,9 +74,9 @@ model ExtensionAnyCatalog {
 }
 
 @doc("A catalog knowledge base.")
-@resource("knowledgeBases")
-model KnowledgeBaseAnyCatalog {
-  ...BaseKnowledgeBase;
+@resource("knowledgeBaseDefinitions")
+model KnowledgeBaseDefinitionAnyCatalog {
+  ...BaseKnowledgeBaseDefinition;
 
   @doc("The asset name.")
   @visibility("read")
@@ -87,29 +87,38 @@ model KnowledgeBaseAnyCatalog {
 @route("/")
 interface Root {
   @doc("Retrieve a list of agents for all catalogs.")
-  listAgents is Operations.ResourceList<AgentAnyCatalog, AgentAnyCatalog>;
+  listAgentDefinitions is Operations.ResourceList<
+    AgentDefinitionAnyCatalog,
+    AgentDefinitionAnyCatalog
+  >;
 
   @doc("Retrieve a list of models for all catalogs.")
-  listModels is Operations.ResourceList<ModelAnyCatalog, ModelAnyCatalog>;
+  listModelDefinitions is Operations.ResourceList<
+    ModelDefinitionAnyCatalog,
+    ModelDefinitionAnyCatalog
+  >;
 
   @doc("Retrieve a list of tools for all catalogs.")
-  listTools is Operations.ResourceList<ToolAnyCatalog, ToolAnyCatalog>;
+  listToolDefinitions is Operations.ResourceList<
+    ToolDefinitionAnyCatalog,
+    ToolDefinitionAnyCatalog
+  >;
 
   @doc("Retrieve a list of data assets for all catalogs.")
-  listDataAssets is Operations.ResourceList<
-    DataAssetsAnyCatalog,
-    DataAssetsAnyCatalog
+  listDataAssetDefinitions is Operations.ResourceList<
+    DataAssetsDefinitionAnyCatalog,
+    DataAssetsDefinitionAnyCatalog
   >;
 
   @doc("Retrieve a list of extensions for all catalogs.")
-  listExtensions is Operations.ResourceList<
-    ExtensionAnyCatalog,
-    ExtensionAnyCatalog
+  listExtensionDefinitions is Operations.ResourceList<
+    ExtensionDefinitionAnyCatalog,
+    ExtensionDefinitionAnyCatalog
   >;
 
   @doc("Retrieve a list of knowledge bases for all catalogs.")
-  listKnowledgeBases is Operations.ResourceList<
-    KnowledgeBaseAnyCatalog,
-    KnowledgeBaseAnyCatalog
+  listKnowledgeBaseDefinitions is Operations.ResourceList<
+    KnowledgeBaseDefinitionAnyCatalog,
+    KnowledgeBaseDefinitionAnyCatalog
   >;
 }

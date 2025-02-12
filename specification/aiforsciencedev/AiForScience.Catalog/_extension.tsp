@@ -15,8 +15,8 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.AiForScienceCatalog.Versions)
 namespace Microsoft.AiForScienceCatalog;
 
-@doc("Extension attributes from definitionContents")
-model ExtensionAttributes {
+@doc("ExtensionDefinition attributes from definitionContents")
+model ExtensionDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithLicense;
@@ -29,37 +29,48 @@ model ExtensionAttributes {
 }
 
 @doc("A base extension.")
-model BaseExtension {
-  ...Artifact<ExtensionAttributes>;
+model BaseExtensionDefinition {
+  ...Artifact<ExtensionDefinitionAttributes>;
 }
 
 @doc("A extension.")
 @parentResource(Catalog)
-@resource("extensions")
-model Extension {
+@resource("extensionDefinitions")
+model ExtensionDefinition {
   @doc("The extension name.")
   @visibility("read")
   @key("extensionName")
   name: string;
 
-  ...BaseExtension;
+  ...BaseExtensionDefinition;
 }
 
-interface Extensions {
-  @doc("Fetch Extension by name.")
-  getExtension is ResourceRead<Extension>;
+@doc("A extension.")
+@parentResource(Catalog)
+@resource("extensionDefinitions")
+model ExtensionDefinitionWithYaml {
+  @doc("The extension name.")
+  @visibility("read")
+  @key("extensionName")
+  name: string;
 
-  @doc("Creates an Extension.")
-  createOrReplaceExtension is StandardResourceOperations.ResourceCreateOrReplace<Extension &
-    WithDefinitionContents>;
+  ...BaseExtensionDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Update Extension.")
-  createOrUpdateExtension is StandardResourceOperations.ResourceCreateOrUpdate<Extension &
-    WithDefinitionContents>;
+interface ExtensionDefinitions {
+  @doc("Fetch ExtensionDefinition by name.")
+  getExtensionDefinition is ResourceRead<ExtensionDefinition>;
 
-  @doc("List Extensions")
-  listExtensions is ResourceList<Extension>;
+  @doc("Creates an ExtensionDefinition.")
+  createOrReplaceExtensionDefinition is StandardResourceOperations.ResourceCreateOrReplace<ExtensionDefinitionWithYaml>;
 
-  @doc("Delete Extension.")
-  deleteExtension is ResourceDelete<Extension>;
+  @doc("Update ExtensionDefinition.")
+  createOrUpdateExtensionDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ExtensionDefinitionWithYaml>;
+
+  @doc("List ExtensionDefinitions")
+  listExtensionDefinitions is ResourceList<ExtensionDefinition>;
+
+  @doc("Delete ExtensionDefinition.")
+  deleteExtensionDefinition is ResourceDelete<ExtensionDefinition>;
 }

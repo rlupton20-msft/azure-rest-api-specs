@@ -9632,6 +9632,36 @@
         }
       ]
     },
+    "SolutionDependencyContext": {
+      "type": "object",
+      "description": "Solution Dependency Context",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution Version Id"
+        },
+        "solutionTemplateId": {
+          "type": "string",
+          "description": "Solution Template Id"
+        },
+        "solutionTemplateVersionId": {
+          "type": "string",
+          "description": "Solution Template Version Id"
+        },
+        "targetId": {
+          "type": "string",
+          "description": "Target Id"
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "Solution dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyContext"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "SolutionListResult": {
       "type": "object",
       "description": "The response of a Solution list operation.",
@@ -9743,6 +9773,14 @@
         "solutionTemplateVersion": {
           "type": "string",
           "description": "Solution Template Version Name"
+        },
+        "solutionDependencies": {
+          "type": "array",
+          "description": "Solution Dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyContext"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -10008,6 +10046,11 @@
       "type": "object",
       "description": "Solution Version Properties",
       "properties": {
+        "solutionTemplateVersionId": {
+          "type": "string",
+          "description": "Solution Template Version Id",
+          "readOnly": true
+        },
         "revision": {
           "type": "integer",
           "format": "int32",
@@ -10038,6 +10081,15 @@
           "$ref": "#/definitions/State",
           "description": "State of solution instance",
           "readOnly": true
+        },
+        "solutionDependencies": {
+          "type": "array",
+          "description": "Solution Dependency Context",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyContext"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",

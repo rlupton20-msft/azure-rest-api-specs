@@ -32,8 +32,8 @@ union DataType {
   string,
 }
 
-@doc("DataAsset attributes from definitionContents")
-model DataAssetAttributes {
+@doc("DataAssetDefinition attributes from definitionContents")
+model DataAssetDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithVersion;
@@ -43,38 +43,48 @@ model DataAssetAttributes {
 }
 
 @doc("A base dataAsset.")
-model BaseDataAsset {
-  ...Artifact<DataAssetAttributes>;
+model BaseDataAssetDefinition {
+  ...Artifact<DataAssetDefinitionAttributes>;
 }
 
 @doc("A dataAsset.")
 @parentResource(Catalog)
-@resource("dataAssets")
-model DataAsset {
+@resource("dataAssetDefinitions")
+model DataAssetDefinition {
   @doc("The dataAsset name.")
   @visibility("read")
   @key("dataAssetName")
   name: string;
 
-  ...BaseDataAsset;
-  //  ...WithDefinitionContents; // TODO: One of these kids is not like the others
+  ...BaseDataAssetDefinition;
 }
 
-interface DataAssets {
-  @doc("Fetch a DataAsset by name.")
-  getDataAsset is ResourceRead<DataAsset>;
+@doc("A dataAsset.")
+@parentResource(Catalog)
+@resource("dataAssetDefinitions")
+model DataAssetDefinitionWithYaml {
+  @doc("The dataAsset name.")
+  @visibility("read")
+  @key("dataAssetName")
+  name: string;
 
-  @doc("Create a DataAsset.")
-  createOrReplaceDataAsset is StandardResourceOperations.ResourceCreateOrReplace<DataAsset &
-    WithDefinitionContents>;
+  ...BaseDataAssetDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Update DataAsset.")
-  createOrUpdateDataAsset is StandardResourceOperations.ResourceCreateOrUpdate<DataAsset &
-    WithDefinitionContents>;
+interface DataAssetDefinitions {
+  @doc("Fetch a DataAssetDefinition by name.")
+  getDataAssetDefinition is ResourceRead<DataAssetDefinition>;
 
-  @doc("List DataAsset resources")
-  listDataAssets is ResourceList<DataAsset>;
+  @doc("Create a DataAssetDefinition.")
+  createOrReplaceDataAssetDefinition is StandardResourceOperations.ResourceCreateOrReplace<DataAssetDefinitionWithYaml>;
 
-  @doc("Delete a DataAsset.")
-  deleteDataAsset is ResourceDelete<DataAsset>;
+  @doc("Update DataAssetDefinition.")
+  createOrUpdateDataAssetDefinition is StandardResourceOperations.ResourceCreateOrUpdate<DataAssetDefinitionWithYaml>;
+
+  @doc("List DataAssetDefinition resources")
+  listDataAssetDefinitions is ResourceList<DataAssetDefinition>;
+
+  @doc("Delete a DataAssetDefinition.")
+  deleteDataAssetDefinition is ResourceDelete<DataAssetDefinition>;
 }

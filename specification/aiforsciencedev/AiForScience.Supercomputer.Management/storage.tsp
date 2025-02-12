@@ -17,27 +17,10 @@ using OpenAPI;
 @versioned(Microsoft.AiForScience.Versions)
 namespace Microsoft.AiForScience;
 
-@doc("Enum for storage type")
-union StorageType {
-  /** AzureLuster */
-  AzureLuster: "AzureLuster",
-
-  /** AzureNetAPPFiles */
-  AzureNetAPPFiles: "AzureNetAPPFiles",
-
-  string,
-}
-
 @doc("Enum for storage sku")
 union StorageSku {
   /** Standard */
   Standard: "Standard",
-
-  /** HighPerformance */
-  HighPerformance: "HighPerformance",
-
-  /** Ultra */
-  Ultra: "Ultra",
 
   string,
 }
@@ -49,16 +32,9 @@ model Storage is TrackedResource<StorageProperties> {
 
 @doc("Storage properties")
 model StorageProperties {
-  ...WithTitle;
-
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property"
-  @doc("The type of shared storage.")
-  @visibility("read", "create")
-  type: StorageType;
 
   @doc("The ARM resource ID of the subnet. The subnetId should match the vnetId of supercomputers which will be used for running the tools that use the shared storage.")
   @visibility("read", "create", "update")
@@ -71,10 +47,6 @@ model StorageProperties {
   sku: StorageSku;
 
   // TODO: Add Mobo config
-
-  @doc("Capacity.")
-  @visibility("read", "create", "update")
-  capacityInGb: int32;
 }
 
 @armResourceOperations
