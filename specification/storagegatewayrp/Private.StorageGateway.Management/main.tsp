@@ -29,6 +29,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 @doc("A StorageGatewayProviderHub resource")
 model StorageGatewayModel is TrackedResource<StorageGatewayProperties> {
   @doc("The name of the storage gateway resource")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("storageGatewayName")
   @segment("storageGateways")
   @path
