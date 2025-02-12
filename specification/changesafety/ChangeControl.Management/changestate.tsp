@@ -118,10 +118,10 @@ model VerifyChangeValidityRequest {
 @doc("Resource operation model.")
 model ResourceOperation {
   @doc("The uri of the operation.")
-  uri: string;
+  uri: url;
 
   @doc("The http method of the operation.")
-  httpMethod: string;
+  httpMethod: ArmOperation;
 
   @doc("The resource operation content.")
   content?: ResourceContent;
@@ -132,10 +132,10 @@ model ResourceOperation {
 @doc("Resource operation content model.")
 model ResourceContent {
   @doc("The name of the resource.")
-  name: string;
+  name?: string;
 
   @doc("The location of the resource.")
-  location: string;
+  location?: string;
 
   @doc("The properties of the resource.")
   properties: Record<Parameter>;
@@ -348,6 +348,12 @@ union ArmOperation {
 
   @doc("DELETE ARM Operation.")
   DELETE: "DELETE",
+
+  @doc("PUT ARM Operation.")
+  PUT: "PUT",
+
+  @doc("PATCH ARM Operation.")
+  PATCH: "PATCH",
 }
 
 @doc("Azure resource Id of a ChangeState.")

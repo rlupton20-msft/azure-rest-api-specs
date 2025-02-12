@@ -1868,7 +1868,9 @@
       "type": "string",
       "description": "Supported ARM Operations.",
       "enum": [
-        "DELETE"
+        "DELETE",
+        "PUT",
+        "PATCH"
       ],
       "x-ms-enum": {
         "name": "ArmOperation",
@@ -1878,6 +1880,16 @@
             "name": "DELETE",
             "value": "DELETE",
             "description": "DELETE ARM Operation."
+          },
+          {
+            "name": "PUT",
+            "value": "PUT",
+            "description": "PUT ARM Operation."
+          },
+          {
+            "name": "PATCH",
+            "value": "PATCH",
+            "description": "PATCH ARM Operation."
           }
         ]
       }
@@ -2683,8 +2695,6 @@
         }
       },
       "required": [
-        "name",
-        "location",
         "properties"
       ]
     },
@@ -2694,10 +2704,11 @@
       "properties": {
         "uri": {
           "type": "string",
+          "format": "uri",
           "description": "The uri of the operation."
         },
         "httpMethod": {
-          "type": "string",
+          "$ref": "#/definitions/ArmOperation",
           "description": "The http method of the operation."
         },
         "content": {
