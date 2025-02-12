@@ -18,8 +18,11 @@ model SolutionDependencyContext {
   @doc("Solution Version Id")
   solutionVersionId?: string;
 
-  @doc("Solution Template or Version Id")
-  solutionTemplate: string;
+  @doc("Solution Template Id")
+  solutionTemplateId?: string;
+  
+  @doc("Solution Template Version Id")
+  solutionTemplateVersionId?: string;
 
   @doc("Target Id")
   targetId?: string;
