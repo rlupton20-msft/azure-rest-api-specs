@@ -35,7 +35,7 @@ model SolutionTemplateParameter {
   
   @doc("Solution Dependencies")
   @extension("x-ms-identifiers", [])
-  dependencies?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependencyContext[];
 }
 
 @doc("Solution Version Parameter")

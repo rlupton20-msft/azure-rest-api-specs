@@ -52,7 +52,7 @@ model SolutionVersionProperties {
   @doc("Solution Dependency Context")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  solutionDependencyContext?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependencyContext[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
