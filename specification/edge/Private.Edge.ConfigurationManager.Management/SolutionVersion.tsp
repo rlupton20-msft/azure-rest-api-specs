@@ -48,7 +48,7 @@ model SolutionVersionProperties {
   @doc("State of solution instance")
   @visibility("read")
   state?: State;
-  
+
   @doc("Solution Dependency Context")
   @extension("x-ms-identifiers", [])
   @visibility("read")

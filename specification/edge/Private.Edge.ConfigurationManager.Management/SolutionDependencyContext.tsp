@@ -20,13 +20,13 @@ model SolutionDependencyContext {
 
   @doc("Solution Template Id")
   solutionTemplateId?: string;
-  
+
   @doc("Solution Template Version Id")
   solutionTemplateVersionId?: string;
 
   @doc("Target Id")
   targetId?: string;
-  
+
   @doc("Solution dependencies")
   @extension("x-ms-identifiers", [])
   dependencies?: SolutionDependencyContext[];
