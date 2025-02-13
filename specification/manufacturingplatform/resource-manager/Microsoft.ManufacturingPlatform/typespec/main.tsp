@@ -248,7 +248,7 @@ model MdsResourceProperties {
   @doc("Flag for toggling Zone redundancy for resources")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create")
-  isZoneRedundant?: RedundancyState;
+  redundancyState?: RedundancyState;
 }
 
 @doc("The properties related to Aks Resource")
