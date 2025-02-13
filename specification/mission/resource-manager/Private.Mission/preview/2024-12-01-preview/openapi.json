@@ -5100,6 +5100,18 @@
           "$ref": "#/definitions/ApprovalPolicy",
           "description": "Approval required for deploying service catalog templates (Required or NotRequired)."
         },
+        "notificationOnApprovalCreation": {
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Notification will be sent on creation of an Approval Request"
+        },
+        "notificationOnApprovalAction": {
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Notification will be sent on any action taken (Approve/Reject) on an Approval Request"
+        },
+        "notificationOnApprovalDeletion": {
+          "$ref": "#/definitions/ApprovalPolicy",
+          "description": "Notification will be sent on deletion of an Approval Request"
+        },
         "mandatoryApprovers": {
           "type": "array",
           "description": "List of mandatory approvers for the approval request",
@@ -5305,7 +5317,8 @@
           "description": "List of resource ids created by community endpoint.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -5328,13 +5341,6 @@
             "$ref": "#/definitions/CommunityEndpointDestinationRule"
           },
           "x-ms-identifiers": []
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by community endpoint.",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -5457,7 +5463,11 @@
       "properties": {
         "addressSpace": {
           "type": "string",
-          "description": "Address Space."
+          "description": "Address Space.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "dnsServers": {
           "type": "array",
@@ -5476,11 +5486,13 @@
           "description": "List of resource ids created by communities.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         },
         "managedResourceGroupConfiguration": {
           "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
+          "description": "Managed resource group configuration.",
+          "readOnly": true
         },
         "governedServiceList": {
           "type": "array",
@@ -5499,6 +5511,45 @@
         "approvalSettings": {
           "$ref": "#/definitions/ApprovalSettings",
           "description": "Approval requirements for various actions on the community's resources."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfiguration",
+          "description": "Maintenance Mode configuration."
+        }
+      }
+    },
+    "CommunityPropertiesUpdate": {
+      "type": "object",
+      "description": "Community Resource Properties",
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "description": "Dns Servers.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "governedServiceList": {
+          "type": "array",
+          "description": "List of services governed by a community.",
+          "items": {
+            "$ref": "#/definitions/GovernedServiceItem"
+          }
+        },
+        "communityRoleAssignments": {
+          "type": "array",
+          "description": "Community role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          }
+        },
+        "approvalSettings": {
+          "$ref": "#/definitions/ApprovalSettings",
+          "description": "Approval requirements for various actions on the community's resources."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
+          "description": "Maintenance Mode configuration."
         }
       }
     },
@@ -5560,7 +5611,7 @@
       "description": "Community Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/CommunityProperties",
+          "$ref": "#/definitions/CommunityPropertiesUpdate",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         },
@@ -5626,36 +5677,6 @@
         ]
       }
     },
-    "DiagnosticDestination": {
-      "type": "string",
-      "description": "Specifies the destination of where to store diagnostic logs.",
-      "enum": [
-        "CommunityOnly",
-        "EnclaveOnly",
-        "Both"
-      ],
-      "x-ms-enum": {
-        "name": "DiagnosticDestination",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "CommunityOnly",
-            "value": "CommunityOnly",
-            "description": "DiagnosticDestination Type CommunityOnly"
-          },
-          {
-            "name": "EnclaveOnly",
-            "value": "EnclaveOnly",
-            "description": "DiagnosticDestination Type EnclaveOnly"
-          },
-          {
-            "name": "Both",
-            "value": "Both",
-            "description": "DiagnosticDestination Type Both"
-          }
-        ]
-      }
-    },
     "EnclaveAddressSpaces": {
       "type": "object",
       "description": "Enclave Address Spaces",
@@ -5676,15 +5697,24 @@
       "properties": {
         "state": {
           "$ref": "#/definitions/EnclaveConnectionState",
-          "description": "The state of the enclaveConnection."
+          "description": "The state of the enclaveConnection.",
+          "readOnly": true
         },
         "communityResourceId": {
           "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
+          "description": "Community Resource Id.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "sourceResourceId": {
           "$ref": "#/definitions/EnclaveConnectionSourceResourceId",
-          "description": "Source Resource Id."
+          "description": "Source Resource Id.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "sourceCidr": {
           "type": "string",
@@ -5692,11 +5722,19 @@
         },
         "ipGroup": {
           "$ref": "#/definitions/IPGroupResourceId",
-          "description": "Source IP group Resource Id."
+          "description": "Source IP group Resource Id.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "destinationEndpointId": {
           "$ref": "#/definitions/DestinationEndpointResourceId",
-          "description": "Destination Endpoint Resource Id."
+          "description": "Destination Endpoint Resource Id.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -5708,7 +5746,8 @@
           "description": "List of resource ids modified by enclave Connections.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         }
       },
       "required": [
@@ -5721,36 +5760,9 @@
       "type": "object",
       "description": "Enclave Connection Resource properties",
       "properties": {
-        "state": {
-          "$ref": "#/definitions/EnclaveConnectionState",
-          "description": "The state of the enclaveConnection."
-        },
-        "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
-        },
-        "sourceResourceId": {
-          "$ref": "#/definitions/EnclaveConnectionSourceResourceId",
-          "description": "Source Resource Id."
-        },
         "sourceCidr": {
           "type": "string",
           "description": "Source CIDR."
-        },
-        "ipGroup": {
-          "$ref": "#/definitions/IPGroupResourceId",
-          "description": "Source IP group Resource Id."
-        },
-        "destinationEndpointId": {
-          "$ref": "#/definitions/DestinationEndpointResourceId",
-          "description": "Destination Endpoint Resource Id."
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids modified by enclave Connections.",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -5882,22 +5894,56 @@
       "properties": {
         "keyVaultResourceId": {
           "$ref": "#/definitions/KeyVaultResourceId",
-          "description": "Key Vault Resource Id."
+          "description": "Key Vault Resource Id.",
+          "readOnly": true
         },
         "storageAccountResourceId": {
           "$ref": "#/definitions/StorageAccountResourceId",
-          "description": "Storage Account Resource Id."
+          "description": "Storage Account Resource Id.",
+          "readOnly": true
         },
         "logAnalyticsResourceIdCollection": {
           "type": "array",
           "description": "Log Analytics Resource Ids.",
           "items": {
             "$ref": "#/definitions/LogAnalyticsResourceId"
-          }
+          },
+          "readOnly": true
         },
         "diagnosticDestination": {
-          "$ref": "#/definitions/DiagnosticDestination",
-          "description": "Diagnostic Destination."
+          "type": "string",
+          "description": "Diagnostic Destination.",
+          "default": "EnclaveOnly",
+          "enum": [
+            "CommunityOnly",
+            "EnclaveOnly",
+            "Both"
+          ],
+          "x-ms-enum": {
+            "name": "DiagnosticDestination",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "CommunityOnly",
+                "value": "CommunityOnly",
+                "description": "DiagnosticDestination Type CommunityOnly"
+              },
+              {
+                "name": "EnclaveOnly",
+                "value": "EnclaveOnly",
+                "description": "DiagnosticDestination Type EnclaveOnly"
+              },
+              {
+                "name": "Both",
+                "value": "Both",
+                "description": "DiagnosticDestination Type Both"
+              }
+            ]
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       }
     },
@@ -5943,7 +5989,8 @@
           "description": "List of resource ids created by community endpoint.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -5966,13 +6013,6 @@
             "$ref": "#/definitions/EnclaveEndpointDestinationRule"
           },
           "x-ms-identifiers": []
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by community endpoint.",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -6148,11 +6188,19 @@
         },
         "networkSize": {
           "type": "string",
-          "description": "Network Size."
+          "description": "Network Size.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "customCidrRange": {
           "type": "string",
-          "description": "Custom CIDR Range."
+          "description": "Custom CIDR Range.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "subnetConfigurations": {
           "type": "array",
@@ -6163,11 +6211,21 @@
         },
         "allowSubnetCommunication": {
           "type": "boolean",
-          "description": "Allow Subnet Communication."
+          "description": "Allow Subnet Communication.",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "connectToAzureServices": {
           "type": "boolean",
-          "description": "Connect to Azure Services (True or False)."
+          "description": "Connect to Azure Services (True or False).",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
@@ -6182,28 +6240,12 @@
           "type": "string",
           "description": "Network Name."
         },
-        "networkSize": {
-          "type": "string",
-          "description": "Network Size."
-        },
-        "customCidrRange": {
-          "type": "string",
-          "description": "Custom CIDR Range."
-        },
         "subnetConfigurations": {
           "type": "array",
           "description": "Subnet Configurations.",
           "items": {
             "$ref": "#/definitions/SubnetConfiguration"
           }
-        },
-        "allowSubnetCommunication": {
-          "type": "boolean",
-          "description": "Allow Subnet Communication."
-        },
-        "connectToAzureServices": {
-          "type": "boolean",
-          "description": "Connect to Azure Services (True or False)."
         }
       }
     },
@@ -6876,10 +6918,13 @@
         "mode": {
           "type": "string",
           "description": "Current mode of Maintenance Mode Configuration",
+          "default": "Off",
           "enum": [
             "On",
             "CanNotDelete",
-            "Off"
+            "Off",
+            "General",
+            "Advanced"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -6888,6 +6933,7 @@
         "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
+          "default": [],
           "items": {
             "$ref": "#/definitions/Principal"
           }
@@ -6895,6 +6941,7 @@
         "justification": {
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
+          "default": "Off",
           "enum": [
             "Networking",
             "Governance",
@@ -6916,10 +6963,13 @@
         "mode": {
           "type": "string",
           "description": "Current mode of Maintenance Mode Configuration",
+          "default": "Off",
           "enum": [
             "On",
             "CanNotDelete",
-            "Off"
+            "Off",
+            "General",
+            "Advanced"
           ],
           "x-ms-enum": {
             "modelAsString": true
@@ -6928,6 +6978,7 @@
         "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
+          "default": [],
           "items": {
             "$ref": "#/definitions/Principal"
           }
@@ -6935,6 +6986,7 @@
         "justification": {
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
+          "default": "Off",
           "enum": [
             "Networking",
             "Governance",
@@ -7327,7 +7379,8 @@
           "description": "List of resource ids modified by transitHubs.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         }
       }
     },
@@ -7517,7 +7570,11 @@
         },
         "communityResourceId": {
           "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
+          "description": "Community Resource Id.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "enclaveDefaultSettings": {
           "$ref": "#/definitions/EnclaveDefaultSettings",
@@ -7528,11 +7585,13 @@
           "description": "List of resource ids created by Virtual Enclave.",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         },
         "managedResourceGroupConfiguration": {
           "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
+          "description": "Managed resource group configuration.",
+          "readOnly": true
         },
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfiguration",
@@ -7540,7 +7599,8 @@
         },
         "bastionEnabled": {
           "type": "boolean",
-          "description": "Deploy Bastion service (True or False)."
+          "description": "Deploy Bastion service (True or False).",
+          "default": false
         },
         "enclaveRoleAssignments": {
           "type": "array",
@@ -7570,24 +7630,9 @@
           "$ref": "#/definitions/EnclaveVirtualNetworkUpdate",
           "description": "Virtual Network."
         },
-        "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
-          "description": "Community Resource Id."
-        },
         "enclaveDefaultSettings": {
           "$ref": "#/definitions/EnclaveDefaultSettings",
           "description": "Default Settings"
-        },
-        "resourceCollection": {
-          "type": "array",
-          "description": "List of resource ids created by Virtual Enclave.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "managedResourceGroupConfiguration": {
-          "$ref": "#/definitions/ManagedResourceGroupConfiguration",
-          "description": "Managed resource group configuration."
         },
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
@@ -7595,7 +7640,8 @@
         },
         "bastionEnabled": {
           "type": "boolean",
-          "description": "Deploy Bastion service (True or False)."
+          "description": "Deploy Bastion service (True or False).",
+          "default": false
         },
         "enclaveRoleAssignments": {
           "type": "array",
