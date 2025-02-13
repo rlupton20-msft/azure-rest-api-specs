@@ -1,0 +1,40 @@
+parameters:
+  "service-dir":
+    default: "sdk/private.aiforscience.catalog"
+  "dependencies":
+    "additionalDirectories": []
+    default: ""
+emit:
+  - "@azure-tools/typespec-autorest"
+options:
+  "@azure-tools/typespec-autorest":
+    azure-resource-provider-folder: "data-plane"
+    emitter-output-dir: "{project-root}/.."
+    examples-dir: "{project-root}/examples"
+    output-file: "{azure-resource-provider-folder}/{service-name}/{version-status}/{version}/aiforscience-catalog.json"
+  "@azure-tools/typespec-python":
+    package-dir: "microsoft-aiforsciencecatalog"
+    package-name: "{package-dir}"
+    package-mode: dataplane
+    flavor: azure
+  "@azure-tools/typespec-csharp":
+    package-dir: "Microsoft.AiForScienceCatalog"
+    namespace: "{package-dir}"
+    clear-output-folder: true
+    model-namespace: false
+    flavor: azure
+  "@azure-tools/typespec-ts":
+    package-dir: "microsoft-aiforsciencecatalog-rest"
+    generateMetadata: true
+    generateTest: true
+    flavor: azure
+    packageDetails:
+      name: "@azure-rest/microsoft-aiforsciencecatalog-rest"
+      description: "Microsoft.AiForScienceCatalog Service"
+  "@azure-tools/typespec-java":
+    package-dir: "microsoft-aiforsciencecatalog"
+    namespace: com.microsoft.aiforsciencecatalog
+    flavor: azure
+linter:
+  extends:
+    - "@azure-tools/typespec-azure-rulesets/data-plane"

@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./State.tsp";
+import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -19,6 +20,10 @@ namespace Private.Edge;
 
 @doc("Solution Version Properties")
 model SolutionVersionProperties {
+  @doc("Solution Template Version Id")
+  @visibility("read")
+  solutionTemplateVersionId?: string;
+
   @doc("Revision number of resolved config for this solution version")
   @visibility("read")
   revision?: int32;
@@ -43,6 +48,11 @@ model SolutionVersionProperties {
   @doc("State of solution instance")
   @visibility("read")
   state?: State;
+
+  @doc("Solution Dependency Context")
+  @extension("x-ms-identifiers", [])
+  @visibility("read")
+  solutionDependencies?: SolutionDependencyContext[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
@@ -73,14 +83,14 @@ interface SolutionVersions {
   @doc("Get a Solution Version Resource")
   get is ArmResourceRead<SolutionVersion>;
 
-  @doc("Create or update a Solution Version Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
+  // @doc("Create or update a Solution Version Resource")
+  // createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
-  @doc("update a Solution Version Resource")
-  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
+  // @doc("update a Solution Version Resource")
+  // update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
 
-  @doc("Delete a Solution Version Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
+  // @doc("Delete a Solution Version Resource")
+  // delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
 
   @doc("List Solution Version Resources")
   listBySolution is ArmResourceListByParent<SolutionVersion>;

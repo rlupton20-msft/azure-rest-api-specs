@@ -19,25 +19,21 @@ model Supercomputer is TrackedResource<SupercomputerProperties> {
   ...ResourceNameParameter<Supercomputer>;
 }
 
-@doc("Dedication enum")
-union Dedication {
-  string,
-
-  @doc("Dedicated to customer")
-  Dedicated: "Dedicated",
-
-  @doc("Not dedicated to customer")
-  NonDedicated: "NonDedicated",
-}
-
 @doc("Supercomputer properties")
 model SupercomputerProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @doc("Dedication setting")
-  dedication?: Dedication;
+  // read
+  @doc("The mobo settings.")
+  @visibility("read")
+  managedResourceGroup: string; // TODO: MObo config
+
+  // read
+  @doc("The ID of the workspace.")
+  @visibility("read")
+  workspaceId: string; // ARM ID
 }
 
 @armResourceOperations
