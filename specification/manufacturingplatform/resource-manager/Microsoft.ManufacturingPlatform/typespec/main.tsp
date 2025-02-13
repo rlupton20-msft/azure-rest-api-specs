@@ -76,23 +76,25 @@ union ProvisioningState {
 
 @doc("The current state of the resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-enum ResourceState{
+union ResourceState{
+	string,
 
-	/* Resource is in active state */
+	/** Resource is in active state */
 	Active: "Active",
 
-	/* Resource is in inactive state */
+	/** Resource is in inactive state */
 	Inactive: "Inactive",
 }
 
 @doc("The redundancy state of the resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-enum RedundancyState{
+union RedundancyState{
+	string,
 
-	/* Resource is zone redundant */
+	/** Resource is zone redundant */
 	Zonal: "Zonal",
 
-	/* Resource is not zone redundant */
+	/** Resource is not zone redundant */
 	None: "None",
 
 }
