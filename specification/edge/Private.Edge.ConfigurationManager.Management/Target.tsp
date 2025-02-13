@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
+import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -14,6 +15,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+
 using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
@@ -31,6 +33,10 @@ model SolutionTemplateParameter {
 
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
+
+  @doc("Solution Dependencies")
+  @extension("x-ms-identifiers", [])
+  solutionDependencies?: SolutionDependencyContext[];
 }
 
 @doc("Solution Version Parameter")
@@ -97,7 +103,7 @@ model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
   @doc("Name of the target")
   @maxLength(61)
   @minLength(3)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("targetName")
   @segment("targets")

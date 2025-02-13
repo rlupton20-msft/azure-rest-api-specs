@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./State.tsp";
+import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -19,6 +20,10 @@ namespace Private.Edge;
 
 @doc("Solution Version Properties")
 model SolutionVersionProperties {
+  @doc("Solution Template Version Id")
+  @visibility("read")
+  solutionTemplateVersionId?: string;
+
   @doc("Revision number of resolved config for this solution version")
   @visibility("read")
   revision?: int32;
@@ -44,6 +49,11 @@ model SolutionVersionProperties {
   @visibility("read")
   state?: State;
 
+  @doc("Solution Dependency Context")
+  @extension("x-ms-identifiers", [])
+  @visibility("read")
+  solutionDependencies?: SolutionDependencyContext[];
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -58,7 +68,7 @@ model SolutionVersion
   @doc("Name of the solution version")
   @maxLength(61)
   @minLength(3)
-  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("solutionVersionName")
   @segment("solutionVersions")

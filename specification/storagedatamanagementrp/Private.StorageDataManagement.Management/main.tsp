@@ -18,7 +18,7 @@ using Azure.ResourceManager;
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
-namespace Private.StorageDataManagementRp;
+namespace Microsoft.Storage;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
