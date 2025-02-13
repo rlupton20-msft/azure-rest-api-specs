@@ -5,7 +5,6 @@ import "@azure-tools/typespec-client-generator-core";
 import "./_agent.tsp";
 import "./_tool.tsp";
 import "./_dataAsset.tsp";
-import "./_extension.tsp";
 import "./_kb.tsp";
 
 using TypeSpec.Http;
@@ -62,17 +61,6 @@ model DataAssetsDefinitionAnyCatalog {
   name: string;
 }
 
-@doc("A catalog extension.")
-@resource("extensionDefinitions")
-model ExtensionDefinitionAnyCatalog {
-  ...BaseExtensionDefinition;
-
-  @doc("The asset name.")
-  @visibility("read")
-  @key("extensionName")
-  name: string;
-}
-
 @doc("A catalog knowledge base.")
 @resource("knowledgeBaseDefinitions")
 model KnowledgeBaseDefinitionAnyCatalog {
@@ -108,12 +96,6 @@ interface Root {
   listDataAssetDefinitions is Operations.ResourceList<
     DataAssetsDefinitionAnyCatalog,
     DataAssetsDefinitionAnyCatalog
-  >;
-
-  @doc("Retrieve a list of extensions for all catalogs.")
-  listExtensionDefinitions is Operations.ResourceList<
-    ExtensionDefinitionAnyCatalog,
-    ExtensionDefinitionAnyCatalog
   >;
 
   @doc("Retrieve a list of knowledge bases for all catalogs.")

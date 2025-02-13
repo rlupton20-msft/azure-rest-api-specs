@@ -12,8 +12,6 @@ import "./_agent.tsp";
 //import "./_agent_version.tsp";
 import "./_dataAsset.tsp";
 //import "./_dataAsset_version.tsp";
-import "./_extension.tsp";
-//import "./_extension_version.tsp";
 import "./_kb.tsp";
 //import "./_kb_version.tsp";
 
@@ -62,6 +60,6 @@ namespace Microsoft.AiForScienceCatalog;
 @doc("The Microsoft.AiForScienceCatalog service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2024-12-01-preview version of the Microsoft.AiForScienceCatalog service.")
-  `2024-12-01-preview`,
+  @doc("The 2024-11-01-preview version of the Microsoft.AiForScienceCatalog service.")
+  `2024-11-01-preview`,
 }

@@ -39,4 +39,13 @@ interface RunSteps {
     RunStep,
     QueryParametersTrait<WithQueryCreatedSince>
   >;
+
+  @doc("Resume a paused run.")
+  cancel is Operations.ResourceAction<RunStep, {}, {}>;
+
+  @doc("Pause a run.")
+  start is Operations.ResourceAction<RunStep, {}, {}>;
+
+  @doc("Resume a paused run.")
+  resume is Operations.ResourceAction<RunStep, {}, {}>;
 }
