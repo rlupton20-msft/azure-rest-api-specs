@@ -74,6 +74,29 @@ union ProvisioningState {
   Accepted: "Accepted",
 }
 
+@doc("The current state of the resource")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+enum ResourceState{
+
+	/* Resource is in active state */
+	Active: "Active",
+
+	/* Resource is in inactive state */
+	Inactive: "Inactive",
+}
+
+@doc("The redundancy state of the resource")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+enum RedundancyState{
+
+	/* Resource is zone redundant */
+	Zonal: "Zonal",
+
+	/* Resource is not zone redundant */
+	None: "None",
+
+}
+
 @doc("Details of the ManufacturingPlatform MdsResource.")
 model MdsResourceProperties {
   @visibility("read")
@@ -220,12 +243,12 @@ model MdsResourceProperties {
   @doc("State of the resource")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "update")
-  resourceState?: string;
+  resourceState?: ResourceState;
 
   @doc("Flag for toggling Zone redundancy for resources")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create")
-  isZoneRedundant?: boolean;
+  isZoneRedundant?: RedundancyState;
 }
 
 @doc("The properties related to Aks Resource")
