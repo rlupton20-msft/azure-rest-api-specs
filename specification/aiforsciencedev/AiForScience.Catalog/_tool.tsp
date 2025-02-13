@@ -15,8 +15,8 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.AiForScienceCatalog.Versions)
 namespace Microsoft.AiForScienceCatalog;
 
-@doc("Tool attributes from definitionContents")
-model ToolAttributes {
+@doc("ToolDefinition attributes from definitionContents")
+model ToolDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithLicense;
@@ -32,52 +32,62 @@ model ToolAttributes {
 }
 
 @doc("A base tool.")
-model BaseTool {
-  ...Artifact<ToolAttributes>;
+model BaseToolDefinition {
+  ...Artifact<ToolDefinitionAttributes>;
 }
 
 @doc("A tool.")
 @parentResource(Catalog)
-@resource("tools")
-model Tool {
+@resource("toolDefinitions")
+model ToolDefinition {
   @doc("The tool name.")
   @visibility("read")
   @key("toolName")
   name: string;
 
-  ...BaseTool;
-  //  ...WithDefinitionContents;
+  ...BaseToolDefinition;
 }
 
-interface Tools {
-  @doc("Fetch a Tool by name.")
-  getTool is ResourceRead<Tool>;
+@doc("A tool.")
+@parentResource(Catalog)
+@resource("toolDefinitions")
+model ToolDefinitionWithYaml {
+  @doc("The tool name.")
+  @visibility("read")
+  @key("toolName")
+  name: string;
 
-  @doc("Creates a Tool.")
-  createOrReplaceTool is StandardResourceOperations.ResourceCreateOrReplace<Tool &
-    WithDefinitionContents>;
+  ...BaseToolDefinition;
+  ...WithDefinitionContents;
+}
+
+interface ToolDefinitions {
+  @doc("Fetch a ToolDefinition by name.")
+  getToolDefinition is ResourceRead<ToolDefinition>;
+
+  @doc("Creates a ToolDefinition.")
+  createOrReplaceToolDefinition is StandardResourceOperations.ResourceCreateOrReplace<ToolDefinitionWithYaml>;
+
+  @doc("Update a ToolDefinition.")
+  createOrUpdateToolDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ToolDefinitionWithYaml>;
 
   //    @doc("Create using Yaml definition.")
   //    createWithDefinitionYaml is Operations.ResourceAction<
-  //      Tool,
-  //      BaseTool & WithDefinitionContents,
-  //      Tool
+  //      ToolDefinition,
+  //      BaseToolDefinition & WithDefinitionContents,
+  //      ToolDefinition
   //    >;
   //
   //    @doc("Update Yaml definition.")
   //    updateWithDefinitionYaml is Operations.ResourceAction<
-  //      Tool,
+  //      ToolDefinition,
   //      WithTags & WithDefinitionContents,
-  //      Tool
+  //      ToolDefinition
   //    >;
 
-  @doc("Update Tool.")
-  createOrUpdateTool is StandardResourceOperations.ResourceCreateOrUpdate<Tool &
-    WithDefinitionContents>;
+  @doc("List ToolDefinition resources")
+  listToolDefinitions is ResourceList<ToolDefinition>;
 
-  @doc("List Tool resources")
-  listTools is ResourceList<Tool>;
-
-  @doc("Delete a Tool.")
-  deleteTool is ResourceDelete<Tool>;
+  @doc("Delete a ToolDefinition.")
+  deleteToolDefinition is ResourceDelete<ToolDefinition>;
 }

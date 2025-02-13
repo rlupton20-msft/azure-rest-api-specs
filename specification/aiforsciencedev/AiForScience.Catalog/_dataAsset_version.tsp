@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A dataAsset version.")
-@parentResource(DataAsset)
+@parentResource(DataAssetDefinition)
 @resource("versions")
-model DataAssetVersion {
+model DataAssetDefinitionVersion {
   @doc("The dataAsset version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseDataAsset;
+  ...BaseDataAssetDefinition;
 }
 
-interface DataAssetVersions {
-  @doc("Fetch a DataAssetVersion by name.")
-  getDataAssetVersion is ResourceRead<DataAssetVersion>;
+@doc("A dataAsset version.")
+@parentResource(DataAssetDefinition)
+@resource("versions")
+model DataAssetDefinitionVersionWithYaml {
+  @doc("The dataAsset version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  //  @doc("Creates a DataAsset.")
-  //  createOrReplaceDataAssetVersion is StandardResourceOperations.ResourceCreateOrReplace<DataAssetVersion>;
+  ...BaseDataAssetDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates DataAsset.")
-  createOrUpdateDataAssetVersion is StandardResourceOperations.ResourceCreateOrUpdate<DataAssetVersion>;
+interface DataAssetDefinitionVersions {
+  @doc("Fetch a DataAssetDefinitionVersion by name.")
+  getDataAssetDefinitionVersion is ResourceRead<DataAssetDefinitionVersion>;
 
-  @doc("List DataAsset resources")
-  listDataAssetVersions is ResourceList<DataAssetVersion>;
+  //    @doc("Creates a DataAssetDefinition.")
+  //    createOrReplaceDataAssetDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<DataAssetDefinitionVersionWithYaml>;
+
+  @doc("Updates DataAssetDefinition.")
+  createOrUpdateDataAssetDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<DataAssetDefinitionVersionWithYaml>;
+
+  @doc("List DataAssetDefinition resources")
+  listDataAssetDefinitionVersions is ResourceList<DataAssetDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    DataAssetVersion,
+    DataAssetDefinitionVersion,
     {},
     {
       definitionContents: string;

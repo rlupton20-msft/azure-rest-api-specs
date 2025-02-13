@@ -27,7 +27,7 @@ model CatalogProperties {
 
   @doc("The URI/URL for the Catalog user interface.")
   @visibility("read")
-  catalogUiUri: string;
+  catalogUiUri?: string;
 
   @doc("The managed resource group for the Catalog managed resources.")
   @visibility("read")

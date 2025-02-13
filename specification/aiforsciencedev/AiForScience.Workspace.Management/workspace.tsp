@@ -68,7 +68,7 @@ model Workspace is TrackedResource<WorkspaceProperties> {
 
 @doc("Workspace properties")
 model WorkspaceProperties {
-  ...WithTitle;
+  //  ...WithTitle;
 
   @doc("The status of the last operation.")
   @visibility("read")
@@ -84,10 +84,10 @@ model WorkspaceProperties {
   @extension("x-ms-identifiers", ["id"])
   storages?: Array<LinkedStorage>;
 
-  @visibility("read", "create", "update")
-  @doc("List of linked Bookshelves.")
-  @extension("x-ms-identifiers", ["id"])
-  bookshelves?: Array<LinkedBookShelf>;
+  //  @visibility("read", "create", "update")
+  //  @doc("List of linked Bookshelves.")
+  //  @extension("x-ms-identifiers", ["id"])
+  //  bookshelves?: Array<LinkedBookShelf>;
 
   @visibility("read", "create", "update")
   @doc("List of linked SuperComputers.")

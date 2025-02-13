@@ -11,7 +11,7 @@ using Azure.ClientGenerator.Core;
 @doc("For adding YAML to define the definition.")
 model WithDefinitionContents {
   @doc("The definition")
-  @visibility("create")
+  @visibility("create", "update")
   definitionContent: string;
 }
 
@@ -115,8 +115,9 @@ model Artifact<T> {
 
   //  ...WithCreatedAt;
   //  ...WithUpdatedAt;
-  ...WithVersion;
+  //  ...WithVersion;
 
   ...WithVertical;
+
   ...WithAttributes<T>;
 }

@@ -79,16 +79,16 @@ interface Runs {
   listRuns is ResourceList<Run, QueryParametersTrait<WithQueryCreatedSince>>;
 
   @doc("Pause a run.")
-  pause is Operations.ResourceAction<Run, {}, {}>;
+  start is Operations.ResourceAction<Run, {}, {}>;
 
   @doc("Resume a paused run.")
   resume is Operations.ResourceAction<Run, {}, {}>;
 
-  @doc("Restore the Investigation Inputs and Plan to the state of this run.")
-  restoreInvestigation is Operations.ResourceAction<Run, {}, Investigation>;
-
   @doc("Cancel a run.")
   cancel is Operations.ResourceAction<Run, {}, {}>;
+
+  @doc("Restore the Investigation Inputs and Plan to the state of this run.")
+  restoreInvestigation is Operations.ResourceAction<Run, {}, Investigation>;
 
   //  #suppress "@azure-tools/typespec-azure-core/use-standard-names" "mirrored API responds with a container"
   //  #suppress "@azure-tools/typespec-azure-core/use-standard-operations" "not yet an Azure operation"
