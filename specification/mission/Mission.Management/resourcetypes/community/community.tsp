@@ -196,6 +196,7 @@ model CommunityProperties {
   description?: string;
 
   @doc("Address Space.")
+  @visibility("read", "create")
   addressSpace?: string;
 
   @doc("Dns Servers.")
@@ -206,6 +207,7 @@ model CommunityProperties {
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids created by communities.")
+  @visibility("read")
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -223,6 +225,7 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2023_08_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Managed resource group configuration.")
+  @visibility("read")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."

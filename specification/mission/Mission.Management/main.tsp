@@ -32,7 +32,7 @@ using TypeSpec.Versioning;
   title: "Private Mission",
 })
 @versioned(Microsoft.Mission.Versions)
-@doc("Private Mission Resource Provider management API.")
+@doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 interface Operations extends Azure.ResourceManager.Operations {}
