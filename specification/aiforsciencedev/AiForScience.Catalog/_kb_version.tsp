@@ -13,33 +13,46 @@ using Azure.Core.Traits;
 namespace Microsoft.AiForScienceCatalog;
 
 @doc("A knowledgeBase version.")
-@parentResource(KnowledgeBase)
+@parentResource(KnowledgeBaseDefinition)
 @resource("versions")
-model KnowledgeBaseVersion {
+model KnowledgeBaseDefinitionVersion {
   @doc("The knowledgeBase version name.")
   @visibility("read")
   @key("versionName")
   name: string;
 
-  ...BaseKnowledgeBase;
+  ...BaseKnowledgeBaseDefinition;
 }
 
-interface KnowledgeBaseVersions {
-  @doc("Fetch a KnowledgeBaseVersion by name.")
-  getKnowledgeBaseVersion is ResourceRead<KnowledgeBaseVersion>;
+@doc("A knowledgeBase version.")
+@parentResource(KnowledgeBaseDefinition)
+@resource("versions")
+model KnowledgeBaseDefinitionVersionWithYaml {
+  @doc("The knowledgeBase version name.")
+  @visibility("read")
+  @key("versionName")
+  name: string;
 
-  //  @doc("Creates a KnowledgeBase.")
-  //  createOrReplaceKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseVersion>;
+  ...BaseKnowledgeBaseDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates KnowledgeBase.")
-  createOrUpdateKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseVersion>;
+interface KnowledgeBaseDefinitionVersions {
+  @doc("Fetch a KnowledgeBaseDefinitionVersion by name.")
+  getKnowledgeBaseDefinitionVersion is ResourceRead<KnowledgeBaseDefinitionVersion>;
 
-  @doc("List KnowledgeBase resources")
-  listKnowledgeBaseVersions is ResourceList<KnowledgeBaseVersion>;
+  @doc("Creates a KnowledgeBaseDefinition.")
+  createOrReplaceKnowledgeBaseDefinitionVersion is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseDefinitionVersionWithYaml>;
+
+  @doc("Updates KnowledgeBaseDefinition.")
+  createOrUpdateKnowledgeBaseDefinitionVersion is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseDefinitionVersionWithYaml>;
+
+  @doc("List KnowledgeBaseDefinition resources")
+  listKnowledgeBaseDefinitionVersions is ResourceList<KnowledgeBaseDefinitionVersion>;
 
   @doc("Download Definition.")
   downloadDefinition is Operations.ResourceAction<
-    KnowledgeBaseVersion,
+    KnowledgeBaseDefinitionVersion,
     {},
     {
       definitionContents: string;

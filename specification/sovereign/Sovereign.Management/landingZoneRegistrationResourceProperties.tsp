@@ -28,7 +28,7 @@ model LandingZoneRegistrationResourceProperties {
 
   @added(Versions.Preview20250227)
   @doc("The managed identity to be tied to this landing zone registration")
-  managedIdentity: ManagedIdentityProperties;
+  managedIdentity?: ManagedIdentityProperties;
 }
 
 @added(Versions.Preview20241031)

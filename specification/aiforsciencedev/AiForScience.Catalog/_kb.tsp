@@ -15,8 +15,8 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.AiForScienceCatalog.Versions)
 namespace Microsoft.AiForScienceCatalog;
 
-@doc("KnowledgeBase attributes from definitionContents")
-model KnowledgeBaseAttributes {
+@doc("KnowledgeBaseDefinition attributes from definitionContents")
+model KnowledgeBaseDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithLicense;
@@ -26,37 +26,48 @@ model KnowledgeBaseAttributes {
 }
 
 @doc("A base knowledgeBase.")
-model BaseKnowledgeBase {
-  ...Artifact<KnowledgeBaseAttributes>;
+model BaseKnowledgeBaseDefinition {
+  ...Artifact<KnowledgeBaseDefinitionAttributes>;
 }
 
 @doc("A knowledgeBase.")
 @parentResource(Catalog)
-@resource("knowledgeBases")
-model KnowledgeBase {
+@resource("knowledgeBaseDefinitions")
+model KnowledgeBaseDefinition {
   @doc("The knowledgeBase name.")
   @visibility("read")
   @key("knowledgeBaseName")
   name: string;
 
-  ...BaseKnowledgeBase;
+  ...BaseKnowledgeBaseDefinition;
 }
 
-interface KnowledgeBases {
-  @doc("Fetch KnowledgeBase by name.")
-  getKnowledgeBase is ResourceRead<KnowledgeBase>;
+@doc("A knowledgeBase.")
+@parentResource(Catalog)
+@resource("knowledgeBaseDefinitions")
+model KnowledgeBaseDefinitionWithYaml {
+  @doc("The knowledgeBase name.")
+  @visibility("read")
+  @key("knowledgeBaseName")
+  name: string;
 
-  @doc("Creates a KnowledgeBase.")
-  createOrReplaceKnowledgeBase is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBase &
-    WithDefinitionContents>;
+  ...BaseKnowledgeBaseDefinition;
+  ...WithDefinitionContents;
+}
 
-  @doc("Updates KnowledgeBase.")
-  createOrUpdateKnowledgeBase is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBase &
-    WithDefinitionContents>;
+interface KnowledgeBaseDefinitions {
+  @doc("Fetch KnowledgeBaseDefinition by name.")
+  getKnowledgeBaseDefinition is ResourceRead<KnowledgeBaseDefinition>;
 
-  @doc("List KnowledgeBase resources")
-  listKnowledgeBases is ResourceList<KnowledgeBase>;
+  @doc("Creates a KnowledgeBaseDefinition.")
+  createOrReplaceKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseDefinitionWithYaml>;
 
-  @doc("Delete KnowledgeBase.")
-  deleteKnowledgeBase is ResourceDelete<KnowledgeBase>;
+  @doc("Updates KnowledgeBaseDefinition.")
+  createOrUpdateKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseDefinitionWithYaml>;
+
+  @doc("List KnowledgeBaseDefinition resources")
+  listKnowledgeBaseDefinitions is ResourceList<KnowledgeBaseDefinition>;
+
+  @doc("Delete KnowledgeBaseDefinition.")
+  deleteKnowledgeBaseDefinition is ResourceDelete<KnowledgeBaseDefinition>;
 }

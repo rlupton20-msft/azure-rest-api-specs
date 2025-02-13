@@ -13,7 +13,8 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.ResourceManager;using Azure.ResourceManager.Foundations;
+using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 
 using Azure.ResourceManager.CommonTypes;
 
@@ -32,7 +33,7 @@ model SolutionTemplateParameter {
 
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
-  
+
   @doc("Solution Dependencies")
   @extension("x-ms-identifiers", [])
   solutionDependencies?: SolutionDependencyContext[];

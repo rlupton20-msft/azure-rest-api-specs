@@ -156,6 +156,25 @@ model InvestigationWithYaml {
   ...Investigation;
   ...WithYaml;
 }
+@doc("Enumeration for run cache.")
+union RunCacheMode {
+  /** Cache run results */
+  Cache: "Cache",
+
+  /** Don't cache run results' */
+  NoCache: "NoCache",
+
+  string,
+}
+
+@doc("Run parameters.")
+model RunParams {
+  ...WithRunMode;
+
+  @doc("Caching behavior")
+  @visibility("read", "create")
+  cacheMode: RunCacheMode;
+}
 
 interface Investigations {
   @doc("Fetch a Investigation by name.")
@@ -189,16 +208,16 @@ interface Investigations {
   >;
 
   @doc("Run an investigation.")
-  run is Operations.ResourceAction<Investigation, WithRunMode, WithRunId>;
+  createRun is Operations.ResourceAction<Investigation, RunParams, WithRunId>;
 
   //  @doc("Restore the Investigation to the state of this version.")
   //  restore is Operations.ResourceAction<InvestigationVersion, {}, Investigation>;
 
-  @doc("Lock an investigation for editing.")
-  lock is Operations.ResourceAction<Investigation, {}, WithTimeoutAt>;
-
-  @doc("Unlock an investigation for editing, restoring it to Draft status.")
-  unlock is Operations.ResourceAction<Investigation, {}, {}>;
+  //  @doc("Lock an investigation for editing.")
+  //  lock is Operations.ResourceAction<Investigation, {}, WithTimeoutAt>;
+  //
+  //  @doc("Unlock an investigation for editing, restoring it to Draft status.")
+  //  unlock is Operations.ResourceAction<Investigation, {}, {}>;
 
   //  @doc("Commit an investigation (to enable checkpoint).")
   //  createVersion is Operations.ResourceAction<Investigation, {}, WithVersionId>;
