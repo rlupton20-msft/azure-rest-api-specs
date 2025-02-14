@@ -76,27 +76,26 @@ union ProvisioningState {
 
 @doc("The current state of the resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-union ResourceState{
-	string,
+union ResourceState {
+  string,
 
-	/** Resource is in active state */
-	Active: "Active",
+  /** Resource is in active state */
+  Active: "Active",
 
-	/** Resource is in inactive state */
-	Inactive: "Inactive",
+  /** Resource is in inactive state */
+  Inactive: "Inactive",
 }
 
 @doc("The redundancy state of the resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
-union RedundancyState{
-	string,
+union RedundancyState {
+  string,
 
-	/** Resource is zone redundant */
-	Zonal: "Zonal",
+  /** Resource is zone redundant */
+  Zonal: "Zonal",
 
-	/** Resource is not zone redundant */
-	None: "None",
-
+  /** Resource is not redundant */
+  None: "None",
 }
 
 @doc("Details of the ManufacturingPlatform MdsResource.")
@@ -541,13 +540,22 @@ interface ManufacturingDataServices {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<MdsResource>;
   // update is ArmResourcePatchAsync<MdsResource, MdsResourceProperties>;
   //temporary fix until typespec fix the issue of generating update classes
-  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource,MdsResourceProperties>>;
+  update is ArmCustomPatchAsync<
+    MdsResource,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      MdsResource,
+      MdsResourceProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<MdsResource>;
   listByResourceGroup is ArmResourceListByParent<MdsResource>;
   listBySubscription is ArmListBySubscription<MdsResource>;
 
   @doc("Returns the list of available versions")
-  listAvailableVersions is ArmResourceListActionSync<MdsResource,AvailableVersionListResult>;
+  listAvailableVersions is ArmResourceListActionSync<
+    MdsResource,
+    AvailableVersionListResult
+  >;
 }
 
 // note this is a template for an empty body resource action, which will be added to the library at some point
