@@ -11,7 +11,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Private.StorageDataManagementRp;
+namespace Microsoft.Storage;
 
 // Connector Properties
 @doc("Details of the Storage Connector.")
@@ -34,6 +34,10 @@ model ConnectorProperties {
   @visibility("create")
   @doc("Test connection to backing data source before creating the storage connector.")
   testConnection?: boolean = false;
+
+  @visibility("create")
+  @doc("The source of the backing data source.")
+  dataSourceType: DataSourceType;
 
   @doc("Information about how to communicate with and authenticate to the backing data store.")
   source: Source;

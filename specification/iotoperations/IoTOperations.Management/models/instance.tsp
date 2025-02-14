@@ -38,6 +38,29 @@ model InstancePatchModel {
   ...ManagedServiceIdentityProperty;
 }
 
+@doc("The properties for the Skynet Resource. ")
+model SkynetInstanceProperties {
+  @doc("Enabled or disabled.")
+  enabled?: boolean;
+
+  @doc("Access level for Skynet.")
+  accessLevel?: SkynetPropertiesInstanceAccessLevels;
+
+  @doc("Expiration timestamp for Skynet.")
+  expirationTimeStamp?: string;
+}
+
+@doc("SkynetPropertiesAccessLevels allowed")
+union SkynetPropertiesInstanceAccessLevels {
+  string,
+
+  @doc("Diagnose access level")
+  Diagnose: "Diagnose",
+
+  @doc("Diagnose And Repair Access Level")
+  DiagnoseAndRepair: "DiagnoseAndRepair",
+}
+
 @doc("The properties of the Instance resource.")
 model InstanceProperties {
   @doc("Detailed description of the Instance.")
@@ -53,6 +76,9 @@ model InstanceProperties {
 
   @doc("The reference to the Schema Registry for this AIO Instance.")
   schemaRegistryRef: SchemaRegistryRef;
+
+  @doc("The Skynet Resource for this AIO Instance.")
+  skynet?: SkynetInstanceProperties;
 }
 
 @doc("The reference to the Schema Registry for this AIO Instance.")

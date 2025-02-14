@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
-import { createMockCore } from "../../test/mocks.js";
+import { describe, expect, it } from "vitest";
+import { createMockCore, createMockGithub } from "../../test/mocks.js";
 import updateLabels, { updateLabelsImpl } from "../src/update-labels.js";
 
 describe("updateLabels", () => {
@@ -58,6 +58,7 @@ describe("updateLabels", () => {
       payload: {
         action: "completed",
         workflow_run: {
+          event: "pull_request",
           head_sha: "abc123",
           id: 456,
           repository: {
@@ -106,6 +107,7 @@ describe("updateLabels", () => {
       payload: {
         action: "completed",
         workflow_run: {
+          event: "pull_request",
           head_sha: "abc123",
           id: 456,
           repository: {
@@ -297,19 +299,3 @@ describe("updateLabelsImpl", () => {
     },
   );
 });
-
-function createMockGithub() {
-  return {
-    rest: {
-      actions: {
-        listWorkflowRunArtifacts: vi
-          .fn()
-          .mockResolvedValue({ data: { artifacts: [] } }),
-      },
-      issues: {
-        addLabels: vi.fn(),
-        removeLabel: vi.fn(),
-      },
-    },
-  };
-}

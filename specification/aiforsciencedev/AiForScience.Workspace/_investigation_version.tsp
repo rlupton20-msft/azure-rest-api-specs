@@ -22,13 +22,14 @@ union InvestigationVersionStatus {
 @resource("versions")
 @parentResource(Investigation)
 model InvestigationVersion {
+  ...WithId;
   ...WithTags;
   ...WithCreatedBy;
   ...WithCreatedAt;
   ...WithUpdatedAt;
 
   @doc("The version name.")
-  @visibility("read", "create")
+  @visibility("read")
   @key("versionName")
   name: string;
 
@@ -61,13 +62,6 @@ interface InvestigationVersions {
   //  @doc("Gets status of a InvestigationVersion operation.")
   //  getInvestigationVersionOperationStatus is GetResourceOperationStatus<InvestigationVersion>;
 
-  @doc("Clone a InvestigationVersion to new Investigation.")
-  clone is Operations.ResourceAction<InvestigationVersion, {}, Investigation>;
-
-  @doc("Update the Investigation to use this version as the current one.")
-  useAsCurrentVersion is Operations.ResourceAction<
-    InvestigationVersion,
-    {},
-    {}
-  >;
+  @doc("Restore the Investigation to the state of this version.")
+  restore is Operations.ResourceAction<InvestigationVersion, {}, Investigation>;
 }

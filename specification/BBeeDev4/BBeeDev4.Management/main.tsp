@@ -32,6 +32,16 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_12_01_preview: "2024-12-01-preview",
+
+  @doc("Microsoft.DeviceOnboarding Resource Provider management API version 2025-05-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_05_01_preview: "2025-05-01-preview",
+
+  @doc("Microsoft.DeviceOnboarding Resource Provider management API version 2025-08-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_01_preview: "2025-08-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -74,10 +84,14 @@ model OnboardingServiceProperties {
   enableCertificateManagement: boolean;
 
   @doc("Allow public network access to private links.")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @visibility("read", "create", "update")
   publicNetworkAccess?: PublicNetworkAccessOptions;
 
   @doc("The private endpoint connections.")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @visibility("read")
   privateEndpointConnections?: Array<PrivateEndpointConnection>;
 }
@@ -97,6 +111,8 @@ model DeviceEndpoint {
 }
 
 @doc("Options for public network access for private endpoints.")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 union PublicNetworkAccessOptions {
   string,
 
@@ -154,11 +170,15 @@ model PolicyProperties {
   @doc("The bootstrap authentication rule.")
   bootstrapAuthentication: BootstrapAuthenticationRule;
 
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @doc("Allocation rules.")
   @extension("x-ms-identifiers", ["name"])
   @maxItems(1)
   allocations?: Array<AllocationRule>;
 
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @doc("Just-in-time rule to create the device resource.")
   jit?: JitRule;
 
@@ -211,11 +231,15 @@ union SelectedIdentityType {
 union OnboardingResourceType {
   string,
 
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @doc("Azure device registry device. Microsoft.DeviceRegistry/devices")
   DeviceRegistryDevice: "Microsoft.DeviceRegistry/devices",
 
   @doc("Azure device registry namespace device. Microsoft.DeviceRegistry/namespaces/devices")
   @added(Versions.v2024_12_01_preview)
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   DeviceRegistryNamespaceDevice: "Microsoft.DeviceRegistry/namespaces/devices",
 
   @doc("Arc enabled device. Microsoft.HybridCompute/machines")
@@ -229,6 +253,8 @@ model PolicyResourceDetails {
   type: OnboardingResourceType;
 }
 
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 @doc("Details of the OnboardingService Device Registry Policy.")
 model DeviceRegistryPolicyResourceDetails extends PolicyResourceDetails {
   @doc("The policy resource type for device registry devices.")
@@ -247,6 +273,8 @@ model DeviceRegistryPolicyResourceDetails extends PolicyResourceDetails {
 
 @doc("Details of the OnboardingService Device Registry Namespace Policy.")
 @added(Versions.v2024_12_01_preview)
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model DeviceRegistryNamespacePolicyResourceDetails
   extends PolicyResourceDetails {
   @doc("The policy resource type for device registry namespace devices.")
@@ -264,12 +292,16 @@ model DeviceRegistryNamespacePolicyResourceDetails
 
 @doc("The just-in-time connection properties for device registry namespace devices.")
 @added(Versions.v2024_12_01_preview)
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model DeviceRegistryNamespaceDeviceJitProperties {
   @doc("Resource id of the device registry namespace, required for device type Microsoft.DeviceRegistry/namespaces/devices")
   namespaceResourceId: DeviceRegistryNamespaceResourceId;
 }
 
 @added(Versions.v2024_12_01_preview)
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 scalar DeviceRegistryNamespaceResourceId
   extends armResourceIdentifier<[
     {
@@ -289,10 +321,14 @@ union BootstrapAuthenticationType {
   string,
 
   @doc("The X509 authentication type.")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   X509: "X509",
 
   @added(Versions.v2024_11_01_preview)
   @removed(Versions.v2024_12_01_preview)
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @doc("The discovery authentication type.")
   Discovery: "Discovery",
 
@@ -383,6 +419,8 @@ model BootstrapAuthenticationRule {
 }
 
 @doc("X509 Certificate.")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model X509Certificate {
   @doc("The certificate.")
   certificate: bytes;
@@ -397,6 +435,8 @@ model X509Certificate {
 }
 
 @doc("The x509-based authentication rule for bootstrapping.")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model X509BootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.X509;
@@ -720,11 +760,15 @@ model PolicyPatchProperties {
   bootstrapAuthentication?: PatchBootstrapAuthenticationRule;
 
   @doc("Allocation rules.")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @extension("x-ms-identifiers", ["name"])
   @maxItems(1)
   allocations?: Array<AllocationRulePatch>;
 
   @doc("Just-in-time rule to create the device resource.")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   jit?: JitRulePatchUpdate;
 
   @doc("Further details about the policy resource")
@@ -742,6 +786,8 @@ model PatchBootstrapAuthenticationRule {
 }
 
 @doc("The x509-based authentication rule for bootstrapping.")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model PatchX509BootstrapAuthenticationRule
   extends PatchBootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
@@ -757,6 +803,8 @@ model PatchX509BootstrapAuthenticationRule
 }
 
 @doc("X509 Certificate.")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model PatchX509Certificate {
   @doc("The certificate.")
   certificate?: bytes;
@@ -854,6 +902,8 @@ model PolicyPatchResourceDetails {
   type: OnboardingResourceType;
 }
 
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 @doc("Details of the OnboardingService Device Registry Policy.")
 model PatchDeviceRegistryPolicyResourceDetails
   extends PolicyPatchResourceDetails {
@@ -869,6 +919,8 @@ model PatchDeviceRegistryPolicyResourceDetails
 
 @doc("Details of the OnboardingService Device Registry Namespace Policy.")
 @added(Versions.v2024_12_01_preview)
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model PatchDeviceRegistryNamespacePolicyResourceDetails
   extends PolicyPatchResourceDetails {
   @doc("The policy resource type for device registry namespace devices.")
@@ -954,6 +1006,8 @@ scalar PolicyResourceId
   ]>;
 
 @doc("Representation of a previously allocated endpoint")
+@removed(Versions.v2025_05_01_preview)
+@added(Versions.v2025_08_01_preview)
 model AllocatedEndpoint {
   @doc("Name of the endpoint.")
   name: string;
@@ -984,6 +1038,8 @@ model DeviceStateProperties {
   policyResourceId: PolicyResourceId;
 
   @doc("Array of previously allocated endpoints")
+  @removed(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_08_01_preview)
   @maxItems(1)
   @extension("x-ms-identifiers", ["name"])
   allocatedEndpoints?: Array<AllocatedEndpoint>;

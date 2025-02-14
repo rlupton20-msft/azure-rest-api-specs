@@ -23,7 +23,7 @@ model LinkedStorage {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Storage/storageAccounts";
+      type: "Microsoft.AiForScience/storage"; // TODO: Change to AiForScience shared storage?
     }
   ]>;
 }
@@ -50,16 +50,16 @@ model LinkedSuperComputer {
   ]>;
 }
 
-@doc("Linked Catalog.")
-model LinkedCatalog {
-  @doc("Fully qualified resource ID for the Catalog resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.AiForScience/catalog";
-    }
-  ]>;
-}
+//@doc("Linked Catalog.")
+//model LinkedCatalog {
+//  @doc("Fully qualified resource ID for the Catalog resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
+//  @visibility("read", "create", "update")
+//  id: Azure.Core.armResourceIdentifier<[
+//    {
+//      type: "Microsoft.AiForScience/catalog";
+//    }
+//  ]>;
+//}
 
 @doc("Workspace tracked resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
@@ -68,24 +68,26 @@ model Workspace is TrackedResource<WorkspaceProperties> {
 
 @doc("Workspace properties")
 model WorkspaceProperties {
+  //  ...WithTitle;
+
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  @visibility("read", "create", "update")
-  @doc("List of linked Catalogs.")
-  @extension("x-ms-identifiers", ["id"])
-  catalogs?: Array<LinkedCatalog>;
+  //  @visibility("read", "create", "update")
+  //  @doc("List of linked Catalogs.")
+  //  @extension("x-ms-identifiers", ["id"])
+  //  catalogs?: Array<LinkedCatalog>;
 
   @visibility("read", "create", "update")
   @doc("List of linked Storages.")
   @extension("x-ms-identifiers", ["id"])
   storages?: Array<LinkedStorage>;
 
-  @visibility("read", "create", "update")
-  @doc("List of linked Bookshelves.")
-  @extension("x-ms-identifiers", ["id"])
-  bookshelves?: Array<LinkedBookShelf>;
+  //  @visibility("read", "create", "update")
+  //  @doc("List of linked Bookshelves.")
+  //  @extension("x-ms-identifiers", ["id"])
+  //  bookshelves?: Array<LinkedBookShelf>;
 
   @visibility("read", "create", "update")
   @doc("List of linked SuperComputers.")

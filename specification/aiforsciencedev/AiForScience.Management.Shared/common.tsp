@@ -32,6 +32,9 @@ enum Versions {
 union ProvisioningState {
   ResourceProvisioningState,
 
+  /** The resource create request has been accepted */
+  Accepted: "Accepted",
+
   /** The resource is being provisioned */
   Provisioning: "Provisioning",
 
@@ -41,8 +44,13 @@ union ProvisioningState {
   /** The resource is being deleted */
   Deleting: "Deleting",
 
-  /** The resource create request has been accepted */
-  Accepted: "Accepted",
-
   string,
+}
+
+@doc("For adding title to display instead of name.")
+model WithTitle {
+  @doc("The title")
+  @visibility("read", "create", "update")
+  // Defaults to name."
+  title: string;
 }
