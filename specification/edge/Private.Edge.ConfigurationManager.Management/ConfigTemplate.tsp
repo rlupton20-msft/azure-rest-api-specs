@@ -24,6 +24,10 @@ model ConfigTemplateProperties {
   @doc("Description of config template")
   description: string;
 
+  @doc("Latest version available for ConfigTemplateVersion")
+  @visibility("read")
+  latestVersion?: string;
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
