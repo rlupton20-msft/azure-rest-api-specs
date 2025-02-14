@@ -19,7 +19,7 @@ namespace Private.StorageGateway;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  `2021-08-01-preview`,
+  `2025-03-01-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -27,11 +27,11 @@ interface Operations extends Azure.ResourceManager.Operations {}
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A StorageGatewayProviderHub resource")
-model Agent is TrackedResource<AgentProperties> {
-  @doc("The name of the agent")
+model StorageGatewayModel is TrackedResource<StorageGatewayProperties> {
+  @doc("The name of the storage gateway resource")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @key("agentName")
-  @segment("agents")
+  @key("storageGatewayName")
+  @segment("storageGateways")
   @path
   name: string;
 }
@@ -41,32 +41,36 @@ model Agent is TrackedResource<AgentProperties> {
 union ProvisioningState {
   ResourceProvisioningState,
 
-  @doc("Initial provisioning in progress")
-  Provisioning: "Provisioning",
+  @doc("Resource creation Succeeded")
+  Succeeded: "Succeeded",
 
-  @doc("Update in progress")
-  Updating: "Updating",
+  @doc("Resource creation Canceled")
+  Canceled: "Canceled",
 
-  @doc("Deletion in progress")
+  @doc("Resource creation Failed")
+  Failed: "Failed",
+
+  @doc("Resource Deleting")
   Deleting: "Deleting",
-
-  @doc("Change accepted for processing")
-  Accepted: "Accepted",
 }
 
-@doc("Details of the StorageGateway Agent.")
-model AgentProperties {
+@doc("Details of the StorageGateway.")
+model StorageGatewayProperties {
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
+
+  @visibility("read", "create", "update")
+  @doc("The description of the StorageGateway resource.")
+  description?: string;
 }
 
-@armResourceOperations(Agent)
-interface Agents {
-  get is ArmResourceRead<Agent>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Agent>;
-  update is ArmResourcePatchSync<Agent, AgentProperties>;
-  delete is ArmResourceDeleteSync<Agent>;
-  listByResourceGroup is ArmResourceListByParent<Agent>;
-  listBySubscription is ArmListBySubscription<Agent>;
+@armResourceOperations(StorageGatewayModel)
+interface StorageGateways {
+  get is ArmResourceRead<StorageGatewayModel>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<StorageGatewayModel>;
+  update is ArmResourcePatchSync<StorageGatewayModel, StorageGatewayProperties>;
+  delete is ArmResourceDeleteSync<StorageGatewayModel>;
+  listByResourceGroup is ArmResourceListByParent<StorageGatewayModel>;
+  listBySubscription is ArmListBySubscription<StorageGatewayModel>;
 }
