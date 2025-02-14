@@ -6,11 +6,11 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 
 ```yaml $(az) && $(target-mode) != 'core'
 az:
-  extensions: prvthealthcareinteropdevedge
-  namespace: azure.mgmt.prvthealthcareinteropdevedge
-  package-name: azure-mgmt-prvthealthcareinteropdevedge
-az-output-folder: $(azure-cli-extension-folder)/src/prvthealthcareinteropdevedge
-python-sdk-output-folder: "$(az-output-folder)/azext_prvthealthcareinteropdevedge/vendored_sdks/prvthealthcareinteropdevedge"
+  extensions: prvthealthcareinteropdevcloud
+  namespace: azure.mgmt.prvthealthcareinteropdevcloud
+  package-name: azure-mgmt-prvthealthcareinteropdevcloud
+az-output-folder: $(azure-cli-extension-folder)/src/prvthealthcareinteropdevcloud
+python-sdk-output-folder: "$(az-output-folder)/azext_prvthealthcareinteropdevcloud/vendored_sdks/prvthealthcareinteropdevcloud"
 # add additional configuration here specific for Azure CLI
 # refer to the faq.md for more details
 ```
@@ -19,9 +19,9 @@ This is for command modules that already in azure cli main repo.
 
 ```yaml $(az) && $(target-mode) == 'core'
 az:
-  extensions: prvthealthcareinteropdevedge
-  namespace: azure.mgmt.prvthealthcareinteropdevedge
-  package-name: azure-mgmt-prvthealthcareinteropdevedge
-az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/prvthealthcareinteropdevedge
-python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/prvthealthcareinteropdevedge"
+  extensions: prvthealthcareinteropdevcloud
+  namespace: azure.mgmt.prvthealthcareinteropdevcloud
+  package-name: azure-mgmt-prvthealthcareinteropdevcloud
+az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/prvthealthcareinteropdevcloud
+python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/prvthealthcareinteropdevcloud"
 ```
