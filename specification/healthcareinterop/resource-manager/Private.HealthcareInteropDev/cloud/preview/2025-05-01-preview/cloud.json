@@ -486,6 +486,70 @@
         }
       ]
     },
+    "CustomLocation": {
+      "type": "object",
+      "description": "The custom location.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the custom location resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource if of the custom location resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ExtendedLocation/customLocations"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "id"
+      ]
+    },
+    "ExtensionManagedIdentity": {
+      "type": "object",
+      "description": "The managed identity used for extensions.",
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "description": "The principal id of the managed identity.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "type": {
+          "$ref": "../../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentityType",
+          "description": "The managed identity type.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "principalId",
+        "type"
+      ]
+    },
     "Hub": {
       "type": "object",
       "description": "The healthcare interop hub resource.",
@@ -534,6 +598,14 @@
             "create"
           ]
         },
+        "remoteConnectorEnvironments": {
+          "type": "array",
+          "description": "Environments hosted on remote locations where Connectors can be deployed.",
+          "items": {
+            "$ref": "#/definitions/RemoteConnectorEnvironment"
+          },
+          "x-ms-identifiers": []
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
@@ -546,7 +618,17 @@
     },
     "HubPropertiesUpdate": {
       "type": "object",
-      "description": "Hub properties"
+      "description": "Hub properties",
+      "properties": {
+        "remoteConnectorEnvironments": {
+          "type": "array",
+          "description": "Environments hosted on remote locations where Connectors can be deployed.",
+          "items": {
+            "$ref": "#/definitions/RemoteConnectorEnvironment"
+          },
+          "x-ms-identifiers": []
+        }
+      }
     },
     "HubUpdate": {
       "type": "object",
@@ -617,6 +699,91 @@
         ]
       },
       "readOnly": true
+    },
+    "RemoteConnectorEnvironment": {
+      "type": "object",
+      "description": "An Environment hosted on a remote location where Connectors can be deployed.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name to be used for the managed resource group that will be created.",
+          "pattern": "^[a-zA-Z0-9-]{3,24}$",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "connectedClusterId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the remote connector environment connected cluster.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
+        },
+        "location": {
+          "type": "string",
+          "description": "The geo-location where the connected cluster is provisioned.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "healthcareExtentionId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource id of the healthcare extension.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters/Microsoft.KubernetesConfiguration/extensions"
+              }
+            ]
+          }
+        },
+        "customLocation": {
+          "$ref": "#/definitions/CustomLocation",
+          "description": "The custom location associated with the healthcare extension.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "storageExtensionManagedIdentity": {
+          "$ref": "#/definitions/ExtensionManagedIdentity",
+          "description": "The managed identity used by the storage extension.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "connectedClusterId",
+        "location",
+        "healthcareExtentionId",
+        "customLocation",
+        "storageExtensionManagedIdentity"
+      ]
     }
   },
   "parameters": {}
