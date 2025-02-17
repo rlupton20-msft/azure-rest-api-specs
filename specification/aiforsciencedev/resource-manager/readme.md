@@ -1,8 +1,8 @@
-# aiforscience
+# science
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for aiforscience.
+This is the AutoRest configuration file for science.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the aiforscience.
+These are the global settings for the science.
 
 ```yaml
 openapi-type: arm
@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2024-11-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-11-01-preview'
 input-file:
-  - Private.AiForScience/preview/2024-11-01-preview/aiforscience.json
+  - Private.Science/preview/2024-11-01-preview/science.json
 ```
 
 ---
