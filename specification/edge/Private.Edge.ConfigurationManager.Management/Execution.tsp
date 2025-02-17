@@ -21,8 +21,30 @@ model StageResult {
   @doc("Deployment status")
   status?: string;
 
-  @doc("status details")
+  @doc("Status details")
   statusDetails?: string;
+
+  @doc("Current stage")
+  stage?: string;
+
+  @doc("Next stage")
+  nextstage?: string;
+
+  @doc("Error message")
+  errorMessage?: string;
+
+  @doc("whether this stage is active or not")
+  isActive?: boolean;
+
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The inputs of the StageHistory, Inputs holds a key-value map of user-defined parameters for the initial stage")
+  inputs?: Record<unknown>;
+
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The outputs of the StageHistory, it is different as the different input stages.")
+  outputs?: Record<unknown>;
 }
 
 @doc("Execution Status")
