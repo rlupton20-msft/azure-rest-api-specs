@@ -17,12 +17,12 @@ using Azure.ResourceManager.CommonTypes;
 namespace Private.Edge;
 
 @doc("Result of Stage execution")
-model StageResult {
+model StageStatus {
   @doc("Deployment status")
   status?: string;
 
-  @doc("Status details")
-  statusDetails?: string;
+  @doc("Status message")
+  statusMessage?: string;
 
   @doc("Current stage")
   stage?: string;
@@ -50,17 +50,17 @@ model StageResult {
 @doc("Execution Status")
 model ExecutionStatus {
   @doc("The lastModified of the Status")
-  lastModified?: utcDateTime;
+  updateTime?: utcDateTime;
 
   @doc("Deployment status")
   status?: string;
 
   @doc("status details")
-  statusDetails?: string;
+  statusMessage?: string;
 
   @doc("target resource statuses")
   @extension("x-ms-identifiers", [])
-  stageHistory?: StageResult[];
+  stageHistory?: StageStatus[];
 }
 
 @doc("Execution Properties")
