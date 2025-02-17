@@ -19,22 +19,22 @@ namespace Private.Edge;
 @doc("Result of Stage execution")
 model StageResult {
   @doc("Deployment status")
-  status: string;
+  status?: string;
 
   @doc("status details")
-  statusDetails: string;
+  statusDetails?: string;
 }
 
 @doc("Execution Status")
 model ExecutionStatus {
   @doc("The lastModified of the Status")
-  lastModified: utcDateTime;
+  lastModified?: utcDateTime;
 
   @doc("Deployment status")
-  status: string;
+  status?: string;
 
   @doc("status details")
-  statusDetails: string;
+  statusDetails?: string;
 
   @doc("target resource statuses")
   @extension("x-ms-identifiers", [])
@@ -50,12 +50,12 @@ model ExecutionProperties {
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("Execution specification")
-  specification: Record<unknown>;
+  specification?: Record<unknown>;
 
   @doc("Status of Execution")
   @visibility("read")
   @extension("x-ms-identifiers", [])
-  status: ExecutionStatus;
+  status?: ExecutionStatus;
 
   @doc("Provisioning state of resource")
   @visibility("read")
