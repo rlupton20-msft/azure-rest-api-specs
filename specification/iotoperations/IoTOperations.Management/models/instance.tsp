@@ -78,7 +78,8 @@ model InstanceProperties {
   schemaRegistryRef: SchemaRegistryRef;
 
   @doc("The Skynet Resource for this AIO Instance.")
-  skynet?: SkynetInstanceProperties;
+  @OpenAPI.extension("x-ms-identifiers", [])
+  skynet?: SkynetInstanceProperties[];
 }
 
 @doc("The reference to the Schema Registry for this AIO Instance.")
