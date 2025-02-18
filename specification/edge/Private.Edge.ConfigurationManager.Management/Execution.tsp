@@ -17,28 +17,50 @@ using Azure.ResourceManager.CommonTypes;
 namespace Private.Edge;
 
 @doc("Result of Stage execution")
-model StageResult {
+model StageStatus {
   @doc("Deployment status")
   status?: string;
 
-  @doc("status details")
-  statusDetails?: string;
+  @doc("Status message")
+  statusMessage?: string;
+
+  @doc("Current stage")
+  stage?: string;
+
+  @doc("Next stage")
+  nextstage?: string;
+
+  @doc("Error message")
+  errorMessage?: string;
+
+  @doc("whether this stage is active or not")
+  isActive?: boolean;
+
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The inputs of the StageHistory, Inputs holds a key-value map of user-defined parameters for the initial stage")
+  inputs?: Record<unknown>;
+
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
+  @doc("The outputs of the StageHistory, it is different as the different input stages.")
+  outputs?: Record<unknown>;
 }
 
 @doc("Execution Status")
 model ExecutionStatus {
   @doc("The lastModified of the Status")
-  lastModified?: utcDateTime;
+  updateTime?: utcDateTime;
 
   @doc("Deployment status")
   status?: string;
 
   @doc("status details")
-  statusDetails?: string;
+  statusMessage?: string;
 
   @doc("target resource statuses")
   @extension("x-ms-identifiers", [])
-  stageHistory?: StageResult[];
+  stageHistory?: StageStatus[];
 }
 
 @doc("Execution Properties")
