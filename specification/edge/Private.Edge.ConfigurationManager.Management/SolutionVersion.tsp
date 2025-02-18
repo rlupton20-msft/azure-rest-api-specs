@@ -77,7 +77,6 @@ model SolutionDependency {
   dependencies?: SolutionDependency[];
 }
 
-
 @doc("Solution Version Resource")
 @parentResource(Solution)
 @resource("versions")
