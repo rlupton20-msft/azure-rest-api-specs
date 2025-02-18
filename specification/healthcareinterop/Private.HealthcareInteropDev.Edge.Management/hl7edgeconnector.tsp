@@ -107,8 +107,6 @@ model Hl7EdgeConnectorProperties {
   @doc("The status of the last operation.")
   @visibility("read")
   provisioningState?: ProvisioningState;
-
-
 }
 
 @armResourceOperations
