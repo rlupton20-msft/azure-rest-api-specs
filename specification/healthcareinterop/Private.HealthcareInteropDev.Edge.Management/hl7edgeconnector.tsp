@@ -19,12 +19,17 @@ model Hl7EdgeConnector is TrackedResource<Hl7EdgeConnectorProperties> {
   @segment("hl7EdgeConnectors")
   @path
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
+  @doc("The extended location.")
+  @visibility("read", "create")
+  extendedLocation: ExtendedLocation;
 }
 
 @doc("Hl7EdgeConnector properties")
 model Hl7EdgeConnectorProperties {
   @doc("The Receiver Configuration to be used for hl7 connector configuration.")
-  @visibility("create", "read")
+  @visibility("create", "read", "update", "delete")
   receiver?: {
     @doc("The Receiver Endpoint Configuration to be used for hl7 connector configuration.")
     @visibility("create", "read")
@@ -65,6 +70,7 @@ model Hl7EdgeConnectorProperties {
       @doc("The port number to use.")
       @minValue(0)
       @maxValue(65535)
+      @visibility("create", "read", "update")
       port: int32;
 
       @doc("Indicates whether to reuse the connection.")
@@ -75,11 +81,13 @@ model Hl7EdgeConnectorProperties {
     @visibility("create", "read")
     storageEndpointConfiguration?: {
       @doc("URL of the blob storage where the output will be stored.")
+      @visibility("create", "read", "update")
       @pattern("^https://.*$")
       blobUrl: string;
 
       @doc("Name of the container in the blob storage.")
       @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
+      @visibility("create", "read", "update")
       container: string;
 
       @doc("Optional file extension for the output file.")
@@ -100,10 +108,7 @@ model Hl7EdgeConnectorProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("The extended location.")
-  @visibility("read", "create")
-  extendedLocation: ExtendedLocation;
+
 }
 
 @armResourceOperations

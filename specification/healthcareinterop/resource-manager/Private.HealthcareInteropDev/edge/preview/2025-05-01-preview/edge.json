@@ -535,8 +535,19 @@
         "properties": {
           "$ref": "#/definitions/Hl7EdgeConnectorProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "The extended location.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
+      "required": [
+        "extendedLocation"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
@@ -630,7 +641,12 @@
                   "format": "int32",
                   "description": "The port number to use.",
                   "minimum": 0,
-                  "maximum": 65535
+                  "maximum": 65535,
+                  "x-ms-mutability": [
+                    "read",
+                    "update",
+                    "create"
+                  ]
                 },
                 "reuseConnection": {
                   "type": "boolean",
@@ -652,12 +668,22 @@
                 "blobUrl": {
                   "type": "string",
                   "description": "URL of the blob storage where the output will be stored.",
-                  "pattern": "^https://.*$"
+                  "pattern": "^https://.*$",
+                  "x-ms-mutability": [
+                    "read",
+                    "update",
+                    "create"
+                  ]
                 },
                 "container": {
                   "type": "string",
                   "description": "Name of the container in the blob storage.",
-                  "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$"
+                  "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$",
+                  "x-ms-mutability": [
+                    "read",
+                    "update",
+                    "create"
+                  ]
                 },
                 "fileExtension": {
                   "type": "string",
@@ -687,6 +713,7 @@
           },
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         },
@@ -694,23 +721,23 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
-        },
-        "extendedLocation": {
-          "$ref": "#/definitions/ExtendedLocation",
-          "description": "The extended location.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
         }
-      },
-      "required": [
-        "extendedLocation"
-      ]
+      }
     },
     "Hl7EdgeConnectorPropertiesUpdate": {
       "type": "object",
-      "description": "Hl7EdgeConnector properties"
+      "description": "Hl7EdgeConnector properties",
+      "properties": {
+        "receiver": {
+          "type": "object",
+          "description": "The Receiver Configuration to be used for hl7 connector configuration.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
     },
     "Hl7EdgeConnectorUpdate": {
       "type": "object",
