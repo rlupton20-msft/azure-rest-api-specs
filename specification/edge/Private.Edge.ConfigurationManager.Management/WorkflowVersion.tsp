@@ -49,6 +49,10 @@ model WorkflowVersionProperties {
   @visibility("read")
   reviewId?: string;
 
+  @doc("State of workflow version")
+  @visibility("read")
+  state?: State;
+
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("Execution specification")
