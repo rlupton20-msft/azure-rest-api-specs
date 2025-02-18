@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
-import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -34,9 +33,31 @@ model SolutionTemplateParameter {
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
 
+  @doc("solutionInstanceName")
+  solutionInstanceName?: string;
+
   @doc("Solution Dependencies")
   @extension("x-ms-identifiers", [])
-  solutionDependencies?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependencyParameter[];
+}
+
+@doc("Solution Dependency Context")
+model SolutionDependencyParameter {
+  @doc("Solution Version Id")
+  solutionVersionId?: string;
+
+  @doc("Solution Template Id")
+  solutionTemplateId?: string;
+
+  @doc("Solution Template Id")
+  solutionTemplateVersion?: string;
+
+  @doc("Target Id")
+  targetId?: string;
+
+  @doc("Solution dependencies")
+  @extension("x-ms-identifiers", [])
+  dependencies?: SolutionDependencyParameter[];
 }
 
 @doc("Solution Version Parameter")

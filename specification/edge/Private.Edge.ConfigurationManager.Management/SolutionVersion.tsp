@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./State.tsp";
-import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -49,15 +48,35 @@ model SolutionVersionProperties {
   @visibility("read")
   state?: State;
 
+  @doc("Solution instance name")
+  solutionInstanceName: string;
+
   @doc("Solution Dependency Context")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  solutionDependencies?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependency[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
+
+@doc("Solution Dependency Context")
+model SolutionDependency {
+  @doc("Solution Version Id")
+  solutionVersionId: string;
+
+  @doc("Solution Template Version Id")
+  solutionTemplateVersionId: string;
+
+  @doc("Target Id")
+  targetId: string;
+
+  @doc("Solution dependencies")
+  @extension("x-ms-identifiers", [])
+  dependencies?: SolutionDependency[];
+}
+
 
 @doc("Solution Version Resource")
 @parentResource(Solution)
