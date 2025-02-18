@@ -9735,17 +9735,13 @@
         }
       ]
     },
-    "SolutionDependencyContext": {
+    "SolutionDependency": {
       "type": "object",
       "description": "Solution Dependency Context",
       "properties": {
         "solutionVersionId": {
           "type": "string",
           "description": "Solution Version Id"
-        },
-        "solutionTemplateId": {
-          "type": "string",
-          "description": "Solution Template Id"
         },
         "solutionTemplateVersionId": {
           "type": "string",
@@ -9759,7 +9755,42 @@
           "type": "array",
           "description": "Solution dependencies",
           "items": {
-            "$ref": "#/definitions/SolutionDependencyContext"
+            "$ref": "#/definitions/SolutionDependency"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "solutionVersionId",
+        "solutionTemplateVersionId",
+        "targetId"
+      ]
+    },
+    "SolutionDependencyParameter": {
+      "type": "object",
+      "description": "Solution Dependency Context",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution Version Id"
+        },
+        "solutionTemplateId": {
+          "type": "string",
+          "description": "Solution Template Id"
+        },
+        "solutionTemplateVersion": {
+          "type": "string",
+          "description": "Solution Template Id"
+        },
+        "targetId": {
+          "type": "string",
+          "description": "Target Id"
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "Solution dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyParameter"
           },
           "x-ms-identifiers": []
         }
@@ -9877,11 +9908,15 @@
           "type": "string",
           "description": "Solution Template Version Name"
         },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "solutionInstanceName"
+        },
         "solutionDependencies": {
           "type": "array",
           "description": "Solution Dependencies",
           "items": {
-            "$ref": "#/definitions/SolutionDependencyContext"
+            "$ref": "#/definitions/SolutionDependencyParameter"
           },
           "x-ms-identifiers": []
         }
@@ -10176,11 +10211,15 @@
           "description": "State of solution instance",
           "readOnly": true
         },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Solution instance name"
+        },
         "solutionDependencies": {
           "type": "array",
           "description": "Solution Dependency Context",
           "items": {
-            "$ref": "#/definitions/SolutionDependencyContext"
+            "$ref": "#/definitions/SolutionDependency"
           },
           "readOnly": true,
           "x-ms-identifiers": []
@@ -10192,7 +10231,8 @@
         }
       },
       "required": [
-        "specification"
+        "specification",
+        "solutionInstanceName"
       ]
     },
     "SolutionVersionPropertiesUpdate": {
@@ -10203,6 +10243,10 @@
           "type": "object",
           "description": "App components spec",
           "additionalProperties": {}
+        },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Solution instance name"
         }
       }
     },
