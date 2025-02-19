@@ -11,5 +11,5 @@ csharp:
   clear-output-folder: true
   client-side-validation: false
   namespace: Private.HealthcareInteropDev
-  output-folder: $(csharp-sdks-folder)/edge/management/Private.HealthcareInteropDev/GeneratedProtocol
+  output-folder: $(csharp-sdks-folder)/cloud/management/Private.HealthcareInteropDev/GeneratedProtocol
 ```
