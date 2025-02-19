@@ -15,16 +15,16 @@ using Azure.ResourceManager;
 /** Microsoft.AccessPoint Resource Provider management API. */
 @armProviderNamespace
 @service({
-  title: "Microsoft.AccessPoint management service",
+	title: "Microsoft.AccessPoint management service",
 })
 @versioned(Microsoft.AccessPoint.Versions)
 namespace Microsoft.AccessPoint;
 
 /** The available API versions. */
 enum Versions {
-  /** 2024-10-01-preview version */
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  v2024_10_01_preview: "2024-10-01-preview",
+	/** 2024-10-01-preview version */
+	@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+	@useDependency(Azure.Core.Versions.v1_0_Preview_2)
+	@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+	v2024_10_01_preview: "2024-10-01-preview",
 }

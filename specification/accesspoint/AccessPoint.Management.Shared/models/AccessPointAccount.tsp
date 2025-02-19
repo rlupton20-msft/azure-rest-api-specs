@@ -21,37 +21,37 @@ namespace Microsoft.AccessPoint;
 
 @doc("An Access Point Account Resource")
 model AccessPointAccount is TrackedResource<AccessPointAccountProperties> {
-  @doc("The name of the Access Point")
-  @key("accessPointAccountName")
-  @segment("accessPointAccounts")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
-  @path
-  name: string;
+	@doc("The name of the Access Point")
+	@key("accessPointAccountName")
+	@segment("accessPointAccounts")
+	@pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
+	@path
+	name: string;
 }
 
 @doc("Access Point Account Properties.")
 model AccessPointAccountProperties {
-  @doc("The image mod for the access point account")
-  imageMod: string;
+	@doc("The image mod for the access point account")
+	imageMod: string;
 
-  @doc("The classification of the access point account")
-  classification: Classification;
+	@doc("The classification of the access point account")
+	classification: Classification;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "accountTags requires a Record<string>"
-  @doc("Tags present on the access point account")
-  accountTags: Record<string>;
+	#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "accountTags requires a Record<string>"
+	@doc("Tags present on the access point account")
+	accountTags: Record<string>;
 
-  @doc("The status of the last operation.")
-  @visibility("read")
-  provisioningState?: ProvisioningState;
+	@doc("The status of the last operation.")
+	@visibility("read")
+	provisioningState?: ProvisioningState;
 }
 
 @armResourceOperations
 interface AccessPointOperations {
-  get is ArmResourceRead<AccessPointAccount>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<AccessPointAccount>;
-  update is ArmTagsPatchSync<AccessPointAccount>;
-  delete is ArmResourceDeleteWithoutOkAsync<AccessPointAccount>;
-  listByResourceGroup is ArmResourceListByParent<AccessPointAccount>;
-  listBySubscription is ArmListBySubscription<AccessPointAccount>;
+	get is ArmResourceRead<AccessPointAccount>;
+	createOrUpdate is ArmResourceCreateOrUpdateAsync<AccessPointAccount>;
+	update is ArmTagsPatchSync<AccessPointAccount>;
+	delete is ArmResourceDeleteWithoutOkAsync<AccessPointAccount>;
+	listByResourceGroup is ArmResourceListByParent<AccessPointAccount>;
+	listBySubscription is ArmListBySubscription<AccessPointAccount>;
 }
