@@ -22,17 +22,16 @@ model Hl7EdgeConnector is TrackedResource<Hl7EdgeConnectorProperties> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility("read", "create", "update")
   extendedLocation: ExtendedLocation;
 }
 
 @doc("Hl7EdgeConnector properties")
 model Hl7EdgeConnectorProperties {
   @doc("The Receiver Configuration to be used for hl7 connector configuration.")
-  @visibility("create", "read", "update", "delete")
   receiver?: {
     @doc("The Receiver Endpoint Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read")
+    @visibility("create", "read", "update")
     hl7Configuration?: {
       @doc("Optional string representing the carriage return character.")
       @maxLength(1)
@@ -78,7 +77,7 @@ model Hl7EdgeConnectorProperties {
     };
 
     @doc("The Storage Endpoint Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read")
+    @visibility("create", "read", "update")
     storageEndpointConfiguration?: {
       @doc("URL of the blob storage where the output will be stored.")
       @visibility("create", "read", "update")
@@ -95,10 +94,12 @@ model Hl7EdgeConnectorProperties {
       fileExtension?: string;
 
       @doc("Optional format for the output file name.")
+      @visibility("create", "read", "update")
       @maxLength(255)
       outputFileNameFormat?: string;
 
       @doc("Optional format for the output folder.")
+      @visibility("create", "read", "update")
       @maxLength(255)
       outputFolderFormat?: string;
     };
