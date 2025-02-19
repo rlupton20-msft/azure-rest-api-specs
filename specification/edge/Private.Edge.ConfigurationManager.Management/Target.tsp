@@ -52,6 +52,9 @@ model SolutionDependencyParameter {
   @doc("Solution Template Id")
   solutionTemplateVersion?: string;
 
+  @doc("Solution Instance Name")
+  solutionInstanceName?: string;
+
   @doc("Target Id")
   targetId?: string;
 
