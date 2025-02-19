@@ -21,42 +21,42 @@ namespace Microsoft.AccessPoint;
 
 @doc("Properties for a base resource.")
 model BaseResourceProperties {
-	@doc("The status of the last operation.")
-	@visibility("read")
-	provisioningState?: ProvisioningState;
+  @doc("The status of the last operation.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
 }
 
 @Azure.Core.lroStatus
 @doc("The provisioning status of the resource")
 union ProvisioningState {
-	@doc("Provisioning the resource is in progress")
-	Provisioning: "Provisioning",
+  @doc("Provisioning the resource is in progress")
+  Provisioning: "Provisioning",
 
-	@doc("Resource is being updated")
-	Updating: "Updating",
+  @doc("Resource is being updated")
+  Updating: "Updating",
 
-	@doc("Resource is being deleted")
-	Deleting: "Deleting",
+  @doc("Resource is being deleted")
+  Deleting: "Deleting",
 
-	@doc("The change request has been accepted")
-	Accepted: "Accepted",
+  @doc("The change request has been accepted")
+  Accepted: "Accepted",
 
-	ResourceProvisioningState,
+  ResourceProvisioningState,
 }
 
 @doc("The classification of the Access Point Account")
 union Classification {
-	/**
-	 * SAP Classification
-	 */
-	SAP: "sap",
+  /**
+   * SAP Classification
+   */
+  SAP: "sap",
 
-	/**
-	 * SCI_SAP Classification
-	 */
-	SCI_SAP: "sci_sar",
+  /**
+   * SCI_SAP Classification
+   */
+  SCI_SAP: "sci_sar",
 
-	string,
+  string,
 }
 
 @armResourceOperations

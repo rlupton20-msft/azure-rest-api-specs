@@ -23,32 +23,32 @@ namespace Microsoft.AccessPoint;
 @doc("An Access Point Update Group Resource")
 @parentResource(AccessPointAccount)
 model UpdateGroup is ProxyResource<UpdateGroupProperties> {
-	@doc("The name of the Update Group")
-	@key("updateGroupName")
-	@segment("updateGroups")
-	@pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
-	@path
-	name: string;
+  @doc("The name of the Update Group")
+  @key("updateGroupName")
+  @segment("updateGroups")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
+  @path
+  name: string;
 }
 
 @doc("Update Group Properties.")
 model UpdateGroupProperties {
-	@doc("The image mod name to associate.")
-	imageMod: string;
+  @doc("The image mod name to associate.")
+  imageMod: string;
 
-	@doc("Additional details.")
-	description?: string;
+  @doc("Additional details.")
+  description?: string;
 
-	@doc("The status of the last operation.")
-	@visibility("read")
-	provisioningState?: ProvisioningState;
+  @doc("The status of the last operation.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
 }
 
 @armResourceOperations
 interface UpdateGroupOperations {
-	get is ArmResourceRead<UpdateGroup>;
-	createOrUpdate is ArmResourceCreateOrUpdateAsync<UpdateGroup>;
-	update is ArmResourcePatchSync<UpdateGroup, UpdateGroupProperties>;
-	delete is ArmResourceDeleteWithoutOkAsync<UpdateGroup>;
-	listByParent is ArmResourceListByParent<UpdateGroup>;
+  get is ArmResourceRead<UpdateGroup>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<UpdateGroup>;
+  update is ArmResourcePatchSync<UpdateGroup, UpdateGroupProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<UpdateGroup>;
+  listByParent is ArmResourceListByParent<UpdateGroup>;
 }
