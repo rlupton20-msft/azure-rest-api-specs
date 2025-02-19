@@ -1,8 +1,8 @@
-# Healthcare Interop Mosaic edge
+# Healthcare Interop Mosaic cloud
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for Private HealthcareInteropDev edge service.
+This is the AutoRest configuration file for Private HealthcareInteropDev cloud service.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the Private HealthcareInteropDev edge service.
+These are the global settings for the Private HealthcareInteropDev cloud service.
 
 ```yaml
 openapi-type: arm
@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2025-05-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2025-05-01-preview'
 input-file:
-  - preview/2025-05-01-preview/edge.json
+  - preview/2025-05-01-preview/cloud.json
 ```
 
 ---
