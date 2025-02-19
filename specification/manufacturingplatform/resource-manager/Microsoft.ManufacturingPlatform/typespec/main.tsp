@@ -229,28 +229,6 @@ model AdxProfile {
   dataIngestionUri?: string;
 }
 
-@doc("The properties related to User Managed Database Resource")
-model UserManagedDatabaseProfile {
-  @doc("Resource Id of Cosmos Resource")
-  @visibility("read", "create")
-  cosmosId: string;
-}
-
-@doc("The properties related to User Managed Azure Data Explorer (Adx) Resource")
-model UserManagedAdxProfile {
-  @doc("Resource Id of Adx Resource")
-  @visibility("read", "create")
-  id: string;
-
-  @doc("Uri of Adx Resource")
-  @visibility("read")
-  uri?: string;
-
-  @doc("Data Ingestion Uri of Adx Resource")
-  @visibility("read")
-  dataIngestionUri?: string;
-}
-
 @doc("The properties related to Azure Redis Cache Resource")
 model RedisProfile {
   @doc("Resource Id of Azure Redis Cache Resource")
