@@ -59,6 +59,9 @@ model InstanceHistoryProperties {
   @visibility("read")
   solutionScope?: string;
 
+  @doc("State of instance")
+  activeState?: ActiveState;
+
   @doc("Reconciliation policy of instance")
   @visibility("read")
   reconciliationPolicy?: ReconciliationPolicyProperties;
