@@ -41,7 +41,7 @@ model StorageProperties {
   // TODO: Is it a resource identifier or just string? Please find example.
   subnetId: Azure.Core.armResourceIdentifier;
 
-  @doc("Sku.")
+  @doc("The storage Sku.")
   @visibility("read", "create")
   // TODO: Study ARM sku.
   sku: StorageSku;

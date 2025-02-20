@@ -4,7 +4,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
 
-import "./workspace.tsp";
 import "./project.tsp";
 
 using TypeSpec.Http;
@@ -18,15 +17,12 @@ using Azure.ResourceManager;
 namespace Microsoft.Science;
 
 @doc("AiAgent tracked resource")
-@parentResource(Workspace)
 model AiAgent is TrackedResource<AiAgentProperties> {
   ...ResourceNameParameter<AiAgent>;
 }
 
 @doc("AiAgent properties")
 model AiAgentProperties {
-  ...WithTitle;
-
   @doc("The description of the AI agent.")
   @visibility("read", "create", "update")
   description: string;
@@ -51,5 +47,6 @@ interface AiAgents {
     }
   >;
   delete is ArmResourceDeleteWithoutOkAsync<AiAgent>;
-  listByWorkspace is ArmResourceListByParent<AiAgent>;
+  listByResourceGroup is ArmResourceListByParent<AiAgent>;
+  listBySubscription is ArmListBySubscription<AiAgent>;
 }

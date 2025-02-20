@@ -93,6 +93,10 @@ model WorkspaceProperties {
   @doc("List of linked SuperComputers.")
   @extension("x-ms-identifiers", ["id"])
   supercomputers?: Array<LinkedSuperComputer>;
+
+  @doc("workspace endpoint Uri.")
+  @visibility("read")
+  workspaceUri: string;
 }
 
 @armResourceOperations

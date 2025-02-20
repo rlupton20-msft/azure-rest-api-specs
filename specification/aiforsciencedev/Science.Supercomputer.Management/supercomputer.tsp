@@ -17,6 +17,7 @@ namespace Microsoft.Science;
 @doc("Supercomputer tracked resource")
 model Supercomputer is TrackedResource<SupercomputerProperties> {
   ...ResourceNameParameter<Supercomputer>;
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("Supercomputer properties")
