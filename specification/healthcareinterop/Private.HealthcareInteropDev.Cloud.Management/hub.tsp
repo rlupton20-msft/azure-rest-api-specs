@@ -37,13 +37,13 @@ model HubProperties {
 
 @doc("An Environment hosted on a remote location where Connectors can be deployed.")
 model RemoteConnectorEnvironment {
-  @doc("Name to be used for the managed resource group that will be created.")
+  @doc("The name of the remote connector environment connected cluster.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   name: string;
 
   @doc("The resource id of the remote connector environment connected cluster.")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   connectedClusterId: armResourceIdentifier<[
     {
       type: "Microsoft.Kubernetes/connectedClusters";
