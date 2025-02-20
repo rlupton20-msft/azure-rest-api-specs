@@ -97,7 +97,7 @@ model ApprovalStageDefinition {
 @armResourceOperations(ApprovalDefinition)
 interface ApprovalDefinitions {
   get is ArmResourceRead<ApprovalDefinition>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<ApprovalDefinition>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ApprovalDefinition>;
   update is ArmResourcePatchSync<
     ApprovalDefinition,
     ApprovalDefinitionProperties
