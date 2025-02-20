@@ -16,17 +16,9 @@ model NetworkAnchor is TrackedResource<NetworkAnchorProperties> {
 @added(Versions.v20250301_preview)
 @doc("Network Anchor properties")
 model NetworkAnchorProperties {
-  @doc("NetworkAnchor OCID")
-  @visibility("read")
-  ocid?: Ocid;
-
   @doc("Display Name")
   @visibility("create", "read", "update")
   displayName?: string;
-
-  @doc("Corresponding resource anchor OCID")
-  @visibility("read")
-  resourceAnchorOcid?: Ocid;
 
   @doc("Corresponding resource anchor Azure ID")
   @visibility("create", "read", "update")
@@ -41,41 +33,36 @@ model NetworkAnchorProperties {
   provisioningState?: AzureResourceProvisioningState;
 
   @doc("VNET for network connectivity")
-  @visibility("create", "read", "update")
-  vnetId?: VnetId;
+  @visibility("create", "read")
+  vnetId: VnetId;
 
   @doc("Client subnet")
-  @visibility("create", "read", "update")
-  subnetId?: SubnetId;
+  @visibility("create", "read")
+  subnetId: SubnetId;
 
   @doc("Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   dnsLabel?: string;
 
-  @doc("DNS domain ip mapping forwarding configuration")
-  @visibility("create", "read", "update")
-  @extension("x-ms-identifiers", [])
-  dnsForwardingConfig?: DnsForwardingConfig[];
-
   @doc("Full custom domain name. If this field is passed dnsLabel will be ignored")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   customDomainName?: string;
 
   @doc("Client primary cidr block")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   cidrBlock?: string;
 
   @doc("Client backup cidr block")
-  @visibility("create", "read", "update")
+  @visibility("create", "read")
   backupCidrBlock?: string;
-
-  @doc("Oracle Cloud Infrastructure VCN OCID")
-  @visibility("read")
-  vcnOcid?: Ocid;
 
   @doc("Indicates whether OCI networking counterparts should be auto-created")
   @visibility("create")
   setupMode: NetworkAnchorSetupMode;
+
+  @doc("OCI Network Anchor Metadata")
+  @visibility("read")
+  ociNetworkAnchorMetadata: OciNetworkAnchorMetadata;
 }
 
 @added(Versions.v20250301_preview)
@@ -115,16 +102,6 @@ union NetworkAnchorLifecycleState {
 }
 
 @added(Versions.v20250301_preview)
-@doc("DNS domain to ip mapping forwarding configuration")
-model DnsForwardingConfig {
-  @doc("Domain name")
-  domain: string;
-
-  @doc("IP address to resolve domain to")
-  ipAddress: string;
-}
-
-@added(Versions.v20250301_preview)
 @doc("NetworkAnchor SetupMode enum")
 union NetworkAnchorSetupMode {
   @doc("When passed, compartment will be created on-behalf of customer and bind to this network anchor")
@@ -134,4 +111,32 @@ union NetworkAnchorSetupMode {
   NoAutoBind: "NoAutoBind",
 
   string,
+}
+
+@added(Versions.v20250301_preview)
+@doc("OCI Network Anchor Metadata")
+model OciNetworkAnchorMetadata {
+  @doc("NetworkAnchor OCID")
+  @visibility("read")
+  networkAnchorId?: Ocid;
+
+  @doc("Corresponding resource anchor OCID")
+  @visibility("read")
+  resourceAnchorId?: Ocid;
+
+  @doc("Oracle Cloud Infrastructure VCN OCID")
+  @visibility("read")
+  vcnId?: Ocid;
+
+  @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
+  @visibility("read")
+  compartmentId?: Ocid;
+
+  @doc("Oracle Cloud Infrastructure region")
+  @visibility("read")
+  ociRegion?: string;
+
+  @doc("The date and time the network anchor was updated in Oracle Cloud Infrastructure")
+  @visibility("read")
+  timeUpdated: utcDateTime;
 }

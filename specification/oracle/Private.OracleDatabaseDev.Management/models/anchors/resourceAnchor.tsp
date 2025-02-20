@@ -15,9 +15,9 @@ model ResourceAnchor is TrackedResource<ResourceAnchorProperties> {
 @added(Versions.v20250301_preview)
 @doc("Resource Anchor properties.")
 model ResourceAnchorProperties {
-  @doc("ResourceAnchor OCID")
+  @doc("OCI Resource Anchor Metadata")
   @visibility("read")
-  ocid?: Ocid;
+  ociResourceAnchorMetadata: OciResourceAnchorMetadata;
 
   @doc("Display Name")
   @visibility("create", "read", "update")
@@ -42,8 +42,11 @@ union ResourceAnchorLifecycleState {
   @doc("Indicates that resource in Creating state")
   Creating: "Creating",
 
-  @doc("Indicates that resource in Active state")
-  Active: "Active",
+  @doc("Indicates that resource in Connected state")
+  Connected: "Connected",
+
+  @doc("Indicates that resource in Disconnected state")
+  Disconnected: "Disconnected",
 
   @doc("Indicates that resource in Updating state")
   Updating: "Updating",
@@ -70,4 +73,32 @@ union ResourceAnchorSetupMode {
   NoAutoBind: "NoAutoBind",
 
   string,
+}
+
+@added(Versions.v20250301_preview)
+@doc("OCI Resource Anchor Metadata")
+model OciResourceAnchorMetadata {
+  @doc("Resource anchor OCID")
+  @visibility("read")
+  resourceAnchorId?: Ocid;
+
+  @doc("OCI Subscription OCID")
+  @visibility("read")
+  ociSubscriptionId: Ocid;
+
+  @doc("Oracle Cloud Infrastructure region")
+  @visibility("read")
+  ociRegion?: string;
+
+  @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
+  @visibility("read")
+  compartmentId?: Ocid;
+
+  @doc("Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives")
+  @visibility("read")
+  linkedCompartmentId?: Ocid;
+
+  @doc("The date and time the resource anchor was updated in Oracle Cloud Infrastructure")
+  @visibility("read")
+  timeUpdated: utcDateTime;
 }

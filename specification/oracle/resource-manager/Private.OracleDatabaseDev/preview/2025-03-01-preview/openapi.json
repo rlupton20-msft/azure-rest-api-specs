@@ -9520,24 +9520,6 @@
         ]
       }
     },
-    "DnsForwardingConfig": {
-      "type": "object",
-      "description": "DNS domain to ip mapping forwarding configuration",
-      "properties": {
-        "domain": {
-          "type": "string",
-          "description": "Domain name"
-        },
-        "ipAddress": {
-          "type": "string",
-          "description": "IP address to resolve domain to"
-        }
-      },
-      "required": [
-        "domain",
-        "ipAddress"
-      ]
-    },
     "DnsPrivateView": {
       "type": "object",
       "description": "DnsPrivateView resource definition",
@@ -11456,11 +11438,6 @@
       "type": "object",
       "description": "Network Anchor properties",
       "properties": {
-        "ocid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "NetworkAnchor OCID",
-          "readOnly": true
-        },
         "displayName": {
           "type": "string",
           "description": "Display Name",
@@ -11469,11 +11446,6 @@
             "update",
             "create"
           ]
-        },
-        "resourceAnchorOcid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Corresponding resource anchor OCID",
-          "readOnly": true
         },
         "resourceAnchorId": {
           "type": "string",
@@ -11499,7 +11471,6 @@
           "description": "VNET for network connectivity",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11508,7 +11479,6 @@
           "description": "Client subnet",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11517,20 +11487,6 @@
           "description": "Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.",
           "x-ms-mutability": [
             "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsForwardingConfig": {
-          "type": "array",
-          "description": "DNS domain ip mapping forwarding configuration",
-          "items": {
-            "$ref": "#/definitions/DnsForwardingConfig"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
             "create"
           ]
         },
@@ -11539,7 +11495,6 @@
           "description": "Full custom domain name. If this field is passed dnsLabel will be ignored",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11548,7 +11503,6 @@
           "description": "Client primary cidr block",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11557,14 +11511,8 @@
           "description": "Client backup cidr block",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
-        },
-        "vcnOcid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure VCN OCID",
-          "readOnly": true
         },
         "setupMode": {
           "$ref": "#/definitions/NetworkAnchorSetupMode",
@@ -11572,10 +11520,18 @@
           "x-ms-mutability": [
             "create"
           ]
+        },
+        "ociNetworkAnchorMetadata": {
+          "$ref": "#/definitions/OciNetworkAnchorMetadata",
+          "description": "OCI Network Anchor Metadata",
+          "readOnly": true
         }
       },
       "required": [
-        "setupMode"
+        "vnetId",
+        "subnetId",
+        "setupMode",
+        "ociNetworkAnchorMetadata"
       ]
     },
     "NetworkAnchorSetupMode": {
@@ -11635,73 +11591,6 @@
         "resourceAnchorId": {
           "type": "string",
           "description": "Corresponding resource anchor Azure ID",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "vnetId": {
-          "$ref": "#/definitions/VnetId",
-          "description": "VNET for network connectivity",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "subnetId": {
-          "$ref": "#/definitions/SubnetId",
-          "description": "Client subnet",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsLabel": {
-          "type": "string",
-          "description": "Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsForwardingConfig": {
-          "type": "array",
-          "description": "DNS domain ip mapping forwarding configuration",
-          "items": {
-            "$ref": "#/definitions/DnsForwardingConfig"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "customDomainName": {
-          "type": "string",
-          "description": "Full custom domain name. If this field is passed dnsLabel will be ignored",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "cidrBlock": {
-          "type": "string",
-          "description": "Client primary cidr block",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "backupCidrBlock": {
-          "type": "string",
-          "description": "Client backup cidr block",
           "x-ms-mutability": [
             "read",
             "update",
@@ -11770,6 +11659,87 @@
           }
         ]
       }
+    },
+    "OciNetworkAnchorMetadata": {
+      "type": "object",
+      "description": "OCI Network Anchor Metadata",
+      "properties": {
+        "networkAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "NetworkAnchor OCID",
+          "readOnly": true
+        },
+        "resourceAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Corresponding resource anchor OCID",
+          "readOnly": true
+        },
+        "vcnId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure VCN OCID",
+          "readOnly": true
+        },
+        "compartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
+          "readOnly": true
+        },
+        "ociRegion": {
+          "type": "string",
+          "description": "Oracle Cloud Infrastructure region",
+          "readOnly": true
+        },
+        "timeUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the network anchor was updated in Oracle Cloud Infrastructure",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "timeUpdated"
+      ]
+    },
+    "OciResourceAnchorMetadata": {
+      "type": "object",
+      "description": "OCI Resource Anchor Metadata",
+      "properties": {
+        "resourceAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Resource anchor OCID",
+          "readOnly": true
+        },
+        "ociSubscriptionId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "OCI Subscription OCID",
+          "readOnly": true
+        },
+        "ociRegion": {
+          "type": "string",
+          "description": "Oracle Cloud Infrastructure region",
+          "readOnly": true
+        },
+        "compartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
+          "readOnly": true
+        },
+        "linkedCompartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives",
+          "readOnly": true
+        },
+        "timeUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the resource anchor was updated in Oracle Cloud Infrastructure",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "ociSubscriptionId",
+        "timeUpdated"
+      ]
     },
     "Ocid": {
       "type": "string",
@@ -12448,7 +12418,8 @@
       "description": "ResourceAnchor lifecycle state enum",
       "enum": [
         "Creating",
-        "Active",
+        "Connected",
+        "Disconnected",
         "Updating",
         "Failed",
         "Deleting",
@@ -12464,9 +12435,14 @@
             "description": "Indicates that resource in Creating state"
           },
           {
-            "name": "Active",
-            "value": "Active",
-            "description": "Indicates that resource in Active state"
+            "name": "Connected",
+            "value": "Connected",
+            "description": "Indicates that resource in Connected state"
+          },
+          {
+            "name": "Disconnected",
+            "value": "Disconnected",
+            "description": "Indicates that resource in Disconnected state"
           },
           {
             "name": "Updating",
@@ -12516,9 +12492,9 @@
       "type": "object",
       "description": "Resource Anchor properties.",
       "properties": {
-        "ocid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "ResourceAnchor OCID",
+        "ociResourceAnchorMetadata": {
+          "$ref": "#/definitions/OciResourceAnchorMetadata",
+          "description": "OCI Resource Anchor Metadata",
           "readOnly": true
         },
         "displayName": {
@@ -12549,6 +12525,7 @@
         }
       },
       "required": [
+        "ociResourceAnchorMetadata",
         "setupMode"
       ]
     },
