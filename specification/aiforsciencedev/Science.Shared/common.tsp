@@ -37,7 +37,7 @@ model WithTitle {
   @doc("The title")
   @visibility("read", "create", "update")
   // Defaults to name."
-  title: string;
+  displayName: string;
 }
 
 @doc("For adding status.")
@@ -100,21 +100,6 @@ model WithCreatedByType {
   @doc("The type of user who created this resource.")
   @visibility("read")
   createdByType: ByType;
-}
-
-@doc("Reference to a resource.")
-model ResourceReference {
-  @doc("Resource ID")
-  @visibility("read", "create", "update")
-  id: string;
-
-  //  @doc("Resource name")
-  //  @visibility("read")
-  //  name?: string;
-  //
-  //  @doc("Resource name")
-  //  @visibility("read")
-  //  title?: string;
 }
 
 @doc("For adding last update timestamp.")

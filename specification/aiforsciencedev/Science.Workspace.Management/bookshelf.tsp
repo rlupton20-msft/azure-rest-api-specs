@@ -13,8 +13,8 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Bookshelf tracked resource")
 model Bookshelf is TrackedResource<BookshelfProperties> {
@@ -42,9 +42,9 @@ model BookshelfProperties {
   @visibility("read")
   managedResourceGroup: string;
 
-  /** The bookshelf dataplane URI */
+  /** The bookshelf dataplane API URI */
   @visibility("read")
-  bookshelfUri: string;
+  bookshelfApiUri: string;
 
   // ...InternalMetaData;
 }

@@ -11,8 +11,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Science.Catalog.Versions)
-namespace Microsoft.Science.Catalog;
+@versioned(Microsoft.AiForScience.Catalog.Versions)
+namespace Microsoft.AiForScience.Catalog;
 
 @doc("A Catalog.")
 @resource("catalogs")

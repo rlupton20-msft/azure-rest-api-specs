@@ -14,19 +14,8 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
-
-@doc("Reference to a Catalog artifact.")
-model Artifact {
-  @doc("Catalog artifact ID")
-  @visibility("read", "create", "update")
-  id: string;
-
-  @doc("Catalog artifact name")
-  @visibility("read", "create", "update")
-  name: string;
-}
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Project tracked resource")
 @parentResource(Workspace)
@@ -42,17 +31,37 @@ model ProjectProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
+  @doc("Settings for configuring Science Catalog agent availability.")
+  @visibility("read", "create", "update")
+  agentIds: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/agent";
+    }
+  ]>[];
+
   @doc("Settings for configuring Science Catalog tool availability.")
   @visibility("read", "create", "update")
-  tools: Artifact[];
+  toolIds: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/tool";
+    }
+  ]>[];
 
   @doc("Settings for configuring Science Catalog Model availability.")
   @visibility("read", "create", "update")
-  models: Artifact[];
+  modelIds: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/model";
+    }
+  ]>[];
 
   @doc("Settings for configuring Science Catalog Knowledge Base availability.")
   @visibility("read", "create", "update")
-  knowledgeBases: Artifact[];
+  knowledgeBaseIds: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/knowledgeBase";
+    }
+  ]>[];
 
   //    @doc("Settings for configuring Science Catalog Data Asset availability.")
   //    @visibility("read", "create", "update")

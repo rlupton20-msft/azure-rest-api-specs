@@ -11,8 +11,8 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Supercomputer tracked resource")
 model Supercomputer is TrackedResource<SupercomputerProperties> {
@@ -34,7 +34,11 @@ model SupercomputerProperties {
   // read
   @doc("The ID of the workspace.")
   @visibility("read")
-  workspaceId: string; // ARM ID
+  workspaceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/workspace";
+    }
+  ]>;
 }
 
 @armResourceOperations

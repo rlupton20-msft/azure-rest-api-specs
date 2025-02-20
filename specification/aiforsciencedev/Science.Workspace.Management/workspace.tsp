@@ -14,8 +14,8 @@ using Azure.ResourceManager;
 using OpenAPI;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Linked Storage.")
 model LinkedStorage {
@@ -23,7 +23,7 @@ model LinkedStorage {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/storage"; // TODO: Change to Science shared storage?
+      type: "Microsoft.AiForScience/storage"; // TODO: Change to Science shared storage?
     }
   ]>;
 }
@@ -34,7 +34,7 @@ model LinkedBookShelf {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/bookshelf";
+      type: "Microsoft.AiForScience/bookshelf";
     }
   ]>;
 }
@@ -45,7 +45,7 @@ model LinkedSuperComputer {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/supercomputer";
+      type: "Microsoft.AiForScience/supercomputer";
     }
   ]>;
 }
@@ -56,7 +56,7 @@ model LinkedSuperComputer {
 //  @visibility("read", "create", "update")
 //  id: Azure.Core.armResourceIdentifier<[
 //    {
-//      type: "Microsoft.Science/catalog";
+//      type: "Microsoft.AiForScience/catalog";
 //    }
 //  ]>;
 //}

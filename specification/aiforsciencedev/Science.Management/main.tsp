@@ -15,12 +15,12 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-/** Microsoft.Science Resource Provider management API. */
+/** Microsoft.AiForScience Resource Provider management API. */
 @armProviderNamespace
 @service({
-  title: "Microsoft.Science management service",
+  title: "Microsoft.AiForScience management service",
 })
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 interface Operations extends Azure.ResourceManager.Operations {}

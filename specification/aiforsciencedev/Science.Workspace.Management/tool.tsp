@@ -14,10 +14,10 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
-@doc("tools tracked resource")
+@doc("Tool tracked resource")
 model Tool is TrackedResource<ToolProperties> {
   ...ResourceNameParameter<Tool>;
 }
@@ -34,7 +34,8 @@ model ToolProperties {
 
   @doc("Reference to catalog tool definition.")
   @visibility("read", "create", "update")
-  catalogToolReference: Artifact;
+  // TODO: Include "definition" in property name?
+  catalogToolId: string;
 
   @doc("The parameters of the execution.")
   @visibility("read", "create", "update")
@@ -42,7 +43,11 @@ model ToolProperties {
 
   @doc("The ID of the workspace.")
   @visibility("read", "create")
-  workspaceId: string; // ARM ID
+  workspaceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/workspace";
+    }
+  ]>;
 }
 
 @doc("Parameter model for executions")

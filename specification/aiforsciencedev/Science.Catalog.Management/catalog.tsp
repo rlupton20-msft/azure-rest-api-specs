@@ -11,8 +11,8 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Catalog tracked resource")
 model Catalog is TrackedResource<CatalogProperties> {
@@ -28,6 +28,10 @@ model CatalogProperties {
   @doc("The URI/URL for the Catalog user interface.")
   @visibility("read")
   catalogUiUri?: string;
+
+  @doc("The URI/URL for the Catalog data plane API.")
+  @visibility("read")
+  catalogApiUri?: string;
 
   @doc("The managed resource group for the Catalog managed resources.")
   @visibility("read")

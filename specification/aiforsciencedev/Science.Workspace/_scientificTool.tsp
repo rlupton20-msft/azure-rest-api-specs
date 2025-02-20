@@ -9,8 +9,8 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("A Scientific tool.")
 @resource("scientificTools")
@@ -67,10 +67,18 @@ model ExecutionRequest {
   outputHandles?: DataHandle[];
 
   @doc("IDs of NodePools to use for this execution.")
-  nodePoolIds: ResourceReference[];
+  nodePoolIds: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/nodePool";
+    }
+  ]>[];
 
   @doc("The shared storage to use for this execution.")
-  sharedStorage: ResourceReference;
+  sharedStorage: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/storage";
+    }
+  ]>;
 }
 
 /** Enum for IndexingStatus */

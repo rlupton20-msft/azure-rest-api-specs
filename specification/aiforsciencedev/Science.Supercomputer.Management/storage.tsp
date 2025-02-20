@@ -14,8 +14,8 @@ using Azure.ResourceManager;
 using OpenAPI;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Enum for storage sku")
 union StorageSku {
@@ -28,6 +28,7 @@ union StorageSku {
 @doc("Storage tracked resource")
 model Storage is TrackedResource<StorageProperties> {
   ...ResourceNameParameter<Storage>;
+  ...ResourcePlanProperty; // Adds sku: https://azure.github.io/typespec-azure/docs/libraries/azure-resource-manager/reference/data-types/
 }
 
 @doc("Storage properties")
@@ -39,12 +40,13 @@ model StorageProperties {
   @doc("The ARM resource ID of the subnet. The subnetId should match the vnetId of supercomputers which will be used for running the tools that use the shared storage.")
   @visibility("read", "create", "update")
   // TODO: Is it a resource identifier or just string? Please find example.
+  // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
   subnetId: Azure.Core.armResourceIdentifier;
 
-  @doc("The storage Sku.")
-  @visibility("read", "create")
-  // TODO: Study ARM sku.
-  sku: StorageSku;
+  //  @doc("The storage Sku.")
+  //  @visibility("read", "create")
+  // TODO: See ResourcePlanProperty
+  //  sku: StorageSku;
 
   // TODO: Add Mobo config
 }

@@ -32,9 +32,9 @@ using Azure.Core;
   ]>
 )
 @service({
-  title: "Microsoft.Science.Workspace service",
+  title: "Microsoft.AiForScience.Workspace service",
 })
-@versioned(Microsoft.Science.Workspace.Versions)
+@versioned(Microsoft.AiForScience.Workspace.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
   "{endpoint}/workspaces/{workspaceName}",
@@ -54,11 +54,11 @@ using Azure.Core;
     apiVersion: Versions,
   }
 )
-namespace Microsoft.Science.Workspace;
+namespace Microsoft.AiForScience.Workspace;
 
-@doc("The Microsoft.Science.Workspace service versions.")
+@doc("The Microsoft.AiForScience.Workspace service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2024-12-01-preview version of the Microsoft.Science.Workspace service.")
+  @doc("The 2024-12-01-preview version of the Microsoft.AiForScience.Workspace service.")
   `2024-12-01-preview`,
 }
