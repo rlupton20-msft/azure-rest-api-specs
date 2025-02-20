@@ -41,16 +41,7 @@ union ProvisioningState {
   @doc("The change request has been accepted")
   Accepted: "Accepted",
 
-  @doc("The change request has been canceled")
-  Canceled: "Canceled",
-
-  @doc("The change request has succeeded")
-  Succeeded: "Succeeded",
-
-  @doc("The change request has failed")
-  Failed: "Failed",
-
-  string,
+  ResourceProvisioningState,
 }
 
 @doc("The classification of the Access Point Account")
