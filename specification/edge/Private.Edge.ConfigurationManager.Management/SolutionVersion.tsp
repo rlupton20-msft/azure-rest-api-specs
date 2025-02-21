@@ -49,7 +49,8 @@ model SolutionVersionProperties {
   state?: State;
 
   @doc("Solution instance name")
-  solutionInstanceName: string;
+  @visibility("read")
+  solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
   @extension("x-ms-identifiers", [])
@@ -85,7 +86,7 @@ model SolutionVersion
   // Name will be set to solutionTemplateVersion-revision
   @doc("Name of the solution version")
   @maxLength(61)
-  @minLength(3)
+  @minLength(7)
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("solutionVersionName")
