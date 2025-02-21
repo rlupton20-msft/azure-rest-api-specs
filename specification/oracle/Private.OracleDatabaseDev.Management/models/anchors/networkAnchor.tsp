@@ -28,6 +28,10 @@ model NetworkAnchorProperties {
   @visibility("read")
   lifecycleState?: NetworkAnchorLifecycleState;
 
+  @doc("Additional information about the current lifecycle state.")
+  @visibility("read")
+  lifecycleDetails?: string;
+
   @doc("NetworkAnchor provisioning state")
   @visibility("read")
   provisioningState?: AzureResourceProvisioningState;
@@ -68,35 +72,26 @@ model NetworkAnchorProperties {
 @added(Versions.v20250301_preview)
 @doc("NetworkAnchor lifecycle state enum")
 union NetworkAnchorLifecycleState {
-  @doc("Indicates that resource in Connected state")
-  Connected: "Connected",
-
-  @doc("Indicates that resource in Disconnected state")
-  Disconnected: "Disconnected",
-
-  @doc("Indicates that resource in Connecting state")
-  Connecting: "Connecting",
+  @doc("Indicates that resource in Creating state")
+  Creating: "Creating",
 
   @doc("Indicates that resource in Active state")
   Active: "Active",
 
-  @doc("Indicates that resource in Error state")
-  Error: "Error",
+  @doc("Indicates that resource in Inactive state")
+  Inactive: "Inactive",
 
   @doc("Indicates that resource in Updating state")
   Updating: "Updating",
-
-  @doc("Indicates that resource in NeedsAttention state")
-  NeedsAttention: "NeedsAttention",
-
-  @doc("Indicates that resource in Failed state")
-  Failed: "Failed",
 
   @doc("Indicates that resource in Deleting state")
   Deleting: "Deleting",
 
   @doc("Indicates that resource in Deleted state")
   Deleted: "Deleted",
+
+  @doc("Indicates that resource in Failed state")
+  Failed: "Failed",
 
   string,
 }
@@ -127,6 +122,10 @@ model OciNetworkAnchorMetadata {
   @doc("Oracle Cloud Infrastructure VCN OCID")
   @visibility("read")
   vcnId?: Ocid;
+
+  @doc("Oracle Cloud Infrastructure subnet OCID")
+  @visibility("read")
+  subnetId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
   @visibility("read")

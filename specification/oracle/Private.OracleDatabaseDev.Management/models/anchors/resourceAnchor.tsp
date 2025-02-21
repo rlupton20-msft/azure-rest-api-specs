@@ -27,6 +27,10 @@ model ResourceAnchorProperties {
   @visibility("read")
   lifecycleState?: ResourceAnchorLifecycleState;
 
+  @doc("Additional information about the current lifecycle state.")
+  @visibility("read")
+  lifecycleDetails?: string;
+
   @doc("ResourceAnchor provisioning state")
   @visibility("read")
   provisioningState?: AzureResourceProvisioningState;
@@ -42,23 +46,23 @@ union ResourceAnchorLifecycleState {
   @doc("Indicates that resource in Creating state")
   Creating: "Creating",
 
-  @doc("Indicates that resource in Connected state")
-  Connected: "Connected",
+  @doc("Indicates that resource in Active state")
+  Active: "Active",
 
-  @doc("Indicates that resource in Disconnected state")
-  Disconnected: "Disconnected",
+  @doc("Indicates that resource in Inactive state")
+  Inactive: "Inactive",
 
   @doc("Indicates that resource in Updating state")
   Updating: "Updating",
-
-  @doc("Indicates that resource in Failed state")
-  Failed: "Failed",
 
   @doc("Indicates that resource in Deleting state")
   Deleting: "Deleting",
 
   @doc("Indicates that resource in Deleted state")
   Deleted: "Deleted",
+
+  @doc("Indicates that resource in Failed state")
+  Failed: "Failed",
 
   string,
 }
