@@ -23,6 +23,9 @@ model DstsApplicationResourceProperties {
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
 
+  @doc("The mode used to deploy the resource. Default value is Incremental. Acceptable values: Incremental, Complete.")
+  deploymentMode?: "Incremental" | "Complete" | string = "Incremental";
+
   @doc("Provisioning status of the resource.")
   @visibility("read")
   provisioningState?: DscmProvisioningState;
