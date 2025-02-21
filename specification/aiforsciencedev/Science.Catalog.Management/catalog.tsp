@@ -33,9 +33,7 @@ model CatalogProperties {
   @visibility("read")
   catalogApiUri?: string;
 
-  @doc("The managed resource group for the Catalog managed resources.")
-  @visibility("read")
-  managedResourceGroup: string;
+  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

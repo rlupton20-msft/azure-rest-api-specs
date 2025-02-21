@@ -27,11 +27,6 @@ model SupercomputerProperties {
   provisioningState?: ProvisioningState;
 
   // read
-  @doc("The mobo settings.")
-  @visibility("read")
-  managedResourceGroup: string; // TODO: MObo config
-
-  // read
   @doc("The ID of the workspace.")
   @visibility("read")
   workspaceId: Azure.Core.armResourceIdentifier<[
@@ -39,6 +34,8 @@ model SupercomputerProperties {
       type: "Microsoft.AiForScience/workspace";
     }
   ]>;
+
+  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

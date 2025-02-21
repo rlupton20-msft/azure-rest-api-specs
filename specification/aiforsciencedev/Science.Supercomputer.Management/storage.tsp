@@ -17,14 +17,6 @@ using OpenAPI;
 @versioned(Microsoft.AiForScience.Versions)
 namespace Microsoft.AiForScience;
 
-@doc("Enum for storage sku")
-union StorageSku {
-  /** Standard Sku */
-  Standard: "Standard",
-
-  string,
-}
-
 @doc("Storage tracked resource")
 model Storage is TrackedResource<StorageProperties> {
   ...ResourceNameParameter<Storage>;
@@ -43,12 +35,7 @@ model StorageProperties {
   // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
   subnetId: Azure.Core.armResourceIdentifier;
 
-  //  @doc("The storage Sku.")
-  //  @visibility("read", "create")
-  // TODO: See ResourcePlanProperty
-  //  sku: StorageSku;
-
-  // TODO: Add Mobo config
+  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

@@ -21,14 +21,8 @@ model ToolDefinitionAttributes {
   ...WithCategory;
   ...WithLicense;
   ...WithVersion;
-
-  @doc("A tool docs URI.")
-  @visibility("read")
-  toolDocs: string;
-
-  @doc("A tool repo URI.")
-  @visibility("read")
-  toolRepo: string;
+  ...WithDocs;
+  ...WithRepo;
 }
 
 @doc("A base tool.")

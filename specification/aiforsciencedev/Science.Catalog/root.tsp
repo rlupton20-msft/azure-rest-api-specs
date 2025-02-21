@@ -62,9 +62,9 @@ model ToolDefinitionAnyCatalog {
 //}
 
 @doc("A catalog knowledge base.")
-@resource("knowledgeBaseDefinitions")
-model KnowledgeBaseDefinitionAnyCatalog {
-  ...BaseKnowledgeBaseDefinition;
+@resource("knowledgeBases")
+model KnowledgeBaseAnyCatalog {
+  ...BaseKnowledgeBase;
 
   @doc("The asset name.")
   @visibility("read")
@@ -99,8 +99,8 @@ interface Root {
   //  >;
 
   @doc("Retrieve a list of knowledge bases for all catalogs.")
-  listKnowledgeBaseDefinitions is Operations.ResourceList<
-    KnowledgeBaseDefinitionAnyCatalog,
-    KnowledgeBaseDefinitionAnyCatalog
+  listKnowledgeBases is Operations.ResourceList<
+    KnowledgeBaseAnyCatalog,
+    KnowledgeBaseAnyCatalog
   >;
 }
