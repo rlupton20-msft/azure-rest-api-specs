@@ -383,13 +383,22 @@ interface ManufacturingDataServices {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<MdsResource>;
   // update is ArmResourcePatchAsync<MdsResource, MdsResourceProperties>;
   //temporary fix until typespec fix the issue of generating update classes
-  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource,MdsResourceProperties>>;
+  update is ArmCustomPatchAsync<
+    MdsResource,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      MdsResource,
+      MdsResourceProperties
+    >
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<MdsResource>;
   listByResourceGroup is ArmResourceListByParent<MdsResource>;
   listBySubscription is ArmListBySubscription<MdsResource>;
 
   @doc("Returns the list of available versions")
-  listAvailableVersions is ArmResourceListActionSync<MdsResource,AvailableVersionListResult>;
+  listAvailableVersions is ArmResourceListActionSync<
+    MdsResource,
+    AvailableVersionListResult
+  >;
 }
 
 // note this is a template for an empty body resource action, which will be added to the library at some point
