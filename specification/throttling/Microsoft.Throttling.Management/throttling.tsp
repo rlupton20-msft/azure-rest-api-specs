@@ -19,8 +19,8 @@ enum Versions {
     Azure.Core.Versions.v1_0_Preview_2,
     Azure.ResourceManager.Versions.v1_0_Preview_1
   )
-  @doc("Version 2025-03-01-preview")
-  v2025_03_01_preview: "2025-03-01-preview",
+  @doc("Version 2024-01-01-preview")
+  v2024_01_01_preview: "2024-01-01-preview",
 }
 
 using TypeSpec.Http;
@@ -96,10 +96,10 @@ model ProxyAccountAuthenticationProperties {
 }
 
 @doc("Throttling account")
-model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
-  @doc("Throttling account name")
-  @key("throttlingAccountName")
-  @segment("throttlingAccounts")
+model Account is TrackedResource<AccountProperties> {
+  @doc("Account name")
+  @key("accountName")
+  @segment("accounts")
   @path
   @visibility("read")
   @minLength(3)
@@ -108,27 +108,24 @@ model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
   name: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Throttling account kind")
+  @doc("Account kind")
   @visibility("create", "read")
   @pattern("^direct|indirect,[a-z]+$")
   kind: string;
 }
 
 @armResourceOperations
-interface ThrottlingAccounts {
-  get is ArmResourceRead<ThrottlingAccount>;
-  create is ArmResourceCreateOrReplaceAsync<ThrottlingAccount>;
-  update is ArmResourcePatchAsync<
-    ThrottlingAccount,
-    ThrottlingAccountProperties
-  >;
-  delete is ArmResourceDeleteWithoutOkAsync<ThrottlingAccount>;
-  listByResourceGroup is ArmResourceListByParent<ThrottlingAccount>;
-  listBySubscription is ArmListBySubscription<ThrottlingAccount>;
+interface Accounts {
+  get is ArmResourceRead<Account>;
+  create is ArmResourceCreateOrReplaceAsync<Account>;
+  update is ArmResourcePatchAsync<Account, AccountProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Account>;
+  listByResourceGroup is ArmResourceListByParent<Account>;
+  listBySubscription is ArmListBySubscription<Account>;
 }
 
-@doc("Throttling account properties")
-model ThrottlingAccountProperties {
+@doc("Account properties")
+model AccountProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -170,12 +167,12 @@ model AzureActiveDirectoryProperties {
   objectId: uuid;
 }
 
-@doc("Throttling rules")
-@parentResource(ThrottlingAccount)
-model Rule is TrackedResource<RuleProperties> {
-  @doc("Throttling rule name")
-  @key("ruleName")
-  @segment("rules")
+@doc("Throttling category")
+@parentResource(Account)
+model Category is TrackedResource<CategoryProperties> {
+  @doc("Throttling category name")
+  @key("categoryName")
+  @segment("categories")
   @path
   @visibility("read")
   @minLength(3)
@@ -185,16 +182,16 @@ model Rule is TrackedResource<RuleProperties> {
 }
 
 @armResourceOperations
-interface Rules {
-  get is ArmResourceRead<Rule>;
-  create is ArmResourceCreateOrReplaceAsync<Rule>;
-  update is ArmResourcePatchAsync<Rule, RuleProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Rule>;
-  listByAccount is ArmResourceListByParent<Rule>;
+interface Categories {
+  get is ArmResourceRead<Category>;
+  create is ArmResourceCreateOrReplaceAsync<Category>;
+  update is ArmResourcePatchAsync<Category, CategoryProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Category>;
+  listByAccount is ArmResourceListByParent<Category>;
 }
 
-@doc("Throttling rule properties")
-model RuleProperties {
+@doc("Category properties")
+model CategoryProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -203,10 +200,10 @@ model RuleProperties {
   @minValue(1)
   threshold: int32;
 
-  @doc("Bucket's depth multiplier")
+  @doc("Depth of the bucket")
   @minValue(-16)
   @maxValue(-1)
-  depthMultiplier: int32;
+  depth: int32;
 
   @doc("Window duration")
   // TODO: define, see task #27581502
@@ -214,9 +211,9 @@ model RuleProperties {
   //@maxValue("?")
   windowDuration: duration;
 
-  @doc("Minimal enforcement duration")
+  @doc("Minimal decision duration")
   // TODO: define, see task #27581502
   //@minValue("?")
   //@maxValue("?")
-  minEnforcementDuration: duration;
+  minDecisionDuration: duration;
 }
