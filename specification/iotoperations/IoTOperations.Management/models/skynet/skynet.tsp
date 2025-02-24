@@ -78,6 +78,3 @@ model SkynetProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
-
-
-
