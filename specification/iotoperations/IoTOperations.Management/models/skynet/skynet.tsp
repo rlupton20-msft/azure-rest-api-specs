@@ -72,7 +72,7 @@ model RemoteSupportProperties {
 @doc("Skynet Resource properties")
 model SkynetProperties {
   @doc("Remote Support Settings For Skynet.")
-  remoteSupportProperties?: RemoteSupportProperties;
+  remoteSupport?: RemoteSupportProperties;
 
   @visibility("read")
   @doc("The status of the last operation.")
