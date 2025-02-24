@@ -31,7 +31,6 @@ model Hl7EdgeConnectorProperties {
   @doc("The Receiver Configuration to be used for hl7 connector configuration.")
   receiver?: {
     @doc("The Receiver Endpoint Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read", "update")
     hl7Configuration?: {
       @doc("Optional string representing the carriage return character.")
       @maxLength(1)
@@ -56,8 +55,8 @@ model Hl7EdgeConnectorProperties {
     };
 
     @doc("The Listener Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read")
-    messageListenerConfiguration?: {
+    @visibility("create", "read", "update")
+    messageListenerConfiguration: {
       @doc("The inactivity timeout in seconds.")
       @minValue(1)
       inactivityTimeoutInSeconds?: int32;
@@ -78,7 +77,7 @@ model Hl7EdgeConnectorProperties {
 
     @doc("The Storage Endpoint Configuration to be used for hl7 connector configuration.")
     @visibility("create", "read", "update")
-    storageEndpointConfiguration?: {
+    storageEndpointConfiguration: {
       @doc("URL of the blob storage where the output will be stored.")
       @visibility("create", "read", "update")
       @pattern("^https://.*$")
@@ -91,6 +90,7 @@ model Hl7EdgeConnectorProperties {
 
       @doc("Optional file extension for the output file.")
       @pattern("^[a-zA-Z0-9]+$")
+      @visibility("create", "read", "update")
       fileExtension?: string;
 
       @doc("Optional format for the output file name.")
