@@ -37,6 +37,7 @@ union IndexingStatus {
 model BaseKnowledgeBase {
   ...WithId;
   ...WithTags;
+  ...WithDescription;
   ...WithCreatedAt;
   ...WithUpdatedAt;
   ...WithStatus<IndexingStatus>;

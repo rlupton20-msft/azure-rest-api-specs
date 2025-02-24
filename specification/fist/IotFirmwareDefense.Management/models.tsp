@@ -517,6 +517,10 @@ model SbomFileProperties {
 
 @doc("Workspace properties.")
 model WorkspaceProperties {
+  @doc("The sku under which the workspace resides.")
+  @visibility("read")
+  sku: Sku;
+
   @doc("Provisioning state of the resource.")
   @visibility("read")
   provisioningState?: ProvisioningState;

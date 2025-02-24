@@ -27,7 +27,16 @@ model RunStep {
   ...WithUpdatedAt;
   ...WithStatus<RunStatus>;
   ...WithStatusReason;
-  ...WithResultUri;
+  ...WithResultAsset;
+
+  /** Node pool used for step */
+  // TODO: Is it one pool or an array of pools?
+  @visibility("read", "create", "update")
+  nodePoolId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/nodePool";
+    }
+  ]>;
 }
 
 interface RunSteps {
@@ -40,12 +49,12 @@ interface RunSteps {
     QueryParametersTrait<WithQueryCreatedSince>
   >;
 
+  @doc("Creates or replaces Investigation.")
+  createOrUpdateStep is StandardResourceOperations.ResourceCreateOrUpdate<RunStep>;
+
   @doc("Resume a paused run.")
   cancel is Operations.ResourceAction<RunStep, {}, RunStep>;
 
   @doc("Pause a run.")
   start is Operations.ResourceAction<RunStep, {}, RunStep>;
-
-  @doc("Resume a paused run.")
-  resume is Operations.ResourceAction<RunStep, {}, RunStep>;
 }

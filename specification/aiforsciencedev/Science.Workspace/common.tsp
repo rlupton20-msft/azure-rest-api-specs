@@ -76,7 +76,7 @@ model Step {
   //  ...WithUpdatedAt;
   //  ...WithStatus<RunStatus>;
   //  ...WithStatusReason;
-  //  ...WithResultUri;
+  //  ...WithResultAsset;
 
   @doc("The step order.")
   @visibility("read")

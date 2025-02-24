@@ -21,14 +21,8 @@ model ModelDefinitionAttributes {
   ...WithCategory;
   ...WithLicense;
   ...WithVersion;
-
-  @doc("A model docs URI.")
-  @visibility("read")
-  modelDocs: string;
-
-  @doc("A model repo URI.")
-  @visibility("read")
-  modelRepo: string;
+  ...WithDocs;
+  ...WithRepo;
 }
 
 @doc("A base model.")

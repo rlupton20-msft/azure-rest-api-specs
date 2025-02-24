@@ -103,6 +103,20 @@ model WithInfraType {
   infraType: string;
 }
 
+@doc("For documentation link")
+model WithDocs {
+  @doc("A documentation URI.")
+  @visibility("read")
+  docs: string;
+}
+
+@doc("For repository link")
+model WithRepo {
+  @doc("A repository URI.")
+  @visibility("read")
+  repo: string;
+}
+
 @doc("")
 model Artifact<T> {
   // ...WithTitle; // TODO: Discuss use of title for mutable display name

@@ -17,26 +17,11 @@ namespace Microsoft.AiForScience.Workspace;
 
 @doc("Status")
 union InvestigationStatus {
-  /** Investigation Archived/discarded */
-  Archived: "Archived",
+  /** Investigation Created */
+  Created: "Created",
 
-  /** Investigation In draft */
-  Draft: "Draft",
-
-  //  /** Investigation Locked */
-  //  Locked: "Locked",
-
-  /** Investigation Committed */
-  Committed: "Committed",
-
-  /** Investigation Paused */
-  Paused: "Paused",
-
-  /** Investigation Running */
-  Running: "Running",
-
-  /** Investigation Success */
-  Success: "Success",
+  /** Investigation Validated */
+  Validated: "Validated",
 
   /** Investigation Failed */
   Failed: "Failed",
@@ -55,36 +40,6 @@ model RunResponse {
   //  /** Step status list */
   //  stepStatusList: StepStatus[];
 }
-
-//@doc("Input type")
-//union InputType {
-//  /** Azure Blob URI */
-//  AzureBlobUri: "AzureBlobUri",
-//
-//  string,
-//}
-
-//@doc("For adding Input name")
-//model WithInputName {
-//  /** Name used to identify the input */
-//  name: string;
-//}
-//
-//@doc("For adding Input value")
-//model WithInputValue {
-//  /** Value of the input */
-//  value: string;
-//}
-//
-//@access(Access.internal)
-//@doc("Input to an investigation")
-//model InputBase {
-//  ...WithInputValue;
-//  ...WithInputName;
-//
-//  /** Input type */
-//  type: InputType;
-//}
 
 @doc("Input to an investigation")
 model Input {
@@ -181,7 +136,13 @@ union RunCacheMode {
 
 @doc("Run parameters.")
 model RunParams {
-  ...WithRunMode;
+  @doc("Data asset to which run results output will be written")
+  @visibility("read", "create")
+  outputDataAssetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/dataAsset";
+    }
+  ]>;
 
   @doc("Caching behavior")
   @visibility("read", "create")
