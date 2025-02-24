@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Private.AiForScience
-  output-folder: $(csharp-sdks-folder)/aiforscience/management/Private.AiForScience/GeneratedProtocol
+  namespace: Private.Science
+  output-folder: $(csharp-sdks-folder)/science/management/Private.Science/GeneratedProtocol
 ```

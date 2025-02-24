@@ -6,3 +6,5 @@
 
 import "../EncryptedTransport.Management.Shared/modules/common/base.tsp";
 import "../EncryptedTransport.Management.Shared/modules/resources/encryptedTransportAccount.tsp";
+import "../EncryptedTransport.Management.Shared/modules/resources/device.tsp";
+import "../EncryptedTransport.Management.Shared/modules/resources/deviceProfile.tsp";

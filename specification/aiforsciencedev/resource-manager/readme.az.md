@@ -6,11 +6,11 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 
 ``` yaml $(az) && $(target-mode) != 'core'
 az:
-    extensions: aiforscience
-    namespace: azure.mgmt.aiforscience
-    package-name: azure-mgmt-aiforscience
-az-output-folder: $(azure-cli-extension-folder)/src/aiforscience
-python-sdk-output-folder: "$(az-output-folder)/azext_aiforscience/vendored_sdks/aiforscience"
+    extensions: science
+    namespace: azure.mgmt.science
+    package-name: azure-mgmt-science
+az-output-folder: $(azure-cli-extension-folder)/src/science
+python-sdk-output-folder: "$(az-output-folder)/azext_science/vendored_sdks/science"
 # add additional configuration here specific for Azure CLI
 # refer to the faq.md for more details
 ```
@@ -20,9 +20,9 @@ python-sdk-output-folder: "$(az-output-folder)/azext_aiforscience/vendored_sdks/
 This is for command modules that already in azure cli main repo. 
 ``` yaml $(az) && $(target-mode) == 'core'
 az:
-  extensions: aiforscience
-  namespace: azure.mgmt.aiforscience
-  package-name: azure-mgmt-aiforscience
-az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/aiforscience
-python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/aiforscience"
+  extensions: science
+  namespace: azure.mgmt.science
+  package-name: azure-mgmt-science
+az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/science
+python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/science"
 ``` 

@@ -38,20 +38,31 @@ model InstancePatchModel {
   ...ManagedServiceIdentityProperty;
 }
 
+@doc("Represents the activation state of Skynet.")
+union SkynetActivationState {
+  string,
+
+  @doc("Skynet is enabled.")
+  Enabled: "Enabled",
+
+  @doc("Skynet is disabled.")
+  Disabled: "Disabled",
+}
+
 @doc("The properties for the Skynet Resource. ")
-model SkynetInstanceProperties {
+model RemoteSupportProperties {
   @doc("Enabled or disabled.")
-  enabled?: boolean;
+  enabled?: SkynetActivationState;
 
   @doc("Access level for Skynet.")
-  accessLevel?: SkynetPropertiesInstanceAccessLevels;
+  accessLevel?: SkynetAccessLevels;
 
   @doc("Expiration timestamp for Skynet.")
   expirationTimeStamp?: string;
 }
 
-@doc("SkynetPropertiesAccessLevels allowed")
-union SkynetPropertiesInstanceAccessLevels {
+@doc("SkynetAccessLevels allowed")
+union SkynetAccessLevels {
   string,
 
   @doc("Diagnose access level")
@@ -59,6 +70,17 @@ union SkynetPropertiesInstanceAccessLevels {
 
   @doc("Diagnose And Repair Access Level")
   DiagnoseAndRepair: "DiagnoseAndRepair",
+}
+
+@doc("Wraps the Skynet properties under 'remoteSupport'.")
+model RemoteSupportItem {
+  /**
+   * Represents the remote support configuration for the instance.
+   *
+   * This property holds Skynet-specific settings required for enabling
+   * remote support.
+   */
+  remoteSupport: RemoteSupportProperties;
 }
 
 @doc("The properties of the Instance resource.")
@@ -78,7 +100,8 @@ model InstanceProperties {
   schemaRegistryRef: SchemaRegistryRef;
 
   @doc("The Skynet Resource for this AIO Instance.")
-  skynet?: SkynetInstanceProperties;
+  @OpenAPI.extension("x-ms-identifiers", [])
+  skynets?: RemoteSupportItem[];
 }
 
 @doc("The reference to the Schema Registry for this AIO Instance.")

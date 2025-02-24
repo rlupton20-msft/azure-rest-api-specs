@@ -36,10 +36,6 @@ model SolutionTemplateVersionProperties {
   @doc("Orchestrator type")
   orchestratorType: OrchestratorType;
 
-  @doc("List of capabilities")
-  @visibility("read")
-  capabilities: string[];
-
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
