@@ -63,12 +63,5 @@ model ManagedOnBehalfOfConfiguration {
   @doc("Managed-On-Behalf-Of broker resources")
   //  @extension("x-ms-identifiers", ["id"])
   @visibility("read")
-  moboBrokerResources?: MoboBrokerResource[];
-}
-
-@doc("Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user.")
-model MoboBrokerResource {
-  @doc("Resource identifier of a Managed-On-Behalf-Of broker resource")
-  @visibility("read")
-  id: armResourceIdentifier;
+  moboBrokerResources?: Azure.ResourceManager.CommonTypes.MoboBrokerResource[];
 }
