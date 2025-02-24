@@ -5534,14 +5534,6 @@
         "schemaRegistryRef": {
           "$ref": "#/definitions/SchemaRegistryRef",
           "description": "The reference to the Schema Registry for this AIO Instance."
-        },
-        "skynets": {
-          "type": "array",
-          "description": "The Skynet Resource for this AIO Instance.",
-          "items": {
-            "$ref": "#/definitions/RemoteSupportItem"
-          },
-          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -6157,32 +6149,73 @@
       },
       "readOnly": true
     },
-    "RemoteSupportItem": {
-      "type": "object",
-      "description": "Wraps the Skynet properties under 'remoteSupport'.",
-      "properties": {
-        "remoteSupport": {
-          "$ref": "#/definitions/RemoteSupportProperties",
-          "description": "Represents the remote support configuration for the instance.\n\nThis property holds Skynet-specific settings required for enabling\nremote support."
-        }
-      },
-      "required": [
-        "remoteSupport"
-      ]
+    "RemoteSupportAccessLevels": {
+      "type": "string",
+      "description": "SkynetAccessLevels allowed",
+      "enum": [
+        "Diagnose",
+        "DiagnoseAndRepair"
+      ],
+      "x-ms-enum": {
+        "name": "RemoteSupportAccessLevels",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Diagnose",
+            "value": "Diagnose",
+            "description": "Diagnose access level"
+          },
+          {
+            "name": "DiagnoseAndRepair",
+            "value": "DiagnoseAndRepair",
+            "description": "Diagnose And Repair Access Level"
+          }
+        ]
+      }
+    },
+    "RemoteSupportActivationState": {
+      "type": "string",
+      "description": "Represents the activation state of Skynet.",
+      "enum": [
+        "Enabled",
+        "Disabled",
+        "Expired"
+      ],
+      "x-ms-enum": {
+        "name": "RemoteSupportActivationState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Remote Support is enabled."
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Remote Support is disabled."
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "Remote Support has Expired."
+          }
+        ]
+      }
     },
     "RemoteSupportProperties": {
       "type": "object",
-      "description": "The properties for the Skynet Resource. ",
+      "description": "RemoteSupport properties",
       "properties": {
-        "enabled": {
-          "$ref": "#/definitions/SkynetActivationState",
-          "description": "Enabled or disabled."
+        "state": {
+          "$ref": "#/definitions/RemoteSupportActivationState",
+          "description": "Activation state of Skynet."
         },
         "accessLevel": {
-          "$ref": "#/definitions/SkynetAccessLevels",
+          "$ref": "#/definitions/RemoteSupportAccessLevels",
           "description": "Access level for Skynet."
         },
-        "expirationTimeStamp": {
+        "expirationTimestamp": {
           "type": "string",
           "description": "Expiration timestamp for Skynet."
         }
@@ -6391,89 +6424,19 @@
         ]
       }
     },
-    "SkynetAccessLevels": {
-      "type": "string",
-      "description": "SkynetAccessLevels allowed",
-      "enum": [
-        "Diagnose",
-        "DiagnoseAndRepair"
-      ],
-      "x-ms-enum": {
-        "name": "SkynetAccessLevels",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Diagnose",
-            "value": "Diagnose",
-            "description": "Diagnose access level"
-          },
-          {
-            "name": "DiagnoseAndRepair",
-            "value": "DiagnoseAndRepair",
-            "description": "Diagnose And Repair Access Level"
-          }
-        ]
-      }
-    },
-    "SkynetActivationState": {
-      "type": "string",
-      "description": "Represents the activation state of Skynet.",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "x-ms-enum": {
-        "name": "SkynetActivationState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Skynet is enabled."
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Skynet is disabled."
-          }
-        ]
-      }
-    },
     "SkynetProperties": {
       "type": "object",
       "description": "Skynet Resource properties",
       "properties": {
-        "accessLevel": {
-          "$ref": "#/definitions/SkynetPropertiesAccessLevels",
-          "description": "Access level for Skynet."
-        },
-        "expirationTimeStamp": {
-          "type": "string",
-          "description": "Expiration timestamp for Skynet."
+        "remoteSupportProperties": {
+          "$ref": "#/definitions/RemoteSupportProperties",
+          "description": "Remote Support Settings For Skynet."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
         }
-      }
-    },
-    "SkynetPropertiesAccessLevels": {
-      "type": "string",
-      "description": "SkynetPropertiesAccessLevels allowed",
-      "enum": [
-        "Diagnose"
-      ],
-      "x-ms-enum": {
-        "name": "SkynetPropertiesAccessLevels",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Diagnose",
-            "value": "Diagnose",
-            "description": "Diagnose access level"
-          }
-        ]
       }
     },
     "SkynetResource": {
