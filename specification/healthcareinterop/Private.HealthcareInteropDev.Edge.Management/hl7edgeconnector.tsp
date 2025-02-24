@@ -90,16 +90,13 @@ model Hl7EdgeConnectorProperties {
 
       @doc("Optional file extension for the output file.")
       @pattern("^[a-zA-Z0-9]+$")
-      @visibility("create", "read", "update")
       fileExtension?: string;
 
       @doc("Optional format for the output file name.")
-      @visibility("create", "read", "update")
       @maxLength(255)
       outputFileNameFormat?: string;
 
       @doc("Optional format for the output folder.")
-      @visibility("create", "read", "update")
       @maxLength(255)
       outputFolderFormat?: string;
     };
