@@ -44,7 +44,7 @@ model ReconciliationPolicyProperties {
   @doc("The state of the ReconciliationPolicy")
   state: ReconciliationState;
 
-  @doc("Policy interval.")
+  @doc("Policy interval")
   interval: string;
 }
 
@@ -78,7 +78,7 @@ model InstanceProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Instance Resource")
+@doc("Instance Resource. Represents a deployment object.")
 @parentResource(Solution)
 model Instance is Azure.ResourceManager.ProxyResource<InstanceProperties> {
   // Name will be set to solution
@@ -103,7 +103,7 @@ interface Instances {
   @doc("Create or update Instance Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
 
-  @doc("update an Instance Resource")
+  @doc("Update an Instance Resource")
   update is ArmResourcePatchAsync<Instance, InstanceProperties>;
 
   @doc("Delete Instance Resource")

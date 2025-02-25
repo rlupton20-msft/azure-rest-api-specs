@@ -30,13 +30,12 @@ model RunStep {
   ...WithResultAsset;
 
   /** Node pool used for step */
-  // TODO: Is it one pool or an array of pools?
   @visibility("read", "create", "update")
-  nodePoolId?: Azure.Core.armResourceIdentifier<[
+  nodePoolIds?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.AiForScience/nodePool";
     }
-  ]>;
+  ]>[];
 }
 
 interface RunSteps {

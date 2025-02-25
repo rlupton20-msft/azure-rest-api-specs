@@ -19,10 +19,10 @@ namespace Private.Edge;
 
 @doc("Site Reference Properties")
 model SiteReferenceProperties {
-  @doc("Site Id of Site reference")
+  @doc("Azure Resource ID for Site")
   siteId: string;
 
-  @doc("Provisioning state of resource")
+  @doc("Provisioning State")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
@@ -40,7 +40,7 @@ interface SiteReferences {
   @doc("Get Site Reference Resource")
   get is ArmResourceRead<SiteReference>;
 
-  @doc("Get Site Reference  Resource")
+  @doc("Get Site Reference Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SiteReference>;
 
   @doc("Get Site Reference Resource")
