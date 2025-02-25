@@ -56,25 +56,6 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/subscription.json
 ```
 
-### Tag: package-2023-08-22
-
-These settings apply only when `--tag=package-2023-08-22` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-08-22'
-input-file:
-  - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
-```
-
-### Tag: package-2024-06-24-preview
-
-These settings apply only when `--tag=package-2024-06-24-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-06-24-preview'
-input-file:
-  - Microsoft.AzureCis/preview/2024-06-24-preview/plannedQuota.json
-```
-
-
 ### Tag: package-2024-11-04-preview
 
 These settings apply only when `--tag=package-2024-11-04-preview` is specified on the command line.
