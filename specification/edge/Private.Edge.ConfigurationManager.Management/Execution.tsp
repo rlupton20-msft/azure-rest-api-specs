@@ -34,7 +34,7 @@ model StageStatus {
   errorMessage?: string;
 
   @doc("whether this stage is active or inactive")
-  activeStatus?: ActiveState;
+  isActive?: ActiveState;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
