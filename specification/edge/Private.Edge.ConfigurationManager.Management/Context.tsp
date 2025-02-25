@@ -117,7 +117,7 @@ interface Contexts {
 @doc("Workflow Version Parameter")
 model WorkflowVersionParameter {
   @doc("Workflow Name")
-  workflow?: string;
+  workflowName?: string;
 
   @doc("Workflow Version Name")
   workflowVersion: string;
@@ -129,7 +129,7 @@ model WorkflowVersionParameter {
 @doc("Workflow Template Review Parameter")
 model WorkflowTemplateReviewParameter {
   @doc("Workflow Template Name")
-  workflowTemplate?: string;
+  workflowTemplateName?: string;
 
   @doc("Workflow Template Version Name")
   workflowTemplateVersion: string;
