@@ -23,7 +23,11 @@ namespace Private.Edge;
 @doc("Solution Version Snapshot")
 model SolutionVersionSnapshot {
   @doc("Solution version of instance")
-  solutionVersionId?: string;
+  solutionVersionId?: armResourceIdentifier<[
+    {
+      type: "Private.Edge/targets/solutions/versions";
+    }
+  ]>;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
@@ -34,7 +38,11 @@ model SolutionVersionSnapshot {
 @doc("Target Snapshot")
 model TargetSnapshot {
   @doc("Target of instance")
-  targetId?: string;
+  targetId?: armResourceIdentifier<[
+    {
+      type: "Private.Edge/targets";
+    }
+  ]>;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"

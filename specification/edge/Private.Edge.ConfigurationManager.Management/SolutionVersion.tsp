@@ -50,6 +50,7 @@ model SolutionVersionProperties {
 
   @doc("Solution instance name")
   @visibility("read")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
@@ -62,23 +63,7 @@ model SolutionVersionProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Dependency Context")
-model SolutionDependency {
-  @doc("Solution Version Id")
-  solutionVersionId: string;
-
-  @doc("Solution Template Version Id")
-  solutionTemplateVersionId: string;
-
-  @doc("Target Id")
-  targetId: string;
-
-  @doc("Solution dependencies")
-  @extension("x-ms-identifiers", [])
-  dependencies?: SolutionDependency[];
-}
-
-@doc("Solution Version Resource")
+@doc("Solution Version Resource. It has the resolved configuration along with edge specification.")
 @parentResource(Solution)
 @resource("versions")
 model SolutionVersion
@@ -97,6 +82,22 @@ model SolutionVersion
   ...EntityTagProperty;
 }
 
+@doc("Solution Dependency Context")
+model SolutionDependency {
+  @doc("Solution Version Id")
+  solutionVersionId: string;
+
+  @doc("Solution Template Version Id")
+  solutionTemplateVersionId: string;
+
+  @doc("Target Id")
+  targetId: string;
+
+  @doc("Solution dependencies")
+  @extension("x-ms-identifiers", [])
+  dependencies?: SolutionDependency[];
+}
+
 @armResourceOperations
 interface SolutionVersions {
   @doc("Get a Solution Version Resource")
@@ -105,7 +106,7 @@ interface SolutionVersions {
   @doc("Create or update a Solution Version Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
-  @doc("update a Solution Version Resource")
+  @doc("Update a Solution Version Resource")
   update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
 
   @doc("Delete a Solution Version Resource")

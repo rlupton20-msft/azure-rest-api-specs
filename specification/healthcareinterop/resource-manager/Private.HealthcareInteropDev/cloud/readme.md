@@ -1,8 +1,8 @@
-# Healthcare Interop Mosaic Cloud
+# Healthcare Interop Mosaic cloud
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for Private HealthcareInteropDev Cloud service.
+This is the AutoRest configuration file for Private HealthcareInteropDev cloud service.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the Private HealthcareInteropDev Cloud service.
+These are the global settings for the Private HealthcareInteropDev cloud service.
 
 ```yaml
 openapi-type: arm

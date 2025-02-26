@@ -19,7 +19,7 @@ union ResourceState {
   @doc("Resource is active")
   active: "active",
 
-  @doc("Resource is softdeleted")
+  @doc("Resource is inactive")
   inactive: "inactive",
 
   string,
