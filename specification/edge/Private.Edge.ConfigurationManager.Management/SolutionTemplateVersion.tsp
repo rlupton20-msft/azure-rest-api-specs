@@ -41,7 +41,7 @@ model SolutionTemplateVersionProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Template Version Resource")
+@doc("Solution Template Version Resource. Contains configurations that use expressions which can be resolved hierarchically along with edge specifications.")
 @parentResource(SolutionTemplate)
 @resource("versions")
 model SolutionTemplateVersion
