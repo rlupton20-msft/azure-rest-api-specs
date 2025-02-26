@@ -43,7 +43,7 @@ model NetworkProperties {
   size: string;
 
   @doc("The Maximum Transmission Unit (MTU) of the network.")
-  mtu: int16;
+  mtu: int32;
 
   @doc("The status of the last operation.")
   @visibility("read")
