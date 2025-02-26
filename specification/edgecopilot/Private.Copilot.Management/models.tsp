@@ -92,6 +92,11 @@ model ChatRequest {
    * User message schema. Contains input message from user.
    */
   userMessage: ChatMessage;
+
+  /**
+   * Language of the portal user setting.
+   */
+  language?: string;
 }
 
 /**
@@ -108,6 +113,16 @@ model ChatContext {
    */
   @OpenAPI.extension("x-ms-identifiers", [])
   resourceIds?: Azure.Core.armResourceIdentifier[];
+
+  /**
+   * The start time of the issue that needs troubleshoot.
+   */
+  startTime: utcDateTime;
+
+  /**
+   * The end time of the issue that needs troubleshoot.
+   */
+  endTime: utcDateTime;
 }
 
 /**
@@ -139,7 +154,7 @@ model ChatMessage {
 /**
  * Chat response schema. Contains reply messages from chatbot.
  */
-model ChatResponse {
+model ChatResult {
   /**
    * Session Id of current chat.
    */
