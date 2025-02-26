@@ -47,6 +47,9 @@
     },
     {
       "name": "UpdateGroupOperations"
+    },
+    {
+      "name": "NetworkOperations"
     }
   ],
   "paths": {
@@ -340,6 +343,299 @@
             "name": "accessPointAccountName",
             "in": "path",
             "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/networks": {
+      "get": {
+        "operationId": "NetworkOperations_ListByParent",
+        "tags": [
+          "NetworkOperations"
+        ],
+        "description": "List Network resources by AccessPointAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/NetworkListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/networks/{networkName}": {
+      "get": {
+        "operationId": "NetworkOperations_Get",
+        "tags": [
+          "NetworkOperations"
+        ],
+        "description": "Get a Network",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "networkName",
+            "in": "path",
+            "description": "The name of the Network",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Network"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "NetworkOperations_CreateOrUpdate",
+        "tags": [
+          "NetworkOperations"
+        ],
+        "description": "Create a Network",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "networkName",
+            "in": "path",
+            "description": "The name of the Network",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Network"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Network' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Network"
+            }
+          },
+          "201": {
+            "description": "Resource 'Network' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Network"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "NetworkOperations_Update",
+        "tags": [
+          "NetworkOperations"
+        ],
+        "description": "Update a Network",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "networkName",
+            "in": "path",
+            "description": "The name of the Network",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NetworkUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Network"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "NetworkOperations_Delete",
+        "tags": [
+          "NetworkOperations"
+        ],
+        "description": "Delete a Network",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "networkName",
+            "in": "path",
+            "description": "The name of the Network",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -751,6 +1047,10 @@
         }
       }
     },
+    "Azure.Core.ipV4Address": {
+      "type": "string",
+      "description": "Represent an IP V4 address serialized as a string.\n\nIt is formatted as four 8-bit fields separated by periods."
+    },
     "BaseResourceProperties": {
       "type": "object",
       "description": "Properties for a base resource.",
@@ -785,6 +1085,114 @@
           }
         ]
       }
+    },
+    "Network": {
+      "type": "object",
+      "description": "An Access Point Network Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NetworkProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "NetworkListResult": {
+      "type": "object",
+      "description": "The response of a Network list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Network items on this page",
+          "items": {
+            "$ref": "#/definitions/Network"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "NetworkProperties": {
+      "type": "object",
+      "description": "Network Properties.",
+      "properties": {
+        "siteName": {
+          "type": "string",
+          "description": "The user friendly name for a network."
+        },
+        "startingIpAddress": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "The starting IP address in the range."
+        },
+        "size": {
+          "type": "string",
+          "description": "The size of the network, specified as a CIDR netmask or number of IP addresses."
+        },
+        "mtu": {
+          "type": "integer",
+          "format": "int16",
+          "description": "The Maximum Transmission Unit (MTU) of the network."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "siteName",
+        "startingIpAddress",
+        "size",
+        "mtu"
+      ]
+    },
+    "NetworkPropertiesUpdate": {
+      "type": "object",
+      "description": "Network Properties.",
+      "properties": {
+        "siteName": {
+          "type": "string",
+          "description": "The user friendly name for a network."
+        },
+        "startingIpAddress": {
+          "$ref": "#/definitions/Azure.Core.ipV4Address",
+          "description": "The starting IP address in the range."
+        },
+        "size": {
+          "type": "string",
+          "description": "The size of the network, specified as a CIDR netmask or number of IP addresses."
+        },
+        "mtu": {
+          "type": "integer",
+          "format": "int16",
+          "description": "The Maximum Transmission Unit (MTU) of the network."
+        }
+      }
+    },
+    "NetworkUpdate": {
+      "type": "object",
+      "description": "An Access Point Network Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NetworkPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "ProvisioningState": {
       "type": "string",
