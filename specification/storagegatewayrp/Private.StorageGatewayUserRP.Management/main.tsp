@@ -9,13 +9,13 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Private.StorageGateway")
+@armProviderNamespace("Private.StorageGatewayUserRP")
 @service({
-  title: "Private.StorageGateway",
+  title: "Private.StorageGatewayUserRP",
 })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-namespace Private.StorageGateway;
+namespace Private.StorageGatewayUserRP;
 
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -58,7 +58,7 @@ union ProvisioningState {
 model StorageGatewayProperties {
   @visibility("read")
   @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  provisioningState: ProvisioningState;
 
   @visibility("read", "create", "update")
   @doc("The description of the StorageGateway resource.")

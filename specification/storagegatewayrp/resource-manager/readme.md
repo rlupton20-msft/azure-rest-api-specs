@@ -36,5 +36,5 @@ These settings apply only when `--tag=package-2025-03-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2025-03-01-preview'
 input-file:
-  - Private.StorageGateway/preview/2025-03-01-preview/openapi.json
+  - Private.StorageGatewayUserRP/preview/2025-03-01-preview/openapi.json
 ```
