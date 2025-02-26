@@ -6,15 +6,14 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
-import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.ResourceManager;using Azure.ResourceManager.Foundations;
-
+using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
@@ -32,10 +31,15 @@ model SolutionTemplateParameter {
 
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
-  
+
+  @doc("Solution Instance Name")
+  @maxLength(24)
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
   @doc("Solution Dependencies")
   @extension("x-ms-identifiers", [])
-  solutionDependencies?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependencyParameter[];
 }
 
 @doc("Solution Version Parameter")
@@ -48,6 +52,25 @@ model SolutionVersionParameter {
 
   @doc("Review ID")
   reviewId: string;
+}
+
+@doc("Solution Dependency Context")
+model SolutionDependencyParameter {
+  @doc("Solution Version Id")
+  solutionVersionId?: string;
+
+  @doc("Solution Template Id")
+  solutionTemplateId?: string;
+
+  @doc("Solution Template Version")
+  solutionTemplateVersion?: string;
+
+  @doc("Target Id")
+  targetId?: string;
+
+  @doc("Solution dependencies")
+  @extension("x-ms-identifiers", [])
+  dependencies?: SolutionDependencyParameter[];
 }
 
 @doc("Solution Parameter")
@@ -97,7 +120,7 @@ model ForceDeleteParameter {
   forceDelete?: boolean = false;
 }
 
-@doc("Target Resource")
+@doc("Target Resource. Represents a resource to be deployed on the edge.")
 model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
   @doc("Name of the target")
   @maxLength(61)
@@ -139,39 +162,39 @@ interface Targets {
   listBySubscription is ArmListBySubscription<Target>;
 
   @doc("Post request to deploy")
-  install is ArmResourceActionNoResponseContentAsync<
+  installSolution is ArmResourceActionNoResponseContentAsync<
     Target,
     SolutionVersionParameter
   >;
 
   @doc("Post request to uninstall")
-  uninstall is ArmResourceActionNoResponseContentAsync<
+  uninstallSolution is ArmResourceActionNoResponseContentAsync<
     Target,
     SolutionParameter
   >;
 
-  @doc("Post request to delete solution version revision")
-  deleteRevision is ArmResourceActionNoResponseContentAsync<
+  @doc("Post request to remove solution version revision")
+  removeRevision is ArmResourceActionNoResponseContentAsync<
     Target,
     SolutionTemplateParameter
   >;
 
   @doc("Post request to resolve configuration")
-  resolve is ArmResourceActionAsync<
+  resolveConfiguration is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     ResolvedConfiguration
   >;
 
   @doc("Post request to review configuration")
-  review is ArmResourceActionAsync<
+  reviewSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     SolutionVersion
   >;
 
   @doc("Post request to publish")
-  publish is ArmResourceActionAsync<
+  publishSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionVersionParameter,
     SolutionVersion

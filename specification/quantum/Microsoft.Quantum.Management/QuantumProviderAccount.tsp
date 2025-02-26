@@ -5,6 +5,7 @@ import "@typespec/rest";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.CommonTypes;
 using Azure.Core;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
@@ -61,11 +62,12 @@ model ProviderAccountProperties {
   /** List of Targets available in this ProviderAccount. */
   targets?: ProviderAccountTarget[];
 
+  /** Managed On Behalf Of configuration. */
+  @visibility("read")
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+
   // /** Azure ARC configuration. */
   // machineEntity: ...;
-
-  // /** Managed On Behalf Of configuration. */
-  // managedOnBehalfOfConfiguration: ...;
 
   // /** Quota Dimension definitions for this ProviderAccount. */
   // @visibility("read", "create", "update")

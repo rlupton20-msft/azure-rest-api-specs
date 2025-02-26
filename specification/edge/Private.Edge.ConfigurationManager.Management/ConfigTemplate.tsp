@@ -24,12 +24,16 @@ model ConfigTemplateProperties {
   @doc("Description of config template")
   description: string;
 
+  @doc("Latest config template version")
+  @visibility("read")
+  latestVersion?: string;
+
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("Config Template Resource")
+@doc("Config Template Resource. Contains configuration expressions using the predefined expression language.")
 model ConfigTemplate
   is Azure.ResourceManager.TrackedResource<ConfigTemplateProperties> {
   ...ResourceNameParameter<ConfigTemplate>;
@@ -63,8 +67,8 @@ interface ConfigTemplates {
     ConfigTemplateVersion
   >;
 
-  @doc("Delete Config Template Version Resource")
-  deleteVersion is ArmResourceActionNoResponseContentAsync<
+  @doc("Remove Config Template Version Resource")
+  removeVersion is ArmResourceActionNoResponseContentAsync<
     ConfigTemplate,
     VersionParameter
   >;

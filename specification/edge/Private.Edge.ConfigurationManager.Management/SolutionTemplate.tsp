@@ -8,8 +8,6 @@ import "./ProvisioningState.tsp";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./UpdateType.tsp";
-import "./VersionParameter.tsp";
-import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -41,7 +39,7 @@ model SolutionTemplateProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Template Resource")
+@doc("Solution Template Resource. Contains capabilities and operations for creating versions.")
 model SolutionTemplate
   is Azure.ResourceManager.TrackedResource<SolutionTemplateProperties> {
   ...ResourceNameParameter<SolutionTemplate>;
@@ -75,8 +73,8 @@ interface SolutionTemplates {
     SolutionTemplateVersion
   >;
 
-  @doc("Delete Solution Template Version Resource")
-  deleteVersion is ArmResourceActionNoResponseContentAsync<
+  @doc("Remove Solution Template Version Resource")
+  removeVersion is ArmResourceActionNoResponseContentAsync<
     SolutionTemplate,
     VersionParameter
   >;

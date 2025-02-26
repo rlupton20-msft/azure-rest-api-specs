@@ -6,3 +6,4 @@
 
 import "./common/base.tsp";
 import "./models/AccessPointAccount.tsp";
+import "./models/UpdateGroup.tsp";
