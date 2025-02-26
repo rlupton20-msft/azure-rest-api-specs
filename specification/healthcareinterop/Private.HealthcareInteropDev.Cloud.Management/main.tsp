@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./hub.tsp";
 import "./connectors/storageAccountConnector.tsp";
 import "./connectors/oneLakeConnector.tsp";
+import "./connectors/hl7Connector.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

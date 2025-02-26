@@ -24,7 +24,7 @@ model OneLakeConnector is TrackedResource<OneLakeConnectorProperties> {
 model OneLakeConnectorProperties {
   @doc("The status of the last operation.")
   @visibility("read")
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ProvisioningLROState;
 
   @doc("Resource ID of the hub resource to associate the one lake connector to.")
   hubResourceId: Azure.Core.armResourceIdentifier<[
