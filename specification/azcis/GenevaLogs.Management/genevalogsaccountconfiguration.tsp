@@ -15,7 +15,8 @@ namespace Microsoft.AzureCis;
 
 @doc("GenevaLogsAccount properties")
 model GenevaLogsAccountConfigurationResourceProperties {
-  @doc("The Geneva Logs account name")
+  @doc("The name of the warm path account. This must be unique. Logs Account name must start with a letter and can contain numbers/letters.")
+  @pattern("^[a-zA-Z0-9-]{6,32}$")
   accountName: string;
 
   @doc("The MDS environment")
@@ -34,47 +35,47 @@ model GenevaLogsAccountConfigurationResourceProperties {
   @doc("The security group for account administrator")
   administratorSecurityGroup: string;
 
-  @doc("The array of subscription ids")
+  @doc("An Azure subscription to use for GSM provisioning. Each subscription in the list must have granted Geneva access via RBAC.")
   @extension("x-ms-identifiers", [])
   subscriptionIds: Array<string>;
 
   @doc("The default storage replication type")
   defaultStorageReplicationType: string;
 
-  @doc("The dSMS certificate")
+  @doc("DSMS certificate for configuring the MACommunication User Role.")
   dsmsCertificate: DsmsCertificate;
 
-  @doc("The KeyVault certificate")
+  @doc("Key Vault certificate for configuring the MACommunication User Role.")
   keyVaultCertificate: KeyVaultCertificate;
 
-  @doc("The array of namespace names")
+  @doc("Namespaces to register with MDS.")
   @extension("x-ms-identifiers", [])
   namespaceNames: Array<string>;
 
-  @doc("The flag to create default storage groups")
+  @doc("Flag, indicating whether to create default storage groups.")
   createDefaultStorageGroups: CreateDefaultStorageGroups;
 
-  @doc("The default Azure region")
+  @doc("Region where the initial monikers would be created for default storage groups.")
   defaultAzureRegion: string;
 
-  @doc("The namespace config")
+  @doc("SAS for config package zip file containing a configuration to upload.")
   namespaceConfig: string;
 
-  @doc("The namespace config main file")
+  @doc("Specifies the SAS for configuration main file, if provided instead of config package zip file.")
   namespaceConfigMainFile: string;
 
-  @doc("The namespace config import zip")
+  @doc("Specifies the SAS for zip import file.")
   namespaceConfigImportZip: string;
 
-  @doc("The namespace config import files")
+  @doc("Explicitly specify SAS for each import file, if provided not in zip format.")
   @extension("x-ms-identifiers", [])
   namespaceConfigImportFiles: Array<string>;
 
-  @doc("The storage groups")
+  @doc("Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.")
   @extension("x-ms-identifiers", [])
   storageGroups: Array<StorageGroup>;
 
-  @doc("The user roles")
+  @doc("Define custom user roles in addition to the user roles created by default (MaCommunication and MdsAccountAdmin roles).")
   @extension("x-ms-identifiers", [])
   userRoles: Array<UserRole>;
 

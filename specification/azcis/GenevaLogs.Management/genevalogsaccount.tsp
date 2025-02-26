@@ -15,7 +15,8 @@ namespace Microsoft.AzureCis;
 
 @doc("GenevaLogsAccount properties")
 model GenevaLogsAccountResourceProperties {
-  @doc("The Geneva Logs account name")
+  @doc("The name of the warm path account. This must be unique. Logs Account name must start with a letter and can contain numbers/letters.")
+  @pattern("^[a-zA-Z0-9-]{6,32}$")
   accountName: string;
 
   @doc("The MDS environment")
@@ -34,7 +35,7 @@ model GenevaLogsAccountResourceProperties {
   @doc("The security group for account administrator")
   administratorSecurityGroup: string;
 
-  @doc("The array of subscription ids")
+  @doc("An Azure subscription to use for GSM provisioning. Each subscription in the list must have granted Geneva access via RBAC.")
   @extension("x-ms-identifiers", [])
   subscriptionIds: Array<string>;
 
