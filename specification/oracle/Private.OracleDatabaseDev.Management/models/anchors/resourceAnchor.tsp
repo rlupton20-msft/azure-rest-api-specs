@@ -17,7 +17,7 @@ model ResourceAnchor is TrackedResource<ResourceAnchorProperties> {
 model ResourceAnchorProperties {
   @doc("OCI Resource Anchor Metadata")
   @visibility("read")
-  ociResourceAnchorMetadata: OciResourceAnchorMetadata;
+  ociResourceAnchorMetadata?: OciResourceAnchorMetadata;
 
   @doc("Display Name")
   @visibility("create", "read", "update")
@@ -36,7 +36,7 @@ model ResourceAnchorProperties {
   provisioningState?: AzureResourceProvisioningState;
 
   @doc("ResourceAnchor SetupMode")
-  @visibility("create")
+  @visibility("create", "read")
   setupMode: ResourceAnchorSetupMode;
 }
 
@@ -84,7 +84,7 @@ union ResourceAnchorSetupMode {
 model OciResourceAnchorMetadata {
   @doc("Resource anchor OCID")
   @visibility("read")
-  resourceAnchorId?: Ocid;
+  ociResourceAnchorId?: Ocid;
 
   @doc("OCI Subscription OCID")
   @visibility("read")
@@ -104,5 +104,5 @@ model OciResourceAnchorMetadata {
 
   @doc("The date and time the resource anchor was updated in Oracle Cloud Infrastructure")
   @visibility("read")
-  timeUpdated: utcDateTime;
+  timeUpdated?: utcDateTime;
 }

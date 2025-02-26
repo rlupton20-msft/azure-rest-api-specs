@@ -57,16 +57,16 @@ model NetworkAnchorProperties {
   cidrBlock?: string;
 
   @doc("Client backup cidr block")
-  @visibility("create", "read")
+  @visibility("create", "read", "update")
   backupCidrBlock?: string;
 
   @doc("Indicates whether OCI networking counterparts should be auto-created")
-  @visibility("create")
+  @visibility("create", "read")
   setupMode: NetworkAnchorSetupMode;
 
   @doc("OCI Network Anchor Metadata")
   @visibility("read")
-  ociNetworkAnchorMetadata: OciNetworkAnchorMetadata;
+  ociNetworkAnchorMetadata?: OciNetworkAnchorMetadata;
 }
 
 @added(Versions.v20250301_preview)
@@ -113,19 +113,19 @@ union NetworkAnchorSetupMode {
 model OciNetworkAnchorMetadata {
   @doc("NetworkAnchor OCID")
   @visibility("read")
-  networkAnchorId?: Ocid;
+  ociNetworkAnchorId?: Ocid;
 
   @doc("Corresponding resource anchor OCID")
   @visibility("read")
-  resourceAnchorId?: Ocid;
+  ociResourceAnchorId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure VCN OCID")
   @visibility("read")
-  vcnId?: Ocid;
+  ociVcnId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure subnet OCID")
   @visibility("read")
-  subnetId?: Ocid;
+  ociSubnetId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
   @visibility("read")
@@ -137,5 +137,5 @@ model OciNetworkAnchorMetadata {
 
   @doc("The date and time the network anchor was updated in Oracle Cloud Infrastructure")
   @visibility("read")
-  timeUpdated: utcDateTime;
+  timeUpdated?: utcDateTime;
 }
