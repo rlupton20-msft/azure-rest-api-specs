@@ -95,7 +95,7 @@ union Category {
   @doc("Indicates latency-related metrics.")
   "Latency",
 
-  string
+  string,
 }
 
 @doc("Specifies how the SLI is evaluated.")
@@ -106,7 +106,7 @@ union EvaluationType {
   @doc("Evaluates SLI based on request counts.")
   "RequestBased",
 
-  string
+  string,
 }
 
 @doc("Represents the provisioning state of the SLI resource.")

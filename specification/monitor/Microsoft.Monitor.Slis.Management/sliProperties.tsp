@@ -82,7 +82,7 @@ union Logic {
   @doc("Logical OR operation.")
   "OR",
 
-  string
+  string,
 }
 
 @doc("Represents a filtering condition.")
@@ -117,7 +117,7 @@ union ScalarFunction {
   @doc("Summation.")
   "sum",
 
-  string
+  string,
 }
 
 @doc("Defines the available sampling types.")
@@ -134,7 +134,7 @@ union SamplingType {
   @doc("Summation.")
   "sum",
 
-  string
+  string,
 }
 
 @doc("Defines operators used in filter conditions.")
@@ -161,21 +161,21 @@ union ConditionOperator {
   in: "@in",
 
   @doc("Not in.")
-  "!in": "notin",
+  `!in`: "notin",
 
   @doc("Starts with.")
   "startswith",
 
   @doc("Does not start with.")
-  "!startswith": "notstartswith",
+  `!startswith`: "notstartswith",
 
   @doc("Contains the value.")
   "contains",
 
   @doc("Does not contain the value.")
-  "!contains": "notcontains",
+  `!contains`: "notcontains",
 
-  string
+  string,
 }
 
 @doc("Represents the spatial aggregation model.")
@@ -204,7 +204,7 @@ union AggregationType {
   @doc("Count of occurrences.")
   "Count",
 
-  string
+  string,
 }
 
 @doc("Represents criteria for determining uptime in window-based SLIs.")
@@ -231,7 +231,7 @@ union WindowUptimeCriteriaComparator {
   @doc("Greater than or equal to the target value.")
   "gte",
 
-  string
+  string,
 }
 
 @doc("Represents temporal aggregation settings.")

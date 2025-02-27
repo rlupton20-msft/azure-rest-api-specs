@@ -44,7 +44,7 @@ union ComplianceCalculation {
   @doc("Calculates compliance using a rolling time window.")
   "RollingDays",
 
-  string
+  string,
 }
 
 @doc("Defines comparison operators for evaluating an SLI against an SLO target.")
@@ -61,5 +61,5 @@ union TargetComparator {
   @doc("Greater than or equal to the target value.")
   "gte",
 
-  string
+  string,
 }
