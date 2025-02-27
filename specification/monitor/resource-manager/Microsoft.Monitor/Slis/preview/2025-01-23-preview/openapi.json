@@ -49,7 +49,7 @@
         "tags": [
           "Slis"
         ],
-        "description": "Lists all Slis",
+        "description": "Lists all SLI resources under a parent resource.",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -88,7 +88,7 @@
         "tags": [
           "Slis"
         ],
-        "description": "Gets a Sli",
+        "description": "Gets an SLI resources",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -99,10 +99,10 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The name of the SLI",
+            "description": "Name of the SLI that is given by the user.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,128}$"
+            "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
           }
         ],
         "responses": {
@@ -130,7 +130,7 @@
         "tags": [
           "Slis"
         ],
-        "description": "Creates or updates a Sli",
+        "description": "Creates or updates an SLI resource.",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -141,10 +141,10 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The name of the SLI",
+            "description": "Name of the SLI that is given by the user.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,128}$"
+            "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
           },
           {
             "name": "resource",
@@ -187,7 +187,7 @@
         "tags": [
           "Slis"
         ],
-        "description": "Deletes a Sli",
+        "description": "Deletes an SLI resource.",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -198,10 +198,10 @@
           {
             "name": "name",
             "in": "path",
-            "description": "The name of the SLI",
+            "description": "Name of the SLI that is given by the user.",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,128}$"
+            "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
           }
         ],
         "responses": {
@@ -227,17 +227,59 @@
     }
   },
   "definitions": {
+    "AggregationType": {
+      "type": "string",
+      "description": "Defines the available aggregation types.",
+      "enum": [
+        "Average",
+        "Min",
+        "Max",
+        "Sum",
+        "Count"
+      ],
+      "x-ms-enum": {
+        "name": "AggregationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Average",
+            "value": "Average",
+            "description": "Average value."
+          },
+          {
+            "name": "Min",
+            "value": "Min",
+            "description": "Minimum value."
+          },
+          {
+            "name": "Max",
+            "value": "Max",
+            "description": "Maximum value."
+          },
+          {
+            "name": "Sum",
+            "value": "Sum",
+            "description": "Summation."
+          },
+          {
+            "name": "Count",
+            "value": "Count",
+            "description": "Count of occurrences."
+          }
+        ]
+      }
+    },
     "AmwAccount": {
       "type": "object",
-      "description": "AMW account model",
+      "description": "Represents an Azure Monitor Workspace (AMW) account used for emitting metrics.",
       "properties": {
         "resourceId": {
           "type": "string",
-          "description": "ARM resource id for the account where metrics related to this SLO are emitted by the service."
+          "description": "The ARM resource ID of the account where metrics are emitted."
         },
         "identity": {
           "type": "string",
-          "description": "ARM resource id for the managed identity with access to the source account."
+          "description": "The ARM resource ID of the managed identity with access to the source account."
         }
       },
       "required": [
@@ -245,19 +287,224 @@
         "identity"
       ]
     },
+    "Category": {
+      "type": "string",
+      "description": "Defines the category of an SLI",
+      "enum": [
+        "Availability",
+        "Latency"
+      ],
+      "x-ms-enum": {
+        "name": "Category",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Availability",
+            "value": "Availability",
+            "description": "Indicates availability-related metrics."
+          },
+          {
+            "name": "Latency",
+            "value": "Latency",
+            "description": "Indicates latency-related metrics."
+          }
+        ]
+      }
+    },
+    "ComplianceCalculation": {
+      "type": "string",
+      "description": "Specifies the method for compliance calculation.",
+      "enum": [
+        "CalendarDays",
+        "RollingDays"
+      ],
+      "x-ms-enum": {
+        "name": "ComplianceCalculation",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "CalendarDays",
+            "value": "CalendarDays",
+            "description": "Calculates compliance based on a fixed calendar period."
+          },
+          {
+            "name": "RollingDays",
+            "value": "RollingDays",
+            "description": "Calculates compliance using a rolling time window."
+          }
+        ]
+      }
+    },
+    "Condition": {
+      "type": "object",
+      "description": "Represents a filtering condition.",
+      "properties": {
+        "dimensionName": {
+          "type": "string",
+          "description": "Dimension name used in filtering."
+        },
+        "scalarFunction": {
+          "$ref": "#/definitions/ScalarFunction",
+          "description": "Scalar function applied for filtering."
+        },
+        "samplingType": {
+          "$ref": "#/definitions/SamplingType",
+          "description": "Defines the sampling type."
+        },
+        "operator": {
+          "$ref": "#/definitions/ConditionOperator",
+          "description": "Operator used in the filtering condition."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value used in filtering."
+        }
+      },
+      "required": [
+        "samplingType",
+        "operator",
+        "value"
+      ]
+    },
+    "ConditionOperator": {
+      "type": "string",
+      "description": "Defines operators used in filter conditions.",
+      "enum": [
+        "eq",
+        "ne",
+        "lt",
+        "lte",
+        "gt",
+        "gte",
+        "@in",
+        "notin",
+        "startswith",
+        "notstartswith",
+        "contains",
+        "notcontains"
+      ],
+      "x-ms-enum": {
+        "name": "ConditionOperator",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "eq",
+            "value": "eq",
+            "description": "Equal to."
+          },
+          {
+            "name": "ne",
+            "value": "ne",
+            "description": "Not equal to."
+          },
+          {
+            "name": "lt",
+            "value": "lt",
+            "description": "Less than."
+          },
+          {
+            "name": "lte",
+            "value": "lte",
+            "description": "Less than or equal to."
+          },
+          {
+            "name": "gt",
+            "value": "gt",
+            "description": "Greater than."
+          },
+          {
+            "name": "gte",
+            "value": "gte",
+            "description": "Greater than or equal to."
+          },
+          {
+            "name": "in",
+            "value": "@in",
+            "description": "In."
+          },
+          {
+            "name": "!in",
+            "value": "notin",
+            "description": "Not in."
+          },
+          {
+            "name": "startswith",
+            "value": "startswith",
+            "description": "Starts with."
+          },
+          {
+            "name": "!startswith",
+            "value": "notstartswith",
+            "description": "Does not start with."
+          },
+          {
+            "name": "contains",
+            "value": "contains",
+            "description": "Contains the value."
+          },
+          {
+            "name": "!contains",
+            "value": "notcontains",
+            "description": "Does not contain the value."
+          }
+        ]
+      }
+    },
+    "EvaluationType": {
+      "type": "string",
+      "description": "Specifies how the SLI is evaluated.",
+      "enum": [
+        "WindowBased",
+        "RequestBased"
+      ],
+      "x-ms-enum": {
+        "name": "EvaluationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "WindowBased",
+            "value": "WindowBased",
+            "description": "Evaluates SLI based on time windows."
+          },
+          {
+            "name": "RequestBased",
+            "value": "RequestBased",
+            "description": "Evaluates SLI based on request counts."
+          }
+        ]
+      }
+    },
+    "ExecutionState": {
+      "type": "object",
+      "description": "Represents the current execution state of an SLI.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The execution state value."
+        },
+        "message": {
+          "type": "string",
+          "description": "A descriptive message related to the execution state."
+        }
+      },
+      "required": [
+        "state",
+        "message"
+      ]
+    },
     "Filter": {
       "type": "object",
-      "description": "Filter model",
+      "description": "Defines a filter model for signals.",
       "properties": {
         "logic": {
-          "type": "string",
-          "description": "Filter logic"
+          "$ref": "#/definitions/Logic",
+          "description": "Logical operator for filtering."
         },
-        "queries": {
+        "conditions": {
           "type": "array",
-          "description": "Filter queries",
+          "description": "Conditions applied to the filter.",
           "items": {
-            "$ref": "#/definitions/Query"
+            "$ref": "#/definitions/Condition"
           },
           "x-ms-identifiers": [
             "dimensionName",
@@ -268,20 +515,44 @@
       },
       "required": [
         "logic",
-        "queries"
+        "conditions"
       ]
+    },
+    "Logic": {
+      "type": "string",
+      "description": "Defines logical operators used in filtering.",
+      "enum": [
+        "AND",
+        "OR"
+      ],
+      "x-ms-enum": {
+        "name": "Logic",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AND",
+            "value": "AND",
+            "description": "Logical AND operation."
+          },
+          {
+            "name": "OR",
+            "value": "OR",
+            "description": "Logical OR operation."
+          }
+        ]
+      }
     },
     "Metric": {
       "type": "object",
-      "description": "Metric model",
+      "description": "Defines a metric in the destination AMW account.",
       "properties": {
         "metricNamespace": {
           "type": "string",
-          "description": "Metric namespace"
+          "description": "The namespace of the metric."
         },
         "metricName": {
           "type": "string",
-          "description": "Metric name"
+          "description": "The name of the metric."
         }
       },
       "required": [
@@ -291,15 +562,13 @@
     },
     "ProvisioningState": {
       "type": "string",
-      "description": "The status of the current operation.",
+      "description": "Represents the provisioning state of the SLI resource.",
       "enum": [
         "Succeeded",
         "Failed",
         "Canceled",
-        "Provisioning",
-        "Updating",
-        "Deleting",
-        "Accepted"
+        "Failed",
+        "Successful"
       ],
       "x-ms-enum": {
         "name": "ProvisioningState",
@@ -321,59 +590,98 @@
             "description": "Resource creation was canceled."
           },
           {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "Initial provisioning in progress"
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that provisioning has failed."
           },
           {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Update in progress"
-          },
-          {
-            "name": "Deleting",
-            "value": "Deleting",
-            "description": "Deletion in progress"
-          },
-          {
-            "name": "Accepted",
-            "value": "Accepted",
-            "description": "Change accepted for processing"
+            "name": "Successful",
+            "value": "Successful",
+            "description": "Indicates that provisioning was successful."
           }
         ]
       },
       "readOnly": true
     },
-    "Query": {
-      "type": "object",
-      "description": "Query model",
-      "properties": {
-        "dimensionName": {
-          "type": "string",
-          "description": "Dimension name"
-        },
-        "operator": {
-          "type": "string",
-          "description": "Query operator"
-        },
-        "value": {
-          "type": "string",
-          "description": "Dimension value"
-        }
-      },
-      "required": [
-        "dimensionName",
-        "operator",
-        "value"
-      ]
+    "SamplingType": {
+      "type": "string",
+      "description": "Defines the available sampling types.",
+      "enum": [
+        "max",
+        "min",
+        "avg",
+        "sum"
+      ],
+      "x-ms-enum": {
+        "name": "SamplingType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "max",
+            "value": "max",
+            "description": "Maximum value."
+          },
+          {
+            "name": "min",
+            "value": "min",
+            "description": "Minimum value."
+          },
+          {
+            "name": "avg",
+            "value": "avg",
+            "description": "Average value."
+          },
+          {
+            "name": "sum",
+            "value": "sum",
+            "description": "Summation."
+          }
+        ]
+      }
+    },
+    "ScalarFunction": {
+      "type": "string",
+      "description": "Defines scalar functions used in filtering.",
+      "enum": [
+        "max",
+        "min",
+        "avg",
+        "sum"
+      ],
+      "x-ms-enum": {
+        "name": "ScalarFunction",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "max",
+            "value": "max",
+            "description": "Maximum value."
+          },
+          {
+            "name": "min",
+            "value": "min",
+            "description": "Minimum value."
+          },
+          {
+            "name": "avg",
+            "value": "avg",
+            "description": "Average value."
+          },
+          {
+            "name": "sum",
+            "value": "sum",
+            "description": "Summation."
+          }
+        ]
+      }
     },
     "Signal": {
       "type": "object",
-      "description": "signal model",
+      "description": "Represents a signal model used in SLI calculations.",
       "properties": {
         "signalSources": {
           "type": "array",
-          "description": "Signal sources",
+          "description": "Sources of metrics used for SLIs.",
           "items": {
             "$ref": "#/definitions/SignalSource"
           },
@@ -383,7 +691,7 @@
         },
         "signalFormula": {
           "type": "string",
-          "description": "Signal formula"
+          "description": "Mathematical formula used to combine multiple metrics."
         }
       },
       "required": [
@@ -393,38 +701,52 @@
     },
     "SignalSource": {
       "type": "object",
-      "description": "Signal source model",
+      "description": "Represents a signal source used in SLIs.",
       "properties": {
         "signalSourceId": {
           "type": "string",
-          "description": "The signal source id"
+          "description": "Unique identifier for the signal source."
+        },
+        "sourceAmwAccountManagedIdentity": {
+          "type": "string",
+          "description": "Managed identity for authenticating the signal source."
+        },
+        "sourceAmwAccountResourceId": {
+          "type": "string",
+          "description": "Resource ID of the source AMW account."
         },
         "metricNamespace": {
           "type": "string",
-          "description": "Metric namespace"
+          "description": "Namespace of the metric."
         },
         "metricName": {
           "type": "string",
-          "description": "Metric name"
+          "description": "Name of the metric."
         },
         "filters": {
           "type": "array",
-          "description": "Filter",
+          "description": "Filters applied to modify signal values.",
           "items": {
             "$ref": "#/definitions/Filter"
           },
           "x-ms-identifiers": [
             "logic",
-            "queries"
+            "conditions"
           ]
         },
         "spatialAggregation": {
           "$ref": "#/definitions/SpatialAggregation",
-          "description": "Aggregation"
+          "description": "Defines how measurements are aggregated across multiple time series."
+        },
+        "temporalAggregation": {
+          "$ref": "#/definitions/TemporalAggregation",
+          "description": "Defines how measurements are aggregated over a specific time window within the same time series."
         }
       },
       "required": [
         "signalSourceId",
+        "sourceAmwAccountManagedIdentity",
+        "sourceAmwAccountResourceId",
         "metricNamespace",
         "metricName",
         "filters",
@@ -433,7 +755,7 @@
     },
     "Sli": {
       "type": "object",
-      "description": "A SliTestProviderHub resource",
+      "description": "Represents an SLI resource within the ProviderHub.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/SliResource",
@@ -473,88 +795,56 @@
     },
     "SliProperties": {
       "type": "object",
-      "description": "SLI properties model",
+      "description": "Defines the properties of an SLI.",
       "properties": {
-        "sourceAmwAccounts": {
-          "type": "array",
-          "description": "Source AMW accounts",
-          "items": {
-            "$ref": "#/definitions/AmwAccount"
-          },
-          "x-ms-identifiers": [
-            "resourceId"
-          ]
-        },
         "goodSignals": {
           "$ref": "#/definitions/Signal",
-          "description": "Request based good signals"
+          "description": "Represents good signals used in request-based SLI calculations."
         },
         "totalSignals": {
           "$ref": "#/definitions/Signal",
-          "description": "Request based total signals"
+          "description": "Represents total signals used in request-based SLI calculations."
         },
         "signals": {
           "$ref": "#/definitions/Signal",
-          "description": "Window based signals"
+          "description": "Signals used for window-based SLI calculations."
         },
         "windowUptimeCriteria": {
           "$ref": "#/definitions/WindowUptimeCriteria",
-          "description": "Window uptime criteria"
+          "description": "Defines the uptime criteria for window-based SLIs."
         }
-      },
-      "required": [
-        "sourceAmwAccounts"
-      ]
+      }
     },
     "SliResource": {
       "type": "object",
-      "description": "Resource properties model",
+      "description": "Defines the root level properties of an SLI resource.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
+          "description": "Indicates the provisioning status of the last operation.",
           "readOnly": true
         },
         "description": {
           "type": "string",
-          "description": "SLO description"
+          "description": "A user-provided description of the SLI, with a maximum length of 1000 characters.",
+          "pattern": "^.{3,1000}$"
         },
-        "sloType": {
-          "type": "string",
-          "description": "SLO type"
+        "category": {
+          "$ref": "#/definitions/Category",
+          "description": "Specifies the category of the SLI, used to classify signals such as Availability and Latency."
         },
         "evaluationType": {
-          "type": "string",
-          "description": "SLO evaluation type"
+          "$ref": "#/definitions/EvaluationType",
+          "description": "Determines how the SLI is evaluated—either based on request counts or time windows."
         },
-        "sloProperties": {
-          "$ref": "#/definitions/SloProperties",
-          "description": "SLO properties"
-        },
-        "sliProperties": {
-          "$ref": "#/definitions/SliProperties",
-          "description": "SLI properties"
-        }
-      },
-      "required": [
-        "description",
-        "sloType",
-        "evaluationType",
-        "sloProperties",
-        "sliProperties"
-      ]
-    },
-    "SloProperties": {
-      "type": "object",
-      "description": "SLO properties model",
-      "properties": {
-        "target": {
-          "$ref": "#/definitions/SloTarget",
-          "description": "SLO target"
+        "executionState": {
+          "$ref": "#/definitions/ExecutionState",
+          "description": "Indicates the current execution status of the SLI resource in ARM responses.",
+          "readOnly": true
         },
         "destinationAmwAccounts": {
           "type": "array",
-          "description": "Destination AMW accounts",
+          "description": "Destination AMW accounts.",
           "items": {
             "$ref": "#/definitions/AmwAccount"
           },
@@ -564,7 +854,7 @@
         },
         "destinationMetrics": {
           "type": "array",
-          "description": "Destination metrics",
+          "description": "The destination Azure Monitor Workspace (AMW) accounts where the SLI emits metrics.",
           "items": {
             "$ref": "#/definitions/Metric"
           },
@@ -572,43 +862,69 @@
             "metricNamespace",
             "metricName"
           ]
+        },
+        "sloProperties": {
+          "$ref": "#/definitions/SloProperties",
+          "description": "Defines the SLO properties associated with the SLI."
+        },
+        "sliProperties": {
+          "$ref": "#/definitions/SliProperties",
+          "description": "Defines the SLI properties associated with the SLI."
         }
       },
       "required": [
-        "target",
+        "description",
+        "category",
+        "evaluationType",
+        "executionState",
         "destinationAmwAccounts",
-        "destinationMetrics"
+        "destinationMetrics",
+        "sloProperties",
+        "sliProperties"
+      ]
+    },
+    "SloProperties": {
+      "type": "object",
+      "description": "Defines the properties of an SLO.",
+      "properties": {
+        "target": {
+          "$ref": "#/definitions/SloTarget",
+          "description": "Defines the SLO target, which is compared against the SLI value to determine compliance."
+        }
+      },
+      "required": [
+        "target"
       ]
     },
     "SloTarget": {
       "type": "object",
-      "description": "SLO target model",
+      "description": "Defines the target parameters for an SLO.",
       "properties": {
-        "name": {
-          "type": "string",
-          "description": "Target name"
-        },
-        "target": {
+        "value": {
           "type": "number",
           "format": "float",
-          "description": "Target value"
+          "description": "The user-defined or Azure-defined target value used for comparison against the SLI value.",
+          "minimum": 0,
+          "maximum": 100
         },
         "compliancePeriodDays": {
-          "type": "string",
-          "description": "Compliance period days"
+          "type": "integer",
+          "format": "int32",
+          "description": "The time frame (in days) used for SLI evaluation.",
+          "minimum": 1,
+          "maximum": 90
         },
         "complianceCalculation": {
-          "type": "string",
-          "description": "Compliance calculation"
+          "$ref": "#/definitions/ComplianceCalculation",
+          "description": "Specifies how compliance is calculated, either based on calendar days or a rolling window."
         },
         "comparator": {
-          "type": "string",
-          "description": "Target comparator"
+          "$ref": "#/definitions/TargetComparator",
+          "description": "Defines the operator used to compare the SLI value against the target."
         }
       },
       "required": [
-        "name",
-        "target",
+        "value",
         "compliancePeriodDays",
         "complianceCalculation",
         "comparator"
@@ -616,15 +932,15 @@
     },
     "SpatialAggregation": {
       "type": "object",
-      "description": "Spatial aggregation model",
+      "description": "Represents the spatial aggregation model.",
       "properties": {
         "type": {
-          "type": "string",
-          "description": "Spatial aggregation type"
+          "$ref": "#/definitions/AggregationType",
+          "description": "Type of spatial aggregation."
         },
         "dimensions": {
           "type": "array",
-          "description": "Spatial aggregation dimension",
+          "description": "Dimensions considered for spatial aggregation.",
           "items": {
             "type": "string"
           }
@@ -635,17 +951,54 @@
         "dimensions"
       ]
     },
+    "TargetComparator": {
+      "type": "string",
+      "description": "Defines comparison operators for evaluating an SLI against an SLO target.",
+      "enum": [
+        "lt",
+        "gt",
+        "lte",
+        "gte"
+      ],
+      "x-ms-enum": {
+        "name": "TargetComparator",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "lt",
+            "value": "lt",
+            "description": "Less than the target value."
+          },
+          {
+            "name": "gt",
+            "value": "gt",
+            "description": "Greater than the target value."
+          },
+          {
+            "name": "lte",
+            "value": "lte",
+            "description": "Less than or equal to the target value."
+          },
+          {
+            "name": "gte",
+            "value": "gte",
+            "description": "Greater than or equal to the target value."
+          }
+        ]
+      }
+    },
     "TemporalAggregation": {
       "type": "object",
-      "description": "Temporal aggregation model",
+      "description": "Represents temporal aggregation settings.",
       "properties": {
         "type": {
-          "type": "string",
-          "description": "Temporal aggregation type"
+          "$ref": "#/definitions/AggregationType",
+          "description": "Type of temporal aggregation."
         },
         "windowSizeMinutes": {
-          "type": "string",
-          "description": "Temporal aggregation window size in minutes"
+          "type": "integer",
+          "format": "int32",
+          "description": "Time window size for aggregation, in minutes."
         }
       },
       "required": [
@@ -655,27 +1008,59 @@
     },
     "WindowUptimeCriteria": {
       "type": "object",
-      "description": "Window uptime criteria model",
+      "description": "Represents criteria for determining uptime in window-based SLIs.",
       "properties": {
         "target": {
           "type": "number",
           "format": "float",
-          "description": "Window uptime target"
+          "description": "Threshold value used to determine uptime.",
+          "minimum": 0
         },
         "comparator": {
-          "type": "string",
-          "description": "Window uptime comparator"
-        },
-        "temporalAggregation": {
-          "$ref": "#/definitions/TemporalAggregation",
-          "description": "Temporal aggregation"
+          "$ref": "#/definitions/WindowUptimeCriteriaComparator",
+          "description": "Comparison operator used for uptime evaluation."
         }
       },
       "required": [
         "target",
-        "comparator",
-        "temporalAggregation"
+        "comparator"
       ]
+    },
+    "WindowUptimeCriteriaComparator": {
+      "type": "string",
+      "description": "Defines comparison operators for window uptime criteria.",
+      "enum": [
+        "lt",
+        "gt",
+        "lte",
+        "gte"
+      ],
+      "x-ms-enum": {
+        "name": "WindowUptimeCriteriaComparator",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "lt",
+            "value": "lt",
+            "description": "Less than the target value."
+          },
+          {
+            "name": "gt",
+            "value": "gt",
+            "description": "Greater than the target value."
+          },
+          {
+            "name": "lte",
+            "value": "lte",
+            "description": "Less than or equal to the target value."
+          },
+          {
+            "name": "gte",
+            "value": "gte",
+            "description": "Greater than or equal to the target value."
+          }
+        ]
+      }
     }
   },
   "parameters": {
