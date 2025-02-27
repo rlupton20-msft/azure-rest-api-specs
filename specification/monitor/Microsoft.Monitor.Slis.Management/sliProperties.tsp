@@ -161,19 +161,19 @@ union ConditionOperator {
   in: "@in",
 
   @doc("Not in.")
-  `!in`: "notin",
+  "!in": "notin",
 
   @doc("Starts with.")
   "startswith",
 
   @doc("Does not start with.")
-  `!startswith`: "notstartswith",
+  "!startswith": "notstartswith",
 
   @doc("Contains the value.")
   "contains",
 
   @doc("Does not contain the value.")
-  `!contains`: "notcontains",
+  "!contains": "notcontains",
 
   string,
 }

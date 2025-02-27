@@ -112,13 +112,7 @@ union EvaluationType {
 @doc("Represents the provisioning state of the SLI resource.")
 @Azure.Core.lroStatus
 union ProvisioningState {
-  ResourceProvisioningState,
-
-  @doc("Indicates that provisioning has failed.")
-  "Failed",
-
-  @doc("Indicates that provisioning was successful.")
-  "Successful",
+  ResourceProvisioningState
 }
 
 @doc("Defines operations for managing SLI resources.")
