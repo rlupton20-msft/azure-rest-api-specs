@@ -31,12 +31,6 @@ model WithNodePool {
   nodePoolId: string;
 }
 
-@doc("Supercomputer run ID")
-model WithRunId {
-  @doc("Run ID")
-  runId: string;
-}
-
 interface KnowledgeBaseVersions {
   @doc("Creates or replaces a KnowledgeBaseVersion.")
   createOrReplaceKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseVersion>;

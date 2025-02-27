@@ -1,53 +1,24 @@
 import "@typespec/rest";
-import "@typespec/http";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-import "@azure-tools/typespec-azure-resource-manager";
+import "./common.tsp";
 
-import "./project.tsp";
-import "../Science.Management.Shared/all.tsp";
-
-using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.ResourceManager;
+using Azure.Core.Traits;
 
-@armProviderNamespace
-@versioned(Microsoft.AiForScience.Versions)
-namespace Microsoft.AiForScience;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
-@doc("Tool tracked resource")
-model Tool is TrackedResource<ToolProperties> {
-  ...ResourceNameParameter<Tool>;
-}
-
-@doc("Science Tool properties")
-model ToolProperties {
-  @doc("The status of the last operation.")
+@doc("A Microsoft.AiForScience tool resource.")
+@resource("Tools")
+model Tool {
+  @doc("The tool name.")
   @visibility("read")
-  provisioningState?: ProvisioningState;
-
-  @doc("Tool description used for copilot prompt and execution.")
-  @visibility("read", "create", "update")
-  description: string;
-
-  @doc("Reference to catalog tool definition.")
-  @visibility("read", "create", "update")
-  // TODO: Include "definition" in property name?
-  catalogToolId: string;
-
-  @doc("The parameters of the execution.")
-  @visibility("read", "create", "update")
-  parameters?: Parameter[];
-
-  @doc("The ID of the workspace.")
-  @visibility("read", "create")
-  workspaceId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.AiForScience/workspace";
-    }
-  ]>;
+  @key("toolName")
+  name: string;
 }
 
 @doc("Parameter model for executions")
@@ -57,28 +28,6 @@ model Parameter {
 
   @doc("The value of the parameter.")
   value: string;
-}
-
-@doc("Linked DataSets.")
-model LinkedDataSets {
-  @doc("Fully qualified resource ID for the DataSet resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/DataAssets/{assetName}/DataSets/{setName}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/DataAssets/DataSets";
-    }
-  ]>;
-}
-
-@doc("Linked NodePools.")
-model LinkedNodePools {
-  @doc("Fully qualified resource ID for the NodePool resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/supercomputers/{scName}/nodepools/{name}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/supercomputers/nodepools";
-    }
-  ]>;
 }
 
 @doc("An execution of aTool")
@@ -118,6 +67,14 @@ model ExecutionRequest {
   sharedStorage: LinkedStorage;
 }
 
+@doc("Tool execution ID")
+model WithExecutionId {
+  @doc("Execution ID")
+  @key("executionId")
+  @visibility("query")
+  executionId: string;
+}
+
 @doc("Tools runtime execution state")
 union RunTimeState {
   /** Tool execution has not started yet */
@@ -138,21 +95,12 @@ union RunTimeState {
   string,
 }
 
-@doc("Tool execution ID")
-model WithExecutionId {
-  @doc("Execution ID")
-  @key("executionId")
-  @visibility("query")
-  executionId: string;
-}
-
 @doc("Execution status model")
 model ExecutionStatus {
   ...WithExecutionId;
 
   @doc("The runtime state of the execution.")
-  @lroStatus
-  status: RunTimeState;
+  runtimeState: RunTimeState;
 
   @doc("Human-readable details about the execution status.")
   runtimeDetails: string;
@@ -169,27 +117,19 @@ model ExecutionStatus {
   @doc("Details provided by the tool (rather than the platform).")
   toolReport?: {
     estimatedCompletionTime?: utcDateTime;
-    //statusInformation?: {};  //TODO: define type
+    statusInformation?: {};
   };
 }
 
-@armResourceOperations
 interface Tools {
-  get is ArmResourceRead<Tool>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Tool>;
-  update is ArmResourcePatchSync<Tool, ToolProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Tool>;
-  listByResourceGroup is ArmResourceListByParent<Tool>;
-  listBySubscription is ArmListBySubscription<Tool>;
-
-  getExecutionStatus is Azure.ResourceManager.ArmResourceActionAsync<
+  getExecutionStatus is Operations.GetResourceOperationStatus<
     Tool,
-    void,
     ExecutionStatus
   >;
 
+  @doc("Start indexing.")
   @pollingOperation(Tools.getExecutionStatus)
-  execute is Azure.ResourceManager.ArmResourceActionAsync<
+  execute is Operations.LongRunningResourceAction<
     Tool,
     ExecutionRequest,
     ExecutionStatus
