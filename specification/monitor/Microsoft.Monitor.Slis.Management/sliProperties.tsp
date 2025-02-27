@@ -158,7 +158,7 @@ union ConditionOperator {
   "gte",
 
   @doc("In.")
-  `in`: "@in",
+  in: "@in",
 
   @doc("Not in.")
   `!in`: "notin",
