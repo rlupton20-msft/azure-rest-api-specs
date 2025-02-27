@@ -2,11 +2,11 @@
 
 > see https://aka.ms/autorest
 
-This is the AutoRest configuration file for throttling.
+This is the AutoRest configuration file for Throttling.
 
 ## Getting Started
 
-To build the SDKs for My API, simply install AutoRest via `npm` (`npm install -g autorest`) and then run:
+To build the SDKs for Throttling, simply install AutoRest via `npm` (`npm install -g autorest`) and then run:
 
 > `autorest readme.md`
 
@@ -22,7 +22,7 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the throttling.
+These are the global settings for Throttling.
 
 ```yaml
 openapi-type: arm
@@ -42,7 +42,3 @@ input-file:
 ---
 
 # Code Generation
-
-## CSharp
-
-See configuration in [readme.csharp.md](./readme.csharp.md)
