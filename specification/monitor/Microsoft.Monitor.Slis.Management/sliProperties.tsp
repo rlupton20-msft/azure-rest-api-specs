@@ -157,7 +157,7 @@ union ConditionOperator {
   @doc("Greater than or equal to.")
   "gte",
 
-  @doc("In.")
+  @doc("In operator.")
   in: "@in",
 
   @doc("Not in.")
