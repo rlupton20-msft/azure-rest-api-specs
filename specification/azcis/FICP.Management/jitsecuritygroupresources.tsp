@@ -19,6 +19,9 @@ model JitSecurityGroupResourceProperties {
   @doc("Instance identificator. Required.")
   instanceId: string;
 
+  @doc("Cloud identifier for the JIT security group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
+  cloud: string;
+
   @doc("Elevated security group.")
   elevatedSecurityGroup?: ResourceSecurityGroup;
 
