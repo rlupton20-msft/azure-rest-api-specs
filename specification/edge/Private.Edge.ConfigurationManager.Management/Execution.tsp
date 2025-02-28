@@ -66,7 +66,6 @@ model ExecutionStatus {
 @doc("Execution Properties")
 model ExecutionProperties {
   @doc("Workflow version of execution")
-  @visibility("read")
   workflowVersionId: string;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"

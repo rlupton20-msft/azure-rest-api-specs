@@ -42,7 +42,6 @@ model WorkflowVersionProperties {
 
   @OpenAPI.extension("x-ms-identifiers", [])
   @doc("A list of stage specs")
-  @visibility("read")
   stageSpec: StageSpec[];
 
   @doc("Review id of resolved config for this workflow version")
