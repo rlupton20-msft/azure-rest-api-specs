@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Storage Data Management Resource Provider",
-    "version": "2025-01-01-preview",
+    "version": "2025-05-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -43,6 +43,9 @@
     },
     {
       "name": "Connectors"
+    },
+    {
+      "name": "DataShares"
     }
   ],
   "paths": {
@@ -70,11 +73,6 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "ListOperations": {
-            "$ref": "./examples/Operations_List.json"
           }
         },
         "x-ms-pageable": {
@@ -120,11 +118,6 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "ListConnectorsByStorageAccount": {
-            "$ref": "./examples/Connectors_ListByStorageAccount.json"
           }
         },
         "x-ms-pageable": {
@@ -178,11 +171,6 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "GetConnector": {
-            "$ref": "./examples/Connectors_Get.json"
           }
         }
       },
@@ -259,11 +247,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "CreateConnector": {
-            "$ref": "./examples/Connectors_Create.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -324,11 +307,6 @@
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "UpdateConnector": {
-            "$ref": "./examples/Connectors_Update.json"
-          }
         }
       },
       "delete": {
@@ -376,11 +354,6 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DeleteConnector": {
-            "$ref": "./examples/Connectors_Delete.json"
           }
         }
       }
@@ -441,10 +414,283 @@
               "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/datashares": {
+      "get": {
+        "operationId": "DataShares_ListByStorageAccount",
+        "tags": [
+          "DataShares"
+        ],
+        "description": "List all Storage DataShares in a Storage Account.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "description": "The name of the storage account.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DataShareListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
         },
-        "x-ms-examples": {
-          "ExistingConnectionTest": {
-            "$ref": "./examples/Connectors_TestExistingConnection.json"
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/datashares/{datasharename}": {
+      "get": {
+        "operationId": "DataShares_Get",
+        "tags": [
+          "DataShares"
+        ],
+        "description": "Get the specified Storage DataShare.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "description": "The name of the storage account.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "datasharename",
+            "in": "path",
+            "description": "The name of the storage datashare",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DataShare"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DataShares_Create",
+        "tags": [
+          "DataShares"
+        ],
+        "description": "Create a Storage DataShare if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource. ",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "description": "The name of the storage account.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "datasharename",
+            "in": "path",
+            "description": "The name of the storage datashare",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataShare"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DataShare' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DataShare"
+            }
+          },
+          "201": {
+            "description": "Resource 'DataShare' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DataShare"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "DataShares_Update",
+        "tags": [
+          "DataShares"
+        ],
+        "description": "Update a Storage DataShare.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "description": "The name of the storage account.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "datasharename",
+            "in": "path",
+            "description": "The name of the storage datashare",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataShareUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DataShare"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DataShares_Delete",
+        "tags": [
+          "DataShares"
+        ],
+        "description": "Delete a Storage DataShare.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "description": "The name of the storage account.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "datasharename",
+            "in": "path",
+            "description": "The name of the storage datashare",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
@@ -511,6 +757,30 @@
       ],
       "x-ms-discriminator-value": "AccessKey"
     },
+    "AccessPolicy": {
+      "type": "object",
+      "description": "Policy that specify the permission allowed to a managed identity.",
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "description": "The AAD principal ID of the Managed Identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The AAD tenant ID of the Managed Identity."
+        },
+        "permissions": {
+          "type": "string",
+          "description": "Allowed permissions. Currently, only supported value is ‘r’ for Read.",
+          "pattern": "^[r]$"
+        }
+      },
+      "required": [
+        "principalId",
+        "tenantId",
+        "permissions"
+      ]
+    },
     "AuthProperties": {
       "type": "object",
       "description": "The auth properties for bucket connection.",
@@ -543,7 +813,8 @@
       "type": "string",
       "description": "The auth type supported for bucket connection.",
       "enum": [
-        "AccessKey"
+        "AccessKey",
+        "ManagedIdentityAuthProperties"
       ],
       "x-ms-enum": {
         "name": "AuthType",
@@ -553,6 +824,11 @@
             "name": "AccessKey",
             "value": "AccessKey",
             "description": "Access Key auth type"
+          },
+          {
+            "name": "ManagedIdentityAuthProperties",
+            "value": "ManagedIdentityAuthProperties",
+            "description": "Managed Identity auth type"
           }
         ]
       }
@@ -680,7 +956,8 @@
       "type": "string",
       "description": "The connection type for bucket connection",
       "enum": [
-        "Endpoint"
+        "Endpoint",
+        "DataShare"
       ],
       "x-ms-enum": {
         "name": "ConnectionType",
@@ -690,9 +967,28 @@
             "name": "Endpoint",
             "value": "Endpoint",
             "description": "Endpoint connection type"
+          },
+          {
+            "name": "DataShare",
+            "value": "DataShare",
+            "description": "DaraShare connection type"
           }
         ]
       }
+    },
+    "ConnectionUpdate": {
+      "type": "object",
+      "description": "Details related to the type of bucket connection",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ConnectionType",
+          "description": "Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
     },
     "Connector": {
       "type": "object",
@@ -870,6 +1166,216 @@
         }
       ]
     },
+    "DataShare": {
+      "type": "object",
+      "description": "A DataShare is a tracked ARM resource modeled as a sub-resource of a Storage Account",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DataShareProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DataShareConnection": {
+      "type": "object",
+      "description": "Details related to DataShare based connection",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the backing Data Share."
+        },
+        "region": {
+          "type": "string",
+          "description": "Azure Region of the backing DataShare."
+        },
+        "dataShareIdentifier": {
+          "type": "string",
+          "description": "The unique identifier of the backing DataShare. Must be a guid.",
+          "minLength": 1,
+          "pattern": "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        }
+      },
+      "required": [
+        "name",
+        "region",
+        "dataShareIdentifier"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Connection"
+        }
+      ],
+      "x-ms-discriminator-value": "DataShare"
+    },
+    "DataShareConnectionUpdate": {
+      "type": "object",
+      "description": "Details related to DataShare based connection",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the backing Data Share."
+        },
+        "region": {
+          "type": "string",
+          "description": "Azure Region of the backing DataShare."
+        },
+        "dataShareIdentifier": {
+          "type": "string",
+          "description": "The unique identifier of the backing DataShare. Must be a guid.",
+          "minLength": 1,
+          "pattern": "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "DataShare"
+    },
+    "DataShareListResult": {
+      "type": "object",
+      "description": "The response of a DataShare list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DataShare items on this page",
+          "items": {
+            "$ref": "#/definitions/DataShare"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DataShareProperties": {
+      "type": "object",
+      "description": "Details of the Storage DataShare.",
+      "properties": {
+        "dataShareIdentifier": {
+          "type": "string",
+          "description": "System-generated identifier for the Storage DataShare. Not a valid input parameter when creating.",
+          "readOnly": true
+        },
+        "accessPolicies": {
+          "type": "array",
+          "description": "List of access policies that specify the permission allowed to a managed identity.",
+          "items": {
+            "$ref": "#/definitions/AccessPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "paths": {
+          "type": "array",
+          "description": "List of paths that specify the properties of a shared resource.",
+          "items": {
+            "$ref": "#/definitions/Path"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "accessPolicies",
+        "paths"
+      ]
+    },
+    "DataSharePropertiesUpdate": {
+      "type": "object",
+      "description": "Details of the Storage DataShare.",
+      "properties": {
+        "accessPolicies": {
+          "type": "array",
+          "description": "List of access policies that specify the permission allowed to a managed identity.",
+          "items": {
+            "$ref": "#/definitions/AccessPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "paths": {
+          "type": "array",
+          "description": "List of paths that specify the properties of a shared resource.",
+          "items": {
+            "$ref": "#/definitions/Path"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "DataShareSource": {
+      "type": "object",
+      "description": "The properties of the backing data store.",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/Connection",
+          "description": "Details for how to connect to the backing data store."
+        },
+        "authProperties": {
+          "$ref": "#/definitions/AuthProperties",
+          "description": "Details for how to authenticate to the backing data store."
+        }
+      },
+      "required": [
+        "connection",
+        "authProperties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Source"
+        }
+      ],
+      "x-ms-discriminator-value": "DataShare"
+    },
+    "DataShareSourceUpdate": {
+      "type": "object",
+      "description": "The properties of the backing data store.",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/ConnectionUpdate",
+          "description": "Details for how to connect to the backing data store."
+        },
+        "authProperties": {
+          "$ref": "#/definitions/AuthPropertiesUpdate",
+          "description": "Details for how to authenticate to the backing data store."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SourceUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "DataShare"
+    },
+    "DataShareUpdate": {
+      "type": "object",
+      "description": "A DataShare is a tracked ARM resource modeled as a sub-resource of a Storage Account",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DataSharePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "DataSourceType": {
       "type": "string",
       "description": "The type of the backing data source.",
@@ -878,7 +1384,8 @@
         "Azure_NetApp_Files",
         "Dell_OneFS",
         "AWS_S3",
-        "S3_Compatible"
+        "S3_Compatible",
+        "Azure_DataShare"
       ],
       "x-ms-enum": {
         "name": "DataSourceType",
@@ -908,6 +1415,11 @@
             "name": "S3_Compatible",
             "value": "S3_Compatible",
             "description": "S3 Compatible data source type."
+          },
+          {
+            "name": "Azure_DataShare",
+            "value": "Azure_DataShare",
+            "description": "Azure DataShare data source type."
           }
         ]
       }
@@ -965,6 +1477,71 @@
       ],
       "x-ms-discriminator-value": "Endpoint"
     },
+    "EndpointConnectionUpdate": {
+      "type": "object",
+      "description": "Details related to endpoint based bucket connection",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "Endpoint"
+    },
+    "ManagedIdentityAuthProperties": {
+      "type": "object",
+      "description": "The managed identity properties for datashare connection.",
+      "properties": {
+        "identityResourceId": {
+          "type": "string",
+          "description": "ARM ID of the managed identity that should be used to authenticate to the backing data source.",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "identityResourceId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "ManagedIdentityAuthProperties"
+    },
+    "ManagedIdentityAuthPropertiesUpdate": {
+      "type": "object",
+      "description": "The managed identity properties for datashare connection.",
+      "properties": {
+        "identityResourceId": {
+          "type": "string",
+          "description": "ARM ID of the managed identity that should be used to authenticate to the backing data source.",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "ManagedIdentityAuthProperties"
+    },
+    "Path": {
+      "type": "object",
+      "description": "Properties of a shared resource.",
+      "properties": {
+        "physicalPath": {
+          "type": "string",
+          "description": "Source path to be shared. It can be a folder or a blob. The physical path should contain container name followed by path within the container, e.g. /container1/logs/external."
+        },
+        "virtualPath": {
+          "type": "string",
+          "description": "Consumer visible path of the original path."
+        }
+      },
+      "required": [
+        "physicalPath",
+        "virtualPath"
+      ]
+    },
     "ProvisioningState": {
       "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
       "x-nullable": false
@@ -987,7 +1564,8 @@
       "type": "string",
       "description": "The type of the backing data source",
       "enum": [
-        "Bucket"
+        "Bucket",
+        "DataShare"
       ],
       "x-ms-enum": {
         "name": "SourceType",
@@ -997,6 +1575,11 @@
             "name": "Bucket",
             "value": "Bucket",
             "description": "Source type - Bucket"
+          },
+          {
+            "name": "DataShare",
+            "value": "DataShare",
+            "description": "Source type - DataShare"
           }
         ]
       }

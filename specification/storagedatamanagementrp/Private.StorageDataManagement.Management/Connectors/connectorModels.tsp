@@ -4,7 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "./common.tsp";
+import "../common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -72,11 +72,25 @@ model BucketSource extends Source {
   hostOverride?: string;
 }
 
+@doc("The properties of the backing data store.")
+@added(Versions.v2025_05_01_preview)
+model DataShareSource extends Source {
+  @visibility("read")
+  type: SourceType.DataShare;
+
+  @doc("Details for how to connect to the backing data store.")
+  connection: Connection;
+
+  @doc("Details for how to authenticate to the backing data store.")
+  authProperties: AuthProperties;
+}
+
 // Connection Properties
 @discriminator("type")
 @doc("Details related to the type of bucket connection")
 model Connection {
   @doc("Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object. Not mutable once the Storage Connector is created.")
+  @visibility("create", "read")
   type: ConnectionType;
 }
 
@@ -87,10 +101,30 @@ model EndpointConnection extends Connection {
 
   @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: https://203.0.113.1:9000/AllowSelfSignedCerts Bucket: https://data.contoso.com/bucketname .")
   @minLength(4)
+  @visibility("create", "read")
   endpoint: string;
 
   @doc("Options - Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
+  @visibility("create", "read")
   tlsVerification?: TlsVerification = TlsVerification.Perform;
+}
+
+@doc("Details related to DataShare based connection")
+@added(Versions.v2025_05_01_preview)
+model DataShareConnection extends Connection {
+  @visibility("read")
+  type: ConnectionType.DataShare;
+
+  @doc("Name of the backing Data Share.")
+  name: string;
+
+  @doc("Azure Region of the backing DataShare.")
+  region: string;
+
+  @doc("The unique identifier of the backing DataShare. Must be a guid.")
+  @minLength(1)
+  @pattern("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+  dataShareIdentifier: string;
 }
 
 // Auth Properties
@@ -117,6 +151,17 @@ model AccessKeyProperties extends AuthProperties {
 
   @doc("Region to use in the signing algorithm.  If not provided, defaults to us-east-1.")
   signingRegion?: string;
+}
+
+@doc("The managed identity properties for datashare connection.")
+@added(Versions.v2025_05_01_preview)
+model ManagedIdentityAuthProperties extends AuthProperties {
+  @visibility("read")
+  type: AuthType.ManagedIdentityAuthProperties;
+
+  @doc("ARM ID of the managed identity that should be used to authenticate to the backing data source.")
+  @minLength(1)
+  identityResourceId: string;
 }
 
 // Test Existing Connection request
