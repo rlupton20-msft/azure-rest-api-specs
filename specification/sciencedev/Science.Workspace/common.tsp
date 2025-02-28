@@ -40,20 +40,6 @@ model WithInvestigationId {
   investigationId: string;
 }
 
-@doc("For pan reference.")
-model WithPlanId {
-  @doc("The ID of the associated plan")
-  @visibility("read")
-  planId: string;
-}
-
-@doc("For run reference.")
-model WithRunId {
-  @doc("The ID of the associated plan run")
-  @visibility("read")
-  runId: string;
-}
-
 /** Enum for runMode */
 union RunMode {
   /** Run every step */
@@ -63,51 +49,6 @@ union RunMode {
   PauseAfterStep: "PauseAfterStep",
 
   string,
-}
-
-@doc("Step within a plan")
-model Step {
-  //  @doc("The step name.")
-  //  @visibility("read")
-  //  @key("stepName")
-  //  name: string;
-
-  //  ...WithCreatedAt;
-  //  ...WithUpdatedAt;
-  //  ...WithStatus<RunStatus>;
-  //  ...WithStatusReason;
-  //  ...WithResultAsset;
-
-  @doc("The step order.")
-  @visibility("read")
-  stepNumber: int32;
-
-  // TODO: What does actionId mean? I'm not clear how this differs from step name. Is this the same as "activityId" from run step?
-  @doc("The step action ID.")
-  @visibility("read")
-  actionId: string;
-
-  @doc("The ID of the associated Tool within Catalog.")
-  @visibility("read")
-  toolId: string;
-
-  @doc("The step category.")
-  @visibility("read")
-  category: string;
-}
-
-@doc("For adding run mode.")
-model WithRunMode {
-  @doc("The mode of the plan run")
-  @visibility("read", "create")
-  runMode?: RunMode;
-}
-
-@doc("For adding Plan Blueprint yaml.")
-model WithYaml {
-  @doc("The plan Blueprint as YAML")
-  @visibility("read", "create", "update")
-  planBlueprintYaml?: string;
 }
 
 @doc("For project reference.")

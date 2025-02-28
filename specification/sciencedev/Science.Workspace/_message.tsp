@@ -22,34 +22,11 @@ model Message {
   @key("messageName")
   name: string;
 
-  ...WithId;
   ...MessageBase;
 }
 
-// TODO: Remove un-needed route prefix!
 @route("/")
 interface Messages {
-  //  @doc("Fetch a Message by name.")
-  //  #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
-  //  @route("/")
-  //  getMessage is ResourceRead<Message>;
-  //
-  //  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
-  //  #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
-  //  @doc("Creates a Message.")
-  //  @createsOrReplacesResource(Message)
-  //  @route("/messages")
-  //  @post
-  //  createMessage is Azure.Core.Foundations.Operation<
-  //    Message,
-  //    Message,
-  //    Message
-  //  >;
-
-  //  @doc("Delete a Message asynchronously.")
-  //  @pollingOperation(Messages.getMessageOperationStatus)
-  //  deleteMessage is LongRunningResourceDelete<Message>;
-
   #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
   @doc("List Messages across conversations")
   @route("/")

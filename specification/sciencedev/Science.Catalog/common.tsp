@@ -131,7 +131,5 @@ model Artifact<T> {
   //  ...WithUpdatedAt;
   //  ...WithVersion;
 
-  ...WithVertical;
-
   ...WithAttributes<T>;
 }

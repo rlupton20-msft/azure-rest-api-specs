@@ -13,15 +13,15 @@ using Azure.Core.Traits;
 namespace Microsoft.Science.Workspace;
 
 @doc("A Scientific tool.")
-@resource("scientificTools")
-model ScientificTool {
+@resource("tools")
+model Tool {
   @doc("The scientific tool name.")
   @visibility("read")
   @key("toolName")
   name: string;
 }
 
-@doc("An execution of a ScientificTool")
+@doc("An execution of a Tool")
 model ExecutionRequest {
   @doc("The action ID, as defined in the tool's Catalog definition.")
   actionId: string;
@@ -192,16 +192,16 @@ model ExecutionStatus {
   };
 }
 
-interface ScientificTools {
+interface Tools {
   getExecutionStatus is Operations.GetResourceOperationStatus<
-    ScientificTool,
+    Tool,
     ExecutionStatus
   >;
 
   @doc("Start indexing.")
-  @pollingOperation(ScientificTools.getExecutionStatus)
+  @pollingOperation(Tools.getExecutionStatus)
   execute is Operations.LongRunningResourceAction<
-    ScientificTool,
+    Tool,
     ExecutionRequest,
     ExecutionStatus
   >;

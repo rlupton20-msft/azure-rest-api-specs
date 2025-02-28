@@ -128,6 +128,7 @@ model DataAssetProperties {
   ]>;
 
   @doc("The data store type.")
+  @visibility("read", "create")
   dataStoreType: DataStoreType;
 
   @doc("Credential to access the dataStore.")

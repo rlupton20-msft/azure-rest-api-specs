@@ -118,6 +118,9 @@ union MessageStatus {
   /** Message Accepted */
   Accepted: "Accepted",
 
+  /** Message is awaiting user input */
+  AwaitingUserInput: "AwaitingUserInput",
+
   /** Message is Processing */
   Processing: "Processing",
 
@@ -130,33 +133,36 @@ union MessageStatus {
   string,
 }
 
+@doc("A body for creating a message.")
+model MessageCreateBody {
+  ...WithMessageText;
+
+  @doc("Array of files to upload.")
+  @visibility("read", "create")
+  fileUploads: FileUpload[];
+}
+
 @access(Access.internal)
 @doc("A base message.")
 model MessageBase {
+  ...WithId;
   ...WithProjectIdOptional;
   ...WithInvestigationIdOptional;
-  ...WithConversationId;
-  ...WithMessageText;
+  ...MessageCreateBody;
   ...WithCreatedAt;
+  ...WithCreatedBy;
   ...WithSender;
 
   @doc("Message status")
   @visibility("read")
   status: MessageStatus;
 
-  @doc("The plan Blueprint as YAML")
-  @visibility("read", "create")
-  planBlueprintYaml?: string;
-
-  @doc("Array of files to upload.")
-  @visibility("read", "create")
-  fileUploads: FileUpload[];
-
   @doc("The command name")
   @visibility("read")
   commandName?: string;
 
   @doc("Copilot Operations")
+  @visibility("read")
   copilotOperations: CopilotOperation[];
 
   @doc("Citation list")
@@ -175,6 +181,7 @@ model MessageBase {
   @visibility("read")
   knowledgeBaseResponses: KnowledgeBaseResponse[];
 }
+
 @doc("A message.")
 @resource("messages")
 @parentResource(Conversation)
@@ -187,8 +194,8 @@ model ConversationMessage {
   ...MessageBase;
 }
 
-alias ConversartionPathContent = {
-  @doc("The ID of the Pool that contains the Compute Node.")
+alias ConversationPathContent = {
+  @doc("The conversation name.")
   @path
   conversationName: string;
 };
@@ -205,18 +212,9 @@ interface ConversationMessages {
   @route("/conversations/{conversationName}/messages")
   @post
   createMessage is Azure.Core.Foundations.Operation<
-    ConversartionPathContent & ConversationMessage,
-    ConversationMessage,
+    ConversationPathContent & MessageCreateBody,
     ConversationMessage
   >;
-
-  // TODO: Consider adding this so client can update message state.
-  //  @doc("Creates or updates Message.")
-  //  createOrUpdateMessage is StandardResourceOperations.ResourceCreateOrUpdate<Message>;
-
-  //  @doc("Delete a Message asynchronously.")
-  //  @pollingOperation(Messages.getMessageOperationStatus)
-  //  deleteMessage is LongRunningResourceDelete<Message>;
 
   @doc("List Messages in specified conversation")
   listMessages is ResourceList<
@@ -224,5 +222,12 @@ interface ConversationMessages {
     QueryParametersTrait<WithQueryProjectId &
       WithQueryInvestigationId &
       WithQueryCreatedSince>
+  >;
+
+  @doc("Cancel current copilot operation.")
+  cancel is Operations.ResourceAction<
+    ConversationMessage,
+    {},
+    ConversationMessage
   >;
 }

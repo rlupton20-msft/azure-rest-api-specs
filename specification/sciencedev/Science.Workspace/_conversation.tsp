@@ -23,8 +23,11 @@ model Conversation {
   name: string;
 
   ...WithTitle;
+  ...WithInvestigationIdOptional;
   ...WithCreatedAt;
+  ...WithCreatedBy;
   ...WithUpdatedAt;
+  ...WithUpdatedBy;
 }
 
 // TODO: Remove un-needed route prefix!
@@ -54,6 +57,6 @@ interface Conversations {
   @doc("List Conversation resources")
   listConversations is ResourceList<
     Conversation,
-    QueryParametersTrait<WithQueryCreatedSince>
+    QueryParametersTrait<WithQueryInvestigationId & WithQueryCreatedSince>
   >;
 }

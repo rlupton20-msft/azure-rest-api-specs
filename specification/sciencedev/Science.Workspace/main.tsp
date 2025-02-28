@@ -6,13 +6,14 @@ import "./_knowledgeBase.tsp";
 import "./_knowledgeBase_version.tsp";
 import "./_project.tsp";
 import "./_investigation.tsp";
-//import "./_investigation_version.tsp";
-import "./_run.tsp";
-import "./_run_step.tsp";
 import "./_message.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
-import "./_scientificTool.tsp";
+import "./_conversation_message_confirmation.tsp";
+import "./_conversation_message_logs.tsp";
+import "./_conversation_message_dataAssets.tsp";
+import "./_conversation_message_codeAssets.tsp";
+import "./_tool.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

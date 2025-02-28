@@ -128,27 +128,3 @@ model WithQueryCreatedSince {
   @TypeSpec.Http.query
   createdSince?: utcDateTime;
 }
-
-@doc("Enumeration for vertical.")
-union Vertical {
-  /** Chemistry vertical. */
-  Chemistry: "Chemistry",
-
-  /** Biology vertical. */
-  Biology: "Biology",
-
-  /** Physics vertical. */
-  Physics: "Physics",
-
-  /** Silicon vertical. */
-  Silicon: "Silicon",
-
-  string,
-}
-
-@doc("Settings for configuring associated Science Catalog artifact verticals.")
-model WithVertical {
-  @doc("Property for configuring associated verticals.")
-  @visibility("read", "create", "update")
-  vertical: Vertical;
-}
