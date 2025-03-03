@@ -5,16 +5,15 @@
     "subscriptionId": "00000000-0000-0000-0000-000000000000",
     "resourceGroupName": "testrg",
     "storageAccountName": "teststorageaccount",
-    "api-version": "2025-01-01-preview",
+    "api-version": "2025-05-01-preview",
     "connectorName": "testconnector",
     "properties": {
       "properties": {
         "source": {
-          "type": "Bucket",
+          "type": "DataShare",
           "authProperties": {
-            "type": "AccessKey",
-            "accessKeyId": "updatedExampleId",
-            "signingRegion": "us-west-2"
+            "type": "ManagedIdentityAuthProperties",
+            "identityResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/newTestIdentity"
           }
         }
       }
@@ -28,24 +27,23 @@
         "type": "Private.StorageDataManagementRP/connectors",
         "location": "eastus",
         "properties": {
-          "uniqueId": "12345",
+          "uniqueId": "12345678-1234-1234-1234-12345678912",
           "state": "Active",
           "creationTime": "2023-04-01T00:00:00Z",
-          "description": "Updated example connector",
-          "dataSourceType": "AWS_S3",
+          "description": "Example connector",
+          "dataSourceType": "Azure_DataShare",
           "source": {
-            "type": "Bucket",
+            "type": "DataShare",
             "connection": {
-              "type": "Endpoint",
-              "endpoint": "https://example.com/bucket",
-              "tlsVerification": "Perform"
+              "type": "DataShare",
+              "name": "datashare1",
+              "region": "eastus",
+              "dataShareIdentifier": "12345678-1234-1234-1234-123456789123"
             },
             "authProperties": {
-              "type": "AccessKey",
-              "accessKeyId": "updatedExampleId",
-              "signingRegion": "us-west-2"
-            },
-            "hostOverride": "example.com"
+              "type": "ManagedIdentityAuthProperties",
+              "identityResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/newTestIdentity"
+            }
           },
           "provisioningState": "Succeeded"
         }
