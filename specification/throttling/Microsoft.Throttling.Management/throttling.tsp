@@ -107,6 +107,9 @@ model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
   name: string;
 
+  // The out-of-the-box implementation in TypeSpec for kind is ResourceKindProperty, which is a free-form string.
+  // In order to limit the possible values and decorated it with @pattern, it needs to be declared as string.
+  // What in turn triggers a warning: Property "kind" is not valid in the resource envelope.  Please remove this property, or add it to the resource-specific property bag.
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Throttling account kind")
   @visibility("create", "read")
@@ -147,9 +150,9 @@ model AccountAuthenticationProperties {
   @extension("x-ms-identifiers", ["subjectName"])
   certificates?: CertificateProperties[];
 
-  @doc("AzureAD-based authentication properties")
+  @doc("Microsoft Entra-based authentication properties")
   @extension("x-ms-identifiers", ["tenantId", "objectId"])
-  azureActiveDirectory?: AzureActiveDirectoryProperties[];
+  entra?: EntraProperties[];
 }
 
 @doc("Certificate-based authentication properties")
@@ -161,12 +164,12 @@ model CertificateProperties {
   subjectName: string;
 }
 
-@doc("AzureAD-based authentication properties")
-model AzureActiveDirectoryProperties {
-  @doc("AzureAD Tenant ID")
+@doc("Microsoft Entra-based authentication properties")
+model EntraProperties {
+  @doc("Entra Tenant ID")
   tenantId: uuid;
 
-  @doc("AzureAD Object ID")
+  @doc("Entra Object ID")
   objectId: uuid;
 }
 
@@ -209,13 +212,13 @@ model RuleProperties {
   depthMultiplier: int32;
 
   @doc("Window duration")
-  // TODO: define, see task #27581502
+  // TODO: define, see task #27581502 which is blocked by https://github.com/Microsoft/typespec/issues/3318
   //@minValue("?")
   //@maxValue("?")
   windowDuration: duration;
 
   @doc("Minimal enforcement duration")
-  // TODO: define, see task #27581502
+  // TODO: define, see task #27581502 which is blocked by https://github.com/Microsoft/typespec/issues/3318
   //@minValue("?")
   //@maxValue("?")
   minEnforcementDuration: duration;
