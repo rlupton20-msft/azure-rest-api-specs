@@ -40,7 +40,7 @@ input-file:
 suppressions:
   - code: PatchBodyParametersSchema
     from:
-      - connectors.json
+      - StorageDataRP.json
     reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
     where:
       - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
@@ -54,10 +54,12 @@ These settings apply only when `--tag=package-2025-05-01-preview` is specified o
 input-file:
   - preview/2025-05-01-preview/StorageDataRP.json
 suppressions:
-  - code: DISCRIMINATOR_NOT_REQUIRED
-    reason: The discriminator property is now explicitly defined as a required property.
-  - code: OBJECT_MISSING_REQUIRED_PROPERTY_DEFINITION
-    reason: The `type` property has been added to `ConnectionUpdate` as required.
+  - code: PatchBodyParametersSchema
+    from:
+      - StorageDataRP.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
 ```
 
 ---

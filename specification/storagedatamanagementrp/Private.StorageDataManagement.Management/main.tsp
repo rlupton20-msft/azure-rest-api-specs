@@ -13,7 +13,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Microsoft.Storage")
+@armProviderNamespace("Private.StorageDataManagementRP")
 @service({
   title: "Storage Data Management Resource Provider",
 })
