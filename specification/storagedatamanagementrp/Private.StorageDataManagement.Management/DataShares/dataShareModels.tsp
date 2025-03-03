@@ -26,7 +26,7 @@ model DataShareProperties {
   @doc("List of paths that specify the properties of a shared resource.")
   @OpenAPI.extension("x-ms-identifiers", [])
   paths: Path[];
- 
+
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
@@ -53,6 +53,7 @@ model AccessPolicy {
 model Path {
   @doc("Source path to be shared. It can be a folder or a blob. The physical path should contain container name followed by path within the container, e.g. /container1/logs/external.")
   physicalPath: string;
+
   @doc("Consumer visible path of the original path.")
   virtualPath: string;
 }

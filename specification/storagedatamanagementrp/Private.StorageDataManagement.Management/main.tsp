@@ -13,11 +13,10 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Private.StorageDataManagementRP")
+@armProviderNamespace("Microsoft.Storage")
 @service({
   title: "Storage Data Management Resource Provider",
 })
-
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
 namespace Microsoft.Storage;
@@ -74,8 +73,8 @@ interface Connectors {
 model DataShare is TrackedResource<DataShareProperties> {
   @doc("The name of the storage datashare")
   @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
-  @key("datasharename")
-  @segment("datashares")
+  @key("dataShareName")
+  @segment("dataShares")
   @path
   name: string;
 }
