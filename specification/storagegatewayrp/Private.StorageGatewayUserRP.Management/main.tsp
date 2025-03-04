@@ -58,7 +58,7 @@ union ProvisioningState {
 model StorageGatewayProperties {
   @visibility("read")
   @doc("The status of the last operation.")
-  provisioningState: ProvisioningState;
+  provisioningState?: ProvisioningState;
 
   @visibility("read", "create", "update")
   @doc("The description of the StorageGateway resource.")
