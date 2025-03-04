@@ -114,6 +114,7 @@ model CommunityEndpointProperties {
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("List of resource ids created by community endpoint.")
+  @visibility("read")
   resourceCollection?: string[];
 
   @doc("Provisioning State.")

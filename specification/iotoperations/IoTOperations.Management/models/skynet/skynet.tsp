@@ -32,23 +32,49 @@ model SkynetResource is ProxyResource<SkynetProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-@doc("Skynet Resource properties")
-model SkynetProperties {
-  @doc("Access level for Skynet.")
-  accessLevel?: SkynetPropertiesAccessLevels;
+@doc("Represents the activation state of Skynet.")
+union RemoteSupportActivationState {
+  string,
 
-  @doc("Expiration timestamp for Skynet.")
-  expirationTimeStamp?: string;
+  @doc("Remote Support is enabled.")
+  Enabled: "Enabled",
 
-  @visibility("read")
-  @doc("The status of the last operation.")
-  provisioningState?: ProvisioningState;
+  @doc("Remote Support is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Remote Support has Expired.")
+  Expired: "Expired",
 }
 
-@doc("SkynetPropertiesAccessLevels allowed")
-union SkynetPropertiesAccessLevels {
+@doc("SkynetAccessLevels allowed")
+union RemoteSupportAccessLevels {
   string,
 
   @doc("Diagnose access level")
   Diagnose: "Diagnose",
+
+  @doc("Diagnose And Repair Access Level")
+  DiagnoseAndRepair: "DiagnoseAndRepair",
+}
+
+@doc("RemoteSupport properties")
+model RemoteSupportProperties {
+  @doc("Activation state of Skynet.")
+  state?: RemoteSupportActivationState;
+
+  @doc("Access level for Skynet.")
+  accessLevel?: RemoteSupportAccessLevels;
+
+  @doc("Expiration timestamp for Skynet.")
+  expirationTimestamp?: string;
+}
+
+@doc("Skynet Resource properties")
+model SkynetProperties {
+  @doc("Remote Support Settings For Skynet.")
+  remoteSupport?: RemoteSupportProperties;
+
+  @visibility("read")
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
 }

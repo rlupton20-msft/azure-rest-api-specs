@@ -1,5 +1,4 @@
 import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -15,6 +14,7 @@ namespace Microsoft.AzureCis;
 
 @doc("plannedQuota properties")
 model PlannedQuotaResourceProperties {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   @doc("Name of the resource template")
   plannedQuotaName: string;
 
@@ -27,11 +27,11 @@ model PlannedQuotaResourceProperties {
   @doc("Stage name")
   stage?: string;
 
+  @doc("The Azure location")
+  azureLocation: azureLocation;
+
   @doc("Plan version")
   planVersion?: string;
-
-  @doc("The Azure location.")
-  azureLocation: azureLocation;
 
   @doc("Property bindings")
   @extension("x-ms-identifiers", [])
@@ -78,6 +78,7 @@ model PropertyBinding {
 }
 
 @doc("plannedQuota Resource")
+@subscriptionResource
 model PlannedQuotaResource
   is ProxyResource<PlannedQuotaResourceProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
@@ -92,8 +93,14 @@ model PlannedQuotaResource
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface PlannedQuota {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<PlannedQuotaResource>;
+  #suppress "@azure-tools/typespec-azure-core/invalid-final-state" "Fix on next update"
+  @Azure.Core.useFinalStateVia("azure-async-operation")
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<
+    PlannedQuotaResource,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader
+  >;
   listBySubscription is ArmListBySubscription<PlannedQuotaResource>;
-  listByResourceGroup is ArmResourceListByParent<PlannedQuotaResource>;
   get is ArmResourceRead<PlannedQuotaResource>;
 }
+
+@@visibility(PlannedQuotaResource.properties, "read", "create");

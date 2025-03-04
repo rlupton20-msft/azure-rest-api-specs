@@ -5,9 +5,9 @@ import "@typespec/rest";
 import "./models.tsp";
 
 using TypeSpec.Rest;
-using Azure.ResourceManager;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
+using Azure.ResourceManager;
+using OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 /**
@@ -23,6 +23,8 @@ model Workspace is TrackedResource<WorkspaceProperties> {
   @segment("workspaces")
   @visibility("read")
   name: string;
+
+  ...ResourceSkuProperty;
 }
 
 @armResourceOperations

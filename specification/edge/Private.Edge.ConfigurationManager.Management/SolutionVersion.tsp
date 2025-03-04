@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./State.tsp";
-import "./SolutionDependencyContext.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -48,18 +47,23 @@ model SolutionVersionProperties {
   @doc("State of solution instance")
   @visibility("read")
   state?: State;
-  
+
+  @doc("Solution instance name")
+  @visibility("read")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
   @doc("Solution Dependency Context")
   @extension("x-ms-identifiers", [])
   @visibility("read")
-  solutionDependencies?: SolutionDependencyContext[];
+  solutionDependencies?: SolutionDependency[];
 
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Version Resource")
+@doc("Solution Version Resource. It has the resolved configuration along with edge specification.")
 @parentResource(Solution)
 @resource("versions")
 model SolutionVersion
@@ -67,7 +71,7 @@ model SolutionVersion
   // Name will be set to solutionTemplateVersion-revision
   @doc("Name of the solution version")
   @maxLength(61)
-  @minLength(3)
+  @minLength(7)
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("solutionVersionName")
@@ -78,6 +82,22 @@ model SolutionVersion
   ...EntityTagProperty;
 }
 
+@doc("Solution Dependency Context")
+model SolutionDependency {
+  @doc("Solution Version Id")
+  solutionVersionId: string;
+
+  @doc("Solution Template Version Id")
+  solutionTemplateVersionId: string;
+
+  @doc("Target Id")
+  targetId: string;
+
+  @doc("Solution dependencies")
+  @extension("x-ms-identifiers", [])
+  dependencies?: SolutionDependency[];
+}
+
 @armResourceOperations
 interface SolutionVersions {
   @doc("Get a Solution Version Resource")
@@ -86,7 +106,7 @@ interface SolutionVersions {
   @doc("Create or update a Solution Version Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
 
-  @doc("update a Solution Version Resource")
+  @doc("Update a Solution Version Resource")
   update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
 
   @doc("Delete a Solution Version Resource")

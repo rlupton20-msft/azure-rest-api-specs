@@ -1,5 +1,4 @@
 import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -7,14 +6,12 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("AutopilotMachineFunction properties")
 model AutopilotMachineFunctionResourceProperties {
   @doc("Goal state of MachinesFunctions.")
@@ -47,7 +44,6 @@ model AutopilotMachineFunctionResourceProperties {
   provisioningState?: EnvironmentProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("MachineFuncion.")
 model MachineFunction {
   @doc("Name of Machine Function allocated machines need to assign to.")
@@ -66,7 +62,6 @@ model MachineFunction {
   additionalFields?: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("AutopilotMachineFunction Resource")
 model AutopilotMachineFunctionResource
   is ProxyResource<AutopilotMachineFunctionResourceProperties> { // This can be TrackedResource based on resourcetype.
@@ -80,7 +75,6 @@ model AutopilotMachineFunctionResource
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface AutopilotMachineFunction {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<AutopilotMachineFunctionResource>;

@@ -6149,6 +6149,78 @@
       },
       "readOnly": true
     },
+    "RemoteSupportAccessLevels": {
+      "type": "string",
+      "description": "SkynetAccessLevels allowed",
+      "enum": [
+        "Diagnose",
+        "DiagnoseAndRepair"
+      ],
+      "x-ms-enum": {
+        "name": "RemoteSupportAccessLevels",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Diagnose",
+            "value": "Diagnose",
+            "description": "Diagnose access level"
+          },
+          {
+            "name": "DiagnoseAndRepair",
+            "value": "DiagnoseAndRepair",
+            "description": "Diagnose And Repair Access Level"
+          }
+        ]
+      }
+    },
+    "RemoteSupportActivationState": {
+      "type": "string",
+      "description": "Represents the activation state of Skynet.",
+      "enum": [
+        "Enabled",
+        "Disabled",
+        "Expired"
+      ],
+      "x-ms-enum": {
+        "name": "RemoteSupportActivationState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Remote Support is enabled."
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Remote Support is disabled."
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "Remote Support has Expired."
+          }
+        ]
+      }
+    },
+    "RemoteSupportProperties": {
+      "type": "object",
+      "description": "RemoteSupport properties",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/RemoteSupportActivationState",
+          "description": "Activation state of Skynet."
+        },
+        "accessLevel": {
+          "$ref": "#/definitions/RemoteSupportAccessLevels",
+          "description": "Access level for Skynet."
+        },
+        "expirationTimestamp": {
+          "type": "string",
+          "description": "Expiration timestamp for Skynet."
+        }
+      }
+    },
     "SanForCert": {
       "type": "object",
       "description": "Subject Alternative Names (SANs) for certificate.",
@@ -6356,37 +6428,15 @@
       "type": "object",
       "description": "Skynet Resource properties",
       "properties": {
-        "accessLevel": {
-          "$ref": "#/definitions/SkynetPropertiesAccessLevels",
-          "description": "Access level for Skynet."
-        },
-        "expirationTimeStamp": {
-          "type": "string",
-          "description": "Expiration timestamp for Skynet."
+        "remoteSupport": {
+          "$ref": "#/definitions/RemoteSupportProperties",
+          "description": "Remote Support Settings For Skynet."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
         }
-      }
-    },
-    "SkynetPropertiesAccessLevels": {
-      "type": "string",
-      "description": "SkynetPropertiesAccessLevels allowed",
-      "enum": [
-        "Diagnose"
-      ],
-      "x-ms-enum": {
-        "name": "SkynetPropertiesAccessLevels",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Diagnose",
-            "value": "Diagnose",
-            "description": "Diagnose access level"
-          }
-        ]
       }
     },
     "SkynetResource": {

@@ -19,8 +19,8 @@ enum Versions {
     Azure.Core.Versions.v1_0_Preview_2,
     Azure.ResourceManager.Versions.v1_0_Preview_1
   )
-  @doc("Version 2024-01-01-preview")
-  v2024_01_01_preview: "2024-01-01-preview",
+  @doc("Version 2025-03-01-preview")
+  v2025_03_01_preview: "2025-03-01-preview",
 }
 
 using TypeSpec.Http;
@@ -96,10 +96,10 @@ model ProxyAccountAuthenticationProperties {
 }
 
 @doc("Throttling account")
-model Account is TrackedResource<AccountProperties> {
-  @doc("Account name")
-  @key("accountName")
-  @segment("accounts")
+model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
+  @doc("Throttling account name")
+  @key("throttlingAccountName")
+  @segment("throttlingAccounts")
   @path
   @visibility("read")
   @minLength(3)
@@ -107,25 +107,31 @@ model Account is TrackedResource<AccountProperties> {
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
   name: string;
 
+  // The out-of-the-box implementation in TypeSpec for kind is ResourceKindProperty, which is a free-form string.
+  // In order to limit the possible values and decorated it with @pattern, it needs to be declared as string.
+  // What in turn triggers a warning: Property "kind" is not valid in the resource envelope.  Please remove this property, or add it to the resource-specific property bag.
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
-  @doc("Account kind")
+  @doc("Throttling account kind")
   @visibility("create", "read")
   @pattern("^direct|indirect,[a-z]+$")
   kind: string;
 }
 
 @armResourceOperations
-interface Accounts {
-  get is ArmResourceRead<Account>;
-  create is ArmResourceCreateOrReplaceAsync<Account>;
-  update is ArmResourcePatchAsync<Account, AccountProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Account>;
-  listByResourceGroup is ArmResourceListByParent<Account>;
-  listBySubscription is ArmListBySubscription<Account>;
+interface ThrottlingAccounts {
+  get is ArmResourceRead<ThrottlingAccount>;
+  create is ArmResourceCreateOrReplaceAsync<ThrottlingAccount>;
+  update is ArmResourcePatchAsync<
+    ThrottlingAccount,
+    ThrottlingAccountProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<ThrottlingAccount>;
+  listByResourceGroup is ArmResourceListByParent<ThrottlingAccount>;
+  listBySubscription is ArmListBySubscription<ThrottlingAccount>;
 }
 
-@doc("Account properties")
-model AccountProperties {
+@doc("Throttling account properties")
+model ThrottlingAccountProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -144,9 +150,9 @@ model AccountAuthenticationProperties {
   @extension("x-ms-identifiers", ["subjectName"])
   certificates?: CertificateProperties[];
 
-  @doc("AzureAD-based authentication properties")
+  @doc("Microsoft Entra-based authentication properties")
   @extension("x-ms-identifiers", ["tenantId", "objectId"])
-  azureActiveDirectory?: AzureActiveDirectoryProperties[];
+  entra?: EntraProperties[];
 }
 
 @doc("Certificate-based authentication properties")
@@ -158,21 +164,21 @@ model CertificateProperties {
   subjectName: string;
 }
 
-@doc("AzureAD-based authentication properties")
-model AzureActiveDirectoryProperties {
-  @doc("AzureAD Tenant ID")
+@doc("Microsoft Entra-based authentication properties")
+model EntraProperties {
+  @doc("Entra Tenant ID")
   tenantId: uuid;
 
-  @doc("AzureAD Object ID")
+  @doc("Entra Object ID")
   objectId: uuid;
 }
 
-@doc("Throttling category")
-@parentResource(Account)
-model Category is TrackedResource<CategoryProperties> {
-  @doc("Throttling category name")
-  @key("categoryName")
-  @segment("categories")
+@doc("Throttling rules")
+@parentResource(ThrottlingAccount)
+model Rule is TrackedResource<RuleProperties> {
+  @doc("Throttling rule name")
+  @key("ruleName")
+  @segment("rules")
   @path
   @visibility("read")
   @minLength(3)
@@ -182,16 +188,16 @@ model Category is TrackedResource<CategoryProperties> {
 }
 
 @armResourceOperations
-interface Categories {
-  get is ArmResourceRead<Category>;
-  create is ArmResourceCreateOrReplaceAsync<Category>;
-  update is ArmResourcePatchAsync<Category, CategoryProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Category>;
-  listByAccount is ArmResourceListByParent<Category>;
+interface Rules {
+  get is ArmResourceRead<Rule>;
+  create is ArmResourceCreateOrReplaceAsync<Rule>;
+  update is ArmResourcePatchAsync<Rule, RuleProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Rule>;
+  listByAccount is ArmResourceListByParent<Rule>;
 }
 
-@doc("Category properties")
-model CategoryProperties {
+@doc("Throttling rule properties")
+model RuleProperties {
   @doc("Provisioning state")
   @visibility("read")
   provisioningState?: ProvisioningState;
@@ -200,20 +206,20 @@ model CategoryProperties {
   @minValue(1)
   threshold: int32;
 
-  @doc("Depth of the bucket")
+  @doc("Bucket's depth multiplier")
   @minValue(-16)
   @maxValue(-1)
-  depth: int32;
+  depthMultiplier: int32;
 
   @doc("Window duration")
-  // TODO: define, see task #27581502
+  // TODO: define, see task #27581502 which is blocked by https://github.com/Microsoft/typespec/issues/3318
   //@minValue("?")
   //@maxValue("?")
   windowDuration: duration;
 
-  @doc("Minimal decision duration")
-  // TODO: define, see task #27581502
+  @doc("Minimal enforcement duration")
+  // TODO: define, see task #27581502 which is blocked by https://github.com/Microsoft/typespec/issues/3318
   //@minValue("?")
   //@maxValue("?")
-  minDecisionDuration: duration;
+  minEnforcementDuration: duration;
 }
