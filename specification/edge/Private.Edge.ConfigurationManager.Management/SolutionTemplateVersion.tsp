@@ -18,7 +18,7 @@ namespace Private.Edge;
 @doc("Available Orchestrator types")
 union OrchestratorType {
   @doc("Toolchain Orchestrator type")
-  TO: "TO",
+  default: "default",
 
   string,
 }
