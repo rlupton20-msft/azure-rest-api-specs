@@ -2,6 +2,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
+import "../Science.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -39,16 +40,14 @@ model BaseKnowledgeBase {
   ...WithTags;
   ...WithDescription;
   ...WithCreatedAt;
+  ...WithCreatedBy;
   ...WithUpdatedAt;
+  ...WithUpdatedBy;
   ...WithStatus<IndexingStatus>;
 
   @doc("Catalog data assets to index.")
   @visibility("read", "create")
-  dataAssets: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/dataAsset";
-    }
-  ]>[];
+  dataAssetIds: DataAssetId[];
 
   @doc("URL to access the knowledge base.")
   @visibility("read")

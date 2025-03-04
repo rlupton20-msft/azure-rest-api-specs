@@ -9,10 +9,10 @@ import "./_investigation.tsp";
 import "./_message.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
-import "./_conversation_message_confirmation.tsp";
-import "./_conversation_message_logs.tsp";
-import "./_conversation_message_dataAssets.tsp";
-import "./_conversation_message_codeAssets.tsp";
+// import "./_conversation_message_confirmation.tsp";
+// import "./_conversation_message_logs.tsp";
+// import "./_conversation_message_dataAssets.tsp";
+// import "./_conversation_message_codeAssets.tsp";
 import "./_tool.tsp";
 
 using TypeSpec.Http;

@@ -69,14 +69,14 @@ model ExecutionRequest {
   @doc("IDs of NodePools to use for this execution.")
   nodePoolIds: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/nodePool";
+      type: "Microsoft.Science/supercomputers/nodepools";
     }
   ]>[];
 
   @doc("The shared storage to use for this execution.")
   sharedStorage: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/storage";
+      type: "Microsoft.Science/storages";
     }
   ]>;
 }

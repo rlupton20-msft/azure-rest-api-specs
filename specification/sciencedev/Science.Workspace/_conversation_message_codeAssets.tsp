@@ -20,7 +20,7 @@ namespace Microsoft.Science.Workspace;
 model MessageCodeAsset {
   @doc("The CodeAsset name/key.")
   @visibility("read")
-  @key("CodeAssetName")
+  @key("codeAssetName")
   name: string;
 
   @doc("CodeAsset id")

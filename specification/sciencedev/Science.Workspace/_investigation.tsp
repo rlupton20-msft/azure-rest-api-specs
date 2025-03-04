@@ -3,7 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./common.tsp";
-//import "./_run.tsp";
+import "../Science.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -45,29 +45,24 @@ model WithTimeoutAt {
   timeoutAt: utcDateTime;
 }
 
-@access(Access.internal)
-@doc("Common properties of investigation and investigation version.")
-model InvestigationCore {
+@doc("A investigation list item.")
+@resource("investigations")
+@parentResource(Project)
+model Investigation {
   ...WithId;
+
+  @doc("The investigation name.")
+  @visibility("read")
+  @key("investigationName")
+  name: string;
+
+  ...WithStatus<InvestigationStatus>;
   ...WithDescription;
   ...WithTags;
   ...WithCreatedBy;
   ...WithCreatedAt;
   ...WithUpdatedAt;
   ...WithTitle;
-}
-
-@doc("A investigation list item.")
-@resource("investigations")
-@parentResource(Project)
-model Investigation {
-  @doc("The investigation name.")
-  @visibility("read")
-  @key("investigationName")
-  name: string;
-
-  ...InvestigationCore;
-  ...WithStatus<InvestigationStatus>;
 }
 
 @doc("Enumeration for run cache.")
@@ -85,11 +80,8 @@ union RunCacheMode {
 model RunParams {
   @doc("Data asset to which run results output will be written")
   @visibility("read", "create")
-  outputDataAssetId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/dataAsset";
-    }
-  ]>;
+  // TODO: Change to DataSet if/when available?
+  outputDataAssetId: DataAssetId;
 
   @doc("Caching behavior")
   @visibility("read", "create")

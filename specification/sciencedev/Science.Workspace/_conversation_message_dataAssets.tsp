@@ -20,7 +20,7 @@ namespace Microsoft.Science.Workspace;
 model MessageDataAsset {
   @doc("The DataAsset name/key.")
   @visibility("read")
-  @key("DataAssetName")
+  @key("dataAssetName")
   name: string;
 
   @doc("DataAsset id")

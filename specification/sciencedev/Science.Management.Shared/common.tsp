@@ -54,6 +54,13 @@ model WithTitle {
   displayName: string;
 }
 
+@doc("For adding description.")
+model WithDescription {
+  @doc("The description")
+  @visibility("read", "create", "update")
+  description: string;
+}
+
 @doc("Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user.")
 model MoboBrokerResource {
   @doc("Resource identifier of a Managed-On-Behalf-Of broker resource")
@@ -72,3 +79,39 @@ model ManagedOnBehalfOfConfiguration {
   @visibility("read")
   moboBrokerResources?: MoboBrokerResource[];
 }
+
+alias DataContainerId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/DataContainers";
+  }
+]>;
+
+alias DataAssetId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/DataAssets";
+  }
+]>;
+
+alias StorageId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/Storages";
+  }
+]>;
+
+alias BookShelfId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/Bookshelves";
+  }
+]>;
+
+alias SuperComputerId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/SuperComputers";
+  }
+]>;
+
+alias NodePoolId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/NodePools";
+  }
+]>;

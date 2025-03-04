@@ -63,9 +63,9 @@ model ProjectProperties {
     }
   ]>[];
 
-  //    @doc("Settings for configuring Science Catalog Data Asset availability.")
-  //    @visibility("read", "create", "update")
-  //    dataAssetSettings: Artifact[];
+  @doc("Settings for configuring Science Data Container availability for DataAsset.")
+  @visibility("read", "create", "update")
+  dataContainerIds: DataContainerId[];
 }
 
 @armResourceOperations

@@ -3,6 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
 import "./_conversation.tsp";
+import "../Science.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -14,20 +15,21 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
 
-@doc("File upload")
-model FileUpload {
-  ...WithKey;
+@doc("Data asset")
+model DataAsset {
+  @doc("DataAsset id")
+  @visibility("read", "create")
+  dataAssetId: DataAssetId;
 
-  /** URI of the file */
-  @visibility("read")
-  blobUri: string;
+  ...WithCreatedAt;
+  ...WithCreatedBy;
 }
 
-@doc("For adding artifact ID")
-model WithArtifactId {
-  /** ID of the related artifact */
+@doc("For adding DataAsset ID")
+model WithDataAssetId {
+  /** ID of the related data asset */
   @visibility("read")
-  artifactId: string;
+  dataAssetId: DataAssetId;
 }
 
 @doc("For adding key")
@@ -39,7 +41,7 @@ model WithKey {
 @doc("Copilot citation")
 model Citation {
   ...WithKey;
-  ...WithArtifactId;
+  ...WithDataAssetId;
 
   /** URI from where citation originated */
   @visibility("read")
@@ -73,7 +75,7 @@ model UiCommand {
 @doc("Database query")
 model DbQuery {
   ...WithKey;
-  ...WithArtifactId;
+  ...WithDataAssetId;
 
   /** Query */
   @visibility("read")
@@ -139,7 +141,7 @@ model MessageCreateBody {
 
   @doc("Array of files to upload.")
   @visibility("read", "create")
-  fileUploads: FileUpload[];
+  dataAssets: DataAsset[];
 }
 
 @access(Access.internal)
@@ -161,25 +163,13 @@ model MessageBase {
   @visibility("read")
   commandName?: string;
 
-  @doc("Copilot Operations")
-  @visibility("read")
-  copilotOperations: CopilotOperation[];
-
   @doc("Citation list")
   @visibility("read")
   citations: Citation[];
 
-  @doc("UI command list")
-  @visibility("read")
-  uiCommands: UiCommand[];
-
   @doc("Database query list")
   @visibility("read")
   dbQueries: DbQuery[];
-
-  @doc("knowledge base responses list")
-  @visibility("read")
-  knowledgeBaseResponses: KnowledgeBaseResponse[];
 }
 
 @doc("A message.")

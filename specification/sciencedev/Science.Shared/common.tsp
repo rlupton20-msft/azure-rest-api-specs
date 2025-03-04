@@ -32,14 +32,6 @@ model WithTags {
   tags?: Tag[];
 }
 
-@doc("For adding title to display instead of name.")
-model WithTitle {
-  @doc("The title")
-  @visibility("read", "create", "update")
-  // Defaults to name."
-  displayName: string;
-}
-
 @doc("For adding status.")
 model WithStatus<T> {
   @doc("The status")
@@ -52,13 +44,6 @@ model WithStatusReason {
   @doc("The reason for the current status")
   @visibility("read")
   statusReason?: string;
-}
-
-@doc("For adding description.")
-model WithDescription {
-  @doc("The description")
-  @visibility("read", "create", "update")
-  description: string;
 }
 
 @doc("Enum for entity")

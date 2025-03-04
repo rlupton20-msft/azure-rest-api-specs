@@ -6,8 +6,8 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "../Science.Catalog.Management/all.tsp";
-import "../Science.Supercomputer.Management/all.tsp";
 import "../Science.Workspace.Management/all.tsp";
+import "../Science.Supercomputer.Management/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

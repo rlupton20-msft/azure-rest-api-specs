@@ -20,7 +20,7 @@ namespace Microsoft.Science.Workspace;
 model MessageLog {
   @doc("The Log name/key.")
   @visibility("read")
-  @key("LogName")
+  @key("logName")
   name: string;
 
   @doc("Log sender")
