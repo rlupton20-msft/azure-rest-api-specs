@@ -133,7 +133,7 @@ model MaintenanceModeConfiguration {
   mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string = "Off";
 
   @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals?: Principal[] = [];
+  principals?: Principal[];
 
   @doc("Justification for entering or exiting Maintenance Mode")
   justification?: "Networking" | "Governance" | "Off" | string = "Off";
