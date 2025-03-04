@@ -17,7 +17,7 @@ namespace Private.DeviceRegistry;
 
 @doc("Defines the Discovered Asset Endpoint Profile properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
+@removed(Versions.v2025_07_01_preview)
 model DiscoveredAssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;

@@ -17,6 +17,7 @@ namespace Private.DeviceRegistry;
 @doc("Namespace Discovered Asset definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
 model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   @doc("Namespace Discovered Asset name parameter.")
@@ -37,6 +38,7 @@ model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface NamespaceDiscoveredAssets {
   get is ArmResourceRead<NamespaceDiscoveredAsset>;

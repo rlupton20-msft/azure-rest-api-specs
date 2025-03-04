@@ -17,8 +17,8 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @doc("Discovered Asset definition.")
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
 model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   @doc("Discovered Asset name parameter.")
   @key("discoveredAssetName")

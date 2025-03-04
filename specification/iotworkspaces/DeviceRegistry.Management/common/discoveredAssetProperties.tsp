@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./topic.tsp";
+import "./deviceRef.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -16,12 +17,16 @@ using OpenAPI;
 namespace Private.DeviceRegistry;
 
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
 @doc("Defines the discovered asset properties.")
 model DiscoveredAssetProperties {
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
+  @removed(Versions.v2025_07_01_preview)
   assetEndpointProfileRef: string;
+
+  @doc("Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use.")
+  @added(Versions.v2025_07_01_preview)
+  deviceRef?: DeviceRef;
 
   @doc("Identifier used to detect changes in the asset.")
   discoveryId: string;
@@ -77,7 +82,6 @@ model DiscoveredAssetProperties {
 
 @doc("Defines the dataset properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
 model DiscoveredDataset {
   @doc("Name of the dataset.")
   name: string;
@@ -95,7 +99,6 @@ model DiscoveredDataset {
 
 @doc("Defines the data point properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
 model DiscoveredDataPoint {
   @doc("The name of the data point.")
   name: string;
@@ -112,7 +115,6 @@ model DiscoveredDataPoint {
 
 @doc("Defines the event properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
 model DiscoveredEvent {
   @doc("The name of the event.")
   name: string;

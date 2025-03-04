@@ -19,6 +19,7 @@ namespace Private.DeviceRegistry;
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @doc("NamespaceAsset definition.")
 @parentResource(Namespace)
 model NamespaceAsset is TrackedResource<AssetProperties> {
@@ -40,6 +41,7 @@ model NamespaceAsset is TrackedResource<AssetProperties> {
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface NamespaceAssets {
   get is ArmResourceRead<NamespaceAsset>;

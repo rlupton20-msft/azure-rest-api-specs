@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./topic.tsp";
+import "./deviceRef.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -46,7 +47,12 @@ model AssetProperties {
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility("read", "create")
   @added(Versions.v2024_07_01_preview)
+  @removed(Versions.v2025_07_01_preview)
   assetEndpointProfileRef: string;
+
+  @doc("Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use.")
+  @added(Versions.v2025_07_01_preview)
+  deviceRef?: DeviceRef;
 
   @doc("An integer that is incremented each time the resource is modified.")
   @visibility("read")
