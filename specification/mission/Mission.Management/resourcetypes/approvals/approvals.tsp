@@ -53,7 +53,7 @@ model RequestMetadata {
   resourceAction: string;
 
   @doc("Approval status.")
-  approvalStatus?: ApprovalStatus;
+  approvalStatus?: ApprovalStatus = ApprovalStatus.Pending;
 
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2024_12_01_preview)
