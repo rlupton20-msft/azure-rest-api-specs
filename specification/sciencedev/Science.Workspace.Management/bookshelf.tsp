@@ -27,7 +27,7 @@ model BookshelfProperties {
   @visibility("read")
   provisioningState?: ProvisioningState;
 
-  ...ManagedOnBehalfOfConfiguration;
+  ...MoboConfigurationWithMrg;
 
   /** The bookshelf dataplane API URI */
   @visibility("read")

@@ -35,7 +35,7 @@ model StorageProperties {
   // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
   subnetId: Azure.Core.armResourceIdentifier;
 
-  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
+  ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

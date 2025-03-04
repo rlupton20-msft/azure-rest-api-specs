@@ -49,17 +49,17 @@ model ExecutionRequest {
 
   /**
    * On the request, this specifies locations *in addition to* the
-   * default SharedStorage to write output to. Any data which the tool
+   * default Storage to write output to. Any data which the tool
    * writes to the directory specified by SC_TOOL_OUTPUT_DIR is written
-   * to the default SharedStorage location, and any *additional*
+   * to the default Storage location, and any *additional*
    * locations specified in this array.
    *
    * On the response, this includes handles to all locations where output
-   * was written, *including* the default SharedStorage.
+   * was written, *including* the default Storage.
    *
    * Note that this is an array, not a dictionary. Unlike inputs, a tool
    * only has one opaque blob of output. There may be multiple handles to
-   * that output data (e.g. SharedStorage + one or more DataAssets), but
+   * that output data (e.g. Storage + one or more DataAssets), but
    * each of these locations gets all the data.
    *
    */
@@ -74,7 +74,7 @@ model ExecutionRequest {
   ]>[];
 
   @doc("The shared storage to use for this execution.")
-  sharedStorage: Azure.Core.armResourceIdentifier<[
+  storage: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/storages";
     }
@@ -83,8 +83,8 @@ model ExecutionRequest {
 
 /** Enum for IndexingStatus */
 union HandleType {
-  /** SharedStorage */
-  SharedStorage: "SharedStorage",
+  /** Storage */
+  Storage: "Storage",
 
   /** Catalog DataAsset */
   DataAsset: "DataAsset",
@@ -103,7 +103,7 @@ model DataHandle {
 
   @doc("Location of the input data.")
   /*
-   * For SharedStorage handles, this is of the form <sharedStorageName>/<handle>
+   * For Storage handles, this is of the form <StorageName>/<handle>
    * - <handle> is an opaque handle which Supercomputer knows how to map
    * to an actual filesystem location.
    *

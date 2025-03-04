@@ -46,7 +46,7 @@ model WorkspaceProperties {
   @visibility("read")
   workspaceUiUri: string;
 
-  ...ManagedOnBehalfOfConfiguration;
+  ...MoboConfigurationWithMrg;
 }
 
 @armResourceOperations

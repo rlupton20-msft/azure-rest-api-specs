@@ -70,6 +70,21 @@ union DataStoreType {
 //  storageAccountName: string;
 //}
 
+@doc("Data Asset properties")
+model DatabaseSettings {
+  /** DB port number */
+  @visibility("read")
+  port: int32;
+
+  /** Database name */
+  @visibility("read")
+  database: string;
+
+  /** Database user */
+  @visibility("read")
+  user: string;
+}
+
 @doc("The type of the credential used for RBAC against the data store.")
 union CredentialType {
   @doc("Managed identity credential type.")
@@ -131,6 +146,10 @@ model DataContainerProperties {
   @doc("The data store type.")
   @visibility("read", "create")
   dataStoreType: DataStoreType;
+
+  @doc("The settings for connecting to the database.")
+  @visibility("read")
+  databaseSettings?: DatabaseSettings;
 
   @doc("Credential to access the dataStore.")
   @visibility("read", "create", "update")

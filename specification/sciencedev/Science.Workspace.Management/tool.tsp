@@ -69,10 +69,10 @@ model ExecutionRequest {
   inputDataAssetIds?: Array<DataAssetId>;
 
   /**
-   * On the request, this specifies locations to the SharedStorage also represented as Datasets
+   * On the request, this specifies locations to the Storage also represented as Datasets
    * and or others datasets to write output to.
    * Any data which the tool writes to the directory specified by SC_TOOL_OUTPUT_DIR is written
-   * to the default SharedStorage location, and any additional
+   * to the default Storage location, and any additional
    * locations specified in this array.
    */
   // TODO: Change to DataSet if/when available?
@@ -82,7 +82,7 @@ model ExecutionRequest {
   nodePoolIds: Array<NodePoolId>;
 
   @doc("The shared storage which would be mounted on the nodepools and made available for the tool to use for this execution.")
-  sharedStorageId: StorageId;
+  storageId: StorageId;
 }
 
 @doc("Tools runtime execution state")

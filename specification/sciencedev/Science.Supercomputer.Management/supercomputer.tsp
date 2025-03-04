@@ -35,7 +35,7 @@ model SupercomputerProperties {
     }
   ]>;
 
-  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
+  ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

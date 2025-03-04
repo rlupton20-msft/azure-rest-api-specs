@@ -68,16 +68,23 @@ model MoboBrokerResource {
   id: armResourceIdentifier;
 }
 
-@doc("Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.")
-model ManagedOnBehalfOfConfiguration {
-  @doc("The resource group for resources managed on behalf of customer.")
-  @visibility("read")
-  managedResourceGroup: string;
-
+/** For tracking mobo resources */
+model WithMoboBrokerResources {
   @doc("Managed-On-Behalf-Of broker resources")
   // TODO: Azure.ResourceManager.CommonTypes.MoboBrokerResource was in common types v5 but not v6. Find out why.
   @visibility("read")
   moboBrokerResources?: MoboBrokerResource[];
+}
+
+@doc("Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.")
+model MoboConfigurationWithMrg {
+  @doc("The resource group for resources managed on behalf of customer.")
+  @visibility("read")
+  managedResourceGroup: string;
+
+  /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
+  @visibility("read")
+  managedOnBehalfOfConfiguration?: WithMoboBrokerResources;
 }
 
 alias DataContainerId = Azure.Core.armResourceIdentifier<[

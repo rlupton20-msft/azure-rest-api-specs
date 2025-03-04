@@ -33,7 +33,7 @@ model CatalogProperties {
   @visibility("read")
   catalogApiUri?: string;
 
-  ...ManagedOnBehalfOfConfiguration;
+  ...MoboConfigurationWithMrg;
 }
 
 @armResourceOperations

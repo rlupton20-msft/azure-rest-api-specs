@@ -4463,12 +4463,9 @@
           "description": "The resource group for resources managed on behalf of customer.",
           "readOnly": true
         },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         },
         "bookshelfApiUri": {
@@ -4567,12 +4564,9 @@
           "description": "The resource group for resources managed on behalf of customer.",
           "readOnly": true
         },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         }
       },
@@ -4709,11 +4703,6 @@
           "type": "string",
           "description": "The path to the data within its parent container.",
           "readOnly": true
-        },
-        "databaseSettings": {
-          "$ref": "#/definitions/DatabaseSettings",
-          "description": "The settings for connecting to the database.",
-          "readOnly": true
         }
       },
       "required": [
@@ -4818,6 +4807,11 @@
             "read",
             "create"
           ]
+        },
+        "databaseSettings": {
+          "$ref": "#/definitions/DatabaseSettings",
+          "description": "The settings for connecting to the database.",
+          "readOnly": true
         },
         "credential": {
           "$ref": "#/definitions/Credential",
@@ -4950,7 +4944,7 @@
         },
         "outputDataAssetIds": {
           "type": "array",
-          "description": "On the request, this specifies locations to the SharedStorage also represented as Datasets\nand or others datasets to write output to.\nAny data which the tool writes to the directory specified by SC_TOOL_OUTPUT_DIR is written\nto the default SharedStorage location, and any additional\nlocations specified in this array.",
+          "description": "On the request, this specifies locations to the Storage also represented as Datasets\nand or others datasets to write output to.\nAny data which the tool writes to the directory specified by SC_TOOL_OUTPUT_DIR is written\nto the default Storage location, and any additional\nlocations specified in this array.",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -4980,7 +4974,7 @@
             }
           }
         },
-        "sharedStorageId": {
+        "storageId": {
           "type": "string",
           "format": "arm-id",
           "description": "The shared storage which would be mounted on the nodepools and made available for the tool to use for this execution.",
@@ -4996,7 +4990,7 @@
       "required": [
         "actionId",
         "nodePoolIds",
-        "sharedStorageId"
+        "storageId"
       ]
     },
     "ExecutionStatus": {
@@ -5132,28 +5126,6 @@
       ],
       "x-ms-discriminator-value": "ManagedIdentity"
     },
-    "ManagedOnBehalfOfConfiguration": {
-      "type": "object",
-      "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
-      "properties": {
-        "managedResourceGroup": {
-          "type": "string",
-          "description": "The resource group for resources managed on behalf of customer.",
-          "readOnly": true
-        },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
-          "readOnly": true
-        }
-      },
-      "required": [
-        "managedResourceGroup"
-      ]
-    },
     "MoboBrokerResource": {
       "type": "object",
       "description": "Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user.",
@@ -5167,6 +5139,25 @@
       },
       "required": [
         "id"
+      ]
+    },
+    "MoboConfigurationWithMrg": {
+      "type": "object",
+      "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
+      "properties": {
+        "managedResourceGroup": {
+          "type": "string",
+          "description": "The resource group for resources managed on behalf of customer.",
+          "readOnly": true
+        },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "managedResourceGroup"
       ]
     },
     "Model": {
@@ -5868,12 +5859,9 @@
           "description": "The resource group for resources managed on behalf of customer.",
           "readOnly": true
         },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         }
       },
@@ -5984,12 +5972,9 @@
           "description": "The resource group for resources managed on behalf of customer.",
           "readOnly": true
         },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         }
       },
@@ -6151,6 +6136,20 @@
       "type": "object",
       "description": "Tool execution ID"
     },
+    "WithMoboBrokerResources": {
+      "type": "object",
+      "description": "For tracking mobo resources",
+      "properties": {
+        "moboBrokerResources": {
+          "type": "array",
+          "description": "Managed-On-Behalf-Of broker resources",
+          "items": {
+            "$ref": "#/definitions/MoboBrokerResource"
+          },
+          "readOnly": true
+        }
+      }
+    },
     "WithTitle": {
       "type": "object",
       "description": "For adding title to display instead of name.",
@@ -6277,12 +6276,9 @@
           "description": "The resource group for resources managed on behalf of customer.",
           "readOnly": true
         },
-        "moboBrokerResources": {
-          "type": "array",
-          "description": "Managed-On-Behalf-Of broker resources",
-          "items": {
-            "$ref": "#/definitions/MoboBrokerResource"
-          },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "#/definitions/WithMoboBrokerResources",
+          "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         }
       },

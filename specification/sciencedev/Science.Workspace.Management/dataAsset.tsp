@@ -18,21 +18,6 @@ using Azure.ResourceManager;
 @versioned(Microsoft.Science.Versions)
 namespace Microsoft.Science;
 
-@doc("Data Asset properties")
-model DatabaseSettings {
-  /** DB port number */
-  @visibility("read")
-  port: int32;
-
-  /** Database name */
-  @visibility("read")
-  database: string;
-
-  /** Database user */
-  @visibility("read")
-  user: string;
-}
-
 #suppress "@azure-tools/typespec-autorest/union-unsupported"
 @doc("Data Asset properties")
 model DataAssetProperties {
@@ -45,10 +30,6 @@ model DataAssetProperties {
   @doc("The path to the data within its parent container.")
   @visibility("read")
   path?: string;
-
-  @doc("The settings for connecting to the database.")
-  @visibility("read")
-  databaseSettings?: DatabaseSettings;
 }
 
 @doc("Data Asset tracked resource")
