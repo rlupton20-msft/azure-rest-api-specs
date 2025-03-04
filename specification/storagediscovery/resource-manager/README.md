@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2024-12-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-12-01-preview'
 input-file:
-  - Microsoft.StorageDiscovery/preview/2024-12-01-preview/storageDiscoveryWorkspace.json
+  - Private.StorageDiscovery/preview/2024-12-01-preview/storageDiscoveryWorkspace.json
 ```
 
 ---

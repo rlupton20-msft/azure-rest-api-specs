@@ -266,6 +266,10 @@
           "description": "Migration related configuration.",
           "$ref": "#/definitions/Migration"
         },
+        "bestPracticesAssessment": {
+          "description": "The configuration related to SQL best practices assessment.",
+          "$ref": "#/definitions/BestPracticesAssessment"
+        },
         "clientConnection": {
           "description": "Client connection related configuration.",
           "$ref": "#/definitions/ClientConnection"
@@ -514,6 +518,10 @@
         "migration": {
           "description": "Migration related configuration.",
           "$ref": "#/definitions/Migration"
+        },
+        "bestPracticesAssessment": {
+          "description": "The configuration related to SQL best practices assessment.",
+          "$ref": "#/definitions/BestPracticesAssessment"
         },
         "clientConnection": {
           "description": "Client connection related configuration.",
@@ -1132,6 +1140,101 @@
         "nextLink": {
           "type": "string",
           "description": "The link to the next section of rows of the telemetry response for the SQL Server instance. Null if no more sections are available.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ]
+    },
+    "SqlServerInstanceBpaRequest": {
+      "description": "The Arc SQL Server instance best practices assessment retrieval request.",
+      "type": "object",
+      "properties": {
+        "reportTypes": {
+          "type": "array",
+          "description": "The report types that we want to fetch for the given report ID.",
+          "items": {
+            "type": "string",
+            "description": "The report type.",
+            "enum": [
+              "AssessmentDataPoint",
+              "AssessmentSummary"
+            ],
+            "x-ms-enum": {
+              "name": "SqlServerInstanceBpaReportType",
+              "modelAsString": true
+            }
+          }
+        },
+        "reportId": {
+          "type": "string",
+          "description": "The reportID to return best practices assessment results for. If not specified, assessment summaries for all reports will be returned."
+        }
+      }
+    },
+    "SqlServerInstanceBpaColumn": {
+      "description": "The best practices assessment result column for the SQL Server instance.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the result column."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the result column.",
+          "enum": [
+            "bool",
+            "datetime",
+            "int",
+            "long",
+            "double",
+            "string",
+            "guid",
+            "timespan"
+          ],
+          "x-ms-enum": {
+            "name": "SqlServerInstanceBpaColumnType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "SqlServerInstanceBpaRow": {
+      "description": "An array of values representing a row for the SQL Server instance best practices assessment results.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-ms-identifiers": []
+    },
+    "SqlServerInstanceBpaResponse": {
+      "description": "A section of the best practices assessment response for the SQL Server instance.",
+      "type": "object",
+      "properties": {
+        "columns": {
+          "description": "The columns of the best practices assessment report result for the SQL Server instance.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SqlServerInstanceBpaColumn"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
+        "rows": {
+          "description": "A list of rows from the best practices assessment for the SQL Server instance.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SqlServerInstanceBpaRow"
+          },
+          "x-ms-identifiers": []
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next section of rows of the best practices assessment response for the SQL Server instance. Null if no more sections are available.",
           "readOnly": true
         }
       },

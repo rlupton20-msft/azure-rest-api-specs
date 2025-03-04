@@ -26,11 +26,11 @@ namespace Microsoft.Carbon;
  */
 enum Versions {
   /**
-   * The 2024-02-01-preview API version.
+   * The 2024-02-01 API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_02_01_preview: "2024-02-01-preview",
+  v2024_02_01: "2024-02-01",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -130,7 +130,7 @@ model QueryFilter {
   @extension("x-ms-identifiers", [])
   resourceTypeList?: string[];
 
-  @doc("List of locations for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional.")
+  @doc("List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names.")
   @extension("x-ms-identifiers", [])
   locationList?: string[];
 
@@ -206,6 +206,9 @@ union OrderByColumnEnum {
 
   @doc("The monthlyEmissionsChangeValue filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.")
   MonthlyEmissionsChangeValue: "MonthlyEmissionsChangeValue",
+
+  @doc("The resourceGroup filed in ResourceCarbonEmissionItemDetailData result, see ResourceCarbonEmissionItemDetailData for more information.")
+  ResourceGroup: "ResourceGroup",
 
   string,
 }
@@ -466,7 +469,7 @@ model ResourceCarbonEmissionItemDetailData extends CarbonEmissionData {
   @doc("The fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
   resourceId: string;
 
-  @doc("Resource Location (e.g., 'east us')")
+  @doc("Resource Location (e.g., 'east us').")
   location?: string;
 
   @doc("The type of resource, for example: microsoft.storage/storageaccounts")

@@ -1,5 +1,5 @@
 import "./azcopy.tsp";
-import "./versions.tsp";
+import "../versions.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;

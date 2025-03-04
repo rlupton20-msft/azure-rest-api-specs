@@ -22,21 +22,3 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   `2025-01-23-preview`,
 }
-
-@doc("The status of the current operation.")
-@Azure.Core.lroStatus
-union ProvisioningState {
-  ResourceProvisioningState,
-
-  @doc("Initial provisioning in progress")
-  Provisioning: "Provisioning",
-
-  @doc("Update in progress")
-  Updating: "Updating",
-
-  @doc("Deletion in progress")
-  Deleting: "Deleting",
-
-  @doc("Change accepted for processing")
-  Accepted: "Accepted",
-}

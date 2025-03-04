@@ -9520,24 +9520,6 @@
         ]
       }
     },
-    "DnsForwardingConfig": {
-      "type": "object",
-      "description": "DNS domain to ip mapping forwarding configuration",
-      "properties": {
-        "domain": {
-          "type": "string",
-          "description": "Domain name"
-        },
-        "ipAddress": {
-          "type": "string",
-          "description": "IP address to resolve domain to"
-        }
-      },
-      "required": [
-        "domain",
-        "ipAddress"
-      ]
-    },
     "DnsPrivateView": {
       "type": "object",
       "description": "DnsPrivateView resource definition",
@@ -11363,35 +11345,22 @@
       "type": "string",
       "description": "NetworkAnchor lifecycle state enum",
       "enum": [
-        "Connected",
-        "Disconnected",
-        "Connecting",
+        "Creating",
         "Active",
-        "Error",
+        "Inactive",
         "Updating",
-        "NeedsAttention",
-        "Failed",
         "Deleting",
-        "Deleted"
+        "Deleted",
+        "Failed"
       ],
       "x-ms-enum": {
         "name": "NetworkAnchorLifecycleState",
         "modelAsString": true,
         "values": [
           {
-            "name": "Connected",
-            "value": "Connected",
-            "description": "Indicates that resource in Connected state"
-          },
-          {
-            "name": "Disconnected",
-            "value": "Disconnected",
-            "description": "Indicates that resource in Disconnected state"
-          },
-          {
-            "name": "Connecting",
-            "value": "Connecting",
-            "description": "Indicates that resource in Connecting state"
+            "name": "Creating",
+            "value": "Creating",
+            "description": "Indicates that resource in Creating state"
           },
           {
             "name": "Active",
@@ -11399,24 +11368,14 @@
             "description": "Indicates that resource in Active state"
           },
           {
-            "name": "Error",
-            "value": "Error",
-            "description": "Indicates that resource in Error state"
+            "name": "Inactive",
+            "value": "Inactive",
+            "description": "Indicates that resource in Inactive state"
           },
           {
             "name": "Updating",
             "value": "Updating",
             "description": "Indicates that resource in Updating state"
-          },
-          {
-            "name": "NeedsAttention",
-            "value": "NeedsAttention",
-            "description": "Indicates that resource in NeedsAttention state"
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Indicates that resource in Failed state"
           },
           {
             "name": "Deleting",
@@ -11427,6 +11386,11 @@
             "name": "Deleted",
             "value": "Deleted",
             "description": "Indicates that resource in Deleted state"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -11456,11 +11420,6 @@
       "type": "object",
       "description": "Network Anchor properties",
       "properties": {
-        "ocid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "NetworkAnchor OCID",
-          "readOnly": true
-        },
         "displayName": {
           "type": "string",
           "description": "Display Name",
@@ -11469,11 +11428,6 @@
             "update",
             "create"
           ]
-        },
-        "resourceAnchorOcid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Corresponding resource anchor OCID",
-          "readOnly": true
         },
         "resourceAnchorId": {
           "type": "string",
@@ -11489,6 +11443,11 @@
           "description": "NetworkAnchor lifecycle state",
           "readOnly": true
         },
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Additional information about the current lifecycle state.",
+          "readOnly": true
+        },
         "provisioningState": {
           "$ref": "#/definitions/AzureResourceProvisioningState",
           "description": "NetworkAnchor provisioning state",
@@ -11499,7 +11458,6 @@
           "description": "VNET for network connectivity",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11508,7 +11466,6 @@
           "description": "Client subnet",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11517,20 +11474,6 @@
           "description": "Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.",
           "x-ms-mutability": [
             "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsForwardingConfig": {
-          "type": "array",
-          "description": "DNS domain ip mapping forwarding configuration",
-          "items": {
-            "$ref": "#/definitions/DnsForwardingConfig"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
             "create"
           ]
         },
@@ -11539,7 +11482,6 @@
           "description": "Full custom domain name. If this field is passed dnsLabel will be ignored",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11548,7 +11490,6 @@
           "description": "Client primary cidr block",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
@@ -11561,20 +11502,23 @@
             "create"
           ]
         },
-        "vcnOcid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure VCN OCID",
-          "readOnly": true
-        },
         "setupMode": {
           "$ref": "#/definitions/NetworkAnchorSetupMode",
           "description": "Indicates whether OCI networking counterparts should be auto-created",
           "x-ms-mutability": [
+            "read",
             "create"
           ]
+        },
+        "ociNetworkAnchorMetadata": {
+          "$ref": "#/definitions/OciNetworkAnchorMetadata",
+          "description": "OCI Network Anchor Metadata",
+          "readOnly": true
         }
       },
       "required": [
+        "vnetId",
+        "subnetId",
         "setupMode"
       ]
     },
@@ -11635,64 +11579,6 @@
         "resourceAnchorId": {
           "type": "string",
           "description": "Corresponding resource anchor Azure ID",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "vnetId": {
-          "$ref": "#/definitions/VnetId",
-          "description": "VNET for network connectivity",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "subnetId": {
-          "$ref": "#/definitions/SubnetId",
-          "description": "Client subnet",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsLabel": {
-          "type": "string",
-          "description": "Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsForwardingConfig": {
-          "type": "array",
-          "description": "DNS domain ip mapping forwarding configuration",
-          "items": {
-            "$ref": "#/definitions/DnsForwardingConfig"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "customDomainName": {
-          "type": "string",
-          "description": "Full custom domain name. If this field is passed dnsLabel will be ignored",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "cidrBlock": {
-          "type": "string",
-          "description": "Client primary cidr block",
           "x-ms-mutability": [
             "read",
             "update",
@@ -11770,6 +11656,88 @@
           }
         ]
       }
+    },
+    "OciNetworkAnchorMetadata": {
+      "type": "object",
+      "description": "OCI Network Anchor Metadata",
+      "properties": {
+        "ociNetworkAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "NetworkAnchor OCID",
+          "readOnly": true
+        },
+        "ociResourceAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Corresponding resource anchor OCID",
+          "readOnly": true
+        },
+        "ociVcnId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure VCN OCID",
+          "readOnly": true
+        },
+        "ociSubnetId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure subnet OCID",
+          "readOnly": true
+        },
+        "compartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
+          "readOnly": true
+        },
+        "ociRegion": {
+          "type": "string",
+          "description": "Oracle Cloud Infrastructure region",
+          "readOnly": true
+        },
+        "timeUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the network anchor was updated in Oracle Cloud Infrastructure",
+          "readOnly": true
+        }
+      }
+    },
+    "OciResourceAnchorMetadata": {
+      "type": "object",
+      "description": "OCI Resource Anchor Metadata",
+      "properties": {
+        "ociResourceAnchorId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Resource anchor OCID",
+          "readOnly": true
+        },
+        "ociSubscriptionId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "OCI Subscription OCID",
+          "readOnly": true
+        },
+        "ociRegion": {
+          "type": "string",
+          "description": "Oracle Cloud Infrastructure region",
+          "readOnly": true
+        },
+        "compartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
+          "readOnly": true
+        },
+        "linkedCompartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives",
+          "readOnly": true
+        },
+        "timeUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the resource anchor was updated in Oracle Cloud Infrastructure",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "ociSubscriptionId"
+      ]
     },
     "Ocid": {
       "type": "string",
@@ -12449,10 +12417,11 @@
       "enum": [
         "Creating",
         "Active",
+        "Inactive",
         "Updating",
-        "Failed",
         "Deleting",
-        "Deleted"
+        "Deleted",
+        "Failed"
       ],
       "x-ms-enum": {
         "name": "ResourceAnchorLifecycleState",
@@ -12469,14 +12438,14 @@
             "description": "Indicates that resource in Active state"
           },
           {
+            "name": "Inactive",
+            "value": "Inactive",
+            "description": "Indicates that resource in Inactive state"
+          },
+          {
             "name": "Updating",
             "value": "Updating",
             "description": "Indicates that resource in Updating state"
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Indicates that resource in Failed state"
           },
           {
             "name": "Deleting",
@@ -12487,6 +12456,11 @@
             "name": "Deleted",
             "value": "Deleted",
             "description": "Indicates that resource in Deleted state"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -12516,9 +12490,9 @@
       "type": "object",
       "description": "Resource Anchor properties.",
       "properties": {
-        "ocid": {
-          "$ref": "#/definitions/Ocid",
-          "description": "ResourceAnchor OCID",
+        "ociResourceAnchorMetadata": {
+          "$ref": "#/definitions/OciResourceAnchorMetadata",
+          "description": "OCI Resource Anchor Metadata",
           "readOnly": true
         },
         "displayName": {
@@ -12535,6 +12509,11 @@
           "description": "ResourceAnchor lifecycle state",
           "readOnly": true
         },
+        "lifecycleDetails": {
+          "type": "string",
+          "description": "Additional information about the current lifecycle state.",
+          "readOnly": true
+        },
         "provisioningState": {
           "$ref": "#/definitions/AzureResourceProvisioningState",
           "description": "ResourceAnchor provisioning state",
@@ -12544,6 +12523,7 @@
           "$ref": "#/definitions/ResourceAnchorSetupMode",
           "description": "ResourceAnchor SetupMode",
           "x-ms-mutability": [
+            "read",
             "create"
           ]
         }

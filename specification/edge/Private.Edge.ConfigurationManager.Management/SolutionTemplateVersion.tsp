@@ -36,16 +36,12 @@ model SolutionTemplateVersionProperties {
   @doc("Orchestrator type")
   orchestratorType: OrchestratorType;
 
-  @doc("List of capabilities")
-  @visibility("read")
-  capabilities: string[];
-
   @doc("Provisioning state of resource")
   @visibility("read")
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Template Version Resource")
+@doc("Solution Template Version Resource. Contains configurations that use expressions which can be resolved hierarchically along with edge specifications.")
 @parentResource(SolutionTemplate)
 @resource("versions")
 model SolutionTemplateVersion
