@@ -24,16 +24,15 @@ model Agent is TrackedResource<AgentProperties> {
 @doc("Agent properties")
 model AgentProperties {
   @doc("The description of the AI agent.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   description: string;
 
   @doc("The ID of the catalog agent.")
-  @visibility("read", "create", "update")
-  // TODO: Include "definition" in property name?
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Include "definition" in property name?
   catalogAgentId: string;
 
   @doc("The provisioning state of the AI agent.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

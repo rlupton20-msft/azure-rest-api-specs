@@ -18,24 +18,37 @@ namespace Microsoft.Science.Workspace;
 @doc("Data asset")
 model DataAsset {
   @doc("DataAsset id")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   dataAssetId: DataAssetId;
 
-  ...WithCreatedAt;
-  ...WithCreatedBy;
+  /** Asset name */
+  // TODO: Are we sure we want/need this?
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  name: string;
+
+  ...WithCreated;
+}
+
+@doc("A body for creating a message.")
+model MessageCreateBody {
+  ...WithMessageText;
+
+  //   @doc("Array of files to upload.")
+  //   @visibility(Lifecycle.Read, Lifecycle.Create)
+  //   dataAssets: DataAsset[];
 }
 
 @doc("For adding DataAsset ID")
 model WithDataAssetId {
   /** ID of the related data asset */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dataAssetId: DataAssetId;
 }
 
 @doc("For adding key")
 model WithKey {
   /** Key used as identifier */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   key: string;
 }
 @doc("Copilot citation")
@@ -44,31 +57,31 @@ model Citation {
   ...WithDataAssetId;
 
   /** URI from where citation originated */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   sourceUri: string;
 
   /** Title to display */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   title: string;
 
   /** Description */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   description: string;
 }
 
 @doc("Command for the UI to invoke")
 model UiCommand {
   /** Command */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   command: string;
 
   /** Command */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status: string;
 
   /** Parameters */
   // TODO: Discuss modelling params
-  //    @visibility("read")
+  //    @visibility(Lifecycle.Read)
   //    parameters: any; // TODO: Not sure if this is possible in TypeScript
 }
 
@@ -78,11 +91,11 @@ model DbQuery {
   ...WithDataAssetId;
 
   /** Query */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   query: string;
 
   /** Properties */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   properties: string[];
 }
 
@@ -91,7 +104,7 @@ model KnowledgeBaseResponse {
   ...WithKey;
 
   /** Response */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   response: string;
 }
 
@@ -104,14 +117,14 @@ model CopilotOperation {
 @doc("For adding message text")
 model WithMessageText {
   @doc("The message text.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   text: string;
 }
 
 @doc("For adding conversation ID")
 model WithConversationId {
   @doc("The ID of the associated Conversation.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   conversationId: string;
 }
 
@@ -135,41 +148,35 @@ union MessageStatus {
   string,
 }
 
-@doc("A body for creating a message.")
-model MessageCreateBody {
-  ...WithMessageText;
-
-  @doc("Array of files to upload.")
-  @visibility("read", "create")
-  dataAssets: DataAsset[];
-}
-
 @access(Access.internal)
 @doc("A base message.")
 model MessageBase {
-  ...WithId;
-  ...WithProjectIdOptional;
+  ...DataPlaneResource;
+
+  //   ...WithProjectIdOptional;
   ...WithInvestigationIdOptional;
-  ...MessageCreateBody;
-  ...WithCreatedAt;
-  ...WithCreatedBy;
+
   ...WithSender;
 
   @doc("Message status")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status: MessageStatus;
 
   @doc("The command name")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   commandName?: string;
 
   @doc("Citation list")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   citations: Citation[];
 
-  @doc("Database query list")
-  @visibility("read")
-  dbQueries: DbQuery[];
+  @doc("Array of data assets.")
+  @visibility(Lifecycle.Read)
+  dataAssets: DataAsset[];
+
+  //   @doc("Database query list")
+  //   @visibility(Lifecycle.Read)
+  //   dbQueries: DbQuery[];
 }
 
 @doc("A message.")
@@ -177,7 +184,7 @@ model MessageBase {
 @parentResource(Conversation)
 model ConversationMessage {
   @doc("The message name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("messageName")
   name: string;
 
@@ -209,9 +216,7 @@ interface ConversationMessages {
   @doc("List Messages in specified conversation")
   listMessages is ResourceList<
     ConversationMessage,
-    QueryParametersTrait<WithQueryProjectId &
-      WithQueryInvestigationId &
-      WithQueryCreatedSince>
+    QueryParametersTrait<WithQueryCreatedSince>
   >;
 
   @doc("Cancel current copilot operation.")

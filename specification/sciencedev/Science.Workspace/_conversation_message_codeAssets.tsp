@@ -19,27 +19,26 @@ namespace Microsoft.Science.Workspace;
 @parentResource(ConversationMessage)
 model MessageCodeAsset {
   @doc("The CodeAsset name/key.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("codeAssetName")
   name: string;
 
   @doc("CodeAsset id")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dataAssetId: string;
 
   @doc("CodeAsset programming language")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   programmingLanguage: string;
 
-  ...WithCreatedAt;
-  ...WithCreatedBy;
+  ...WithCreated;
 
   //   @doc("Name of the agent seeking CodeAsset")
-  //   @visibility("read")
+  //   @visibility(Lifecycle.Read)
   //   agentName?: string;
   //
   //   @doc("Name of the tool seeking CodeAsset")
-  //   @visibility("read")
+  //   @visibility(Lifecycle.Read)
   //   toolName?: string;
 }
 

@@ -41,7 +41,7 @@ model RunResponse {
 @doc("For timeout timestamp")
 model WithTimeoutAt {
   @doc("The timeout timestamp")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timeoutAt: utcDateTime;
 }
 
@@ -49,19 +49,15 @@ model WithTimeoutAt {
 @resource("investigations")
 @parentResource(Project)
 model Investigation {
-  ...WithId;
-
   @doc("The investigation name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("investigationName")
   name: string;
 
+  ...DataPlaneResource;
   ...WithStatus<InvestigationStatus>;
   ...WithDescription;
   ...WithTags;
-  ...WithCreatedBy;
-  ...WithCreatedAt;
-  ...WithUpdatedAt;
   ...WithTitle;
 }
 
@@ -79,12 +75,12 @@ union RunCacheMode {
 @doc("Run parameters.")
 model RunParams {
   @doc("Data asset to which run results output will be written")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   // TODO: Change to DataSet if/when available?
   outputDataAssetId: DataAssetId;
 
   @doc("Caching behavior")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   cacheMode: RunCacheMode;
 }
 

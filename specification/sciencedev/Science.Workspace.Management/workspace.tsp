@@ -25,25 +25,25 @@ model Workspace is TrackedResource<WorkspaceProperties> {
 @doc("Workspace properties")
 model WorkspaceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked Storages.")
-  @extension("x-ms-identifiers", ["id"])
+  @extension("x-ms-identifiers", #["id"])
   storageIds?: Array<StorageId>;
 
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked SuperComputers.")
-  @extension("x-ms-identifiers", ["id"])
+  @extension("x-ms-identifiers", #["id"])
   supercomputerIds?: Array<SuperComputerId>;
 
   @doc("workspace API endpoint Uri.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   workspaceApiUri: string;
 
   @doc("workspace User Interface Uri.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   workspaceUiUri: string;
 
   ...MoboConfigurationWithMrg;

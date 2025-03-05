@@ -33,31 +33,30 @@ union ConfirmationStatus {
 @parentResource(ConversationMessage)
 model MessageConfirmation {
   @doc("The confirmation name/key.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("confirmationName")
   name: string;
 
+  ...DataPlaneResource;
+
   @doc("Confirmation status")
-  @visibility("read", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Update)
   status: ConfirmationStatus;
 
   @doc("Reason for status (e.g. deny reason)")
-  @visibility("read", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Update)
   statusReason?: string;
 
-  ...WithCreatedAt;
-  ...WithCreatedBy;
-
   @doc("Name of the agent seeking confirmation")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   agentName?: string;
 
   @doc("Name of the tool seeking confirmation")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   toolName?: string;
 
   @doc("Arguments for the tool")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   toolArguments?: string;
 }
 

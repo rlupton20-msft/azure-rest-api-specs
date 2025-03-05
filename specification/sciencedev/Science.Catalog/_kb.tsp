@@ -35,7 +35,7 @@ model BaseKnowledgeBase {
 @resource("knowledgeBases")
 model KnowledgeBase {
   @doc("The knowledgeBase name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
   name: string;
 
@@ -47,7 +47,7 @@ model KnowledgeBase {
 @resource("knowledgeBases")
 model KnowledgeBaseWithYaml {
   @doc("The knowledgeBase name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
   name: string;
 

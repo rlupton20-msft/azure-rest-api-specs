@@ -28,11 +28,11 @@ model ProjectProperties {
   //  ...WithTitle;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Settings for configuring Science Catalog agent availability.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   agentIds: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/agent";
@@ -40,7 +40,7 @@ model ProjectProperties {
   ]>[];
 
   @doc("Settings for configuring Science Catalog tool availability.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   toolIds: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/tool";
@@ -48,7 +48,7 @@ model ProjectProperties {
   ]>[];
 
   @doc("Settings for configuring Science Catalog Model availability.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   modelIds: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/model";
@@ -56,7 +56,7 @@ model ProjectProperties {
   ]>[];
 
   @doc("Settings for configuring Science Catalog Knowledge Base availability.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   knowledgeBaseIds: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/knowledgeBase";
@@ -64,7 +64,7 @@ model ProjectProperties {
   ]>[];
 
   @doc("Settings for configuring Science Data Container availability for DataAsset.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   dataContainerIds: DataContainerId[];
 }
 

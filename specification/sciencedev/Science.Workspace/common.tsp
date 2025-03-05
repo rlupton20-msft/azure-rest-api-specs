@@ -15,28 +15,28 @@ union Sender {
 @doc("For adding message sender.")
 model WithSender {
   @doc("The sender")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   sender: Sender;
 }
 
 @doc("For adding version ID.")
 model WithVersionId {
   @doc("The version ID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   versionId: string;
 }
 
 @doc("For project reference.")
 model WithProjectId {
   @doc("The ID of the associated Project")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   projectId: string;
 }
 
 @doc("For investigation reference.")
 model WithInvestigationId {
   @doc("The ID of the associated Investigation")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   investigationId: string;
 }
 
@@ -54,14 +54,14 @@ union RunMode {
 @doc("For project reference.")
 model WithProjectIdOptional {
   @doc("The ID of the associated Project")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   projectId?: string;
 }
 
 @doc("For investigation reference.")
 model WithInvestigationIdOptional {
   @doc("The ID of the associated Investigation")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   investigationId?: string;
 }
 

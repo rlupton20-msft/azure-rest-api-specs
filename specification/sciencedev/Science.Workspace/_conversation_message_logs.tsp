@@ -19,29 +19,27 @@ namespace Microsoft.Science.Workspace;
 @parentResource(ConversationMessage)
 model MessageLog {
   @doc("The Log name/key.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("logName")
   name: string;
 
   @doc("Log sender")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   sender: string;
 
   @doc("Log text")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   text: string;
 
   ...WithCreatedAt;
-
-  //   @doc("Name of the agent seeking Log")
-  //   @visibility("read")
-  //   agentName?: string;
-  //
-  //   @doc("Name of the tool seeking Log")
-  //   @visibility("read")
-  //   toolName?: string;
 }
 
+// TODO: Spend more time on this hack to get it to look how we want without conventional ResourceList
+/** Hack to avoid  using Azure recommended ResourceList */
+// model LogList {
+//   /** List of messages similar to ResourceList.  */
+//   value: Array<MessageLog>
+// }
 interface MessageLogs {
   //   @doc("Fetch a Message by name.")
   //   getLog is ResourceRead<MessageLog>;
@@ -51,4 +49,15 @@ interface MessageLogs {
     MessageLog,
     QueryParametersTrait<WithQueryCreatedSince>
   >;
+
+  // TODO: Spend more time on this hack to get it to look how we want without conventional ResourceList
+  //   #suppress "@azure-tools/typespec-azure-core/use-standard-names"
+  //   #suppress "@azure-tools/typespec-azure-core/verb-conflict"
+  //   @doc("List Messages in specified conversation")
+  //   @get
+  //   listLogs is Operations.ResourceAction<
+  //     MessageLog,
+  //     QueryParametersTrait<WithQueryCreatedSince>,
+  //     LogList
+  //   >;
 }

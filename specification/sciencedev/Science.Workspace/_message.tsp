@@ -18,7 +18,7 @@ namespace Microsoft.Science.Workspace;
 @resource("messages")
 model Message {
   @doc("The message name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("messageName")
   name: string;
 

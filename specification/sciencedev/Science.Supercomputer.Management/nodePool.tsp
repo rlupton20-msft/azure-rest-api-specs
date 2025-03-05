@@ -24,19 +24,19 @@ model NodePool is TrackedResource<NodePoolProperties> {
 @doc("NodePool properties")
 model NodePoolProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The subnet.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   subnetId: string; // TODO Make resource identifier
 
   @doc("The Sku.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   vmSku: string; // TODO: Make arm sku, which will we support (allow list)?
 
   @doc("The number of nodes.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   maxNodeCount: int32;
 }
 

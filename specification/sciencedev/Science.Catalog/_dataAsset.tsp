@@ -52,7 +52,7 @@ model BaseDataAssetDefinition {
 @resource("dataAssetDefinitions")
 model DataAssetDefinition {
   @doc("The dataAsset name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("dataAssetName")
   name: string;
 
@@ -64,7 +64,7 @@ model DataAssetDefinition {
 @resource("dataAssetDefinitions")
 model DataAssetDefinitionWithYaml {
   @doc("The dataAsset name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("dataAssetName")
   name: string;
 

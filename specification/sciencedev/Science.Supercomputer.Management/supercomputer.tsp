@@ -23,12 +23,12 @@ model Supercomputer is TrackedResource<SupercomputerProperties> {
 @doc("Supercomputer properties")
 model SupercomputerProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   // read
   @doc("The ID of the workspace.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   workspaceId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Science/workspace";

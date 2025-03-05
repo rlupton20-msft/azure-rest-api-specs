@@ -36,26 +36,22 @@ union IndexingStatus {
 
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
-  ...WithId;
+  ...DataPlaneResource;
   ...WithTags;
   ...WithDescription;
-  ...WithCreatedAt;
-  ...WithCreatedBy;
-  ...WithUpdatedAt;
-  ...WithUpdatedBy;
   ...WithStatus<IndexingStatus>;
 
   @doc("Catalog data assets to index.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   dataAssetIds: DataAssetId[];
 
   @doc("URL to access the knowledge base.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   // TODO: is thus the data plane API?
   knowledgeBaseUrl?: string;
 
   @doc("Version.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   version: string;
 }
 
@@ -65,7 +61,7 @@ model KnowledgeBase {
   ...BaseKnowledgeBase;
 
   @doc("The knowledgeBase name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
   name: string;
 }

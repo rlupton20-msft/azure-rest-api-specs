@@ -19,23 +19,22 @@ namespace Microsoft.Science.Workspace;
 @parentResource(ConversationMessage)
 model MessageDataAsset {
   @doc("The DataAsset name/key.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("dataAssetName")
   name: string;
 
   @doc("DataAsset id")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dataAssetId: string;
 
-  ...WithCreatedAt;
-  ...WithCreatedBy;
+  ...WithCreated;
 
   //   @doc("Name of the agent seeking DataAsset")
-  //   @visibility("read")
+  //   @visibility(Lifecycle.Read)
   //   agentName?: string;
   //
   //   @doc("Name of the tool seeking DataAsset")
-  //   @visibility("read")
+  //   @visibility(Lifecycle.Read)
   //   toolName?: string;
 }
 

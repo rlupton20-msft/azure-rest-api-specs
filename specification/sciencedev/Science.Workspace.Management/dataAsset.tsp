@@ -24,11 +24,11 @@ model DataAssetProperties {
   ...WithDescription;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The path to the data within its parent container.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   path?: string;
 }
 

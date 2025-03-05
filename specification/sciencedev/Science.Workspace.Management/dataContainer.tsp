@@ -51,37 +51,37 @@ union DataStoreType {
 ////@discriminator("type")
 //@doc("The Azure storage blob properties.")
 //model AzureStorageBlob extends DataStore {
-//  @visibility("read")
+//  @visibility(Lifecycle.Read)
 //  type: DataStoreType.AzureStorageBlob;
 //
 //  @doc("The associated azure storage account ID.")
-//  @visibility("read", "create")
+//  @visibility(Lifecycle.Read, Lifecycle.Create)
 //  storageAccountId: StorageAccountId;
 //}
 //
 ////@discriminator("type")
 //@doc("The Azure storage file properties.")
 //model AzureStorageFile extends DataStore {
-//  @visibility("read")
+//  @visibility(Lifecycle.Read)
 //  type: DataStoreType.AzureStorageFile;
 //
 //  @doc("The associated Azure storage file account name.")
-//  @visibility("read", "create")
+//  @visibility(Lifecycle.Read, Lifecycle.Create)
 //  storageAccountName: string;
 //}
 
 @doc("Data Asset properties")
 model DatabaseSettings {
   /** DB port number */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   port: int32;
 
   /** Database name */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   database: string;
 
   /** Database user */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   user: string;
 }
 
@@ -105,21 +105,21 @@ model Credential {
 
 @doc("The managed identity credential properties.")
 model ManagedIdentityCredential extends Credential {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   type: CredentialType.ManagedIdentity;
 
   @doc("The managed identity client Id.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   clientId?: string;
 }
 
 @doc("SAS token credential properties")
 model KeyVaultSecretCredential extends Credential {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   type: CredentialType.KeyvaultSecret;
 
   @doc("The shared access token.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   secretName: string;
 }
 
@@ -127,15 +127,15 @@ model KeyVaultSecretCredential extends Credential {
 @doc("Data Asset properties")
 model DataContainerProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   //  @doc("Data store properties")
-  //  @visibility("read", "create")
+  //  @visibility(Lifecycle.Read, Lifecycle.Create)
   //  dataStore: DataStore;
 
   @doc("The Azure storage account ID.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   dataStoreId: Azure.Core.armResourceIdentifier<[
     // TODO: Add type for Azure FileSystem
     {
@@ -144,15 +144,15 @@ model DataContainerProperties {
   ]>;
 
   @doc("The data store type.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   dataStoreType: DataStoreType;
 
   @doc("The settings for connecting to the database.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   databaseSettings?: DatabaseSettings;
 
   @doc("Credential to access the dataStore.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   credential: Credential;
 }
 
