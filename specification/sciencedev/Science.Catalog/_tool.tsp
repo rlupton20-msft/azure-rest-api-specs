@@ -35,7 +35,7 @@ model BaseToolDefinition {
 @resource("toolDefinitions")
 model ToolDefinition {
   @doc("The tool name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("toolName")
   name: string;
 
@@ -47,7 +47,7 @@ model ToolDefinition {
 @resource("toolDefinitions")
 model ToolDefinitionWithYaml {
   @doc("The tool name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("toolName")
   name: string;
 

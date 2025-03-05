@@ -24,26 +24,25 @@ model Model is TrackedResource<ModelProperties> {
 @doc("Model properties")
 model ModelProperties {
   @doc("The description of the Model.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   description: string;
 
   @doc("The unique identifier for the Model.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   // TODO: Include "definition" in property name?
   catalogModelId: string;
 
   @doc("The ARM resource ID of the subnet.")
-  @visibility("read", "create", "update")
-  // TODO: Is it a resource identifier or just string? Please find example.
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Is it a resource identifier or just string? Please find example.
   // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
   subnetId: Azure.Core.armResourceIdentifier;
 
   @doc("The deployment ID of the Model.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   modelDeploymentId: string;
 
   @doc("The provisioning status of the Model.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

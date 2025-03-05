@@ -35,7 +35,7 @@ model BaseModelDefinition {
 @resource("modelDefinitions")
 model ModelDefinition {
   @doc("The model name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("modelName")
   name: string;
 
@@ -47,7 +47,7 @@ model ModelDefinition {
 @resource("modelDefinitions")
 model ModelDefinitionWithYaml {
   @doc("The model name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("modelName")
   name: string;
 

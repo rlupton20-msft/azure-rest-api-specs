@@ -24,17 +24,17 @@ model Bookshelf is TrackedResource<BookshelfProperties> {
 @doc("Bookshelf properties")
 model BookshelfProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   ...MoboConfigurationWithMrg;
 
   /** The bookshelf dataplane API URI */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   bookshelfApiUri: string;
 
   @doc("bookshelf User Interface Uri.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   bookshelfUiUri: string;
 }
 

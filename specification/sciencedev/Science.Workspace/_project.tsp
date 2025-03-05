@@ -16,7 +16,7 @@ namespace Microsoft.Science.Workspace;
 @resource("projects")
 model Project {
   @doc("The project name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("projectName")
   name: string;
 }

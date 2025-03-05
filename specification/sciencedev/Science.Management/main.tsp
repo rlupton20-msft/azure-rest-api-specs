@@ -17,9 +17,7 @@ using Azure.ResourceManager;
 
 /** Microsoft.Science Resource Provider management API. */
 @armProviderNamespace
-@service({
-  title: "Microsoft.Science management service",
-})
+@service(#{ title: "Microsoft.Science management service" })
 @versioned(Microsoft.Science.Versions)
 namespace Microsoft.Science;
 

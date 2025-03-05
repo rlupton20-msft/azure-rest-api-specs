@@ -22,15 +22,15 @@ model Catalog is TrackedResource<CatalogProperties> {
 @doc("Catalog properties")
 model CatalogProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The URI/URL for the Catalog user interface.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   catalogUiUri?: string;
 
   @doc("The URI/URL for the Catalog data plane API.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   catalogApiUri?: string;
 
   ...MoboConfigurationWithMrg;

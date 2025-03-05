@@ -9,10 +9,8 @@ import "./_investigation.tsp";
 import "./_message.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
-// import "./_conversation_message_confirmation.tsp";
-// import "./_conversation_message_logs.tsp";
-// import "./_conversation_message_dataAssets.tsp";
-// import "./_conversation_message_codeAssets.tsp";
+import "./_conversation_message_confirmation.tsp";
+import "./_conversation_message_logs.tsp";
 import "./_tool.tsp";
 
 using TypeSpec.Http;
@@ -32,9 +30,7 @@ using Azure.Core;
     }
   ]>
 )
-@service({
-  title: "Microsoft.Science.Workspace service",
-})
+@service(#{ title: "Microsoft.Science.Workspace service" })
 @versioned(Microsoft.Science.Workspace.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
@@ -60,6 +56,10 @@ namespace Microsoft.Science.Workspace;
 @doc("The Microsoft.Science.Workspace service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2024-11-01-preview version of the Microsoft.Science.Workspace service.")
+  @doc("The 2024-11-01-preview version of the Microsoft.Science.Workspace service data plane.")
   `2024-11-01-preview`,
+
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @doc("The 2025-07-01-preview version of the Microsoft.Science.Workspace service data plane.")
+  `2025-07-01-preview`,
 }

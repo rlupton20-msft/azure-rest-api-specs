@@ -26,12 +26,11 @@ model Storage is TrackedResource<StorageProperties> {
 @doc("Storage properties")
 model StorageProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The ARM resource ID of the subnet. The subnetId should match the vnetId of supercomputers which will be used for running the tools that use the shared storage.")
-  @visibility("read", "create", "update")
-  // TODO: Is it a resource identifier or just string? Please find example.
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Is it a resource identifier or just string? Please find example.
   // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
   subnetId: Azure.Core.armResourceIdentifier;
 

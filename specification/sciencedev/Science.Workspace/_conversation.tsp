@@ -15,19 +15,14 @@ namespace Microsoft.Science.Workspace;
 @doc("A conversation.")
 @resource("conversations")
 model Conversation {
-  ...WithId;
-
   @doc("The conversation name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("conversationName")
   name: string;
 
+  ...DataPlaneResource;
   ...WithTitle;
   ...WithInvestigationIdOptional;
-  ...WithCreatedAt;
-  ...WithCreatedBy;
-  ...WithUpdatedAt;
-  ...WithUpdatedBy;
 }
 
 // TODO: Remove un-needed route prefix!
@@ -42,7 +37,7 @@ interface Conversations {
   @route("/conversations")
   @post
   createConversation is Azure.Core.Foundations.Operation<
-    {},
+    WithInvestigationIdOptional,
     Conversation,
     Conversation
   >;

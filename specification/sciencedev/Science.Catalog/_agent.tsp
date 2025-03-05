@@ -30,7 +30,7 @@ model BaseAgentDefinition {
 @resource("agentDefinitions")
 model AgentDefinition {
   @doc("The agent name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("agentName")
   name: string;
 
@@ -42,7 +42,7 @@ model AgentDefinition {
 @resource("agentDefinitions")
 model AgentDefinitionWithYaml {
   @doc("The agent name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("agentName")
   name: string;
 

@@ -23,7 +23,7 @@ model AgentDefinitionAnyCatalog {
   ...BaseAgentDefinition;
 
   @doc("The agent name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("agentName")
   name: string;
 }
@@ -34,7 +34,7 @@ model ModelDefinitionAnyCatalog {
   ...BaseModelDefinition;
 
   @doc("The model name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("modelName")
   name: string;
 }
@@ -45,7 +45,7 @@ model ToolDefinitionAnyCatalog {
   ...BaseToolDefinition;
 
   @doc("The tool name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("toolName")
   name: string;
 }
@@ -56,7 +56,7 @@ model ToolDefinitionAnyCatalog {
 //  ...BaseDataAssetDefinition;
 //
 //  @doc("The data asset name.")
-//  @visibility("read")
+//  @visibility(Lifecycle.Read)
 //  @key("dataAssetName")
 //  name: string;
 //}
@@ -67,7 +67,7 @@ model KnowledgeBaseAnyCatalog {
   ...BaseKnowledgeBase;
 
   @doc("The asset name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
   name: string;
 }

@@ -2,25 +2,44 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { resolve } from "path"
 import {execSync } from "child_process"
 
+const apiVersions = [
+  "2024-11-01-preview",
+  "2025-07-01-preview"
+]
 const runMain = () => {
   console.log("***********************************")
-  const dirs = [
-    {
-      inDir: "specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/2024-11-01-preview/examples",
-      outDir: "specification/sciencedev/Science.Catalog/examples/2024-11-01-preview",
-    },
+  const dirs = []
+  const makeDirs  = () => {
+    for( const apiVersion of apiVersions ) {
+      const _dirs = [
+        {
+          inDir: `specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/${apiVersion}/examples`,
+          outDir:
+            `specification/sciencedev/Science.Catalog/examples/${apiVersion}`,
+        },
 
-    {
-      inDir: "specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/2024-11-01-preview/examples",
-      outDir: "specification/sciencedev/Science.Workspace/examples/2024-11-01-preview",
-    },
+        {
+          inDir:
+            `specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/${apiVersion}/examples`,
+          outDir:
+            `specification/sciencedev/Science.Workspace/examples/${apiVersion}`,
+        },
 
-    {
-      inDir: "specification/sciencedev/resource-manager/Private.Science/preview/2024-11-01-preview/examples",
-      outDir: "specification/sciencedev/Science.Management/examples/2024-11-01-preview",
+        {
+          inDir:
+            `specification/sciencedev/resource-manager/Private.Science/preview/${apiVersion}/examples`,
+          outDir:
+            `specification/sciencedev/Science.Management/examples/${apiVersion}`,
+        },
+      ];
+      for(const _dir of _dirs) {
+        dirs.push(_dir)
+      }
     }
-  ]
-  for(const { inDir, outDir } of dirs) {
+    return dirs;
+
+  }
+  for(const { inDir, outDir } of makeDirs()) {
     const outDirPath = resolve(outDir)
 
     console.log("\nDeleting:", outDirPath)

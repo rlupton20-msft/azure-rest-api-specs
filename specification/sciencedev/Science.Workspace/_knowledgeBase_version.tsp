@@ -18,7 +18,7 @@ namespace Microsoft.Science.Workspace;
 @parentResource(KnowledgeBase)
 model KnowledgeBaseVersion {
   @doc("The version name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("versionName")
   name: string;
 
