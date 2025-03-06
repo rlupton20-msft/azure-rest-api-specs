@@ -27,7 +27,7 @@ model CryptoKeyResource is ProxyResource<CryptoKey> {
   @path
   @key("cryptoKeyId")
   @segment("cryptoKeys")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

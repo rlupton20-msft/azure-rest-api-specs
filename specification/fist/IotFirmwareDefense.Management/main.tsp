@@ -24,9 +24,7 @@ using TypeSpec.Versioning;
  */
 #suppress "@azure-tools/typespec-azure-core/casing-style" ""
 @armProviderNamespace
-@service({
-  title: "Iot Firmware Defense",
-})
+@service(#{ title: "Iot Firmware Defense" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.IoTFirmwareDefense;

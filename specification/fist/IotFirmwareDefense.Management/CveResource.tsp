@@ -27,7 +27,7 @@ model CveResource is ProxyResource<CveResult> {
   @path
   @key("cveId")
   @segment("commonVulnerabilitiesAndExposures")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

@@ -22,7 +22,7 @@ model SummaryResource is ProxyResource<SummaryResourceProperties> {
   @path
   @key("summaryType")
   @segment("summaries")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: SummaryType;
 }

@@ -22,7 +22,7 @@ model Firmware is ProxyResource<FirmwareProperties> {
   @path
   @key("firmwareId")
   @segment("firmwares")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }
@@ -42,7 +42,7 @@ interface Firmwares {
   /**
    * The operation to update firmware.
    */
-  @parameterVisibility
+  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<Firmware, FirmwareUpdateDefinition>;
 
   /**

@@ -27,7 +27,7 @@ model BinaryHardeningResource is ProxyResource<BinaryHardeningResult> {
   @path
   @key("binaryHardeningId")
   @segment("binaryHardeningResults")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

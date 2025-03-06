@@ -21,7 +21,7 @@ model Workspace is TrackedResource<WorkspaceProperties> {
   @path
   @key("workspaceName")
   @segment("workspaces")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 
   ...ResourceSkuProperty;
@@ -42,7 +42,7 @@ interface Workspaces {
   /**
    * The operation to update a firmware analysis workspaces.
    */
-  @parameterVisibility
+  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<
     Workspace,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

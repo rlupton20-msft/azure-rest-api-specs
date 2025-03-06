@@ -27,7 +27,7 @@ model SbomComponentResource is ProxyResource<SbomComponent> {
   @path
   @key("componentId")
   @segment("sbomComponents")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

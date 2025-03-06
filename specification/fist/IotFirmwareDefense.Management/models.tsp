@@ -111,7 +111,7 @@ model BinaryHardeningResult {
   rpath?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -231,7 +231,7 @@ model CryptoCertificate {
   certificateUsage?: CertificateUsage[];
 
   @doc("List of files where this certificate was found.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   filePaths?: string[];
 
   @doc("A matching paired private key.")
@@ -250,7 +250,7 @@ model CryptoCertificate {
   isShortKeySize?: boolean;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -310,7 +310,7 @@ model CryptoKey {
   usage?: string[];
 
   @doc("List of files where this key was found.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   filePaths?: string[];
 
   @doc("A matching paired key or certificate.")
@@ -320,7 +320,7 @@ model CryptoKey {
   isShortKeySize?: boolean;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -360,19 +360,19 @@ model CveResult {
   effectiveCvssVersion?: int32;
 
   @doc("All known CVSS scores for the CVE.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   cvssScores?: CvssScore[];
 
   @doc("The list of reference links for the CVE.")
-  @visibility("read")
-  @extension("x-ms-identifiers", ["href"])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #["href"])
   links?: CveLink[];
 
   @doc("The CVE description.")
   description?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -412,11 +412,11 @@ model FirmwareProperties {
   status?: Status;
 
   @doc("A list of errors or other messages generated during firmware analysis")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   statusMessages?: StatusMessage[];
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -438,7 +438,7 @@ model FirmwareUpdateDefinition {
 @doc("Url data for creating or accessing a blob file.")
 model UrlToken {
   @doc("SAS URL for creating or accessing a blob file.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   url?: url;
 }
 
@@ -466,7 +466,7 @@ model PasswordHash {
   algorithm?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -488,7 +488,7 @@ model SbomComponent {
   filePaths?: string[];
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -499,7 +499,7 @@ model SummaryResourceProperties {
   summaryType: SummaryType;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -518,7 +518,7 @@ model SbomFileProperties {
 @doc("Workspace properties.")
 model WorkspaceProperties {
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

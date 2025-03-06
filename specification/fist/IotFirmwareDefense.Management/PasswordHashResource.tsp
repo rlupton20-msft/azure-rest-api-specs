@@ -27,7 +27,7 @@ model PasswordHashResource is ProxyResource<PasswordHash> {
   @path
   @key("passwordHashId")
   @segment("passwordHashes")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }
