@@ -24,7 +24,7 @@ model StorageAccountConnector
 @doc("StorageAccountConnector properties")
 model StorageAccountConnectorProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
   @doc("Resource ID of the hub resource to associate the storage account connector to.")

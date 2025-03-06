@@ -23,7 +23,7 @@ model Hl7Connector is TrackedResource<Hl7ConnectorProperties> {
 @doc("Hl7Connector properties")
 model Hl7ConnectorProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
   @doc("Resource ID of the hub resource to associate the hl7 connector to.")

@@ -22,7 +22,7 @@ model Hl7EdgeConnector is TrackedResource<Hl7EdgeConnectorProperties> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   extendedLocation: ExtendedLocation;
 }
 
@@ -55,7 +55,7 @@ model Hl7EdgeConnectorProperties {
     };
 
     @doc("The Listener Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read", "update")
+    @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     messageListenerConfiguration: {
       @doc("The inactivity timeout in seconds.")
       @minValue(1)
@@ -68,7 +68,7 @@ model Hl7EdgeConnectorProperties {
       @doc("The port number to use.")
       @minValue(0)
       @maxValue(65535)
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       port: int32;
 
       @doc("Indicates whether to reuse the connection.")
@@ -76,16 +76,16 @@ model Hl7EdgeConnectorProperties {
     };
 
     @doc("The Storage Endpoint Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read", "update")
+    @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     storageEndpointConfiguration: {
       @doc("URL of the blob storage where the output will be stored.")
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       @pattern("^https://.*$")
       blobUrl: string;
 
       @doc("Name of the container in the blob storage.")
       @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       container: string;
 
       @doc("Optional file extension for the output file.")
@@ -103,7 +103,7 @@ model Hl7EdgeConnectorProperties {
   };
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

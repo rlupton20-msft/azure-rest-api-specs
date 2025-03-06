@@ -23,7 +23,7 @@ model OneLakeConnector is TrackedResource<OneLakeConnectorProperties> {
 @doc("OneLakeConnector properties")
 model OneLakeConnectorProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
   @doc("Resource ID of the hub resource to associate the one lake connector to.")

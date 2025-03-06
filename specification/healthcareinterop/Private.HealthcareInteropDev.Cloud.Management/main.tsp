@@ -17,9 +17,7 @@ using Azure.ResourceManager.Foundations;
 
 @doc("Private HealthcareInteropDev Cloud resources management API.")
 @armProviderNamespace("Private.HealthcareInteropDev")
-@service({
-  title: "Private HealthcareInteropDev Cloud service",
-})
+@service(#{ title: "Private HealthcareInteropDev Cloud service" })
 @versioned(Versions)
 namespace Private.HealthcareInteropDev;
 
@@ -28,7 +26,7 @@ enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @doc("The 2025-05-01-preview version.")
   v2025_05_01_preview: "2025-05-01-preview",
 }
