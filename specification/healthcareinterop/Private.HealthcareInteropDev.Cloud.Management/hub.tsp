@@ -11,7 +11,6 @@ using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.CommonTypes;
-using Azure.ResourceManager.Foundations;
 
 namespace Private.HealthcareInteropDev;
 
@@ -32,7 +31,7 @@ model HubProperties {
 
   @doc("The managed on behalf of configuration.")
   @visibility(Lifecycle.Read)
-  managedOnBehalfOfConfiguration: ManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 
   @doc("Environments hosted on remote locations where Connectors can be deployed.")
   remoteConnectorEnvironments?: Array<RemoteConnectorEnvironment>;
