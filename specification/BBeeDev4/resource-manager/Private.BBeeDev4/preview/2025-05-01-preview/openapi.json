@@ -2089,6 +2089,30 @@
         }
       ]
     },
+    "EncryptionTypes": {
+      "type": "string",
+      "description": "Encryption types for generating FDO public keys.",
+      "enum": [
+        "secp256R1",
+        "secp384R1"
+      ],
+      "x-ms-enum": {
+        "name": "EncryptionTypes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "secp256R1",
+            "value": "secp256R1",
+            "description": "SECP256R1 ECC curve type"
+          },
+          {
+            "name": "secp384R1",
+            "value": "secp384R1",
+            "description": "SECP384R1 ECC curve type"
+          }
+        ]
+      }
+    },
     "EndpointType": {
       "type": "string",
       "description": "Type of the endpoint.",
@@ -2138,6 +2162,13 @@
       "type": "object",
       "description": "The FDO-based authentication rule for bootstrapping.",
       "properties": {
+        "supportedEncryptionTypes": {
+          "type": "array",
+          "description": "Supported encryption types for generating FDO public keys.",
+          "items": {
+            "$ref": "#/definitions/EncryptionTypes"
+          }
+        },
         "publicKeys": {
           "$ref": "#/definitions/FdoPublicKeys",
           "description": "Per policy public key(s) to extend ownership voucher to the customer.",
@@ -2182,6 +2213,11 @@
         "secp256R1": {
           "$ref": "#/definitions/FdoPublicKey",
           "description": "Public key as x5C with encryption type SECP256R1.",
+          "readOnly": true
+        },
+        "secp384R1": {
+          "$ref": "#/definitions/FdoPublicKey",
+          "description": "Public key as x5C with encryption type SECP384R1.",
           "readOnly": true
         }
       }
@@ -2572,6 +2608,13 @@
       "type": "object",
       "description": "The FDO-based authentication rule for bootstrapping.",
       "properties": {
+        "supportedEncryptionTypes": {
+          "type": "array",
+          "description": "Supported encryption types for generating FDO public keys.",
+          "items": {
+            "$ref": "#/definitions/EncryptionTypes"
+          }
+        },
         "publicKeys": {
           "$ref": "#/definitions/FdoPublicKeys",
           "description": "Per policy public keys to represent this policy",
