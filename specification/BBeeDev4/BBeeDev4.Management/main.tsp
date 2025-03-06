@@ -834,7 +834,6 @@ model PatchFdoBootstrapAuthenticationRule
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.FDO;
 
-  @visibility("read")
   @doc("Per policy public keys to represent this policy")
   publicKeys?: FdoPublicKeys;
 
