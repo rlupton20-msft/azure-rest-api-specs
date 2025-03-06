@@ -325,7 +325,6 @@ model FdoBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.FDO;
 
-  @visibility("read")
   @doc("Per policy public key(s) to extend ownership voucher to the customer.")
   publicKeys?: FdoPublicKeys;
 
@@ -340,10 +339,11 @@ model FdoBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
 @added(Versions.v2024_12_01_preview)
 model FdoPublicKeys {
   @doc("Public key as x5C with encryption type SECP256R1.")
-  @visibility("read")
   secp256R1?: FdoPublicKey;
 
-  // SECP384R1 // TODO: SECP384R1 is not supported by some hardwares, we may need to add support for SECP256R1
+  @added(Versions.v2025_05_01_preview)
+  @doc("Public key as x5C with encryption type SECP384R1.")
+  secp384R1?: FdoPublicKey;
 }
 
 @doc("Owner public key model")
@@ -352,7 +352,22 @@ model FdoPublicKey {
   @doc("x5Chain representation of the public key.")
   @visibility("read")
   default?: bytes[];
-  // status: boolean; // To be added later.
+
+  @added(Versions.v2025_05_01_preview)
+  @doc("Status of the public key.")
+  status?: PublicKeyStatus;
+}
+
+@added(Versions.v2025_05_01_preview)
+@doc("Status of public key.")
+union PublicKeyStatus {
+  string,
+
+  @doc("Key is enabled.")
+  Enabled: "Enabled",
+
+  @doc("Key is disabled.")
+  Disabled: "Disabled",
 }
 
 @doc("Generic Ownership Voucher Storage type.")
@@ -819,7 +834,6 @@ model PatchFdoBootstrapAuthenticationRule
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.FDO;
 
-  @visibility("read")
   @doc("Per policy public keys to represent this policy")
   publicKeys?: FdoPublicKeys;
 

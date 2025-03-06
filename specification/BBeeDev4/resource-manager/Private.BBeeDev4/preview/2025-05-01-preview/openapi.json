@@ -2140,8 +2140,7 @@
       "properties": {
         "publicKeys": {
           "$ref": "#/definitions/FdoPublicKeys",
-          "description": "Per policy public key(s) to extend ownership voucher to the customer.",
-          "readOnly": true
+          "description": "Per policy public key(s) to extend ownership voucher to the customer."
         },
         "ownershipVoucherStorage": {
           "$ref": "#/definitions/OwnershipVoucherStorage",
@@ -2172,6 +2171,10 @@
             "format": "byte"
           },
           "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/PublicKeyStatus",
+          "description": "Status of the public key."
         }
       }
     },
@@ -2181,8 +2184,11 @@
       "properties": {
         "secp256R1": {
           "$ref": "#/definitions/FdoPublicKey",
-          "description": "Public key as x5C with encryption type SECP256R1.",
-          "readOnly": true
+          "description": "Public key as x5C with encryption type SECP256R1."
+        },
+        "secp384R1": {
+          "$ref": "#/definitions/FdoPublicKey",
+          "description": "Public key as x5C with encryption type SECP384R1."
         }
       }
     },
@@ -2574,8 +2580,7 @@
       "properties": {
         "publicKeys": {
           "$ref": "#/definitions/FdoPublicKeys",
-          "description": "Per policy public keys to represent this policy",
-          "readOnly": true
+          "description": "Per policy public keys to represent this policy"
         },
         "ownershipVoucherStorage": {
           "$ref": "#/definitions/OwnershipVoucherStorage",
@@ -2927,6 +2932,30 @@
       "required": [
         "publicKeyType"
       ]
+    },
+    "PublicKeyStatus": {
+      "type": "string",
+      "description": "Status of public key.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "PublicKeyStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Key is enabled."
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Key is disabled."
+          }
+        ]
+      }
     },
     "PublicKeyType": {
       "type": "string",
