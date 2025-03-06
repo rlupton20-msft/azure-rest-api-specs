@@ -3,7 +3,7 @@ import { resolve } from "path"
 import {execSync } from "child_process"
 
 const apiVersions = [
-  "2024-11-01-preview",
+  // "2024-11-01-preview",
   "2025-07-01-preview"
 ]
 const runMain = () => {
@@ -25,6 +25,13 @@ const runMain = () => {
             `specification/sciencedev/Science.Workspace/examples/${apiVersion}`,
         },
 
+
+        {
+          inDir:
+            `specification/sciencedev/data-plane/Microsoft.Science.Bookshelf/preview/${apiVersion}/examples`,
+          outDir:
+            `specification/sciencedev/Science.Bookshelf/examples/${apiVersion}`,
+        },
         {
           inDir:
             `specification/sciencedev/resource-manager/Private.Science/preview/${apiVersion}/examples`,

@@ -31,39 +31,23 @@ model ProjectProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @doc("Settings for configuring Science Catalog agent availability.")
+  @doc("SAllowed Agents (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  agentIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/agent";
-    }
-  ]>[];
+  agentIds: AgentId[];
 
-  @doc("Settings for configuring Science Catalog tool availability.")
+  @doc("Allowed Tools (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  toolIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/tool";
-    }
-  ]>[];
+  toolIds: ToolId[];
 
-  @doc("Settings for configuring Science Catalog Model availability.")
+  @doc("Allowed Models (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  modelIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/model";
-    }
-  ]>[];
+  modelIds: ModelId[];
 
-  @doc("Settings for configuring Science Catalog Knowledge Base availability.")
+  @doc("Allowed KnowledgeBases (Data plane resource IDs).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  knowledgeBaseIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/knowledgeBase";
-    }
-  ]>[];
+  knowledgeBaseIds: string[];
 
-  @doc("Settings for configuring Science Data Container availability for DataAsset.")
+  @doc("Allowed DataContainers (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   dataContainerIds: DataContainerId[];
 }

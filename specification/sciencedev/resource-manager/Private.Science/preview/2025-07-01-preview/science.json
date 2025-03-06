@@ -4139,18 +4139,17 @@
       "type": "object",
       "description": "Agent properties",
       "properties": {
-        "description": {
+        "catalogDefinitionId": {
           "type": "string",
-          "description": "The description of the AI agent.",
+          "description": "Reference to catalog definition.",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
-        "catalogAgentId": {
+        "description": {
           "type": "string",
-          "description": "The ID of the catalog agent.",
+          "description": "Tool description used for copilot prompt and execution.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -4164,8 +4163,8 @@
         }
       },
       "required": [
-        "description",
-        "catalogAgentId"
+        "catalogDefinitionId",
+        "description"
       ]
     },
     "AgentPropertiesUpdate": {
@@ -4174,16 +4173,7 @@
       "properties": {
         "description": {
           "type": "string",
-          "description": "The description of the AI agent.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "catalogAgentId": {
-          "type": "string",
-          "description": "The ID of the catalog agent.",
+          "description": "Tool description used for copilot prompt and execution.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -4227,32 +4217,6 @@
             "type": "object",
             "x-nullable": true
           }
-        }
-      }
-    },
-    "Azure.ResourceManager.CommonTypes.PlanUpdate": {
-      "type": "object",
-      "description": "Plan for the resource.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "A user defined name of the 3rd Party Artifact that is being procured."
-        },
-        "publisher": {
-          "type": "string",
-          "description": "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic"
-        },
-        "product": {
-          "type": "string",
-          "description": "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding."
-        },
-        "promotionCode": {
-          "type": "string",
-          "description": "A publisher provided promotion code as provisioned in Data Market for the said product/artifact."
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of the desired product/artifact."
         }
       }
     },
@@ -4932,20 +4896,20 @@
       "type": "object",
       "description": "Model properties",
       "properties": {
-        "description": {
+        "catalogDefinitionId": {
           "type": "string",
-          "description": "The description of the Model.",
+          "description": "Reference to catalog definition.",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
         },
-        "catalogModelId": {
+        "description": {
           "type": "string",
-          "description": "The unique identifier for the Model.",
+          "description": "Tool description used for copilot prompt and execution.",
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         },
@@ -4971,8 +4935,8 @@
         }
       },
       "required": [
+        "catalogDefinitionId",
         "description",
-        "catalogModelId",
         "subnetId",
         "modelDeploymentId"
       ]
@@ -4983,7 +4947,7 @@
       "properties": {
         "description": {
           "type": "string",
-          "description": "The description of the Model.",
+          "description": "Tool description used for copilot prompt and execution.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -5173,7 +5137,7 @@
         },
         "agentIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog agent availability.",
+          "description": "SAllowed Agents (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5181,7 +5145,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/agent"
+                  "type": "Microsoft.Science/Agents"
                 }
               ]
             }
@@ -5194,7 +5158,7 @@
         },
         "toolIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog tool availability.",
+          "description": "Allowed Tools (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5202,7 +5166,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/tool"
+                  "type": "Microsoft.Science/Tools"
                 }
               ]
             }
@@ -5215,7 +5179,7 @@
         },
         "modelIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog Model availability.",
+          "description": "Allowed Models (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5223,7 +5187,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/model"
+                  "type": "Microsoft.Science/Models"
                 }
               ]
             }
@@ -5236,18 +5200,9 @@
         },
         "knowledgeBaseIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog Knowledge Base availability.",
+          "description": "Allowed KnowledgeBases (Data plane resource IDs).",
           "items": {
-            "type": "string",
-            "format": "arm-id",
-            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-            "x-ms-arm-id-details": {
-              "allowedResources": [
-                {
-                  "type": "Microsoft.Science/knowledgeBase"
-                }
-              ]
-            }
+            "type": "string"
           },
           "x-ms-mutability": [
             "read",
@@ -5257,7 +5212,7 @@
         },
         "dataContainerIds": {
           "type": "array",
-          "description": "Settings for configuring Science Data Container availability for DataAsset.",
+          "description": "Allowed DataContainers (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5291,7 +5246,7 @@
       "properties": {
         "agentIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog agent availability.",
+          "description": "SAllowed Agents (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5299,7 +5254,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/agent"
+                  "type": "Microsoft.Science/Agents"
                 }
               ]
             }
@@ -5312,7 +5267,7 @@
         },
         "toolIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog tool availability.",
+          "description": "Allowed Tools (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5320,7 +5275,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/tool"
+                  "type": "Microsoft.Science/Tools"
                 }
               ]
             }
@@ -5333,7 +5288,7 @@
         },
         "modelIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog Model availability.",
+          "description": "Allowed Models (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5341,7 +5296,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/model"
+                  "type": "Microsoft.Science/Models"
                 }
               ]
             }
@@ -5354,18 +5309,9 @@
         },
         "knowledgeBaseIds": {
           "type": "array",
-          "description": "Settings for configuring Science Catalog Knowledge Base availability.",
+          "description": "Allowed KnowledgeBases (Data plane resource IDs).",
           "items": {
-            "type": "string",
-            "format": "arm-id",
-            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-            "x-ms-arm-id-details": {
-              "allowedResources": [
-                {
-                  "type": "Microsoft.Science/knowledgeBase"
-                }
-              ]
-            }
+            "type": "string"
           },
           "x-ms-mutability": [
             "read",
@@ -5375,7 +5321,7 @@
         },
         "dataContainerIds": {
           "type": "array",
-          "description": "Settings for configuring Science Data Container availability for DataAsset.",
+          "description": "Allowed DataContainers (Control plane resource references).",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -5473,10 +5419,6 @@
         "properties": {
           "$ref": "#/definitions/StorageProperties",
           "description": "The resource-specific properties for this resource."
-        },
-        "plan": {
-          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/Plan",
-          "description": "Details of the resource plan."
         }
       },
       "allOf": [
@@ -5564,10 +5506,6 @@
         "properties": {
           "$ref": "#/definitions/StoragePropertiesUpdate",
           "description": "The resource-specific properties for this resource."
-        },
-        "plan": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.PlanUpdate",
-          "description": "Details of the resource plan."
         }
       },
       "allOf": [
@@ -5717,10 +5655,13 @@
       "type": "object",
       "description": "Science Tool properties",
       "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
+        "catalogDefinitionId": {
+          "type": "string",
+          "description": "Reference to catalog definition.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "description": {
           "type": "string",
@@ -5731,19 +5672,15 @@
             "create"
           ]
         },
-        "toolDefinitionId": {
-          "type": "string",
-          "description": "Reference to catalog tool definition.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
         }
       },
       "required": [
-        "description",
-        "toolDefinitionId"
+        "catalogDefinitionId",
+        "description"
       ]
     },
     "ToolPropertiesUpdate": {
@@ -5753,15 +5690,6 @@
         "description": {
           "type": "string",
           "description": "Tool description used for copilot prompt and execution.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "toolDefinitionId": {
-          "type": "string",
-          "description": "Reference to catalog tool definition.",
           "x-ms-mutability": [
             "read",
             "update",

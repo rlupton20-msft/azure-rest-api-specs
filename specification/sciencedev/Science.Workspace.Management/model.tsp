@@ -23,14 +23,7 @@ model Model is TrackedResource<ModelProperties> {
 
 @doc("Model properties")
 model ModelProperties {
-  @doc("The description of the Model.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  description: string;
-
-  @doc("The unique identifier for the Model.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  // TODO: Include "definition" in property name?
-  catalogModelId: string;
+  ...CatalogArtifactBaseProperties;
 
   @doc("The ARM resource ID of the subnet.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Is it a resource identifier or just string? Please find example.

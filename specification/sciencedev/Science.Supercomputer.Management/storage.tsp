@@ -20,7 +20,7 @@ namespace Microsoft.Science;
 @doc("Storage tracked resource")
 model Storage is TrackedResource<StorageProperties> {
   ...ResourceNameParameter<Storage>;
-  ...ResourcePlanProperty; // Adds sku: https://azure.github.io/typespec-azure/docs/libraries/azure-resource-manager/reference/data-types/
+  //   ...ResourceSkuProperty; // Adds sku: https://azure.github.io/typespec-azure/docs/libraries/azure-resource-manager/reference/data-types/
 }
 
 @doc("Storage properties")

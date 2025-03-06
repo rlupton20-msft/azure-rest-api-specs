@@ -14,6 +14,7 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
 
+@added(Versions.`2025-07-01-preview`)
 @doc("A copilot log related to a message.")
 @resource("logs")
 @parentResource(ConversationMessage)
@@ -40,6 +41,7 @@ model MessageLog {
 //   /** List of messages similar to ResourceList.  */
 //   value: Array<MessageLog>
 // }
+@added(Versions.`2025-07-01-preview`)
 interface MessageLogs {
   //   @doc("Fetch a Message by name.")
   //   getLog is ResourceRead<MessageLog>;

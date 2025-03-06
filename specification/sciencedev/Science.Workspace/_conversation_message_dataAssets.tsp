@@ -14,6 +14,7 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
 
+@added(Versions.`2025-07-01-preview`)
 @doc("A DataAsset related to a message.")
 @resource("dataAssets")
 @parentResource(ConversationMessage)
@@ -38,6 +39,7 @@ model MessageDataAsset {
   //   toolName?: string;
 }
 
+@added(Versions.`2025-07-01-preview`)
 interface MessageDataAssets {
   //   @doc("Fetch a Message by name.")
   //   getDataAsset is ResourceRead<MessageDataAsset>;

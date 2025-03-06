@@ -14,6 +14,7 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
 
+@added(Versions.`2025-07-01-preview`)
 @doc("Enumeration for message status.")
 union ConfirmationStatus {
   /** Message is awaiting user input */
@@ -28,6 +29,7 @@ union ConfirmationStatus {
   string,
 }
 
+@added(Versions.`2025-07-01-preview`)
 @doc("A user confirmation for a copilot action related to a message.")
 @resource("confirmations")
 @parentResource(ConversationMessage)
@@ -60,6 +62,7 @@ model MessageConfirmation {
   toolArguments?: string;
 }
 
+@added(Versions.`2025-07-01-preview`)
 interface MessageConfirmations {
   @doc("Fetch a Message by name.")
   getConfirmation is ResourceRead<MessageConfirmation>;

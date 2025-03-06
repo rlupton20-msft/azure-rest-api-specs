@@ -24,11 +24,11 @@ model Tool is TrackedResource<ToolProperties> {
 
 @doc("Science Tool properties")
 model ToolProperties {
+  ...CatalogArtifactBaseProperties;
+
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
-
-  ...ToolBaseProperties;
 }
 
 @armResourceOperations

@@ -127,10 +127,11 @@ This enables fully testing the release candidate in the same configuration for b
 3. Sync with upstream: `git pull upstream RPSaaSDev --rebase -X theirs`
 4. Create PRP PR branch: `git checkout -b <your-prp-pr-branch>`
 5. Make changes to `*.tsp` files for resource types you wish to change.
-6. Compile your `*.tsp` and re-generate examples: 
-   - *Catalog data plane:* `npx tsp compile specification/sciencedev/Science.Catalog && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/2024-11-01-preview/science-catalog.json`
-   - *Workspace data plane:* `npx tsp compile specification/sciencedev/Science.Workspace && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/2024-11-01-preview/science-workspace.json`
-   - *Control plane:* `npx tsp compile specification/sciencedev/Science.Management && npx oav generate-examples ./specification/sciencedev/resource-manager/Private.Science/preview/2024-11-01-preview/science.json`
+6. Compile your `*.tsp` and re-generate examples:
+    - *Control plane:* `npx tsp compile specification/sciencedev/Science.Management && npx oav generate-examples ./specification/sciencedev/resource-manager/Private.Science/preview/2025-07-01-preview/science.json`
+   - *Catalog data plane:* `npx tsp compile specification/sciencedev/Science.Catalog && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/2025-07-01-preview/science-catalog.json`
+   - *Workspace data plane:* `npx tsp compile specification/sciencedev/Science.Workspace && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/2025-07-01-preview/science-workspace.json`
+   - *Workspace data plane:* `npx tsp compile specification/sciencedev/Science.Bookshelf && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Bookshelf/preview/2025-07-01-preview/science-bookshelf.json`
 7. Run cleanup script: `node specification/sciencedev/example-cleanup.mjs`
 8. `git add specification/sciencedev`
 9. `git commit`

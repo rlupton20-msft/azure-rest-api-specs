@@ -19,7 +19,7 @@ model ToolProperties {
   provisioningState?: string;
 
   ...DataPlaneResource;
-  ...ToolBaseProperties;
+  ...CatalogArtifactBaseProperties;
 }
 
 @doc("A Scientific tool.")
