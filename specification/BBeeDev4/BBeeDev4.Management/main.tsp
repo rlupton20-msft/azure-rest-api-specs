@@ -325,11 +325,6 @@ model FdoBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.FDO;
 
-  @added(Versions.v2025_05_01_preview)
-  @doc("Supported encryption types for generating FDO public keys.")
-  supportedEncryptionTypes?: EncryptionTypes[];
-
-  @visibility("read")
   @doc("Per policy public key(s) to extend ownership voucher to the customer.")
   publicKeys?: FdoPublicKeys;
 
@@ -340,28 +335,14 @@ model FdoBootstrapAuthenticationRule extends BootstrapAuthenticationRule {
   rendezvousEndpoint?: url;
 }
 
-@added(Versions.v2025_05_01_preview)
-@doc("Encryption types for generating FDO public keys.")
-union EncryptionTypes {
-  string,
-
-  @doc("SECP256R1 ECC curve type")
-  secp256R1: "secp256R1",
-
-  @doc("SECP384R1 ECC curve type")
-  secp384R1: "secp384R1",
-}
-
 @doc("Owner public keys to extend ownership voucher to the customer.")
 @added(Versions.v2024_12_01_preview)
 model FdoPublicKeys {
   @doc("Public key as x5C with encryption type SECP256R1.")
-  @visibility("read")
   secp256R1?: FdoPublicKey;
 
   @added(Versions.v2025_05_01_preview)
   @doc("Public key as x5C with encryption type SECP384R1.")
-  @visibility("read")
   secp384R1?: FdoPublicKey;
 }
 
@@ -371,7 +352,22 @@ model FdoPublicKey {
   @doc("x5Chain representation of the public key.")
   @visibility("read")
   default?: bytes[];
-  // status: boolean; // To be added later.
+
+  @added(Versions.v2025_05_01_preview)
+  @doc("Is this public key enabled or not.")
+  status?: PublicKeyStatus;
+}
+
+@added(Versions.v2025_05_01_preview)
+@doc("Status of public key.")
+union PublicKeyStatus {
+  string,
+
+  @doc("Key is enabled.")
+  enabled: "Enabled",
+
+  @doc("Key is disabled.")
+  disabled: "Disabled",
 }
 
 @doc("Generic Ownership Voucher Storage type.")
@@ -837,10 +833,6 @@ model PatchFdoBootstrapAuthenticationRule
   extends PatchBootstrapAuthenticationRule {
   @doc("The type of authentication rule.")
   type: BootstrapAuthenticationType.FDO;
-
-  @added(Versions.v2025_05_01_preview)
-  @doc("Supported encryption types for generating FDO public keys.")
-  supportedEncryptionTypes?: EncryptionTypes[];
 
   @visibility("read")
   @doc("Per policy public keys to represent this policy")
