@@ -354,7 +354,7 @@ model FdoPublicKey {
   default?: bytes[];
 
   @added(Versions.v2025_05_01_preview)
-  @doc("Is this public key enabled or not.")
+  @doc("Status of the public key.")
   status?: PublicKeyStatus;
 }
 
@@ -364,10 +364,10 @@ union PublicKeyStatus {
   string,
 
   @doc("Key is enabled.")
-  enabled: "Enabled",
+  Enabled: "Enabled",
 
   @doc("Key is disabled.")
-  disabled: "Disabled",
+  Disabled: "Disabled",
 }
 
 @doc("Generic Ownership Voucher Storage type.")
