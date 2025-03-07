@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync} from "fs";
 import { resolve } from "path"
-import {execSync } from "child_process"
+import { execSync } from "child_process"
 
 const apiVersions = [
-  // "2024-11-01-preview",
+  "2024-11-01-preview",
   "2025-07-01-preview"
 ]
 const runMain = () => {
@@ -94,10 +94,13 @@ const runMain = () => {
     "./specification/sciencedev/Science.Management",
     "./specification/sciencedev/Science.Workspace",
     "./specification/sciencedev/Science.Catalog",
+    "./specification/sciencedev/Science.Bookshelf",
   ]
+  console.log("Validating data plane TypeSpec packages")
   for(const pkg of packageDirs) {
     const pkgPath = resolve(pkg)
     try {
+      console.log("   -", pkgPath)
       execSync(`npx tsv ${pkgPath}`, { stdio: 'inherit' })
     } catch (err) {
       console.warn(err)

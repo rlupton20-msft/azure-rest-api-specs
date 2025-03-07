@@ -128,14 +128,14 @@ This enables fully testing the release candidate in the same configuration for b
 4. Create PRP PR branch: `git checkout -b <your-prp-pr-branch>`
 5. Make changes to `*.tsp` files for resource types you wish to change.
 6. Compile your `*.tsp` and re-generate examples:
-    - *Control plane:* `npx tsp compile specification/sciencedev/Science.Management && npx oav generate-examples ./specification/sciencedev/resource-manager/Private.Science/preview/2025-07-01-preview/science.json`
-   - *Catalog data plane:* `npx tsp compile specification/sciencedev/Science.Catalog && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/2025-07-01-preview/science-catalog.json`
-   - *Workspace data plane:* `npx tsp compile specification/sciencedev/Science.Workspace && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/2025-07-01-preview/science-workspace.json`
-   - *Workspace data plane:* `npx tsp compile specification/sciencedev/Science.Bookshelf && npx oav generate-examples ./specification/sciencedev/data-plane/Microsoft.Science.Bookshelf/preview/2025-07-01-preview/science-bookshelf.json`
-7. Run cleanup script: `node specification/sciencedev/example-cleanup.mjs`
+   - *Control plane:* `specification/sciencedev/scripts/make-examples--control-plane.sh`
+   - *Bookshelf data plane:* `specification/sciencedev/scripts/make-examples-dp--Bookshelf.sh`
+   - *Catalog data plane:* `specification/sciencedev/scripts/make-examples-dp--Catalog.sh`
+   - *Workspace data plane:* `specification/sciencedev/scripts/make-examples-dp--Workspace.sh`
+7. Run cleanup script: `node specification/sciencedev/scripts/example-cleanup.mjs`
 8. `git add specification/sciencedev`
 9. `git commit`
-10. Re-run cleanup script: `node specification/sciencedev/example-cleanup.mjs` (because cleanup script runs `npx prettier` and `tsv`, both of which reformat files)
+10. Re-run cleanup script: `node specification/sciencedev/scripts/example-cleanup.mjs` (because cleanup script runs `npx prettier` and `tsv`, both of which reformat files)
 11. `git add specification/sciencedev`
 12. `git commit`
 13. When finished: `git push --set-upstream origin <your-prp-pr-branch>`

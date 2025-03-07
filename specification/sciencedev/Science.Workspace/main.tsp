@@ -54,9 +54,9 @@ namespace Microsoft.Science.Workspace;
 
 @doc("The Microsoft.Science.Workspace service versions.")
 enum Versions {
-  //   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  //   @doc("The 2024-11-01-preview version of the Microsoft.Science.Workspace service data plane.")
-  //   `2024-11-01-preview`,
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @doc("The 2024-11-01-preview version of the Microsoft.Science.Workspace service data plane.")
+  `2024-11-01-preview`,
 
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @doc("The 2025-07-01-preview version of the Microsoft.Science.Workspace service data plane.")
