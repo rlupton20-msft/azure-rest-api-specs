@@ -20,7 +20,6 @@ alias Operations = Azure.Core.ResourceOperations<ServiceTraits>;
 model WithId {
   @doc("The ID")
   @visibility(Lifecycle.Read)
-  // Defaults to name."
   id: string;
 }
 
@@ -58,49 +57,51 @@ model WithStatusReason {
   statusReason?: string;
 }
 
-@access(Access.internal)
-@doc("Enum for entity")
-union ByType {
-  /** A human user. */
-  User: "User",
-
-  //  /** Application */
-  //  Application: "Application",
-  //
-  //  /** ManagedIdentity */
-  //  ManagedIdentity: "ManagedIdentity",
-  //
-  //  /** Key */
-  //  Key: "Key",
-
-  /** The backend system. */
-  System: "System",
-
-  string,
-}
+alias ByType = string;
+// TODO: Figure out why readonly properties using union below appear able to be set in PUT
+// @access(Access.internal)
+// @doc("Enum for entity")
+// union ByType {
+//   /** A human user. */
+//   User: "User",
+//
+//   //  /** Application */
+//   //  Application: "Application",
+//   //
+//   //  /** ManagedIdentity */
+//   //  ManagedIdentity: "ManagedIdentity",
+//   //
+//   //  /** Key */
+//   //  Key: "Key",
+//
+//   /** The backend system. */
+//   System: "System",
+//
+//   string,
+// }
 
 @access(Access.internal)
 @doc("For adding creation timestamp.")
 model WithCreatedAt {
   @doc("The timestamp when the resource was created")
   @visibility(Lifecycle.Read)
-  createdAt: utcDateTime;
+  createdAt?: utcDateTime;
 }
 
-@access(Access.internal)
+// @access(Access.internal)
 @doc("For tracking who created a resource.")
 model WithCreatedBy {
   @doc("The ID of the user who created this resource.")
   @visibility(Lifecycle.Read)
-  createdBy: string;
+  createdBy?: string;
 }
 
-@access(Access.internal)
+// @access(Access.internal)
 @doc("For tracking type of who created a resource.")
 model WithCreatedByType {
   @doc("The type of user who created this resource.")
   @visibility(Lifecycle.Read)
-  createdByType: ByType;
+  createdByType?: ByType;
 }
 
 @access(Access.internal)
@@ -116,7 +117,7 @@ model WithCreated {
 model WithLastModifiedAt {
   @doc("The timestamp when the resource was last updated")
   @visibility(Lifecycle.Read)
-  lastModifiedAt: utcDateTime;
+  lastModifiedAt?: utcDateTime;
 }
 
 @access(Access.internal)
@@ -124,7 +125,7 @@ model WithLastModifiedAt {
 model WithLastModifiedBy {
   @doc("The ID of the user who Updated this resource.")
   @visibility(Lifecycle.Read)
-  lastModifiedBy: string;
+  lastModifiedBy?: string;
 }
 
 @access(Access.internal)
@@ -132,7 +133,7 @@ model WithLastModifiedBy {
 model WithLastModifiedByType {
   @doc("The type of user who Updated this resource.")
   @visibility(Lifecycle.Read)
-  lastModifiedByType: ByType;
+  lastModifiedByType?: ByType;
 }
 
 @access(Access.internal)

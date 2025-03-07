@@ -162,9 +162,9 @@ model MessageBase {
   @visibility(Lifecycle.Read)
   status: MessageStatus;
 
-  @doc("The command name")
-  @visibility(Lifecycle.Read)
-  commandName?: string;
+  //   @doc("The command name")
+  //   @visibility(Lifecycle.Read)
+  //   commandName?: string;
 
   @doc("Citation list")
   @visibility(Lifecycle.Read)

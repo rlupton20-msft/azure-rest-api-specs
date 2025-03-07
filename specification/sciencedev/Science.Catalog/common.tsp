@@ -67,7 +67,7 @@ model WithLicense {
 model WithAttributes<T> {
   @doc("The definition attributes extracted from definitionContents Yaml")
   @visibility(Lifecycle.Read)
-  attributes: T;
+  attributes?: T;
 }
 
 @access(Access.internal)
@@ -89,14 +89,14 @@ model BaseAttributesWithDescription {
 model WithCopilotInstruction {
   @doc("Copilot Instruction")
   @visibility(Lifecycle.Read)
-  copilotInstruction: string;
+  copilotInstruction?: string;
 }
 
 @doc("For adding copilot Instruction")
 model WithInfraType {
   @doc("Infrastructure type")
   @visibility(Lifecycle.Read)
-  infraType: string;
+  infraType?: string;
 }
 
 @doc("For documentation link")
@@ -113,7 +113,7 @@ model WithRepo {
   repo: string;
 }
 
-@doc("")
+@doc("Basis artifact properties")
 model Artifact<T> {
   ...WithId;
   ...WithAuthor;
