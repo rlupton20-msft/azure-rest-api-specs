@@ -3,10 +3,6 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
@@ -646,4 +642,19 @@ model CryptoKeySummaryResource extends SummaryResourceProperties {
 
   @doc("Describes the type of summary.")
   summaryType: "CryptoKey";
+}
+
+@doc("Properties of a workspaces usage metrics.")
+model UsageMetricProperties {
+  @doc("The number of firmware analysis jobs that have been submitted in the current month.")
+  @visibility(Lifecycle.Read)
+  monthlyFirmwareUploadCount: int64;
+
+  @doc("The total number of firmwares that are in the workspace.")
+  @visibility(Lifecycle.Read)
+  totalFirmwareCount: int64;
+
+  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
 }

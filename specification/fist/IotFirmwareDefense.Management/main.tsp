@@ -12,11 +12,8 @@ import "./PasswordHashResource.tsp";
 import "./SbomComponentResource.tsp";
 import "./SummaryResource.tsp";
 import "./Workspace.tsp";
+import "./UsageMetric.tsp";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.ResourceManager.Foundations;
-using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 /**
@@ -34,7 +31,7 @@ namespace Microsoft.IoTFirmwareDefense;
  */
 enum Versions {
   /**
-   * The 2024-01-10 API version.
+   * The 2024-08-07 API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)

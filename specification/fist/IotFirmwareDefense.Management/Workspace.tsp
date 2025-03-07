@@ -7,7 +7,6 @@ import "./models.tsp";
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 /**
