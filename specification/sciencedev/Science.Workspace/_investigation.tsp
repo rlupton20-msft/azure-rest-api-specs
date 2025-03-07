@@ -29,22 +29,6 @@ union InvestigationStatus {
   string,
 }
 
-@doc("Run response.")
-model RunResponse {
-  /** The ID for the run. This enables tracking the run status. */
-  runId: string;
-
-  /** Run mode */
-  runMode: RunMode;
-}
-
-@doc("For timeout timestamp")
-model WithTimeoutAt {
-  @doc("The timeout timestamp")
-  @visibility(Lifecycle.Read)
-  timeoutAt: utcDateTime;
-}
-
 @doc("A investigation list item.")
 @resource("investigations")
 @parentResource(Project)
@@ -88,9 +72,6 @@ interface Investigations {
   @doc("Fetch a Investigation by name.")
   getInvestigation is ResourceRead<Investigation>;
 
-  @doc("Gets status of a Investigation operation.")
-  getInvestigationOperationStatus is GetResourceOperationStatus<Investigation>;
-
   @doc("Creates or replaces Investigation.")
   createOrReplaceInvestigation is StandardResourceOperations.ResourceCreateOrReplace<Investigation>;
 
@@ -104,15 +85,6 @@ interface Investigations {
   listInvestigations is ResourceList<
     Investigation,
     QueryParametersTrait<WithQueryCreatedSince>
-  >;
-
-  @doc("Validate an investigation.")
-  @pollingOperation(Investigations.getInvestigationOperationStatus)
-  // TODO: Return ValidationResponse
-  validate is Operations.LongRunningResourceAction<
-    Investigation,
-    {},
-    RequestIdResponseHeader
   >;
 
   @doc("Clone investigation (to a new one).")
