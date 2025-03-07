@@ -5,7 +5,7 @@ using OpenAPI;
 @doc("Information about a network device")
 model NetDevice {
   @doc("Id of network device")
-  netDeviceId: string;
+  netDeviceId?: string;
 
   @doc("Manufacturer of the network device")
   manufacturer?: string;
