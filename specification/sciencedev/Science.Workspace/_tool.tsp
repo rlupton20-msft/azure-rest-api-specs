@@ -27,11 +27,8 @@ model Tool {
 
 @doc("An execution of a Tool")
 model ExecutionRequest {
-  @doc("The action ID, as defined in the tool's Catalog definition.")
-  actionId: string;
-
-  @doc("The parameters of the execution.")
-  parameters?: Parameter[];
+  @doc("Command to pass to tool container's entrypoint. If omitted, entrypoint is executed.")
+  command?: string;
 
   /*
    * All of the data referenced by these handles is made available to the
@@ -76,10 +73,29 @@ model ExecutionRequest {
   sharedStorageId: StorageId;
 }
 
+@doc("A file to be included in the input data for a tool execution.")
+model InlineFile {
+  @doc("The relative path of the file within the input directory.")
+  relativePath: string;
+
+  /*
+   * Limit the size of the file to ~20kB. This is a reasonable limit for
+   * small code files, which are the primary use case for this feature.
+   *
+   * For reference, at the time of writing, iomanager.py was 7kB.
+   */
+  @doc("The base64-encoded contents of the file.")
+  @maxLength(20000)
+  encodedFile: string;
+}
+
 /** Enum for IndexingStatus */
 union HandleType {
   /** Catalog DataAsset */
   DataAsset: "DataAsset",
+
+  /** Inline files */
+  InlineFiles: "InlineFiles",
 
   /** BlobStorage */
   // TODO: Remove post M1.
@@ -107,15 +123,21 @@ model DataHandle {
    *
    */
   location: string;
-}
 
-@doc("Parameter model for executions")
-model Parameter {
-  @doc("The name of the parameter.")
-  name: string;
-
-  @doc("The value of the parameter.")
-  value: string;
+  /*
+   * For InlineFiles handles, up to 10 files can be provided inline. This
+   * is primarily intended for submitting agent-generated code.
+   *
+   * We impose a 10 file limit in order to place some bounds on how much
+   * code can be submitted in this way. For submitting larger amounts of data,
+   * a DataAsset should be used.
+   *
+   * It would be preferable to have a Record here with the relativePath as key, but
+   * typespec doesn't allow @maxItems to be applied to a Record.
+   */
+  @doc("Encoded inline files. Required, and only valid, if handleType is InlineFiles.")
+  @maxItems(10)
+  files?: Array<InlineFile>;
 }
 
 @doc("Execution status model")
