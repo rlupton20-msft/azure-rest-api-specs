@@ -79,12 +79,13 @@ model InlineFile {
   relativePath: string;
 
   /*
-   * Limit the size of the file to ~20kB. This is a reasonable limit for
+   * Limit the size of this field to ~20kB. This is a reasonable limit for
    * small code files, which are the primary use case for this feature.
    *
-   * For reference, at the time of writing, iomanager.py was 7kB.
+   * For reference, at the time of writing, iomanager.py was 7kB without
+   * gzipping or encoding it.
    */
-  @doc("The base64-encoded contents of the file.")
+  @doc("base64-encoding of the gzipped contents of the file.")
   @maxLength(20000)
   encodedFile: string;
 }
