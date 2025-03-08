@@ -1,7 +1,7 @@
 @doc("Information regarding an individual port")
 model Port {
   @doc("Id of port")
-  portId?: string;
+  portId: string;
 
   @doc("Link type of port")
   linkType?: string;
