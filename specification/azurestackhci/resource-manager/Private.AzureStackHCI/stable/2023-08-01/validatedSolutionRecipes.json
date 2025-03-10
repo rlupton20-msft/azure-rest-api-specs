@@ -40,10 +40,10 @@
   },
   "tags": [
     {
-      "name": "ValidatedSolutionRecipesAtResourceGroup"
+      "name": "ValidatedSolutionRecipes"
     },
     {
-      "name": "ValidatedSolutionRecipes"
+      "name": "ResourceGroupValidatedSolutionRecipes"
     }
   ],
   "paths": {
@@ -126,11 +126,11 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/validatedSolutionRecipeAtResourceGroups": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/resourceGroupValidatedSolutionRecipes": {
       "get": {
-        "operationId": "ValidatedSolutionRecipesAtResourceGroup_ListByResourceGroupLocationResource",
+        "operationId": "ResourceGroupValidatedSolutionRecipes_ListByResourceGroupLocationResource",
         "tags": [
-          "ValidatedSolutionRecipesAtResourceGroup"
+          "ResourceGroupValidatedSolutionRecipes"
         ],
         "description": "List all validated solution recipes.",
         "parameters": [
@@ -151,7 +151,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ValidatedSolutionRecipeAtResourceGroupListResult"
+              "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipeListResult"
             }
           },
           "default": {
@@ -166,11 +166,11 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/validatedSolutionRecipeAtResourceGroups/{validatedSolutionRecipeAtResourceGroupName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/resourceGroupValidatedSolutionRecipes/{resourceGroupValidatedSolutionRecipeName}": {
       "get": {
-        "operationId": "ValidatedSolutionRecipesAtResourceGroup_Get",
+        "operationId": "ResourceGroupValidatedSolutionRecipes_Get",
         "tags": [
-          "ValidatedSolutionRecipesAtResourceGroup"
+          "ResourceGroupValidatedSolutionRecipes"
         ],
         "description": "Get a validated solution recipe.",
         "parameters": [
@@ -187,9 +187,9 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
           },
           {
-            "name": "validatedSolutionRecipeAtResourceGroupName",
+            "name": "resourceGroupValidatedSolutionRecipeName",
             "in": "path",
-            "description": "The name of the ValidatedSolutionRecipeAtResourceGroup",
+            "description": "The name of the ResourceGroupValidatedSolutionRecipe",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-.]{3,50}$"
@@ -199,7 +199,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ValidatedSolutionRecipeAtResourceGroup"
+              "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipe"
             }
           },
           "default": {
@@ -213,6 +213,42 @@
     }
   },
   "definitions": {
+    "ResourceGroupValidatedSolutionRecipe": {
+      "type": "object",
+      "description": "Represents a validated solution recipe resource at resource group level.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ValidatedSolutionRecipeProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ResourceGroupValidatedSolutionRecipeListResult": {
+      "type": "object",
+      "description": "The response of a ResourceGroupValidatedSolutionRecipe list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ResourceGroupValidatedSolutionRecipe items on this page",
+          "items": {
+            "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipe"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "ValidatedSolutionRecipe": {
       "type": "object",
       "description": "Represents a validated solution recipe resource.",
@@ -224,44 +260,8 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
-      ]
-    },
-    "ValidatedSolutionRecipeAtResourceGroup": {
-      "type": "object",
-      "description": "Represents a validated solution recipe resource at resource group level.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ValidatedSolutionRecipeProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "ValidatedSolutionRecipeAtResourceGroupListResult": {
-      "type": "object",
-      "description": "The response of a ValidatedSolutionRecipeAtResourceGroup list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The ValidatedSolutionRecipeAtResourceGroup items on this page",
-          "items": {
-            "$ref": "#/definitions/ValidatedSolutionRecipeAtResourceGroup"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
       ]
     },
     "ValidatedSolutionRecipeCapabilities": {
@@ -364,39 +364,39 @@
         },
         "enableAutomaticUpgrade": {
           "type": "boolean",
-          "description": "Represents the behavior of the automatic upgrades of the extension."
+          "description": "Indicates whether automatic upgrades of the extension are enabled."
         },
         "lcmUpdate": {
           "type": "boolean",
-          "description": "Represents the behavior of the lcm update of the extension."
+          "description": "Indicates whether the LCM (Lifecycle Management) update of the extension is enabled."
         },
         "catalog": {
           "type": "string",
-          "description": "Represents the catalog."
+          "description": "Specifies the catalog to which the extension belongs."
         },
         "ring": {
           "type": "string",
-          "description": "Represents the ring."
+          "description": "Specifies the ring to which the extension belongs, internally used by component."
         },
         "releaseTrain": {
           "type": "string",
-          "description": "Represents the release train."
+          "description": "Specifies the release train to which given component belongs."
         },
         "link": {
           "type": "string",
-          "description": "Represents the link."
+          "description": "Specifies the link associated with the extension."
         },
         "name": {
           "type": "string",
-          "description": "Represents the name."
+          "description": "Specifies the name of the extension."
         },
         "expectedHash": {
           "type": "string",
-          "description": "Represents the expected hash."
+          "description": "Specifies the expected hash of the extension."
         },
         "previewSource": {
           "type": "string",
-          "description": "Represents the preview source."
+          "description": "Specifies the preview source of the extension."
         }
       }
     },
@@ -406,19 +406,19 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Represents the payload's identifier."
+          "description": "Represents the unique identifier of the payload used to query the URL."
         },
         "hash": {
           "type": "string",
-          "description": "Represents the payload's hash."
+          "description": "Represents the cryptographic hash of the payload, ensuring data integrity."
         },
         "fileName": {
           "type": "string",
-          "description": "Represents the payload's fileName."
+          "description": "Represents the name of the file associated with the payload."
         },
         "url": {
           "type": "string",
-          "description": "Represents the payload's url."
+          "description": "Represents the URL from which the payload can be downloaded."
         }
       },
       "required": [
@@ -503,7 +503,7 @@
         },
         "signature": {
           "type": "string",
-          "description": "Represents the signature of the recipe."
+          "description": "Represents the signature of the recipe, to be used for ensuring its integrity."
         }
       },
       "required": [
