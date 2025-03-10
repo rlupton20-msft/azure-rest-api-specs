@@ -13,16 +13,12 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+//    generation: "2"
+
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
-  is ExtensionResource<EdgeStorageConfigurationProperties> {
-  @doc("The name of the EdgeStorageConfiguration resource, which must be 'edge-storage-configuration'.")
-  @key("edgeStorageConfigurationName")
-  @path
-  @segment("edgestorageconfigurations")
-  // Enforce the singleton name 'edge-storage-configuration -- need to test'
-  @pattern("^edge-storage-configuration$")
-  name: string;
+  is ExtensionResource<EdgeStorageConfigurationProperties, PropertiesOptional = false> {
+  ...ResourceNameParameter<EdgeStorageConfiguration, NamePattern = "^edge-storage-configuration$">;
 }
 
 @minLength(1)
@@ -36,11 +32,14 @@ scalar StorageClass extends string;
 model EdgeStorageConfigurationProperties {
   @doc("The default disk storage class(es) to be used for edge volumes. Must not be empty and is immutable once set.")
   @minItems(1)
-  @visibility("read")
+  @visibility("create", "read")
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
   failoverEdgeVolumeConsumers?: boolean = true;
+
+  @doc("This indicates how to ensure mTLS")
+  serviceMesh?: ServiceMesh = ServiceMesh.`cert-manager`;  // Deprecated field, but have it here for backward compatibility
 
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
@@ -54,18 +53,27 @@ model EdgeStorageConfigurationProperties {
   status?: EdgeStorageConfigurationStatus;
 }
 
+@doc("This indicates how to ensure mTLS (deprecated)")
+union ServiceMesh {
+  @doc("Open service mesh (deprecated)")
+  osm: "osm";
+
+  @doc("cert-manager")
+  `cert-manager`: "cert-manager";
+
+  string,
+}
+
 //
 // Workload Identity
 //
 @doc("Defines the workload identity properties.")
 model WorkloadIdentity {
   @doc("The client ID for the workload identity.")
-  @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  clientId: string;
+  clientId: Azure.Core.uuid;
 
   @doc("The tenant ID for the workload identity.")
-  @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  tenantId: string;
+  tenantId: Azure.Core.uuid;
 }
 
 //

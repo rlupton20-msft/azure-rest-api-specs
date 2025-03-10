@@ -13,31 +13,34 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
-@doc("AcStorConfiguration is a custom resource that defines the configuration for a storage system.")
-model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
-  @doc("The name of the AcStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.")
-  @key("acstorConfigurationName")
-  @path
-  @segment("acstorconfigurations")
-  @pattern("^acstor-configuration$")
-  name: string = "acstor-configuration";
+//    generation: "6"
+@doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
+model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties, PropertiesOptional = false> {
+  ...ResourceNameParameter<AcStorConfiguration, NamePattern = "^acstor-configuration$">;
 }
 
 // Define the properties for the AcStorConfiguration
 @doc("Defines the properties of the AcStorConfiguration resource.")
 model AcStorConfigurationProperties {
   @doc("The mount point for the disk.")
-  @visibility("read")
+  @visibility("create", "read")
   diskMountPoint?: string = "/mnt"; // Default value is "/mnt"
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
-  @visibility("read")
+  @visibility("create", "read")
   diskCapacity: string; //TODO: check later if this is optional
 
+  @doc("The linux IO interface to use.")
+  ioInterface?: IoInterfaces = IoInterfaces.uring;
+
   @doc("Configuration for creating a storage pool.")
-  @visibility("read")
+  @visibility("create", "read")
   createStoragePool?: StoragePoolConfig;
+
+  @doc("io engine cpu limit")
+  @pattern("^([0-9]+m?|0[.][0-9]+)?$")
+  ioEngineCpuLimit?: string = "2000m";
 
   @doc("The provisioning state of the resource.")
   @visibility("read")
@@ -52,18 +55,30 @@ model AcStorConfigurationProperties {
 @doc("Defines the configuration for creating a storage pool.")
 model StoragePoolConfig {
   @doc("Whether to create a storage pool.")
-  enabled: boolean = true; // Default value is true
+  enabled?: boolean = true; // Default value is true
 
   @doc("The number of replicas to create.")
   @minValue(1) // Minimum value constraint
-  @maxValue(10) // Maximum value constraint
+  @maxValue(128) // Maximum value constraint
   replicas?: int32 = 3; // Default value is 3
 
   @doc("The name of the storage pool.")
   name?: string = "arccontainerstorage-storage-pool"; // Default name
 
+  // We need a liquid transform for this
   @doc("The storage engine to use.")
   engineType?: EngineTypes = EngineTypes.xfs; // Default value is "xfs"
+}
+
+@doc("Linux io interfaces")
+union IoInterfaces {
+  @doc("uring")
+  uring: "uring",
+
+  @doc("aio")
+  aio: "aio",
+
+  string,
 }
 
 @doc("EngineTypes")

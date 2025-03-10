@@ -14,19 +14,16 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+//    generation: "11"
+
 /**
  * EdgeSubvolume is a custom resource that defines configuration
  * for an edge subvolume in the Arc Container Storage system.
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
 @parentResource(EdgeVolume)
-model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties> {
-  @doc("The name of the EdgeSubvolume resource.")
-  @key("edgeSubvolumeName")
-  @segment("edgesubvolumes")
-  @pattern("^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$")
-  @path
-  name: string;
+model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional = false> {
+  ...ResourceNameParameter<EdgeSubvolume, NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$">;
 }
 
 /**
@@ -35,7 +32,7 @@ model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties> {
 @doc("Defines the properties of the EdgeSubvolume resource.")
 model EdgeSubvolumeProperties {
   @doc("Type of the subvolume.")
-  @visibility("read")
+  @visibility("create", "read")
   subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
 
   @doc("Name of the EdgeVolume that this subvolume references.")
