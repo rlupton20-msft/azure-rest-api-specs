@@ -29,13 +29,6 @@ union Scope {
   string,
 }
 
-@doc("For adding Scope.")
-model WithScope {
-  @doc("The Scope")
-  @visibility(Lifecycle.Read)
-  scope: Scope;
-}
-
 @doc("For adding category.")
 model WithCategory {
   @doc("The category")
@@ -53,7 +46,7 @@ model WithVersion {
 model WithAuthor {
   @doc("The author")
   @visibility(Lifecycle.Read)
-  author: string;
+  author?: string;
 }
 
 @doc("For adding license.")

@@ -40,11 +40,11 @@ model WorkspaceProperties {
 
   @doc("workspace API endpoint Uri.")
   @visibility(Lifecycle.Read)
-  workspaceApiUri: string;
+  workspaceApiUri?: string;
 
   @doc("workspace User Interface Uri.")
   @visibility(Lifecycle.Read)
-  workspaceUiUri: string;
+  workspaceUiUri?: string;
 
   ...MoboConfigurationWithMrg;
 }

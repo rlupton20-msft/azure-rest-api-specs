@@ -32,7 +32,7 @@ model ModelProperties {
 
   @doc("The deployment ID of the Model.")
   @visibility(Lifecycle.Read)
-  modelDeploymentId: string;
+  modelDeploymentId?: string;
 
   @doc("The provisioning status of the Model.")
   @visibility(Lifecycle.Read)

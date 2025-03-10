@@ -42,7 +42,7 @@ model BaseKnowledgeBase {
   ...WithStatus<IndexingStatus>;
 
   @doc("Catalog data assets to index.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   dataAssetIds: DataAssetId[];
 
   @doc("URL to access the knowledge base.")

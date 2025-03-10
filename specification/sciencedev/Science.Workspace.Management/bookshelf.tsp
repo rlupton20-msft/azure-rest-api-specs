@@ -29,13 +29,13 @@ model BookshelfProperties {
 
   ...MoboConfigurationWithMrg;
 
-  /** The bookshelf dataplane API URI */
+  /** The bookshelf data plane API URI */
   @visibility(Lifecycle.Read)
-  bookshelfApiUri: string;
+  bookshelfApiUri?: string;
 
   @doc("bookshelf User Interface Uri.")
   @visibility(Lifecycle.Read)
-  bookshelfUiUri: string;
+  bookshelfUiUri?: string;
 }
 
 @armResourceOperations

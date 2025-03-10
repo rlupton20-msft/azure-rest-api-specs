@@ -20,7 +20,7 @@ alias Operations = Azure.Core.ResourceOperations<ServiceTraits>;
 model WithId {
   @doc("The ID")
   @visibility(Lifecycle.Read)
-  id: string;
+  id?: string;
 }
 
 @access(Access.internal)
