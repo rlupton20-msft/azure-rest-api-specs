@@ -31,40 +31,44 @@ model ExecutionRequest {
   command?: string;
 
   /*
-   * All of the data referenced by these handles is made available to the
+   * Up to 10 files can be provided inline. This
+   * is primarily intended for submitting agent-generated code.
+   *
+   * We impose a 10 file limit in order to place some bounds on how much
+   * code can be submitted in this way. For submitting larger amounts of data,
+   * a DataAsset should be used.
+   *
+   * It would be preferable to have a Record here with the relativePath as key, but
+   * typespec doesn't allow @maxItems to be applied to a Record.
+   */
+  @doc("Encoded inline files to be mounted into the container, e.g. for generated code.")
+  @maxItems(10)
+  inlineFiles?: Array<InlineFile>;
+
+  /*
+   * All of the data referenced by these DataAssetIds is made available to the
    * tool container in a single input directory (the path to which is
    * provided to the container in the SC_TOOL_INPUT_DIR environment
    * variable):
    *
-   *   - when multiple input handles are provided, the data referenced by
-   *   each handle will be placed in a subdirectory within
-   *   SC_TOOL_INPUT_DIR with the same name as the handle's key
+   *   - when multiple DataAssets are provided, the data from each DataAsset
+   *   will be placed in a subdirectory within
+   *   SC_TOOL_INPUT_DIR with the same name as the ID's key in this Record
    *
-   *   - when only a single input handle with key "_" is provided,
-   *   Supercomputer will put the data referenced by that handle in the
+   *   - when only a single DataAsset with key "_" is provided,
+   *   Supercomputer will put the data from that DataAsset in the
    *   top-level input directory
    */
-  @doc("Handles to the input data to use for this execution.")
-  inputHandles?: Record<DataHandle>;
+  @doc("Input data assets to use for this execution.")
+  inputDataAssets?: Record<DataAssetId>;
 
   /*
-   * On the request, this specifies locations *in addition to* the
-   * default SharedStorage to write output to. Any data which the tool
-   * writes to the directory specified by SC_TOOL_OUTPUT_DIR is written
-   * to the default SharedStorage location, and any *additional*
-   * locations specified in this array.
-   *
-   * On the response, this includes handles to all locations where output
-   * was written, *including* the default SharedStorage.
-   *
    * Note that this is an array, not a dictionary. Unlike inputs, a tool
-   * only has one opaque blob of output. There may be multiple handles to
-   * that output data (e.g. SharedStorage + one or more DataAssets), but
-   * each of these locations gets all the data.
-   *
+   * only has one unit of output. There may be multiple DataAssets to
+   * emit that data to, but each of these locations gets all the data.
    */
-  @doc("Handles to the output locations for this execution")
-  outputHandles?: DataHandle[];
+  @doc("Data assets to which to emit output of this execution")
+  outputDataAssets?: DataAssetId[];
 
   @doc("IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.")
   nodePoolIds?: NodePoolId[];
@@ -88,57 +92,6 @@ model InlineFile {
   @doc("base64-encoding of the gzipped contents of the file.")
   @maxLength(20000)
   encodedFile: string;
-}
-
-/** Enum for IndexingStatus */
-union HandleType {
-  /** Catalog DataAsset */
-  DataAsset: "DataAsset",
-
-  /** Inline files */
-  InlineFiles: "InlineFiles",
-
-  /** BlobStorage */
-  // TODO: Remove post M1.
-  BlobStorage: "BlobStorage",
-
-  string,
-}
-
-@doc("A Data handle referring to an input or output of a execution")
-model DataHandle {
-  @doc("The type of the input handle.")
-  handleType: HandleType;
-
-  @doc("Location of the input data.")
-  /*
-   * For DataAsset handles, this is the ARM ID of a DataAsset.
-   * If a DataAsset is e.g. a storage container, all of the storage container will be made
-   * available to the tool. If it is a single blob, just that file will be
-   * made available. It is up to the user/Copilot to create the right DataAssets.
-   *
-   * For BlobStorage handles, this is a URL which specifies either a
-   * storage container, a specific blob or a prefix which matches
-   * potentially multiple blobs. This is here as a convenience to allow
-   * integration with Copilot before DataAssets are implemented.
-   *
-   */
-  location: string;
-
-  /*
-   * For InlineFiles handles, up to 10 files can be provided inline. This
-   * is primarily intended for submitting agent-generated code.
-   *
-   * We impose a 10 file limit in order to place some bounds on how much
-   * code can be submitted in this way. For submitting larger amounts of data,
-   * a DataAsset should be used.
-   *
-   * It would be preferable to have a Record here with the relativePath as key, but
-   * typespec doesn't allow @maxItems to be applied to a Record.
-   */
-  @doc("Encoded inline files. Required, and only valid, if handleType is InlineFiles.")
-  @maxItems(10)
-  files?: Array<InlineFile>;
 }
 
 @doc("Execution status model")

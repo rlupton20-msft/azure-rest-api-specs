@@ -1520,33 +1520,6 @@
         "name"
       ]
     },
-    "DataHandle": {
-      "type": "object",
-      "description": "A Data handle referring to an input or output of a execution",
-      "properties": {
-        "handleType": {
-          "$ref": "#/definitions/HandleType",
-          "description": "The type of the input handle."
-        },
-        "location": {
-          "type": "string",
-          "description": "Location of the input data."
-        },
-        "files": {
-          "type": "array",
-          "description": "Encoded inline files. Required, and only valid, if handleType is InlineFiles.",
-          "maxItems": 10,
-          "items": {
-            "$ref": "#/definitions/InlineFile"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "handleType",
-        "location"
-      ]
-    },
     "DbQuery": {
       "type": "object",
       "description": "Database query",
@@ -1598,20 +1571,46 @@
           "type": "string",
           "description": "Command to pass to tool container's entrypoint. If omitted, entrypoint is executed."
         },
-        "inputHandles": {
-          "type": "object",
-          "description": "Handles to the input data to use for this execution.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataHandle"
-          }
-        },
-        "outputHandles": {
+        "inlineFiles": {
           "type": "array",
-          "description": "Handles to the output locations for this execution",
+          "description": "Encoded inline files to be mounted into the container, e.g. for generated code.",
+          "maxItems": 10,
           "items": {
-            "$ref": "#/definitions/DataHandle"
+            "$ref": "#/definitions/InlineFile"
           },
           "x-ms-identifiers": []
+        },
+        "inputDataAssets": {
+          "type": "object",
+          "description": "Input data assets to use for this execution.",
+          "additionalProperties": {
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "format": "arm-id",
+            "type": "string",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Microsoft.Science/DataAssets"
+                }
+              ]
+            }
+          }
+        },
+        "outputDataAssets": {
+          "type": "array",
+          "description": "Data assets to which to emit output of this execution",
+          "items": {
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Microsoft.Science/DataAssets"
+                }
+              ]
+            }
+          }
         },
         "nodePoolIds": {
           "type": "array",
@@ -1687,36 +1686,6 @@
         "createdTime",
         "debugInfo"
       ]
-    },
-    "HandleType": {
-      "type": "string",
-      "description": "Enum for IndexingStatus",
-      "enum": [
-        "DataAsset",
-        "InlineFiles",
-        "BlobStorage"
-      ],
-      "x-ms-enum": {
-        "name": "HandleType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "DataAsset",
-            "value": "DataAsset",
-            "description": "Catalog DataAsset"
-          },
-          {
-            "name": "InlineFiles",
-            "value": "InlineFiles",
-            "description": "Inline files"
-          },
-          {
-            "name": "BlobStorage",
-            "value": "BlobStorage",
-            "description": "BlobStorage"
-          }
-        ]
-      }
     },
     "InlineFile": {
       "type": "object",
