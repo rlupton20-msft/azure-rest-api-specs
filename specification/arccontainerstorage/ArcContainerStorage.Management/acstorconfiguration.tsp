@@ -77,23 +77,23 @@ model StoragePoolConfig {
   engineType?: EngineTypes = EngineTypes.xfs; // Default value is "xfs"
 }
 
-@doc("Linux io interfaces")
+@doc("Linux io interfaces used for disk operations.")
 union IoInterfaces {
-  @doc("uring")
+  @doc("io_uring - recommended for most kernels")
   uring: "uring",
 
-  @doc("aio")
+  @doc("aio - required for openshift")
   aio: "aio",
 
   string,
 }
 
-@doc("EngineTypes")
+@doc("EngineTypes used for storage pool.")
 union EngineTypes {
-  @doc("xfs")
+  @doc("xfs will be used for the storage pool.")
   xfs: "xfs",
 
-  @doc("spaces")
+  @doc("spaces will be used for the storage pool.")
   spaces: "spaces",
 
   string,

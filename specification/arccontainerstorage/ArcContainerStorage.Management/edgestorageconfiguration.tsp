@@ -17,8 +17,14 @@ namespace Private.ArcContainerStorage;
 
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
-  is ExtensionResource<EdgeStorageConfigurationProperties, PropertiesOptional = false> {
-  ...ResourceNameParameter<EdgeStorageConfiguration, NamePattern = "^edge-storage-configuration$">;
+  is ExtensionResource<
+    EdgeStorageConfigurationProperties,
+    PropertiesOptional = false
+  > {
+  ...ResourceNameParameter<
+    EdgeStorageConfiguration,
+    NamePattern = "^edge-storage-configuration$"
+  >;
 }
 
 @minLength(1)
@@ -39,7 +45,7 @@ model EdgeStorageConfigurationProperties {
   failoverEdgeVolumeConsumers?: boolean = true;
 
   @doc("This indicates how to ensure mTLS")
-  serviceMesh?: ServiceMesh = ServiceMesh.`cert-manager`;  // Deprecated field, but have it here for backward compatibility
+  serviceMesh?: ServiceMesh = ServiceMesh.`cert-manager`; // Deprecated field, but have it here for backward compatibility
 
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
@@ -56,10 +62,10 @@ model EdgeStorageConfigurationProperties {
 @doc("This indicates how to ensure mTLS (deprecated)")
 union ServiceMesh {
   @doc("Open service mesh (deprecated)")
-  osm: "osm";
+  osm: "osm",
 
   @doc("cert-manager")
-  `cert-manager`: "cert-manager";
+  `cert-manager`: "cert-manager",
 
   string,
 }

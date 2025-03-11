@@ -83,13 +83,13 @@ model EdgeSubvolumeProperties {
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateSubVolume {
   // this union contains additional values for subvolumes, but 'unknown' is provided by the generic provisioningState
-  @doc("configuring")
+  @doc("configuring the edge subvolume")
   configuring: "configuring",
 
-  @doc("configured")
+  @doc("configured the edge subvolume")
   configured: "configured",
 
-  @doc("cleaning_up")
+  @doc("cleaning_up the edge subvolume")
   cleaning_up: "cleaning_up",
 
   string,
@@ -131,19 +131,19 @@ model AuthConfig {
  */
 @doc("Possible authentication methods.")
 union AuthType {
-  @doc("SAS")
+  @doc("SAS token for authentication (not recommended)")
   SAS: "SAS",
 
-  @doc("Key")
+  @doc("Key for authentication (not recommended)")
   KEY: "KEY",
 
-  @doc("Connection String")
+  @doc("Connection String for authentication (not recommended)")
   CONNECTION_STRING: "CONNECTION_STRING",
 
-  @doc("Workload Identity")
+  @doc("Workload Identity for authentication.")
   WORKLOAD_IDENTITY: "WORKLOAD_IDENTITY",
 
-  @doc("Managed Identity")
+  @doc("Managed Identity for authentication.")
   MANAGED_IDENTITY: "MANAGED_IDENTITY",
 
   string,
@@ -198,7 +198,7 @@ model EdgeSubvolumeStatus {
   connectedContainer: string;
 
   @doc("List of file errors encountered.")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   fileErrors?: FileError[];
 
   @doc("Total count of file errors.")

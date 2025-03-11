@@ -45,13 +45,13 @@ model SyncSubvolumeProperties {
 
 @doc("Adding provisioning state for SyncSubVolume")
 union provisioningStateSyncSubVolume {
-  @doc("configuring")
+  @doc("configuring sync subvolume")
   configuring: "configuring",
 
-  @doc("cleaning_up")
+  @doc("cleaning_up syncsubvolume")
   cleaning_up: "cleaning_up",
 
-  @doc("completed")
+  @doc("completed syncsubvolume")
   completed: "completed",
 
   string,

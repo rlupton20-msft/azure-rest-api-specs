@@ -80,15 +80,15 @@ model EdgeVolumeStatus {
   subvolumesWithErrors?: string[];
 }
 
-@doc("Adding provisioning state for EdgeSubVolume")
+@doc("Adding provisioning state for EdgeVolume")
 union provisioningStateVolume {
-  @doc("deploying")
+  @doc("deploying the edgevolume")
   deploying: "deploying",
 
-  @doc("deployed")
+  @doc("deployed the edgevolume")
   deployed: "deployed",
 
-  @doc("deployment_deletion")
+  @doc("deployment_deletion is in progress")
   deployment_deletion: "deployment_deletion",
 
   string,
