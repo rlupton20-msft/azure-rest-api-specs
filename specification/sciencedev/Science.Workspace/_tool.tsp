@@ -15,9 +15,9 @@ namespace Microsoft.Science.Workspace;
 @resource("tools")
 model Tool {
   /*
-   * Note that this model exists purely to provide a dataplane "resource" to submit
-   * executions to. There are no dataplane CRUD operations on the Tool resource because
-   * these are done via the control plane. The dataplane exists purely for tool execution.
+   * Note that this model exists purely to provide a data plane "resource" to submit
+   * executions to. There are no data plane CRUD operations on the Tool resource because
+   * these are done via the control plane. The data plane exists purely for tool execution.
    */
   @doc("The scientific tool name.")
   @visibility(Lifecycle.Read)

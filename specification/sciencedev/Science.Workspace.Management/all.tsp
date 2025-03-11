@@ -1,2 +1,2 @@
-import "./bookshelf.tsp";
 import "./project.tsp";
+import "./workspace.tsp";

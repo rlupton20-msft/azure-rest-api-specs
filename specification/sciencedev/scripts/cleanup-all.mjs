@@ -2,45 +2,26 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { resolve } from "path"
 import { execSync } from "child_process"
 
-const apiVersions = [
-  "2024-11-01-preview",
-  "2025-07-01-preview"
-]
+import { apiVersions, dataPlanePackageNames, validatePackage } from "./common.mjs";
+
+
 const runMain = () => {
   console.log("***********************************")
   const dirs = []
   const makeDirs  = () => {
     for( const apiVersion of apiVersions ) {
-      const _dirs = [
-        {
-          inDir: `specification/sciencedev/data-plane/Microsoft.Science.Catalog/preview/${apiVersion}/examples`,
+      dirs.push({
+        inDir:
+          `specification/sciencedev/resource-manager/Private.Science/preview/${apiVersion}/examples`,
+        outDir:
+          `specification/sciencedev/Science.Management/examples/${apiVersion}`,
+      });
+      for(const dpPackageName of dataPlanePackageNames) {
+        dirs.push( {
+          inDir: `specification/sciencedev/data-plane/Microsoft.Science.${dpPackageName}/preview/${apiVersion}/examples`,
           outDir:
-            `specification/sciencedev/Science.Catalog/examples/${apiVersion}`,
-        },
-
-        {
-          inDir:
-            `specification/sciencedev/data-plane/Microsoft.Science.Workspace/preview/${apiVersion}/examples`,
-          outDir:
-            `specification/sciencedev/Science.Workspace/examples/${apiVersion}`,
-        },
-
-
-        {
-          inDir:
-            `specification/sciencedev/data-plane/Microsoft.Science.Bookshelf/preview/${apiVersion}/examples`,
-          outDir:
-            `specification/sciencedev/Science.Bookshelf/examples/${apiVersion}`,
-        },
-        {
-          inDir:
-            `specification/sciencedev/resource-manager/Private.Science/preview/${apiVersion}/examples`,
-          outDir:
-            `specification/sciencedev/Science.Management/examples/${apiVersion}`,
-        },
-      ];
-      for(const _dir of _dirs) {
-        dirs.push(_dir)
+            `specification/sciencedev/Science.${dpPackageName}/examples/${apiVersion}`,
+        })
       }
     }
     return dirs;
@@ -89,22 +70,6 @@ const runMain = () => {
       )
     }
   }
-  execSync("npx prettier -w specification/sciencedev/**/*.json", {stdio: 'pipe'})
-  const packageDirs = [
-    "./specification/sciencedev/Science.Management",
-    "./specification/sciencedev/Science.Workspace",
-    "./specification/sciencedev/Science.Catalog",
-    "./specification/sciencedev/Science.Bookshelf",
-  ]
-  console.log("Validating data plane TypeSpec packages")
-  for(const pkg of packageDirs) {
-    const pkgPath = resolve(pkg)
-    try {
-      console.log("   -", pkgPath)
-      execSync(`npx tsv ${pkgPath}`, { stdio: 'inherit' })
-    } catch (err) {
-      console.warn(err)
-    }
-  }
+  // import("./validate-all.mjs")
 }
 runMain()

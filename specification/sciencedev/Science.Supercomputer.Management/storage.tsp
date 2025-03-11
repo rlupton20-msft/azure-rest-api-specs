@@ -41,7 +41,7 @@ model StorageProperties {
 interface Storages {
   get is ArmResourceRead<Storage>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Storage>;
-  update is ArmResourcePatchSync<Storage, StorageProperties>;
+  update is ArmResourcePatchAsync<Storage, StorageProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Storage>;
   listByResourceGroup is ArmResourceListByParent<Storage>;
   listBySubscription is ArmListBySubscription<Storage>;

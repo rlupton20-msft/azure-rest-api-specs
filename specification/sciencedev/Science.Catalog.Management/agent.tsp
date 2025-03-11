@@ -34,7 +34,7 @@ model AgentProperties {
 interface Agents {
   get is ArmResourceRead<Agent>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Agent>;
-  update is ArmResourcePatchSync<
+  update is ArmResourcePatchAsync<
     Agent,
     {
       description: string;

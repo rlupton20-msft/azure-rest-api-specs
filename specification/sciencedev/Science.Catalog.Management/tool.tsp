@@ -35,7 +35,7 @@ model ToolProperties {
 interface Tools {
   get is ArmResourceRead<Tool>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Tool>;
-  update is ArmResourcePatchSync<Tool, ToolProperties>;
+  update is ArmResourcePatchAsync<Tool, ToolProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Tool>;
   listByResourceGroup is ArmResourceListByParent<Tool>;
   listBySubscription is ArmListBySubscription<Tool>;

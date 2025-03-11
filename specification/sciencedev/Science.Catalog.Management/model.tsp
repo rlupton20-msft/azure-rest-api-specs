@@ -43,7 +43,7 @@ model ModelProperties {
 interface Models {
   get is ArmResourceRead<Model>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Model>;
-  update is ArmResourcePatchSync<Model, ModelProperties>;
+  update is ArmResourcePatchAsync<Model, ModelProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Model>;
   listByResourceGroup is ArmResourceListByParent<Model>;
   listBySubscription is ArmListBySubscription<Model>;
