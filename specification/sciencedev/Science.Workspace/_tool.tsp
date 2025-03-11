@@ -66,8 +66,8 @@ model ExecutionRequest {
   @doc("Handles to the output locations for this execution")
   outputHandles?: DataHandle[];
 
-  @doc("IDs of NodePools to use for this execution.")
-  nodePoolIds: NodePoolId[];
+  @doc("IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.")
+  nodePoolIds?: NodePoolId[];
 
   @doc("The shared storage to use for this execution.")
   sharedStorageId: StorageId;

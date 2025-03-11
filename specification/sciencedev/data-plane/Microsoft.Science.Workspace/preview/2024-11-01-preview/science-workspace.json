@@ -1531,6 +1531,15 @@
         "location": {
           "type": "string",
           "description": "Location of the input data."
+        },
+        "files": {
+          "type": "array",
+          "description": "Encoded inline files. Required, and only valid, if handleType is InlineFiles.",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/definitions/InlineFile"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -1585,17 +1594,9 @@
       "type": "object",
       "description": "An execution of a Tool",
       "properties": {
-        "actionId": {
+        "command": {
           "type": "string",
-          "description": "The action ID, as defined in the tool's Catalog definition."
-        },
-        "parameters": {
-          "type": "array",
-          "description": "The parameters of the execution.",
-          "items": {
-            "$ref": "#/definitions/Parameter"
-          },
-          "x-ms-identifiers": []
+          "description": "Command to pass to tool container's entrypoint. If omitted, entrypoint is executed."
         },
         "inputHandles": {
           "type": "object",
@@ -1614,7 +1615,7 @@
         },
         "nodePoolIds": {
           "type": "array",
-          "description": "IDs of NodePools to use for this execution.",
+          "description": "IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -1642,8 +1643,6 @@
         }
       },
       "required": [
-        "actionId",
-        "nodePoolIds",
         "sharedStorageId"
       ]
     },
@@ -1694,6 +1693,7 @@
       "description": "Enum for IndexingStatus",
       "enum": [
         "DataAsset",
+        "InlineFiles",
         "BlobStorage"
       ],
       "x-ms-enum": {
@@ -1706,12 +1706,36 @@
             "description": "Catalog DataAsset"
           },
           {
+            "name": "InlineFiles",
+            "value": "InlineFiles",
+            "description": "Inline files"
+          },
+          {
             "name": "BlobStorage",
             "value": "BlobStorage",
             "description": "BlobStorage"
           }
         ]
       }
+    },
+    "InlineFile": {
+      "type": "object",
+      "description": "A file to be included in the input data for a tool execution.",
+      "properties": {
+        "relativePath": {
+          "type": "string",
+          "description": "The relative path of the file within the input directory."
+        },
+        "encodedFile": {
+          "type": "string",
+          "description": "base64-encoding of the gzipped contents of the file.",
+          "maxLength": 20000
+        }
+      },
+      "required": [
+        "relativePath",
+        "encodedFile"
+      ]
     },
     "Investigation": {
       "type": "object",
@@ -2199,24 +2223,6 @@
         }
       },
       "required": [
-        "value"
-      ]
-    },
-    "Parameter": {
-      "type": "object",
-      "description": "Parameter model for executions",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "value": {
-          "type": "string",
-          "description": "The value of the parameter."
-        }
-      },
-      "required": [
-        "name",
         "value"
       ]
     },
