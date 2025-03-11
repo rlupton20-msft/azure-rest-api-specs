@@ -37,6 +37,12 @@ These settings apply only when `--tag=package-2025-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2025-03-01-preview'
 input-file:
   - Microsoft.Throttling/preview/2025-03-01-preview/throttling.json
+suppressions:    
+  - code: GuidUsage
+    from: throttling.json
+    where: $.definitions["Azure.Core.uuid"].format
+    reason: Properties represent Entra ID Tenant Id and Object ID which are always a Guid
+```
 ```
 
 ---
