@@ -64,11 +64,14 @@ union ServiceMesh {
   @doc("Open service mesh (deprecated)")
   osm: "osm",
 
-  @doc("cert-manager")
+  @doc("Cert manager is used to ensure mTLS")
   `cert-manager`: "cert-manager",
 
   string,
 }
+
+@pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
+scalar UUIDType extends string;
 
 //
 // Workload Identity
@@ -76,10 +79,10 @@ union ServiceMesh {
 @doc("Defines the workload identity properties.")
 model WorkloadIdentity {
   @doc("The client ID for the workload identity.")
-  clientId: Azure.Core.uuid;
+  clientId: UUIDType;
 
   @doc("The tenant ID for the workload identity.")
-  tenantId: Azure.Core.uuid;
+  tenantId: UUIDType;
 }
 
 //
