@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
 @doc("Private HealthcareInteropDev Edge resources management API.")
-@armProviderNamespace("Microsoft.HealthcareInteropDev")
+@armProviderNamespace("Private.HealthcareInteropDev")
 @service(#{ title: "Private HealthcareInteropDev Edge service" })
 @versioned(Versions)
 namespace Private.HealthcareInteropDev;
