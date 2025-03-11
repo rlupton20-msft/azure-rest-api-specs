@@ -129,7 +129,7 @@ model BinaryHardeningFeatures {
   stripped?: boolean;
 }
 
-@doc("Activities the cryptographic certificate can be used.")
+@doc("Activities for which the cryptographic certificate can be used.")
 union CertificateUsage {
   @doc("This certificate can be used to add a signature to a message")
   DigitalSignature: "digitalSignature",
@@ -387,15 +387,15 @@ model FirmwareProperties {
   fileName?: string;
 
   @doc("Firmware vendor.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   vendor?: string;
 
   @doc("Firmware model.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   `model`?: string;
 
   @doc("Firmware version.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   version?: string;
 
   @doc("User-specified description of the firmware.")
