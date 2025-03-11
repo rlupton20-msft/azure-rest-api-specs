@@ -17,7 +17,10 @@ namespace Private.ArcContainerStorage;
 
 @doc("EdgeIngestPolicy is a custom resource that defines the configuration for edge ingest policies.")
 model EdgeIngestPolicy is ExtensionResource<EdgeIngestPolicyProperties> {
-  ...ResourceNameParameter<EdgeIngestPolicy, NamePattern= "^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$">;
+  ...ResourceNameParameter<
+    EdgeIngestPolicy,
+    NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$"
+  >;
 }
 
 // Define the properties for the EdgeIngestPolicy
@@ -34,11 +37,11 @@ model EdgeIngestPolicyProperties {
   onDelete?: OnDeleteAction = "trigger-immediate-ingest"; // Default value is "trigger-immediate-ingest"
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState; // Referencing the provisioningState union
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeIngestPolicyStatus;
 }
 

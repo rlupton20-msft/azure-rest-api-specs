@@ -32,7 +32,7 @@ scalar StorageClass extends string;
 model EdgeStorageConfigurationProperties {
   @doc("The default disk storage class(es) to be used for edge volumes. Must not be empty and is immutable once set.")
   @minItems(1)
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
@@ -45,11 +45,11 @@ model EdgeStorageConfigurationProperties {
   workloadIdentity?: WorkloadIdentity;
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeStorageConfigurationStatus;
 }
 

@@ -15,27 +15,34 @@ namespace Private.ArcContainerStorage;
 
 //    generation: "6"
 @doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
-model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties, PropertiesOptional = false> {
-  ...ResourceNameParameter<AcStorConfiguration, NamePattern = "^acstor-configuration$">;
+model AcStorConfiguration
+  is ExtensionResource<
+    AcStorConfigurationProperties,
+    PropertiesOptional = false
+  > {
+  ...ResourceNameParameter<
+    AcStorConfiguration,
+    NamePattern = "^acstor-configuration$"
+  >;
 }
 
 // Define the properties for the AcStorConfiguration
 @doc("Defines the properties of the AcStorConfiguration resource.")
 model AcStorConfigurationProperties {
   @doc("The mount point for the disk.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   diskMountPoint?: string = "/mnt"; // Default value is "/mnt"
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   diskCapacity: string; //TODO: check later if this is optional
 
   @doc("The linux IO interface to use.")
   ioInterface?: IoInterfaces = IoInterfaces.uring;
 
   @doc("Configuration for creating a storage pool.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   createStoragePool?: StoragePoolConfig;
 
   @doc("io engine cpu limit")
@@ -43,11 +50,11 @@ model AcStorConfigurationProperties {
   ioEngineCpuLimit?: string = "2000m";
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: AcStorConfigurationStatus;
 }
 

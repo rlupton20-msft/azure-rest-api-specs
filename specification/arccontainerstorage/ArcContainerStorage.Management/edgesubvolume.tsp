@@ -22,8 +22,12 @@ namespace Private.ArcContainerStorage;
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
 @parentResource(EdgeVolume)
-model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional = false> {
-  ...ResourceNameParameter<EdgeSubvolume, NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$">;
+model EdgeSubvolume
+  is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional = false> {
+  ...ResourceNameParameter<
+    EdgeSubvolume,
+    NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+  >;
 }
 
 /**
@@ -32,7 +36,7 @@ model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional
 @doc("Defines the properties of the EdgeSubvolume resource.")
 model EdgeSubvolumeProperties {
   @doc("Type of the subvolume.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
 
   @doc("Name of the EdgeVolume that this subvolume references.")
@@ -68,11 +72,11 @@ model EdgeSubvolumeProperties {
   authSys?: AuthSysConfig;
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateSubVolume;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeSubvolumeStatus;
 }
 

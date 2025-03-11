@@ -23,7 +23,10 @@ namespace Private.ArcContainerStorage;
 @doc("SyncSubvolume is a custom resource that defines the configuration for synchronizing an EdgeSubvolume.")
 @parentResource(EdgeSubvolume)
 model SyncSubvolume is ExtensionResource<SyncSubvolumeProperties> {
-  ...ResourceNameParameter<SyncSubvolume, NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$">;
+  ...ResourceNameParameter<
+    SyncSubvolume,
+    NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+  >;
 }
 
 /**
@@ -32,11 +35,11 @@ model SyncSubvolume is ExtensionResource<SyncSubvolumeProperties> {
 @doc("Defines the properties (spec) of the SyncSubvolume resource.")
 model SyncSubvolumeProperties {
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateSyncSubVolume;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: SyncSubvolumeStatus;
 }
 
