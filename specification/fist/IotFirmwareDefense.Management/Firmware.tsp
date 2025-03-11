@@ -53,20 +53,6 @@ interface Firmwares {
    * Lists all of firmwares inside a workspace.
    */
   listByWorkspace is ArmResourceListByParent<Firmware>;
-
-  /**
-   * The operation to a url for file download.
-   */
-  generateDownloadUrl is ArmResourceActionSync<Firmware, void, UrlToken>;
-
-  /**
-   * The operation to a url for tar file download.
-   */
-  generateFilesystemDownloadUrl is ArmResourceActionSync<
-    Firmware,
-    void,
-    UrlToken
-  >;
 }
 
 @@doc(Firmwares.create::parameters.resource,
