@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2024-09-01-preview",
+    "version": "2025-04-01-preview",
     "title": "AzureArcDataManagementClient",
     "description": "The AzureArcData management API provides a RESTful set of web APIs to manage Azure Data Services on Azure Arc Resources."
   },
@@ -64,6 +64,11 @@
         "containerResourceId": {
           "type": "string",
           "description": "ARM Resource id of the container resource (Azure Arc for Servers).",
+          "readOnly": true
+        },
+        "vmId": {
+          "type": "string",
+          "description": "The unique ID of the hybrid machine that this resource belongs to.",
           "readOnly": true
         },
         "createTime": {
@@ -273,6 +278,26 @@
         "serviceType": {
           "description": "Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host.",
           "$ref": "#/definitions/ServiceType"
+        },
+        "maxServerMemoryMB": {
+          "type": "integer",
+          "format": "int64",
+          "description": "max server memory (MB) value configured for this instance.",
+          "readOnly": true
+        },
+        "isMicrosoftPkiCertTrustConfigured": {
+          "type": "boolean",
+          "description": "Indicates whether Microsoft PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains.",
+          "readOnly": true
+        },
+        "isDigiCertPkiCertTrustConfigured": {
+          "type": "boolean",
+          "description": "Indicates whether DigiCert PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains.",
+          "readOnly": true
+        },
+        "authentication": {
+          "description": "Authentication related configuration for the SQL Server Instance.",
+          "$ref": "#/definitions/Authentication"
         }
       }
     },
@@ -317,6 +342,11 @@
         "containerResourceId": {
           "type": "string",
           "description": "ARM Resource id of the container resource (Azure Arc for Servers).",
+          "readOnly": true
+        },
+        "vmId": {
+          "type": "string",
+          "description": "The unique ID of the hybrid machine that this resource belongs to.",
           "readOnly": true
         },
         "createTime": {
@@ -522,6 +552,10 @@
         "serviceType": {
           "description": "Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host.",
           "$ref": "#/definitions/ServiceType"
+        },
+        "authentication": {
+          "description": "Authentication related configuration for the SQL Server Instance.",
+          "$ref": "#/definitions/Authentication"
         }
       }
     },
@@ -616,6 +650,30 @@
           "items": {
             "type": "string"
           }
+        },
+        "hostIPAddresses": {
+          "type": "array",
+          "description": "The IP addresses and subnet masks associated with the SQL Failover Cluster Instance on this host.",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/hostIPAddressInformation"
+          }
+        }
+      }
+    },
+    "hostIPAddressInformation": {
+      "type": "object",
+      "description": "IP address and subnet mask.",
+      "properties": {
+        "ipAddress": {
+          "type": "string",
+          "description": "IP address",
+          "readOnly": true
+        },
+        "subnetMask": {
+          "type": "string",
+          "description": "Subnet mask",
+          "readOnly": true
         }
       }
     },
@@ -781,6 +839,63 @@
           {
             "value": "PBIRS",
             "description": "Power BI Report Server."
+          }
+        ]
+      }
+    },
+    "MiLinkAssessmentCategory": {
+      "description": "Validation category for the MI Link prerequisites assessment.",
+      "type": "string",
+      "enum": [
+        "SqlInstance",
+        "SqlInstanceDatabase",
+        "ManagedInstance",
+        "ManagedInstanceDatabase",
+        "ManagedInstanceCrossValidation",
+        "Certificates",
+        "BoxToMiNetworkConnectivity",
+        "MiToBoxNetworkConnectivity",
+        "Dag"
+      ],
+      "x-ms-enum": {
+        "name": "miLinkAssessmentCategory",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "SQLInstance",
+            "description": "Assessments of the given instance on the on-premise SQL Server (box)."
+          },
+          {
+            "value": "SQLInstanceDatabase",
+            "description": "Assessments of the database(s) on the given instance on the on-premise SQL Server (box)."
+          },
+          {
+            "value": "ManagedInstance",
+            "description": "Assessments of the Managed Instance."
+          },
+          {
+            "value": "ManagedInstanceDatabase",
+            "description": "Assessments of the database(s) on the Managed Instance."
+          },
+          {
+            "value": "ManagedInstanceCrossValidation",
+            "description": "Assessments that use data from both the Managed Instance and the given instance of the on-premise SQL Server (box) for the validations."
+          },
+          {
+            "value": "Certificates",
+            "description": "Assessments of the necessary certificates configuration."
+          },
+          {
+            "value": "BoxToMiNetworkConnectivity",
+            "description": "Assessment of network connectivity from the on-premise SQL Server (box) to the Managed Instance."
+          },
+          {
+            "value": "MiToBoxNetworkConnectivity",
+            "description": "Assessments of network connectivity from the Managed Instance to the on-premise SQL Server (box)."
+          },
+          {
+            "value": "Dag",
+            "description": "Assessments of the Distributed Availability Group."
           }
         ]
       }
@@ -1363,18 +1478,28 @@
             "modelAsString": true
           }
         },
-        "databaseName": {
-          "type": "string",
-          "description": "The name of the database to be replicated to the Azure SQL Managed Instance."
+        "databaseNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "An array of strings, where each value represents the name of a database to be replicated to the Azure SQL Managed Instance."
         },
         "availabilityGroupName": {
           "type": "string",
           "description": "The name of the availability group to be used for the database replication."
+        },
+        "assessmentCategories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MiLinkAssessmentCategory"
+          },
+          "description": "An array of strings, where each value represents the category of the assessment to be run. If this field is not provided, all assessment categories will be run."
         }
       },
       "required": [
         "azureManagedInstanceResourceId",
-        "databaseName",
+        "databaseNames",
         "availabilityGroupName"
       ]
     },
@@ -1403,19 +1528,7 @@
           "description": "The name of the requirement."
         },
         "category": {
-          "type": "string",
-          "description": "The category of the requirement.",
-          "enum": [
-            "SQLServer",
-            "ManagedInstance",
-            "ManagedInstanceCrossValidation",
-            "Dag",
-            "Certificates"
-          ],
-          "x-ms-enum": {
-            "name": "assessmentCategory",
-            "modelAsString": true
-          }
+          "$ref": "#/definitions/MiLinkAssessmentCategory"
         },
         "status": {
           "type": "string",
@@ -1437,6 +1550,46 @@
         "additionalInformation": {
           "type": "string",
           "description": "Additional details about the check, including any recommended actions."
+        }
+      }
+    },
+    "Authentication": {
+      "description": "Authentication related configuration for the SQL Server Instance.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Mode of authentication in SqlServer.",
+          "enum": [
+            "Mixed",
+            "Windows",
+            "Undefined"
+          ],
+          "x-ms-enum": {
+            "name": "mode",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Mixed",
+                "description": "Mixed mode authentication for SQL Server which includes windows and SQL Authentication."
+              },
+              {
+                "value": "Windows",
+                "description": "Windows Authentication for SQL Server."
+              },
+              {
+                "value": "Undefined",
+                "description": "Used for scenarios were the mode cannot be determined."
+              }
+            ]
+          }
+        },
+        "sqlServerEntraIdentity": {
+          "type": "array",
+          "description": "Entra Authentication configuration for the SQL Server Instance.",
+          "items": {
+            "$ref": "./common.json#/definitions/EntraAuthentication"
+          }
         }
       }
     }
