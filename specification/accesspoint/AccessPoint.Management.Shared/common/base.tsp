@@ -22,7 +22,7 @@ namespace Microsoft.AccessPoint;
 @doc("Properties for a base resource.")
 model BaseResourceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
