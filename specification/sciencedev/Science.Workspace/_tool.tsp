@@ -29,7 +29,57 @@ model Tool {
  * The interplay between command, inlineFiles, inputDataAssets and outputDataAssets warrants a
  * worked example.
  *
+ * Imagine a scenario in which an agent generates a Python script wrapper.py which:
+ * - Takes a single command line argument, --input, which is a text file containing a list of
+ *   SMILES strings.
+ * - Reads the SMILES strings from the file, and for each SMILES string uses RDKit to generate
+ *   multiple conformers for the molecule, and uses iomanager.py to write the conformers to file
+ *
  * If the dataplane receives the following request:
+ *
+ * ```json
+ * {
+ *   "command": "python wrapper.py --input abcdef-input-1/*",
+ *   "inlineFiles": [
+ *     {
+ *       "relativePath": "iomanager.py",
+ *       "encodedFile": "IiIiQmFzaWMgb..."
+ *     },
+ *     {
+ *       "relativePath": "wrapper.py",
+ *       "encodedFile": "3RlcHMve3NlbG..."
+ *     }
+ *   ],
+ *   "inputDataAssets": {
+ *     "abcdef-input-1": "SmilesTxtDataAsset"
+ *   },
+ *   "outputDataAssets": {
+ *     "abcdef-output-1": [
+ *       "MySharedStorageDataAsset1"
+ *     ]
+ *   },
+ *   "sharedStorageId": "MySharedStorage"
+ * }
+ * ```
+ * where SmilesTxtDataAsset refers to a blob DataAsset containing a single smiles.txt file, and
+ * MySharedStorageDataAsset1 refers to a SharedStorage DataAsset on MySharedStorage, then the
+ * following filesystem layout will be presented to the tool container:
+ *
+ * WORKDIR/
+ * ├── iomanager.py
+ * ├── wrapper.py
+ * ├── abcdef-input-1/
+ * │   └── smiles.txt
+ * └── abcdef-output-1/
+ *
+ * Supercomputer will ensure that the abcdef-output-1/ directory is backed, via filesystem mounts,
+ * by the SharedStorage path referenced in MySharedStorageDataAsset1.
+ *
+ * The container will be launched with the command python wrapper.py --input abcdef-input-1/* which
+ * will be expanded by the shell to python wrapper.py --input abcdef-input-1/smiles.txt.
+ *
+ * wrapper.py will write its output to abcdef-output-1/, meaning it is persisted to the
+ * specified SharedStorage DataAsset.
  */
 @doc("An execution of a Tool")
 model ExecutionRequest {
