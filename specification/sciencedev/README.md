@@ -15,6 +15,9 @@ Please follow the Science team's Swagger [development process](https://dev.azure
 ## Directory structure
 ### OpenAPI spec component source code (TypeSpec)
 Microsoft Science consists of a number of components maintained by different subteams. Each team is responsible for one or more packages within `specification/sciencedev`. The packages include:
+- __Bookshelf__
+    - Control plane: `specification/sciencedev/Science.Bookshelf.Management`
+    - Data plane: `specification/sciencedev/Science.Bookshelf`
 - __Catalog__
     - Control plane: `specification/sciencedev/Science.Catalog.Management`
     - Data plane: `specification/sciencedev/Science.Catalog` 
@@ -40,6 +43,7 @@ All components will share a single API versions enumeration. Optionally componen
 ### main.tsp
 The entry point for configuring all control plane components is `specification/sciencedev/Science.Management/main.tsp`. To minimize merge conflicts between subteams when adding new resource types or renaming/reorganizing `tsp` files, each component will contain a file named `all.tsp` which will import all `tsp` files needed. Thus `main.tsp` will contain one line per component as follows:
 ```
+import "../Science.Bookshelf.Management/all.tsp";
 import "../Science.Catalog.Management/all.tsp";
 import "../Science.Supercomputer.Management/all.tsp";
 import "../Science.Workspace.Management/all.tsp";
@@ -80,11 +84,13 @@ If you need to fetch a branch form a coworker's fork:
 - `git fetch <coworker-username> <coworker-branch>`
 
 ## Initial setup
-1. Install [Deno](https://docs.deno.com/runtime/manual/getting_started/installation/).
-2. Clone [science-rp-infrastructure](https://dev.azure.com/msazuredev/AIforSciencePlatform/_git/science-rp-infrastructure).
-2. **Fork** (*don't clone*) ARM Swagger repo: [azure-rest-api-specs-pr](https://github.com/Azure/azure-rest-api-specs-pr)
+
+[//]: # (1. Install [Deno]&#40;https://docs.deno.com/runtime/manual/getting_started/installation/&#41;.)
+
+[//]: # (2. Clone [science-rp-infrastructure]&#40;https://dev.azure.com/msazuredev/AIforSciencePlatform/_git/science-rp-infrastructure&#41;.)
+1. **Fork** (*don't clone*) ARM Swagger repo: [azure-rest-api-specs-pr](https://github.com/Azure/azure-rest-api-specs-pr)
     - `git remote add upstream https://github.com/Azure/azure-rest-api-specs-pr.git`
-3. Create two local clones of your Swagger fork repo: One for `RPSaaSDev`  another for `RPSaaSMaster`
+1. Create two local clones of your Swagger fork repo: One for `RPSaaSDev`  another for `RPSaaSMaster`
     - The Swagger repo has `800k+` objects and more than `275MiB` of data, so it's very resource intensive to swap between `RPSaaSDev` and `RPSaaSMaster`. I strongly recommend cloning each into different directories instead of swapping `50k+` files each time you need to change between PRP and Prod.
 
 In steps below, I refer to my current local Swagger repo copies:
@@ -128,17 +134,18 @@ This enables fully testing the release candidate in the same configuration for b
 4. Create PRP PR branch: `git checkout -b <your-prp-pr-branch>`
 5. Make changes to `*.tsp` files for resource types you wish to change.
 6. Compile your `*.tsp` and re-generate examples:
-   - *Control plane:* `specification/sciencedev/scripts/make-examples--control-plane.sh`
-   - *Bookshelf data plane:* `specification/sciencedev/scripts/make-examples-dp--Bookshelf.sh`
-   - *Catalog data plane:* `specification/sciencedev/scripts/make-examples-dp--Catalog.sh`
-   - *Workspace data plane:* `specification/sciencedev/scripts/make-examples-dp--Workspace.sh`
-7. Run cleanup script: `node specification/sciencedev/scripts/example-cleanup.mjs`
-8. `git add specification/sciencedev`
-9. `git commit`
-10. Re-run cleanup script: `node specification/sciencedev/scripts/example-cleanup.mjs` (because cleanup script runs `npx prettier` and `tsv`, both of which reformat files)
-11. `git add specification/sciencedev`
-12. `git commit`
-13. When finished: `git push --set-upstream origin <your-prp-pr-branch>`
+   - *Control plane:* `node specification/sciencedev/scripts/makeExamples--ControlPlane.mjs`
+   - *Bookshelf data plane:* `node specification/sciencedev/scripts/makeExamples--Bookshelf.mjs`
+   - *Catalog data plane:* `node specification/sciencedev/scripts/makeExamples--Catalog.mjs`
+   - *Workspace data plane:* `node specification/sciencedev/scripts/makeExamples--Workspace.mjs`
+7. Run cleanup script: `node specification/sciencedev/scripts/cleanup-all.mjs`
+8. Run validate script: `node specification/sciencedev/scripts/validate-all.mjs`
+9. `git add specification/sciencedev`
+10. `git commit`
+11. Re-run validate script: `node specification/sciencedev/scripts/validate-all.mjs` (because `tsv` reformats files)
+12. `git add specification/sciencedev`
+13. `git commit`
+14. When finished: `git push --set-upstream origin <your-prp-pr-branch>`
 
 [//]: # (3. Update PRP `armclient` examples & documentation.)
 

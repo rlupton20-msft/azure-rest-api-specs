@@ -56,7 +56,7 @@ model ProjectProperties {
 interface Projects {
   get is ArmResourceRead<Project>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Project>;
-  update is ArmResourcePatchSync<Project, ProjectProperties>;
+  update is ArmResourcePatchAsync<Project, ProjectProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Project>;
   listByResourceGroup is ArmResourceListByParent<Project>;
   listBySubscription is ArmListBySubscription<Project>;

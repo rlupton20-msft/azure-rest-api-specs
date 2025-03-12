@@ -214,6 +214,52 @@ enum ApiVersion {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_03_01_preview: "2025-03-01-preview",
+
+  /** 2025-04-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_04_01_preview: "2025-04-01-preview",
+}
+
+@doc("Request to get StorageDiscoveryWorkspace data from ADX")
+@added(ApiVersion.v2025_04_01_preview)
+model GetReportRequest {
+  @doc("The list of queries")
+  queries: string[];
+}
+
+@doc("The response of the report operation")
+@added(ApiVersion.v2025_04_01_preview)
+model GetReportResponse {
+  @doc("One or more result sets, in the same order as the queries in the request body.")
+  @extension("x-ms-identifiers", [])
+  results: ReportResponseResultSet[];
+}
+
+@doc("The result set of the report operation")
+@added(ApiVersion.v2025_04_01_preview)
+model ReportResponseResultSet {
+  @doc("Array of columns. Present only if the query succeeded.")
+  @extension("x-ms-identifiers", [])
+  columns?: ReportResponseColumn[];
+
+  @doc("Array of Rows. Each row is an array of strings, where the item count matches the number of columns. Present only if the query succeeded.")
+  @extension("x-ms-identifiers", [])
+  rows?: string[][];
+
+  @doc("Present only if the query failed. Provides an error about the query. The error will be query errors and what is returned from ADX. Note that if any of the content doesn’t pass validation (a KQL injection attack is detected), the whole call fails.")
+  errorCode?: string;
+}
+
+@doc("The column of the response result set")
+@added(ApiVersion.v2025_04_01_preview)
+model ReportResponseColumn {
+  @doc("Name of the column")
+  name: string;
+
+  @doc("ADX type of the column")
+  type: string;
 }
 
 @armResourceOperations
@@ -224,10 +270,18 @@ interface StorageDiscoveryWorkspaces {
     StorageDiscoveryWorkspace,
     StorageDiscoveryWorkspaceProperties
   >;
-  @parameterVisibility
   delete is ArmResourceDeleteSync<StorageDiscoveryWorkspace>;
   listByResourceGroup is ArmResourceListByParent<StorageDiscoveryWorkspace>;
   listBySubscription is ArmListBySubscription<StorageDiscoveryWorkspace>;
+
+  @autoRoute
+  @post
+  @added(ApiVersion.v2025_04_01_preview)
+  report is ArmResourceActionAsync<
+    StorageDiscoveryWorkspace,
+    GetReportRequest,
+    GetReportResponse
+  >;
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

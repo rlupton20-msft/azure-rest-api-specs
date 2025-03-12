@@ -66,7 +66,7 @@ interface Workspaces {
   listBySubscription is ArmListBySubscription<Workspace>;
 
   /**
-   * The operation to get a url for file upload.
+   * Generate a URL for uploading a firmware image.
    */
   generateUploadUrl is ArmResourceActionSync<
     Workspace,

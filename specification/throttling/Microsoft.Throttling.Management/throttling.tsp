@@ -5,9 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 @doc("Azure Throttling (ATS) Resource Provider")
-@service({
-  title: "Azure Throttling (ATS)",
-})
+@service(#{ title: "Azure Throttling (ATS)" })
 @versioned(Versions)
 @armProviderNamespace
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
@@ -61,7 +59,7 @@ model ProxyAccount is ProxyResource<ProxyAccountProperties> {
   @key("proxyAccountName")
   @segment("proxyAccounts")
   @path
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minLength(3)
   @maxLength(128)
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
@@ -81,7 +79,7 @@ interface ProxyAccounts {
 @doc("Proxy account properties")
 model ProxyAccountProperties {
   @doc("Provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Proxy account authentication properties")
@@ -91,7 +89,7 @@ model ProxyAccountProperties {
 @doc("Proxy account authentication properties")
 model ProxyAccountAuthenticationProperties {
   @doc("Certificate-based authentication properties")
-  @extension("x-ms-identifiers", ["subjectName"])
+  @extension("x-ms-identifiers", #["subjectName"])
   certificates?: CertificateProperties[];
 }
 
@@ -101,7 +99,7 @@ model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
   @key("throttlingAccountName")
   @segment("throttlingAccounts")
   @path
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minLength(3)
   @maxLength(128)
   @pattern("^[a-zA-Z][a-zA-Z0-9-]+$")
@@ -112,7 +110,7 @@ model ThrottlingAccount is TrackedResource<ThrottlingAccountProperties> {
   // What in turn triggers a warning: Property "kind" is not valid in the resource envelope.  Please remove this property, or add it to the resource-specific property bag.
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Throttling account kind")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   @pattern("^direct|indirect,[a-z]+$")
   kind: string;
 }
@@ -133,11 +131,11 @@ interface ThrottlingAccounts {
 @doc("Throttling account properties")
 model ThrottlingAccountProperties {
   @doc("Provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Endpoint address to be used by Throttling client")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   hostName?: string;
 
   @doc("Account authentication properties")
@@ -147,11 +145,11 @@ model ThrottlingAccountProperties {
 @doc("Account authentication properties")
 model AccountAuthenticationProperties {
   @doc("Certificate-based authentication properties")
-  @extension("x-ms-identifiers", ["subjectName"])
+  @extension("x-ms-identifiers", #["subjectName"])
   certificates?: CertificateProperties[];
 
   @doc("Microsoft Entra-based authentication properties")
-  @extension("x-ms-identifiers", ["tenantId", "objectId"])
+  @extension("x-ms-identifiers", #["tenantId", "objectId"])
   entra?: EntraProperties[];
 }
 
@@ -180,7 +178,7 @@ model Rule is TrackedResource<RuleProperties> {
   @key("ruleName")
   @segment("rules")
   @path
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minLength(3)
   @maxLength(128)
   @pattern("^[a-zA-Z0-9-]+$")
@@ -199,7 +197,7 @@ interface Rules {
 @doc("Throttling rule properties")
 model RuleProperties {
   @doc("Provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Threshold value")

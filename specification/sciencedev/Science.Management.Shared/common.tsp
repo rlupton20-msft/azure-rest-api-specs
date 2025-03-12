@@ -84,7 +84,7 @@ model WithMoboBrokerResources {
 model MoboConfigurationWithMrg {
   @doc("The resource group for resources managed on behalf of customer.")
   @visibility(Lifecycle.Read)
-  managedResourceGroup: string;
+  managedResourceGroup?: string;
 
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
   @visibility(Lifecycle.Read)

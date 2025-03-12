@@ -32,7 +32,7 @@ model ModelProperties {
 
   @doc("The deployment ID of the Model.")
   @visibility(Lifecycle.Read)
-  modelDeploymentId: string;
+  modelDeploymentId?: string;
 
   @doc("The provisioning status of the Model.")
   @visibility(Lifecycle.Read)
@@ -43,7 +43,7 @@ model ModelProperties {
 interface Models {
   get is ArmResourceRead<Model>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Model>;
-  update is ArmResourcePatchSync<Model, ModelProperties>;
+  update is ArmResourcePatchAsync<Model, ModelProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Model>;
   listByResourceGroup is ArmResourceListByParent<Model>;
   listBySubscription is ArmListBySubscription<Model>;

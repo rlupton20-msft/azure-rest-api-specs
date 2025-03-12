@@ -160,7 +160,7 @@ model MessageBase {
 
   @doc("Message status")
   @visibility(Lifecycle.Read)
-  status: MessageStatus;
+  status?: MessageStatus;
 
   //   @doc("The command name")
   //   @visibility(Lifecycle.Read)
@@ -168,15 +168,15 @@ model MessageBase {
 
   @doc("Citation list")
   @visibility(Lifecycle.Read)
-  citations: Citation[];
+  citations?: Citation[];
 
   @doc("Array of data assets.")
   @visibility(Lifecycle.Read)
-  dataAssets: DataAsset[];
+  dataAssets?: DataAsset[];
 
   //   @doc("Database query list")
   //   @visibility(Lifecycle.Read)
-  //   dbQueries: DbQuery[];
+  //   dbQueries?: DbQuery[];
 }
 
 @doc("A message.")

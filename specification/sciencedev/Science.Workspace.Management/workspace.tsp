@@ -40,11 +40,11 @@ model WorkspaceProperties {
 
   @doc("workspace API endpoint Uri.")
   @visibility(Lifecycle.Read)
-  workspaceApiUri: string;
+  workspaceApiUri?: string;
 
   @doc("workspace User Interface Uri.")
   @visibility(Lifecycle.Read)
-  workspaceUiUri: string;
+  workspaceUiUri?: string;
 
   ...MoboConfigurationWithMrg;
 }
@@ -53,7 +53,7 @@ model WorkspaceProperties {
 interface Workspaces {
   get is ArmResourceRead<Workspace>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Workspace>;
-  update is ArmResourcePatchSync<Workspace, WorkspaceProperties>;
+  update is ArmResourcePatchAsync<Workspace, WorkspaceProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Workspace>;
   listByResourceGroup is ArmResourceListByParent<Workspace>;
   listBySubscription is ArmListBySubscription<Workspace>;

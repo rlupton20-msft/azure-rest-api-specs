@@ -44,7 +44,7 @@ model NodePoolProperties {
 interface NodePools {
   get is ArmResourceRead<NodePool>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<NodePool>;
-  update is ArmResourcePatchSync<NodePool, NodePoolProperties>;
+  update is ArmResourcePatchAsync<NodePool, NodePoolProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<NodePool>;
   listByResourceGroup is ArmResourceListByParent<NodePool>;
   listBySubscription is ArmListBySubscription<NodePool>;

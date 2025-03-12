@@ -160,7 +160,7 @@ model DataContainerProperties {
 interface DataContainers {
   get is ArmResourceRead<DataContainer>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<DataContainer>;
-  update is ArmResourcePatchSync<DataContainer, DataContainerProperties>;
+  update is ArmResourcePatchAsync<DataContainer, DataContainerProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<DataContainer>;
   listByResourceGroup is ArmResourceListByParent<DataContainer>;
   listBySubscription is ArmListBySubscription<DataContainer>;

@@ -40,7 +40,7 @@ model CatalogProperties {
 interface Catalogs {
   get is ArmResourceRead<Catalog>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Catalog>;
-  update is ArmResourcePatchSync<Catalog, CatalogProperties>;
+  update is ArmResourcePatchAsync<Catalog, CatalogProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Catalog>;
   listByResourceGroup is ArmResourceListByParent<Catalog>;
   listBySubscription is ArmListBySubscription<Catalog>;
