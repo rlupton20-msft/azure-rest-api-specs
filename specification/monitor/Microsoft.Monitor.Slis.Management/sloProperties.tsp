@@ -4,11 +4,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.ResourceManager;
-
 namespace Microsoft.Monitor;
 
 @doc("Defines the properties of an SLO.")
@@ -30,14 +25,14 @@ model SloTarget {
   compliancePeriodDays: int32;
 
   @doc("Specifies how compliance is calculated, either based on calendar days or a rolling window.")
-  complianceCalculation: ComplianceCalculation;
+  complianceCalculationType: ComplianceCalculationType;
 
   @doc("Defines the operator used to compare the SLI value against the target.")
   comparator: TargetComparator;
 }
 
 @doc("Specifies the method for compliance calculation.")
-union ComplianceCalculation {
+union ComplianceCalculationType {
   @doc("Calculates compliance based on a fixed calendar period.")
   "CalendarDays",
 
