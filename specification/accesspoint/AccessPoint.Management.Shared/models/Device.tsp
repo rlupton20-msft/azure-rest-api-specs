@@ -36,11 +36,11 @@ model DeviceProperties {
   // lowercase, uppercase letters, 6 groups of 2 hex digits, separated by colons
   @doc("The unique MAC address of the device.")
   @pattern("^[a-fA-F0-9]{2}(:[a-fA-F0-9]{2}){5}$")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   mac: string;
 
   @doc("The unique serial number of the device.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   serial: string;
 
   @doc("Indicates whether the device is enabled.")
