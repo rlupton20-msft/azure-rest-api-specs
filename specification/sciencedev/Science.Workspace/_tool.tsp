@@ -83,7 +83,19 @@ model Tool {
  */
 @doc("An execution of a Tool")
 model ExecutionRequest {
-  @doc("Command to pass to tool container's entrypoint. If omitted, entrypoint is executed.")
+  /** Command to pass to tool container entrypoint.
+   *
+   * If the tool has multiple containers defined, this command is executed on all of them.
+   *
+   * If omitted, all containers execute their raw entrypoints.
+   */
+  /*
+   * Note that we will likely extend this API in M2 to better support tools with
+   * heterogeneous pools/containers where we want to run different code in some containers.
+   *
+   * Doing so will likely involve moving to accept a Dictionary of commands to run on
+   * different containers.
+   */
   command?: string;
 
   /*
