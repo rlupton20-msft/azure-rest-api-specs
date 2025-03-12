@@ -54,7 +54,7 @@ model TransitOptionParams {
   scaleUnits?: int64;
 
   @doc("Transit Option Params remoteVirtualNetworkId.")
-  remoteVirtualNetworkId?: string;
+  remoteVirtualNetworkId?: VirtualNetworkResourceId;
 }
 
 @doc("TransitOption Properties")
@@ -69,7 +69,7 @@ model TransitOption {
 @doc("Describes the properties of an Transit Hub.")
 model TransitHubProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The state of the transitHub.")
@@ -79,6 +79,16 @@ model TransitHubProperties {
   transitOption?: TransitOption;
 
   @doc("List of resource ids modified by transitHubs.")
-  @visibility("read")
   resourceCollection?: string[];
+}
+
+@doc("Describes the properties of an Transit Hub.")
+model TransitHubPatchProperties is TransitHubProperties;
+
+@doc("TH Patch Resource")
+model TransitHubPatchResource {
+  @doc("The TransitHub resource.")
+  properties?: Update<TransitHubPatchProperties>;
+
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }

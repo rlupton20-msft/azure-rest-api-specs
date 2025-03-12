@@ -44,33 +44,38 @@ union EnclaveConnectionState {
 @doc("Enclave Connection Resource properties")
 model EnclaveConnectionProperties {
   @doc("The state of the enclaveConnection.")
-  @visibility("read")
   state?: EnclaveConnectionState;
 
   @doc("Community Resource Id.")
-  @visibility("read", "create")
   communityResourceId: CommunityResourceId;
 
   @doc("Source Resource Id.")
-  @visibility("read", "create")
   sourceResourceId: EnclaveConnectionSourceResourceId;
 
   @doc("Source CIDR.")
   sourceCidr?: string;
 
   @doc("Source IP group Resource Id.")
-  @visibility("read", "create")
   ipGroup?: IPGroupResourceId;
 
   @doc("Destination Endpoint Resource Id.")
-  @visibility("read", "create")
   destinationEndpointId: DestinationEndpointResourceId;
 
   @doc("Provisioning State.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids modified by enclave Connections.")
-  @visibility("read")
   resourceCollection?: string[];
+}
+
+@doc("Enclave Connection Patch properties")
+model EnclaveConnectionPatchProperties is EnclaveConnectionProperties;
+
+@doc("Enclave Connection Patch Resource")
+model EnclaveConnectionPatchResource {
+  @doc("Enclave Connection Patch properties")
+  properties?: Update<EnclaveConnectionPatchProperties>;
+
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }
