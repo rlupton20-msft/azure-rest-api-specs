@@ -179,6 +179,7 @@ model CommunityProperties {
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids created by communities.")
+  @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -188,12 +189,10 @@ model CommunityProperties {
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  @madeOptional(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("List of services governed by a community.")
   governedServiceList?: GovernedServiceItem[];
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @madeOptional(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Community role assignments")
   communityRoleAssignments?: RoleAssignmentItem[];
 
