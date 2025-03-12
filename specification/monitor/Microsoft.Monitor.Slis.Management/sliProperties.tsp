@@ -4,11 +4,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.ResourceManager;
-
 namespace Microsoft.Monitor;
 
 @doc("Defines the properties of an SLI.")
@@ -29,7 +24,7 @@ model SliProperties {
 @doc("Represents a signal model used in SLI calculations.")
 model Signal {
   @doc("Sources of metrics used for SLIs.")
-  @OpenAPI.extension("x-ms-identifiers", ["signalSourceId"])
+  @OpenAPI.extension("x-ms-identifiers", #["signalSourceId"])
   signalSources: SignalSource[];
 
   @doc("Mathematical formula used to combine multiple metrics.")
@@ -54,7 +49,7 @@ model SignalSource {
   metricName: string;
 
   @doc("Filters applied to modify signal values.")
-  @OpenAPI.extension("x-ms-identifiers", ["logic", "conditions"])
+  @OpenAPI.extension("x-ms-identifiers", #["logic", "conditions"])
   filters: Filter[];
 
   @doc("Defines how measurements are aggregated across multiple time series.")
@@ -70,7 +65,10 @@ model Filter {
   logic: Logic;
 
   @doc("Conditions applied to the filter.")
-  @OpenAPI.extension("x-ms-identifiers", ["dimensionName", "value", "operator"])
+  @OpenAPI.extension(
+    "x-ms-identifiers",
+    #["dimensionName", "value", "operator"]
+  )
   conditions: Condition[];
 }
 
@@ -94,7 +92,7 @@ model Condition {
   scalarFunction?: ScalarFunction;
 
   @doc("Defines the sampling type.")
-  samplingType: SamplingType;
+  samplingType?: SamplingType;
 
   @doc("Operator used in the filtering condition.")
   operator: ConditionOperator;

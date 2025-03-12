@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Microsoft.Monitor;
@@ -27,7 +26,7 @@ model Sli is ExtensionResource<SliResource> {
 
 @doc("Defines the root level properties of an SLI resource.")
 model SliResource {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("Indicates the provisioning status of the last operation.")
   provisioningState?: ProvisioningState;
 
@@ -41,16 +40,17 @@ model SliResource {
   @doc("Determines how the SLI is evaluated—either based on request counts or time windows.")
   evaluationType: EvaluationType;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("Indicates the current execution status of the SLI resource in ARM responses.")
   executionState: ExecutionState;
 
   @doc("Destination AMW accounts.")
-  @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
+  @OpenAPI.extension("x-ms-identifiers", #["resourceId"])
   destinationAmwAccounts: AmwAccount[];
 
+  @visibility(Lifecycle.Read)
   @doc("The destination Azure Monitor Workspace (AMW) accounts where the SLI emits metrics.")
-  @OpenAPI.extension("x-ms-identifiers", ["metricNamespace", "metricName"])
+  @OpenAPI.extension("x-ms-identifiers", #["metricNamespace", "metricName"])
   destinationMetrics: Metric[];
 
   @doc("Defines the SLO properties associated with the SLI.")
