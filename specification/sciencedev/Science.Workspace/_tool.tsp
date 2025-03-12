@@ -25,6 +25,12 @@ model Tool {
   name: string;
 }
 
+/*
+ * The interplay between command, inlineFiles, inputDataAssets and outputDataAssets warrants a
+ * worked example.
+ *
+ * If the dataplane receives the following request:
+ */
 @doc("An execution of a Tool")
 model ExecutionRequest {
   @doc("Command to pass to tool container's entrypoint. If omitted, entrypoint is executed.")
@@ -40,35 +46,46 @@ model ExecutionRequest {
    *
    * It would be preferable to have a Record here with the relativePath as key, but
    * typespec doesn't allow @maxItems to be applied to a Record.
+   *
+   * Each of these files is made available at the specified path, relative to the
+   * container's working directory.
    */
   @doc("Encoded inline files to be mounted into the container, e.g. for generated code.")
   @maxItems(10)
   inlineFiles?: Array<InlineFile>;
 
   /*
+   * DataAssets to expose as input to the execution.
+   *
    * All of the data referenced by these DataAssetIds is made available to the
-   * tool container in a single input directory (the path to which is
-   * provided to the container in the SC_TOOL_INPUT_DIR environment
-   * variable):
+   * tool container in its working directory. The keys in this Record specify
+   * the directory, relative to the working directory, where the data will be
+   * made available.
    *
-   *   - when multiple DataAssets are provided, the data from each DataAsset
-   *   will be placed in a subdirectory within
-   *   SC_TOOL_INPUT_DIR with the same name as the ID's key in this Record
-   *
-   *   - when only a single DataAsset with key "_" is provided,
-   *   Supercomputer will put the data from that DataAsset in the
-   *   top-level input directory
+   * Any DataAssetIds which point to SharedStorage must point to
+   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * request will be rejected.
    */
   @doc("Input data assets to use for this execution.")
   inputDataAssets?: Record<DataAssetId>;
 
   /*
-   * Note that this is an array, not a dictionary. Unlike inputs, a tool
-   * only has one unit of output. There may be multiple DataAssets to
-   * emit that data to, but each of these locations gets all the data.
+   * DataAssets to which to persist the output of the execution.
+   *
+   * Each key in this Record specifies a directory, relative to the container's
+   * working directory, from which to collect output.
+   *
+   * The values in this record are an array of DataAssetIds specifying one or more
+   * locations to which to persist the data specified by the key. We accept an
+   * array here to support e.g. persisting the data to SharedStorage for consumption
+   * by subsequent tools and to Blob storage for exposure to the Studio.
+   *
+   * Any DataAssetIds which point to SharedStorage must point to
+   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * request will be rejected.
    */
   @doc("Data assets to which to emit output of this execution")
-  outputDataAssets?: DataAssetId[];
+  outputDataAssets?: Record<DataAssetId[]>;
 
   @doc("IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.")
   nodePoolIds?: NodePoolId[];
