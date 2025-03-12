@@ -28,10 +28,10 @@ model SupercomputerProperties {
 
   // read
   @doc("The ID of the workspace.")
-  @visibility(Lifecycle.Read)
-  workspaceId: Azure.Core.armResourceIdentifier<[
+  @visibility(Lifecycle.Read, Lifecycle.Update)
+  workspaceId?: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Science/workspace";
+      type: "Microsoft.Science/workspaces";
     }
   ]>;
 
