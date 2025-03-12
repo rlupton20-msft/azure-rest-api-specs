@@ -154,9 +154,9 @@ model InlineFile {
    * small code files, which are the primary use case for this feature.
    *
    * For reference, at the time of writing, iomanager.py was 7kB without
-   * gzipping or encoding it.
+   * zipping or encoding it.
    */
-  @doc("base64-encoding of the gzipped contents of the file.")
+  @doc("base64-encoding of the .gz compressed contents of the file.")
   @maxLength(20000)
   encodedFile: string;
 }
