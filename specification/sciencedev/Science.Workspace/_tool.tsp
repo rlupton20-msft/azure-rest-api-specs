@@ -39,7 +39,7 @@ model Tool {
  *
  * ```json
  * {
- *   "command": "python wrapper.py --input abcdef-input-1/*",
+ *   "command": "python wrapper.py --input abcdef-input-1/* --output abcdef-output-1",
  *   "inlineFiles": [
  *     {
  *       "relativePath": "iomanager.py",
