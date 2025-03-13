@@ -20,7 +20,7 @@ namespace Private.DeviceRegistry;
 @removed(Versions.v2025_07_01_preview)
 model AssetEndpointProfileProperties {
   @doc("Globally unique, immutable, non-reusable id.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
@@ -49,19 +49,19 @@ model AssetEndpointProfileProperties {
   additionalConfiguration?: string;
 
   @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
   @removed(Versions.v2025_07_01_preview)
   discoveredAssetEndpointProfileRef?: string;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @added(Versions.v2024_07_01_preview)
   @removed(Versions.v2025_07_01_preview)
   status?: AssetEndpointProfileStatus;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -85,7 +85,7 @@ model Authentication {
 @removed(Versions.v2024_07_01_preview)
 model TransportAuthentication {
   @doc("Defines a reference to a secret which contains all certificates and private keys that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   @removed(Versions.v2024_07_01_preview)
   ownCertificates: OwnCertificate[];
 }
@@ -108,8 +108,8 @@ model OwnCertificate {
 @removed(Versions.v2025_07_01_preview)
 model AssetEndpointProfileStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read)
   errors?: AssetEndpointProfileStatusError[];
 }
 
@@ -118,10 +118,10 @@ model AssetEndpointProfileStatus {
 @removed(Versions.v2025_07_01_preview)
 model AssetEndpointProfileStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   message?: string;
 }

@@ -44,7 +44,7 @@ model Messaging {
 @doc("Defines the container registry proprties.")
 model NamespaceProperties {
   @doc("Globally unique, immutable, non-reusable id.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
@@ -52,7 +52,7 @@ model NamespaceProperties {
   messaging?: Messaging;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -66,6 +66,10 @@ model MessagingEndpoint {
 
   @doc("The complete ARM resourceId for the messaging endpoint.")
   resourceId?: string;
+
+  @added(Versions.v2025_07_01_preview)
+  @doc("Fully qualified domain name.")
+  address: string;
 }
 
 @added(Versions.v2024_10_01_preview)
