@@ -16,5 +16,11 @@ namespace Microsoft.Monitor;
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  `2025-03-01-preview`,
+  @doc("API Version 2025-01-23")
+  v2025_01_23_preview: "2025-01-23-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @doc("API Version 2025-03-01")
+  v2025_03_01_preview: "2025-03-01-preview",
 }
