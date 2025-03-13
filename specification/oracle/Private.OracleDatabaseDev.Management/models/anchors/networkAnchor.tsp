@@ -11,6 +11,7 @@ namespace Private.OracleDatabaseDev;
 @doc("Network Anchor resource model.")
 model NetworkAnchor is TrackedResource<NetworkAnchorProperties> {
   ...ResourceNameParameter<NetworkAnchor>;
+  ...AvailabilityZonesProperty;
 }
 
 @added(Versions.v20250301_preview)
