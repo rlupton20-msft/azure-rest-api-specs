@@ -49,13 +49,6 @@ model OperatorApiConnectionProperties {
   saasProperties?: SaasProperties;
 
   /**
-   * Details about the SaaS offer purchased from the Azure Marketplace.
-   */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read")
-  marketplaceSaasProperties?: SaasProperties;
-
-  /**
    * Details about the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
@@ -118,6 +111,22 @@ model OperatorApiConnectionProperties {
   @visibility("read")
   status?: Status;
 
+  /**
+   * Whether the caller has accepted the Marketplace Plan Terms and Conditions (linked from the Operator Api Plan
+   * and, after creation, in the TermsAndConditionsLink property on this object).
+   * 
+   * Must be set to True to create the Operator Api Connection, as the Terms and Conditions must be accepted.
+   */
+  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  acceptedMarketplacePlanTermsAndConditions: boolean;
+
+  /**
+   * Links to the Terms and Conditions of the Marketplace Plan that were accepted on creation
+   */
+  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @visibility("read")
+  marketplacePlanTermsAndConditionsLinks: string[];
+    
   /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
    */

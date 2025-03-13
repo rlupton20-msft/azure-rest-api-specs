@@ -131,6 +131,11 @@ model ApplicationOwnerProperties {
    * Privacy manager of the organization.
    */
   privacyManager: Person;
+  
+  /**
+   * Data Protection Officer of the organization.
+   */
+  dataProtectionOfficer: Person;
 
   /**
    * Registered Geographic address.
@@ -265,6 +270,11 @@ model GeographicAddress {
    * City of the address.
    */
   city?: string;
+  
+  /**
+   * State or province of the address.
+   */
+  stateOrProvince?: string;
 
   /**
    * Postal code of the address.
