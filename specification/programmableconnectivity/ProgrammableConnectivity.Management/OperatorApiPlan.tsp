@@ -24,7 +24,7 @@ model OperatorApiPlan
   @path
   @key("operatorApiPlanName")
   @segment("operatorApiPlans")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
@@ -58,13 +58,13 @@ model MarketplaceProperties {
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
   termId?: string;
-  
+
   /**
    * Links to the Terms and Conditions of the Marketplace Plan that must be accepted to create an
    * associated Operator Api Connection
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   marketplacePlanTermsAndConditionsLinks: string[];
 }
 
@@ -110,7 +110,7 @@ model OperatorApiPlanProperties {
   /**
    * The status of the last operation on the Gateway resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

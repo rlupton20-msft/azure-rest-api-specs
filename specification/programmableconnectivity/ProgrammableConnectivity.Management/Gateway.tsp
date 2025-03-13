@@ -22,7 +22,7 @@ model Gateway is Azure.ResourceManager.TrackedResource<GatewayProperties> {
   @path
   @key("gatewayName")
   @segment("gateways")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
@@ -33,7 +33,7 @@ model GatewayProperties {
   /**
    * List of Operator API Connections selected by the user.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatorApiConnections?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/operatorApiConnections";
@@ -43,27 +43,27 @@ model GatewayProperties {
   /**
    * Base URL of the Gateway resource. This is the URL that the users would use to make Network API requests to the Operators via Azure.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   gatewayBaseUrl?: string;
 
   /**
    * The status of the last operation on the Gateway resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication: ApplicationProperties;
 
   /**
    * Details about the Organization owning the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplicationOwner: ApplicationOwnerProperties;
 }
 
@@ -131,7 +131,7 @@ model ApplicationOwnerProperties {
    * Privacy manager of the organization.
    */
   privacyManager: Person;
-  
+
   /**
    * Data Protection Officer of the organization.
    */
@@ -150,7 +150,7 @@ model ApplicationOwnerProperties {
   /**
    * List of local representatives.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   localRepresentatives: LocalRepresentative[];
 }
 
@@ -270,7 +270,7 @@ model GeographicAddress {
    * City of the address.
    */
   city?: string;
-  
+
   /**
    * State or province of the address.
    */
