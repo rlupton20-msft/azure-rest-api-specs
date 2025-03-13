@@ -50,13 +50,13 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
   console.log("Generating examples:", tspPackageDir);
   const swaggerFiles = apiVersions.map((version) => resolve(swaggerPackageDir, `preview/${version}/science*.json`))
   for(const swaggerFile of swaggerFiles) {
-    try {
+    // try {
       const cmd = `npx oav generate-examples ${swaggerFile}`
       console.log(cmd);
       execSync(cmd, { stdio: 'inherit' });
-    } catch (error) {
-      console.error('\x1b[31m%s\x1b[39m', `Issues occurred running oav. See logs above: ${error.message}`)
-    }
+    // } catch (error) {
+    //   console.error('\x1b[31m%s\x1b[39m', `Issues occurred running oav. See logs above: ${error.message}`)
+    // }
   }
 
 

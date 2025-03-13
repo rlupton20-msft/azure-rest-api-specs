@@ -4424,6 +4424,77 @@
         }
       ]
     },
+    "AzureStorageBlob": {
+      "type": "object",
+      "description": "The Azure storage blob properties.",
+      "properties": {
+        "storageAccountId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The associated azure storage account ID.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "storageAccountId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataStore"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureStorageBlob"
+    },
+    "AzureStorageFile": {
+      "type": "object",
+      "description": "The Azure storage file properties.",
+      "properties": {
+        "storageAccountId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The associated azure storage account ID.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
+        },
+        "fileShareName": {
+          "type": "string",
+          "description": "The name of the file share",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "storageAccountId",
+        "fileShareName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataStore"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureStorageFile"
+    },
     "Bookshelf": {
       "type": "object",
       "description": "Bookshelf tracked resource",
@@ -4590,24 +4661,43 @@
     },
     "Credential": {
       "type": "object",
-      "description": "An abstract representation of data store type.",
+      "description": "An abstract representation of data store kind.",
       "properties": {
-        "type": {
+        "name": {
+          "type": "string",
+          "description": "Name of credential",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "kind": {
           "$ref": "#/definitions/CredentialType",
-          "description": "The data store type."
+          "description": "The data store kind."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
-      "discriminator": "type",
+      "discriminator": "kind",
       "required": [
-        "type"
+        "name",
+        "kind",
+        "description"
       ]
     },
     "CredentialType": {
       "type": "string",
-      "description": "The type of the credential used for RBAC against the data store.",
+      "description": "The kind of the credential used for RBAC against the data store.",
       "enum": [
         "ManagedIdentity",
-        "KeyvaultSecret"
+        "KeyVaultSecret"
       ],
       "x-ms-enum": {
         "name": "CredentialType",
@@ -4616,29 +4706,15 @@
           {
             "name": "ManagedIdentity",
             "value": "ManagedIdentity",
-            "description": "Managed identity credential type."
+            "description": "Managed identity credential kind."
           },
           {
-            "name": "KeyvaultSecret",
-            "value": "KeyvaultSecret",
-            "description": "Secret stored in Keyvault secret type."
+            "name": "KeyVaultSecret",
+            "value": "KeyVaultSecret",
+            "description": "Secret stored in KeyVault secret kind."
           }
         ]
       }
-    },
-    "CredentialUpdate": {
-      "type": "object",
-      "description": "An abstract representation of data store type.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/CredentialType",
-          "description": "The data store type."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
     },
     "DataAsset": {
       "type": "object",
@@ -4779,38 +4855,21 @@
           "description": "The status of the last operation.",
           "readOnly": true
         },
-        "dataStoreId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "The Azure storage account ID.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/storageAccounts"
-              }
-            ]
-          }
-        },
-        "dataStoreType": {
-          "$ref": "#/definitions/DataStoreType",
-          "description": "The data store type.",
+        "dataStore": {
+          "$ref": "#/definitions/DataStore",
+          "description": "Data store properties",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "databaseSettings": {
-          "$ref": "#/definitions/DatabaseSettings",
-          "description": "The settings for connecting to the database.",
-          "readOnly": true
-        },
-        "credential": {
-          "$ref": "#/definitions/Credential",
+        "credentials": {
+          "type": "array",
           "description": "Credential to access the dataStore.",
+          "items": {
+            "$ref": "#/definitions/Credential"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -4819,18 +4878,21 @@
         }
       },
       "required": [
-        "dataStoreId",
-        "dataStoreType",
-        "credential"
+        "dataStore",
+        "credentials"
       ]
     },
     "DataContainerPropertiesUpdate": {
       "type": "object",
       "description": "Data Asset properties",
       "properties": {
-        "credential": {
-          "$ref": "#/definitions/CredentialUpdate",
+        "credentials": {
+          "type": "array",
           "description": "Credential to access the dataStore.",
+          "items": {
+            "$ref": "#/definitions/Credential"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -4854,9 +4916,23 @@
         }
       ]
     },
+    "DataStore": {
+      "type": "object",
+      "description": "An abstract representation of data store kind.",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/DataStoreType",
+          "description": "The data store kind."
+        }
+      },
+      "discriminator": "kind",
+      "required": [
+        "kind"
+      ]
+    },
     "DataStoreType": {
       "type": "string",
-      "description": "The type of the backing data store.",
+      "description": "The kind of the backing data store.",
       "enum": [
         "AzureStorageBlob",
         "AzureStorageFile"
@@ -4868,42 +4944,15 @@
           {
             "name": "AzureStorageBlob",
             "value": "AzureStorageBlob",
-            "description": "The Azure storage blob type."
+            "description": "The Azure storage blob kind."
           },
           {
             "name": "AzureStorageFile",
             "value": "AzureStorageFile",
-            "description": "The Azure storage file type."
+            "description": "The Azure storage file kind."
           }
         ]
       }
-    },
-    "DatabaseSettings": {
-      "type": "object",
-      "description": "Data Asset properties",
-      "properties": {
-        "port": {
-          "type": "integer",
-          "format": "int32",
-          "description": "DB port number",
-          "readOnly": true
-        },
-        "database": {
-          "type": "string",
-          "description": "Database name",
-          "readOnly": true
-        },
-        "user": {
-          "type": "string",
-          "description": "Database user",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "port",
-        "database",
-        "user"
-      ]
     },
     "KeyVaultSecretCredential": {
       "type": "object",
@@ -4927,28 +4976,7 @@
           "$ref": "#/definitions/Credential"
         }
       ],
-      "x-ms-discriminator-value": "KeyvaultSecret"
-    },
-    "KeyVaultSecretCredentialUpdate": {
-      "type": "object",
-      "description": "SAS token credential properties",
-      "properties": {
-        "secretName": {
-          "type": "string",
-          "description": "The shared access token.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/CredentialUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "KeyvaultSecret"
+      "x-ms-discriminator-value": "KeyVaultSecret"
     },
     "ManagedIdentityCredential": {
       "type": "object",
@@ -4967,27 +4995,6 @@
       "allOf": [
         {
           "$ref": "#/definitions/Credential"
-        }
-      ],
-      "x-ms-discriminator-value": "ManagedIdentity"
-    },
-    "ManagedIdentityCredentialUpdate": {
-      "type": "object",
-      "description": "The managed identity credential properties.",
-      "properties": {
-        "clientId": {
-          "type": "string",
-          "description": "The managed identity client Id.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/CredentialUpdate"
         }
       ],
       "x-ms-discriminator-value": "ManagedIdentity"
@@ -5904,6 +5911,31 @@
           "readOnly": true
         }
       }
+    },
+    "WithStorageAccountId": {
+      "type": "object",
+      "description": "For associated azure storage account ID",
+      "properties": {
+        "storageAccountId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The associated azure storage account ID.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "storageAccountId"
+      ]
     },
     "WithTitle": {
       "type": "object",
