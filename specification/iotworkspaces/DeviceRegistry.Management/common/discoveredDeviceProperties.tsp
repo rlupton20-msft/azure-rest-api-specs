@@ -26,7 +26,7 @@ model DiscoveredDeviceProperties {
   endpoints?: MessagingEndpoints;
 
   @doc("List of supported authentication methods supported by device for Inbound connections.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   supportedAuthenticationMethods?: AuthenticationMethod[];
 
   @doc("Identifier used to detect changes in the asset endpoint profile.")
@@ -36,6 +36,6 @@ model DiscoveredDeviceProperties {
   version: int64;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }

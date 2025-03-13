@@ -12,41 +12,41 @@ namespace Private.DeviceRegistry;
 @doc("Defines the device base properties.")
 model DeviceBaseProperties {
   @doc("Gets a unique identifier for this resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   @doc("Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with AAD.")
   enabled?: boolean = true;
 
   @doc("Gets the device Id provided by customer.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   externalDeviceId?: string;
 
   @doc("Device Template Id used to create a device.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   deviceTemplateId?: string;
 
   @doc("The AAD group the device is a member of.")
   deviceGroupId?: string;
 
   @doc("Hardware manufacturer name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   manufacturer?: string;
 
   @doc("Hardware model name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   `model`?: string;
 
   @doc("operating system name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatingSystem?: string;
 
   @doc("operating system version.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   operatingSystemVersion?: string;
 
   @doc("Identity for the resource.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   identity?: DeviceIdentity;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
@@ -54,12 +54,12 @@ model DeviceBaseProperties {
   attributes?: Record<unknown>;
 
   @doc("Device status updates.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @added(Versions.v2025_07_01_preview)
   status?: DeviceStatus;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" ""
@@ -85,30 +85,30 @@ model EdgeCapableDevice extends DeviceBaseProperties {
 
   @added(Versions.v2025_07_01_preview)
   @doc("Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   discoveredDeviceRef?: string;
 }
 
 @doc("The backing AAD identity for the device used for authentication to other services.")
 model DeviceIdentity {
   @doc("Principal id for the device resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   principalId?: string;
 
   @doc("Tenant id for the AAD tenant.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   tenantId?: string;
 }
 
 @doc("Property bag containing the device's unassigned and assigned endpoints.")
 model DeviceEndpoints {
   @doc("Actively used endpoints a device can use to connect to several services.")
-  @extension("x-ms-identifiers", ["type", "address"])
+  @extension("x-ms-identifiers", #["type", "address"])
   assigned: Endpoint[];
 
   @doc("List of most recently removed endpoints.")
-  @extension("x-ms-identifiers", ["type", "address"])
-  @visibility("read", "create")
+  @extension("x-ms-identifiers", #["type", "address"])
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   unassigned?: Endpoint[];
 }
 
@@ -148,13 +148,13 @@ model MessagingEndpoints {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("An endpoint to connect with the device")
-  @extension("x-ms-identifiers", ["type", "address"])
+  @extension("x-ms-identifiers", #["type", "address"])
   @added(Versions.v2025_07_01_preview)
   inbound?: Record<InboundEndpoints>;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("Set of endpoints a device can connect to.")
-  @extension("x-ms-identifiers", ["type", "address"])
+  @extension("x-ms-identifiers", #["type", "address"])
   @added(Versions.v2025_07_01_preview)
   outbound?: Record<OutboundEndpoints>;
 }
@@ -214,8 +214,8 @@ model Anonymous {
 @added(Versions.v2025_07_01_preview)
 model DeviceStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read)
   errors?: DeviceStatusError[];
 }
 
@@ -223,10 +223,10 @@ model DeviceStatus {
 @added(Versions.v2025_07_01_preview)
 model DeviceStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   message?: string;
 }

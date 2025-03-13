@@ -33,13 +33,13 @@ model NamespaceDevice is TrackedResource<EdgeCapableDevice> {
   // etag not included in TrackedResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Resource Tag.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   etag?: string;
 
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2025_07_01_preview)
   extendedLocation?: ExtendedLocation;
 }
