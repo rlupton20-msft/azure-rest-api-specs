@@ -23,7 +23,7 @@ model OperatorApiConnection
   @path
   @key("operatorApiConnectionName")
   @segment("operatorApiConnections")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   name: string;
 }
 
@@ -34,7 +34,7 @@ model OperatorApiConnectionProperties {
   /**
    * Reference to the Operator API Plan Resource ID.
    */
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   operatorApiPlanId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/operatorApiPlans";
@@ -45,34 +45,27 @@ model OperatorApiConnectionProperties {
    * Details about the SaaS offer purchased from the marketplace.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   saasProperties?: SaasProperties;
-
-  /**
-   * Details about the SaaS offer purchased from the Azure Marketplace.
-   */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read")
-  marketplaceSaasProperties?: SaasProperties;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication?: ApplicationProperties;
 
   /**
    * Application ID of the App Developer that is registered with the Operator in a specific country/region.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   appId?: string;
 
   /**
    * Reference to the APC Gateway resource ID.
    */
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   gatewayId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/gateways";
@@ -83,40 +76,57 @@ model OperatorApiConnectionProperties {
    * Type of the account the user has with the Operator's Network API infrastructure. AzureManaged | UserManaged.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   accountType: AccountType;
 
   /**
    * Application secret linked to the 'appId'. This should be stored securely and is not returned back when the resource information is read.
    */
   @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("create", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Update)
   @secret
   appSecret?: string;
 
   /**
    * Name of the Operator in the linked Operator API Plan belongs to.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatorName?: string;
 
   /**
    * The Network API for the current operator in the country/region provided in the linked Operator API Plan.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   camaraApiName?: string;
 
   /**
    * The status of the last operation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * The status of the OperatorApiConnection resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: Status;
+
+  /**
+   * Whether the caller has accepted the Terms and Conditions of the associated Operator API Plan.
+   * After creation, the planTermsAndConditionsLink property is set to the Terms and Conditions that
+   * have been accepted.
+   *
+   * Must be set to True, as the Terms and Conditions must be accepted.
+   */
+  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  planTermsAndConditionsAccepted: boolean;
+
+  /**
+   * Links to the Terms and Conditions of the Operator API Plan that were accepted on creation.
+   */
+  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @visibility(Lifecycle.Read)
+  planTermsAndConditionsLinks: string[];
 
   /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
@@ -135,7 +145,7 @@ model OperatorApiConnectionProperties {
    * List of ways the data returned on this API is processed.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @OpenAPI.extension("x-ms-identifiers", ["processingOperation"])
+  @OpenAPI.extension("x-ms-identifiers", #["processingOperation"])
   dataProcessingList: DataProcessing[];
 }
 
@@ -185,13 +195,13 @@ model DataProcessing {
   /**
    * The countries/regions the data transits through.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   transitRegions: DataRegions[];
 
   /**
    * The countries/regions the data is stored in.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   storageRegions: DataRegions[];
 }
 
