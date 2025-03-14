@@ -13,16 +13,14 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+// generation: "3"
+
 @doc("EdgeIngestPolicy is a custom resource that defines the configuration for edge ingest policies.")
 model EdgeIngestPolicy is ExtensionResource<EdgeIngestPolicyProperties> {
-  @doc("The name of the EdgeIngestPolicy resource.")
-  @key("edgeIngestPolicyName")
-  @path
-  @minLength(3)
-  @maxLength(63)
-  @segment("edgeingestpolicies")
-  @pattern("^[a-z0-9]([a-z0-9-]*[a-z0-9])?$") // Ensure the name follows DNS-1123 format
-  name: string;
+  ...ResourceNameParameter<
+    EdgeIngestPolicy,
+    NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$"
+  >;
 }
 
 // Define the properties for the EdgeIngestPolicy
@@ -39,11 +37,11 @@ model EdgeIngestPolicyProperties {
   onDelete?: OnDeleteAction = "trigger-immediate-ingest"; // Default value is "trigger-immediate-ingest"
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState; // Referencing the provisioningState union
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeIngestPolicyStatus;
 }
 
@@ -90,19 +88,19 @@ union EvictionOrder {
 @doc("Defines the configuration for ingest policies.")
 model IngestConfig {
   @doc("The order in which dirty files will be uploaded.")
-  order?: IngestOrder = "oldest-first"; // Default value is "oldest-first"
+  order?: IngestOrder = IngestOrder.`oldest-first`;
 
   @doc("The minimum number of seconds before a dirty file is eligible for ingest.")
-  @minValue(0) // Minimum value constraint
-  @maxValue(31536000) // Maximum value constraint
-  minDelaySec?: int32 = 60; // Default value is 60 seconds
+  @minValue(0)
+  @maxValue(31536000)
+  minDelaySec?: int32 = 60;
 }
 
 // Define the eviction configuration
 @doc("Defines the configuration for eviction policies.")
 model EvictionConfig {
   @doc("The order in which clean files will be evicted.")
-  order?: EvictionOrder = "unordered"; // Default value is "unordered"
+  order?: EvictionOrder = EvictionOrder.unordered;
 
   @doc("The number of seconds before a clean file is eligible for eviction.")
   @minValue(0) // Minimum value constraint
