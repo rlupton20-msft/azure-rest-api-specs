@@ -33,9 +33,7 @@ using OpenAPI;
 using Autorest;
 
 @armProviderNamespace
-@service(#{
-  title: "Oracle Database Resource Manager",
-})
+@service(#{ title: "Oracle Database Resource Manager" })
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @versioned(OracleDatabaseDev.Versions)
 namespace Private.OracleDatabaseDev;
