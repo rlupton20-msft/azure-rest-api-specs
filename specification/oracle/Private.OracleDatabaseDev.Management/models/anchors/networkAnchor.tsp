@@ -18,55 +18,55 @@ model NetworkAnchor is TrackedResource<NetworkAnchorProperties> {
 @doc("Network Anchor properties")
 model NetworkAnchorProperties {
   @doc("Display Name")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   displayName?: string;
 
   @doc("Corresponding resource anchor Azure ID")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   resourceAnchorId?: string;
 
   @doc("NetworkAnchor lifecycle state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleState?: NetworkAnchorLifecycleState;
 
   @doc("Additional information about the current lifecycle state.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleDetails?: string;
 
   @doc("NetworkAnchor provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AzureResourceProvisioningState;
 
   @doc("VNET for network connectivity")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   vnetId: VnetId;
 
   @doc("Client subnet")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   subnetId: SubnetId;
 
   @doc("Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   dnsLabel?: string;
 
   @doc("Full custom domain name. If this field is passed dnsLabel will be ignored")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   customDomainName?: string;
 
   @doc("Client primary cidr block")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   cidrBlock?: string;
 
   @doc("Client backup cidr block")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   backupCidrBlock?: string;
 
   @doc("Indicates whether OCI networking counterparts should be auto-created")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   setupMode: NetworkAnchorSetupMode;
 
   @doc("OCI Network Anchor Metadata")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociNetworkAnchorMetadata?: OciNetworkAnchorMetadata;
 }
 
@@ -113,30 +113,30 @@ union NetworkAnchorSetupMode {
 @doc("OCI Network Anchor Metadata")
 model OciNetworkAnchorMetadata {
   @doc("NetworkAnchor OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociNetworkAnchorId?: Ocid;
 
   @doc("Corresponding resource anchor OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociResourceAnchorId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure VCN OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociVcnId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure subnet OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociSubnetId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   compartmentId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure region")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociRegion?: string;
 
   @doc("The date and time the network anchor was updated in Oracle Cloud Infrastructure")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timeUpdated?: utcDateTime;
 }

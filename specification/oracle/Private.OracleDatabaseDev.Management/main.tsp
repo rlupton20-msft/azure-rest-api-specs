@@ -33,7 +33,7 @@ using OpenAPI;
 using Autorest;
 
 @armProviderNamespace
-@service({
+@service(#{
   title: "Oracle Database Resource Manager",
 })
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
