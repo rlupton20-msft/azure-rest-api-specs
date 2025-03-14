@@ -16,27 +16,27 @@ model ResourceAnchor is TrackedResource<ResourceAnchorProperties> {
 @doc("Resource Anchor properties.")
 model ResourceAnchorProperties {
   @doc("OCI Resource Anchor Metadata")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociResourceAnchorMetadata?: OciResourceAnchorMetadata;
 
   @doc("Display Name")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   displayName?: string;
 
   @doc("ResourceAnchor lifecycle state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleState?: ResourceAnchorLifecycleState;
 
   @doc("Additional information about the current lifecycle state.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleDetails?: string;
 
   @doc("ResourceAnchor provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AzureResourceProvisioningState;
 
   @doc("ResourceAnchor SetupMode")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   setupMode: ResourceAnchorSetupMode;
 }
 
@@ -83,26 +83,26 @@ union ResourceAnchorSetupMode {
 @doc("OCI Resource Anchor Metadata")
 model OciResourceAnchorMetadata {
   @doc("Resource anchor OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociResourceAnchorId?: Ocid;
 
   @doc("OCI Subscription OCID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociSubscriptionId: Ocid;
 
   @doc("Oracle Cloud Infrastructure region")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ociRegion?: string;
 
   @doc("Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   compartmentId?: Ocid;
 
   @doc("Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   linkedCompartmentId?: Ocid;
 
   @doc("The date and time the resource anchor was updated in Oracle Cloud Infrastructure")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timeUpdated?: utcDateTime;
 }
