@@ -23,7 +23,7 @@ union Status {
   @doc("Analysis job results are ready")
   Ready: "Ready",
 
-  @doc("An error occured while running firmware analysis")
+  @doc("An error occurred while running firmware analysis")
   Error: "Error",
 
   string,
@@ -57,7 +57,7 @@ union SummaryType {
   @doc("The summary contains information about the submitted firmware")
   Firmware: "Firmware",
 
-  @doc("The summary contains information about the Common Vulnerabilites and Exposures analysis results")
+  @doc("The summary contains information about the Common Vulnerabilities and Exposures analysis results")
   CommonVulnerabilitiesAndExposures: "CommonVulnerabilitiesAndExposures",
 
   @doc("The summary contains information about the binary hardening analysis results")
@@ -152,7 +152,7 @@ union CertificateUsage {
   @doc("This certificate can be used to verify a other public keys")
   KeyCertSign: "keyCertSign",
 
-  @doc("This certificate can be used to verift a certificate revocation list")
+  @doc("This certificate can be used to verify a certificate revocation list")
   CRLSign: "crlSign",
 
   @doc("This certificate can be only be used to encrypt data")

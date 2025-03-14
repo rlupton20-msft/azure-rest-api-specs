@@ -41,7 +41,6 @@ interface Workspaces {
   /**
    * The operation to update a firmware analysis workspaces.
    */
-  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<
     Workspace,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
