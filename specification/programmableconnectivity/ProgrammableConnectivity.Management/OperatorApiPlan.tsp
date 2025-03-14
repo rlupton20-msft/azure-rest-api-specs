@@ -60,12 +60,12 @@ model MarketplaceProperties {
   termId?: string;
 
   /**
-   * Links to the Terms and Conditions of the Marketplace Plan that must be accepted to create an
+   * Links to the Terms and Conditions of the Plan that must be accepted to create an
    * associated Operator Api Connection
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
   @visibility(Lifecycle.Read)
-  marketplacePlanTermsAndConditionsLinks: string[];
+  planTermsAndConditionsLinks: string[];
 }
 
 /**

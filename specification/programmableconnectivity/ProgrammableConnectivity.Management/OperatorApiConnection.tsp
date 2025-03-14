@@ -112,20 +112,21 @@ model OperatorApiConnectionProperties {
   status?: Status;
 
   /**
-   * Whether the caller has accepted the Marketplace Plan Terms and Conditions (linked from the Operator Api Plan
-   * and, after creation, in the TermsAndConditionsLink property on this object).
+   * Whether the caller has accepted the Terms and Conditions of the associated Operator API Plan.
+   * After creation, the planTermsAndConditionsLink property is set to the Terms and Conditions that
+   * have been accepted.
    *
-   * Must be set to True to create the Operator Api Connection, as the Terms and Conditions must be accepted.
+   * Must be set to True, as the Terms and Conditions must be accepted.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  acceptedMarketplacePlanTermsAndConditions: boolean;
+  planTermsAndConditionsAccepted: boolean;
 
   /**
-   * Links to the Terms and Conditions of the Marketplace Plan that were accepted on creation
+   * Links to the Terms and Conditions of the Operator API Plan that were accepted on creation.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
   @visibility(Lifecycle.Read)
-  marketplacePlanTermsAndConditionsLinks: string[];
+  planTermsAndConditionsLinks: string[];
 
   /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
