@@ -1244,7 +1244,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Science/DataAssets"
+                "type": "Microsoft.Science/DataContainers/DataAssets"
               }
             ]
           }
@@ -1485,7 +1485,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Science/DataAssets"
+                "type": "Microsoft.Science/DataContainers/DataAssets"
               }
             ]
           }
@@ -1520,24 +1520,6 @@
         "name"
       ]
     },
-    "DataHandle": {
-      "type": "object",
-      "description": "A Data handle referring to an input or output of a execution",
-      "properties": {
-        "handleType": {
-          "$ref": "#/definitions/HandleType",
-          "description": "The type of the input handle."
-        },
-        "location": {
-          "type": "string",
-          "description": "Location of the input data."
-        }
-      },
-      "required": [
-        "handleType",
-        "location"
-      ]
-    },
     "DbQuery": {
       "type": "object",
       "description": "Database query",
@@ -1555,7 +1537,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Science/DataAssets"
+                "type": "Microsoft.Science/DataContainers/DataAssets"
               }
             ]
           }
@@ -1585,36 +1567,57 @@
       "type": "object",
       "description": "An execution of a Tool",
       "properties": {
-        "actionId": {
+        "command": {
           "type": "string",
-          "description": "The action ID, as defined in the tool's Catalog definition."
+          "description": "Command to pass to tool container entrypoint.\n\nIf the tool has multiple containers defined, this command is executed on all of them.\n\nIf omitted, all containers execute their raw entrypoints."
         },
-        "parameters": {
+        "inlineFiles": {
           "type": "array",
-          "description": "The parameters of the execution.",
+          "description": "Encoded inline files to be mounted into the container, e.g. for generated code.",
+          "maxItems": 10,
           "items": {
-            "$ref": "#/definitions/Parameter"
+            "$ref": "#/definitions/InlineFile"
           },
           "x-ms-identifiers": []
         },
-        "inputHandles": {
+        "inputDataAssets": {
           "type": "object",
-          "description": "Handles to the input data to use for this execution.",
+          "description": "Input data assets to use for this execution.",
           "additionalProperties": {
-            "$ref": "#/definitions/DataHandle"
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "format": "arm-id",
+            "type": "string",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Microsoft.Science/DataContainers/DataAssets"
+                }
+              ]
+            }
           }
         },
-        "outputHandles": {
-          "type": "array",
-          "description": "Handles to the output locations for this execution",
-          "items": {
-            "$ref": "#/definitions/DataHandle"
-          },
-          "x-ms-identifiers": []
+        "outputDataAssets": {
+          "type": "object",
+          "description": "Data assets to which to emit output of this execution",
+          "additionalProperties": {
+            "items": {
+              "type": "string",
+              "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+              "format": "arm-id",
+              "x-ms-arm-id-details": {
+                "allowedResources": [
+                  {
+                    "type": "Microsoft.Science/DataContainers/DataAssets"
+                  }
+                ]
+              }
+            },
+            "type": "array"
+          }
         },
         "nodePoolIds": {
           "type": "array",
-          "description": "IDs of NodePools to use for this execution.",
+          "description": "IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.",
           "items": {
             "type": "string",
             "format": "arm-id",
@@ -1622,7 +1625,7 @@
             "x-ms-arm-id-details": {
               "allowedResources": [
                 {
-                  "type": "Microsoft.Science/NodePools"
+                  "type": "Microsoft.Science/Supercomputers/NodePools"
                 }
               ]
             }
@@ -1642,8 +1645,6 @@
         }
       },
       "required": [
-        "actionId",
-        "nodePoolIds",
         "sharedStorageId"
       ]
     },
@@ -1689,29 +1690,24 @@
         "debugInfo"
       ]
     },
-    "HandleType": {
-      "type": "string",
-      "description": "Enum for IndexingStatus",
-      "enum": [
-        "DataAsset",
-        "BlobStorage"
-      ],
-      "x-ms-enum": {
-        "name": "HandleType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "DataAsset",
-            "value": "DataAsset",
-            "description": "Catalog DataAsset"
-          },
-          {
-            "name": "BlobStorage",
-            "value": "BlobStorage",
-            "description": "BlobStorage"
-          }
-        ]
-      }
+    "InlineFile": {
+      "type": "object",
+      "description": "A file to be included in the input data for a tool execution.",
+      "properties": {
+        "relativePath": {
+          "type": "string",
+          "description": "The relative path of the file within the input directory."
+        },
+        "encodedFile": {
+          "type": "string",
+          "description": "base64-encoding of the .gz compressed contents of the file.",
+          "maxLength": 20000
+        }
+      },
+      "required": [
+        "relativePath",
+        "encodedFile"
+      ]
     },
     "Investigation": {
       "type": "object",
@@ -2202,24 +2198,6 @@
         "value"
       ]
     },
-    "Parameter": {
-      "type": "object",
-      "description": "Parameter model for executions",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "value": {
-          "type": "string",
-          "description": "The value of the parameter."
-        }
-      },
-      "required": [
-        "name",
-        "value"
-      ]
-    },
     "Project": {
       "type": "object",
       "description": "A project.",
@@ -2273,7 +2251,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Science/DataAssets"
+                "type": "Microsoft.Science/DataContainers/DataAssets"
               }
             ]
           }
@@ -2393,7 +2371,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.Science/DataAssets"
+                "type": "Microsoft.Science/DataContainers/DataAssets"
               }
             ]
           }

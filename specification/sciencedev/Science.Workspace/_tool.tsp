@@ -25,97 +25,152 @@ model Tool {
   name: string;
 }
 
+/*
+ * The interplay between command, inlineFiles, inputDataAssets and outputDataAssets warrants a
+ * worked example.
+ *
+ * Imagine a scenario in which an agent generates a Python script wrapper.py which:
+ * - Takes a single command line argument, --input, which is a text file containing a list of
+ *   SMILES strings.
+ * - Reads the SMILES strings from the file, and for each SMILES string uses RDKit to generate
+ *   multiple conformers for the molecule, and uses iomanager.py to write the conformers to file
+ *
+ * If the dataplane receives the following request:
+ *
+ * ```json
+ * {
+ *   "command": "python wrapper.py --input abcdef-input-1/* --output abcdef-output-1",
+ *   "inlineFiles": [
+ *     {
+ *       "relativePath": "iomanager.py",
+ *       "encodedFile": "IiIiQmFzaWMgb..."
+ *     },
+ *     {
+ *       "relativePath": "wrapper.py",
+ *       "encodedFile": "3RlcHMve3NlbG..."
+ *     }
+ *   ],
+ *   "inputDataAssets": {
+ *     "abcdef-input-1": "SmilesTxtDataAsset"
+ *   },
+ *   "outputDataAssets": {
+ *     "abcdef-output-1": [
+ *       "MySharedStorageDataAsset1"
+ *     ]
+ *   },
+ *   "sharedStorageId": "MySharedStorage"
+ * }
+ * ```
+ * where SmilesTxtDataAsset refers to a blob DataAsset containing a single smiles.txt file, and
+ * MySharedStorageDataAsset1 refers to a SharedStorage DataAsset on MySharedStorage, then the
+ * following filesystem layout will be presented to the tool container:
+ *
+ * WORKDIR/
+ * ├── iomanager.py
+ * ├── wrapper.py
+ * ├── abcdef-input-1/
+ * │   └── smiles.txt
+ * └── abcdef-output-1/
+ *
+ * Supercomputer will ensure that the abcdef-output-1/ directory is backed, via filesystem mounts,
+ * by the SharedStorage path referenced in MySharedStorageDataAsset1.
+ *
+ * The container will be launched with the command python wrapper.py --input abcdef-input-1/* which
+ * will be expanded by the shell to python wrapper.py --input abcdef-input-1/smiles.txt.
+ *
+ * wrapper.py will write its output to abcdef-output-1/, meaning it is persisted to the
+ * specified SharedStorage DataAsset.
+ */
 @doc("An execution of a Tool")
 model ExecutionRequest {
-  @doc("The action ID, as defined in the tool's Catalog definition.")
-  actionId: string;
-
-  @doc("The parameters of the execution.")
-  parameters?: Parameter[];
+  /** Command to pass to tool container entrypoint.
+   *
+   * If the tool has multiple containers defined, this command is executed on all of them.
+   *
+   * If omitted, all containers execute their raw entrypoints.
+   */
+  /*
+   * Note that we will likely extend this API in M2 to better support tools with
+   * heterogeneous pools/containers where we want to run different code in some containers.
+   *
+   * Doing so will likely involve moving to accept a Dictionary of commands to run on
+   * different containers.
+   */
+  command?: string;
 
   /*
-   * All of the data referenced by these handles is made available to the
-   * tool container in a single input directory (the path to which is
-   * provided to the container in the SC_TOOL_INPUT_DIR environment
-   * variable):
+   * Up to 10 files can be provided inline. This
+   * is primarily intended for submitting agent-generated code.
    *
-   *   - when multiple input handles are provided, the data referenced by
-   *   each handle will be placed in a subdirectory within
-   *   SC_TOOL_INPUT_DIR with the same name as the handle's key
+   * We impose a 10 file limit in order to place some bounds on how much
+   * code can be submitted in this way. For submitting larger amounts of data,
+   * a DataAsset should be used.
    *
-   *   - when only a single input handle with key "_" is provided,
-   *   Supercomputer will put the data referenced by that handle in the
-   *   top-level input directory
+   * It would be preferable to have a Record here with the relativePath as key, but
+   * typespec doesn't allow @maxItems to be applied to a Record.
+   *
+   * Each of these files is made available at the specified path, relative to the
+   * container's working directory.
    */
-  @doc("Handles to the input data to use for this execution.")
-  inputHandles?: Record<DataHandle>;
+  @doc("Encoded inline files to be mounted into the container, e.g. for generated code.")
+  @maxItems(10)
+  inlineFiles?: Array<InlineFile>;
 
   /*
-   * On the request, this specifies locations *in addition to* the
-   * default SharedStorage to write output to. Any data which the tool
-   * writes to the directory specified by SC_TOOL_OUTPUT_DIR is written
-   * to the default SharedStorage location, and any *additional*
-   * locations specified in this array.
+   * DataAssets to expose as input to the execution.
    *
-   * On the response, this includes handles to all locations where output
-   * was written, *including* the default SharedStorage.
+   * All of the data referenced by these DataAssetIds is made available to the
+   * tool container in its working directory. The keys in this Record specify
+   * the directory, relative to the working directory, where the data will be
+   * made available.
    *
-   * Note that this is an array, not a dictionary. Unlike inputs, a tool
-   * only has one opaque blob of output. There may be multiple handles to
-   * that output data (e.g. SharedStorage + one or more DataAssets), but
-   * each of these locations gets all the data.
-   *
+   * Any DataAssetIds which point to SharedStorage must point to
+   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * request will be rejected.
    */
-  @doc("Handles to the output locations for this execution")
-  outputHandles?: DataHandle[];
+  @doc("Input data assets to use for this execution.")
+  inputDataAssets?: Record<DataAssetId>;
 
-  @doc("IDs of NodePools to use for this execution.")
-  nodePoolIds: NodePoolId[];
+  /*
+   * DataAssets to which to persist the output of the execution.
+   *
+   * Each key in this Record specifies a directory, relative to the container's
+   * working directory, from which to collect output.
+   *
+   * The values in this record are an array of DataAssetIds specifying one or more
+   * locations to which to persist the data specified by the key. We accept an
+   * array here to support e.g. persisting the data to SharedStorage for consumption
+   * by subsequent tools and to Blob storage for exposure to the Studio.
+   *
+   * Any DataAssetIds which point to SharedStorage must point to
+   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * request will be rejected.
+   */
+  @doc("Data assets to which to emit output of this execution")
+  outputDataAssets?: Record<DataAssetId[]>;
+
+  @doc("IDs of NodePools to use for this execution. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.")
+  nodePoolIds?: NodePoolId[];
 
   @doc("The shared storage to use for this execution.")
   sharedStorageId: StorageId;
 }
 
-/** Enum for IndexingStatus */
-union HandleType {
-  /** Catalog DataAsset */
-  DataAsset: "DataAsset",
+@doc("A file to be included in the input data for a tool execution.")
+model InlineFile {
+  @doc("The relative path of the file within the input directory.")
+  relativePath: string;
 
-  /** BlobStorage */
-  // TODO: Remove post M1.
-  BlobStorage: "BlobStorage",
-
-  string,
-}
-
-@doc("A Data handle referring to an input or output of a execution")
-model DataHandle {
-  @doc("The type of the input handle.")
-  handleType: HandleType;
-
-  @doc("Location of the input data.")
   /*
-   * For DataAsset handles, this is the ARM ID of a DataAsset.
-   * If a DataAsset is e.g. a storage container, all of the storage container will be made
-   * available to the tool. If it is a single blob, just that file will be
-   * made available. It is up to the user/Copilot to create the right DataAssets.
+   * Limit the size of this field to ~20kB. This is a reasonable limit for
+   * small code files, which are the primary use case for this feature.
    *
-   * For BlobStorage handles, this is a URL which specifies either a
-   * storage container, a specific blob or a prefix which matches
-   * potentially multiple blobs. This is here as a convenience to allow
-   * integration with Copilot before DataAssets are implemented.
-   *
+   * For reference, at the time of writing, iomanager.py was 7kB without
+   * zipping or encoding it.
    */
-  location: string;
-}
-
-@doc("Parameter model for executions")
-model Parameter {
-  @doc("The name of the parameter.")
-  name: string;
-
-  @doc("The value of the parameter.")
-  value: string;
+  @doc("base64-encoding of the .gz compressed contents of the file.")
+  @maxLength(20000)
+  encodedFile: string;
 }
 
 @doc("Execution status model")

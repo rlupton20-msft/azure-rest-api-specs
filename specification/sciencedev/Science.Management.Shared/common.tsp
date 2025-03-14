@@ -99,7 +99,7 @@ alias DataContainerId = Azure.Core.armResourceIdentifier<[
 
 alias DataAssetId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Microsoft.Science/DataAssets";
+    type: "Microsoft.Science/DataContainers/DataAssets";
   }
 ]>;
 
@@ -141,6 +141,6 @@ alias ModelId = Azure.Core.armResourceIdentifier<[
 
 alias NodePoolId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Microsoft.Science/NodePools";
+    type: "Microsoft.Science/Supercomputers/NodePools";
   }
 ]>;
