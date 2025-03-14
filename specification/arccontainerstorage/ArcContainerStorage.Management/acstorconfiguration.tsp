@@ -90,6 +90,9 @@ union IoInterfaces {
 
 @doc("EngineTypes used for storage pool.")
 union EngineTypes {
+  @doc("use the extension default.")
+  default: "default",
+
   @doc("xfs will be used for the storage pool.")
   xfs: "xfs",
 
