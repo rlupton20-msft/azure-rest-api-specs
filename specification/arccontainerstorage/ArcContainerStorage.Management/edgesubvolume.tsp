@@ -39,11 +39,6 @@ model EdgeSubvolumeProperties {
   @visibility(Lifecycle.Create, Lifecycle.Read)
   subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
 
-  @doc("Name of the EdgeVolume that this subvolume references.")
-  @minLength(1)
-  @maxLength(255)
-  edgevolume: string;
-
   @doc("Top-level path for this subvolume (e.g., /mysubvol).")
   @minLength(1)
   @maxLength(255)

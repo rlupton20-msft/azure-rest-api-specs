@@ -67,6 +67,9 @@ union ServiceMesh {
   @doc("Cert manager is used to ensure mTLS")
   `cert-manager`: "cert-manager",
 
+  @doc("No service mesh is used")
+  none: "none",
+
   string,
 }
 
