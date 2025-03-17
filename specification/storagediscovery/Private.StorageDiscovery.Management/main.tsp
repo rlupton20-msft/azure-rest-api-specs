@@ -13,9 +13,7 @@ using TypeSpec.Versioning;
 
 // The Azure Storage Management API.
 @armProviderNamespace
-@service({
-  title: "StorageDiscoveryClient",
-})
+@service(#{ title: "StorageDiscoveryClient" })
 @versioned(ApiVersion)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.StorageDiscovery;
@@ -63,12 +61,12 @@ model StorageDiscoveryWorkspaceProperties {
   ]>[];
 
   @doc("The scope of the storage discovery workspace.")
-  @extension("x-ms-identifiers", ["displayName"])
+  @identifiers(#["displayName"])
   @removed(ApiVersion.v2025_01_01_preview)
   scopes: StorageDiscoveryScopeV1[];
 
   @doc("The storage discovery resource collections.")
-  @extension("x-ms-identifiers", ["displayName"])
+  @identifiers(#["displayName"])
   @added(ApiVersion.v2025_01_01_preview)
   @renamedFrom(ApiVersion.v2025_03_01_preview, "storageCollections")
   discoveryScopes: StorageDiscoveryScope[];
@@ -79,7 +77,7 @@ model StorageDiscoveryWorkspaceProperties {
   @madeOptional(ApiVersion.v2025_03_01_preview)
   destinations?: StorageDiscoveryDestination;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The status of the last operation.")
   provisioningState?: ResourceProvisioningState;
 }
@@ -233,7 +231,7 @@ model GetReportRequest {
 @added(ApiVersion.v2025_04_01_preview)
 model GetReportResponse {
   @doc("One or more result sets, in the same order as the queries in the request body.")
-  @extension("x-ms-identifiers", [])
+  @identifiers(#[])
   results: ReportResponseResultSet[];
 }
 
@@ -241,11 +239,11 @@ model GetReportResponse {
 @added(ApiVersion.v2025_04_01_preview)
 model ReportResponseResultSet {
   @doc("Array of columns. Present only if the query succeeded.")
-  @extension("x-ms-identifiers", [])
+  @identifiers(#["name", "type"])
   columns?: ReportResponseColumn[];
 
   @doc("Array of Rows. Each row is an array of strings, where the item count matches the number of columns. Present only if the query succeeded.")
-  @extension("x-ms-identifiers", [])
+  @identifiers(#[])
   rows?: string[][];
 
   @doc("Present only if the query failed. Provides an error about the query. The error will be query errors and what is returned from ADX. Note that if any of the content doesn’t pass validation (a KQL injection attack is detected), the whole call fails.")
