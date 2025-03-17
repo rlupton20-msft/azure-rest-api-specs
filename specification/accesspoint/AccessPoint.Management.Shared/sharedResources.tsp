@@ -8,3 +8,4 @@ import "./common/base.tsp";
 import "./models/AccessPointAccount.tsp";
 import "./models/UpdateGroup.tsp";
 import "./models/Network.tsp";
+import "./models/Device.tsp";
