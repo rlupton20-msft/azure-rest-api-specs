@@ -28,12 +28,8 @@ model SupercomputerProperties {
 
   // read
   @doc("The ID of the workspace.")
-  @visibility(Lifecycle.Read, Lifecycle.Update)
-  workspaceId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/workspaces";
-    }
-  ]>;
+  @visibility(Lifecycle.Read)
+  workspaceId?: WorkspaceId;
 
   ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
 }

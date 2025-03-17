@@ -35,6 +35,11 @@ model StorageProperties {
   subnetId: Azure.Core.armResourceIdentifier;
 
   ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
+
+  // read
+  @doc("The ID of the workspace.")
+  @visibility(Lifecycle.Read)
+  workspaceId?: WorkspaceId;
 }
 
 @armResourceOperations

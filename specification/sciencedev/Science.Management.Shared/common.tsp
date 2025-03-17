@@ -144,3 +144,9 @@ alias NodePoolId = Azure.Core.armResourceIdentifier<[
     type: "Microsoft.Science/Supercomputers/NodePools";
   }
 ]>;
+
+alias WorkspaceId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Science/workspaces";
+  }
+]>;
