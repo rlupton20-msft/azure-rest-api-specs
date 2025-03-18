@@ -9,6 +9,7 @@ import "../shared/resourceid.tsp";
 import "../shared/managedresourcegroupconfiguration.tsp";
 import "../shared/principal.tsp";
 import "../shared/roleassignmentitem.tsp";
+import "../shared/approvaloperationstatus.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -167,6 +168,11 @@ model VirtualEnclaveProperties {
   @madeOptional(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Workload role assignments")
   workloadRoleAssignments?: RoleAssignmentItem[];
+
+  @added(Microsoft.Mission.Versions.v2025_03_01_preview)
+  @visibility(Lifecycle.Read)
+  @doc("Approval Operation Status")
+  approvalOperationStatus?: ApprovalOperationStatus;
 }
 
 @doc("Virtual Enclave Patch properties")

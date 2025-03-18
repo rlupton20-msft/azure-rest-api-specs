@@ -75,6 +75,9 @@ model StoragePoolConfig {
   // We need a liquid transform for this
   @doc("The storage engine to use.")
   engineType?: EngineTypes = EngineTypes.xfs; // Default value is "xfs"
+
+  @doc("The type of disk to use.")
+  diskType?: DiskTypes = DiskTypes.temp;
 }
 
 @doc("Linux io interfaces used for disk operations.")
@@ -98,6 +101,17 @@ union EngineTypes {
 
   @doc("spaces will be used for the storage pool.")
   spaces: "spaces",
+
+  string,
+}
+
+@doc("Disk types used for storage pool.")
+union DiskTypes {
+  @doc("nvme will be used for the storage pool.")
+  nvme: "nvme",
+
+  @doc("temp disk will be used for the storage pool.")
+  temp: "temp",
 
   string,
 }
