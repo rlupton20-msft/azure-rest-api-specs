@@ -174,10 +174,12 @@ model Orchestration is Azure.ResourceManager.ProxyResource<OrchestrationProperti
     "orchestrations",
     "^[a-zA-Z0-9-]{3,64}$"
   >;
+  
 }
 
 @doc("The properties of Orchestration")
 @added(Versions.v2025_04_01_Preview)
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state"
 model OrchestrationProperties {
   @visibility(Lifecycle.Read)
   @doc("The status of orchestration")
