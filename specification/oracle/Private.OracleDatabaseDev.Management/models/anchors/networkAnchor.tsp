@@ -22,8 +22,8 @@ model NetworkAnchorProperties {
   displayName?: string;
 
   @doc("Corresponding resource anchor Azure ID")
-  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-  resourceAnchorId?: string;
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  resourceAnchorId: string;
 
   @doc("NetworkAnchor lifecycle state")
   @visibility(Lifecycle.Read)
