@@ -50,7 +50,7 @@ model SolutionVersionProperties {
 
   @doc("Solution instance name")
   @visibility("read")
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  @pattern("^(?!v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
@@ -87,7 +87,7 @@ model SolutionDependency {
   @doc("Solution Version Id")
   solutionVersionId: string;
 
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  @pattern("^(?!v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   @maxLength(24)
   @doc("Solution Instance Name")	
   solutionInstanceName?: string;
