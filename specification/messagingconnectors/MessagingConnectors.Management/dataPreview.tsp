@@ -15,9 +15,7 @@ using TypeSpec.OpenAPI;
 
 @doc("Private.MessagingConnectors Resource Provider management API.")
 @armProviderNamespace
-@service({
-  title: "Private.MessagingConnectors management service",
-})
+@service(#{ title: "Private.MessagingConnectors management service" })
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
@@ -29,7 +27,7 @@ model DataPreview is TrackedResource<DataPreviewProperties> {
   @path
   @key("dataPreview")
   @segment("dataPreview")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^default$")
   name: string;
 }

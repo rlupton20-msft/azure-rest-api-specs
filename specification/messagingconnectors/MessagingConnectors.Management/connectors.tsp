@@ -15,9 +15,7 @@ using TypeSpec.OpenAPI;
 
 @doc("Private.MessagingConnectors Resource Provider management API.")
 @armProviderNamespace
-@service({
-  title: "Private.MessagingConnectors management service",
-})
+@service(#{ title: "Private.MessagingConnectors management service" })
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
