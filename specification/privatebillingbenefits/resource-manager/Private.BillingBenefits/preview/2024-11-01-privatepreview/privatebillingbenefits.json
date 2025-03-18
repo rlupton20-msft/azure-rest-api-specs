@@ -732,7 +732,7 @@
       "type": "object",
       "description": "Entity type for affiliate discounts",
       "required": [
-        "systemIdTest"
+        "systemId"
       ],
       "allOf": [
         {
@@ -748,11 +748,8 @@
           "$ref": "#/definitions/AffiliateEndAt",
           "description": "End date of the discount. No duration will be supported."
         }, 
-        "systemIdTest": {
+        "systemId": {
           "$ref": "#/definitions/ProductCode"
-        },
-        "foo1": {
-          "type": "string"
         }
       }
     },
@@ -784,6 +781,11 @@
     "DiscountTypeProperties": {
       "type": "object",
       "description": "This defines the conditions for a given discount type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DiscountPercentageDiscountPrice"
+        }
+      ],
       "required": [
         "discountType",
         "applyDiscountOn"
@@ -795,20 +797,27 @@
         "applyDiscountOn": {
           "$ref": "#/definitions/ApplyDiscountOn"
         },
-        "discountPercentage": {
-          "$ref": "#/definitions/DiscountPercentage"
-        },
         "discountCombinationRule": {
           "$ref": "#/definitions/DiscountCombinationRule"
-        },
-        "priceGuaranteeProperties": {
-          "$ref": "#/definitions/PriceGuaranteeProperties"
         },
         "conditions": {
           "$ref": "#/definitions/Conditions"
         }
       },
       "discriminator": "discountType"
+    },
+    "DiscountPercentageDiscountPrice": {
+      "type": "object",
+      "properties": {
+        "discountPercentage": {
+          "$ref": "#/definitions/DiscountPercentage"
+        },
+        "priceGuaranteeProperties": {
+          "$ref": "#/definitions/PriceGuaranteeProperties"
+        }
+      },
+      "minProperties": 1,
+      "maxProperties": 1
     },
     "DiscountTypeProductFamily": {
       "type": "object",
