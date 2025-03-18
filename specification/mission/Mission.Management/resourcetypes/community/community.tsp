@@ -179,6 +179,7 @@ model CommunityProperties {
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids created by communities.")
+  @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
