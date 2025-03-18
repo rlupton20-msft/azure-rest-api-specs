@@ -46,6 +46,9 @@
     },
     {
       "name": "TaskHubs"
+    },
+    {
+      "name": "Orchestrations"
     }
   ],
   "paths": {
@@ -620,26 +623,230 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/orchestrations": {
+      "get": {
+        "operationId": "Orchestrations_ListByTaskHub",
+        "tags": [
+          "Orchestrations"
+        ],
+        "description": "List Orchestrations",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schedulerName",
+            "in": "path",
+            "description": "The name of the Scheduler",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "taskHubName",
+            "in": "path",
+            "description": "The name of the TaskHub",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OrchestrationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/orchestrations/{orchestrationName}": {
+      "get": {
+        "operationId": "Orchestrations_Get",
+        "tags": [
+          "Orchestrations"
+        ],
+        "description": "Get a Orchestration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schedulerName",
+            "in": "path",
+            "description": "The name of the Scheduler",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "taskHubName",
+            "in": "path",
+            "description": "The name of the TaskHub",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "orchestrationName",
+            "in": "path",
+            "description": "The name of the Orchestration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Orchestration"
+            }
+          },
+          "default": {
+            "description": "Not found error: resource does not exist",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}/orchestrations/{orchestrationName}/terminate": {
+      "post": {
+        "operationId": "Orchestrations_Terminate",
+        "tags": [
+          "Orchestrations"
+        ],
+        "description": "Terminate an Orchestration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schedulerName",
+            "in": "path",
+            "description": "The name of the Scheduler",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "taskHubName",
+            "in": "path",
+            "description": "The name of the TaskHub",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "orchestrationName",
+            "in": "path",
+            "description": "The name of the Orchestration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrchestrationProperties"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Action completed successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+    "Orchestration": {
       "type": "object",
-      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "description": "An Orchestration resource belonging to the Task Hub",
       "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "properties": {
+          "$ref": "#/definitions/OrchestrationProperties",
+          "description": "The resource-specific properties for this resource."
         }
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/Resource"
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "OrchestrationListResult": {
+      "type": "object",
+      "description": "The response of a Orchestration list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Orchestration items on this page",
+          "items": {
+            "$ref": "#/definitions/Orchestration"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "OrchestrationProperties": {
+      "type": "object",
+      "description": "The properties of Orchestration",
+      "properties": {
+        "orchestrationStatus": {
+          "type": "string",
+          "description": "The status of orchestration",
+          "readOnly": true
+        }
+      }
     },
     "ProvisioningState": {
       "type": "string",
@@ -789,8 +996,18 @@
     },
     "SchedulerPropertiesUpdate": {
       "type": "object",
-      "description": "Details of the Scheduler",
+      "description": "The Scheduler resource properties to be updated",
       "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation",
+          "readOnly": true
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "URL of the durable task scheduler",
+          "readOnly": true
+        },
         "ipAllowlist": {
           "type": "array",
           "description": "IP allow list for durable task scheduler. Values can be IPv4, IPv6 or CIDR",
@@ -829,7 +1046,7 @@
     },
     "SchedulerSkuUpdate": {
       "type": "object",
-      "description": "The SKU (Stock Keeping Unit) assigned to this durable task scheduler",
+      "description": "The SKU (Stock Keeping Unit) properties to be updated",
       "properties": {
         "name": {
           "type": "string",
@@ -839,23 +1056,30 @@
           "type": "integer",
           "format": "int32",
           "description": "The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy"
+        },
+        "redundancyState": {
+          "$ref": "#/definitions/RedundancyState",
+          "description": "Indicates whether the current SKU configuration is zone redundant",
+          "readOnly": true
         }
       }
     },
     "SchedulerUpdate": {
       "type": "object",
-      "description": "A Durable Task Scheduler resource",
+      "description": "The update request model for the Scheduler resource",
       "properties": {
         "properties": {
           "$ref": "#/definitions/SchedulerPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
-        }
-      ]
+      }
     },
     "TaskHub": {
       "type": "object",

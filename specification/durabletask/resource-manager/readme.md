@@ -27,7 +27,8 @@ These are the global settings for the durabletask.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-10-01-preview
+//tag: package-2024-10-01-preview
+tag: package-2025-04-01-preview
 ```
 
 ### Tag: package-2024-10-01-preview
@@ -37,6 +38,11 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-10-01-preview'
 input-file:
   - Microsoft.DurableTask/preview/2024-10-01-preview/durabletask.json
+```
+
+```yaml $(tag) == 'package-2025-04-01-preview'
+input-file:
+  - Microsoft.DurableTask/preview/2025-04-01-preview/durabletask.json
 ```
 
 ---
