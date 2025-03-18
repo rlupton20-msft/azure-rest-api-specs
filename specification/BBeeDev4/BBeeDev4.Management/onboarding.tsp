@@ -16,7 +16,7 @@ namespace Private.BbeeDev4;
 // ------------------------------------------------------------------
 // Section 1: Onboarding Service
 // ------------------------------------------------------------------
-// Root-level tracked resource: provisioning resource
+// Root-level tracked resource: onboarding resource
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("A provisioning resource.")
