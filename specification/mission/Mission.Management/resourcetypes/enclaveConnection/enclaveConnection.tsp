@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "../shared/provisioningstate.tsp";
 import "../shared/resourceid.tsp";
+import "../shared/approvaloperationstatus.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -67,6 +68,11 @@ model EnclaveConnectionProperties {
 
   @doc("List of resource ids modified by enclave Connections.")
   resourceCollection?: string[];
+
+  @added(Microsoft.Mission.Versions.v2025_03_01_preview)
+  @visibility(Lifecycle.Read)
+  @doc("Approval Operation Status")
+  approvalOperationStatus?: ApprovalOperationStatus;
 }
 
 @doc("Enclave Connection Patch properties")
