@@ -11,6 +11,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
+using Microsoft.Science.Shared;
 
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
@@ -148,9 +149,15 @@ union MessageStatus {
   string,
 }
 
-@access(Access.internal)
-@doc("A base message.")
-model MessageBase {
+@doc("A message.")
+@resource("messages")
+@parentResource(Conversation)
+model ConversationMessage {
+  @doc("The message name.")
+  @visibility(Lifecycle.Read)
+  @key("messageName")
+  name: string;
+
   ...DataPlaneResource;
 
   //   ...WithProjectIdOptional;
@@ -177,18 +184,6 @@ model MessageBase {
   //   @doc("Database query list")
   //   @visibility(Lifecycle.Read)
   //   dbQueries?: DbQuery[];
-}
-
-@doc("A message.")
-@resource("messages")
-@parentResource(Conversation)
-model ConversationMessage {
-  @doc("The message name.")
-  @visibility(Lifecycle.Read)
-  @key("messageName")
-  name: string;
-
-  ...MessageBase;
 }
 
 alias ConversationPathContent = {
@@ -218,6 +213,19 @@ interface ConversationMessages {
     ConversationMessage,
     QueryParametersTrait<WithQueryCreatedSince>
   >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-names"
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
+  @doc("List Messages across conversations")
+  @route("/messages")
+  listMessagesByWorkspace(
+    ...Azure.ResourceManager.ApiVersionParameter,
+    ...WithQueryConversationId,
+    ...WithQueryCreatedSince,
+    ...WithQueryInvestigationId,
+    ...WithQueryProjectId,
+  ): Paged<ConversationMessage> | Azure.Core.Foundations.ErrorResponse;
 
   @doc("Cancel current copilot operation.")
   cancel is Operations.ResourceAction<

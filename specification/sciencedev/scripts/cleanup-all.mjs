@@ -4,6 +4,7 @@ import { execSync } from "child_process"
 import * as crypto from "node:crypto";
 
 import { apiVersions, dataPlanePackageNames, validatePackage } from "./common.mjs";
+import _ from "lodash";
 
 const getPathForOperationId = ({swaggerObject, operationId}) => {
   for(const [basePath, operations] of Object.entries(swaggerObject.paths)) {
@@ -24,21 +25,43 @@ const fixIds = ({ swaggerObject, exampleObject, operationId}) => {
       operationId,
     })
   if(!basePath) {
+    console.warn(`Unable to find base path "${basePath}"`)
     return exampleObject
   }
   for(const [returnCode, { body, ...rest }] of Object.entries(exampleObject.responses)) {
-    const subscriptionId = exampleObject.parameters.subscriptionId?.toLowerCase()
-    const resourceGroupName = exampleObject.parameters.resourceGroupName
+    if(!body) {
+      continue
+    }
+    const {id, name, ...bodyRest } = body
     for(const [propName, propVal] of Object.entries(exampleObject.parameters)) {
       basePath = basePath.replaceAll(`{${propName}}`, propVal)
     }
-    exampleObject.responses[returnCode] = {
-      ...rest,
-      body: {
-        ...body,
-        id: basePath,
-      }
+    if(basePath.indexOf(":") > 0) {
+      basePath = basePath.substring(0, basePath.indexOf(":"))
+    }
+    if(basePath.indexOf("/operations/") > 0) {
+      basePath = basePath.substring(0, basePath.indexOf("/operations/"))
+    }
+    let _name = basePath.substring(basePath.lastIndexOf("/") + 1)
+    // if(_name.indexOf(":") > 0) {
+    //   _name = _name.substring(0, _name.indexOf(":"))
+    // }
 
+    if(Object.keys(body).length > 0) {
+      exampleObject.responses[returnCode] = {
+        ...rest,
+        body: {
+          id: id ? basePath : undefined,
+          name:  name && _name ? _name : name,
+          ...bodyRest,
+          value: Array.isArray(body?.value) ? body.value.map(({ id, name, ..._val }) => ({
+            id: id && name ? `${basePath}/${name}` : undefined,
+            name,
+            ..._val,
+          })) : undefined,
+        }
+
+      }
     }
   }
   return exampleObject
@@ -111,7 +134,6 @@ const runMain = () => {
         }
       }
       if(contents.parameters) {
-        console.log(`---- Yay ${filePath} has  parameters?`)
         for(const [key, value] of Object.entries(contents.parameters)) {
           if(key.endsWith("Name") && value === "Replace this value with a string matching RegExp ^[a-zA-Z0-9-]{3,24}$") {
             contents.parameters[key] = crypto.randomBytes(9).toString('hex')
@@ -121,7 +143,12 @@ const runMain = () => {
       // else {
       //   console.log(`---- ${filePath} no parameters?`)
       // }
-      fixIds({ swaggerObject, exampleObject: contents, operationId: contents.operationId})
+      try {
+        fixIds({ swaggerObject, exampleObject: contents, operationId: contents.operationId })
+      } catch(err) {
+        console.log(`Failed to fox IDs for ${file}: ${err.message}`)
+        throw err;
+      }
       writeFileSync(
         filePath,
           JSON.stringify({

@@ -6,8 +6,8 @@ import "@azure-tools/typespec-client-generator-core";
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
+using Microsoft.Science.Shared;
 
-// TODO: Can we call this definitionYaml?
 @doc("For adding YAML to define the definition.")
 model WithDefinitionContents {
   @doc("The definition")

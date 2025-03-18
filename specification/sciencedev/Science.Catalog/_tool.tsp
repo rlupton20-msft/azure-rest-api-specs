@@ -25,11 +25,6 @@ model ToolDefinitionAttributes {
   ...WithRepo;
 }
 
-@doc("A base tool.")
-model BaseToolDefinition {
-  ...Artifact<ToolDefinitionAttributes>;
-}
-
 @doc("A tool.")
 @parentResource(Catalog)
 @resource("toolDefinitions")
@@ -39,19 +34,15 @@ model ToolDefinition {
   @key("toolName")
   name: string;
 
-  ...BaseToolDefinition;
+  ...Artifact<ToolDefinitionAttributes>;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+// Inheritance is appropriate here
 @doc("A tool.")
 @parentResource(Catalog)
 @resource("toolDefinitions")
-model ToolDefinitionWithYaml {
-  @doc("The tool name.")
-  @visibility(Lifecycle.Read)
-  @key("toolName")
-  name: string;
-
-  ...BaseToolDefinition;
+model ToolDefinitionWithYaml extends ToolDefinition {
   ...WithDefinitionContents;
 }
 
@@ -65,21 +56,7 @@ interface ToolDefinitions {
   @doc("Update a ToolDefinition.")
   createOrUpdateToolDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ToolDefinitionWithYaml>;
 
-  //    @doc("Create using Yaml definition.")
-  //    createWithDefinitionYaml is Operations.ResourceAction<
-  //      ToolDefinition,
-  //      BaseToolDefinition & WithDefinitionContents,
-  //      ToolDefinition
-  //    >;
-  //
-  //    @doc("Update Yaml definition.")
-  //    updateWithDefinitionYaml is Operations.ResourceAction<
-  //      ToolDefinition,
-  //      WithTags & WithDefinitionContents,
-  //      ToolDefinition
-  //    >;
-
-  @doc("List ToolDefinition resources")
+  @doc("List ToolDefinition resources within Catalog.")
   listToolDefinitions is ResourceList<ToolDefinition>;
 
   @doc("Delete a ToolDefinition.")

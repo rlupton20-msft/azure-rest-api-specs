@@ -9,6 +9,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
+using Microsoft.Science.Shared;
 
 @versioned(Microsoft.Science.Bookshelf.Versions)
 namespace Microsoft.Science.Bookshelf;
