@@ -77,8 +77,8 @@
           }
         },
         "x-ms-examples": {
-          "List Operations FicpJitPolicySet": {
-            "$ref": "./examples/FicpJitPolicySet_Operations.json"
+          "List Operations JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_Operations.json"
           },
           "List Operations JitSecurityGroup": {
             "$ref": "./examples/JitSecurityGroup_Operations.json"
@@ -89,13 +89,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCis/ficpJitPolicySets": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCis/jitPolicySets": {
       "get": {
         "operationId": "JitPolicySet_ListBySubscription",
         "tags": [
           "JitPolicySet"
         ],
-        "description": "List FicpJitPolicySetResource resources by subscription ID",
+        "description": "List JitPolicySetResource resources by subscription ID",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -108,7 +108,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResourceListResult"
+              "$ref": "#/definitions/JitPolicySetResourceListResult"
             }
           },
           "default": {
@@ -116,6 +116,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "ListBySubscription JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -162,13 +167,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/ficpJitPolicySets": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/jitPolicySets": {
       "get": {
         "operationId": "JitPolicySet_ListByResourceGroup",
         "tags": [
           "JitPolicySet"
         ],
-        "description": "List FicpJitPolicySetResource resources by resource group",
+        "description": "List JitPolicySetResource resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -184,7 +189,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResourceListResult"
+              "$ref": "#/definitions/JitPolicySetResourceListResult"
             }
           },
           "default": {
@@ -194,18 +199,23 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ListByResourceGroup JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_ListByResourceGroup.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/ficpJitPolicySets/{resourceName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/jitPolicySets/{resourceName}": {
       "get": {
         "operationId": "JitPolicySet_Get",
         "tags": [
           "JitPolicySet"
         ],
-        "description": "Get a FicpJitPolicySetResource",
+        "description": "Get a JitPolicySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -229,7 +239,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResource"
+              "$ref": "#/definitions/JitPolicySetResource"
             }
           },
           "default": {
@@ -238,6 +248,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_Get.json"
+          }
         }
       },
       "put": {
@@ -245,7 +260,7 @@
         "tags": [
           "JitPolicySet"
         ],
-        "description": "Create a FicpJitPolicySetResource",
+        "description": "Create a JitPolicySetResource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -270,21 +285,21 @@
             "description": "Resource create parameters.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResource"
+              "$ref": "#/definitions/JitPolicySetResource"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource 'FicpJitPolicySetResource' update operation succeeded",
+            "description": "Resource 'JitPolicySetResource' update operation succeeded",
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResource"
+              "$ref": "#/definitions/JitPolicySetResource"
             }
           },
           "201": {
-            "description": "Resource 'FicpJitPolicySetResource' create operation succeeded",
+            "description": "Resource 'JitPolicySetResource' create operation succeeded",
             "schema": {
-              "$ref": "#/definitions/FicpJitPolicySetResource"
+              "$ref": "#/definitions/JitPolicySetResource"
             },
             "headers": {
               "Azure-AsyncOperation": {
@@ -303,6 +318,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Create JitPolicySet": {
+            "$ref": "./examples/JitPolicySet_CreateOrUpdate.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -504,167 +524,6 @@
         "noDisplay"
       ]
     },
-    "FicpJitPolicy": {
-      "type": "object",
-      "description": "Ficp Jit policy",
-      "properties": {
-        "policyInvariableId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Unique policy Identifier for a service tree id."
-        },
-        "executionSequence": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Define the execution sequence in belonging policy set."
-        },
-        "policyType": {
-          "type": "string",
-          "description": "The type of approval for the policy. Available values are \"AutoApproval\", \"ManualApproval\" and \"ExplicitlyDeny\"."
-        },
-        "resourceType": {
-          "type": "string",
-          "description": "Jit Resource that was created and available for your service."
-        },
-        "extendedFlags": {
-          "$ref": "#/definitions/ExtendedFlags",
-          "description": "JIT Available policy flags. "
-        },
-        "policyConditions": {
-          "type": "array",
-          "description": "Policy condition is a Property-Value set. The evaluation is based on the policy condition.",
-          "items": {
-            "$ref": "#/definitions/FicpPolicyCondition"
-          },
-          "x-ms-identifiers": []
-        },
-        "policyActions": {
-          "type": "array",
-          "description": "After policy condition match is evaluated and matched, an equivalent action need to be performed.",
-          "items": {
-            "$ref": "#/definitions/FicpPolicyAction"
-          },
-          "x-ms-identifiers": []
-        },
-        "provisioningMode": {
-          "$ref": "#/definitions/ProvisioningMode",
-          "description": "Provisioning mode type."
-        }
-      },
-      "required": [
-        "policyInvariableId",
-        "executionSequence",
-        "policyType",
-        "resourceType",
-        "extendedFlags",
-        "policyConditions",
-        "policyActions",
-        "provisioningMode"
-      ]
-    },
-    "FicpJitPolicySetProperties": {
-      "type": "object",
-      "description": "Ficp JIT Policy Set properties",
-      "properties": {
-        "policies": {
-          "type": "array",
-          "description": "List of Jit policies",
-          "items": {
-            "$ref": "#/definitions/FicpJitPolicy"
-          },
-          "x-ms-identifiers": []
-        },
-        "cloudId": {
-          "type": "string",
-          "description": "Cloud identificator"
-        },
-        "azureLocation": {
-          "$ref": "#/definitions/Azure.Core.azureLocation",
-          "description": "The Azure location."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/FicpProvisioningState",
-          "description": "Provisioning status of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "policies",
-        "cloudId"
-      ]
-    },
-    "FicpJitPolicySetResource": {
-      "type": "object",
-      "description": "FicpJitPolicySet Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/FicpJitPolicySetProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "FicpJitPolicySetResourceListResult": {
-      "type": "object",
-      "description": "The response of a FicpJitPolicySetResource list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The FicpJitPolicySetResource items on this page",
-          "items": {
-            "$ref": "#/definitions/FicpJitPolicySetResource"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "FicpPolicyAction": {
-      "type": "object",
-      "description": "FICP Policy Action",
-      "properties": {
-        "property": {
-          "type": "string",
-          "description": "Property of the policy action"
-        },
-        "value": {
-          "type": "string",
-          "description": "Value of the policy action"
-        }
-      },
-      "required": [
-        "property",
-        "value"
-      ]
-    },
-    "FicpPolicyCondition": {
-      "type": "object",
-      "description": "FICP Policy Condition",
-      "properties": {
-        "property": {
-          "type": "string",
-          "description": "Property of the policy condition"
-        },
-        "value": {
-          "type": "string",
-          "description": "Value of the policy condition"
-        }
-      },
-      "required": [
-        "property",
-        "value"
-      ]
-    },
     "FicpProvisioningState": {
       "type": "string",
       "description": "Provisioning status of the resource.",
@@ -701,6 +560,131 @@
         ]
       },
       "readOnly": true
+    },
+    "JitPolicy": {
+      "type": "object",
+      "description": "Ficp Jit policy",
+      "properties": {
+        "policyInvariableId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique policy Identifier for a service tree id."
+        },
+        "executionSequence": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Define the execution sequence in belonging policy set."
+        },
+        "policyType": {
+          "type": "string",
+          "description": "The type of approval for the policy. Available values are \"AutoApproval\", \"ManualApproval\" and \"ExplicitlyDeny\"."
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "Jit Resource that was created and available for your service."
+        },
+        "extendedFlags": {
+          "$ref": "#/definitions/ExtendedFlags",
+          "description": "JIT Available policy flags. "
+        },
+        "policyConditions": {
+          "type": "array",
+          "description": "Policy condition is a Property-Value set. The evaluation is based on the policy condition.",
+          "items": {
+            "$ref": "#/definitions/PolicyCondition"
+          },
+          "x-ms-identifiers": []
+        },
+        "policyActions": {
+          "type": "array",
+          "description": "After policy condition match is evaluated and matched, an equivalent action need to be performed.",
+          "items": {
+            "$ref": "#/definitions/PolicyAction"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningMode": {
+          "$ref": "#/definitions/ProvisioningMode",
+          "description": "Provisioning mode type."
+        }
+      },
+      "required": [
+        "policyInvariableId",
+        "executionSequence",
+        "policyType",
+        "resourceType",
+        "extendedFlags",
+        "policyConditions",
+        "policyActions",
+        "provisioningMode"
+      ]
+    },
+    "JitPolicySetProperties": {
+      "type": "object",
+      "description": "Ficp JIT Policy Set properties",
+      "properties": {
+        "policies": {
+          "type": "array",
+          "description": "List of Jit policies",
+          "items": {
+            "$ref": "#/definitions/JitPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "cloudId": {
+          "type": "string",
+          "description": "Cloud identificator"
+        },
+        "azureLocation": {
+          "$ref": "#/definitions/Azure.Core.azureLocation",
+          "description": "The Azure location."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/FicpProvisioningState",
+          "description": "Provisioning status of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "policies",
+        "cloudId"
+      ]
+    },
+    "JitPolicySetResource": {
+      "type": "object",
+      "description": "FicpJitPolicySet Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/JitPolicySetProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "JitPolicySetResourceListResult": {
+      "type": "object",
+      "description": "The response of a JitPolicySetResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The JitPolicySetResource items on this page",
+          "items": {
+            "$ref": "#/definitions/JitPolicySetResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
     },
     "JitSecurityGroupResource": {
       "type": "object",
@@ -771,6 +755,42 @@
       "required": [
         "instanceId",
         "cloud"
+      ]
+    },
+    "PolicyAction": {
+      "type": "object",
+      "description": "FICP Policy Action",
+      "properties": {
+        "property": {
+          "type": "string",
+          "description": "Property of the policy action"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the policy action"
+        }
+      },
+      "required": [
+        "property",
+        "value"
+      ]
+    },
+    "PolicyCondition": {
+      "type": "object",
+      "description": "FICP Policy Condition",
+      "properties": {
+        "property": {
+          "type": "string",
+          "description": "Property of the policy condition"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the policy condition"
+        }
+      },
+      "required": [
+        "property",
+        "value"
       ]
     },
     "ProvisioningMode": {
