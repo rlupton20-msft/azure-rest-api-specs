@@ -114,8 +114,8 @@ union ProvisioningState {
   ResourceProvisioningState,
 }
 
-@doc("Defines operations for managing SLI resources.")
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Custom operation on the scope of Tenant"
+@doc("Defines operations for managing SLI resources.")
 interface SlisByServiceGroup {
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Custom operation for tenant scope"
   @route("/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis")
