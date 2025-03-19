@@ -97,12 +97,12 @@ model ProvisioningMode {
 }
 
 @doc("FicpJitPolicySet Resource")
-model FicpJitPolicySetResource
+model JitPolicySetResource
   is ProxyResource<JitPolicySetProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("ficpJitPolicySets") // Start with lower case. Should be plural
+  @segment("jitPolicySets") // Start with lower case. Should be plural
   @visibility("read")
   @path
   name: string;
@@ -111,8 +111,8 @@ model FicpJitPolicySetResource
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface JitPolicySet {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<FicpJitPolicySetResource>;
-  listBySubscription is ArmListBySubscription<FicpJitPolicySetResource>;
-  listByResourceGroup is ArmResourceListByParent<FicpJitPolicySetResource>;
-  get is ArmResourceRead<FicpJitPolicySetResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<JitPolicySetResource>;
+  listBySubscription is ArmListBySubscription<JitPolicySetResource>;
+  listByResourceGroup is ArmResourceListByParent<JitPolicySetResource>;
+  get is ArmResourceRead<JitPolicySetResource>;
 }
