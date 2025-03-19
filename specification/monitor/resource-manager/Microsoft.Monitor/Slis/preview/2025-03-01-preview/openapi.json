@@ -37,25 +37,23 @@
       }
     }
   },
-  "tags": [
-    {
-      "name": "Slis"
-    }
-  ],
+  "tags": [],
   "paths": {
-    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Monitor/slis": {
+    "/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis": {
       "get": {
-        "operationId": "Slis_ListByParent",
-        "tags": [
-          "Slis"
-        ],
+        "operationId": "SlisByServiceGroup_ListByServiceGroup",
         "description": "Lists all SLI resources under a parent resource.",
         "parameters": [
           {
-            "$ref": "#/parameters/ServiceGroupBaseParameters"
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "name": "servicegroupName",
+            "in": "path",
+            "description": "The name of the service group",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
           }
         ],
         "responses": {
@@ -72,34 +70,31 @@
             }
           }
         },
-        "x-ms-examples": {
-          "SlisListByParent": {
-            "$ref": "./examples/Slis_ListByParent.json"
-          }
-        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
       }
     },
-    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Monitor/slis/{name}": {
+    "/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis/{sliName}": {
       "get": {
-        "operationId": "Slis_Get",
-        "tags": [
-          "Slis"
-        ],
+        "operationId": "SlisByServiceGroup_Get",
         "description": "Gets an SLI resource.",
         "parameters": [
-          {
-            "$ref": "#/parameters/ServiceGroupBaseParameters"
-          },
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "name": "name",
+            "name": "servicegroupName",
             "in": "path",
-            "description": "Name of the SLI that is given by the user.",
+            "description": "The name of the service group",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "sliName",
+            "in": "path",
+            "description": "The name of the SLI",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
@@ -118,30 +113,27 @@
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "GetSli": {
-            "$ref": "./examples/Slis_Get.json"
-          }
         }
       },
       "put": {
-        "operationId": "Slis_CreateOrUpdate",
-        "tags": [
-          "Slis"
-        ],
+        "operationId": "SlisByServiceGroup_CreateOrUpdate",
         "description": "Creates or updates an SLI resource.",
         "parameters": [
-          {
-            "$ref": "#/parameters/ServiceGroupBaseParameters"
-          },
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "name": "name",
+            "name": "servicegroupName",
             "in": "path",
-            "description": "Name of the SLI that is given by the user.",
+            "description": "The name of the service group",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "sliName",
+            "in": "path",
+            "description": "The name of the SLI",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
@@ -149,7 +141,7 @@
           {
             "name": "resource",
             "in": "body",
-            "description": "Resource create parameters.",
+            "description": "The properties of the SLI",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Sli"
@@ -167,6 +159,13 @@
             "description": "Resource 'Sli' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/Sli"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -176,29 +175,30 @@
             }
           }
         },
-        "x-ms-examples": {
-          "CreateSli": {
-            "$ref": "./examples/Slis_CreateOrUpdate.json"
-          }
-        }
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "original-uri"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
-        "operationId": "Slis_Delete",
-        "tags": [
-          "Slis"
-        ],
+        "operationId": "SlisByServiceGroup_Delete",
         "description": "Deletes an SLI resource.",
         "parameters": [
-          {
-            "$ref": "#/parameters/ServiceGroupBaseParameters"
-          },
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "name": "name",
+            "name": "servicegroupName",
             "in": "path",
-            "description": "Name of the SLI that is given by the user.",
+            "description": "The name of the service group",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "sliName",
+            "in": "path",
+            "description": "The name of the SLI",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-_()~]{3,64}$"
@@ -216,11 +216,6 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DeleteSli": {
-            "$ref": "./examples/Slis_Delete.json"
           }
         }
       }
@@ -285,6 +280,19 @@
       "required": [
         "resourceId",
         "identity"
+      ]
+    },
+    "Azure.ResourceManager.ArmResourceUpdatedResponse<Sli>": {
+      "type": "object",
+      "description": "Resource 'Sli' update operation succeeded",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/Sli",
+          "description": "The body type of the operation request or response."
+        }
+      },
+      "required": [
+        "body"
       ]
     },
     "Azure.ResourceManager.ResourceProvisioningState": {
@@ -665,26 +673,6 @@
           }
         ]
       }
-    },
-    "ServiceGroupParameters": {
-      "type": "object",
-      "description": "ServiceGroup as parameter",
-      "properties": {
-        "serviceGroupName": {
-          "type": "string",
-          "description": "The name of the service group.",
-          "pattern": "^[a-zA-Z0-9-]{3,24}$"
-        },
-        "apiVersion": {
-          "type": "string",
-          "description": "The API version to use for this operation.",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "serviceGroupName",
-        "apiVersion"
-      ]
     },
     "Signal": {
       "type": "object",
@@ -1075,15 +1063,5 @@
       }
     }
   },
-  "parameters": {
-    "ServiceGroupBaseParameters": {
-      "name": "serviceGroupName",
-      "in": "path",
-      "description": "The name of the service group.",
-      "required": true,
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9-]{3,24}$",
-      "x-ms-parameter-location": "method"
-    }
-  }
+  "parameters": {}
 }
