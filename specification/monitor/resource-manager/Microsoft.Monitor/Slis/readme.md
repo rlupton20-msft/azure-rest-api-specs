@@ -32,15 +32,6 @@ tag: package-2025-03-01-preview
 
 ### Tag: package-2025-03-01-preview
 
-These settings apply only when `--tag=package-2025-01-23-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2025-01-23-preview'
-input-file:
-  - preview/2025-01-23-preview/openapi.json
-```
-
-### Tag: package-2025-03-01-preview
-
 These settings apply only when `--tag=package-2025-03-01-preview` is specified on the command line.
 
 ```yaml $(tag) == 'package-2025-03-01-preview'
@@ -51,5 +42,10 @@ input-file:
 ```yaml
 directive:
   - suppress: OperationsAPIImplementation
-  - reason: Operations API was moved to its own service.
+    reason: Operations API was moved to its own service.
+    from: openapi.json
+
+  - suppress: TenantLevelAPIsNotAllowed
+    reason: SLIs scenarios are modelled around a SG (Service Group), which is a Tenant level resource.
+    from: openapi.json
 ```
