@@ -1,4 +1,5 @@
 import "../versions.tsp";
+import "./ficpjitpolicysets.tsp";
 import "./jitsecuritygroupresources.tsp";
 
 using TypeSpec.Versioning;
