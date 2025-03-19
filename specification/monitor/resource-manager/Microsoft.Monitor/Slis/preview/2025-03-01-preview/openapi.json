@@ -43,7 +43,7 @@
     }
   ],
   "paths": {
-    "/{resourceUri}/providers/Microsoft.Monitor/slis": {
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Monitor/slis": {
       "get": {
         "operationId": "Slis_ListByParent",
         "tags": [
@@ -52,10 +52,10 @@
         "description": "Lists all SLI resources under a parent resource.",
         "parameters": [
           {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ServiceGroupBaseParameters"
           },
           {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -82,19 +82,19 @@
         }
       }
     },
-    "/{resourceUri}/providers/Microsoft.Monitor/slis/{name}": {
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Monitor/slis/{name}": {
       "get": {
         "operationId": "Slis_Get",
         "tags": [
           "Slis"
         ],
-        "description": "Gets an SLI resources",
+        "description": "Gets an SLI resource.",
         "parameters": [
           {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ServiceGroupBaseParameters"
           },
           {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "name": "name",
@@ -133,10 +133,10 @@
         "description": "Creates or updates an SLI resource.",
         "parameters": [
           {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ServiceGroupBaseParameters"
           },
           {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "name": "name",
@@ -190,10 +190,10 @@
         "description": "Deletes an SLI resource.",
         "parameters": [
           {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ServiceGroupBaseParameters"
           },
           {
-            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
             "name": "name",
@@ -666,6 +666,26 @@
         ]
       }
     },
+    "ServiceGroupParameters": {
+      "type": "object",
+      "description": "ServiceGroup as parameter",
+      "properties": {
+        "serviceGroupName": {
+          "type": "string",
+          "description": "The name of the service group.",
+          "pattern": "^[a-zA-Z0-9-]{3,24}$"
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "The API version to use for this operation.",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "serviceGroupName",
+        "apiVersion"
+      ]
+    },
     "Signal": {
       "type": "object",
       "description": "Represents a signal model used in SLI calculations.",
@@ -1056,14 +1076,14 @@
     }
   },
   "parameters": {
-    "Azure.ResourceManager.ResourceUriParameter": {
-      "name": "resourceUri",
+    "ServiceGroupBaseParameters": {
+      "name": "serviceGroupName",
       "in": "path",
-      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "description": "The name of the service group.",
       "required": true,
       "type": "string",
-      "x-ms-parameter-location": "method",
-      "x-ms-skip-url-encoding": true
+      "pattern": "^[a-zA-Z0-9-]{3,24}$",
+      "x-ms-parameter-location": "method"
     }
   }
 }
