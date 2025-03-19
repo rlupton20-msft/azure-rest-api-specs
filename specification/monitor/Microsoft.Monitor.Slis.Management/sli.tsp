@@ -115,43 +115,6 @@ union ProvisioningState {
   ResourceProvisioningState,
 }
 
-/*
-alias ServiceGroupRoute = "/providers/Microsoft.Management/serviceGroups";
-
-@doc("ServiceGroup as parameter")
-model ServiceGroupBaseParameters {
-  @path
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
-  @doc("The name of the service group.")
-  serviceGroupName: string;
-}
-
-@doc("ServiceGroup as parameter")
-model ServiceGroupParameters is ServiceGroupBaseParameters {
-  ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
-}
-
-@doc("Defines operations for managing SLI resources.")
-@armResourceOperations(Sli)
-interface Slis {
-  @doc("Gets an SLI resource.")
-  @route(ServiceGroupRoute)
-  get is ArmResourceRead<Sli, ServiceGroupParameters>;
-
-  @doc("Creates or updates an SLI resource.")
-  @route(ServiceGroupRoute)
-  createOrUpdate is ArmResourceCreateOrReplaceSync<Sli, ServiceGroupParameters>;
-
-  @doc("Deletes an SLI resource.")
-  @route(ServiceGroupRoute)
-  delete is ArmResourceDeleteSync<Sli, ServiceGroupParameters>;
-
-  @doc("Lists all SLI resources under a parent resource.")
-  @route(ServiceGroupRoute)
-  listByParent is ArmResourceListByParent<Sli, ServiceGroupParameters>;
-}
-*/
-
 @doc("Defines operations for managing SLI resources.")
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Custom operation on the scope of Tenant"
 interface SlisByServiceGroup {
