@@ -185,3 +185,4 @@ interface SlisByServiceGroup {
     @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
     sliName: string,
   ): ArmDeletedResponse | ArmDeletedNoContentResponse | ErrorResponse;
+}
