@@ -10,10 +10,9 @@ using Azure.ResourceManager;
 
 namespace Microsoft.Monitor;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("Represents an SLI resource within the ProviderHub.")
 model Sli is ProxyResource<SliResource> {
+  #suppress "@typespec/http/metadata-ignored" ""
   @doc("Name of the SLI that is given by the user.")
   @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
   @key("sliName")
