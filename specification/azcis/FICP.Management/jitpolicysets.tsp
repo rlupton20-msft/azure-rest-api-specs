@@ -17,7 +17,7 @@ namespace Microsoft.AzureCis;
 @doc("Ficp JIT Policy Set properties")
 model JitPolicySetProperties {
   @doc("List of Jit policies")
-  @extension("x-ms-identifiers", ["policyInvariableId", "executionSequence"])
+  @extension("x-ms-identifiers", #[])
   policies: Array<JitPolicy>;
 
   @doc("Cloud identificator")
@@ -49,11 +49,11 @@ model JitPolicy {
   extendedFlags: ExtendedFlags;
 
   @doc("Policy condition is a Property-Value set. The evaluation is based on the policy condition.")
-  @extension("x-ms-identifiers", ["property", "value"])
+  @extension("x-ms-identifiers", #[])
   policyConditions: Array<PolicyCondition>;
 
   @doc("After policy condition match is evaluated and matched, an equivalent action need to be performed.")
-  @extension("x-ms-identifiers", ["property", "value"])
+  @extension("x-ms-identifiers", #[])
   policyActions: Array<PolicyAction>;
 
   @doc("Provisioning mode type.")
