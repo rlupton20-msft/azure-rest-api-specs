@@ -17,7 +17,9 @@ import "./SolutionTemplateVersion.tsp";
 import "./Instance.tsp";
 import "./InstanceHistory.tsp";
 import "./ConfigTemplate.tsp";
+import "./ConfigurationTemplate.tsp";
 import "./ConfigTemplateVersion.tsp";
+import "./ConfigurationTemplateVersion.tsp";
 import "./Workflow.tsp";
 import "./WorkflowVersion.tsp";
 import "./WorkflowTemplate.tsp";
@@ -25,6 +27,7 @@ import "./WorkflowTemplateVersion.tsp";
 import "./Execution.tsp";
 import "./Diagnostics.tsp";
 import "./Context.tsp";
+import "./SiteReference.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -35,9 +38,7 @@ using Azure.ResourceManager;
 /** Private.Edge Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 @armProviderNamespace
-@service({
-  title: "Private.Edge",
-})
+@service(#{ title: "Private.Edge" })
 @versioned(Versions)
 namespace Private.Edge;
 

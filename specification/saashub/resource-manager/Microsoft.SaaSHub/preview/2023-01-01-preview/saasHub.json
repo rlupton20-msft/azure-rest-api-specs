@@ -22,7 +22,7 @@
           "CloudServices"
         ],
         "operationId": "CloudServices_ListBySubscription",
-        "description": "Lists the SaaSHub cloud service under the subscription.",
+        "description": "Lists the SaaSHub cloud service under the cloud subscription. Cloud subscription must be created under Microsoft Customer Agreement.",
         "externalDocs": {
           "url": "https://docs.microsoft.com/en-us/rest/api/SaaSHub/"
         },
@@ -162,6 +162,9 @@
           },
           "Create CloudService With Coterminous": {
             "$ref": "./examples/CloudService_Put_Coterminous.json"
+          },
+          "Create CloudService With Future Start Date": {
+            "$ref": "./examples/CloudService_Put_FutureStartDate.json"
           }
         },
         "x-ms-long-running-operation": true,
@@ -227,6 +230,9 @@
           },
           "Update Auto Renew and Update Renewal Term Details at the same time": {
             "$ref": "./examples/CloudService_Patch_AutoRenew_On_UpdateRenewalTermDetails.json"
+          },
+          "Update Auto Renew and Update Renewal Term Details with future start date at the same time": {
+            "$ref": "./examples/CloudService_Patch_AutoRenew_On_UpdateRenewalTermDetails_StartDate.json"
           },
           "Change Quantity": {
             "$ref": "./examples/CloudService_Patch_ChangeQuantity.json"
@@ -805,6 +811,12 @@
               "format": "date-time",
               "description": "The end date in UTC time by when the self-serve cancellation ends.",
               "readOnly": true
+            },
+            "systemId": {
+              "type": "string",
+              "x-nullable": true,
+              "readOnly": true,
+              "description": "Represents an dependency-generated ID unique per instance of this resource."
             }
           }
         },
@@ -918,8 +930,7 @@
         "startDate": {
           "type": "string",
           "format": "date-time",
-          "description": "Start date of the term in UTC time.",
-          "readOnly": true
+          "description": "Start date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support future start date scenario. The time part passed in will be ignored"
         },
         "endDate": {
           "type": "string",
@@ -950,6 +961,11 @@
           "description": "The duration for which you can use the cloud service. Example P1Y and P1M",
           "type": "string",
           "readOnly": true
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date of the term in UTC time."
         },
         "endDate": {
           "type": "string",

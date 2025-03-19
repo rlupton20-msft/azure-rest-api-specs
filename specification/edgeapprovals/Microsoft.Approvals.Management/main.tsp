@@ -7,6 +7,7 @@ import "./common.tsp";
 import "./ApprovalDefinition.tsp";
 import "./ApprovalInstance.tsp";
 import "./ApproverSignoff.tsp";
+import "./ApprovalResult.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

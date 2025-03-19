@@ -15,17 +15,18 @@ namespace Private.Edge;
 @doc("The properties of a Diagnostic resource.")
 model DiagnosticProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 @doc("A Diagnostic resource.")
 @resource("diagnostics")
-model Diagnostic is Azure.ResourceManager.ProxyResource<DiagnosticProperties> {
+model Diagnostic
+  is Azure.ResourceManager.TrackedResource<DiagnosticProperties> {
   @doc("Name of Diagnostic.")
   @maxLength(90)
   @minLength(1)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("diagnosticName")
   @segment("diagnostics")

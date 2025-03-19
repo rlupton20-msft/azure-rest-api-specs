@@ -15,8 +15,9 @@ using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @doc("Asset definition.")
 model Asset is TrackedResource<AssetProperties> {
   @doc("Asset name parameter.")
@@ -31,12 +32,13 @@ model Asset is TrackedResource<AssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface Assets {
   get is ArmResourceRead<Asset>;

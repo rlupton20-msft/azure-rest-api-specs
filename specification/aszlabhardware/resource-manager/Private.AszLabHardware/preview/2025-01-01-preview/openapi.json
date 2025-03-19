@@ -416,6 +416,73 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "Labs_Update",
+        "tags": [
+          "Labs"
+        ],
+        "description": "Update a Lab",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "labName",
+            "in": "path",
+            "description": "The name of the lab",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LabTagsUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Lab"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
       "delete": {
         "operationId": "Labs_Delete",
         "tags": [
@@ -1645,6 +1712,73 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "Pools_Update",
+        "tags": [
+          "Pools"
+        ],
+        "description": "Update a Pool",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "poolName",
+            "in": "path",
+            "description": "The name of the pool",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PoolTagsUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Pool"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
       "delete": {
         "operationId": "Pools_Delete",
         "tags": [
@@ -2630,12 +2764,12 @@
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "Enabled"
+            "description": "Account is enabled"
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "Disabled"
+            "description": "Account is disabled"
           }
         ]
       }
@@ -2657,7 +2791,7 @@
       "type": "object",
       "description": "Information regarding individual Disk Drives",
       "properties": {
-        "id": {
+        "diskId": {
           "type": "string",
           "description": "The Id of the disk drive"
         },
@@ -2718,7 +2852,10 @@
           "description": "Information about individual disk drives",
           "items": {
             "$ref": "#/definitions/Drive"
-          }
+          },
+          "x-ms-identifiers": [
+            "diskId"
+          ]
         }
       },
       "required": [
@@ -2779,13 +2916,37 @@
         }
       }
     },
+    "IntegratedGraphicsType": {
+      "type": "string",
+      "description": "Integrated Graphics capability of the processor",
+      "enum": [
+        "IntegratedGraphics",
+        "None"
+      ],
+      "x-ms-enum": {
+        "name": "IntegratedGraphicsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "IntegratedGraphics",
+            "value": "IntegratedGraphics",
+            "description": "Processor has integrated graphics"
+          },
+          {
+            "name": "None",
+            "value": "None",
+            "description": "Processor does not have integrated graphics"
+          }
+        ]
+      }
+    },
     "InventoryLocalAccount": {
       "type": "object",
       "description": "Inventory local account",
       "properties": {
         "username": {
           "type": "string",
-          "description": "username",
+          "description": "Username of local account",
           "readOnly": true
         },
         "accountType": {
@@ -3291,13 +3452,26 @@
         }
       }
     },
+    "LabTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in Lab resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "LocalAccount": {
       "type": "object",
       "description": "Base model representing a local BMC account",
       "properties": {
         "username": {
           "type": "string",
-          "description": "Username",
+          "description": "Username for local account",
           "x-ms-mutability": [
             "read",
             "update",
@@ -3307,7 +3481,7 @@
         "password": {
           "type": "string",
           "format": "password",
-          "description": "Password",
+          "description": "Password for local account",
           "x-ms-mutability": [
             "update",
             "create"
@@ -3443,7 +3617,7 @@
             "$ref": "#/definitions/MemoryModule"
           },
           "x-ms-identifiers": [
-            "name"
+            "moduleName"
           ]
         }
       },
@@ -3457,11 +3631,11 @@
       "type": "object",
       "description": "Information about the individual memory modules of the server",
       "properties": {
-        "name": {
+        "moduleName": {
           "type": "string",
           "description": "Name of the memory module"
         },
-        "location": {
+        "moduleLocation": {
           "type": "string",
           "description": "Location of the memory module"
         },
@@ -3499,7 +3673,7 @@
       "type": "object",
       "description": "Information about a network device",
       "properties": {
-        "id": {
+        "netDeviceId": {
           "type": "string",
           "description": "Id of network device"
         },
@@ -3540,11 +3714,14 @@
           "description": "Information of individual ports on network device",
           "items": {
             "$ref": "#/definitions/Port"
-          }
+          },
+          "x-ms-identifiers": [
+            "portId"
+          ]
         }
       },
       "required": [
-        "id",
+        "netDeviceId",
         "portCount",
         "netDeviceMacs",
         "ports"
@@ -3566,7 +3743,10 @@
           "description": "Information about the individual network devices of the server",
           "items": {
             "$ref": "#/definitions/NetDevice"
-          }
+          },
+          "x-ms-identifiers": [
+            "netDeviceId"
+          ]
         }
       }
     },
@@ -3777,11 +3957,24 @@
         ]
       }
     },
+    "PoolTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in Pool resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "Port": {
       "type": "object",
       "description": "Information regarding an individual port",
       "properties": {
-        "id": {
+        "portId": {
           "type": "string",
           "description": "Id of port"
         },
@@ -3807,7 +4000,7 @@
         }
       },
       "required": [
-        "id",
+        "portId",
         "linkSpeedMbps"
       ]
     },
@@ -3828,27 +4021,27 @@
           {
             "name": "On",
             "value": "On",
-            "description": "On"
+            "description": "Server is on"
           },
           {
             "name": "Off",
             "value": "Off",
-            "description": "Off"
+            "description": "Server is Off"
           },
           {
             "name": "PoweringOn",
             "value": "PoweringOn",
-            "description": "Powering on"
+            "description": "Server is powering on"
           },
           {
             "name": "PoweringOff",
             "value": "PoweringOff",
-            "description": "Powering off"
+            "description": "Server is powering off"
           },
           {
             "name": "Paused",
             "value": "Paused",
-            "description": "Paused"
+            "description": "Server is paused"
           }
         ]
       }
@@ -3857,7 +4050,7 @@
       "type": "object",
       "description": "Information regarding the processor of the server",
       "properties": {
-        "name": {
+        "processorName": {
           "type": "string",
           "description": "The processor name"
         },
@@ -3929,7 +4122,7 @@
             "$ref": "#/definitions/Processor"
           },
           "x-ms-identifiers": [
-            "name"
+            "processorName"
           ]
         }
       },
@@ -4469,7 +4662,7 @@
           "type": "string",
           "description": "The model of the drive"
         },
-        "type": {
+        "driveType": {
           "$ref": "#/definitions/DriveType",
           "description": "The type of the drive"
         },
@@ -4545,8 +4738,8 @@
           "description": "The number of threads"
         },
         "integratedGraphics": {
-          "type": "boolean",
-          "description": "Whether processor has dedicated IGPU"
+          "$ref": "#/definitions/IntegratedGraphicsType",
+          "description": "Processor's dedicated IGPU capabilities"
         }
       }
     },

@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
+import "./edgesubvolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -13,18 +14,19 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+//    generation: "1"
+
 /**
  * SyncSubvolume is a custom resource that triggers or manages synchronization
  * for an EdgeSubvolume in the Arc Container Storage system.
  */
 @doc("SyncSubvolume is a custom resource that defines the configuration for synchronizing an EdgeSubvolume.")
+@parentResource(EdgeSubvolume)
 model SyncSubvolume is ExtensionResource<SyncSubvolumeProperties> {
-  @doc("The name of the SyncSubvolume resource.")
-  @key("syncSubvolumeName")
-  @pattern("^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$")
-  @path
-  @segment("syncsubvolumes")
-  name: string;
+  ...ResourceNameParameter<
+    SyncSubvolume,
+    NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+  >;
 }
 
 /**
@@ -32,36 +34,24 @@ model SyncSubvolume is ExtensionResource<SyncSubvolumeProperties> {
  */
 @doc("Defines the properties (spec) of the SyncSubvolume resource.")
 model SyncSubvolumeProperties {
-  @doc("Name of the EdgeSubvolume to sync.")
-  @minLength(1)
-  @maxLength(255)
-  @visibility("create", "read")
-  edgesubvolume: string;
-
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateSyncSubVolume;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: SyncSubvolumeStatus;
 }
 
 @doc("Adding provisioning state for SyncSubVolume")
 union provisioningStateSyncSubVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
-  @doc("configuring")
+  @doc("configuring sync subvolume")
   configuring: "configuring",
 
-  @doc("pending")
-  pending: "pending",
-
-  @doc("cleaning_up")
+  @doc("cleaning_up syncsubvolume")
   cleaning_up: "cleaning_up",
 
-  @doc("completed")
+  @doc("completed syncsubvolume")
   completed: "completed",
 
   string,
@@ -88,7 +78,7 @@ model SyncSubvolumeStatus {
 @armResourceOperations
 interface SyncSubvolumes {
   get is ArmResourceRead<SyncSubvolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<SyncSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<SyncSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<SyncSubvolume>;
-  listByResourceGroup is ArmResourceListByParent<SyncSubvolume>;
+  list is ArmResourceListByParent<SyncSubvolume>;
 }

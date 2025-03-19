@@ -17,6 +17,7 @@ namespace Private.DeviceRegistry;
 @doc("Namespace Discovered Asset definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
 model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   @doc("Namespace Discovered Asset name parameter.")
@@ -31,12 +32,13 @@ model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface NamespaceDiscoveredAssets {
   get is ArmResourceRead<NamespaceDiscoveredAsset>;

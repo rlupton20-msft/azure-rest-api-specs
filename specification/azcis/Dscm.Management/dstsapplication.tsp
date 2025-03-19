@@ -1,5 +1,4 @@
 import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -7,14 +6,12 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsApplication properties")
 model DstsApplicationResourceProperties {
   @doc("Application.")
@@ -22,6 +19,9 @@ model DstsApplicationResourceProperties {
 
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
+
+  @doc("The mode used to deploy the resource. Default value is Incremental. Acceptable values: Incremental, Complete.")
+  deploymentMode?: "Incremental" | "Complete" | string = "Incremental";
 
   @doc("Provisioning status of the resource.")
   @visibility("read")
@@ -37,7 +37,6 @@ model DstsApplicationResourceProperties {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsApplication Resource")
 model DstsApplicationResource
   is ProxyResource<DstsApplicationResourceProperties> {
@@ -50,7 +49,6 @@ model DstsApplicationResource
   name: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Application. Optional.")
 model ApplicationAccount {
   @doc("The dSTS instance where the Application resides. Required.")
@@ -97,7 +95,6 @@ model ApplicationAccount {
   azureLocation?: azureLocation;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("The application group. Optional.")
 model ApplicationGroup {
   @doc("Group id. Optional.")
@@ -151,7 +148,6 @@ model ApplicationGroup {
   azureLocation?: azureLocation;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("The claim rule which apply to Application.")
 model ApplicationClaimRule {
   @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
@@ -167,7 +163,6 @@ model ApplicationClaimRule {
   isRegionalEnforced?: boolean = true;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
 model Claim {
   @doc("Type of the claim")
@@ -177,7 +172,6 @@ model Claim {
   value: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents application client identity.")
 model ApplicationClientIdentity {
   @doc("Dmsi client.")
@@ -197,7 +191,6 @@ model ApplicationClientIdentity {
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("DMSI information")
 model DmsiInfo {
   @doc("DMSI path")
@@ -210,7 +203,6 @@ model DmsiInfo {
   subscriptions: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents certificate based authentication.")
 model CertificateBasedIdentity {
   @doc("Certificate")
@@ -218,7 +210,6 @@ model CertificateBasedIdentity {
   certificates: Array<CertificateInfo>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Certification based application client identity.")
 model CertificateInfo {
   @doc("Certificate thumbprint information")
@@ -228,14 +219,12 @@ model CertificateInfo {
   expiryDate: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents application subject name base identity.")
 model SubjectNameBasedIdentity {
   @doc("List of subject names for sni based auth")
   subjectNames: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Class for a contiguous range of IP Addresses.")
 model IpRange {
   @doc("From IP address.")
@@ -246,7 +235,6 @@ model IpRange {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DstsApplication {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DstsApplicationResource>;

@@ -24,9 +24,7 @@ using TypeSpec.Versioning;
 #suppress "@azure-tools/typespec-azure-core/casing-style" "SaaSHub is an existing onboarded RP"
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Has an operation api defined in earlier version"
 @armProviderNamespace
-@service({
-  title: "SaaSHubResourcesClient",
-})
+@service(#{ title: "SaaSHubResourcesClient" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.SaaSHub;

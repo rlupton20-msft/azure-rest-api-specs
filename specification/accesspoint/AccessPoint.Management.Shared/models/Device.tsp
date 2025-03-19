@@ -1,0 +1,76 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="Device.tsp" company="Microsoft Corporation">
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+import "@typespec/http";
+import "@typespec/rest";
+import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+
+import "../common/base.tsp";
+import "./AccessPointAccount.tsp";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+using Azure.Core;
+
+namespace Microsoft.AccessPoint;
+
+@doc("An Access Point Device Resource")
+@parentResource(AccessPointAccount)
+model Device is ProxyResource<DeviceProperties> {
+  ...ResourceNameParameter<
+    Device,
+    NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+  >;
+}
+
+@doc("Device Properties.")
+model DeviceProperties {
+  // Standard MAC address format
+  // 00:00:00:00:00:00
+  // lowercase, uppercase letters, 6 groups of 2 hex digits, separated by colons
+  @doc("The unique MAC address of the device.")
+  @pattern("^[a-fA-F0-9]{2}(:[a-fA-F0-9]{2}){5}$")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  mac: string;
+
+  @doc("The unique serial number of the device.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  serial: string;
+
+  @doc("Indicates whether the device is enabled.")
+  enabled: boolean;
+
+  @doc("The fully qualified ARM URI of the associated Update Group resource.")
+  updateGroupId: armResourceIdentifier;
+
+  @doc("The fully qualified ARM URI of the associated Network resource.")
+  networkId: armResourceIdentifier;
+
+  @doc("The IP address of the device that belongs to the attached network.")
+  ipAddress: ipV4Address;
+
+  @doc("The labels associated with the device.")
+  labels: Array<string>;
+
+  @doc("Additional details.")
+  description?: string;
+
+  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
+}
+
+@armResourceOperations
+interface DeviceOperations {
+  get is ArmResourceRead<Device>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<Device>;
+  update is ArmResourcePatchSync<Device, DeviceProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<Device>;
+  listByParent is ArmResourceListByParent<Device>;
+}

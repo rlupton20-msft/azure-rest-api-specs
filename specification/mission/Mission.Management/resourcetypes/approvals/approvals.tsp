@@ -8,6 +8,7 @@ import "../shared/provisioningstate.tsp";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.Core;
 using Azure.ResourceManager;
 
 @doc("Microsoft Mission Resource Provider management API.")
@@ -25,11 +26,11 @@ union ApprovalStatus {
   @doc("ApprovalStatus Type Pending")
   Pending: "Pending",
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("ApprovalStatus Type Deleted")
   Deleted: "Deleted",
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("ApprovalStatus Type Expired")
   Expired: "Expired",
 
@@ -55,11 +56,11 @@ model RequestMetadata {
   @doc("Approval status.")
   approvalStatus?: ApprovalStatus;
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Route name for the approval callback")
   approvalCallbackRoute?: string;
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Payload to be sent upon any action on approval request")
   approvalCallbackPayload?: string;
 }
@@ -80,7 +81,7 @@ model Approver {
 @doc("Approvals Resource Properties")
 model ApprovalProperties {
   @doc("Provisioning State.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Parameter for optimizing query results")
@@ -92,21 +93,10 @@ model ApprovalProperties {
   @doc("Request metadata for the approval request.")
   requestMetadata: RequestMetadata;
 
-  @added(Microsoft.Mission.Versions.v2024_10_01_preview)
-  @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", #["approverEntraId"])
   @doc("List of approvers for the approval request")
   approvers?: Approver[];
-
-  @added(Microsoft.Mission.Versions.v2024_10_01_preview)
-  @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
-  @doc("List of mandatory approvers for the approval request")
-  mandatoryApprovers?: Approver[];
-
-  @added(Microsoft.Mission.Versions.v2024_10_01_preview)
-  @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @doc("Minimum number of approvers required for the approval request")
-  minimumApproversRequired?: int64;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Ticket ID for the approval request")
@@ -119,4 +109,10 @@ model ApprovalProperties {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Approval request state change time, time at which approval request state changed from pending to approved or rejected.")
   stateChangedAt?: utcDateTime;
+}
+
+@doc("Approvals properties for patching")
+model ApprovalPatchResource {
+  @doc("Approval Patch properties")
+  properties?: Update<ApprovalProperties>;
 }

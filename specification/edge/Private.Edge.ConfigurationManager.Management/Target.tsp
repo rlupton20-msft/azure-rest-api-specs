@@ -31,6 +31,15 @@ model SolutionTemplateParameter {
 
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
+
+  @doc("Solution Instance Name")
+  @maxLength(24)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  solutionInstanceName?: string;
+
+  @doc("Solution Dependencies")
+   @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
 }
 
 @doc("Solution Version Parameter")
@@ -43,6 +52,57 @@ model SolutionVersionParameter {
 
   @doc("Review ID")
   reviewId: string;
+}
+
+@doc("Solution Dependency Context")
+model SolutionDependencyParameter {
+  @doc("Solution Version Id")
+  solutionVersionId?: string;
+
+  @doc("Solution Template Id")
+  solutionTemplateId?: string;
+
+  @doc("Solution Template Version")
+  solutionTemplateVersion?: string;
+
+  @doc("Solution Instance Name")
+  @maxLength(24)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  solutionInstanceName?: string;
+
+  @doc("Target Id")
+  targetId?: string;
+
+  @doc("Solution dependencies")
+   @Azure.ResourceManager.identifiers(#[])
+  dependencies?: SolutionDependencyParameter[];
+}
+
+@doc("Install Solution Parameter")
+model InstallSolutionParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
+}
+
+@doc("Uninstall Solution Parameter")
+model UninstallSolutionParameter {
+  @doc("Solution Name")
+  solutionName: string;
+
+  @doc("Solution Instance Name")
+  solutionInstanceName?: string;
+}
+
+@doc("Install Solution Parameter")
+model RemoveRevisionParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
 }
 
 @doc("Target Properties")
@@ -64,15 +124,19 @@ model TargetProperties {
   @doc("Hierarchy Level")
   hierarchyLevel: string;
 
+  @doc("Status of target")
+  @visibility(Lifecycle.Read)
+  status?: DeploymentStatus;
+
   @doc("Scope of the target resource")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionScope?: string;
 
-  @doc("Is this resource deprecated")
-  @visibility("read")
-  isDeprecated?: boolean;
+  @doc("State of resource")
+  state?: ResourceState;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -83,12 +147,12 @@ model ForceDeleteParameter {
   forceDelete?: boolean = false;
 }
 
-@doc("Target Resource")
+@doc("Target Resource. Represents a resource to be deployed on the edge.")
 model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
   @doc("Name of the target")
   @maxLength(61)
   @minLength(3)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("targetName")
   @segment("targets")
@@ -125,29 +189,41 @@ interface Targets {
   listBySubscription is ArmListBySubscription<Target>;
 
   @doc("Post request to deploy")
-  deploy is ArmResourceActionAsync<Target, SolutionVersionParameter, Instance>;
+  installSolution is ArmResourceActionNoResponseContentAsync<
+    Target,
+    InstallSolutionParameter
+  >;
+
+  @doc("Post request to uninstall")
+  uninstallSolution is ArmResourceActionNoResponseContentAsync<
+    Target,
+    UninstallSolutionParameter
+  >;
+
+  @doc("Post request to remove solution version revision")
+  removeRevision is ArmResourceActionNoResponseContentAsync<
+    Target,
+    RemoveRevisionParameter
+  >;
 
   @doc("Post request to resolve configuration")
-  resolve is ArmResourceActionAsync<
+  resolveConfiguration is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     ResolvedConfiguration
   >;
 
   @doc("Post request to review configuration")
-  review is ArmResourceActionAsync<
+  reviewSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     SolutionVersion
   >;
 
   @doc("Post request to publish")
-  publish is ArmResourceActionAsync<
+  publishSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionVersionParameter,
     SolutionVersion
   >;
-
-  @doc("Deprecate resource")
-  deprecate is ArmResourceActionNoResponseContentAsync<Target, void>;
 }

@@ -1,6 +1,5 @@
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "../shared/provisioningstate.tsp";
@@ -15,27 +14,6 @@ using Azure.ResourceManager;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
-
-#suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-@removed(Microsoft.Mission.Versions.v2023_08_01_preview)
-@doc("EnclaveListItem Properties")
-model EnclaveListItem {
-  @doc("virtual enclave name.")
-  name?: string;
-
-  @doc("virtual enclaves resource id.")
-  id?: VirtualEnclaveResourceId;
-
-  @doc("creation datetime.")
-  creationDatetime?: string;
-
-  @doc("created by.")
-  createdBy?: string;
-
-  @doc("Provisioning State.")
-  @visibility("read")
-  provisioningState?: ProvisioningState;
-}
 
 @doc("Identifier for governed services.")
 union ServiceIdentifier {
@@ -94,7 +72,7 @@ model GovernedServiceItem {
   id: ServiceIdentifier;
 
   @doc("service name")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name?: string;
 
   @doc("governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).")
@@ -107,11 +85,11 @@ model GovernedServiceItem {
   auditOnly?: boolean;
 
   @doc("initiatives associated with this service")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   initiatives?: string[];
 }
 
-@added(Microsoft.Mission.Versions.v2024_11_01_preview)
+@added(Microsoft.Mission.Versions.v2024_12_01_preview)
 @doc("Approval Policy.")
 union ApprovalPolicy {
   string,
@@ -130,7 +108,7 @@ model MandatoryApprover {
   approverEntraId: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_11_01_preview)
+@added(Microsoft.Mission.Versions.v2024_12_01_preview)
 @doc("ApprovalSettings Properties")
 model ApprovalSettings {
   @doc("Approval required for endpoint creation (Required or NotRequired).")
@@ -179,7 +157,7 @@ model ApprovalSettings {
   notificationOnApprovalDeletion?: ApprovalPolicy;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
+  @OpenAPI.extension("x-ms-identifiers", #["approverEntraId"])
   @doc("List of mandatory approvers for the approval request")
   mandatoryApprovers?: MandatoryApprover[];
 
@@ -190,11 +168,6 @@ model ApprovalSettings {
 
 @doc("Community Resource Properties")
 model CommunityProperties {
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
-  @doc("Community Description.")
-  description?: string;
-
   @doc("Address Space.")
   addressSpace?: string;
 
@@ -202,45 +175,44 @@ model CommunityProperties {
   dnsServers?: string[];
 
   @doc("Provisioning State.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids created by communities.")
+  @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
-  @doc("List of virtual enclaves that a community contains.")
-  virtualEnclaveList?: EnclaveListItem[];
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For backward compatibility"
-  @removed(Microsoft.Mission.Versions.v2023_08_01_preview)
-  @doc("Dictionary of virtual enclaves that a community contains.")
-  virtualEnclaveCollection?: Record<EnclaveListItem>;
-
-  #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-  @added(Microsoft.Mission.Versions.v2023_08_01_preview)
-  @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Managed resource group configuration.")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  @madeOptional(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("List of services governed by a community.")
   governedServiceList?: GovernedServiceItem[];
 
-  @added(Microsoft.Mission.Versions.v2024_10_01_preview)
-  @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Community role assignments")
   communityRoleAssignments?: RoleAssignmentItem[];
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
 
-  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfiguration;
+}
+
+@doc("Community Patch Properties")
+model CommunityPatchProperties is CommunityProperties;
+
+@doc("Community Patch Resource")
+model CommunityPatchResource {
+  @doc("Community Patch properties")
+  properties?: Update<CommunityPatchProperties>;
+
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
+  ...ManagedServiceIdentityProperty;
 }

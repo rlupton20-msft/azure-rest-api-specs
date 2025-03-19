@@ -32,6 +32,9 @@ model ApprovalInstanceProperties {
   @doc("The one who attempted to make the change that triggered the ApprovalInstance.")
   requestedBy: string;
 
+  @doc("The ARM resource ID of the change that the ApprovalInstance was associated with.")
+  requestedFor: Azure.Core.armResourceIdentifier;
+
   @doc("The datetime when the ApprovalInstance was triggered.")
   requestedDateTime: utcDateTime;
 
@@ -50,6 +53,9 @@ model ApprovalInstanceProperties {
   @doc("The latest status of each stage.")
   @extension("x-ms-identifiers", ["name"])
   stageStatuses: ApprovalStageStatus[];
+
+  @doc("The signoffs that verify authority sign")
+  verificationAuthoritySignoffs: string[];
 }
 
 @doc("Enum of approval instance state.")

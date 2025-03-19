@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/provisioningState.tsp";
 import "./common/deviceProperties.tsp";
+import "./common/extendedLocation.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -16,9 +17,10 @@ namespace Private.DeviceRegistry;
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
 @doc("Device Model as ARM resource.")
-model NamespaceDevice is TrackedResource<DeviceProperties_V2024_10_01_Preview> {
+model NamespaceDevice is TrackedResource<EdgeCapableDevice> {
   @doc("Name of the device.")
   @key("deviceName")
   @segment("devices")
@@ -31,41 +33,25 @@ model NamespaceDevice is TrackedResource<DeviceProperties_V2024_10_01_Preview> {
   // etag not included in TrackedResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Resource Tag.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   etag?: string;
+
+  // Extended location is not included in TrackedResource yet
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
+  @doc("The extended location.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @added(Versions.v2025_07_01_preview)
+  extendedLocation?: ExtendedLocation;
 }
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
-@doc("Connection endpoint url a device can use to connect to a service.")
-model DeviceMessagingEndpoint {
-  @doc("Type of connection used for the endpoint.")
-  type?: string;
-}
-
-@added(Versions.v2024_10_01_preview)
-@removed(Versions.v2024_11_01)
-@doc("Connection endpoint url a device can use to connect to a service.")
-model MessagingEndpoints {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
-  @doc("Actively used endpoints a device can use to connect to several services.")
-  assigned: Record<DeviceMessagingEndpoint>;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
-  @doc("List of most recently removed endpoints.")
-  unassigned?: Record<DeviceMessagingEndpoint>;
-}
-
-@added(Versions.v2024_10_01_preview)
-@removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface NamespaceDevices {
   get is ArmResourceRead<NamespaceDevice>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDevice>;
-  update is ArmResourcePatchAsync<
-    NamespaceDevice,
-    DeviceProperties_V2024_10_01_Preview
-  >;
+  update is ArmResourcePatchAsync<NamespaceDevice, EdgeCapableDevice>;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDevice>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDevice>;
   listBySubscription is ArmListBySubscription<NamespaceDevice>;

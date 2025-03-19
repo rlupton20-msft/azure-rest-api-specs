@@ -20,7 +20,7 @@ model ConnectorProperties {
   @doc("System-generated identifier for the Storage Connector. Not a valid input parameter when creating.")
   uniqueId?: string;
 
-  @doc("State – Enabled or Disabled. Whether or not the Storage Connector should start as enabled (default: Enabled) (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.)")
+  @doc("State - Enabled or Disabled. Whether or not the Storage Connector should start as enabled (default: Enabled) (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.)")
   state?: State = State.Enabled;
 
   @visibility("read")
@@ -30,6 +30,14 @@ model ConnectorProperties {
   @doc("Arbitrary description of this Storage Connector. Max 250 characters.")
   @maxLength(250)
   description?: string;
+
+  @visibility("create")
+  @doc("Test connection to backing data source before creating the storage connector.")
+  testConnection?: boolean = false;
+
+  @visibility("create")
+  @doc("The source of the backing data source.")
+  dataSourceType: DataSourceType;
 
   @doc("Information about how to communicate with and authenticate to the backing data store.")
   source: Source;
@@ -43,7 +51,7 @@ model ConnectorProperties {
 @discriminator("type")
 @doc("The type of backing data source")
 model Source {
-  @doc("Type of the Storage Connector – Bucket. Not mutable once the Storage Connector is created.")
+  @doc("Type of the Storage Connector - Bucket. Not mutable once the Storage Connector is created.")
   type: SourceType;
 }
 
@@ -66,7 +74,7 @@ model BucketSource extends Source {
 @discriminator("type")
 @doc("Details related to the type of bucket connection")
 model Connection {
-  @doc("Type of the connection – Endpoint or PrivateLink. Controls the type of the connection object.")
+  @doc("Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object.")
   type: ConnectionType;
 }
 
@@ -79,39 +87,7 @@ model EndpointConnection extends Connection {
   @minLength(4)
   endpoint: string;
 
-  @doc("Options – Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
-  tlsVerification?: TlsVerification = TlsVerification.Perform;
-}
-
-@doc("Details related to private link based bucket connection")
-model PrivateLinkConnection extends Connection {
-  @visibility("read")
-  type: ConnectionType.PrivateLink;
-
-  @doc("Options – Resource Id or Alias. Determines whether the “privateLinkId” field is an ARM Resource ID of a Private Link, or a Private Link alias.")
-  privateLinkIdType: PrivateLinkIdType;
-
-  @doc("The identifier of the Private Link resource, over which the backing data store can be accessed. Depending on the “privateLinkIdType”, should either be an ARM Resource ID or an Private Link alias.")
-  @minLength(3)
-  privateLinkId: string;
-
-  @doc("The private Link resource group id")
-  @minLength(3)
-  privateLinkGroupId: string;
-
-  @doc("Azure region of the private link.")
-  @minLength(3)
-  privateLinkLocation: string;
-
-  @doc("The message to send to the owner of the private link via a manual request, when Azure Storage is creating a Private Endpoint to communicate with the Private Link.")
-  @minLength(1)
-  requestMessage: string;
-
-  @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: Storage Account: https://myaccount.blob.core.windows.net/containername Bucket: https://data.contoso.com/bucketname Note that this will be the endpoint as seen by the target of the Private Link in HTTP(s) requests. It is not a Private Endpoint used to connect to the Private Link.")
-  @minLength(3)
-  endpoint: string;
-
-  @doc("Options – Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
+  @doc("Options - Perform or Skip (default: Perform)  If this is set to “Skip”, Azure Storage will not verify the certificate chain of TLS connections to a root CA. Set this to “Skip” if the backing data store uses a self-signed cert. Ignored if the endpoint field does not use HTTPS.")
   tlsVerification?: TlsVerification = TlsVerification.Perform;
 }
 
@@ -140,9 +116,9 @@ model AccessKeyProperties extends AuthProperties {
   signingRegion?: string;
 }
 
-// Existing Connection Test request
+// Test Existing Connection request
 @doc("The test connection related properties.")
-model ExistingConnectionTestRequest {
+model TestExistingConnectionRequest {
   @doc("The uniqueId of the connector as returned by the server.")
   uniqueId: string;
 }

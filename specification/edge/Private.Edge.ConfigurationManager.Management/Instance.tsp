@@ -44,7 +44,7 @@ model ReconciliationPolicyProperties {
   @doc("The state of the ReconciliationPolicy")
   state: ReconciliationState;
 
-  @doc("Policy interval.")
+  @doc("Policy interval")
   interval: string;
 }
 
@@ -63,29 +63,30 @@ model InstanceProperties {
   reconciliationPolicy?: ReconciliationPolicyProperties;
 
   @doc("Scope of instance")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionScope?: string;
 
   @doc("Status of instance")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: DeploymentStatus;
 
   @doc("Deployment timestamp of instance")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   deploymentTimestampEpoch?: int64;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("Instance Resource")
+@doc("Instance Resource. Represents a deployment object.")
 @parentResource(Solution)
 model Instance is Azure.ResourceManager.ProxyResource<InstanceProperties> {
   // Name will be set to solution
   @doc("Name of the instance")
   @maxLength(61)
   @minLength(3)
-  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("instanceName")
   @segment("instances")
@@ -103,7 +104,7 @@ interface Instances {
   @doc("Create or update Instance Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
 
-  @doc("update an Instance Resource")
+  @doc("Update an Instance Resource")
   update is ArmResourcePatchAsync<Instance, InstanceProperties>;
 
   @doc("Delete Instance Resource")

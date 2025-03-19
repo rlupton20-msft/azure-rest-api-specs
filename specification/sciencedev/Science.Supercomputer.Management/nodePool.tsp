@@ -1,0 +1,51 @@
+import "@typespec/http";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "../Science.Management.Shared/all.tsp";
+import "./supercomputer.tsp";
+
+using TypeSpec.Rest;
+using TypeSpec.Http;
+using Azure.Core;
+using Azure.ResourceManager;
+using TypeSpec.Versioning;
+
+@armProviderNamespace
+@versioned(Microsoft.Science.Versions)
+namespace Microsoft.Science;
+
+@doc("NodePool tracked resource")
+@parentResource(Supercomputer)
+model NodePool is TrackedResource<NodePoolProperties> {
+  ...ResourceNameParameter<NodePool>;
+}
+
+@doc("NodePool properties")
+model NodePoolProperties {
+  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
+
+  @doc("The subnet.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  subnetId: string; // TODO Make resource identifier
+
+  @doc("The Sku.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  vmSku: string; // TODO: Make arm sku, which will we support (allow list)?
+
+  @doc("The number of nodes.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  maxNodeCount: int32;
+}
+
+@armResourceOperations
+interface NodePools {
+  get is ArmResourceRead<NodePool>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<NodePool>;
+  update is ArmResourcePatchAsync<NodePool, NodePoolProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<NodePool>;
+  listByResourceGroup is ArmResourceListByParent<NodePool>;
+  listBySubscription is ArmListBySubscription<NodePool>;
+}

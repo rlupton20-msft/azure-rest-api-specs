@@ -19,20 +19,21 @@ namespace Private.Edge;
 @doc("Workflow Properties")
 model WorkflowProperties {
   @doc("Workflow template Id")
-  @visibility("read")
-  workflowTemplateId: string;
+  @visibility(Lifecycle.Read)
+  workflowTemplateId?: string;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 @doc("Workflow Resource")
-model Workflow is Azure.ResourceManager.TrackedResource<WorkflowProperties> {
+@parentResource(Context)
+model Workflow is Azure.ResourceManager.ProxyResource<WorkflowProperties> {
   @doc("Name of the workflow")
   @maxLength(61)
   @minLength(3)
-  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   @path
   @key("workflowName")
   @segment("workflows")
@@ -56,9 +57,6 @@ interface Workflows {
   @doc("Delete a Workflow resource")
   delete is ArmResourceDeleteWithoutOkAsync<Workflow>;
 
-  @doc("List by specified resource group")
-  listByResourceGroup is ArmResourceListByParent<Workflow>;
-
-  @doc("List by subscription")
-  listBySubscription is ArmListBySubscription<Workflow>;
+  @doc("List Workflow resources")
+  listByContext is ArmResourceListByParent<Workflow>;
 }

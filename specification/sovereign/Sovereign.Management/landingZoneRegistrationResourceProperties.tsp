@@ -28,18 +28,7 @@ model LandingZoneRegistrationResourceProperties {
 
   @added(Versions.Preview20250227)
   @doc("The managed identity to be tied to this landing zone registration")
-  managedIdentity: ManagedIdentityProperties;
-}
-
-@added(Versions.Preview20241031)
-@removed(Versions.Preview20250227)
-@doc("JSON structure for Drift severity count.")
-model DriftedItemsBySeverity {
-  @doc("The type of severity.")
-  severityType: string;
-
-  @doc("The count of occurrences.")
-  count: string;
+  managedIdentity?: ManagedIdentityProperties;
 }
 
 @added(Versions.Preview20241031)
@@ -66,12 +55,29 @@ model DriftedItems {
 @removed(Versions.Preview20250227)
 @doc("The JSON response of the drift API call.")
 model DriftResponseArray {
-  @doc("The count of drift rules.")
-  totalRulesEvaluated: string;
+  @doc("The time when the drift analysis was run.")
+  reportRuntime: string;
 
-  @doc("Array of Drift severity count.")
-  @OpenAPI.extension("x-ms-identifiers", ["severityType", "count"])
-  driftedItemsBySeverity: DriftedItemsBySeverity[];
+  @doc("The resource id of landing zone account, landing zone registration is part of.")
+  landingZoneAccountId: string;
+
+  @doc("The resource id of landing zone registration where drift operation was triggered from.")
+  landingZoneRegistrationId: string;
+
+  @doc("The resource id of the associated landing zone configuration.")
+  landingZoneConfigurationId: string;
+
+  @doc("The resource id of the associated management group id.")
+  managementGroupId: string;
+
+  @doc("The count of drift rules.")
+  totalEvaluatedRules: int32;
+
+  @doc("The count of items analyzed.")
+  totalAnalyzedItems: int32;
+
+  @doc("The count of drifted items.")
+  totalDriftedItems: int32;
 
   @doc("Array of Drift JSON response.")
   @OpenAPI.extension(

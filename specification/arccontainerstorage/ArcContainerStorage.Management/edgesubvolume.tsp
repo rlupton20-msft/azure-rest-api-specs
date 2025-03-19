@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
+import "./edgevolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -13,18 +14,20 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+//    generation: "11"
+
 /**
  * EdgeSubvolume is a custom resource that defines configuration
  * for an edge subvolume in the Arc Container Storage system.
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
-model EdgeSubvolume is ExtensionResource<EdgeSubvolumeProperties> {
-  @doc("The name of the EdgeSubvolume resource.")
-  @key("edgeSubvolumeName")
-  @segment("edgesubvolumes")
-  @pattern("^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$")
-  @path
-  name: string;
+@parentResource(EdgeVolume)
+model EdgeSubvolume
+  is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional = false> {
+  ...ResourceNameParameter<
+    EdgeSubvolume,
+    NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+  >;
 }
 
 /**
@@ -33,13 +36,8 @@ model EdgeSubvolume is ExtensionResource<EdgeSubvolumeProperties> {
 @doc("Defines the properties of the EdgeSubvolume resource.")
 model EdgeSubvolumeProperties {
   @doc("Type of the subvolume.")
-  @visibility("read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
-
-  @doc("Name of the EdgeVolume that this subvolume references.")
-  @minLength(1)
-  @maxLength(255)
-  edgevolume: string;
 
   @doc("Top-level path for this subvolume (e.g., /mysubvol).")
   @minLength(1)
@@ -69,26 +67,24 @@ model EdgeSubvolumeProperties {
   authSys?: AuthSysConfig;
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateSubVolume;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeSubvolumeStatus;
 }
 
 @doc("Adding provisioning state for EdgeSubVolume")
 union provisioningStateSubVolume {
-  @doc("Unknown")
-  `unknown`: "unknown",
-
-  @doc("configuring")
+  // this union contains additional values for subvolumes, but 'unknown' is provided by the generic provisioningState
+  @doc("configuring the edge subvolume")
   configuring: "configuring",
 
-  @doc("configured")
+  @doc("configured the edge subvolume")
   configured: "configured",
 
-  @doc("cleaning_up")
+  @doc("cleaning_up the edge subvolume")
   cleaning_up: "cleaning_up",
 
   string,
@@ -130,19 +126,19 @@ model AuthConfig {
  */
 @doc("Possible authentication methods.")
 union AuthType {
-  @doc("SAS")
+  @doc("SAS token for authentication (not recommended)")
   SAS: "SAS",
 
-  @doc("Key")
+  @doc("Key for authentication (not recommended)")
   KEY: "KEY",
 
-  @doc("Connection String")
+  @doc("Connection String for authentication (not recommended)")
   CONNECTION_STRING: "CONNECTION_STRING",
 
-  @doc("Workload Identity")
+  @doc("Workload Identity for authentication.")
   WORKLOAD_IDENTITY: "WORKLOAD_IDENTITY",
 
-  @doc("Managed Identity")
+  @doc("Managed Identity for authentication.")
   MANAGED_IDENTITY: "MANAGED_IDENTITY",
 
   string,
@@ -197,7 +193,7 @@ model EdgeSubvolumeStatus {
   connectedContainer: string;
 
   @doc("List of file errors encountered.")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   fileErrors?: FileError[];
 
   @doc("Total count of file errors.")
@@ -228,7 +224,7 @@ model FileError {
 @armResourceOperations
 interface EdgeSubvolumes {
   get is ArmResourceRead<EdgeSubvolume>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<EdgeSubvolume>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeSubvolume>;
-  listByResourceGroup is ArmResourceListByParent<EdgeSubvolume>;
+  list is ArmResourceListByParent<EdgeSubvolume>;
 }

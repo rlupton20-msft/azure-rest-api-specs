@@ -16,8 +16,9 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @doc("Asset Endpoint Profile definition.")
 model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
   @doc("Asset Endpoint Profile name parameter.")
@@ -32,12 +33,13 @@ model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface AssetEndpointProfiles {
   get is ArmResourceRead<AssetEndpointProfile>;

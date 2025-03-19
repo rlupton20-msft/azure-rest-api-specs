@@ -643,9 +643,6 @@
         "operationId": "Endpoints_Get",
         "description": "Gets an Endpoint resource.",
         "x-ms-examples": {
-          "Endpoints_Get_AzurStorageAccounts": {
-            "$ref": "./examples/Endpoints_Get_AzureStorageAccounts.json"
-          },
           "Endpoints_Get_AzureMultiCloudConnector": {
             "$ref": "./examples/Endpoints_Get_AzureMultiCloudConnector.json"
           },
@@ -701,9 +698,6 @@
         "operationId": "Endpoints_CreateOrUpdate",
         "description": "Creates or updates an Endpoint resource, which represents a data transfer source or destination.",
         "x-ms-examples": {
-          "Endpoints_CreateOrUpdate_AzurStorageAccounts": {
-            "$ref": "./examples/Endpoints_CreateOrUpdate_AzureStorageAccounts.json"
-          },
           "Endpoints_CreateOrUpdate_AzureMultiCloudConnector": {
             "$ref": "./examples/Endpoints_CreateOrUpdate_AzureMultiCloudConnector.json"
           },
@@ -767,9 +761,6 @@
         "operationId": "Endpoints_Update",
         "description": "Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.",
         "x-ms-examples": {
-          "Endpoints_Update_AzureStorageAccounts": {
-            "$ref": "./examples/Endpoints_Update_AzureStorageAccounts.json"
-          },
           "Endpoints_Update_AzureMultiCloudConnector": {
             "$ref": "./examples/Endpoints_Update_AzureMultiCloudConnector.json"
           },
@@ -1223,6 +1214,9 @@
         "x-ms-examples": {
           "JobDefinitions_CreateOrUpdate": {
             "$ref": "./examples/JobDefinitions_CreateOrUpdate.json"
+          },
+          "JobDefinitions_cloudToCloud_CreateOrUpdate": {
+            "$ref": "./examples/JobDefinitions_cloudToCloud_CreateOrUpdate.json"
           }
         },
         "parameters": [
@@ -2001,7 +1995,7 @@
           "description": "Resource system metadata."
         },
         "identity": {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/Identity"
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity"
         }
       },
       "required": [
@@ -2041,6 +2035,9 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/EndpointBaseUpdateProperties"
+        },
+        "identity": {
+          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity"
         }
       }
     },
@@ -2062,46 +2059,10 @@
         }
       }
     },
-    "AzureStorageAccountsEndpointProperties": {
-      "type": "object",
-      "description": "The properties of Azure storage accounts type endpoint.",
-      "properties": {
-        "storageAccounts": {
-          "description": "The list of target storage accounts for cloud to cloud migration.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StorageAccounts"
-          }
-        }
-      },
-      "required": [
-        "storageAccounts"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/EndpointBaseProperties"
-        }
-      ]
-    },
-    "StorageAccounts": {
-      "description": "The Azure Resource ID of the storage account that is the target destination.",
-      "type": "string",
-      "format": "arm-id",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Storage/storageAccounts"
-          }
-        ]
-      },
-      "x-ms-mutability": [
-        "read",
-        "create"
-      ]
-    },
     "AzureMultiCloudConnectorEndpointProperties": {
       "type": "object",
-      "description": "The properties of AWS S3 Bucket endpoint.",
+      "description": "The properties of MultiCloudConnector endpoint type.",
+      "x-ms-discriminator-value": "AzureMultiCloudConnector",
       "properties": {
         "multiCloudConnectorId": {
           "description": "The Azure Resource ID of the Multi-Cloud Connector which has the AWS S3 buckets.",
@@ -2118,10 +2079,23 @@
             "read",
             "create"
           ]
+        },
+        "awsS3BucketId": {
+          "description": "The AWS S3 bucket ARM resource Id.",
+          "type": "string",
+          "format": "arm-id",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.AwsConnector/s3Buckets"
+              }
+            ]
+          }
         }
       },
       "required": [
-        "multiCloudConnectorId"
+        "multiCloudConnectorId",
+        "awsS3BucketId"
       ],
       "allOf": [
         {
@@ -2160,20 +2134,12 @@
         }
       },
       "required": [
-        "storageAccountResourceId"
+        "storageAccountResourceId",
+        "blobContainerName"
       ],
       "allOf": [
         {
           "$ref": "#/definitions/EndpointBaseProperties"
-        }
-      ]
-    },
-    "AzureStorageAccountsEndpointUpdateProperties": {
-      "type": "object",
-      "x-ms-discriminator-value": "AzureStorageAccounts",
-      "allOf": [
-        {
-          "$ref": "#/definitions/EndpointBaseUpdateProperties"
         }
       ]
     },
@@ -2362,8 +2328,7 @@
         "NfsMount",
         "AzureStorageSmbFileShare",
         "SmbMount",
-        "AzureMultiCloudConnector",
-        "AzureStorageAccounts"
+        "AzureMultiCloudConnector"
       ],
       "type": "string",
       "x-ms-enum": {
@@ -2426,7 +2391,7 @@
       "properties": {
         "description": {
           "type": "string",
-          "description": "A description for the Job Definition."
+          "description": "A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud."
         },
         "jobType": {
           "type": "string",
@@ -2438,7 +2403,8 @@
           "enum": [
             "OnPremToCloud",
             "CloudToCloud"
-          ]
+          ],
+          "default": "OnPremToCloud"
         },
         "copyMode": {
           "type": "string",
@@ -2552,7 +2518,6 @@
         }
       },
       "required": [
-        "jobType",
         "copyMode",
         "sourceName",
         "targetName"
@@ -2586,7 +2551,7 @@
                 "create"
               ]
             },
-            "awsS3BucketResourceId": {
+            "awsS3BucketId": {
               "type": "string",
               "description": "The fully qualified ARM resource ID of the AWS S3 bucket to migrate.",
               "format": "arm-id",
@@ -2601,16 +2566,12 @@
                 "read",
                 "create"
               ]
-            },
-            "awsAccountId": {
-              "type": "string",
-              "description": "The AWS account ID of the AWS S3 bucket."
             }
           }
         },
         "targetEndpoint": {
           "type": "object",
-          "description": "The properties of the cloud targert endpoint to migrate.",
+          "description": "The properties of the cloud target endpoint to migrate.",
           "properties": {
             "name": {
               "type": "string",
