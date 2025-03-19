@@ -15,10 +15,10 @@ using Autorest;
 namespace Microsoft.AzureCis;
 
 @doc("Ficp JIT Policy Set properties")
-model FicpJitPolicySetProperties {
+model JitPolicySetProperties {
   @doc("List of Jit policies")
   @extension("x-ms-identifiers", [])
-  policies: Array<FicpJitPolicy>;
+  policies: Array<JitPolicy>;
 
   @doc("Cloud identificator")
   cloudId: string;
@@ -32,7 +32,7 @@ model FicpJitPolicySetProperties {
 }
 
 @doc("Ficp Jit policy")
-model FicpJitPolicy {
+model JitPolicy {
   @doc("Unique policy Identifier for a service tree id.")
   policyInvariableId: int64;
 
@@ -50,11 +50,11 @@ model FicpJitPolicy {
 
   @doc("Policy condition is a Property-Value set. The evaluation is based on the policy condition.")
   @extension("x-ms-identifiers", [])
-  policyConditions: Array<FicpPolicyCondition>;
+  policyConditions: Array<PolicyCondition>;
 
   @doc("After policy condition match is evaluated and matched, an equivalent action need to be performed.")
   @extension("x-ms-identifiers", [])
-  policyActions: Array<FicpPolicyAction>;
+  policyActions: Array<PolicyAction>;
 
   @doc("Provisioning mode type.")
   provisioningMode: ProvisioningMode;
@@ -73,7 +73,7 @@ model ExtendedFlags {
 }
 
 @doc("FICP Policy Condition")
-model FicpPolicyCondition {
+model PolicyCondition {
   @doc("Property of the policy condition")
   property: string;
 
@@ -82,7 +82,7 @@ model FicpPolicyCondition {
 }
 
 @doc("FICP Policy Action")
-model FicpPolicyAction {
+model PolicyAction {
   @doc("Property of the policy action")
   property: string;
 
@@ -98,7 +98,7 @@ model ProvisioningMode {
 
 @doc("FicpJitPolicySet Resource")
 model FicpJitPolicySetResource
-  is ProxyResource<FicpJitPolicySetProperties> { // this can be TrackedResource based on resourcetype
+  is ProxyResource<JitPolicySetProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
