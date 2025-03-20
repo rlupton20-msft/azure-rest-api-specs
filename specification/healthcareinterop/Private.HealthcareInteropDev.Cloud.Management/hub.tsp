@@ -99,7 +99,7 @@ model RemoteConnectorEnvironment {
 
   @doc("The resource id of the healthcare extension.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-  healthcareExtentionId: armResourceIdentifier<[
+  healthcareExtensionId: armResourceIdentifier<[
     {
       type: "Microsoft.Kubernetes/connectedClusters/Microsoft.KubernetesConfiguration/extensions";
     }
