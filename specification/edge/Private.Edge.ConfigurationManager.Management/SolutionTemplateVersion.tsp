@@ -18,7 +18,7 @@ namespace Private.Edge;
 @doc("Available Orchestrator types")
 union OrchestratorType {
   @doc("Toolchain Orchestrator type")
-  default: "default",
+  TO: "TO",
 
   string,
 }
@@ -34,7 +34,7 @@ model SolutionTemplateVersionProperties {
   specification: Record<unknown>;
 
   @doc("Orchestrator type")
-  orchestratorType: OrchestratorType;
+  orchestratorType?: OrchestratorType;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
