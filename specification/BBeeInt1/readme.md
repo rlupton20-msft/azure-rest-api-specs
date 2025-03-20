@@ -25,23 +25,20 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 These are the global settings for the [[BBeeInt1 Provider]].
 
 ```yaml
-openapi-type: arm
-openapi-subtype: rpaas
-tag: package-2025-05-01-preview
+openapi-type: [[OpenApiType]]
+tag: package-[[Version]]
 ```
 
-### Tag: package-2025-05-01-preview
+### Tag: package-[[Version]]
 
-These settings apply only when `--tag=package-2025-05-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-[[Version]]` is specified on the command line.
 
-```yaml $(tag) == 'package-2025-05-01-preview'
+```yaml $(tag) == 'package-[[Version]]'
 input-file:
-  - Private.BBeeInt1/preview/2025-05-01-preview/openapi.json
-suppressions:
-  - code: PatchBodyParametersSchema
-    from: openapi.json
-    reason: This is a false positive. Discriminator is required for PATCH.
+  - [[ResourceProviderName]]/[[ReleaseState]]/[[Version]]/[[provisioningpolicy]].json
 ```
+
+---
 
 # Code Generation
 
