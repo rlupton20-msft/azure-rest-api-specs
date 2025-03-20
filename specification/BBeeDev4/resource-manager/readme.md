@@ -36,7 +36,7 @@ These settings apply only when `--tag=package-2025-05-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2025-05-01-preview'
 input-file:
-  - Private.BBeeDev4/preview/2025-05-01-preview/openapi.json
+  - Microsoft.EdgeProvisioning/preview/2025-05-01-preview/openapi.json
 suppressions:
   - code: PatchBodyParametersSchema
     from: openapi.json
