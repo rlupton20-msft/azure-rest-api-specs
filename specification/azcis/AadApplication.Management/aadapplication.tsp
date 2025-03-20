@@ -42,19 +42,19 @@ model AadApplicationResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AadApplicationProvisioningState;
 
   @doc("Application ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   applicationId?: string;
 
   @doc("Object ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   objectId?: string;
 
   @doc("Service Principal Object ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   servicePrincipalObjectId?: string;
 }
 
@@ -65,7 +65,7 @@ model AadApplicationResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("aadApplications") // Start with lower case. Should be plural.
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

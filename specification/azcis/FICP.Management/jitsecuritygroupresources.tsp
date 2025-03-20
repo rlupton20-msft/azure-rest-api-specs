@@ -30,7 +30,7 @@ model JitSecurityGroupResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: FicpProvisioningState;
 }
 
@@ -53,7 +53,7 @@ model JitSecurityGroupResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("jitSecurityGroupResources") // Start with lower case. Should be plural
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }
