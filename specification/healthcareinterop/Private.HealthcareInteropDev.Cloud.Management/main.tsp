@@ -7,6 +7,8 @@ import "./hub.tsp";
 import "./connectors/storageAccountConnector.tsp";
 import "./connectors/oneLakeConnector.tsp";
 import "./connectors/hl7Connector.tsp";
+import "./channels/fhirQueryEventBatchChannel.tsp";
+import "./channels/fhirQueryFlatFileBatchChannel.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

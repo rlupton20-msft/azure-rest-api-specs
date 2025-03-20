@@ -37,6 +37,11 @@ These settings apply only when `--tag=package-2025-05-01-preview` is specified o
 ```yaml $(tag) == 'package-2025-05-01-preview'
 input-file:
   - preview/2025-05-01-preview/cloud.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - cloud.json
+    reason: There are properties used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
 ```
 
 ---
