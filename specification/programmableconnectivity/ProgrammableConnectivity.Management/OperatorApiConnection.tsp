@@ -129,6 +129,13 @@ model OperatorApiConnectionProperties {
   planTermsAndConditionsLinks: string[];
 
   /**
+   * The market in which the plan is purchased. It must be one of the markets included
+   * in the associated Operator API Plan. It determines the currency for billing.
+   */
+  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  market: string;
+
+  /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
