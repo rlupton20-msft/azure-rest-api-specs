@@ -88,33 +88,33 @@ model SubscriptionResourceProperties {
   ev2ServiceGroup?: string;
 
   @doc("DSMS Root Folders of SubscriptionManagement.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: SubscriptionProvisioningState;
 
   @doc("List of Subscription IDs; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   subscriptionId?: Array<string>;
 
   @doc("List of RBAC Roles; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   rbacRoles?: Array<RbacRole>;
 
   @doc("List of ARM Features; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   armFeatures?: Array<ArmFeatureRegistration>;
 
   @doc("List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   dsmsRootFolderWhitelists?: Array<DsmsFolderWhitelist>;
 }
 
@@ -125,7 +125,7 @@ model SubscriptionResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("subscriptions") // Start with lower case. Should be plural.
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }
