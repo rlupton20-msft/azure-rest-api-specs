@@ -26,7 +26,21 @@ These are the global settings for the EdgeProvisioning.
 
 ```yaml
 openapi-type: arm
-tag: package-2023-12-01-preview
+openapi-subtype: rpaas
+tag: package-2025-05-01-preview
+```
+
+### Tag: package-2025-05-01-preview
+
+These settings apply only when `--tag=package-2025-05-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-05-01-preview'
+input-file:
+  - Private.BBeeDev3/preview/2025-05-01-preview/openapi.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from: openapi.json
+    reason: This is a false positive. Discriminator is required for PATCH.
 ```
 
 ### Tag: package-2023-12-01-preview
