@@ -58,5 +58,9 @@ interface AssetEndpointProfiles {
   @added(Versions.v2024_09_01_preview)
   @removed(Versions.v2024_10_01_preview)
   @removed(Versions.v2025_07_01_preview)
-  migrate is ArmResourceActionSync<AssetEndpointProfile, MigrateRequest, MigrateResponse>;
+  migrate is ArmResourceActionSync<
+    AssetEndpointProfile,
+    MigrateRequest,
+    MigrateResponse
+  >;
 }
