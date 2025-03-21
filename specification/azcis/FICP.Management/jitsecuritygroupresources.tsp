@@ -26,6 +26,9 @@ model JitSecurityGroupResourceProperties {
   @doc("Corp security group.")
   corpSecurityGroup?: ResourceSecurityGroup;
 
+  @doc("Provisioning mode type.")
+  provisioningMode?: ProvisioningMode;
+
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
