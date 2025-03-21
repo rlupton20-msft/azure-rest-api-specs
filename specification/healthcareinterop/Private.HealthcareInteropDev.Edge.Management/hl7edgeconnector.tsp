@@ -33,14 +33,14 @@ model Hl7EdgeConnectorProperties {
     @doc("The Receiver Endpoint Configuration to be used for hl7 connector configuration.")
     hl7Configuration?: {
       @doc("Optional string representing the carriage return character.")
-      @maxLength(1)
+      @maxLength(4)
       carriageReturn?: string;
 
       @doc("Optional boolean indicating if the carriage return is optional.")
       carriageReturnOptional?: boolean;
 
       @doc("Optional string representing the end block delimiter.")
-      @maxLength(1)
+      @maxLength(4)
       endBlockDelimiter?: string;
 
       @doc("Optional enum representing the error acknowledgment strategy.")
@@ -50,7 +50,7 @@ model Hl7EdgeConnectorProperties {
       noStartByteRequired?: boolean;
 
       @doc("Optional string representing the start block delimiter.")
-      @maxLength(1)
+      @maxLength(4)
       startBlockDelimiter?: string;
     };
 
@@ -58,15 +58,15 @@ model Hl7EdgeConnectorProperties {
     @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     messageListenerConfiguration: {
       @doc("The inactivity timeout in seconds.")
-      @minValue(1)
+      @minValue(10)
       inactivityTimeoutInSeconds?: int32;
 
       @doc("The size of the message buffer.")
-      @minValue(1)
+      @minValue(512)
       messageBufferSize?: int32;
 
       @doc("The port number to use.")
-      @minValue(0)
+      @minValue(1)
       @maxValue(65535)
       @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       port: int32;
