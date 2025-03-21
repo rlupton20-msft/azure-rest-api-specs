@@ -29,13 +29,16 @@ union ResourceState {
 union State {
   @doc("Solution Instance is in review")
   InReview: "InReview",
+  
+  @doc("Solution Instance upgrade is in review")
+  UpgradeInReview: "UpgradeInReview",
 
   @doc("Solution Instance is ready to deploy")
   ReadyToDeploy: "ReadyToDeploy",
 
   @doc("Solution Instance is ready to upgrade")
   ReadyToUpgrade: "ReadyToUpgrade",
-
+ 
   @doc("Solution Instance is deploying")
   Deploying: "Deploying",
 
