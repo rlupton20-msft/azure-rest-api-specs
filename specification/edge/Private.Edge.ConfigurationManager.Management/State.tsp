@@ -33,6 +33,9 @@ union State {
   @doc("Solution Instance is ready to deploy")
   ReadyToDeploy: "ReadyToDeploy",
 
+  @doc("Solution Instance is ready to upgrade")
+  ReadyToUpgrade: "ReadyToUpgrade",
+
   @doc("Solution Instance is deploying")
   Deploying: "Deploying",
 
