@@ -42,6 +42,7 @@ model Asset is TrackedResource<AssetProperties> {
 @doc("Asset Migrate request properties.")
 model MigrateRequest {
   @doc("The resource id of the namespace to migrate Asset into.")
+  @pattern("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private.DeviceRegistry/namespaces/[^/]+$")
   namespaceId: string;
 }
 
