@@ -41,8 +41,8 @@ interface ServiceConfigurationResources {
    * Create or update a service in serviceConfiguration for the endpoint resource.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("ServiceConfigurations_CreateOrupdate")
-  createOrupdate is ArmResourceCreateOrReplaceSync<
+  @operationId("ServiceConfigurations_CreateOrUpdate")
+  createOrUpdate is ArmResourceCreateOrReplaceSync<
     ServiceConfigurationResource,
     Azure.ResourceManager.Foundations.ExtensionBaseParameters
   >;
@@ -86,7 +86,7 @@ interface ServiceConfigurationResources {
 @@doc(ServiceConfigurationResource.properties,
   "The service configuration properties."
 );
-@@doc(ServiceConfigurationResources.createOrupdate::parameters.resource,
+@@doc(ServiceConfigurationResources.createOrUpdate::parameters.resource,
   "Service details"
 );
 @@doc(ServiceConfigurationResources.update::parameters.properties,

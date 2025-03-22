@@ -29,7 +29,7 @@ model GenerateAwsTemplateRequest {
 
 //------------------- Generate Gcp Template -------------------
 
-@doc("ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.")
+@doc("ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.")
 model GenerateGcpTemplateRequest {
   @doc("The name of public cloud connector")
   connectorId: string;
@@ -372,12 +372,12 @@ interface GenerateGcpTemplate {
   @post
   @action
   @tag("GenerateGcpTemplate")
-  @doc("Retrieve GCP Acess Control template")
+  @doc("Retrieve GCP Access Control template")
   post(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,
 
-    @doc("ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.")
+    @doc("ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.")
     @body
     generateGcpTemplateRequest: GenerateGcpTemplateRequest,
   ): Azure.ResourceManager.ArmResponse<{}> | ErrorResponse;

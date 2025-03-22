@@ -53,6 +53,6 @@ interface Operations extends Azure.ResourceManager.Operations {}
 @@clientName(EndpointResources.update::parameters.properties,
   "EndpointResource"
 );
-@@clientName(ServiceConfigurationResources.createOrupdate::parameters.resource,
+@@clientName(ServiceConfigurationResources.createOrUpdate::parameters.resource,
   "ServiceConfigurationResource"
 );

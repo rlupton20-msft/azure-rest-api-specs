@@ -31,7 +31,7 @@ namespace Microsoft.HybridConnectivity;
 @@clientName(EndpointResources.update::parameters.properties,
   "EndpointResource"
 );
-@@clientName(ServiceConfigurationResources.createOrupdate::parameters.resource,
+@@clientName(ServiceConfigurationResources.createOrUpdate::parameters.resource,
   "ServiceConfigurationResource"
 );
 #suppress "deprecated" "@flattenProperty decorator is not recommended to use."
