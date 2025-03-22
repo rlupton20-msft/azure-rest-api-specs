@@ -52,6 +52,9 @@
       "name": "GenerateAwsTemplate"
     },
     {
+      "name": "GenerateGcpTemplate"
+    },
+    {
       "name": "PublicCloudConnectors"
     },
     {
@@ -1233,6 +1236,46 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateGcpTemplate": {
+      "post": {
+        "operationId": "GenerateGcpTemplate_Post",
+        "tags": [
+          "GenerateGcpTemplate"
+        ],
+        "description": "Retrieve GCP Acess Control template",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "generateGcpTemplateRequest",
+            "in": "body",
+            "description": "ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateGcpTemplateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors": {
       "get": {
         "operationId": "PublicCloudConnectors_ListBySubscription",
@@ -1935,7 +1978,7 @@
       "type": "object",
       "description": "cloud profile for GCP.",
       "properties": {
-        "gcpProjectProperties": {
+        "projectProperties": {
           "$ref": "#/definitions/GcpProjectProperties",
           "description": "The project properties of the GCP project.",
           "x-ms-mutability": [
@@ -1943,7 +1986,7 @@
             "create"
           ]
         },
-        "gcpOrganizationProperties": {
+        "organizationProperties": {
           "$ref": "#/definitions/GcpOrganizationProperties",
           "description": "The organization properties of the GCP organization.",
           "x-ms-mutability": [
@@ -2014,6 +2057,27 @@
     "GenerateAwsTemplateRequest": {
       "type": "object",
       "description": "ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template.",
+      "properties": {
+        "connectorId": {
+          "type": "string",
+          "description": "The name of public cloud connector"
+        },
+        "solutionTypes": {
+          "type": "array",
+          "description": "The list of solution types and their settings",
+          "items": {
+            "$ref": "#/definitions/SolutionTypeSettings"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "connectorId"
+      ]
+    },
+    "GenerateGcpTemplateRequest": {
+      "type": "object",
+      "description": "ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.",
       "properties": {
         "connectorId": {
           "type": "string",

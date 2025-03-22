@@ -27,6 +27,18 @@ model GenerateAwsTemplateRequest {
   solutionTypes?: Array<SolutionTypeSettings>;
 }
 
+//------------------- Generate Gcp Template -------------------
+
+@doc("ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.")
+model GenerateGcpTemplateRequest {
+  @doc("The name of public cloud connector")
+  connectorId: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
+  @doc("The list of solution types and their settings")
+  solutionTypes?: Array<SolutionTypeSettings>;
+}
+
 @doc("The properties of Solution Type")
 model SolutionTypeSettings {
   @doc("The type of the solution")
@@ -143,14 +155,13 @@ model AwsCloudProfile {
 
 @doc("cloud profile for GCP.")
 model GcpCloudProfile {
-  
   @doc("The project properties of the GCP project.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  gcpProjectProperties?: GcpProjectProperties;
+  projectProperties?: GcpProjectProperties;
 
   @doc("The organization properties of the GCP organization.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  gcpOrganizationProperties?: GcpOrganizationProperties;
+  organizationProperties?: GcpOrganizationProperties;
 
   @doc("Boolean value that indicates whether the connector connects to a GCP organization or project. True represents organization, whereas false represents a single project.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
@@ -349,6 +360,26 @@ interface GenerateAwsTemplate {
     @doc("ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template.")
     @body
     generateAwsTemplateRequest: GenerateAwsTemplateRequest,
+  ): Azure.ResourceManager.ArmResponse<{}> | ErrorResponse;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Need to remove autoroute"
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
+@route("/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/")
+interface GenerateGcpTemplate {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "Need to remove autoroute"
+  @route("generateGcpTemplate")
+  @post
+  @action
+  @tag("GenerateGcpTemplate")
+  @doc("Retrieve GCP Acess Control template")
+  post(
+    ...ApiVersionParameter,
+    ...SubscriptionIdParameter,
+
+    @doc("ConnectorId and SolutionTypes and their properties to Generate GCP Acess Control Template.")
+    @body
+    generateGcpTemplateRequest: GenerateGcpTemplateRequest,
   ): Azure.ResourceManager.ArmResponse<{}> | ErrorResponse;
 }
 
