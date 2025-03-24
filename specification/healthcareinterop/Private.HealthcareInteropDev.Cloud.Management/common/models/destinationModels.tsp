@@ -24,7 +24,7 @@ model FhirQueryBatchStorageAccountConnectorDestinationProperties
   @doc("The type of destination connector to be used for the channel.")
   connectorType: FhirQueryBatchChannelDestinationConnectorType.StorageAccountConnector;
 
-  @doc("Resource ID of an existing Storage Account connector linked/associated to the same Hub resource, to use as destination.")
+  @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.")
   storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
 }
 
@@ -34,6 +34,6 @@ model FhirQueryBatchOneLakeConnectorDestinationProperties
   @doc("The type of destination connector to be used for the channel.")
   connectorType: FhirQueryBatchChannelDestinationConnectorType.OneLakeConnector;
 
-  @doc("Resource ID of an existing OneLake connector linked/associated to the same Hub resource, to use as destination.")
+  @doc("The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination.")
   oneLakeConnectorResourceId: OneLakeConnectorResourceId;
 }

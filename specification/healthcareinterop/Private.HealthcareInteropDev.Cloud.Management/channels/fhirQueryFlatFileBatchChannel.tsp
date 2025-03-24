@@ -13,24 +13,24 @@ using Azure.ResourceManager;
 namespace Private.HealthcareInteropDev;
 
 @doc("The healthcare interop resource that extracts IDs from file that contains a list of delimited IDs and queries the configured EMR FHIR endpoint to retrieve the representative resources.")
-@resource("fhirqueryflatfilebatchchannels")
+@resource("fhirQueryFlatFileBatchChannels")
 model FhirQueryFlatFileBatchChannel
   is TrackedResource<FhirQueryFlatFileBatchChannelProperties> {
   @doc("The name of the FhirQueryFlatFileBatchChannel resource")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("fhirQueryFlatFileBatchChannelName")
-  @segment("fhirqueryflatfilebatchchannels")
+  @segment("fhirQueryFlatFileBatchChannels")
   @path
   name: string;
 }
 
 @doc("The properties to configure the FhirQueryFlatFileBatchChannel resource.")
 model FhirQueryFlatFileBatchChannelProperties {
-  @doc("The provisioning state of the resource.")
+  @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
-  @doc("Resource ID of the hub resource to link/associate the FhirQueryFlatFileBatchChannel resource to.")
+  @doc("The resource ID of an existing hub resource to link/associate this fhirQueryFlatFileBatchChannel resource to.")
   hubResourceId: HubResourceId;
 
   @doc("The settings to configure the source of the data to be ingested.")
@@ -69,7 +69,7 @@ model StorageAccountConnectorSourceProperties
   @doc("The type of source connector to be used for this channel.")
   connectorType: FhirQueryFlatFileBatchChannelSourceConnectorType.StorageAccountConnector;
 
-  @doc("Resource ID of an existing StorageAccount connector linked/associated to the same Hub resource, to use as source.")
+  @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as source.")
   storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
 }
 

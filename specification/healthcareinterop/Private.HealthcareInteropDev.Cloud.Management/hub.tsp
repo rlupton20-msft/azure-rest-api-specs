@@ -8,15 +8,15 @@ import "./common/scalarExtensions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
-using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.CommonTypes;
 
 namespace Private.HealthcareInteropDev;
 
-@doc("The healthcare interop hub resource.")
+@doc("The healthcare interop hub resource to centrally manage configuration across a collection of associated healthcare interop resources such as connectors and channels.")
+@resource("hubs")
 model Hub is Azure.ResourceManager.TrackedResource<HubProperties> {
-  @doc("The name of the hub resource")
+  @doc("The name of the hub resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("hubName")
   @segment("hubs")
@@ -24,34 +24,34 @@ model Hub is Azure.ResourceManager.TrackedResource<HubProperties> {
   name: string;
 }
 
-@doc("Hub properties")
+@doc("The properties to configure the healthcare interop hub.")
 model HubProperties {
-  @doc("The managed infra configuration.")
+  @doc("The configuration for the managed infra resources associated with this hub resource.")
   managedInfraConfiguration: ManagedInfraConfiguration;
 
-  @doc("The managed on behalf of configuration.")
+  @doc("The managed-on-behalf-of configuration for the resource provider to be able to manage resources on behalf of the resource owner.")
   @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 
   @doc("Environments hosted on remote locations where Connectors can be deployed.")
   remoteConnectorEnvironments?: Array<RemoteConnectorEnvironment>;
 
-  @doc("The status of the last operation.")
+  @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 }
 
-@doc("The managed on behalf of infra configuration.")
+@doc("The configuration for the managed infra resources.")
 model ManagedInfraConfiguration {
-  @doc("Name to be used for the managed resource group that will be created.")
+  @doc("Name to be used for the managed resource group that will be created. This cannot be updated after the resource is created.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   resourceGroupName: string;
 
-  @doc("The managed on behalf of storage account configuration.")
+  @doc("The configuration of the managed-on-behalf-of storage account.")
   @visibility(Lifecycle.Read)
   storageAccount?: StorageAccountConfiguration;
 
-  @doc("The managed on behalf of key vault configuration.")
+  @doc("The configuration of the managed-on-behalf-of key vault.")
   @visibility(Lifecycle.Read)
   keyVault?: KeyVaultConfiguration;
 }
@@ -85,25 +85,17 @@ model RemoteConnectorEnvironment {
   @visibility(Lifecycle.Create, Lifecycle.Read)
   name: string;
 
-  @doc("The resource id of the remote connector environment connected cluster.")
+  @doc("The resource ID of the remote connector environment connected cluster.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  connectedClusterId: armResourceIdentifier<[
-    {
-      type: "Microsoft.Kubernetes/connectedClusters";
-    }
-  ]>;
+  connectedClusterId: ConnectedClusterResourceId;
 
   @doc("The geo-location where the connected cluster is provisioned.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   location: string;
 
-  @doc("The resource id of the healthcare extension.")
+  @doc("The resource ID of the healthcare extension.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-  healthcareExtensionId: armResourceIdentifier<[
-    {
-      type: "Microsoft.Kubernetes/connectedClusters/Microsoft.KubernetesConfiguration/extensions";
-    }
-  ]>;
+  healthcareExtensionId: HealthcareExtensionResourceId;
 
   @doc("The custom location associated with the healthcare extension.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
@@ -120,18 +112,14 @@ model CustomLocation {
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   name: string;
 
-  @doc("The resource if of the custom location resource.")
+  @doc("The resource ID of the custom location resource.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-  id: armResourceIdentifier<[
-    {
-      type: "Microsoft.ExtendedLocation/customLocations";
-    }
-  ]>;
+  id: CustomLocationResourceId;
 }
 
 @doc("The managed identity used for extensions.")
 model ExtensionManagedIdentity {
-  @doc("The principal id of the managed identity.")
+  @doc("The principal ID of the managed identity.")
   @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   principalId: string;
 

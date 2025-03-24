@@ -22,13 +22,13 @@ model ScheduleRecurrenceTriggerConfiguration
   @doc("The type of trigger.")
   triggerType: RecurrenceTriggerType.ScheduleTrigger;
 
-  @doc("The start date time of the trigger in UTC timezone.")
+  @doc("Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned.")
   startDateTimeUtc?: utcDateTime;
 
-  @doc("The recurrence configuration for the schedule indicating the hours the schedule should run on.")
+  @doc("Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.")
   activeHours?: Array<int32>;
 
-  @doc("The recurrence configuration for the schedule indicating the days the schedule should run on.")
+  @doc("Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.")
   activeDays?: Array<int32>;
 }
 
@@ -66,6 +66,6 @@ model AdhocTriggerConfiguration extends OneTimeTriggerProperties {
   @doc("The type of trigger.")
   triggerType: OneTimeTriggerType.AdhocTrigger;
 
-  @doc("The start date time of the trigger in UTC timezone.")
+  @doc("Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned.")
   startDateTimeUtc?: utcDateTime;
 }

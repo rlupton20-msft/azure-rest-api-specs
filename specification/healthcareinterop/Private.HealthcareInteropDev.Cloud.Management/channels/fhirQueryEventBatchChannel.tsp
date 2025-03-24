@@ -14,24 +14,24 @@ using Azure.ResourceManager;
 namespace Private.HealthcareInteropDev;
 
 @doc("The healthcare interop resource that extracts IDs from input healthcare events/messages and queries the configured EMR FHIR endpoint to retrieve the representative resources.")
-@resource("fhirqueryeventbatchchannels")
+@resource("fhirQueryEventBatchChannels")
 model FhirQueryEventBatchChannel
   is TrackedResource<FhirQueryEventBatchChannelProperties> {
   @doc("The name of the FhirQueryEventBatchChannel resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("fhirQueryEventBatchChannelName")
-  @segment("fhirqueryeventbatchchannels")
+  @segment("fhirQueryEventBatchChannels")
   @path
   name: string;
 }
 
 @doc("The properties to configure the FhirQueryEventBatchChannel resource.")
 model FhirQueryEventBatchChannelProperties {
-  @doc("The provisioning state of the resource.")
+  @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
-  @doc("Resource ID of the hub resource to link/associate the FhirQueryEventBatchChannel resource to.")
+  @doc("The resource ID of an existing hub resource to link/associate this fhirQueryEventBatchChannel resource to.")
   hubResourceId: HubResourceId;
 
   @doc("The settings to configure the source of the data to be ingested.")
@@ -70,7 +70,7 @@ model Hl7ConnectorSourceProperties
   @doc("The type of source connector to be used for this channel.")
   connectorType: FhirQueryEventBatchChannelSourceConnectorType.Hl7Connector;
 
-  @doc("Resource ID of an existing Hl7 connector linked/associated to the same Hub resource, to use as source.")
+  @doc("The resource ID of an existing hl7Connector resource linked/associated to the same hub resource, to use as source.")
   hl7ConnectorResourceId: Hl7ConnectorResourceId;
 }
 
