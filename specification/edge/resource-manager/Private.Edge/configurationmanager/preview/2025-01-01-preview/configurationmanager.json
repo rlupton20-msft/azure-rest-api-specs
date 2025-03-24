@@ -8543,6 +8543,77 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/targets/{targetName}/updateSolutionVersionState": {
+      "post": {
+        "operationId": "Targets_UpdateSolutionVersionState",
+        "tags": [
+          "Targets"
+        ],
+        "description": "Post request to update state of solution version",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "targetName",
+            "in": "path",
+            "description": "Name of the target",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 61,
+            "pattern": "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSolutionVersionStateParameter"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SolutionVersion"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/workflowTemplates": {
       "get": {
         "operationId": "WorkflowTemplates_ListByResourceGroup",
@@ -12007,6 +12078,34 @@
         "solutionName"
       ]
     },
+    "UpdateSolutionVersionStateParameter": {
+      "type": "object",
+      "description": "Solution Version State Update Parameter",
+      "properties": {
+        "solution": {
+          "type": "string",
+          "description": "Solution Name"
+        },
+        "solutionVersion": {
+          "type": "string",
+          "description": "Solution Version Name"
+        },
+        "reviewId": {
+          "type": "string",
+          "description": "Review ID"
+        },
+        "validationStatus": {
+          "$ref": "#/definitions/ValidationStatus",
+          "description": "Status"
+        }
+      },
+      "required": [
+        "solution",
+        "solutionVersion",
+        "reviewId",
+        "validationStatus"
+      ]
+    },
     "UpdateType": {
       "type": "string",
       "description": "Denotes which part of the version number will be updated",
@@ -12033,6 +12132,30 @@
             "name": "Patch",
             "value": "Patch",
             "description": "Patch version"
+          }
+        ]
+      }
+    },
+    "ValidationStatus": {
+      "type": "string",
+      "description": "Solution Instance Validation Status",
+      "enum": [
+        "Valid",
+        "Invalid"
+      ],
+      "x-ms-enum": {
+        "name": "ValidationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Valid",
+            "value": "Valid",
+            "description": "Solution Instance is valid"
+          },
+          {
+            "name": "Invalid",
+            "value": "Invalid",
+            "description": "Solution Instance is invalid"
           }
         ]
       }

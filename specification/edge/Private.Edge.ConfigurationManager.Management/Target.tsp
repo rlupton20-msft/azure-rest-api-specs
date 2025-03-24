@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
+import "./ValidationStatus.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -52,6 +53,22 @@ model SolutionVersionParameter {
 
   @doc("Review ID")
   reviewId: string;
+}
+
+// Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
+@doc("Solution Version State Update Parameter")
+model UpdateSolutionVersionStateParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
+
+  @doc("Review ID")
+  reviewId: string;
+
+  @doc("Status")
+  validationStatus: ValidationStatus;
 }
 
 @doc("Solution Dependency Context")
@@ -224,6 +241,14 @@ interface Targets {
   publishSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionVersionParameter,
+    SolutionVersion
+  >;
+
+  // Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
+  @doc("Post request to update state of solution version")
+  updateSolutionVersionState is ArmResourceActionAsync<
+    Target,
+    UpdateSolutionVersionStateParameter,
     SolutionVersion
   >;
 }
