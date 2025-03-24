@@ -2,6 +2,8 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
+import "./../common/resourceIds.tsp";
+import "./../common/scalarExtensions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -9,36 +11,31 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@doc("The healthcare interop storage account connector resource.")
-@resource("storageaccountconnectors")
+@doc("The healthcare interop storage account connector resource to capture the configuration pertaining to an existing Storage Account instance.")
+@resource("storageAccountConnectors")
 model StorageAccountConnector
   is TrackedResource<StorageAccountConnectorProperties> {
-  @doc("The name of the storage account connector resource")
+  @doc("The name of the storage account connector resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("storageAccountConnectorName")
-  @segment("storageaccountconnectors")
+  @segment("storageAccountConnectors")
   @path
   name: string;
 }
 
-@doc("StorageAccountConnector properties")
+@doc("The properties to configure the StorageAccountConnector resource.")
 model StorageAccountConnectorProperties {
-  @doc("The status of the last operation.")
+  @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
-  @doc("Resource ID of the hub resource to associate the storage account connector to.")
-  hubResourceId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.HealthcareInteropDev/hubs";
-    }
-  ]>;
+  @doc("The resource ID of an existing hub resource to link/associate this storageAccountConnector resource to.")
+  hubResourceId: HubResourceId;
 
   @doc("URL of the Azure storage account container to connect to.")
-  @pattern(".+\\.blob\\.core\\.windows\\.net\\/.+")
-  storageAccountContainerUrl: string;
+  storageAccountContainerUrl: StorageAccountContainerURI;
 
-  @doc("The blob prefix to use when reading/writing blobs from/to an Azure Storage container. If not specified, root of the container will be used.")
+  @doc("Optional string to specify the blob prefix/path to use when reading/writing blobs from/to an Azure Storage container. If not specified, the root of the container will be used.")
   blobPrefix?: string;
 }
 

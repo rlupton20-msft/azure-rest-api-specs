@@ -59,7 +59,7 @@ model ExecutionStatus {
   statusMessage?: string;
 
   @doc("target resource statuses")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   stageHistory?: StageStatus[];
 }
 
@@ -74,12 +74,11 @@ model ExecutionProperties {
   specification?: Record<unknown>;
 
   @doc("Status of Execution")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
   status?: ExecutionStatus;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

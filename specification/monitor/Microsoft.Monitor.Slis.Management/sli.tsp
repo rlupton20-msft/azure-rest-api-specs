@@ -10,13 +10,12 @@ using Azure.ResourceManager;
 
 namespace Microsoft.Monitor;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
 @doc("Represents an SLI resource within the ProviderHub.")
-model Sli is ExtensionResource<SliResource> {
+model Sli is ProxyResource<SliResource> {
+  #suppress "@typespec/http/metadata-ignored" ""
   @doc("Name of the SLI that is given by the user.")
   @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
-  @key("name")
+  @key("sliName")
   @segment("slis")
   @path
   name: string;
@@ -115,18 +114,74 @@ union ProvisioningState {
   ResourceProvisioningState,
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Custom operation on the scope of Tenant"
 @doc("Defines operations for managing SLI resources.")
-@armResourceOperations(Sli)
-interface Slis {
-  @doc("Gets an SLI resources")
-  get is ArmResourceRead<Sli>;
-
-  @doc("Creates or updates an SLI resource.")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<Sli>;
-
-  @doc("Deletes an SLI resource.")
-  delete is ArmResourceDeleteSync<Sli>;
-
+interface SlisByServiceGroup {
+  #suppress "@azure-tools/typespec-azure-core/no-openapi" "Custom operation for tenant scope"
+  @route("/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis")
   @doc("Lists all SLI resources under a parent resource.")
-  listByParent is ArmResourceListByParent<Sli>;
+  listByServiceGroup(
+    ...ApiVersionParameter,
+
+    @path
+    @doc("The name of the service group")
+    @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$")
+    servicegroupName: string,
+  ): ArmResponse<ResourceListResult<Sli>> | ErrorResponse;
+
+  @route("/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis/{sliName}")
+  @doc("Gets an SLI resource.")
+  get(
+    ...ApiVersionParameter,
+
+    @path
+    @doc("The name of the service group")
+    @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$")
+    servicegroupName: string,
+
+    @path
+    @doc("The name of the SLI")
+    @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
+    sliName: string,
+  ): ArmResponse<Sli> | ErrorResponse;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "custom PUT call"
+  @route("/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis/{sliName}")
+  @put
+  @doc("Creates or updates an SLI resource.")
+  createOrUpdate(
+    ...ApiVersionParameter,
+
+    @path
+    @doc("The name of the service group")
+    @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$")
+    servicegroupName: string,
+
+    @path
+    @doc("The name of the SLI")
+    @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
+    sliName: string,
+
+    @body
+    @doc("The properties of the SLI")
+    resource: Sli,
+  ): ArmResourceUpdatedResponse<Sli> | ArmResourceCreatedResponse<Sli> | ErrorResponse;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "custom DELETE call"
+  @route("/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Monitor/slis/{sliName}")
+  @delete
+  @doc("Deletes an SLI resource.")
+  delete(
+    ...ApiVersionParameter,
+
+    @path
+    @doc("The name of the service group")
+    @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_]{2,22}[a-zA-Z0-9]$")
+    servicegroupName: string,
+
+    @path
+    @doc("The name of the SLI")
+    @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
+    sliName: string,
+  ): ArmDeletedResponse | ArmDeletedNoContentResponse | ErrorResponse;
 }

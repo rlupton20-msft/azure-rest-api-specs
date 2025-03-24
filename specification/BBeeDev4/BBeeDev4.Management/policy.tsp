@@ -734,12 +734,6 @@ model PatchFdoBootstrapAuthenticationRule
   type: BootstrapAuthenticationType.FDO;
 
   @visibility(Lifecycle.Read)
-  @removed(Versions.v2025_05_01_preview)
-  @renamedFrom(Versions.v2025_05_01_preview, "publicKeys")
-  @doc("Per policy public keys to represent this policy")
-  publicKeysold?: FdoPublicKeys;
-
-  @added(Versions.v2025_05_01_preview)
   @doc("Per policy public keys to represent this policy")
   publicKeys?: FdoPublicKeys;
 
