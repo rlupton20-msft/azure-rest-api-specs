@@ -42,7 +42,7 @@ input-file:
   - Microsoft.Communication/preview/2025-05-01-preview/EmailServices.json
   - Microsoft.Communication/preview/2025-05-01-preview/Locations.json
   - Microsoft.Communication/preview/2025-05-01-preview/SenderUsernames.json
-  - Microsoft.Communication/preview/2025-05-01-preview/SuppressionLists.json
+  - Microsoft.Communication/preview/2025-05-01-preview/SmtpUsernames.json
 ```
 
 ### Tag: package-preview-2025-01-25
