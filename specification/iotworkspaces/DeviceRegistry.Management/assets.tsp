@@ -47,7 +47,6 @@ model MigrateRequest {
 
 @added(Versions.v2024_09_01_preview)
 @removed(Versions.v2024_10_01_preview)
-@removed(Versions.v2025_07_01_preview)
 @doc("Asset Migrate response properties.")
 model MigrateResponse {
   @doc("The resource id of the migrated Asset.")
