@@ -21,11 +21,12 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @doc("2024-10-01-preview")
   v2024_10_01_Preview: "2024-10-01-preview",
+
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  @doc("2025-04-01-preview")
-  v2025_04_01_Preview: "2025-04-01-preview",
+  @doc("2025-05-04-preview")
+  v2025_04_01_Preview: "2025-05-04-preview",
 }
 
 @doc("A Durable Task Scheduler resource")
@@ -55,6 +56,41 @@ model SchedulerProperties {
 
   @doc("SKU of the durable task scheduler")
   sku: SchedulerSku;
+
+  /** The private endpoints exposed by this resource */
+  @added(Versions.v2025_04_01_Preview)
+  @visibility(Lifecycle.Read)
+  endpoints?: PrivateEndpoint[];
+}
+
+/** Holder for private endpoint connections */
+@added(Versions.v2025_04_01_Preview)
+@parentResource(Scheduler)
+model PrivateEndpointConnectionResource
+  is ProxyResource<PrivateEndpointConnectionProperties> {
+  ...PrivateEndpointConnectionParameter;
+}
+
+/** Private connection operations */
+@added(Versions.v2025_04_01_Preview)
+@armResourceOperations(PrivateEndpointConnectionResource)
+interface PrivateEndpointConnections {
+  /** List existing private connections */
+  listByTestTrackedResource is ArmResourceListByParent<PrivateEndpointConnectionResource>;
+  /** Get a specific private connection */
+  get is ArmResourceRead<PrivateEndpointConnectionResource>;
+  /** Create a Private endpoint connection */
+  create is ArmResourceCreateOrReplaceSync<PrivateEndpointConnectionResource>;
+  /** Delete the private endpoint connection */
+  delete is ArmResourceDeleteSync<PrivateEndpointConnectionResource>;
+}
+
+/** Private Links for TestRackedResource */
+// #suppress "@azure-tools/typespec-providerhub-controller/no-resource-operations" "Expected for private links"
+@added(Versions.v2025_04_01_Preview)
+@parentResource(Scheduler)
+model PrivateLinkResource is ProxyResource<PrivateLinkResourceProperties> {
+  ...PrivateLinkResourceParameter;
 }
 
 @doc("The SKU (Stock Keeping Unit) assigned to this durable task scheduler")
@@ -164,28 +200,6 @@ model SchedulerSkuUpdate {
   redundancyState?: RedundancyState;
 }
 
-@doc("An Orchestration resource belonging to the Task Hub")
-@added(Versions.v2025_04_01_Preview)
-@parentResource(TaskHub)
-model Orchestration is Azure.ResourceManager.ProxyResource<OrchestrationProperties> {
-  ...ResourceNameParameter<
-    Orchestration,
-    "orchestrationName",
-    "orchestrations",
-    "^[a-zA-Z0-9-]{3,64}$"
-  >;
-  
-}
-
-@doc("The properties of Orchestration")
-@added(Versions.v2025_04_01_Preview)
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state"
-model OrchestrationProperties {
-  @visibility(Lifecycle.Read)
-  @doc("The status of orchestration")
-  orchestrationStatus?:  string;
-}
-
 @added(Versions.v2024_10_01_Preview)
 @armResourceOperations(Scheduler)
 interface Schedulers {
@@ -221,14 +235,10 @@ interface TaskHubs {
   listByScheduler is ArmResourceListByParent<TaskHub>;
 }
 
+/** Operations for private links on TestTrackedResource */
 @added(Versions.v2025_04_01_Preview)
-@armResourceOperations(Orchestration)
-interface Orchestrations{
-  @doc("Get a Orchestration")
-  @errorsDoc("Not found error: resource does not exist")
-  get is ArmResourceRead<Orchestration>;
-  @doc("List Orchestrations")
-  listByTaskHub is ArmResourceListByParent<Orchestration>;
-  @doc("Terminate an Orchestration")
-  terminate is ArmResourceActionNoContentSync<Orchestration, OrchestrationProperties>;
+@armResourceOperations(PrivateLinkResource)
+interface PrivateLinks {
+  /** list private links on the given resource */
+  listByTestTrackedResource is ArmResourceListByParent<PrivateLinkResource>;
 }
