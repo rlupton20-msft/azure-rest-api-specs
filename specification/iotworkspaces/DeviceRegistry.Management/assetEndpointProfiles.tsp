@@ -54,4 +54,12 @@ interface AssetEndpointProfiles {
   delete is ArmResourceDeleteWithoutOkAsync<AssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<AssetEndpointProfile>;
   listBySubscription is ArmListBySubscription<AssetEndpointProfile>;
+
+  @added(Versions.v2024_09_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  migrate is ArmResourceActionSync<
+    AssetEndpointProfile,
+    MigrateRequest,
+    MigrateResponse
+  >;
 }
