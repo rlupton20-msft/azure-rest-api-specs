@@ -26,7 +26,7 @@ model NetworkAnchorProperties {
   provisioningState?: AzureResourceProvisioningState;
 
   @doc("VNET for network connectivity")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
+  @visibility(Lifecycle.Read)
   vnetId: VnetId;
 
   @doc("Client subnet")
