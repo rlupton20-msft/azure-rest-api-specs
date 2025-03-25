@@ -338,6 +338,18 @@ model SaasResourcePropertiesSystemOverrides {
    */
   @visibility(Lifecycle.Read)
   cancellationAllowedEndDate?: utcDateTime;
+
+  /**
+   * Represents an dependency-generated ID unique per instance of this resource.
+   */
+  @visibility(Lifecycle.Read)
+  systemId?: string;
+
+  /**
+   * Represents a system entity version for the resource, used for concurrency control.
+   */
+  @visibility(Lifecycle.Read)
+  systemVersion?: string;
 }
 
 /**
