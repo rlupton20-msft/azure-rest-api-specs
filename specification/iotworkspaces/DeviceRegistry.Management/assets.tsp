@@ -38,7 +38,6 @@ model Asset is TrackedResource<AssetProperties> {
 
 @added(Versions.v2024_09_01_preview)
 @removed(Versions.v2024_10_01_preview)
-@removed(Versions.v2025_07_01_preview)
 @doc("Asset Migrate request properties.")
 model MigrateRequest {
   @doc("The resource id of the namespace to migrate Asset into.")
@@ -83,6 +82,5 @@ interface Assets {
 
   @added(Versions.v2024_09_01_preview)
   @removed(Versions.v2024_10_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   migrate is ArmResourceActionSync<Asset, MigrateRequest, MigrateResponse>;
 }
