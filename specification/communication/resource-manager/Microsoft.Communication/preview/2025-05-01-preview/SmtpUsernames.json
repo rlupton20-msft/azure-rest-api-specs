@@ -3,7 +3,7 @@
   "info": {
     "title": "Azure Communication Services Management API",
     "version": "2025-05-01-preview",
-    "description": "REST API for Email Services/Domains/SenderUsernames"
+    "description": "REST API for Azure Communication Services/SmtpUsernames"
   },
   "consumes": [
     "application/json"
@@ -27,13 +27,13 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/smtpUsernames": {
       "get": {
-        "description": "List all valid sender usernames for a domains resource.",
-        "operationId": "SenderUsernames_ListByDomains",
-        "summary": "ListBy_Domains",
+        "description": "Get all SmtpUsernameResources for a Communication resource.",
+        "operationId": "SmtpUsernames_List",
+        "summary": "Get",
         "tags": [
-          "SenderUsernames"
+          "SmtpUsername"
         ],
         "parameters": [
           {
@@ -46,17 +46,14 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "EmailServices.json#/parameters/EmailServiceName"
-          },
-          {
-            "$ref": "Domains.json#/parameters/DomainName"
+            "$ref": "#/parameters/CommunicationServiceName"
           }
         ],
         "responses": {
           "200": {
-            "description": "Success. The response describe the Domains SenderUsername collection.",
+            "description": "Success. The collection of SmtpUsername resources.",
             "schema": {
-              "$ref": "#/definitions/SenderUsernameResourceCollection"
+              "$ref": "#/definitions/SmtpUsernameResourceCollection"
             }
           },
           "default": {
@@ -73,19 +70,19 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "Get SenderUsernames resource": {
-            "$ref": "./examples/senderUsernames/listByDomain.json"
+          "Get all SmtpUsername resources for a CommunicationService resource.": {
+            "$ref": "./examples/smtpUsername/getAll.json"
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/smtpUsernames/{smtpUsername}": {
       "get": {
-        "description": "Get a valid sender username for a domains resource.",
-        "operationId": "SenderUsernames_Get",
+        "description": "Get a SmtpUsernameResource.",
+        "operationId": "SmtpUsernames_Get",
         "summary": "Get",
         "tags": [
-          "SenderUsernames"
+          "SmtpUsername"
         ],
         "parameters": [
           {
@@ -98,20 +95,17 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "EmailServices.json#/parameters/EmailServiceName"
+            "$ref": "#/parameters/CommunicationServiceName"
           },
           {
-            "$ref": "Domains.json#/parameters/DomainName"
-          },
-          {
-            "$ref": "#/parameters/SenderUsername"
+            "$ref": "#/parameters/SmtpUsername"
           }
         ],
         "responses": {
           "200": {
-            "description": "Success. The response describe the corresponding SenderUsername resource.",
+            "description": "Success. The smtp username object.",
             "schema": {
-              "$ref": "#/definitions/SenderUsernameResource"
+              "$ref": "#/definitions/SmtpUsernameResource"
             }
           },
           "default": {
@@ -125,61 +119,55 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "Get SenderUsernames resource": {
-            "$ref": "./examples/senderUsernames/get.json"
+          "Get a SmtpUsername resource.": {
+            "$ref": "./examples/smtpUsername/get.json"
           }
         }
       },
       "put": {
-        "description": "Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.",
-        "operationId": "SenderUsernames_CreateOrUpdate",
+        "description": "Create or update an SmtpUsernameResource.",
+        "operationId": "SmtpUsernames_CreateOrUpdate",
         "summary": "Create Or Update",
         "tags": [
-          "SenderUsernames"
+          "SmtpUsername"
         ],
         "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/CommunicationServiceName"
+          },
+          {
+            "$ref": "#/parameters/SmtpUsername"
+          },
           {
             "name": "parameters",
             "in": "body",
             "description": "Parameters for the create or update operation",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SenderUsernameResource"
+              "$ref": "#/definitions/SmtpUsernameResource"
             }
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "EmailServices.json#/parameters/EmailServiceName"
-          },
-          {
-            "$ref": "Domains.json#/parameters/DomainName"
-          },
-          {
-            "$ref": "#/parameters/SenderUsername"
           }
-        ],
-        "consumes": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "The update request was completed successfully",
+            "description": "The resource was updated successfully.",
             "schema": {
-              "$ref": "#/definitions/SenderUsernameResource"
+              "$ref": "#/definitions/SmtpUsernameResource"
             }
           },
           "201": {
-            "description": "The create request was completed successfully",
+            "description": "The resource was created successfully.",
             "schema": {
-              "$ref": "#/definitions/SenderUsernameResource"
+              "$ref": "#/definitions/SmtpUsernameResource"
             }
           },
           "default": {
@@ -193,17 +181,17 @@
           "application/json"
         ],
         "x-ms-examples": {
-          "Create or update SenderUsernames resource": {
-            "$ref": "./examples/senderUsernames/createOrUpdate.json"
+          "CreateOrUpdate SmtpUsername resource": {
+            "$ref": "./examples/smtpUsername/createOrUpdate.json"
           }
         }
       },
       "delete": {
-        "description": "Operation to delete a SenderUsernames resource.",
-        "operationId": "SenderUsernames_Delete",
+        "description": "Operation to delete a single SmtpUsername resource.",
+        "operationId": "SmtpUsernames_Delete",
         "summary": "Delete",
         "tags": [
-          "SenderUsernames"
+          "SmtpUsername"
         ],
         "parameters": [
           {
@@ -216,21 +204,18 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "EmailServices.json#/parameters/EmailServiceName"
+            "$ref": "#/parameters/CommunicationServiceName"
           },
           {
-            "$ref": "Domains.json#/parameters/DomainName"
-          },
-          {
-            "$ref": "#/parameters/SenderUsername"
+            "$ref": "#/parameters/SmtpUsername"
           }
         ],
         "responses": {
           "200": {
-            "description": "The delete operation was successful."
+            "description": "The resource was deleted successfully."
           },
           "204": {
-            "description": "The resource did not exist."
+            "description": "The resource did not exist to be deleted."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -240,16 +225,16 @@
           }
         },
         "x-ms-examples": {
-          "Delete SenderUsernames resource": {
-            "$ref": "./examples/senderUsernames/delete.json"
+          "Delete a SmtpUsername resource.": {
+            "$ref": "./examples/smtpUsername/delete.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "SenderUsernameResource": {
-      "description": "A class representing a SenderUsername resource.",
+    "SmtpUsernameResource": {
+      "description": "The object describing the smtp username resource.",
       "type": "object",
       "allOf": [
         {
@@ -258,21 +243,21 @@
       ],
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SenderUsernameProperties",
-          "description": "The properties of a SenderUsername resource.",
+          "$ref": "#/definitions/SmtpUsernameProperties",
+          "description": "The properties of a SmtpUsername resource.",
           "x-ms-client-flatten": true
         }
       }
     },
-    "SenderUsernameResourceCollection": {
-      "description": "A class representing a Domains SenderUsernames collection.",
+    "SmtpUsernameResourceCollection": {
+      "description": "Collection of SmtpUsername resources. Response will include a nextLink if response contains more pages.",
       "type": "object",
       "properties": {
         "value": {
-          "description": "List of SenderUsernames",
+          "description": "List of SmtpUsername resources.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SenderUsernameResource"
+            "$ref": "#/definitions/SmtpUsernameResource"
           }
         },
         "nextLink": {
@@ -281,56 +266,49 @@
         }
       }
     },
-    "SenderUsernameProperties": {
-      "description": "A class that describes the properties of a SenderUsername resource.",
+    "SmtpUsernameProperties": {
+      "description": "A class that describes the properties of a SmtpUsername resource.",
       "type": "object",
       "required": [
-        "username"
+        "username",
+        "entraApplicationId",
+        "tenantId"
       ],
       "properties": {
-        "dataLocation": {
-          "description": "The location where the SenderUsername resource data is stored at rest.",
-          "type": "string",
-          "readOnly": true
-        },
         "username": {
-          "description": "A sender senderUsername to be used when sending emails.",
+          "description": "The SMTP username. Could be free form or in the email address format.",
           "type": "string"
         },
-        "displayName": {
-          "description": "The display name for the senderUsername.",
+        "entraApplicationId": {
+          "description": "The application Id for the linked Entra Application.",
           "type": "string"
         },
-        "provisioningState": {
-          "description": "Provisioning state of the resource. Unknown is the default state for Communication Services.",
-          "enum": [
-            "Unknown",
-            "Succeeded",
-            "Failed",
-            "Canceled",
-            "Running",
-            "Creating",
-            "Updating",
-            "Deleting",
-            "Moving"
-          ],
-          "type": "string",
-          "readOnly": true,
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+        "tenantId": {
+          "description": "The tenant of the linked Entra Application.",
+          "type": "string"
         }
       }
     }
   },
   "parameters": {
-    "SenderUsername": {
-      "name": "senderUsername",
+    "SmtpUsername": {
+      "name": "smtpUsername",
       "in": "path",
-      "description": "The valid sender Username.",
+      "description": "The name of the SmtpUsernameResource.",
       "minLength": 1,
       "maxLength": 253,
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "pattern": "^[a-zA-Z0-9-]+$"
+    },
+    "CommunicationServiceName": {
+      "name": "communicationServiceName",
+      "in": "path",
+      "description": "The name of the CommunicationService resource.",
+      "pattern": "^[-\\w]+$",
+      "minLength": 1,
+      "maxLength": 63,
       "required": true,
       "type": "string",
       "x-ms-parameter-location": "method"
