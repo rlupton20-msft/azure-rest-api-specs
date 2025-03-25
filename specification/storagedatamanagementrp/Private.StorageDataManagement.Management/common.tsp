@@ -47,7 +47,7 @@ union AuthType {
 
   @doc("Managed Identity auth type")
   @added(Versions.v2025_05_01_preview)
-  ManagedIdentityAuthProperties: "ManagedIdentityAuthProperties",
+  ManagedIdentity: "ManagedIdentity",
 
   string,
 }
