@@ -8,26 +8,18 @@ import "./provisioningState.tsp";
 import "./authenticationMethod.tsp";
 import "./deviceProperties.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
 @doc("Defines the Discovered Asset Endpoint Profile properties.")
 @added(Versions.v2025_07_01_preview)
 model DiscoveredDeviceProperties {
-  @doc("A device id in the system external to Azure.")
+  @doc("A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant.")
   externalDeviceId?: string;
 
-  @doc("endpoints for discovered devices.")
-  endpoints?: MessagingEndpoints;
-
-  @doc("List of supported authentication methods supported by device for Inbound connections.")
-  @extension("x-ms-identifiers", #[])
-  supportedAuthenticationMethods?: AuthenticationMethod[];
+  @doc("Endpoints for discovered devices.")
+  endpoints?: DiscoveredMessagingEndpoints;
 
   @doc("Identifier used to detect changes in the asset endpoint profile.")
   discoveryId: string;
@@ -38,4 +30,42 @@ model DiscoveredDeviceProperties {
   @doc("Provisioning state of the resource.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Connection endpoint url a device can use to connect to a service.")
+model DiscoveredMessagingEndpoints {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("An endpoint to connect with the device")
+  inbound?: Record<DiscoveredInboundEndpoints>;
+
+  @doc("Set of endpoints a device can connect to.")
+  outbound?: DiscoveredOutboundEndpoints;
+}
+
+@doc("Property bag contains the device's outbound endpoints")
+@added(Versions.v2025_07_01_preview)
+model DiscoveredOutboundEndpoints {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("Endpoints the device can connect to.")
+  assigned: Record<DeviceMessagingEndpoint>;
+}
+
+@doc("A type of endpoint to connect to the device.")
+@added(Versions.v2025_07_01_preview)
+model DiscoveredInboundEndpoints {
+  @doc("Type of connection endpoint.")
+  type: string;
+
+  @doc("Fully qualified domain name.")
+  address: string;
+
+  @doc("Version associated with device endpoint.")
+  version?: string;
+
+  @doc("List of supported authentication methods supported by device for Inbound connections.")
+  supportedAuthenticationMethods?: AuthenticationMethod[];
+
+  @doc("Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
+  additionalConfiguration?: string;
 }

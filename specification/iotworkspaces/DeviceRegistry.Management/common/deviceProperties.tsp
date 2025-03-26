@@ -1,10 +1,8 @@
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
-import "./sharedDeviceProperties.tsp";
+import "./status.tsp";
 
-using Azure.Core;
-using Azure.ResourceManager;
 using TypeSpec.Versioning;
 using OpenAPI;
 
@@ -75,11 +73,7 @@ model DeviceProperties extends DeviceBaseProperties {
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
 @doc("Defines the device properties.")
-@renamedFrom(
-  Versions.v2025_07_01_preview,
-  "DeviceProperties_V2024_10_01_Preview"
-)
-model EdgeCapableDevice extends DeviceBaseProperties {
+model NamespaceDeviceProperties extends DeviceBaseProperties {
   @doc("Property bag containing the device's inbound and outbound endpoints.")
   endpoints?: MessagingEndpoints;
 
@@ -87,6 +81,40 @@ model EdgeCapableDevice extends DeviceBaseProperties {
   @doc("Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   discoveredDeviceRef?: string;
+
+  @doc("Hardware manufacturer name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @added(Versions.v2025_07_01_preview)
+  manufacturer?: string;
+
+  @added(Versions.v2025_07_01_preview)
+  @doc("Model name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  `model`?: string;
+
+  @added(Versions.v2025_07_01_preview)
+  @doc("Operating system name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  operatingSystem?: string;
+
+  @doc("Operating system version.")
+  @added(Versions.v2025_07_01_preview)
+  operatingSystemVersion?: string;
+
+  @doc("Device status updates.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  status?: DeviceStatus;
+
+  @doc("An integer that is incremented each time the resource is modified.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  version?: int64;
+
+  @doc("A timestamp that is updated each time the resource is modified.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  lastTransitionTime?: utcDateTime;
 }
 
 @doc("The backing AAD identity for the device used for authentication to other services.")
@@ -156,7 +184,7 @@ model MessagingEndpoints {
   @doc("Set of endpoints a device can connect to.")
   @extension("x-ms-identifiers", #["type", "address"])
   @added(Versions.v2025_07_01_preview)
-  outbound?: Record<OutboundEndpoints>;
+  outbound?: OutboundEndpoints;
 }
 
 @added(Versions.v2024_10_01_preview)
@@ -174,7 +202,6 @@ model DeviceMessagingEndpoint {
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
   @doc("Type of connection endpoint.")
-  // `type` is a reserved keyname. Wrap in double quotes
   type: string;
 
   @doc("Fully qualified domain name.")
@@ -193,8 +220,9 @@ model InboundEndpoints {
 @doc("Definition of the client authentication mechanism to the host.")
 @added(Versions.v2025_07_01_preview)
 model HostAuthentication {
-  @doc("Defines the anonymous authentication mode.")
-  anonymous?: Anonymous;
+  @doc("Defines the authentication method.")
+  // Default mode is Certificate
+  method: AuthenticationMethod = AuthenticationMethod.Certificate;
 
   @doc("Defines the username and password references when UsernamePassword user authentication mode is selected.")
   usernamePasswordCredentials?: UsernamePasswordCredentials;
@@ -203,20 +231,37 @@ model HostAuthentication {
   x509Credentials?: X509Credentials;
 }
 
-@doc("Defined Anonymous Authentication")
-@added(Versions.v2025_07_01_preview)
-model Anonymous {
-  @doc("Defines whether anonymous auth is enabled or not.")
-  enabled: boolean;
-}
-
 @doc("Defines the asset endpoint profile status properties.")
 @added(Versions.v2025_07_01_preview)
 model DeviceStatus {
-  @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @extension("x-ms-identifiers", #[])
+  @doc("Defines the device status config properties.")
   @visibility(Lifecycle.Read)
-  errors?: DeviceStatusError[];
+  @added(Versions.v2025_07_01_preview)
+  config?: StatusConfig;
+
+  @doc("Defines the device status endpoint properties.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  endpoints?: DeviceStatusEndpoints;
+}
+
+@doc("Defines the asset status dataset properties.")
+@added(Versions.v2025_07_01_preview)
+model DeviceStatusEndpoints {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("Object to transfer and persist errors that originate from the Edge.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  inbound?: Record<DeviceStatusEndpoint>;
+}
+
+@doc("Defines the asset status dataset properties.")
+@added(Versions.v2025_07_01_preview)
+model DeviceStatusEndpoint {
+  @doc("Object to transfer and persist errors that originate from the Edge.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  error?: StatusError;
 }
 
 @doc("Defines the asset endpoint profile status error properties.")

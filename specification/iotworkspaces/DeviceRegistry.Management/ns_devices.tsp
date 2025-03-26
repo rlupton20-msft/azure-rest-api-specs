@@ -11,7 +11,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
@@ -20,7 +19,7 @@ namespace Private.DeviceRegistry;
 @added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
 @doc("Device Model as ARM resource.")
-model NamespaceDevice is TrackedResource<EdgeCapableDevice> {
+model NamespaceDevice is TrackedResource<NamespaceDeviceProperties> {
   @doc("Name of the device.")
   @key("deviceName")
   @segment("devices")
@@ -44,6 +43,17 @@ model NamespaceDevice is TrackedResource<EdgeCapableDevice> {
   extendedLocation?: ExtendedLocation;
 }
 
+alias NamespaceDevicePropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    NamespaceDeviceProperties,
+    "enabled"
+  >>>;
+
+  @added(Versions.v2024_10_01_preview)
+  @doc("Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.")
+  enabled?: boolean;
+};
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -51,7 +61,10 @@ model NamespaceDevice is TrackedResource<EdgeCapableDevice> {
 interface NamespaceDevices {
   get is ArmResourceRead<NamespaceDevice>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDevice>;
-  update is ArmResourcePatchAsync<NamespaceDevice, EdgeCapableDevice>;
+  update is ArmResourcePatchAsync<
+    NamespaceDevice,
+    NamespaceDevicePropertiesUpdate
+  >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDevice>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDevice>;
   listBySubscription is ArmListBySubscription<NamespaceDevice>;

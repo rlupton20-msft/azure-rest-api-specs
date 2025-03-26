@@ -12,12 +12,11 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@added(Versions.v2024_11_01)
 @removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @removed(Versions.v2025_07_01_preview)
 @doc("Asset Endpoint Profile definition.")
 model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
@@ -37,8 +36,8 @@ model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-@added(Versions.v2024_11_01)
 @removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @removed(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface AssetEndpointProfiles {
