@@ -25,6 +25,9 @@ enum Versions {
 
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   v2025_05_01_preview: "2025-05-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2025_06_01_preview: "2025-06-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -49,16 +52,16 @@ interface Connectors {
   create is ArmResourceCreateOrReplaceAsync<Connector>;
 
   @doc("Update a Storage Connector.")
-  update is ArmResourcePatchSync<Connector, ConnectorProperties>;
+  update is ArmResourcePatchAsync<Connector, ConnectorProperties>;
 
   @doc("Delete a Storage Connector.")
-  delete is ArmResourceDeleteSync<Connector>;
+  delete is ArmResourceDeleteWithoutOkAsync<Connector>;
 
   @doc("List all Storage Connectors in a Storage Account.")
   listByStorageAccount is ArmResourceListByParent<Connector>;
 
   @doc("This method is used to verify that the connection to the backing data store works. This API is designed to be used for monitoring and debugging purposes. From the caller’s perspective, this method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc. If the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte.")
-  testExistingConnection is ArmResourceActionSync<
+  testExistingConnection is ArmResourceActionAsync<
     Connector,
     TestExistingConnectionRequest,
     TestConnectionResponse
@@ -69,7 +72,7 @@ interface Connectors {
 @parentResource(StorageAccount)
 @added(Versions.v2025_05_01_preview)
 model DataShare is TrackedResource<DataShareProperties> {
-  @doc("The name of the storage datashare")
+  @doc("The name of the Storage Data Share")
   @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
   @key("dataShareName")
   @segment("dataShares")

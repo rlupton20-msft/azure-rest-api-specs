@@ -57,9 +57,13 @@ union ConnectionType {
   @doc("Endpoint connection type")
   Endpoint: "Endpoint",
 
-  @doc("DaraShare connection type")
+  @doc("DataShare connection type")
   @added(Versions.v2025_05_01_preview)
   DataShare: "DataShare",
+
+  @doc("PrivateLink connection type")
+  @added(Versions.v2025_06_01_preview)
+  PrivateLink: "PrivateLink",
 
   string,
 }
