@@ -338,6 +338,7 @@ union CloudNativeType {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "will move to a more structured model when stable/GA"
+#suppress "RPC-Policy-V1-05" "RPC-Put-V1-23" "Existing property"
 @doc("Solution settings")
 model SolutionSettings is Record<string>;
 
