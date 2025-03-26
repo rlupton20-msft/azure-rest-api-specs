@@ -30,7 +30,7 @@ openapi-subtype: providerHub
 tag: package-2025-07-preview
 ```
 
-### Tag: package-2024-12
+### Tag: package-2025-07-preview
 
 These settings apply only when `--tag=package-2025-07-preview` is specified on the command line.
 
