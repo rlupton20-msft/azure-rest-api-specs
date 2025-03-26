@@ -300,9 +300,16 @@ model LocalRepresentative {
   countryCode: string;
 
   /**
+   * Incorrect name; retaining so don't break dev environment
+   */
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  localRepresentativePerson: Person;
+
+  /**
    * Local representative for this country/region.
    */
-  localRepresentativePerson: Person;
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  representative: Person;
 }
 
 /**
@@ -364,14 +371,14 @@ union Category {
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
 @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
 union OrganizationType {
-  dpvAcademicScientificOrganisation: "Academic scientific organization",
-  dpvForProfitOrganisation: "For profit organization",
-  dpvGovernmentalOrganisation: "Governmental organization",
-  dpvIndustryConsortium: "Industry consortium",
-  dpvInternationalOrganisation: "International organization",
-  dpvNonGovernmentalOrganisation: "Non-governmental organization",
-  dpvNonProfitOrganisation: "Non-profit organization",
-  dpvOrganisationalUnit: "Organizational unit",
+  academicScientificOrganization: "Academic scientific organization",
+  forProfitOrganization: "For profit organization",
+  governmentalOrganization: "Governmental organization",
+  industryConsortium: "Industry consortium",
+  internationalOrganization: "International organization",
+  nonGovernmentalOrganization: "Non-governmental organization",
+  nonProfitOrganization: "Non-profit organization",
+  OrganizationalUnit: "Organizational unit",
   string,
 }
 
