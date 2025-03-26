@@ -311,7 +311,7 @@ model LocalRepresentative {
   @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   representative: Person;
 }
-academicScientificOrganization
+
 /**
  * Valid values for category based on https://www.tmforum.org/oda/open-apis/directory/open-gateway-onboarding-and-ordering-component-suite-TMF931
  */
