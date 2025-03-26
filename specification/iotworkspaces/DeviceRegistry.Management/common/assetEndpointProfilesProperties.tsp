@@ -8,10 +8,7 @@ import "./provisioningState.tsp";
 import "./authenticationMethod.tsp";
 import "./sharedDeviceProperties.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
@@ -33,7 +30,6 @@ model AssetEndpointProfileProperties {
 
   @doc("Defines the client authentication mechanism to the server.")
   @removed(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   userAuthentication?: Authentication;
 
   @doc("Defines the client authentication mechanism to the server.")

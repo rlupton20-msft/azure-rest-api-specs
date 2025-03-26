@@ -781,6 +781,64 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}/migrate": {
+      "post": {
+        "operationId": "AssetEndpointProfiles_Migrate",
+        "tags": [
+          "AssetEndpointProfiles"
+        ],
+        "description": "A synchronous resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "assetEndpointProfileName",
+            "in": "path",
+            "description": "Asset Endpoint Profile name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigrateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/MigrateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Migrate_AssetEndpointProfile_Resource": {
+            "$ref": "./examples/Migrate_AssetEndpointProfile_Resource.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets": {
       "get": {
         "operationId": "Assets_ListByResourceGroup",
@@ -1172,6 +1230,64 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets/{assetName}/migrate": {
+      "post": {
+        "operationId": "Assets_Migrate",
+        "tags": [
+          "Assets"
+        ],
+        "description": "A synchronous resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigrateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/MigrateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Migrate_Asset_Resource": {
+            "$ref": "./examples/Migrate_Asset_Resource.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/devices": {
@@ -4477,6 +4593,33 @@
         "name"
       ]
     },
+    "DiscoveredDatasetDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered dataset data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
+    },
     "DiscoveredEvent": {
       "type": "object",
       "description": "Defines the event properties.",
@@ -4506,6 +4649,33 @@
       "required": [
         "name",
         "eventNotifier"
+      ]
+    },
+    "DiscoveredEventDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered event data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
       ]
     },
     "Endpoint": {
@@ -4674,6 +4844,34 @@
         "schemaRegistryNamespace",
         "schemaName",
         "schemaVersion"
+      ]
+    },
+    "MigrateRequest": {
+      "type": "object",
+      "description": "Asset Migrate request properties.",
+      "properties": {
+        "namespaceId": {
+          "type": "string",
+          "description": "The resource id of the namespace to migrate Asset into.",
+          "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private\\.DeviceRegistry/namespaces/[^/]+$"
+        }
+      },
+      "required": [
+        "namespaceId"
+      ]
+    },
+    "MigrateResponse": {
+      "type": "object",
+      "description": "Asset Migrate response properties.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "The resource id of the migrated Asset.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "resourceId"
       ]
     },
     "ProvisioningState": {

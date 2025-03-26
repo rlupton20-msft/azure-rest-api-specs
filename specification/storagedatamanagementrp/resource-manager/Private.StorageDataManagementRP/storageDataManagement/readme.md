@@ -60,6 +60,7 @@ suppressions:
     reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
     where:
       - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/dataShares/{dataShareName}"].patch.parameters[5].schema.properties.properties
 ```
 
 ---

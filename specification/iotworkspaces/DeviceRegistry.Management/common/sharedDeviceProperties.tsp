@@ -34,7 +34,6 @@ model UsernamePasswordCredentials {
 
   @doc("The name of the secret containing the username.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   usernameSecretName: string;
 
   @doc("A reference to secret containing the password.")
@@ -43,6 +42,5 @@ model UsernamePasswordCredentials {
 
   @doc("The name of the secret containing the password.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   passwordSecretName: string;
 }

@@ -10,6 +10,7 @@ using TypeSpec.OpenAPI;
 
 @versioned(Versions)
 namespace Private.MessagingConnectors;
+
 @doc("Type of AzureServiceBusType")
 union AzureServiceBusType {
   @doc("Topic type")

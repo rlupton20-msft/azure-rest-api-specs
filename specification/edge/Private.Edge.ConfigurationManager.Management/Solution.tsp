@@ -21,16 +21,16 @@ namespace Private.Edge;
 @doc("Solution Properties")
 model SolutionProperties {
   @doc("Solution template Id")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   solutionTemplateId?: string;
 
   @doc("List of latest revisions for available solution template versions")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+   @Azure.ResourceManager.identifiers(#[])
+  @visibility(Lifecycle.Read)
   availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

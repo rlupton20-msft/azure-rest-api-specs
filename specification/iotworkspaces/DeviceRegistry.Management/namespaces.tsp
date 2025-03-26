@@ -9,13 +9,12 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
-@doc("namespace definition.")
+@doc("Namespace definition.")
 model Namespace is TrackedResource<NamespaceProperties> {
   @doc("Namespace name parameter.")
   @key("namespaceName")
@@ -68,7 +67,7 @@ model MessagingEndpoint {
   resourceId?: string;
 
   @added(Versions.v2025_07_01_preview)
-  @doc("Fully qualified domain name.")
+  @doc("The endpoint address to connect to.")
   address: string;
 }
 

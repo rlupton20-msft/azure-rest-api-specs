@@ -25,11 +25,6 @@ model ModelDefinitionAttributes {
   ...WithRepo;
 }
 
-@doc("A base model.")
-model BaseModelDefinition {
-  ...Artifact<ModelDefinitionAttributes>;
-}
-
 @doc("A model.")
 @parentResource(Catalog)
 @resource("modelDefinitions")
@@ -39,19 +34,15 @@ model ModelDefinition {
   @key("modelName")
   name: string;
 
-  ...BaseModelDefinition;
+  ...Artifact<ModelDefinitionAttributes>;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+// Inheritance is appropriate here
 @doc("A model.")
 @parentResource(Catalog)
 @resource("modelDefinitions")
-model ModelDefinitionWithYaml {
-  @doc("The model name.")
-  @visibility(Lifecycle.Read)
-  @key("modelName")
-  name: string;
-
-  ...BaseModelDefinition;
+model ModelDefinitionWithYaml extends ModelDefinition {
   ...WithDefinitionContents;
 }
 
@@ -65,7 +56,7 @@ interface ModelDefinitions {
   @doc("Updates ModelDefinition.")
   createOrUpdateModelDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ModelDefinitionWithYaml>;
 
-  @doc("List ModelDefinition resources")
+  @doc("List ModelDefinition resources within Catalog.")
   listModelDefinitions is ResourceList<ModelDefinition>;
 
   @doc("Delete a ModelDefinition.")

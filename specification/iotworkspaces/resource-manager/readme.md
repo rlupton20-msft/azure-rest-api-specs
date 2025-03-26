@@ -26,7 +26,44 @@ These are the global settings for the deviceregistry.
 
 ```yaml
 openapi-type: arm
-tag: package-2024-11
+tag: package-preview-2025-07
+```
+### Tag: package-preview-2025-07
+These settings apply only when `--tag=package-preview-2025-07` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2025-07'
+input-file:
+  - Private.DeviceRegistry/preview/2025-07-01-preview/deviceregistry.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
+      - $.definitions.DiscoveredAssetProperties.properties.attributes
+      - $.definitions.NamespaceDiscoveredAssetUpdateProperties.properties.attributes
+      - $.definitions.DeviceBaseProperties.properties.attributes
+      - $.definitions.NamespaceDeviceUpdateProperties.properties.attributes
+      - $.definitions.Messaging.properties.endpoints
+      - $.definitions.MessagingEndpoints.properties.inbound
+      - $.definitions.MessagingEndpointsUpdate.properties.inbound
+      - $.definitions.OutboundEndpoints.properties.assigned
+      - $.definitions.OutboundEndpoints.properties.unassigned
+      - $.definitions.OutboundEndpointsUpdate.properties.assigned
+      - $.definitions.OutboundEndpointsUpdate.properties.unassigned
+      - $.definitions.DiscoveredMessagingEndpoints.properties.inbound
+      - $.definitions.DiscoveredMessagingEndpointsUpdate.properties.inbound
+      - $.definitions.DiscoveredOutboundEndpoints.properties.assigned
+      - $.definitions.DiscoveredOutboundEndpointsUpdate.properties.assigned
+      - $.definitions.DeviceStatusEndpoints.properties.inbound
+      - $.definitions.StatusError.properties.innerError
+  - code: OperationIdNounVerb
+    from:
+      - deviceregistry.json
+    reason: An existing resource type is called 'schemas'
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas"].get.operationId
 ```
 
 ### Tag: package-2024-11

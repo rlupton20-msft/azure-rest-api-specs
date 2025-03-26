@@ -12,7 +12,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @added(Versions.v2024_11_01)
@@ -34,6 +33,24 @@ model Asset is TrackedResource<AssetProperties> {
   @doc("The extended location.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
+}
+
+@added(Versions.v2024_09_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate request properties.")
+model MigrateRequest {
+  @doc("The resource id of the namespace to migrate Asset into.")
+  @pattern("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private\\.DeviceRegistry/namespaces/[^/]+$")
+  namespaceId: string;
+}
+
+@added(Versions.v2024_09_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate response properties.")
+model MigrateResponse {
+  @doc("The resource id of the migrated Asset.")
+  @visibility(Lifecycle.Read)
+  resourceId: string;
 }
 
 @added(Versions.v2024_11_01)
@@ -60,4 +77,8 @@ interface Assets {
     Record<string>,
     Record<string>
   >;
+
+  @added(Versions.v2024_09_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  migrate is ArmResourceActionSync<Asset, MigrateRequest, MigrateResponse>;
 }

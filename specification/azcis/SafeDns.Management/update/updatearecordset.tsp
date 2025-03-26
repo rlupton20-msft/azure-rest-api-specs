@@ -16,7 +16,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerUpdateARecordSet properties")
 model DnsNamespaceManagerUpdateARecordSetResourceProperties {
   @doc("Gets or sets the array of A Records")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   aRecords: ARecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
@@ -29,7 +29,7 @@ model DnsNamespaceManagerUpdateARecordSetResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -41,7 +41,7 @@ model DnsNamespaceManagerUpdateARecordSetResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateARecordSets") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

@@ -26,7 +26,7 @@ model DnsNamespaceManagerUpdateCnameRecordSetResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -37,7 +37,7 @@ model DnsNamespaceManagerUpdateCnameRecordSetResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateCNameRecordSets") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

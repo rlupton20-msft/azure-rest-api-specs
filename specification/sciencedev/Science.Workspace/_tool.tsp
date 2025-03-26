@@ -7,6 +7,7 @@ import "../Science.Catalog.Management/common.tsp";
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
+using Microsoft.Science.Shared;
 
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;

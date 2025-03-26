@@ -15,19 +15,31 @@ namespace Microsoft.Storage;
 @doc("Details of the Storage DataShare.")
 @added(Versions.v2025_05_01_preview)
 model DataShareProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("System-generated identifier for the Storage DataShare. Not a valid input parameter when creating.")
   dataShareIdentifier?: string;
 
+  @doc("State - Active | Inactive. Default: Active. Specifies whether or not the DataShare is active. When set to Inactive, all data plane datasharing calls to the provider will fail.")
+  state?: State = State.Active;
+
+  @doc("Arbitrary description of this Data Share. Max 250 characters.")
+  @maxLength(250)
+  description?: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The DataShare URI to be shared with the consumer. URI Format - 'asds://<location>:<dataShareName>:<dataShareIdentifier>'.")
+  @pattern("^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+  dataShareUri: string;
+
   @doc("List of access policies that specify the permission allowed to a managed identity.")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   accessPolicies: AccessPolicy[];
 
-  @doc("List of paths that specify the properties of a shared resource.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  paths: Path[];
+  @doc("List of assets that specify the properties of the shared resources.")
+  @Azure.ResourceManager.identifiers(#[])
+  assets: Asset[];
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
@@ -37,23 +49,24 @@ model DataShareProperties {
 @added(Versions.v2025_05_01_preview)
 model AccessPolicy {
   @doc("The AAD principal ID of the Managed Identity.")
+  @pattern("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
   principalId: string;
 
   @doc("The AAD tenant ID of the Managed Identity.")
+  @pattern("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
   tenantId: string;
 
-  @doc("Allowed permissions. Currently, only supported value is ‘r’ for Read.")
-  @pattern("^[r]$")
-  permissions: string;
+  @doc("Allowed permissions. Currently, only supported value is 'r' for Read.")
+  permission: string;
 }
 
-// Path
+// Asset
 @doc("Properties of a shared resource.")
 @added(Versions.v2025_05_01_preview)
-model Path {
-  @doc("Source path to be shared. It can be a folder or a blob. The physical path should contain container name followed by path within the container, e.g. /container1/logs/external.")
-  physicalPath: string;
+model Asset {
+  @doc("Source Path to be shared. It can be a folder or a blob. The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.")
+  assetPath: string;
 
-  @doc("Consumer visible path of the original path.")
-  virtualPath: string;
+  @doc("Consumer visible name of the original path.")
+  displayName: string;
 }

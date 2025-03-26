@@ -8,6 +8,7 @@ import "./ProvisioningState.tsp";
 import "./UpdateType.tsp";
 import "./ConfigTemplateVersion.tsp";
 import "./VersionParameter.tsp";
+import "./RemoveVersionResponse.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -25,11 +26,11 @@ model ConfigTemplateProperties {
   description: string;
 
   @doc("Latest config template version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   latestVersion?: string;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -72,9 +73,10 @@ interface ConfigTemplates {
   >;
 
   @doc("Remove Config Template Version Resource")
-  removeVersion is ArmResourceActionNoResponseContentAsync<
+  removeVersion is ArmResourceActionSync<
     ConfigTemplate,
-    VersionParameter
+    VersionParameter,
+    RemoveVersionResponse
   >;
 
   @doc("Delete a Config Template Resource")

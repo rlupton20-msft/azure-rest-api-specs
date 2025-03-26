@@ -2,7 +2,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
-import "./root.tsp";
+import "./crossCatalog.tsp";
 import "./_catalog.tsp";
 import "./_tool.tsp";
 import "./_model.tsp";

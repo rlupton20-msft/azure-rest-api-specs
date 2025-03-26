@@ -338,6 +338,18 @@ model SaasResourcePropertiesSystemOverrides {
    */
   @visibility(Lifecycle.Read)
   cancellationAllowedEndDate?: utcDateTime;
+
+  /**
+   * Represents an dependency-generated ID unique per instance of this resource.
+   */
+  @visibility(Lifecycle.Read)
+  systemId?: string;
+
+  /**
+   * Represents a system entity version for the resource, used for concurrency control.
+   */
+  @visibility(Lifecycle.Read)
+  systemVersion?: string;
 }
 
 /**
@@ -389,9 +401,8 @@ model TermDetails {
   termUnit?: string;
 
   /**
-   * Start date of the term in UTC time.
+   * Start date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support future start date scenario. The time part passed in will be ignored
    */
-  @visibility(Lifecycle.Read)
   startDate?: utcDateTime;
 
   /**

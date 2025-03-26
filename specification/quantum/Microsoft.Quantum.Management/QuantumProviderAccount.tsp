@@ -20,7 +20,7 @@ model QuantumProviderAccount
   is Azure.ResourceManager.TrackedResource<ProviderAccountProperties> {
   ...ResourceNameParameter<
     Resource = QuantumProviderAccount,
-    KeyName = "ProviderAccountName",
+    KeyName = "providerAccountName",
     SegmentName = "providerAccounts",
     NamePattern = "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"
   >;
@@ -33,7 +33,7 @@ model QuantumProviderAccount
 @added(Versions.v2025_02_15_preview)
 model ProviderAccountProperties {
   /** The status of the last operation. */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AccountProvisioningState;
 
   /** The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces. */
@@ -63,19 +63,8 @@ model ProviderAccountProperties {
   targets?: ProviderAccountTarget[];
 
   /** Managed On Behalf Of configuration. */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
-
-  // /** Azure ARC configuration. */
-  // machineEntity: ...;
-
-  // /** Quota Dimension definitions for this ProviderAccount. */
-  // @visibility("read", "create", "update")
-  // quotaDimensions?: QuotaDimension[];
-
-  // /** List of subscriptions-level Quotas for this ProviderAccount. */
-  // @visibility("read", "create", "update")
-  // subscriptionQuotaLimits?: SubscriptionQuotaLimit[];
 }
 
 /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */

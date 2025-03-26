@@ -2,6 +2,7 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
+import "./../common/resourceIds.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -9,29 +10,25 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@doc("The healthcare interop Hl7 connector resource.")
-@resource("hl7connectors")
+@doc("The healthcare interop Hl7 connector resource that reads healthcare events/messages from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.")
+@resource("hl7Connectors")
 model Hl7Connector is TrackedResource<Hl7ConnectorProperties> {
-  @doc("The name of the Hl7 connector resource")
+  @doc("The name of the Hl7 connector resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("hl7ConnectorName")
-  @segment("hl7connectors")
+  @segment("hl7Connectors")
   @path
   name: string;
 }
 
-@doc("Hl7Connector properties")
+@doc("The properties to configure the Hl7 connector resource.")
 model Hl7ConnectorProperties {
-  @doc("The status of the last operation.")
+  @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningLROState;
 
-  @doc("Resource ID of the hub resource to associate the hl7 connector to.")
-  hubResourceId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.HealthcareInteropDev/hubs";
-    }
-  ]>;
+  @doc("The resource ID of an existing hub resource to link/associate this hl7Connector resource to.")
+  hubResourceId: HubResourceId;
 
   @doc("The receiver configuration to be used for the Hl7 connector.")
   receiver?: {
@@ -90,10 +87,10 @@ model MessageListenerConfiguration {
 union ErrorAckStrategy {
   string,
 
-  /** The error acknowledgment strategy is to send a negative acknowledgment (NACK) message */
+  @doc("The error acknowledgment strategy is to send a negative acknowledgment (NACK) message.")
   SendNackOnError: "SendNackOnError",
 
-  /** The error acknowledgment strategy is to never send a negative acknowledgment (NACK) message */
+  @doc("The error acknowledgment strategy is to never send a negative acknowledgment (NACK) message.")
   NeverSendNack: "NeverSendNack",
 }
 

@@ -21,7 +21,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using Azure.ResourceManager.CommonTypes.Private;
 using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
@@ -65,7 +64,7 @@ enum Versions {
 
   @doc("Private.DeviceRegistry Resource Provider management API version 2025-07-01-preview.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2025_07_01_preview: "2025-07-01-preview",
 }
 

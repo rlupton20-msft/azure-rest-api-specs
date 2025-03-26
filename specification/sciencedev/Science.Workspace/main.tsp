@@ -4,7 +4,6 @@ import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
 import "./_project.tsp";
 import "./_investigation.tsp";
-import "./_message.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
 // import "./_conversation_message_confirmation.tsp";

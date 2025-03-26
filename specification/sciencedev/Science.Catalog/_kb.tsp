@@ -15,8 +15,8 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Science.Catalog.Versions)
 namespace Microsoft.Science.Catalog;
 
-@doc("KnowledgeBase attributes from definitionContents")
-model KnowledgeBaseAttributes {
+@doc("KnowledgeBaseDefinition attributes from definitionContents")
+model KnowledgeBaseDefinitionAttributes {
   ...BaseAttributesWithDescription;
   ...WithCategory;
   ...WithLicense;
@@ -25,49 +25,40 @@ model KnowledgeBaseAttributes {
   ...WithVersion;
 }
 
-@doc("A base knowledgeBase.")
-model BaseKnowledgeBase {
-  ...Artifact<KnowledgeBaseAttributes>;
-}
-
-@doc("A knowledgeBase.")
+@doc("A knowledgeBase Definition.")
 @parentResource(Catalog)
-@resource("knowledgeBases")
-model KnowledgeBase {
+@resource("knowledgeBaseDefinitions")
+model KnowledgeBaseDefinition {
   @doc("The knowledgeBase name.")
   @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
   name: string;
 
-  ...BaseKnowledgeBase;
+  ...Artifact<KnowledgeBaseDefinitionAttributes>;
 }
 
-@doc("A knowledgeBase.")
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+// Inheritance is appropriate here
+@doc("A knowledgeBase Definition.")
 @parentResource(Catalog)
-@resource("knowledgeBases")
-model KnowledgeBaseWithYaml {
-  @doc("The knowledgeBase name.")
-  @visibility(Lifecycle.Read)
-  @key("knowledgeBaseName")
-  name: string;
-
-  ...BaseKnowledgeBase;
+@resource("knowledgeBaseDefinitions")
+model KnowledgeBaseDefinitionWithYaml extends KnowledgeBaseDefinition {
   ...WithDefinitionContents;
 }
 
-interface KnowledgeBases {
-  @doc("Fetch KnowledgeBase by name.")
-  getKnowledgeBase is ResourceRead<KnowledgeBase>;
+interface KnowledgeBaseDefinitions {
+  @doc("Fetch KnowledgeBaseDefinition by name.")
+  getKnowledgeBaseDefinition is ResourceRead<KnowledgeBaseDefinition>;
 
-  @doc("Creates a KnowledgeBase.")
-  createOrReplaceKnowledgeBase is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseWithYaml>;
+  @doc("Creates a KnowledgeBaseDefinition.")
+  createOrReplaceKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseDefinitionWithYaml>;
 
-  @doc("Updates KnowledgeBase.")
-  createOrUpdateKnowledgeBase is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseWithYaml>;
+  @doc("Updates KnowledgeBaseDefinition.")
+  createOrUpdateKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseDefinitionWithYaml>;
 
-  @doc("List KnowledgeBase resources")
-  listKnowledgeBases is ResourceList<KnowledgeBase>;
+  @doc("List KnowledgeBaseDefinition resources within Catalog.")
+  listKnowledgeBaseDefinitions is ResourceList<KnowledgeBaseDefinition>;
 
-  @doc("Delete KnowledgeBase.")
-  deleteKnowledgeBase is ResourceDelete<KnowledgeBase>;
+  @doc("Delete KnowledgeBaseDefinition.")
+  deleteKnowledgeBaseDefinition is ResourceDelete<KnowledgeBaseDefinition>;
 }

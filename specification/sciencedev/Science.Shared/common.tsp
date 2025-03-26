@@ -9,6 +9,20 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
+@versioned(Microsoft.Science.Shared.Versions)
+namespace Microsoft.Science.Shared;
+
+@doc("The Microsoft.Science.Shared versions.")
+enum Versions {
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @doc("The 2024-11-01-preview version of the Microsoft.Science.Shared.")
+  `2024-11-01-preview`,
+
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @doc("The 2025-07-01-preview version of the Microsoft.Science.Shared.")
+  `2025-07-01-preview`,
+}
+
 alias ServiceTraits = SupportsRepeatableRequests &
   SupportsConditionalRequests &
   SupportsClientRequestId;
@@ -159,3 +173,7 @@ model DataPlaneResource {
   ...WithCreated;
   ...WithLastModified;
 }
+
+/** Paged list resources */
+// API reviewer said we need "is" or inheritance to avoid losing annotations
+model Paged<T extends {name: string}> is Foundations.CustomPage<T>;

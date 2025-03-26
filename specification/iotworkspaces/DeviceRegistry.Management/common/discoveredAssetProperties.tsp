@@ -3,16 +3,14 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./destination.tsp";
 import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./topic.tsp";
 import "./deviceRef.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
@@ -26,7 +24,7 @@ model DiscoveredAssetProperties {
 
   @doc("Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use.")
   @added(Versions.v2025_07_01_preview)
-  deviceRef?: DeviceRef;
+  deviceRef: DeviceRef;
 
   @doc("Identifier used to detect changes in the asset.")
   discoveryId: string;
@@ -58,22 +56,52 @@ model DiscoveredAssetProperties {
   @doc("Asset serial number.")
   serialNumber?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "attributes property field is custom defined"
+  @doc("A set of key-value pairs that contain custom attributes.")
+  @added(Versions.v2025_07_01_preview)
+  attributes?: Record<unknown>;
+
   @doc("Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.")
   defaultDatasetsConfiguration?: string;
 
   @doc("Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.")
   defaultEventsConfiguration?: string;
 
+  @doc("Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.")
+  @added(Versions.v2025_07_01_preview)
+  defaultStreamsConfiguration?: string;
+
   @doc("Object that describes the default topic information for the asset.")
+  @removed(Versions.v2025_07_01_preview)
   defaultTopic?: Topic;
 
+  @doc("Default destinations for a Dataset.")
+  @added(Versions.v2025_07_01_preview)
+  @identifiers(#[])
+  defaultDatasetsDestinations?: DatasetDestination[];
+
+  @doc("Default destinations for an Event.")
+  @added(Versions.v2025_07_01_preview)
+  @identifiers(#[])
+  defaultEventsDestinations?: EventDestination[];
+
+  @doc("Default destinations for a Stream.")
+  @added(Versions.v2025_07_01_preview)
+  @identifiers(#[])
+  defaultStreamsDestinations?: StreamDestination[];
+
   @doc("Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.")
-  @extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   datasets?: DiscoveredDataset[];
 
   @doc("Array of events that are part of the asset. Each event can have per-event configuration.")
-  @extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   events?: DiscoveredEvent[];
+
+  @doc("Array of streams that are part of the asset. Each stream can have per-stream configuration.")
+  @identifiers(#[])
+  @added(Versions.v2025_07_01_preview)
+  streams?: DiscoveredStream[];
 
   @doc("Provisioning state of the resource.")
   @visibility(Lifecycle.Read)
@@ -86,15 +114,30 @@ model DiscoveredDataset {
   @doc("Name of the dataset.")
   name: string;
 
+  @doc("Name of the data source within a dataset.")
+  @added(Versions.v2025_07_01_preview)
+  dataSource?: string;
+
+  @doc("Uri or type definition id in companion spec.")
+  @added(Versions.v2025_07_01_preview)
+  typeRef?: string;
+
   @doc("Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.")
   datasetConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific dataset.")
+  @removed(Versions.v2025_07_01_preview)
   topic?: Topic;
 
+  @doc("Destinations for a Dataset.")
+  @added(Versions.v2025_07_01_preview)
+  @identifiers(#[])
+  destinations?: DatasetDestination[];
+
   @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
-  @extension("x-ms-identifiers", #[])
-  dataPoints?: DiscoveredDataPoint[];
+  @typeChangedFrom(Versions.v2025_07_01_preview, DiscoveredDataPoint[])
+  @identifiers(#[])
+  dataPoints?: DiscoveredDatasetDataPoint[];
 }
 
 @doc("Defines the data point properties.")
@@ -113,6 +156,18 @@ model DiscoveredDataPoint {
   lastUpdatedOn?: utcDateTime;
 }
 
+@doc("Defines the discovered dataset data point properties.")
+@added(Versions.v2025_07_01_preview)
+model DiscoveredDatasetDataPoint is DiscoveredDataPoint {
+  @doc("Uri or type definition id in companion spec.")
+  @added(Versions.v2025_07_01_preview)
+  typeRef?: string;
+}
+
+@doc("Defines the discovered event data point properties.")
+@added(Versions.v2025_07_01_preview)
+model DiscoveredEventDataPoint is DiscoveredDataPoint;
+
 @doc("Defines the event properties.")
 @added(Versions.v2024_07_01_preview)
 model DiscoveredEvent {
@@ -126,8 +181,41 @@ model DiscoveredEvent {
   eventConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific event.")
+  @removed(Versions.v2025_07_01_preview)
   topic?: Topic;
+
+  @doc("Destinations for an Event.")
+  @added(Versions.v2025_07_01_preview)
+  @identifiers(#[])
+  destinations?: EventDestination[];
+
+  @doc("Uri or type definition id in companion spec.")
+  @added(Versions.v2025_07_01_preview)
+  typeRef?: string;
+
+  @doc("Array of data points that are part of the event. Each data point can have per-data point configuration.")
+  @identifiers(#[])
+  @added(Versions.v2025_07_01_preview)
+  dataPoints?: DiscoveredEventDataPoint[];
 
   @doc("UTC timestamp indicating when the event was added or modified.")
   lastUpdatedOn?: utcDateTime;
+}
+
+@doc("Defines the stream properties.")
+@added(Versions.v2025_07_01_preview)
+model DiscoveredStream {
+  @doc("Name of the stream definition.")
+  name: string;
+
+  @doc("Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.")
+  streamConfiguration?: string;
+
+  @doc("Uri or type definition id in companion spec.")
+  @added(Versions.v2025_07_01_preview)
+  typeRef?: string;
+
+  @doc("Destinations for a Stream.")
+  @identifiers(#[])
+  destinations?: StreamDestination[];
 }

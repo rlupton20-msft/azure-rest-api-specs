@@ -823,22 +823,41 @@
       "properties": {
         "principalId": {
           "type": "string",
-          "description": "The AAD principal ID of the Managed Identity."
+          "description": "The AAD principal ID of the Managed Identity.",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         },
         "tenantId": {
           "type": "string",
-          "description": "The AAD tenant ID of the Managed Identity."
+          "description": "The AAD tenant ID of the Managed Identity.",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         },
-        "permissions": {
+        "permission": {
           "type": "string",
-          "description": "Allowed permissions. Currently, only supported value is ‘r’ for Read.",
-          "pattern": "^[r]$"
+          "description": "Allowed permissions. Currently, only supported value is 'r' for Read."
         }
       },
       "required": [
         "principalId",
         "tenantId",
-        "permissions"
+        "permission"
+      ]
+    },
+    "Asset": {
+      "type": "object",
+      "description": "Properties of a shared resource.",
+      "properties": {
+        "assetPath": {
+          "type": "string",
+          "description": "Source Path to be shared. It can be a folder or a blob. The asset path should contain container name followed by path within the container, e.g. /container1/logs/external."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Consumer visible name of the original path."
+        }
+      },
+      "required": [
+        "assetPath",
+        "displayName"
       ]
     },
     "AuthProperties": {
@@ -874,7 +893,7 @@
       "description": "The auth type supported for bucket connection.",
       "enum": [
         "AccessKey",
-        "ManagedIdentityAuthProperties"
+        "ManagedIdentity"
       ],
       "x-ms-enum": {
         "name": "AuthType",
@@ -886,8 +905,8 @@
             "description": "Access Key auth type"
           },
           {
-            "name": "ManagedIdentityAuthProperties",
-            "value": "ManagedIdentityAuthProperties",
+            "name": "ManagedIdentity",
+            "value": "ManagedIdentity",
             "description": "Managed Identity auth type"
           }
         ]
@@ -1227,25 +1246,14 @@
       "type": "object",
       "description": "Details related to DataShare based connection",
       "properties": {
-        "name": {
+        "dataShareUri": {
           "type": "string",
-          "description": "Name of the backing Data Share."
-        },
-        "region": {
-          "type": "string",
-          "description": "Azure Region of the backing DataShare."
-        },
-        "dataShareIdentifier": {
-          "type": "string",
-          "description": "The unique identifier of the backing DataShare. Must be a guid.",
-          "minLength": 1,
-          "pattern": "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          "description": "The URI of the backing DataShare. Must be in the format: asds://<region>:<DataShareName>:<DataShareIdentifier>",
+          "pattern": "^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         }
       },
       "required": [
-        "name",
-        "region",
-        "dataShareIdentifier"
+        "dataShareUri"
       ],
       "allOf": [
         {
@@ -1284,6 +1292,42 @@
           "description": "System-generated identifier for the Storage DataShare. Not a valid input parameter when creating.",
           "readOnly": true
         },
+        "state": {
+          "type": "string",
+          "description": "State - Active | Inactive. Default: Active. Specifies whether or not the DataShare is active. When set to Inactive, all data plane datasharing calls to the provider will fail.",
+          "default": "Active",
+          "enum": [
+            "Active",
+            "Inactive"
+          ],
+          "x-ms-enum": {
+            "name": "State",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Active",
+                "value": "Active",
+                "description": "Whether the connector is active"
+              },
+              {
+                "name": "Inactive",
+                "value": "Inactive",
+                "description": "Whether the connector is inactive"
+              }
+            ]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Arbitrary description of this Data Share. Max 250 characters.",
+          "maxLength": 250
+        },
+        "dataShareUri": {
+          "type": "string",
+          "description": "The DataShare URI to be shared with the consumer. URI Format - 'asds://<location>:<dataShareName>:<dataShareIdentifier>'.",
+          "pattern": "^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+          "readOnly": true
+        },
         "accessPolicies": {
           "type": "array",
           "description": "List of access policies that specify the permission allowed to a managed identity.",
@@ -1292,11 +1336,11 @@
           },
           "x-ms-identifiers": []
         },
-        "paths": {
+        "assets": {
           "type": "array",
-          "description": "List of paths that specify the properties of a shared resource.",
+          "description": "List of assets that specify the properties of the shared resources.",
           "items": {
-            "$ref": "#/definitions/Path"
+            "$ref": "#/definitions/Asset"
           },
           "x-ms-identifiers": []
         },
@@ -1307,14 +1351,45 @@
         }
       },
       "required": [
+        "dataShareUri",
         "accessPolicies",
-        "paths"
+        "assets"
       ]
     },
     "DataSharePropertiesUpdate": {
       "type": "object",
       "description": "Details of the Storage DataShare.",
       "properties": {
+        "state": {
+          "type": "string",
+          "description": "State - Active | Inactive. Default: Active. Specifies whether or not the DataShare is active. When set to Inactive, all data plane datasharing calls to the provider will fail.",
+          "default": "Active",
+          "enum": [
+            "Active",
+            "Inactive"
+          ],
+          "x-ms-enum": {
+            "name": "State",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Active",
+                "value": "Active",
+                "description": "Whether the connector is active"
+              },
+              {
+                "name": "Inactive",
+                "value": "Inactive",
+                "description": "Whether the connector is inactive"
+              }
+            ]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Arbitrary description of this Data Share. Max 250 characters.",
+          "maxLength": 250
+        },
         "accessPolicies": {
           "type": "array",
           "description": "List of access policies that specify the permission allowed to a managed identity.",
@@ -1323,11 +1398,11 @@
           },
           "x-ms-identifiers": []
         },
-        "paths": {
+        "assets": {
           "type": "array",
-          "description": "List of paths that specify the properties of a shared resource.",
+          "description": "List of assets that specify the properties of the shared resources.",
           "items": {
-            "$ref": "#/definitions/Path"
+            "$ref": "#/definitions/Asset"
           },
           "x-ms-identifiers": []
         }
@@ -1499,7 +1574,7 @@
           "$ref": "#/definitions/AuthProperties"
         }
       ],
-      "x-ms-discriminator-value": "ManagedIdentityAuthProperties"
+      "x-ms-discriminator-value": "ManagedIdentity"
     },
     "ManagedIdentityAuthPropertiesUpdate": {
       "type": "object",
@@ -1515,25 +1590,7 @@
           "$ref": "#/definitions/AuthPropertiesUpdate"
         }
       ],
-      "x-ms-discriminator-value": "ManagedIdentityAuthProperties"
-    },
-    "Path": {
-      "type": "object",
-      "description": "Properties of a shared resource.",
-      "properties": {
-        "physicalPath": {
-          "type": "string",
-          "description": "Source path to be shared. It can be a folder or a blob. The physical path should contain container name followed by path within the container, e.g. /container1/logs/external."
-        },
-        "virtualPath": {
-          "type": "string",
-          "description": "Consumer visible path of the original path."
-        }
-      },
-      "required": [
-        "physicalPath",
-        "virtualPath"
-      ]
+      "x-ms-discriminator-value": "ManagedIdentity"
     },
     "ProvisioningState": {
       "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",

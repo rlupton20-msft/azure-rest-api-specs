@@ -15,7 +15,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerUpdateTxtRecordSet properties")
 model DnsNamespaceManagerUpdateTxtRecordSetResourceProperties {
   @doc("Gets or sets the TXT Records")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   txtRecords: TxtRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
@@ -28,7 +28,7 @@ model DnsNamespaceManagerUpdateTxtRecordSetResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -39,7 +39,7 @@ model DnsNamespaceManagerUpdateTxtRecordSetResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateTxtRecordSets") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

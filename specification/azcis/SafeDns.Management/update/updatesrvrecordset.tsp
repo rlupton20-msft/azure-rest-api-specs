@@ -15,7 +15,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerUpdateSrvRecordSet properties")
 model DnsNamespaceManagerUpdateSrvRecordSetResourceProperties {
   @doc("Gets or sets the SRV records")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   srvRecords: SrvRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
@@ -28,7 +28,7 @@ model DnsNamespaceManagerUpdateSrvRecordSetResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -39,7 +39,7 @@ model DnsNamespaceManagerUpdateSrvRecordSetResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateSrvRecordSets") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

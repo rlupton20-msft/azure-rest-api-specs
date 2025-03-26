@@ -131,6 +131,7 @@ model DataContainerProperties {
 
   @doc("Credential to access the dataStore.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @minItems(1)
   credentials: Credential[];
 }
 

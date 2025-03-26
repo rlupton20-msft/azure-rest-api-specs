@@ -13,5 +13,5 @@ model DeviceRef {
   deviceName: string;
 
   @doc("The name of endpoint to use")
-  endpoint: string;
+  endpointName: string;
 }

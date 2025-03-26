@@ -12,13 +12,13 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@doc("Discovered device definition.")
+@doc("Namespace Discovered Device definition.")
+@parentResource(Namespace)
 @added(Versions.v2025_07_01_preview)
-model DiscoveredDevice is TrackedResource<DiscoveredDeviceProperties> {
+model NamespaceDiscoveredDevice is TrackedResource<DiscoveredDeviceProperties> {
   @doc("Discovered device name parameter.")
   @key("discoveredDeviceName")
   @segment("discoveredDevices")
@@ -37,17 +37,17 @@ model DiscoveredDevice is TrackedResource<DiscoveredDeviceProperties> {
 
 @armResourceOperations
 @added(Versions.v2025_07_01_preview)
-interface DiscoveredDevices {
-  get is ArmResourceRead<DiscoveredDevice>;
-  createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredDevice>;
+interface NamespaceDiscoveredDevices {
+  get is ArmResourceRead<NamespaceDiscoveredDevice>;
+  createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDiscoveredDevice>;
   update is ArmCustomPatchAsync<
-    DiscoveredDevice,
+    NamespaceDiscoveredDevice,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      DiscoveredDevice,
+      NamespaceDiscoveredDevice,
       DiscoveredDeviceProperties
     >
   >;
-  delete is ArmResourceDeleteWithoutOkAsync<DiscoveredDevice>;
-  listByResourceGroup is ArmResourceListByParent<DiscoveredDevice>;
-  listBySubscription is ArmListBySubscription<DiscoveredDevice>;
+  delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredDevice>;
+  listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredDevice>;
+  listBySubscription is ArmListBySubscription<NamespaceDiscoveredDevice>;
 }
