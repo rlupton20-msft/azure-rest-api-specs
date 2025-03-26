@@ -1,12 +1,10 @@
 import "@typespec/rest";
 import "@typespec/http";
-import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using OpenAPI;
-using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -27,6 +25,23 @@ union AutoRenew {
    * Auto renew is turned on
    */
   On: "On",
+}
+
+/**
+ * The operation type for the linked resources
+ */
+union OriginResourceOperationType {
+  string,
+
+  /**
+   * Renew operation type
+   */
+  Renew: "Renew",
+
+  /**
+   * Merge operation type
+   */
+  Merge: "Merge",
 }
 
 /**
@@ -321,6 +336,21 @@ model SaasResourceProperties {
    * An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have "{externalSystem}:{externalId}", e.g. "oms:1111-2222-444-666"
    */
   externalId?: string;
+
+  /**
+   * Linked resources for the saas resource
+   */
+  linkedResources?: LinkedResources;
+
+  /**
+   * Billing token for current term transaction.
+   */
+  billingToken?: string;
+
+  /**
+   * Availability token for current term transaction.
+   */
+  availabilityToken?: string;
 }
 
 /**
@@ -379,9 +409,39 @@ model RenewalTermDetails {
   termUnit?: string;
 
   /**
-   * End date of the term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored
+   * End date of the renewal term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored
    */
   endDate?: utcDateTime;
+
+  /**
+   * Linked resources for the saas resource
+   */
+  linkedResources?: LinkedResources;
+
+  /**
+   * Billing token for renewal term transaction.
+   */
+  billingToken?: string;
+
+  /**
+   * Availability token for renewal term transaction.
+   */
+  availabilityToken?: string;
+}
+
+/**
+ * Linked resources for the saas resource
+ */
+model LinkedResources {
+  /**
+   * The resources ids which will be linked to current resource.
+   */
+  resourceIds?: string[];
+
+  /**
+   * The link operation type.
+   */
+  operationType?: OriginResourceOperationType;
 }
 
 /**

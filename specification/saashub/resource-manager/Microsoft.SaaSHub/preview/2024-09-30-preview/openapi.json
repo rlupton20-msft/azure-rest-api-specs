@@ -187,6 +187,9 @@
           }
         },
         "x-ms-examples": {
+          "Create SaaSResource - Microsoft Customer Agreement Enterprise scenario": {
+            "$ref": "./examples/SaasResources_Create_Create_SaaS_Microsoft_Customer_Agreement_Enterprise.json"
+          },
           "Create SaasResource": {
             "$ref": "./examples/SaasResources_Create_Create_SaaS_Resource.json"
           },
@@ -290,6 +293,9 @@
           },
           "Update Provisioning Tenant": {
             "$ref": "./examples/SaasResources_Update_Update_Provisioning_Tenant.json"
+          },
+          "Update renewal term - Microsoft Customer Agreement Enterprise scenario": {
+            "$ref": "./examples/SaasResources_Update_Microsoft_Customer_Agreement_Enterprise_Renewal.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1212,6 +1218,23 @@
         ]
       }
     },
+    "LinkedResources": {
+      "type": "object",
+      "description": "Linked resources for the saas resource",
+      "properties": {
+        "resourceIds": {
+          "type": "array",
+          "description": "The resources ids which will be linked to current resource.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operationType": {
+          "$ref": "#/definitions/OriginResourceOperationType",
+          "description": "The link operation type."
+        }
+      }
+    },
     "MergeSaasResourceRequest": {
       "type": "object",
       "description": "Request to merge multiple saas resource resources into one target saas resource resource",
@@ -1273,6 +1296,30 @@
             "name": "Trial",
             "value": "Trial",
             "description": "Trial offer"
+          }
+        ]
+      }
+    },
+    "OriginResourceOperationType": {
+      "type": "string",
+      "description": "The operation type for the linked resources",
+      "enum": [
+        "Renew",
+        "Merge"
+      ],
+      "x-ms-enum": {
+        "name": "OriginResourceOperationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Renew",
+            "value": "Renew",
+            "description": "Renew operation type"
+          },
+          {
+            "name": "Merge",
+            "value": "Merge",
+            "description": "Merge operation type"
           }
         ]
       }
@@ -1397,7 +1444,19 @@
         "endDate": {
           "type": "string",
           "format": "date-time",
-          "description": "End date of the term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored"
+          "description": "End date of the renewal term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored"
+        },
+        "linkedResources": {
+          "$ref": "#/definitions/LinkedResources",
+          "description": "Linked resources for the saas resource"
+        },
+        "billingToken": {
+          "type": "string",
+          "description": "Billing token for renewal term transaction."
+        },
+        "availabilityToken": {
+          "type": "string",
+          "description": "Availability token for renewal term transaction."
         }
       }
     },
@@ -1540,6 +1599,18 @@
         "externalId": {
           "type": "string",
           "description": "An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have \"{externalSystem}:{externalId}\", e.g. \"oms:1111-2222-444-666\""
+        },
+        "linkedResources": {
+          "$ref": "#/definitions/LinkedResources",
+          "description": "Linked resources for the saas resource"
+        },
+        "billingToken": {
+          "type": "string",
+          "description": "Billing token for current term transaction."
+        },
+        "availabilityToken": {
+          "type": "string",
+          "description": "Availability token for current term transaction."
         }
       }
     },
