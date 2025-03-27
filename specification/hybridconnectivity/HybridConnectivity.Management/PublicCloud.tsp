@@ -266,7 +266,6 @@ model SolutionTypeProperties {
   supportedAzureRegions?: string[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
-  #suppress "RPC-Policy-V1-05" "RPC-Put-V1-23" "Existing property"
   @doc("Array of solution settings and its description.")
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
@@ -339,7 +338,6 @@ union CloudNativeType {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "will move to a more structured model when stable/GA"
-#suppress "RPC-Policy-V1-05" "RPC-Put-V1-23" "Existing property"
 @doc("Solution settings")
 model SolutionSettings is Record<string>;
 
