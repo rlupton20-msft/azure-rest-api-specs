@@ -11348,60 +11348,6 @@
         }
       ]
     },
-    "NetworkAnchorLifecycleState": {
-      "type": "string",
-      "description": "NetworkAnchor lifecycle state enum",
-      "enum": [
-        "Creating",
-        "Active",
-        "Inactive",
-        "Updating",
-        "Deleting",
-        "Deleted",
-        "Failed"
-      ],
-      "x-ms-enum": {
-        "name": "NetworkAnchorLifecycleState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Creating",
-            "value": "Creating",
-            "description": "Indicates that resource in Creating state"
-          },
-          {
-            "name": "Active",
-            "value": "Active",
-            "description": "Indicates that resource in Active state"
-          },
-          {
-            "name": "Inactive",
-            "value": "Inactive",
-            "description": "Indicates that resource in Inactive state"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Indicates that resource in Updating state"
-          },
-          {
-            "name": "Deleting",
-            "value": "Deleting",
-            "description": "Indicates that resource in Deleting state"
-          },
-          {
-            "name": "Deleted",
-            "value": "Deleted",
-            "description": "Indicates that resource in Deleted state"
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Indicates that resource in Failed state"
-          }
-        ]
-      }
-    },
     "NetworkAnchorListResult": {
       "type": "object",
       "description": "The response of a NetworkAnchor list operation.",
@@ -11427,33 +11373,13 @@
       "type": "object",
       "description": "Network Anchor properties",
       "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "Display Name",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
         "resourceAnchorId": {
           "type": "string",
           "description": "Corresponding resource anchor Azure ID",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
           ]
-        },
-        "lifecycleState": {
-          "$ref": "#/definitions/NetworkAnchorLifecycleState",
-          "description": "NetworkAnchor lifecycle state",
-          "readOnly": true
-        },
-        "lifecycleDetails": {
-          "type": "string",
-          "description": "Additional information about the current lifecycle state.",
-          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/AzureResourceProvisioningState",
@@ -11463,10 +11389,7 @@
         "vnetId": {
           "$ref": "#/definitions/VnetId",
           "description": "VNET for network connectivity",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "readOnly": true
         },
         "subnetId": {
           "$ref": "#/definitions/SubnetId",
@@ -11476,82 +11399,44 @@
             "create"
           ]
         },
-        "dnsLabel": {
-          "type": "string",
-          "description": "Oracle Cloud Infrastructure DNS label. This is optional if DNS config is provided.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "customDomainName": {
-          "type": "string",
-          "description": "Full custom domain name. If this field is passed dnsLabel will be ignored",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "cidrBlock": {
           "type": "string",
-          "description": "Client primary cidr block",
+          "description": "Delegated Azure subnet cidr block.",
+          "readOnly": true
+        },
+        "ociVcnId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure VCN OCID",
+          "readOnly": true
+        },
+        "ociVcnDnsLabel": {
+          "type": "string",
+          "description": "OCI DNS label. This is optional if DNS config is provided.",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "backupCidrBlock": {
+        "ociSubnetId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure subnet OCID",
+          "readOnly": true
+        },
+        "ociBackupCidrBlock": {
           "type": "string",
-          "description": "Client backup cidr block",
+          "description": "OCI backup subnet cidr block.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
-        },
-        "setupMode": {
-          "$ref": "#/definitions/NetworkAnchorSetupMode",
-          "description": "Indicates whether OCI networking counterparts should be auto-created",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "ociNetworkAnchorMetadata": {
-          "$ref": "#/definitions/OciNetworkAnchorMetadata",
-          "description": "OCI Network Anchor Metadata",
-          "readOnly": true
         }
       },
       "required": [
+        "resourceAnchorId",
         "vnetId",
-        "subnetId",
-        "setupMode"
+        "subnetId"
       ]
-    },
-    "NetworkAnchorSetupMode": {
-      "type": "string",
-      "description": "NetworkAnchor SetupMode enum",
-      "enum": [
-        "AutoBind",
-        "NoAutoBind"
-      ],
-      "x-ms-enum": {
-        "name": "NetworkAnchorSetupMode",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AutoBind",
-            "value": "AutoBind",
-            "description": "When passed, compartment will be created on-behalf of customer and bind to this network anchor"
-          },
-          {
-            "name": "NoAutoBind",
-            "value": "NoAutoBind",
-            "description": "When passed, compartment will be created on-behalf of customer and bind to this network anchor"
-          }
-        ]
-      }
     },
     "NetworkAnchorUpdate": {
       "type": "object",
@@ -11581,27 +11466,9 @@
       "type": "object",
       "description": "The updatable properties of the NetworkAnchor.",
       "properties": {
-        "displayName": {
+        "ociBackupCidrBlock": {
           "type": "string",
-          "description": "Display Name",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "resourceAnchorId": {
-          "type": "string",
-          "description": "Corresponding resource anchor Azure ID",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "backupCidrBlock": {
-          "type": "string",
-          "description": "Client backup cidr block",
+          "description": "OCI backup subnet cidr block.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -11670,88 +11537,6 @@
           }
         ]
       }
-    },
-    "OciNetworkAnchorMetadata": {
-      "type": "object",
-      "description": "OCI Network Anchor Metadata",
-      "properties": {
-        "ociNetworkAnchorId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "NetworkAnchor OCID",
-          "readOnly": true
-        },
-        "ociResourceAnchorId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Corresponding resource anchor OCID",
-          "readOnly": true
-        },
-        "ociVcnId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure VCN OCID",
-          "readOnly": true
-        },
-        "ociSubnetId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure subnet OCID",
-          "readOnly": true
-        },
-        "compartmentId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
-          "readOnly": true
-        },
-        "ociRegion": {
-          "type": "string",
-          "description": "Oracle Cloud Infrastructure region",
-          "readOnly": true
-        },
-        "timeUpdated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time the network anchor was updated in Oracle Cloud Infrastructure",
-          "readOnly": true
-        }
-      }
-    },
-    "OciResourceAnchorMetadata": {
-      "type": "object",
-      "description": "OCI Resource Anchor Metadata",
-      "properties": {
-        "ociResourceAnchorId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Resource anchor OCID",
-          "readOnly": true
-        },
-        "ociSubscriptionId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "OCI Subscription OCID",
-          "readOnly": true
-        },
-        "ociRegion": {
-          "type": "string",
-          "description": "Oracle Cloud Infrastructure region",
-          "readOnly": true
-        },
-        "compartmentId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure compartment Id (ocid) where network Anchor lives",
-          "readOnly": true
-        },
-        "linkedCompartmentId": {
-          "$ref": "#/definitions/Ocid",
-          "description": "Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives",
-          "readOnly": true
-        },
-        "timeUpdated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The date and time the resource anchor was updated in Oracle Cloud Infrastructure",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "ociSubscriptionId"
-      ]
     },
     "Ocid": {
       "type": "string",
@@ -12425,60 +12210,6 @@
         }
       ]
     },
-    "ResourceAnchorLifecycleState": {
-      "type": "string",
-      "description": "ResourceAnchor lifecycle state enum",
-      "enum": [
-        "Creating",
-        "Active",
-        "Inactive",
-        "Updating",
-        "Deleting",
-        "Deleted",
-        "Failed"
-      ],
-      "x-ms-enum": {
-        "name": "ResourceAnchorLifecycleState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Creating",
-            "value": "Creating",
-            "description": "Indicates that resource in Creating state"
-          },
-          {
-            "name": "Active",
-            "value": "Active",
-            "description": "Indicates that resource in Active state"
-          },
-          {
-            "name": "Inactive",
-            "value": "Inactive",
-            "description": "Indicates that resource in Inactive state"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "Indicates that resource in Updating state"
-          },
-          {
-            "name": "Deleting",
-            "value": "Deleting",
-            "description": "Indicates that resource in Deleting state"
-          },
-          {
-            "name": "Deleted",
-            "value": "Deleted",
-            "description": "Indicates that resource in Deleted state"
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Indicates that resource in Failed state"
-          }
-        ]
-      }
-    },
     "ResourceAnchorListResult": {
       "type": "object",
       "description": "The response of a ResourceAnchor list operation.",
@@ -12504,70 +12235,16 @@
       "type": "object",
       "description": "Resource Anchor properties.",
       "properties": {
-        "ociResourceAnchorMetadata": {
-          "$ref": "#/definitions/OciResourceAnchorMetadata",
-          "description": "OCI Resource Anchor Metadata",
-          "readOnly": true
-        },
-        "displayName": {
-          "type": "string",
-          "description": "Display Name",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "lifecycleState": {
-          "$ref": "#/definitions/ResourceAnchorLifecycleState",
-          "description": "ResourceAnchor lifecycle state",
-          "readOnly": true
-        },
-        "lifecycleDetails": {
-          "type": "string",
-          "description": "Additional information about the current lifecycle state.",
-          "readOnly": true
-        },
         "provisioningState": {
           "$ref": "#/definitions/AzureResourceProvisioningState",
           "description": "ResourceAnchor provisioning state",
           "readOnly": true
         },
-        "setupMode": {
-          "$ref": "#/definitions/ResourceAnchorSetupMode",
-          "description": "ResourceAnchor SetupMode",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+        "linkedCompartmentId": {
+          "$ref": "#/definitions/Ocid",
+          "description": "Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives",
+          "readOnly": true
         }
-      },
-      "required": [
-        "setupMode"
-      ]
-    },
-    "ResourceAnchorSetupMode": {
-      "type": "string",
-      "description": "ResourceAnchor SetupMode enum",
-      "enum": [
-        "AutoBind",
-        "NoAutoBind"
-      ],
-      "x-ms-enum": {
-        "name": "ResourceAnchorSetupMode",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AutoBind",
-            "value": "AutoBind",
-            "description": "When passed, compartment will be created on-behalf of customer and bind to this resource anchor"
-          },
-          {
-            "name": "NoAutoBind",
-            "value": "NoAutoBind",
-            "description": "When passed, compartment will not be created and later customer can bind existing compartment."
-          }
-        ]
       }
     },
     "ResourceAnchorUpdate": {
@@ -12580,25 +12257,6 @@
           "additionalProperties": {
             "type": "string"
           }
-        },
-        "properties": {
-          "$ref": "#/definitions/ResourceAnchorUpdateProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      }
-    },
-    "ResourceAnchorUpdateProperties": {
-      "type": "object",
-      "description": "The updatable properties of the ResourceAnchor.",
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "Display Name",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         }
       }
     },
