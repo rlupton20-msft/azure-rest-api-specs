@@ -266,6 +266,7 @@ model SolutionTypeProperties {
   supportedAzureRegions?: string[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
+  #suppress "RPC-Policy-V1-05" "RPC-Put-V1-23" "Existing property"
   @doc("Array of solution settings and its description.")
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
