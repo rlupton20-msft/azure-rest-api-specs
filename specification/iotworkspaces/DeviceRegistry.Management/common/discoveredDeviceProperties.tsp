@@ -24,6 +24,25 @@ model DiscoveredDeviceProperties {
   @doc("Identifier used to detect changes in the asset endpoint profile.")
   discoveryId: string;
 
+  @doc("Hardware manufacturer name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  manufacturer?: string;
+
+  @doc("Model name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  `model`?: string;
+
+  @doc("Operating system name.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  operatingSystem?: string;
+
+  @doc("Operating system version.")
+  operatingSystemVersion?: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("A set of key-value pairs that contain custom attributes.")
+  attributes?: Record<unknown>;
+
   @doc("An integer that is incremented each time the resource is modified.")
   version: int64;
 
