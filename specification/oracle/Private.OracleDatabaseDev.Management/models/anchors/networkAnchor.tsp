@@ -27,7 +27,7 @@ model NetworkAnchorProperties {
 
   @doc("VNET for network connectivity")
   @visibility(Lifecycle.Read)
-  vnetId: VnetId;
+  vnetId?: VnetId;
 
   @doc("Client subnet")
   @visibility(Lifecycle.Create, Lifecycle.Read)
