@@ -170,9 +170,9 @@ model GcpCloudProfile {
 
 @doc("GCP project properties.")
 model GcpProjectProperties {
-  @doc("The project id of the GCP project.")
+  @doc("The project number of the GCP project.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  projectId: string;
+  projectNumber: string;
 }
 
 @doc("GCP organization properties.")
