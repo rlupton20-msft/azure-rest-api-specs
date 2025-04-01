@@ -155,7 +155,7 @@ model RetentionPolicyProperties {
 union PurgeableOrchestrationState {
   string,
 
-  @doc("Any purgaeble orchestration state")
+  @doc("Any purgeable orchestration state")
   Any: "*",
 
   @doc("The orchestration is completed")
@@ -289,7 +289,7 @@ interface TaskHubs {
 
 @added(Versions.v2025_04_01_Preview)
 @armResourceOperations(RetentionPolicy)
-interface RententionPolicies {
+interface RetentionPolicies {
   @doc("Get a Retention Policy")
   @errorsDoc("Not found error: resource does not exist")
   get is ArmResourceRead<RetentionPolicy>;
