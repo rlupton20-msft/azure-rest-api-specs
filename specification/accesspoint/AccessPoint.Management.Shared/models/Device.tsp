@@ -40,6 +40,7 @@ model DeviceProperties {
   mac: string;
 
   @doc("The unique serial number of the device.")
+  @pattern("^[a-zA-Z0-9]{3,24}$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   serial: string;
 
