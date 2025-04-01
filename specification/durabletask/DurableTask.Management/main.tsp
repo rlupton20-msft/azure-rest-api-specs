@@ -128,7 +128,8 @@ model TaskHub is Azure.ResourceManager.ProxyResource<TaskHubProperties> {
 @doc("A retention policy resource belonging to the scheduler")
 @added(Versions.v2025_04_01_Preview)
 @parentResource(Scheduler)
-model RetentionPolicy is Azure.ResourceManager.ProxyResource<RetentionPolicyProperties> {
+model RetentionPolicy
+  is Azure.ResourceManager.ProxyResource<RetentionPolicyProperties> {
   ...ResourceNameParameter<
     RetentionPolicy,
     "retentionPolicyName",
