@@ -740,7 +740,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/{retentionPolicyName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default": {
       "get": {
         "operationId": "RetentionPolicies_Get",
         "tags": [
@@ -761,14 +761,6 @@
             "name": "schedulerName",
             "in": "path",
             "description": "The name of the Scheduler",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "retentionPolicyName",
-            "in": "path",
-            "description": "The name of the RetentionPolicy",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,64}$"
@@ -814,14 +806,6 @@
             "name": "schedulerName",
             "in": "path",
             "description": "The name of the Scheduler",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "retentionPolicyName",
-            "in": "path",
-            "description": "The name of the RetentionPolicy",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,64}$"
@@ -902,14 +886,6 @@
             "pattern": "^[a-zA-Z0-9-]{3,64}$"
           },
           {
-            "name": "retentionPolicyName",
-            "in": "path",
-            "description": "The name of the RetentionPolicy",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
             "name": "properties",
             "in": "body",
             "description": "The resource properties to be updated.",
@@ -977,14 +953,6 @@
             "name": "schedulerName",
             "in": "path",
             "description": "The name of the Scheduler",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "retentionPolicyName",
-            "in": "path",
-            "description": "The name of the RetentionPolicy",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]{3,64}$"
@@ -1415,7 +1383,6 @@
       "type": "string",
       "description": "Purgeable orchestration state to be used in retention policies",
       "enum": [
-        "*",
         "Completed",
         "Failed",
         "Terminated",
@@ -1425,11 +1392,6 @@
         "name": "PurgeableOrchestrationState",
         "modelAsString": true,
         "values": [
-          {
-            "name": "Any",
-            "value": "*",
-            "description": "Any purgeable orchestration state"
-          },
           {
             "name": "Completed",
             "value": "Completed",
@@ -1492,6 +1454,24 @@
         }
       ]
     },
+    "RetentionPolicyDetails": {
+      "type": "object",
+      "description": "The properties of a retention policy",
+      "properties": {
+        "retentionPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The retention period in days after which the orchestration will be purged automatically"
+        },
+        "orchestrationState": {
+          "$ref": "#/definitions/PurgeableOrchestrationState",
+          "description": "The orchestration state to which this policy applies. If omitted, the policy applies to all purgeable orchestration states."
+        }
+      },
+      "required": [
+        "retentionPeriodInDays"
+      ]
+    },
     "RetentionPolicyListResult": {
       "type": "object",
       "description": "The response of a RetentionPolicy list operation.",
@@ -1515,57 +1495,40 @@
     },
     "RetentionPolicyProperties": {
       "type": "object",
-      "description": "The properties of a retention policy",
+      "description": "The retention policy settings for the resource",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation",
           "readOnly": true
         },
-        "retentionPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The retention period in days after which the orchestration will be purged automatically"
-        },
-        "orchestrationState": {
-          "$ref": "#/definitions/PurgeableOrchestrationState",
-          "description": "The orchestration state to which this policy applies"
-        }
-      },
-      "required": [
-        "retentionPeriodInDays",
-        "orchestrationState"
-      ]
-    },
-    "RetentionPolicyPropertiesUpdate": {
-      "type": "object",
-      "description": "The retention policy resource properties to be updated",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation",
-          "readOnly": true
-        },
-        "retentionPeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The retention period in days after which the orchestration will be purged automatically"
-        },
-        "orchestrationState": {
-          "$ref": "#/definitions/PurgeableOrchestrationState",
-          "description": "The orchestration state to which this policy applies"
+        "retentionPolicies": {
+          "type": "array",
+          "description": "The orchestration retention policies",
+          "items": {
+            "$ref": "#/definitions/RetentionPolicyDetails"
+          },
+          "x-ms-identifiers": [
+            "retentionPeriodInDays",
+            "orchestrationState"
+          ]
         }
       }
     },
     "RetentionPolicyUpdate": {
       "type": "object",
-      "description": "The update request model for the retention policy resource",
+      "description": "A retention policy resource belonging to the scheduler",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/RetentionPolicyPropertiesUpdate",
+          "$ref": "#/definitions/RetentionPolicyProperties",
           "description": "The resource-specific properties for this resource."
         }
-      }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "Scheduler": {
       "type": "object",
