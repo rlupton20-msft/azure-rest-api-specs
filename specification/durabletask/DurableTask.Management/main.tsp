@@ -25,8 +25,14 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @doc("2025-04-01-preview")
+  v2025_04_01_Preview: "2025-04-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @doc("2025-05-04-preview")
-  v2025_04_01_Preview: "2025-05-04-preview",
+  v2025_05_04_Preview: "2025-05-04-preview",
 }
 
 @doc("A Durable Task Scheduler resource")
@@ -58,13 +64,13 @@ model SchedulerProperties {
   sku: SchedulerSku;
 
   /** The private endpoints exposed by this resource */
-  @added(Versions.v2025_04_01_Preview)
+  @added(Versions.v2025_05_04_Preview)
   @visibility(Lifecycle.Read)
   endpoints?: PrivateEndpoint[];
 }
 
 /** Holder for private endpoint connections */
-@added(Versions.v2025_04_01_Preview)
+@added(Versions.v2025_05_04_Preview)
 @parentResource(Scheduler)
 model PrivateEndpointConnectionResource
   is ProxyResource<PrivateEndpointConnectionProperties> {
@@ -72,7 +78,7 @@ model PrivateEndpointConnectionResource
 }
 
 /** Private connection operations */
-@added(Versions.v2025_04_01_Preview)
+@added(Versions.v2025_05_04_Preview)
 @armResourceOperations(PrivateEndpointConnectionResource)
 interface PrivateEndpointConnections {
   /** List existing private connections */
@@ -87,7 +93,7 @@ interface PrivateEndpointConnections {
 
 /** Private Links for TestRackedResource */
 // #suppress "@azure-tools/typespec-providerhub-controller/no-resource-operations" "Expected for private links"
-@added(Versions.v2025_04_01_Preview)
+@added(Versions.v2025_05_04_Preview)
 @parentResource(Scheduler)
 model PrivateLinkResource is ProxyResource<PrivateLinkResourceProperties> {
   ...PrivateLinkResourceParameter;
@@ -117,6 +123,73 @@ model TaskHub is Azure.ResourceManager.ProxyResource<TaskHubProperties> {
     "taskHubs",
     "^[a-zA-Z0-9-]{3,64}$"
   >;
+}
+
+@doc("A retention policy resource belonging to the scheduler")
+@added(Versions.v2025_04_01_Preview)
+@parentResource(Scheduler)
+model RetentionPolicy
+  is Azure.ResourceManager.ProxyResource<RetentionPolicyProperties> {
+  ...ResourceNameParameter<
+    RetentionPolicy,
+    "retentionPolicyName",
+    "retentionPolicies",
+    "^[a-zA-Z0-9-]{3,64}$"
+  >;
+}
+
+@doc("The update request model for the retention policy resource")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyUpdate
+  is UpdateableProperties<Azure.ResourceManager.ProxyResource<RetentionPolicyPropertiesUpdate>>;
+
+@doc("The properties of a retention policy")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The status of the last operation")
+  provisioningState?: ProvisioningState;
+
+  @doc("The retention period in days after which the orchestration will be purged automatically")
+  retentionPeriodInDays: int32;
+
+  @doc("The orchestration state to which this policy applies")
+  orchestrationState: PurgeableOrchestrationState;
+}
+
+@doc("The retention policy resource properties to be updated")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyPropertiesUpdate {
+  @visibility(Lifecycle.Read)
+  @doc("The status of the last operation")
+  provisioningState?: ProvisioningState;
+
+  @doc("The retention period in days after which the orchestration will be purged automatically")
+  retentionPeriodInDays?: int32;
+
+  @doc("The orchestration state to which this policy applies")
+  orchestrationState?: PurgeableOrchestrationState;
+}
+
+@doc("Purgeable orchestration state to be used in retention policies")
+@added(Versions.v2025_04_01_Preview)
+union PurgeableOrchestrationState {
+  string,
+
+  @doc("Any purgeable orchestration state")
+  Any: "*",
+
+  @doc("The orchestration is completed")
+  Completed: "Completed",
+
+  @doc("The orchestration is failed")
+  Failed: "Failed",
+
+  @doc("The orchestration is terminated")
+  Terminated: "Terminated",
+
+  @doc("The orchestration is terminated")
+  Canceled: "Canceled",
 }
 
 @doc("The state of the resource redundancy")
@@ -235,8 +308,26 @@ interface TaskHubs {
   listByScheduler is ArmResourceListByParent<TaskHub>;
 }
 
-/** Operations for private links on TestTrackedResource */
 @added(Versions.v2025_04_01_Preview)
+@armResourceOperations(RetentionPolicy)
+interface RetentionPolicies {
+  @doc("Get a Retention Policy")
+  @errorsDoc("Not found error: resource does not exist")
+  get is ArmResourceRead<RetentionPolicy>;
+  @doc("Create or Update a Retention Policy")
+  @errorsDoc("Validation error: required parameters are missing")
+  createOrReplace is ArmResourceCreateOrReplaceAsync<RetentionPolicy>;
+  @doc("Update a Retention Policy")
+  @errorsDoc("Validation error: required parameters are missing")
+  update is ArmCustomPatchAsync<RetentionPolicy, RetentionPolicyUpdate>;
+  @doc("Delete a Retention Policy")
+  delete is ArmResourceDeleteWithoutOkAsync<RetentionPolicy>;
+  @doc("List Retention Policies")
+  listByScheduler is ArmResourceListByParent<RetentionPolicy>;
+}
+
+/** Operations for private links on TestTrackedResource */
+@added(Versions.v2025_05_04_Preview)
 @armResourceOperations(PrivateLinkResource)
 interface PrivateLinks {
   /** list private links on the given resource */
