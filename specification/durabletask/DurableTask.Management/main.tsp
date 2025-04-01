@@ -148,11 +148,11 @@ model RetentionPolicyProperties {
   retentionPeriodInDays: int32;
 
   @doc("The orchestration state to which this policy applies")
-  orchestrationState: PurgableOrchestrationState;
+  orchestrationState: PurgeableOrchestrationState;
 }
 
-@doc("Purgable Orchestration State to be used in retention policies")
-union PurgableOrchestrationState {
+@doc("Purgeable Orchestration State to be used in retention policies")
+union PurgeableOrchestrationState {
   string,
 
   @doc("Any purgaeble orchestration state")
