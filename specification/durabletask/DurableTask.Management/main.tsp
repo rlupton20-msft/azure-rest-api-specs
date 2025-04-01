@@ -138,6 +138,11 @@ model RetentionPolicy
   >;
 }
 
+@doc("The update request model for the retention policy resource")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyUpdate
+  is UpdateableProperties<Azure.ResourceManager.ProxyResource<RetentionPolicyPropertiesUpdate>>;
+
 @doc("The properties of a retention policy")
 @added(Versions.v2025_04_01_Preview)
 model RetentionPolicyProperties {
@@ -145,14 +150,29 @@ model RetentionPolicyProperties {
   @doc("The status of the last operation")
   provisioningState?: ProvisioningState;
 
-  @doc("The retention period in days after which the orchestration state will be purged automatically")
+  @doc("The retention period in days after which the orchestration will be purged automatically")
   retentionPeriodInDays: int32;
 
   @doc("The orchestration state to which this policy applies")
   orchestrationState: PurgeableOrchestrationState;
 }
 
-@doc("Purgeable Orchestration State to be used in retention policies")
+@doc("The retention policy resource properties to be updated")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyPropertiesUpdate {
+  @visibility(Lifecycle.Read)
+  @doc("The status of the last operation")
+  provisioningState?: ProvisioningState;
+
+  @doc("The retention period in days after which the orchestration will be purged automatically")
+  retentionPeriodInDays?: int32;
+
+  @doc("The orchestration state to which this policy applies")
+  orchestrationState?: PurgeableOrchestrationState;
+}
+
+@doc("Purgeable orchestration state to be used in retention policies")
+@added(Versions.v2025_04_01_Preview)
 union PurgeableOrchestrationState {
   string,
 
@@ -297,6 +317,9 @@ interface RetentionPolicies {
   @doc("Create or Update a Retention Policy")
   @errorsDoc("Validation error: required parameters are missing")
   createOrReplace is ArmResourceCreateOrReplaceAsync<RetentionPolicy>;
+  @doc("Update a Retention Policy")
+  @errorsDoc("Validation error: required parameters are missing")
+  update is ArmCustomPatchAsync<RetentionPolicy, RetentionPolicyUpdate>;
   @doc("Delete a Retention Policy")
   delete is ArmResourceDeleteWithoutOkAsync<RetentionPolicy>;
   @doc("List Retention Policies")
