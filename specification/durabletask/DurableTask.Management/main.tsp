@@ -134,8 +134,7 @@ model RetentionPolicy
   ...ResourceNameParameter<
     RetentionPolicy,
     "retentionPolicyName",
-    "retentionPolicies",
-    "^[a-zA-Z0-9-]{3,64}$"
+    "retentionPolicies"
   >;
 }
 
