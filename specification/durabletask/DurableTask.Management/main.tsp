@@ -128,46 +128,38 @@ model TaskHub is Azure.ResourceManager.ProxyResource<TaskHubProperties> {
 @doc("A retention policy resource belonging to the scheduler")
 @added(Versions.v2025_04_01_Preview)
 @parentResource(Scheduler)
+@singleton
 model RetentionPolicy
   is Azure.ResourceManager.ProxyResource<RetentionPolicyProperties> {
   ...ResourceNameParameter<
     RetentionPolicy,
     "retentionPolicyName",
-    "retentionPolicies",
-    "^[a-zA-Z0-9-]{3,64}$"
+    "retentionPolicies"
   >;
 }
 
-@doc("The update request model for the retention policy resource")
-@added(Versions.v2025_04_01_Preview)
-model RetentionPolicyUpdate
-  is UpdateableProperties<Azure.ResourceManager.ProxyResource<RetentionPolicyPropertiesUpdate>>;
-
-@doc("The properties of a retention policy")
+@doc("The retention policy settings for the resource")
 @added(Versions.v2025_04_01_Preview)
 model RetentionPolicyProperties {
   @visibility(Lifecycle.Read)
   @doc("The status of the last operation")
   provisioningState?: ProvisioningState;
 
+  @doc("The orchestration retention policies")
+  @OpenAPI.extension(
+    "x-ms-identifiers",
+    #["retentionPeriodInDays", "orchestrationState"]
+  )
+  retentionPolicies?: RetentionPolicyDetails[];
+}
+
+@doc("The properties of a retention policy")
+@added(Versions.v2025_04_01_Preview)
+model RetentionPolicyDetails {
   @doc("The retention period in days after which the orchestration will be purged automatically")
   retentionPeriodInDays: int32;
 
-  @doc("The orchestration state to which this policy applies")
-  orchestrationState: PurgeableOrchestrationState;
-}
-
-@doc("The retention policy resource properties to be updated")
-@added(Versions.v2025_04_01_Preview)
-model RetentionPolicyPropertiesUpdate {
-  @visibility(Lifecycle.Read)
-  @doc("The status of the last operation")
-  provisioningState?: ProvisioningState;
-
-  @doc("The retention period in days after which the orchestration will be purged automatically")
-  retentionPeriodInDays?: int32;
-
-  @doc("The orchestration state to which this policy applies")
+  @doc("The orchestration state to which this policy applies. If omitted, the policy applies to all purgeable orchestration states.")
   orchestrationState?: PurgeableOrchestrationState;
 }
 
@@ -175,9 +167,6 @@ model RetentionPolicyPropertiesUpdate {
 @added(Versions.v2025_04_01_Preview)
 union PurgeableOrchestrationState {
   string,
-
-  @doc("Any purgeable orchestration state")
-  Any: "*",
 
   @doc("The orchestration is completed")
   Completed: "Completed",
@@ -319,7 +308,7 @@ interface RetentionPolicies {
   createOrReplace is ArmResourceCreateOrReplaceAsync<RetentionPolicy>;
   @doc("Update a Retention Policy")
   @errorsDoc("Validation error: required parameters are missing")
-  update is ArmCustomPatchAsync<RetentionPolicy, RetentionPolicyUpdate>;
+  update is ArmResourcePatchAsync<RetentionPolicy, RetentionPolicyProperties>;
   @doc("Delete a Retention Policy")
   delete is ArmResourceDeleteWithoutOkAsync<RetentionPolicy>;
   @doc("List Retention Policies")
