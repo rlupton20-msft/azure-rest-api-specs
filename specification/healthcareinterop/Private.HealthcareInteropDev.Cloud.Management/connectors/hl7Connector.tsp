@@ -30,6 +30,10 @@ model Hl7ConnectorProperties {
   @doc("The resource ID of an existing hub resource to link/associate this hl7Connector resource to.")
   hubResourceId: HubResourceId;
 
+  @doc("The resource ID of the remote connector environment connected cluster where the connector will be deployed.")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
+  connectedClusterId: ConnectedClusterResourceId;
+
   @doc("The receiver configuration to be used for the Hl7 connector.")
   receiver?: {
     @doc("The receiver endpoint configuration to be used for Hl7 connector.")
@@ -43,14 +47,14 @@ model Hl7ConnectorProperties {
 @doc("The Hl7 receiver endpoint configuration properties.")
 model Hl7ReceiverConfiguration {
   @doc("Optional string representing the carriage return character.")
-  @maxLength(1)
+  @maxLength(4)
   carriageReturn?: string;
 
   @doc("Optional boolean indicating if the carriage return is optional.")
   carriageReturnOptional?: boolean;
 
   @doc("Optional string representing the end block delimiter.")
-  @maxLength(1)
+  @maxLength(4)
   endBlockDelimiter?: string;
 
   @doc("Optional enum representing the error acknowledgment strategy.")
@@ -60,22 +64,22 @@ model Hl7ReceiverConfiguration {
   noStartByteRequired?: boolean;
 
   @doc("Optional string representing the start block delimiter.")
-  @maxLength(1)
+  @maxLength(4)
   startBlockDelimiter?: string;
 }
 
 @doc("The message listener configuration properties.")
 model MessageListenerConfiguration {
   @doc("The inactivity timeout in seconds.")
-  @minValue(1)
+  @minValue(10)
   inactivityTimeoutInSeconds?: int32;
 
   @doc("The size of the message buffer.")
-  @minValue(1)
+  @minValue(512)
   messageBufferSize?: int32;
 
   @doc("The port number to use.")
-  @minValue(0)
+  @minValue(1)
   @maxValue(65535)
   port: int32;
 
