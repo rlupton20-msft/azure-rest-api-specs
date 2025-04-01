@@ -610,6 +610,86 @@
         },
         "x-ms-long-running-operation": true
       },
+      "patch": {
+        "operationId": "RetentionPolicies_Update",
+        "tags": [
+          "RetentionPolicies"
+        ],
+        "description": "Update a Retention Policy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schedulerName",
+            "in": "path",
+            "description": "The name of the Scheduler",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "retentionPolicyName",
+            "in": "path",
+            "description": "The name of the RetentionPolicy",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RetentionPolicyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/RetentionPolicy"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "Validation error: required parameters are missing",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "RetentionPolicies_Update_MaximumSet": {
+            "$ref": "./examples/RetentionPolicies_Update_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
       "delete": {
         "operationId": "RetentionPolicies_Delete",
         "tags": [
@@ -994,7 +1074,7 @@
     },
     "PurgeableOrchestrationState": {
       "type": "string",
-      "description": "Purgeable Orchestration State to be used in retention policies",
+      "description": "Purgeable orchestration state to be used in retention policies",
       "enum": [
         "*",
         "Completed",
@@ -1106,7 +1186,7 @@
         "retentionPeriodInDays": {
           "type": "integer",
           "format": "int32",
-          "description": "The retention period in days after which the orchestration state will be purged automatically"
+          "description": "The retention period in days after which the orchestration will be purged automatically"
         },
         "orchestrationState": {
           "$ref": "#/definitions/PurgeableOrchestrationState",
@@ -1117,6 +1197,36 @@
         "retentionPeriodInDays",
         "orchestrationState"
       ]
+    },
+    "RetentionPolicyPropertiesUpdate": {
+      "type": "object",
+      "description": "The retention policy resource properties to be updated",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation",
+          "readOnly": true
+        },
+        "retentionPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The retention period in days after which the orchestration will be purged automatically"
+        },
+        "orchestrationState": {
+          "$ref": "#/definitions/PurgeableOrchestrationState",
+          "description": "The orchestration state to which this policy applies"
+        }
+      }
+    },
+    "RetentionPolicyUpdate": {
+      "type": "object",
+      "description": "The update request model for the retention policy resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/RetentionPolicyPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      }
     },
     "Scheduler": {
       "type": "object",
