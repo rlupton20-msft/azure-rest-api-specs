@@ -56,8 +56,8 @@ model DeviceProperties {
   @doc("The IP address of the device that belongs to the attached network.")
   ipAddress: ipV4Address;
 
-  @doc("The labels associated with the device.")
-  labels: Array<string>;
+  @doc("The label associated with the device.")
+  label: string;
 
   @doc("Additional details.")
   description?: string;
