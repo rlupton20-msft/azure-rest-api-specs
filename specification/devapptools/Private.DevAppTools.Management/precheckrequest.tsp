@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 namespace Private.DevAppTools;
 
 /** PreCheckRequest resource */
-model PreCheckRequest is TrackedResource<PreCheckRequestProperties> {
+model PreCheckRequest is ExtensionResource<PreCheckRequestProperties> {
   ...ResourceNameParameter<PreCheckRequest>;
 }
 
@@ -160,6 +160,5 @@ interface PreCheckRequests {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<PreCheckRequest>;
   update is ArmResourcePatchSync<PreCheckRequest, PreCheckRequestProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<PreCheckRequest>;
-  listByResourceGroup is ArmResourceListByParent<PreCheckRequest>;
-  listBySubscription is ArmListBySubscription<PreCheckRequest>;
+  list is ArmResourceListByParent<PreCheckRequest>;
 }
