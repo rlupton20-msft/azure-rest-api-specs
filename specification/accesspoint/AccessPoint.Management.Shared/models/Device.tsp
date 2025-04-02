@@ -22,7 +22,7 @@ namespace Microsoft.AccessPoint;
 
 @doc("An Access Point Device Resource")
 @parentResource(AccessPointAccount)
-model Device is ProxyResource<DeviceProperties> {
+model Device is TrackedResource<DeviceProperties> {
   ...ResourceNameParameter<
     Device,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
