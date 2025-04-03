@@ -42,6 +42,10 @@ model Hl7ConnectorProperties {
     @doc("The listener configuration to be used for Hl7 connector.")
     messageListenerConfiguration: MessageListenerConfiguration;
   };
+
+  @visibility(Lifecycle.Read)
+  @doc("The resource ID of the hl7EdgeConnector resource managed by this resource.")
+  managedHl7EdgeConnectorResourceId?: Hl7EdgeConnectorResourceId;
 }
 
 @doc("The Hl7 receiver endpoint configuration properties.")

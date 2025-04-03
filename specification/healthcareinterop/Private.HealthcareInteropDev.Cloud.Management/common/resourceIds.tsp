@@ -34,6 +34,14 @@ scalar Hl7ConnectorResourceId
     }
   ]>;
 
+@doc("The resource ID of a healthcare interop hl7EdgeConnector resource.")
+scalar Hl7EdgeConnectorResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.HealthcareInteropDev/hl7EdgeConnectors",
+    }
+  ]>;
+
 @doc("The resource ID of a healthcare interop storageAccountConnector resource.")
 scalar StorageAccountConnectorResourceId
   extends Azure.Core.armResourceIdentifier<[
