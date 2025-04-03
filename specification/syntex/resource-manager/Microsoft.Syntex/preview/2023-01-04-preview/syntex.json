@@ -230,7 +230,7 @@
             }
           }
         },
-        "x-ms-examples": {
+       "x-ms-examples": {
           "DocumentProcessor_Create": {
             "$ref": "./examples/DocumentProcessor_Create.json"
           }
@@ -450,8 +450,11 @@
           }
         },
         "x-ms-examples": {
-          "Accounts_CreateOrUpdate": {
-            "$ref": "./examples/Accounts_Create.json"
+          "Accounts_CreateOrUpdate_BasicRequired": {
+            "$ref": "./examples/Accounts_Create_BasicRequired.json"
+          },
+          "Accounts_CreateOrUpdate_WithArrays": {
+            "$ref": "./examples/Accounts_Create_WithArrays.json"
           }
         }
       },
@@ -496,8 +499,11 @@
           }
         },
         "x-ms-examples": {
-          "Accounts_Update": {
-            "$ref": "./examples/Accounts_Update.json"
+          "Accounts_Update_Basic": {
+            "$ref": "./examples/Accounts_Update_Basic.json"
+          },
+          "Accounts_Update_WithArrays": {
+            "$ref": "./examples/Accounts_Update_WithArrays.json"
           }
         }
       },
@@ -722,7 +728,7 @@
         },
         "friendlyName": {
           "type": "string",
-          "description": "Friendly name for the accounts resource"
+          "description": "Friendly name for the accounts resource."
         },
         "service": {
           "type": "string",
@@ -734,15 +740,33 @@
         },
         "identityId": {
           "type": "string",
-          "description": "The id (GUID) of the identity that is logically linked to the accounts resource"
+          "description": "The id (GUID) of the identity that is logically linked to the accounts resource."
         },
         "feature": {
           "type": "string",
-          "description": "The feature associated with the accounts resource"
+          "description": "The feature associated with the accounts resource."
+        },
+        "featureset": {
+          "type": "array",
+          "description": "The list of features associated with the accounts resource. Defaults to an empty array if not provided.",
+          "items": {
+            "type": "string",
+            "description": "The feature associated with the accounts resource."
+          },
+          "default": []
         },
         "scope": {
           "type": "string",
-          "description": "This signifies if the scope if tenant only or global"
+          "description": "This signifies if the scope if tenant only or global."
+        },
+        "scopemetadata": {
+          "type": "array",
+          "description": "The list of security groups associated with the accounts resource. Defaults to an empty array if not provided.",
+          "items": {
+            "type": "string",
+            "description": "The id (GUID) of the security group associated with the accounts resource."
+          },
+          "default": []
         }
       },
       "description": "Details of the Syntex Account.",
@@ -773,6 +797,42 @@
             "friendlyName": {
               "type": "string",
               "description": "Friendly name for the accounts resource"
+            },
+            "featurestoadd": {
+              "type": "array",
+              "description": "The list of features to be added to the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The feature associated with the accounts resource."
+              },
+              "default": []
+            },
+            "featurestoremove": {
+              "type": "array",
+              "description": "The list of features to be removed from the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The feature associated with the accounts resource."
+              },
+              "default": []
+            },
+            "scopemetadatatoadd": {
+              "type": "array",
+              "description": "The list of security groups to be added to the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The id (GUID) of the security group associated with the accounts resource."
+              },
+              "default": []
+            },
+            "scopemetadatatoremove": {
+              "type": "array",
+              "description": "The list of security groups to be removed from the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The id (GUID) of the security group associated with the accounts resource."
+              },
+              "default": []
             },
             "identityId": {
               "type": "string",
