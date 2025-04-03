@@ -8,10 +8,10 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
-@versioned(Azure.Discovery.Workspace.Versions)
-namespace Azure.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Workspace.Versions)
+namespace Microsoft.Discovery.Workspace;
 
 @doc("A conversation.")
 @resource("conversations")

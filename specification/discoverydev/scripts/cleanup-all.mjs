@@ -80,7 +80,7 @@ const runMain = () => {
       });
       for(const dpPackageName of dataPlanePackageNames) {
         dirs.push( {
-          inDir: `specification/discoverydev/data-plane/Azure.Discovery.${dpPackageName}/preview/${apiVersion}/examples`,
+          inDir: `specification/discoverydev/data-plane/Microsoft.Discovery.${dpPackageName}/preview/${apiVersion}/examples`,
           outDir:
             `specification/discoverydev/Discovery.${dpPackageName}/examples/${apiVersion}`,
         })

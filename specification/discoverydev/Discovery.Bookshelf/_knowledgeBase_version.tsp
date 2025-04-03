@@ -6,15 +6,17 @@ import "../Discovery.Shared/all.tsp";
 import "../Discovery.Management.Shared/all.tsp";
 import "./_knowledgeBase.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
-@versioned(Azure.Discovery.Bookshelf.Versions)
-namespace Azure.Discovery.Bookshelf;
+using TypeSpec.Http;
+using Azure.ClientGenerator.Core;
+
+@versioned(Microsoft.Discovery.Bookshelf.Versions)
+namespace Microsoft.Discovery.Bookshelf;
 
 @doc("A version.")
 @resource("versions")

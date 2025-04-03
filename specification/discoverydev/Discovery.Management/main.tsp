@@ -16,10 +16,10 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-/** Azure.Discovery Resource Provider management API. */
+/** Microsoft.Discovery Resource Provider management API. */
 @armProviderNamespace
-@service(#{ title: "Azure.Discovery management service" })
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@service(#{ title: "Microsoft.Discovery management service" })
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 interface Operations extends Azure.ResourceManager.Operations {}

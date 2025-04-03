@@ -25,7 +25,7 @@ using Azure.Core.Foundations;
   ]>
 )
 @service(#{ title: "Microsoft.Bookshelf service" })
-@versioned(Azure.Discovery.Bookshelf.Versions)
+@versioned(Microsoft.Discovery.Bookshelf.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
   "{endpoint}/Bookshelves/{bookshelfName}",
@@ -45,11 +45,11 @@ using Azure.Core.Foundations;
     apiVersion: Versions,
   }
 )
-namespace Azure.Discovery.Bookshelf;
+namespace Microsoft.Discovery.Bookshelf;
 
-@doc("The Azure.Discovery.Bookshelf service versions.")
+@doc("The Microsoft.Discovery.Bookshelf service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2025-07-01-preview version of the Azure.Discovery.Bookshelf service data plane.")
+  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Bookshelf service data plane.")
   `2025-07-01-preview`,
 }

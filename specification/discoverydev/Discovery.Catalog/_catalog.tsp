@@ -11,8 +11,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Azure.Discovery.Catalog.Versions)
-namespace Azure.Discovery.Catalog;
+@versioned(Microsoft.Discovery.Catalog.Versions)
+namespace Microsoft.Discovery.Catalog;
 
 @doc("A Catalog.")
 @resource("catalogs")

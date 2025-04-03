@@ -8,11 +8,11 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 using Azure.ClientGenerator.Core;
 
-@versioned(Azure.Discovery.Workspace.Versions)
-namespace Azure.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Workspace.Versions)
+namespace Microsoft.Discovery.Workspace;
 
 /** Enum for run status */
 @lroStatus

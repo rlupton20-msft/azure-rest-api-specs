@@ -3374,6 +3374,30 @@
         ]
       }
     },
+    "AutoTrust": {
+      "type": "string",
+      "description": "Defines the AutoTrust for a TLS configuration.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "AutoTrust",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "Trust all certificates automatically."
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Trust only the specified certificates or issers."
+          }
+        ]
+      }
+    },
     "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityUpdate": {
       "type": "object",
       "description": "Managed service identity (either system assigned, or none)",
@@ -4747,6 +4771,10 @@
           "$ref": "#/definitions/HostAuthentication",
           "description": "Defines the client authentication mechanism to the server."
         },
+        "trustSettings": {
+          "$ref": "#/definitions/TrustSettings",
+          "description": "Defines server trust settings for the endpoint."
+        },
         "additionalConfiguration": {
           "type": "string",
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
@@ -4776,6 +4804,10 @@
         "authentication": {
           "$ref": "#/definitions/HostAuthenticationUpdate",
           "description": "Defines the client authentication mechanism to the server."
+        },
+        "trustSettings": {
+          "$ref": "#/definitions/TrustSettingsUpdate",
+          "description": "Defines server trust settings for the endpoint."
         },
         "additionalConfiguration": {
           "type": "string",
@@ -6278,6 +6310,45 @@
             "description": "Never retain messages."
           }
         ]
+      }
+    },
+    "TrustSettings": {
+      "type": "object",
+      "description": "Defines server trust settings for an endpoint.",
+      "properties": {
+        "autoTrust": {
+          "$ref": "#/definitions/AutoTrust",
+          "description": "Defines how to trust server certificates."
+        },
+        "trustList": {
+          "type": "string",
+          "description": "Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false."
+        },
+        "issuerList": {
+          "type": "string",
+          "description": "Defines a secret reference for certificate issuers to trust. Either trustList or issuerList is required when autoTrust is set to false."
+        }
+      },
+      "required": [
+        "autoTrust"
+      ]
+    },
+    "TrustSettingsUpdate": {
+      "type": "object",
+      "description": "Defines server trust settings for an endpoint.",
+      "properties": {
+        "autoTrust": {
+          "$ref": "#/definitions/AutoTrust",
+          "description": "Defines how to trust server certificates."
+        },
+        "trustList": {
+          "type": "string",
+          "description": "Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false."
+        },
+        "issuerList": {
+          "type": "string",
+          "description": "Defines a secret reference for certificate issuers to trust. Either trustList or issuerList is required when autoTrust is set to false."
+        }
       }
     },
     "UsernamePasswordCredentials": {
