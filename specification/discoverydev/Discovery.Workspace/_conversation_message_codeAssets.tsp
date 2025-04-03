@@ -11,8 +11,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Azure.Discovery.Workspace.Versions)
-namespace Azure.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Workspace.Versions)
+namespace Microsoft.Discovery.Workspace;
 
 @doc("A CodeAsset related to a message.")
 @resource("codeAssets")

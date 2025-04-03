@@ -26,8 +26,8 @@ using Azure.Core;
     }
   ]>
 )
-@service(#{ title: "Azure.Discovery.Catalog service" })
-@versioned(Azure.Discovery.Catalog.Versions)
+@service(#{ title: "Microsoft.Discovery.Catalog service" })
+@versioned(Microsoft.Discovery.Catalog.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
   "{endpoint}/catalogs/{catalogName}",
@@ -47,11 +47,11 @@ using Azure.Core;
     apiVersion: Versions,
   }
 )
-namespace Azure.Discovery.Catalog;
+namespace Microsoft.Discovery.Catalog;
 
-@doc("The Azure.Discovery.Catalog service versions.")
+@doc("The Microsoft.Discovery.Catalog service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2025-07-01-preview version of the Azure.Discovery.Catalog service.")
+  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Catalog service.")
   `2025-07-01-preview`,
 }

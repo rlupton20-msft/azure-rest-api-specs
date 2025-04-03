@@ -12,8 +12,8 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 @doc("NodePool tracked resource")
 @parentResource(Supercomputer)

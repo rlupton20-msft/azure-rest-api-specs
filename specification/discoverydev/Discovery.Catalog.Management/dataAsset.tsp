@@ -15,8 +15,8 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 #suppress "@azure-tools/typespec-autorest/union-unsupported"
 @doc("Data Asset properties")

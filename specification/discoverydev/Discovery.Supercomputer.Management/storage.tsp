@@ -14,8 +14,8 @@ using Azure.ResourceManager;
 using OpenAPI;
 
 @armProviderNamespace
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 @doc("Storage tracked resource")
 model Storage is TrackedResource<StorageProperties> {

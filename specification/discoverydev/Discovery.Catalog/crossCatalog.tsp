@@ -11,10 +11,10 @@ import "./_tool.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
-@versioned(Azure.Discovery.Catalog.Versions)
-namespace Azure.Discovery.Catalog;
+@versioned(Microsoft.Discovery.Catalog.Versions)
+namespace Microsoft.Discovery.Catalog;
 
 @route("/")
 interface CrossCatalog {

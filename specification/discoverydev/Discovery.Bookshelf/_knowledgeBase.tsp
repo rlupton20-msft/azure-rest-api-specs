@@ -9,10 +9,10 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
-@versioned(Azure.Discovery.Bookshelf.Versions)
-namespace Azure.Discovery.Bookshelf;
+@versioned(Microsoft.Discovery.Bookshelf.Versions)
+namespace Microsoft.Discovery.Bookshelf;
 
 /** Enum for IndexingStatus */
 union IndexingStatus {

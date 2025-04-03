@@ -12,9 +12,9 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-@armProviderNamespace("Azure.Discovery")
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@armProviderNamespace("Microsoft.Discovery")
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 @doc("Agent tracked resource")
 model Agent is TrackedResource<AgentProperties> {
