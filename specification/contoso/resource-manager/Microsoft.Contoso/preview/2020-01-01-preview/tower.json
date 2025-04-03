@@ -1,11 +1,22 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Microsoft.Contoso",
+    "title": "Contoso",
     "description": "The Microsoft.Contoso Rest API spec.",
     "version": "2020-01-01-preview",
     "x-ms-code-generation-settings": {
       "name": "ContosoClient"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
     }
   },
   "host": "management.azure.com",
@@ -18,21 +29,15 @@
   "produces": [
     "application/json"
   ],
-  "securityDefinitions": {
-    "azure_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
-      "flow": "implicit",
-      "description": "Azure Active Directory OAuth2 Flow.",
-      "scopes": {
-        "user_impersonation": "impersonate your user account"
-      }
-    }
-  },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/billedItems/{billedItemName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/towers/{towersName}": {
       "get": {
-        "operationId": "BilledItems_Get",
+        "operationId": "Towers_Get",
+        "x-ms-examples": {
+          "Gets the tower resource": {
+            "$ref": "examples/getTower.json"
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -41,7 +46,7 @@
             "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/billedItemNameParameter"
+            "$ref": "#/parameters/towersNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -49,9 +54,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Retrieves the billedItem resource.",
+            "description": "Retrieves the towers resource.",
             "schema": {
-              "$ref": "#/definitions/billedItem"
+              "$ref": "#/definitions/towers"
             }
           },
           "default": {
@@ -63,7 +68,12 @@
         }
       },
       "put": {
-        "operationId": "BilledItems_CreateOrUpdate",
+        "operationId": "Towers_CreateOrUpdate",
+        "x-ms-examples": {
+          "Creates or updates the tower resource": {
+            "$ref": "examples/createOrUpdateTower.json"
+          }
+        },
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
@@ -76,31 +86,31 @@
             "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/billedItemNameParameter"
+            "$ref": "#/parameters/towersNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "name": "billedItem",
+            "name": "towers",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/billedItem"
+              "$ref": "#/definitions/towers"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Updates the billedItem resource.",
+            "description": "Updates the towers resource.",
             "schema": {
-              "$ref": "#/definitions/billedItem"
+              "$ref": "#/definitions/towers"
             }
           },
           "201": {
-            "description": "Creates the billedItem resource.",
+            "description": "Creates the towers resource.",
             "schema": {
-              "$ref": "#/definitions/billedItem"
+              "$ref": "#/definitions/towers"
             }
           },
           "default": {
@@ -112,7 +122,12 @@
         }
       },
       "delete": {
-        "operationId": "BilledItems_Delete",
+        "operationId": "Towers_Delete",
+        "x-ms-examples": {
+          "Deletes the tower resource": {
+            "$ref": "examples/deleteTower.json"
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -121,7 +136,7 @@
             "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/billedItemNameParameter"
+            "$ref": "#/parameters/towersNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -129,7 +144,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Deletes the billedItem resource."
+            "description": "Deletes the towers resource."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -140,7 +155,12 @@
         }
       },
       "patch": {
-        "operationId": "BilledItems_Update",
+        "operationId": "Towers_Update",
+        "x-ms-examples": {
+          "Updates the tower resource": {
+            "$ref": "examples/updateTower.json"
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -149,25 +169,25 @@
             "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/billedItemNameParameter"
+            "$ref": "#/parameters/towersNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "name": "billedItem",
+            "name": "towers",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/billedItemPatch"
+              "$ref": "#/definitions/towersPatch"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Updates the billedItem resource.",
+            "description": "Updates the towers resource.",
             "schema": {
-              "$ref": "#/definitions/billedItem"
+              "$ref": "#/definitions/towers"
             }
           },
           "default": {
@@ -179,9 +199,14 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/billedItems": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Contoso/towers": {
       "get": {
-        "operationId": "BilledItems_ListByResourceGroup",
+        "operationId": "Towers_ListByResourceGroup",
+        "x-ms-examples": {
+          "List the towers in the resourceGroup": {
+            "$ref": "examples/listTowerByResourceGroup.json"
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -195,9 +220,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Lists all billedItems under the resource group.",
+            "description": "Lists all towers under the resouce group.",
             "schema": {
-              "$ref": "#/definitions/billedItemListResult"
+              "$ref": "#/definitions/towersListResult"
             }
           },
           "default": {
@@ -212,9 +237,14 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Contoso/billedItems": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Contoso/towers": {
       "get": {
-        "operationId": "BilledItems_ListBySubscription",
+        "operationId": "Towers_ListBySubscription",
+        "x-ms-examples": {
+          "List the towers in the subscription": {
+            "$ref": "examples/listTowerBySubscription.json"
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -225,9 +255,41 @@
         ],
         "responses": {
           "200": {
-            "description": "Lists all billedItems under the subscription.",
+            "description": "Lists all towers under the subscription.",
             "schema": {
-              "$ref": "#/definitions/billedItemListResult"
+              "$ref": "#/definitions/towersListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/providers/Microsoft.Contoso/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "x-ms-examples": {
+          "List the operations": {
+            "$ref": "examples/operationsList.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Describe the result of a successful operation.",
+            "schema": {
+              "$ref": "#/definitions/ResourceProviderOperationList"
             }
           },
           "default": {
@@ -244,43 +306,42 @@
     }
   },
   "definitions": {
-    "billedItemProperties": {
+    "towerProperties": {
       "properties": {
-        "offer": {
-          "type": "object",
-          "description": "The offer details for this billed item",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "deploymentType": {
+          "type": "string"
         },
-        "billingData": {
-          "type": "object",
-          "description": "The billing data for this billed item",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "ingressType": {
+          "type": "string"
         },
-        "itemId": {
-          "type": "string",
-          "description": "The unique identifier for this billed item"
+        "hostname": {
+          "type": "string"
         },
-        "billableUnits": {
-          "type": "number",
-          "format": "float",
-          "description": "Number of billable units"
+        "secretKey": {
+          "x-ms-secret": true,
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "x-ms-secret": true,
+          "type": "string"
         },
         "provisioningState": {
-          "type": "string",
-          "description": "The provisioning state of the resource"
+          "type": "string"
         }
       }
     },
-    "billedItem": {
+    "towers": {
       "x-ms-azure-resource": true,
       "type": "object",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/billedItemProperties"
+          "$ref": "#/definitions/towerProperties"
         },
         "id": {
           "type": "string",
@@ -307,14 +368,27 @@
             "type": "string"
           },
           "description": "Resource tags"
+        },
+        "extendedLocation": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The extended location type."
+            },
+            "name": {
+              "type": "string",
+              "description": "The extended location name."
+            }
+          }
         }
       },
       "required": [
         "location"
       ],
-      "description": "The billedItem resource definition."
+      "description": "The towers resource definition."
     },
-    "billedItemPatch": {
+    "towersPatch": {
       "type": "object",
       "properties": {
         "tags": {
@@ -323,26 +397,74 @@
             "type": "string"
           },
           "description": "Resource tags"
-        },
-        "properties": {
-          "$ref": "#/definitions/billedItemProperties"
         }
       },
-      "description": "The billedItem resource patch definition."
+      "description": "The towers resource patch definition."
     },
-    "billedItemListResult": {
+    "towersListResult": {
       "type": "object",
       "properties": {
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/billedItem"
+            "$ref": "#/definitions/towers"
           }
         },
         "nextLink": {
           "type": "string"
         }
       }
+    },
+    "ResourceProviderOperationList": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceProviderOperation"
+          }
+        },
+        "nextLink": {
+          "type": "string"
+        }
+      },
+      "description": "Results of the request to list operations."
+    },
+    "ResourceProviderOperation": {
+      "type": "object",
+      "properties": {
+        "isDataAction": {
+          "type": "boolean",
+          "description": "Indicates whether the operation applies to data-plane."
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation name, in format of {provider}/{resource}/{operation}"
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "The resource provider."
+            },
+            "resource": {
+              "type": "string",
+              "description": "Resource on which the operation is performed."
+            },
+            "operation": {
+              "type": "string",
+              "description": "Type of operation: get, read, delete, etc."
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of this operation."
+            }
+          },
+          "description": "Display metadata associated with the operation."
+        }
+      },
+      "description": "Results of the request to list operations."
     },
     "ErrorResponse": {
       "description": "Error response.",
@@ -378,15 +500,14 @@
     }
   },
   "parameters": {
-    "billedItemNameParameter": {
+    "towersNameParameter": {
       "x-ms-parameter-location": "client",
-      "name": "billedItemName",
+      "name": "towersName",
       "in": "path",
       "required": true,
       "type": "string",
       "maxLength": 64,
-      "minLength": 3,
-      "description": "The name of the billed item."
+      "minLength": 3
     },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
