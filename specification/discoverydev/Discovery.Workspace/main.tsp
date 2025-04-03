@@ -28,8 +28,8 @@ using Azure.Core;
     }
   ]>
 )
-@service(#{ title: "Azure.Discovery.Workspace service" })
-@versioned(Azure.Discovery.Workspace.Versions)
+@service(#{ title: "Microsoft.Discovery.Workspace service" })
+@versioned(Microsoft.Discovery.Workspace.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
   "{endpoint}/workspaces/{workspaceName}",
@@ -49,11 +49,12 @@ using Azure.Core;
     apiVersion: Versions,
   }
 )
-namespace Azure.Discovery.Workspace;
+namespace Microsoft.Discovery.Workspace;
 
-@doc("The Azure.Discovery.Workspace service versions.")
+@doc("The Microsoft.Discovery.Workspace service versions.")
 enum Versions {
+  @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2025-07-01-preview version of the Azure.Discovery.Workspace service data plane.")
+  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Workspace service data plane.")
   `2025-07-01-preview`,
 }

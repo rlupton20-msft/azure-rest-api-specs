@@ -14,8 +14,8 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 @doc("Tool tracked resource")
 model Tool is TrackedResource<ToolProperties> {

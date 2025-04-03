@@ -13,8 +13,8 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 @doc("Bookshelf tracked resource")
 model Bookshelf is TrackedResource<BookshelfProperties> {

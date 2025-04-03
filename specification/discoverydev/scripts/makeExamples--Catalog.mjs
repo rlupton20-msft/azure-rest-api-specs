@@ -3,7 +3,7 @@ import {  updateExamples, compilePackage, dataPlanePackageNames } from "./common
 const runMain = () => {
   updateExamples({
     tspPackageDir: "specification/discoverydev/Discovery.Catalog",
-    swaggerPackageDir: "specification/discoverydev/data-plane/Azure.Discovery.Catalog",
+    swaggerPackageDir: "specification/discoverydev/data-plane/Microsoft.Discovery.Catalog",
 
   })
 }

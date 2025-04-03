@@ -11,10 +11,10 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
-@versioned(Azure.Discovery.Workspace.Versions)
-namespace Azure.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Workspace.Versions)
+namespace Microsoft.Discovery.Workspace;
 
 @doc("Data asset")
 model DataAsset {
