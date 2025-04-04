@@ -126,7 +126,7 @@ model PrivateLinkConnection extends Connection {
 
   @doc("The name of the system created Private Endpoint.")
   @visibility(Lifecycle.Read)
-  privateEndpointName: string;
+  privateEndpointName?: string;
 
   @doc("The ID of the backing PrivateLink.")
   privateLinkId: string;
