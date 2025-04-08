@@ -70,7 +70,7 @@ model StorageAccountDsmsResourceProperties {
   pilotXstoreResourceProvider?: boolean;
 
   @doc("Storage account shared access signature.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   accountSasInfos?: Array<AccountSasInfo>;
 
   @doc("Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default.")
@@ -103,31 +103,31 @@ model StorageAccountDsmsResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: StorageAccountDsmsProvisioningState;
 
   @doc("Storage Account dSMS object name; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountDsmsName?: string;
 
   @doc("Storage Account dSMS object resource provider; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountDsmsResourceProviderName?: string;
 
   @doc("Storage Account ARM creation time; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountArmCreationTime?: string;
 
   @doc("Storage Account rdfe creation time; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountRdfeCreationTime?: string;
 
   @doc("Storage Account XStore creation time; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountXstoreCreationTime?: string;
 
   @doc("Resource template provision start time; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   provisionStartTime?: string;
 }
 
@@ -173,7 +173,7 @@ model Whitelist {
 @doc("Whitelists element is a wrapper object over a collection of Whitelist elements.")
 model Whitelists {
   @doc("Array of whitelists.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   whitelist?: Array<Whitelist>;
 }
 
@@ -184,7 +184,7 @@ model StorageAccountDsmsResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("storageAccountDsms") // Start with lower case. Should be plural.
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

@@ -8,7 +8,6 @@ import "./Firmware.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 /**
@@ -27,7 +26,7 @@ model CveResource is ProxyResource<CveResult> {
   @path
   @key("cveId")
   @segment("commonVulnerabilitiesAndExposures")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

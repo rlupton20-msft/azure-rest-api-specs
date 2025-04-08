@@ -115,6 +115,52 @@ model RetrieveNextStagesResponseItem {
   parameterValues: Record<string | int32>;
 }
 
+@doc("VerifyChangeValidity POST Action request.")
+model VerifyChangeValidityRequest {
+  @doc("The resource operation.")
+  operation: ResourceOperation;
+
+  @doc("The stage progression Id.")
+  stageProgressionId?: string;
+}
+
+@doc("Resource operation model.")
+model ResourceOperation {
+  @doc("The uri of the operation.")
+  uri: url;
+
+  @doc("The http method of the operation.")
+  httpMethod: ArmOperation;
+
+  @doc("The resource operation content.")
+  content?: ResourceContent;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+@doc("Resource operation content model.")
+model ResourceContent {
+  @doc("The name of the resource.")
+  name?: string;
+
+  @doc("The location of the resource.")
+  location?: string;
+
+  @doc("The properties of the resource.")
+  properties: {};
+}
+
+@doc("VerifyChangeValidity POST Action response.")
+model VerifyChangeValidityResponse {
+  @doc("The outcome of the verification.")
+  outcome: string;
+
+  @doc("The explanation message of the verification.")
+  message: string;
+
+  @doc("The experation time of the change.")
+  validUntil?: utcDateTime;
+}
+
 @doc("Internal status of the ChangeState resource.")
 union ChangeStatus {
   string,

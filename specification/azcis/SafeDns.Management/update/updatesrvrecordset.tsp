@@ -1,5 +1,4 @@
 import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -7,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using Autorest;
@@ -17,7 +15,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerUpdateSrvRecordSet properties")
 model DnsNamespaceManagerUpdateSrvRecordSetResourceProperties {
   @doc("Gets or sets the SRV records")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   srvRecords: SrvRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
@@ -30,7 +28,7 @@ model DnsNamespaceManagerUpdateSrvRecordSetResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -41,7 +39,7 @@ model DnsNamespaceManagerUpdateSrvRecordSetResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateSrvRecordSets") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

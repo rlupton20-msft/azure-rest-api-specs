@@ -6,12 +6,12 @@ import "@azure-tools/typespec-client-generator-core";
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
+using Microsoft.Science.Shared;
 
-// TODO: Can we call this definitionYaml?
 @doc("For adding YAML to define the definition.")
 model WithDefinitionContents {
   @doc("The definition")
-  @visibility("create", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Update)
   definitionContent: string;
 }
 
@@ -29,55 +29,44 @@ union Scope {
   string,
 }
 
-@doc("For adding Scope.")
-model WithScope {
-  @doc("The Scope")
-  @visibility("read")
-  scope: Scope;
-}
-
 @doc("For adding category.")
 model WithCategory {
   @doc("The category")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   category: string;
 }
 
 @doc("For adding version.")
 model WithVersion {
   @doc("The version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   version: string;
 }
 @doc("For adding author.")
 model WithAuthor {
   @doc("The author")
-  @visibility("read")
-  author: string;
+  @visibility(Lifecycle.Read)
+  author?: string;
 }
 
 @doc("For adding license.")
 model WithLicense {
   @doc("The license")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   license: string;
 }
 
 @doc("For adding definition attributes.")
 model WithAttributes<T> {
   @doc("The definition attributes extracted from definitionContents Yaml")
-  @visibility("read")
-  attributes: T;
+  @visibility(Lifecycle.Read)
+  attributes?: T;
 }
 
+@access(Access.internal)
 @doc("BaseAttributes")
 model BaseAttributes {
-  ...WithCreatedAt;
-  ...WithCreatedBy;
-  ...WithCreatedByType;
-  ...WithUpdatedAt;
-  ...WithUpdatedBy;
-  ...WithUpdatedByType;
+  ...DataPlaneResource;
 }
 
 @doc("BaseAttributes with Description")
@@ -85,53 +74,45 @@ model BaseAttributesWithDescription {
   ...BaseAttributes;
 
   @doc("The description")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   description: string;
 }
 
 @doc("For adding copilot Instruction")
 model WithCopilotInstruction {
   @doc("Copilot Instruction")
-  @visibility("read")
-  copilotInstruction: string;
+  @visibility(Lifecycle.Read)
+  copilotInstruction?: string;
 }
 
 @doc("For adding copilot Instruction")
 model WithInfraType {
   @doc("Infrastructure type")
-  @visibility("read")
-  infraType: string;
+  @visibility(Lifecycle.Read)
+  infraType?: string;
 }
 
 @doc("For documentation link")
 model WithDocs {
   @doc("A documentation URI.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   docs: string;
 }
 
 @doc("For repository link")
 model WithRepo {
   @doc("A repository URI.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   repo: string;
 }
 
-@doc("")
+@doc("Basis artifact properties")
 model Artifact<T> {
-  // ...WithTitle; // TODO: Discuss use of title for mutable display name
   ...WithId;
-
   ...WithAuthor;
 
   //  ...WithDescription;
   ...WithTags;
-
-  //  ...WithCreatedAt;
-  //  ...WithUpdatedAt;
-  //  ...WithVersion;
-
-  ...WithVertical;
 
   ...WithAttributes<T>;
 }

@@ -18,7 +18,7 @@ namespace Microsoft.Science.Catalog;
 @resource("catalogs")
 model Catalog {
   @doc("The catalog name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("catalogName")
   name: string;
 }

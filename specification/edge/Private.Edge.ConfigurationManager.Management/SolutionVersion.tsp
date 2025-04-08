@@ -20,19 +20,19 @@ namespace Private.Edge;
 @doc("Solution Version Properties")
 model SolutionVersionProperties {
   @doc("Solution Template Version Id")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   solutionTemplateVersionId?: string;
 
   @doc("Revision number of resolved config for this solution version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   revision?: int32;
 
   @doc("Name of applicable target's display name")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   targetDisplayName?: string;
 
   @doc("Resolved configuration values")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   configuration?: string;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
@@ -41,25 +41,25 @@ model SolutionVersionProperties {
   specification: Record<unknown>;
 
   @doc("Review id of resolved config for this solution version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reviewId?: string;
 
   @doc("State of solution instance")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   state?: State;
 
   @doc("Solution instance name")
-  @visibility("read")
-  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  @visibility(Lifecycle.Read)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+   @Azure.ResourceManager.identifiers(#[])
+  @visibility(Lifecycle.Read)
   solutionDependencies?: SolutionDependency[];
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -87,6 +87,11 @@ model SolutionDependency {
   @doc("Solution Version Id")
   solutionVersionId: string;
 
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  @maxLength(24)
+  @doc("Solution Instance Name")	
+  solutionInstanceName?: string;
+
   @doc("Solution Template Version Id")
   solutionTemplateVersionId: string;
 
@@ -94,7 +99,7 @@ model SolutionDependency {
   targetId: string;
 
   @doc("Solution dependencies")
-  @extension("x-ms-identifiers", [])
+   @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependency[];
 }
 

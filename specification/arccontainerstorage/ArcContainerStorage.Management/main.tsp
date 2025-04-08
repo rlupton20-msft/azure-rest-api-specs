@@ -17,9 +17,7 @@ using Azure.ResourceManager.Private;
 using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
-@service({
-  title: "Private.ArcContainerStorage management service",
-})
+@service(#{ title: "Private.ArcContainerStorage management service" })
 @doc("Private.ArcContainerStorage Resource Provider management API.")
 @versioned(Versions)
 namespace Private.ArcContainerStorage;

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="updateGroup.tsp" company="Microsoft Corporation">
+// <copyright file="UpdateGroup.tsp" company="Microsoft Corporation">
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,7 +10,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "../common/base.tsp";
-import "../models/AccessPointAccount.tsp";
+import "./AccessPointAccount.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -40,7 +40,7 @@ model UpdateGroupProperties {
   description?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

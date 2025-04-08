@@ -3,6 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
 import "./_conversation.tsp";
+import "../Science.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -10,77 +11,92 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
+using Microsoft.Science.Shared;
 
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
 
-@doc("File upload")
-model FileUpload {
-  ...WithKey;
+@doc("Data asset")
+model DataAsset {
+  @doc("DataAsset id")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  dataAssetId: DataAssetId;
 
-  /** URI of the file */
-  @visibility("read")
-  blobUri: string;
+  /** Asset name */
+  // TODO: Are we sure we want/need this?
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  name: string;
+
+  ...WithCreated;
 }
 
-@doc("For adding artifact ID")
-model WithArtifactId {
-  /** ID of the related artifact */
-  @visibility("read")
-  artifactId: string;
+@doc("A body for creating a message.")
+model MessageCreateBody {
+  ...WithMessageText;
+
+  //   @doc("Array of files to upload.")
+  //   @visibility(Lifecycle.Read, Lifecycle.Create)
+  //   dataAssets: DataAsset[];
+}
+
+@doc("For adding DataAsset ID")
+model WithDataAssetId {
+  /** ID of the related data asset */
+  @visibility(Lifecycle.Read)
+  dataAssetId: DataAssetId;
 }
 
 @doc("For adding key")
 model WithKey {
   /** Key used as identifier */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   key: string;
 }
 @doc("Copilot citation")
 model Citation {
   ...WithKey;
-  ...WithArtifactId;
+  ...WithDataAssetId;
 
   /** URI from where citation originated */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   sourceUri: string;
 
   /** Title to display */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   title: string;
 
   /** Description */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   description: string;
 }
 
 @doc("Command for the UI to invoke")
 model UiCommand {
   /** Command */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   command: string;
 
   /** Command */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status: string;
 
   /** Parameters */
   // TODO: Discuss modelling params
-  //    @visibility("read")
+  //    @visibility(Lifecycle.Read)
   //    parameters: any; // TODO: Not sure if this is possible in TypeScript
 }
 
 @doc("Database query")
 model DbQuery {
   ...WithKey;
-  ...WithArtifactId;
+  ...WithDataAssetId;
 
   /** Query */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   query: string;
 
   /** Properties */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   properties: string[];
 }
 
@@ -89,7 +105,7 @@ model KnowledgeBaseResponse {
   ...WithKey;
 
   /** Response */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   response: string;
 }
 
@@ -102,14 +118,14 @@ model CopilotOperation {
 @doc("For adding message text")
 model WithMessageText {
   @doc("The message text.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   text: string;
 }
 
 @doc("For adding conversation ID")
 model WithConversationId {
   @doc("The ID of the associated Conversation.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   conversationId: string;
 }
 
@@ -117,6 +133,9 @@ model WithConversationId {
 union MessageStatus {
   /** Message Accepted */
   Accepted: "Accepted",
+
+  /** Message is awaiting user input */
+  AwaitingUserInput: "AwaitingUserInput",
 
   /** Message is Processing */
   Processing: "Processing",
@@ -130,65 +149,45 @@ union MessageStatus {
   string,
 }
 
-@access(Access.internal)
-@doc("A base message.")
-model MessageBase {
-  ...WithProjectIdOptional;
-  ...WithInvestigationIdOptional;
-  ...WithConversationId;
-  ...WithMessageText;
-  ...WithCreatedAt;
-  ...WithSender;
-
-  @doc("Message status")
-  @visibility("read")
-  status: MessageStatus;
-
-  @doc("The plan Blueprint as YAML")
-  @visibility("read", "create")
-  planBlueprintYaml?: string;
-
-  @doc("Array of files to upload.")
-  @visibility("read", "create")
-  fileUploads: FileUpload[];
-
-  @doc("The command name")
-  @visibility("read")
-  commandName?: string;
-
-  @doc("Copilot Operations")
-  copilotOperations: CopilotOperation[];
-
-  @doc("Citation list")
-  @visibility("read")
-  citations: Citation[];
-
-  @doc("UI command list")
-  @visibility("read")
-  uiCommands: UiCommand[];
-
-  @doc("Database query list")
-  @visibility("read")
-  dbQueries: DbQuery[];
-
-  @doc("knowledge base responses list")
-  @visibility("read")
-  knowledgeBaseResponses: KnowledgeBaseResponse[];
-}
 @doc("A message.")
 @resource("messages")
 @parentResource(Conversation)
 model ConversationMessage {
   @doc("The message name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("messageName")
   name: string;
 
-  ...MessageBase;
+  ...DataPlaneResource;
+
+  //   ...WithProjectIdOptional;
+  ...WithInvestigationIdOptional;
+
+  ...WithSender;
+
+  @doc("Message status")
+  @visibility(Lifecycle.Read)
+  status?: MessageStatus;
+
+  //   @doc("The command name")
+  //   @visibility(Lifecycle.Read)
+  //   commandName?: string;
+
+  @doc("Citation list")
+  @visibility(Lifecycle.Read)
+  citations?: Citation[];
+
+  @doc("Array of data assets.")
+  @visibility(Lifecycle.Read)
+  dataAssets?: DataAsset[];
+
+  //   @doc("Database query list")
+  //   @visibility(Lifecycle.Read)
+  //   dbQueries?: DbQuery[];
 }
 
-alias ConversartionPathContent = {
-  @doc("The ID of the Pool that contains the Compute Node.")
+alias ConversationPathContent = {
+  @doc("The conversation name.")
   @path
   conversationName: string;
 };
@@ -205,24 +204,33 @@ interface ConversationMessages {
   @route("/conversations/{conversationName}/messages")
   @post
   createMessage is Azure.Core.Foundations.Operation<
-    ConversartionPathContent & ConversationMessage,
-    ConversationMessage,
+    ConversationPathContent & MessageCreateBody,
     ConversationMessage
   >;
-
-  // TODO: Consider adding this so client can update message state.
-  //  @doc("Creates or updates Message.")
-  //  createOrUpdateMessage is StandardResourceOperations.ResourceCreateOrUpdate<Message>;
-
-  //  @doc("Delete a Message asynchronously.")
-  //  @pollingOperation(Messages.getMessageOperationStatus)
-  //  deleteMessage is LongRunningResourceDelete<Message>;
 
   @doc("List Messages in specified conversation")
   listMessages is ResourceList<
     ConversationMessage,
-    QueryParametersTrait<WithQueryProjectId &
-      WithQueryInvestigationId &
-      WithQueryCreatedSince>
+    QueryParametersTrait<WithQueryCreatedSince>
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-names"
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
+  @doc("List Messages across conversations")
+  @route("/messages")
+  listMessagesByWorkspace(
+    ...Azure.ResourceManager.ApiVersionParameter,
+    ...WithQueryConversationId,
+    ...WithQueryCreatedSince,
+    ...WithQueryInvestigationId,
+    ...WithQueryProjectId,
+  ): Paged<ConversationMessage> | Azure.Core.Foundations.ErrorResponse;
+
+  @doc("Cancel current copilot operation.")
+  cancel is Operations.ResourceAction<
+    ConversationMessage,
+    {},
+    ConversationMessage
   >;
 }

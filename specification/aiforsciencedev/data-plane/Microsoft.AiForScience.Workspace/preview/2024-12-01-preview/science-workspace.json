@@ -88,6 +88,199 @@
   },
   "tags": [],
   "paths": {
+    "/Tools/{toolName}:execute": {
+      "post": {
+        "operationId": "Tools_Execute",
+        "description": "Start indexing.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "toolName",
+            "in": "path",
+            "description": "The tool name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityRequestId"
+          },
+          {
+            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityFirstSent"
+          },
+          {
+            "$ref": "#/parameters/Azure.Core.ClientRequestIdHeader"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExecutionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The request has been accepted for processing, but processing has not yet completed.",
+            "schema": {
+              "type": "object",
+              "description": "Provides status details for long running operations.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The unique ID of the operation."
+                },
+                "status": {
+                  "$ref": "#/definitions/Azure.Core.Foundations.OperationState",
+                  "description": "The status of the operation"
+                },
+                "error": {
+                  "$ref": "#/definitions/Azure.Core.Foundations.Error",
+                  "description": "Error object that describes the error when status is \"Failed\"."
+                },
+                "result": {
+                  "$ref": "#/definitions/ExecutionStatus",
+                  "description": "The result of the operation."
+                }
+              },
+              "required": [
+                "id",
+                "status"
+              ]
+            },
+            "headers": {
+              "Operation-Location": {
+                "type": "string",
+                "format": "uri",
+                "description": "The location for monitoring the operation state."
+              },
+              "Repeatability-Result": {
+                "type": "string",
+                "description": "Indicates whether the repeatable request was accepted or rejected.",
+                "enum": [
+                  "accepted",
+                  "rejected"
+                ],
+                "x-ms-enum": {
+                  "name": "RepeatabilityResult",
+                  "modelAsString": false,
+                  "values": [
+                    {
+                      "name": "accepted",
+                      "value": "accepted",
+                      "description": "If the request was accepted and the server guarantees that the server state reflects a single execution of the operation."
+                    },
+                    {
+                      "name": "rejected",
+                      "value": "rejected",
+                      "description": "If the request was rejected because the combination of Repeatability-First-Sent and Repeatability-Request-ID were invalid\nor because the Repeatability-First-Sent value was outside the range of values held by the server."
+                    }
+                  ]
+                }
+              },
+              "x-ms-client-request-id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "An opaque, globally-unique, client-generated string identifier for the request."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Tools_Execute_MaximumSet": {
+            "$ref": "./examples/Tools_Execute_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/Tools/{toolName}/operations/{operationId}": {
+      "get": {
+        "operationId": "Tools_GetExecutionStatus",
+        "description": "Resource operation status operation template.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "toolName",
+            "in": "path",
+            "description": "The tool name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "The unique ID of the operation.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "type": "object",
+              "description": "Provides status details for long running operations.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The unique ID of the operation."
+                },
+                "status": {
+                  "$ref": "#/definitions/Azure.Core.Foundations.OperationState",
+                  "description": "The status of the operation"
+                },
+                "error": {
+                  "$ref": "#/definitions/Azure.Core.Foundations.Error",
+                  "description": "Error object that describes the error when status is \"Failed\"."
+                },
+                "result": {
+                  "$ref": "#/definitions/ExecutionStatus",
+                  "description": "The result of the operation."
+                }
+              },
+              "required": [
+                "id",
+                "status"
+              ]
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Tools_GetExecutionStatus_MaximumSet": {
+            "$ref": "./examples/Tools_GetExecutionStatus_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/conversations": {
       "get": {
         "operationId": "Conversations_ListConversations",
@@ -2794,199 +2987,6 @@
           }
         }
       }
-    },
-    "/scientificTools/{toolName}:execute": {
-      "post": {
-        "operationId": "ScientificTools_Execute",
-        "description": "Start indexing.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
-          },
-          {
-            "name": "toolName",
-            "in": "path",
-            "description": "The scientific tool name.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityRequestId"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityFirstSent"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.ClientRequestIdHeader"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ExecutionRequest"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "schema": {
-              "type": "object",
-              "description": "Provides status details for long running operations.",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "description": "The unique ID of the operation."
-                },
-                "status": {
-                  "$ref": "#/definitions/Azure.Core.Foundations.OperationState",
-                  "description": "The status of the operation"
-                },
-                "error": {
-                  "$ref": "#/definitions/Azure.Core.Foundations.Error",
-                  "description": "Error object that describes the error when status is \"Failed\"."
-                },
-                "result": {
-                  "$ref": "#/definitions/ExecutionStatus",
-                  "description": "The result of the operation."
-                }
-              },
-              "required": [
-                "id",
-                "status"
-              ]
-            },
-            "headers": {
-              "Operation-Location": {
-                "type": "string",
-                "format": "uri",
-                "description": "The location for monitoring the operation state."
-              },
-              "Repeatability-Result": {
-                "type": "string",
-                "description": "Indicates whether the repeatable request was accepted or rejected.",
-                "enum": [
-                  "accepted",
-                  "rejected"
-                ],
-                "x-ms-enum": {
-                  "name": "RepeatabilityResult",
-                  "modelAsString": false,
-                  "values": [
-                    {
-                      "name": "accepted",
-                      "value": "accepted",
-                      "description": "If the request was accepted and the server guarantees that the server state reflects a single execution of the operation."
-                    },
-                    {
-                      "name": "rejected",
-                      "value": "rejected",
-                      "description": "If the request was rejected because the combination of Repeatability-First-Sent and Repeatability-Request-ID were invalid\nor because the Repeatability-First-Sent value was outside the range of values held by the server."
-                    }
-                  ]
-                }
-              },
-              "x-ms-client-request-id": {
-                "type": "string",
-                "format": "uuid",
-                "description": "An opaque, globally-unique, client-generated string identifier for the request."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
-            },
-            "headers": {
-              "x-ms-error-code": {
-                "type": "string",
-                "description": "String error code indicating what went wrong."
-              }
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ScientificTools_Execute_MaximumSet": {
-            "$ref": "./examples/ScientificTools_Execute_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/scientificTools/{toolName}/operations/{operationId}": {
-      "get": {
-        "operationId": "ScientificTools_GetExecutionStatus",
-        "description": "Resource operation status operation template.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
-          },
-          {
-            "name": "toolName",
-            "in": "path",
-            "description": "The scientific tool name.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "operationId",
-            "in": "path",
-            "description": "The unique ID of the operation.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "type": "object",
-              "description": "Provides status details for long running operations.",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "description": "The unique ID of the operation."
-                },
-                "status": {
-                  "$ref": "#/definitions/Azure.Core.Foundations.OperationState",
-                  "description": "The status of the operation"
-                },
-                "error": {
-                  "$ref": "#/definitions/Azure.Core.Foundations.Error",
-                  "description": "Error object that describes the error when status is \"Failed\"."
-                },
-                "result": {
-                  "$ref": "#/definitions/ExecutionStatus",
-                  "description": "The result of the operation."
-                }
-              },
-              "required": [
-                "id",
-                "status"
-              ]
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
-            },
-            "headers": {
-              "x-ms-error-code": {
-                "type": "string",
-                "description": "String error code indicating what went wrong."
-              }
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ScientificTools_GetExecutionStatus_MaximumSet": {
-            "$ref": "./examples/ScientificTools_GetExecutionStatus_MaximumSet_Gen.json"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -3444,24 +3444,6 @@
         "createdAt"
       ]
     },
-    "DataHandle": {
-      "type": "object",
-      "description": "A Data handle referring to an input or output of a execution",
-      "properties": {
-        "handleType": {
-          "$ref": "#/definitions/HandleType",
-          "description": "The type of the input handle."
-        },
-        "location": {
-          "type": "string",
-          "description": "Location of the input data."
-        }
-      },
-      "required": [
-        "handleType",
-        "location"
-      ]
-    },
     "DbQuery": {
       "type": "object",
       "description": "Database query",
@@ -3499,11 +3481,11 @@
     },
     "ExecutionRequest": {
       "type": "object",
-      "description": "An execution of a ScientificTool",
+      "description": "An execution of aTool",
       "properties": {
         "actionId": {
           "type": "string",
-          "description": "The action ID, as defined in the tool's Catalog definition."
+          "description": "The action ID, as defined in the tool's resource definition."
         },
         "parameters": {
           "type": "array",
@@ -3514,47 +3496,29 @@
           "x-ms-identifiers": []
         },
         "inputHandles": {
-          "type": "object",
+          "type": "array",
           "description": "Handles to the input data to use for this execution.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataHandle"
+          "items": {
+            "$ref": "#/definitions/LinkedDataSets"
           }
         },
         "outputHandles": {
           "type": "array",
-          "description": "Handles to the output locations for this execution",
+          "description": "On the request, this specifies locations to the SharedStorage also represented as Datasets\nand or others datasets to write output to.\nAny data which the tool writes to the directory specified by SC_TOOL_OUTPUT_DIR is written\nto the default SharedStorage location, and any additional\nlocations specified in this array.",
           "items": {
-            "$ref": "#/definitions/DataHandle"
-          },
-          "x-ms-identifiers": []
+            "$ref": "#/definitions/LinkedDataSets"
+          }
         },
         "nodePoolIds": {
           "type": "array",
           "description": "IDs of NodePools to use for this execution.",
           "items": {
-            "type": "string",
-            "format": "arm-id",
-            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-            "x-ms-arm-id-details": {
-              "allowedResources": [
-                {
-                  "type": "Microsoft.AiForScience/nodePool"
-                }
-              ]
-            }
+            "$ref": "#/definitions/LinkedNodePools"
           }
         },
         "sharedStorage": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "The shared storage to use for this execution.",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.AiForScience/storage"
-              }
-            ]
-          }
+          "$ref": "#/definitions/LinkedStorage",
+          "description": "The shared storage which would be mounted on the nodepools and made available for the tool to use for this execution."
         }
       },
       "required": [
@@ -3631,36 +3595,6 @@
         "key",
         "blobUri"
       ]
-    },
-    "HandleType": {
-      "type": "string",
-      "description": "Enum for IndexingStatus",
-      "enum": [
-        "SharedStorage",
-        "DataAsset",
-        "BlobStorage"
-      ],
-      "x-ms-enum": {
-        "name": "HandleType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "SharedStorage",
-            "value": "SharedStorage",
-            "description": "SharedStorage"
-          },
-          {
-            "name": "DataAsset",
-            "value": "DataAsset",
-            "description": "Catalog DataAsset"
-          },
-          {
-            "name": "BlobStorage",
-            "value": "BlobStorage",
-            "description": "BlobStorage"
-          }
-        ]
-      }
     },
     "IndexingStatus": {
       "type": "string",
@@ -4386,6 +4320,84 @@
           ]
         }
       }
+    },
+    "LinkedDataSets": {
+      "type": "object",
+      "description": "Linked DataSets.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Fully qualified resource ID for the DataSet resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/DataAssets/{assetName}/DataSets/{setName}",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Science/DataAssets/DataSets"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "LinkedNodePools": {
+      "type": "object",
+      "description": "Linked NodePools.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Fully qualified resource ID for the NodePool resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/supercomputers/{scName}/nodepools/{name}",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Science/supercomputers/nodepools"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "LinkedStorage": {
+      "type": "object",
+      "description": "Linked Storage.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Fully qualified resource ID for the Science Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/storages/{accountName}",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Science/storages"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "Message": {
       "type": "object",
@@ -5284,7 +5296,7 @@
     },
     "RunTimeState": {
       "type": "string",
-      "description": "Enum for IndexingStatus",
+      "description": "Tools runtime execution state",
       "enum": [
         "Pending",
         "Running",
@@ -5299,44 +5311,30 @@
           {
             "name": "Pending",
             "value": "Pending",
-            "description": "Pending"
+            "description": "Tool execution has not started yet"
           },
           {
             "name": "Running",
             "value": "Running",
-            "description": "Running"
+            "description": "Tool is Running"
           },
           {
             "name": "Succeeded",
             "value": "Succeeded",
-            "description": "Succeeded"
+            "description": "Tool has successfully run"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Failed"
+            "description": "Tool run has Failed"
           },
           {
             "name": "Cancelled",
             "value": "Cancelled",
-            "description": "Cancelled"
+            "description": "Tool run is Cancelled"
           }
         ]
       }
-    },
-    "ScientificTool": {
-      "type": "object",
-      "description": "A Scientific tool.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The scientific tool name.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "name"
-      ]
     },
     "Sender": {
       "type": "string",
@@ -5362,6 +5360,39 @@
         ]
       }
     },
+    "Step": {
+      "type": "object",
+      "description": "Step within a plan",
+      "properties": {
+        "stepNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The step order.",
+          "readOnly": true
+        },
+        "actionId": {
+          "type": "string",
+          "description": "The step action ID.",
+          "readOnly": true
+        },
+        "toolId": {
+          "type": "string",
+          "description": "The ID of the associated Tool within Catalog.",
+          "readOnly": true
+        },
+        "category": {
+          "type": "string",
+          "description": "The step category.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "stepNumber",
+        "actionId",
+        "toolId",
+        "category"
+      ]
+    },
     "Tag": {
       "type": "object",
       "description": "Definition of Tag",
@@ -5375,6 +5406,20 @@
           "description": "Property value"
         }
       }
+    },
+    "Tool": {
+      "type": "object",
+      "description": "A Microsoft.AiForScience tool resource.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The tool name.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "UiCommand": {
       "type": "object",
@@ -5430,6 +5475,37 @@
     "WithExecutionId": {
       "type": "object",
       "description": "Tool execution ID"
+    },
+    "WithInvestigationId": {
+      "type": "object",
+      "description": "For investigation reference.",
+      "properties": {
+        "investigationId": {
+          "type": "string",
+          "description": "The ID of the associated Investigation",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "investigationId"
+      ]
+    },
+    "WithInvestigationIdOptional": {
+      "type": "object",
+      "description": "For investigation reference.",
+      "properties": {
+        "investigationId": {
+          "type": "string",
+          "description": "The ID of the associated Investigation",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
     },
     "WithInvestigationInputs": {
       "type": "object",
@@ -5494,6 +5570,51 @@
         "nodePoolId"
       ]
     },
+    "WithPlanId": {
+      "type": "object",
+      "description": "For pan reference.",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "description": "The ID of the associated plan",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "planId"
+      ]
+    },
+    "WithProjectId": {
+      "type": "object",
+      "description": "For project reference.",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "The ID of the associated Project",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "projectId"
+      ]
+    },
+    "WithProjectIdOptional": {
+      "type": "object",
+      "description": "For project reference.",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "The ID of the associated Project",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
+    },
     "WithResultAsset": {
       "type": "object",
       "description": "For URI of run result.",
@@ -5518,11 +5639,12 @@
     },
     "WithRunId": {
       "type": "object",
-      "description": "Supercomputer run ID",
+      "description": "For run reference.",
       "properties": {
         "runId": {
           "type": "string",
-          "description": "Run ID"
+          "description": "The ID of the associated plan run",
+          "readOnly": true
         }
       },
       "required": [
@@ -5557,6 +5679,20 @@
         }
       }
     },
+    "WithSender": {
+      "type": "object",
+      "description": "For adding message sender.",
+      "properties": {
+        "sender": {
+          "$ref": "#/definitions/Sender",
+          "description": "The sender",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "sender"
+      ]
+    },
     "WithTimeoutAt": {
       "type": "object",
       "description": "For timeout timestamp",
@@ -5571,6 +5707,35 @@
       "required": [
         "timeoutAt"
       ]
+    },
+    "WithVersionId": {
+      "type": "object",
+      "description": "For adding version ID.",
+      "properties": {
+        "versionId": {
+          "type": "string",
+          "description": "The version ID",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "versionId"
+      ]
+    },
+    "WithYaml": {
+      "type": "object",
+      "description": "For adding Plan Blueprint yaml.",
+      "properties": {
+        "planBlueprintYaml": {
+          "type": "string",
+          "description": "The plan Blueprint as YAML",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
     }
   },
   "parameters": {

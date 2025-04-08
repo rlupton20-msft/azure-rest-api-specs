@@ -23,26 +23,22 @@ model Supercomputer is TrackedResource<SupercomputerProperties> {
 @doc("Supercomputer properties")
 model SupercomputerProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   // read
   @doc("The ID of the workspace.")
-  @visibility("read")
-  workspaceId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/workspace";
-    }
-  ]>;
+  @visibility(Lifecycle.Read)
+  workspaceId?: WorkspaceId;
 
-  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
+  ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations
 interface Supercomputers {
   get is ArmResourceRead<Supercomputer>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Supercomputer>;
-  update is ArmResourcePatchSync<Supercomputer, SupercomputerProperties>;
+  update is ArmResourcePatchAsync<Supercomputer, SupercomputerProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Supercomputer>;
   listByResourceGroup is ArmResourceListByParent<Supercomputer>;
   listBySubscription is ArmListBySubscription<Supercomputer>;

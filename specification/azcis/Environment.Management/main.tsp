@@ -1,4 +1,4 @@
-import "./versions.tsp";
+import "../versions.tsp";
 import "./autopilotenvironment.tsp";
 import "./autopilotmachinefunction.tsp";
 
@@ -6,9 +6,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "Azure CIS FRP",
-})
+@service(#{ title: "Azure CIS FRP" })
 @doc("Autopilot Environment Provider")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;

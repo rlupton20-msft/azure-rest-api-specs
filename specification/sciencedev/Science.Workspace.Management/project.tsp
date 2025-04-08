@@ -28,51 +28,35 @@ model ProjectProperties {
   //  ...WithTitle;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @doc("Settings for configuring Science Catalog agent availability.")
-  @visibility("read", "create", "update")
-  agentIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/agent";
-    }
-  ]>[];
+  @doc("SAllowed Agents (Control plane resource references).")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  agentIds: AgentId[];
 
-  @doc("Settings for configuring Science Catalog tool availability.")
-  @visibility("read", "create", "update")
-  toolIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/tool";
-    }
-  ]>[];
+  @doc("Allowed Tools (Control plane resource references).")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  toolIds: ToolId[];
 
-  @doc("Settings for configuring Science Catalog Model availability.")
-  @visibility("read", "create", "update")
-  modelIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/model";
-    }
-  ]>[];
+  @doc("Allowed Models (Control plane resource references).")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  modelIds: ModelId[];
 
-  @doc("Settings for configuring Science Catalog Knowledge Base availability.")
-  @visibility("read", "create", "update")
-  knowledgeBaseIds: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/knowledgeBase";
-    }
-  ]>[];
+  @doc("Allowed KnowledgeBases (Data plane resource IDs).")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  knowledgeBaseIds: string[];
 
-  //    @doc("Settings for configuring Science Catalog Data Asset availability.")
-  //    @visibility("read", "create", "update")
-  //    dataAssetSettings: Artifact[];
+  @doc("Allowed DataContainers (Control plane resource references).")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  dataContainerIds: DataContainerId[];
 }
 
 @armResourceOperations
 interface Projects {
   get is ArmResourceRead<Project>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Project>;
-  update is ArmResourcePatchSync<Project, ProjectProperties>;
+  update is ArmResourcePatchAsync<Project, ProjectProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Project>;
   listByResourceGroup is ArmResourceListByParent<Project>;
   listBySubscription is ArmListBySubscription<Project>;

@@ -20,33 +20,24 @@ model AgentDefinitionAttributes {
   ...BaseAttributesWithDescription;
 }
 
-@doc("A base agent.")
-model BaseAgentDefinition {
-  ...Artifact<AgentDefinitionAttributes>;
-}
-
-@doc("An agent.")
+@doc("A catalog agent definition.")
 @parentResource(Catalog)
 @resource("agentDefinitions")
 model AgentDefinition {
   @doc("The agent name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("agentName")
   name: string;
 
-  ...BaseAgentDefinition;
+  ...Artifact<AgentDefinitionAttributes>;
 }
 
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+// Inheritance is appropriate here
 @doc("An agent.")
 @parentResource(Catalog)
 @resource("agentDefinitions")
-model AgentDefinitionWithYaml {
-  @doc("The agent name.")
-  @visibility("read")
-  @key("agentName")
-  name: string;
-
-  ...BaseAgentDefinition;
+model AgentDefinitionWithYaml extends AgentDefinition {
   ...WithDefinitionContents;
 }
 
@@ -60,7 +51,7 @@ interface AgentDefinitions {
   @doc("Updates an AgentDefinition.")
   createOrUpdateAgentDefinition is StandardResourceOperations.ResourceCreateOrUpdate<AgentDefinitionWithYaml>;
 
-  @doc("List AgentDefinition resources")
+  @doc("List AgentDefinition resources within Catalog.")
   listAgentDefinitions is ResourceList<AgentDefinition>;
 
   @doc("Delete an AgentDefinition.")

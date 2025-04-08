@@ -9,12 +9,12 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
-@doc("namespace definition.")
+@added(Versions.v2025_07_01_preview)
+@doc("Namespace definition.")
 model Namespace is TrackedResource<NamespaceProperties> {
   @doc("Namespace name parameter.")
   @key("namespaceName")
@@ -29,6 +29,7 @@ model Namespace is TrackedResource<NamespaceProperties> {
 }
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @doc("Defines the container registry proprties.")
 model Messaging {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
@@ -37,10 +38,12 @@ model Messaging {
 }
 
 @added(Versions.v2024_10_01_preview)
+@removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @doc("Defines the container registry proprties.")
 model NamespaceProperties {
   @doc("Globally unique, immutable, non-reusable id.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
@@ -48,12 +51,13 @@ model NamespaceProperties {
   messaging?: Messaging;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoint {
   @doc("Type of connection used for the endpoint.")
@@ -61,10 +65,15 @@ model MessagingEndpoint {
 
   @doc("The complete ARM resourceId for the messaging endpoint.")
   resourceId?: string;
+
+  @added(Versions.v2025_07_01_preview)
+  @doc("The endpoint address to connect to.")
+  address: string;
 }
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface Namespaces {
   get is ArmResourceRead<Namespace>;

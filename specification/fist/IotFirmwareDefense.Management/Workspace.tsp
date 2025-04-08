@@ -7,7 +7,6 @@ import "./models.tsp";
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 /**
@@ -21,7 +20,7 @@ model Workspace is TrackedResource<WorkspaceProperties> {
   @path
   @key("workspaceName")
   @segment("workspaces")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 
   ...ResourceSkuProperty;
@@ -42,7 +41,6 @@ interface Workspaces {
   /**
    * The operation to update a firmware analysis workspaces.
    */
-  @parameterVisibility
   update is ArmCustomPatchSync<
     Workspace,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
@@ -67,7 +65,7 @@ interface Workspaces {
   listBySubscription is ArmListBySubscription<Workspace>;
 
   /**
-   * The operation to get a url for file upload.
+   * Generate a URL for uploading a firmware image.
    */
   generateUploadUrl is ArmResourceActionSync<
     Workspace,

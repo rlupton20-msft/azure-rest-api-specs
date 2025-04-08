@@ -15,38 +15,12 @@ namespace Microsoft.Science.Workspace;
 @doc("A project.")
 @resource("projects")
 model Project {
-  //  ...WithDescription;
-  //  ...WithTags;
-  //  ...WithCreatedAt;
-  //  ...WithUpdatedAt;
-  //  ...WithTitle;
-  //  ...WithVertical;
-  //
   @doc("The project name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("projectName")
   name: string;
-  //
-  //  @doc("Science Catalog artifacts available within Project.")
-  //  @visibility("read", "create", "update")
-  //  artifactIds: string[];
 }
 
 // TODO: Remove un-needed route prefix!
 @route("/projects")
-interface Projects {
-  //  @doc("Fetch a Project by name.")
-  //  getProject is ResourceRead<Project>;
-  //
-  //  @doc("Creates or replaces a Project.")
-  //  createOrReplaceProject is StandardResourceOperations.ResourceCreateOrReplace<Project>;
-  //
-  //  @doc("Creates or updates a Project.")
-  //  createOrUpdateProject is StandardResourceOperations.ResourceCreateOrUpdate<Project>;
-  //
-  //  @doc("List Project resources")
-  //  listProjects is ResourceList<
-  //    Project,
-  //    QueryParametersTrait<WithQueryCreatedSince>
-  //  >;
-}
+interface Projects {}

@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
+import "./ValidationStatus.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -34,11 +35,11 @@ model SolutionTemplateParameter {
 
   @doc("Solution Instance Name")
   @maxLength(24)
-  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependencies")
-  @extension("x-ms-identifiers", [])
+   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
 }
 
@@ -54,6 +55,22 @@ model SolutionVersionParameter {
   reviewId: string;
 }
 
+// Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
+@doc("Solution Version State Update Parameter")
+model UpdateSolutionVersionStateParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
+
+  @doc("Review ID")
+  reviewId: string;
+
+  @doc("Status")
+  validationStatus: ValidationStatus;
+}
+
 @doc("Solution Dependency Context")
 model SolutionDependencyParameter {
   @doc("Solution Version Id")
@@ -65,18 +82,44 @@ model SolutionDependencyParameter {
   @doc("Solution Template Version")
   solutionTemplateVersion?: string;
 
+  @doc("Solution Instance Name")
+  @maxLength(24)
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  solutionInstanceName?: string;
+
   @doc("Target Id")
   targetId?: string;
 
   @doc("Solution dependencies")
-  @extension("x-ms-identifiers", [])
+   @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependencyParameter[];
 }
 
-@doc("Solution Parameter")
-model SolutionParameter {
+@doc("Install Solution Parameter")
+model InstallSolutionParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
+}
+
+@doc("Uninstall Solution Parameter")
+model UninstallSolutionParameter {
   @doc("Solution Name")
   solutionName: string;
+
+  @doc("Solution Instance Name")
+  solutionInstanceName?: string;
+}
+
+@doc("Install Solution Parameter")
+model RemoveRevisionParameter {
+  @doc("Solution Name")
+  solution: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
 }
 
 @doc("Target Properties")
@@ -99,17 +142,18 @@ model TargetProperties {
   hierarchyLevel: string;
 
   @doc("Status of target")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: DeploymentStatus;
 
   @doc("Scope of the target resource")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionScope?: string;
 
   @doc("State of resource")
   state?: ResourceState;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -164,19 +208,19 @@ interface Targets {
   @doc("Post request to deploy")
   installSolution is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionVersionParameter
+    InstallSolutionParameter
   >;
 
   @doc("Post request to uninstall")
   uninstallSolution is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionParameter
+    UninstallSolutionParameter
   >;
 
   @doc("Post request to remove solution version revision")
   removeRevision is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionTemplateParameter
+    RemoveRevisionParameter
   >;
 
   @doc("Post request to resolve configuration")
@@ -197,6 +241,14 @@ interface Targets {
   publishSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionVersionParameter,
+    SolutionVersion
+  >;
+
+  // Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
+  @doc("Post request to update state of solution version")
+  updateSolutionVersionState is ArmResourceActionAsync<
+    Target,
+    UpdateSolutionVersionStateParameter,
     SolutionVersion
   >;
 }

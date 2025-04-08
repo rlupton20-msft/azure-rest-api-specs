@@ -8,6 +8,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
+using Microsoft.Science.Shared;
 
 @versioned(Microsoft.Science.Workspace.Versions)
 namespace Microsoft.Science.Workspace;
@@ -15,16 +16,14 @@ namespace Microsoft.Science.Workspace;
 @doc("A conversation.")
 @resource("conversations")
 model Conversation {
-  ...WithId;
-
   @doc("The conversation name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @key("conversationName")
   name: string;
 
+  ...DataPlaneResource;
   ...WithTitle;
-  ...WithCreatedAt;
-  ...WithUpdatedAt;
+  ...WithInvestigationIdOptional;
 }
 
 // TODO: Remove un-needed route prefix!
@@ -39,7 +38,7 @@ interface Conversations {
   @route("/conversations")
   @post
   createConversation is Azure.Core.Foundations.Operation<
-    {},
+    WithInvestigationIdOptional,
     Conversation,
     Conversation
   >;
@@ -54,6 +53,6 @@ interface Conversations {
   @doc("List Conversation resources")
   listConversations is ResourceList<
     Conversation,
-    QueryParametersTrait<WithQueryCreatedSince>
+    QueryParametersTrait<WithQueryInvestigationId & WithQueryCreatedSince>
   >;
 }

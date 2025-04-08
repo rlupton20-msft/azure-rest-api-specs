@@ -2764,12 +2764,12 @@
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "Enabled"
+            "description": "Account is enabled"
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "Disabled"
+            "description": "Account is disabled"
           }
         ]
       }
@@ -2791,7 +2791,7 @@
       "type": "object",
       "description": "Information regarding individual Disk Drives",
       "properties": {
-        "id": {
+        "diskId": {
           "type": "string",
           "description": "The Id of the disk drive"
         },
@@ -2852,7 +2852,10 @@
           "description": "Information about individual disk drives",
           "items": {
             "$ref": "#/definitions/Drive"
-          }
+          },
+          "x-ms-identifiers": [
+            "diskId"
+          ]
         }
       },
       "required": [
@@ -2913,13 +2916,37 @@
         }
       }
     },
+    "IntegratedGraphicsType": {
+      "type": "string",
+      "description": "Integrated Graphics capability of the processor",
+      "enum": [
+        "IntegratedGraphics",
+        "None"
+      ],
+      "x-ms-enum": {
+        "name": "IntegratedGraphicsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "IntegratedGraphics",
+            "value": "IntegratedGraphics",
+            "description": "Processor has integrated graphics"
+          },
+          {
+            "name": "None",
+            "value": "None",
+            "description": "Processor does not have integrated graphics"
+          }
+        ]
+      }
+    },
     "InventoryLocalAccount": {
       "type": "object",
       "description": "Inventory local account",
       "properties": {
         "username": {
           "type": "string",
-          "description": "username",
+          "description": "Username of local account",
           "readOnly": true
         },
         "accountType": {
@@ -3444,7 +3471,7 @@
       "properties": {
         "username": {
           "type": "string",
-          "description": "Username",
+          "description": "Username for local account",
           "x-ms-mutability": [
             "read",
             "update",
@@ -3454,7 +3481,7 @@
         "password": {
           "type": "string",
           "format": "password",
-          "description": "Password",
+          "description": "Password for local account",
           "x-ms-mutability": [
             "update",
             "create"
@@ -3590,7 +3617,7 @@
             "$ref": "#/definitions/MemoryModule"
           },
           "x-ms-identifiers": [
-            "name"
+            "moduleName"
           ]
         }
       },
@@ -3604,11 +3631,11 @@
       "type": "object",
       "description": "Information about the individual memory modules of the server",
       "properties": {
-        "name": {
+        "moduleName": {
           "type": "string",
           "description": "Name of the memory module"
         },
-        "location": {
+        "moduleLocation": {
           "type": "string",
           "description": "Location of the memory module"
         },
@@ -3646,7 +3673,7 @@
       "type": "object",
       "description": "Information about a network device",
       "properties": {
-        "id": {
+        "netDeviceId": {
           "type": "string",
           "description": "Id of network device"
         },
@@ -3687,11 +3714,14 @@
           "description": "Information of individual ports on network device",
           "items": {
             "$ref": "#/definitions/Port"
-          }
+          },
+          "x-ms-identifiers": [
+            "portId"
+          ]
         }
       },
       "required": [
-        "id",
+        "netDeviceId",
         "portCount",
         "netDeviceMacs",
         "ports"
@@ -3713,7 +3743,10 @@
           "description": "Information about the individual network devices of the server",
           "items": {
             "$ref": "#/definitions/NetDevice"
-          }
+          },
+          "x-ms-identifiers": [
+            "netDeviceId"
+          ]
         }
       }
     },
@@ -3760,7 +3793,7 @@
         "slotNumber": {
           "type": "integer",
           "format": "int32",
-          "description": "The slot in the chass",
+          "description": "The slot in the chassis",
           "readOnly": true
         }
       },
@@ -3941,7 +3974,7 @@
       "type": "object",
       "description": "Information regarding an individual port",
       "properties": {
-        "id": {
+        "portId": {
           "type": "string",
           "description": "Id of port"
         },
@@ -3967,7 +4000,7 @@
         }
       },
       "required": [
-        "id",
+        "portId",
         "linkSpeedMbps"
       ]
     },
@@ -3988,27 +4021,27 @@
           {
             "name": "On",
             "value": "On",
-            "description": "On"
+            "description": "Server is on"
           },
           {
             "name": "Off",
             "value": "Off",
-            "description": "Off"
+            "description": "Server is Off"
           },
           {
             "name": "PoweringOn",
             "value": "PoweringOn",
-            "description": "Powering on"
+            "description": "Server is powering on"
           },
           {
             "name": "PoweringOff",
             "value": "PoweringOff",
-            "description": "Powering off"
+            "description": "Server is powering off"
           },
           {
             "name": "Paused",
             "value": "Paused",
-            "description": "Paused"
+            "description": "Server is paused"
           }
         ]
       }
@@ -4017,7 +4050,7 @@
       "type": "object",
       "description": "Information regarding the processor of the server",
       "properties": {
-        "name": {
+        "processorName": {
           "type": "string",
           "description": "The processor name"
         },
@@ -4089,7 +4122,7 @@
             "$ref": "#/definitions/Processor"
           },
           "x-ms-identifiers": [
-            "name"
+            "processorName"
           ]
         }
       },
@@ -4629,7 +4662,7 @@
           "type": "string",
           "description": "The model of the drive"
         },
-        "type": {
+        "driveType": {
           "$ref": "#/definitions/DriveType",
           "description": "The type of the drive"
         },
@@ -4705,8 +4738,8 @@
           "description": "The number of threads"
         },
         "integratedGraphics": {
-          "type": "boolean",
-          "description": "Whether processor has dedicated IGPU"
+          "$ref": "#/definitions/IntegratedGraphicsType",
+          "description": "Processor's dedicated IGPU capabilities"
         }
       }
     },

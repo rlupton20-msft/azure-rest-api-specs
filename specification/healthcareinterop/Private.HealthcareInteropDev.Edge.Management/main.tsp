@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./hl7edgeconnector.tsp";
+import "./dicomedgeconnector.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -13,10 +14,8 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
 @doc("Private HealthcareInteropDev Edge resources management API.")
-@armProviderNamespace("Microsoft.HealthcareInteropDev")
-@service({
-  title: "Private HealthcareInteropDev Edge service",
-})
+@armProviderNamespace("Private.HealthcareInteropDev")
+@service(#{ title: "Private HealthcareInteropDev Edge service" })
 @versioned(Versions)
 namespace Private.HealthcareInteropDev;
 

@@ -34,10 +34,10 @@ model SolutionTemplateVersionProperties {
   specification: Record<unknown>;
 
   @doc("Orchestrator type")
-  orchestratorType: OrchestratorType;
+  orchestratorType?: OrchestratorType;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

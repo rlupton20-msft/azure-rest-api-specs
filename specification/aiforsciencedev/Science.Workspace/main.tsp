@@ -12,7 +12,7 @@ import "./_run_step.tsp";
 import "./_message.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
-import "./_scientificTool.tsp";
+import "./_tool.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

@@ -22,7 +22,7 @@ model Gateway is Azure.ResourceManager.TrackedResource<GatewayProperties> {
   @path
   @key("gatewayName")
   @segment("gateways")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
@@ -33,7 +33,7 @@ model GatewayProperties {
   /**
    * List of Operator API Connections selected by the user.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatorApiConnections?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/operatorApiConnections";
@@ -43,27 +43,27 @@ model GatewayProperties {
   /**
    * Base URL of the Gateway resource. This is the URL that the users would use to make Network API requests to the Operators via Azure.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   gatewayBaseUrl?: string;
 
   /**
    * The status of the last operation on the Gateway resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication: ApplicationProperties;
 
   /**
    * Details about the Organization owning the Application that would use the Operator's Network APIs.
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplicationOwner: ApplicationOwnerProperties;
 }
 
@@ -133,6 +133,11 @@ model ApplicationOwnerProperties {
   privacyManager: Person;
 
   /**
+   * Data Protection Officer of the organization.
+   */
+  dataProtectionOfficer: Person;
+
+  /**
    * Registered Geographic address.
    */
   registeredGeographicAddress: GeographicAddress;
@@ -145,7 +150,7 @@ model ApplicationOwnerProperties {
   /**
    * List of local representatives.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   localRepresentatives: LocalRepresentative[];
 }
 
@@ -267,6 +272,11 @@ model GeographicAddress {
   city?: string;
 
   /**
+   * State or province of the address.
+   */
+  stateOrProvince?: string;
+
+  /**
    * Postal code of the address.
    */
   postalCode?: string;
@@ -290,9 +300,16 @@ model LocalRepresentative {
   countryCode: string;
 
   /**
+   * Incorrect name; retaining so don't break dev environment
+   */
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  localRepresentativePerson: Person;
+
+  /**
    * Local representative for this country/region.
    */
-  localRepresentativePerson: Person;
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  representative: Person;
 }
 
 /**
@@ -354,14 +371,14 @@ union Category {
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
 @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
 union OrganizationType {
-  dpvAcademicScientificOrganisation: "Academic scientific organization",
-  dpvForProfitOrganisation: "For profit organization",
-  dpvGovernmentalOrganisation: "Governmental organization",
-  dpvIndustryConsortium: "Industry consortium",
-  dpvInternationalOrganisation: "International organization",
-  dpvNonGovernmentalOrganisation: "Non-governmental organization",
-  dpvNonProfitOrganisation: "Non-profit organization",
-  dpvOrganisationalUnit: "Organizational unit",
+  academicScientificOrganization: "Academic scientific organization",
+  forProfitOrganization: "For profit organization",
+  governmentalOrganization: "Governmental organization",
+  industryConsortium: "Industry consortium",
+  internationalOrganization: "International organization",
+  nonGovernmentalOrganization: "Non-governmental organization",
+  nonProfitOrganization: "Non-profit organization",
+  OrganizationalUnit: "Organizational unit",
   string,
 }
 

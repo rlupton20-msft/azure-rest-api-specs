@@ -1,0 +1,58 @@
+parameters:
+  "service-dir":
+    default: "sdk/science-bookshelf"
+  "service-directory-name":
+    default: "science-bookshelf"
+emit:
+  - "@azure-tools/typespec-autorest"
+linter:
+  extends:
+    - "@azure-tools/typespec-azure-rulesets/data-plane"
+options:
+  "@azure-tools/typespec-autorest":
+    emitter-output-dir: "{project-root}/.."
+    omit-unreachable-types: false
+    output-file: "{azure-resource-provider-folder}/Microsoft.Science.Bookshelf/{version-status}/{version}/science-bookshelf.json"
+    azure-resource-provider-folder: "data-plane"
+    emit-lro-options: "none"
+  "@azure-tools/typespec-python":
+    package-pprint-name: '"Microsoft Science Bookshelf"'
+    package-version: 4.12.0b1
+    package-dir: "azure-science-bookshelf"
+    package-name: "{package-dir}"
+    emitter-output-dir: "{project-root}/{service-dir}/{package-name}"
+    flavor: azure
+    generate-test: true
+    generate-sample: true
+  # Uncomment this line and add "@azure-tools/typespec-csharp" to your package.json to generate C# code
+  "@azure-tools/typespec-csharp":
+    package-dir: Microsoft.Science.Bookshelf
+    model-namespace: false
+    namespace: Microsoft.Science.Bookshelf
+    flavor: azure
+    api-version: "2018-01-01"
+  "@azure-tools/typespec-ts":
+    generateMetadata: true
+    generateTest: false
+    azureSdkForJs: true
+    experimentalExtensibleEnums: true
+    package-dir: "science-bookshelf"
+    packageDetails:
+      name: "@azure/science-bookshelf"
+    flavor: azure
+    isModularLibrary: true
+  "@azure-tools/typespec-go":
+    module: "github.com/Azure/azure-sdk-for-go/sdk/science-bookshelf"
+    module-version: "0.0.1"
+    emitter-output-dir: "{project-root}"
+  "@azure-tools/typespec-java":
+    emitter-output-dir: "{project-root}"
+    namespace: com.azure.science.bookshelf
+    #    models-subpackage: systemevents
+    package-dir: azure-science-bookshelf
+    #    customization-class: customization/src/main/java/EventGridSystemEventsCustomization.java
+    #    custom-types-subpackage: implementation.models
+    #    custom-types: AcsRouterCommunicationError,AcsMessageChannelEventError
+    flavor: azure
+    dev-options:
+      loglevel: info

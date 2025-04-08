@@ -17,50 +17,6 @@ using OpenAPI;
 @versioned(Microsoft.Science.Versions)
 namespace Microsoft.Science;
 
-@doc("Linked Storage.")
-model LinkedStorage {
-  @doc("Fully qualified resource ID for the Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/storage"; // TODO: Change to Science shared storage?
-    }
-  ]>;
-}
-
-@doc("Linked Bookshelf.")
-model LinkedBookShelf {
-  @doc("Fully qualified resource ID for the Bookshelf resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/bookshelf";
-    }
-  ]>;
-}
-
-@doc("Linked SuperComputer.")
-model LinkedSuperComputer {
-  @doc("Fully qualified resource ID for the SuperComputer resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-  @visibility("read", "create", "update")
-  id: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Microsoft.Science/supercomputer";
-    }
-  ]>;
-}
-
-//@doc("Linked Catalog.")
-//model LinkedCatalog {
-//  @doc("Fully qualified resource ID for the Catalog resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}")
-//  @visibility("read", "create", "update")
-//  id: Azure.Core.armResourceIdentifier<[
-//    {
-//      type: "Microsoft.Science/catalog";
-//    }
-//  ]>;
-//}
-
 @doc("Workspace tracked resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
   ...ResourceNameParameter<Workspace>;
@@ -68,46 +24,36 @@ model Workspace is TrackedResource<WorkspaceProperties> {
 
 @doc("Workspace properties")
 model WorkspaceProperties {
-  //  ...WithTitle;
-
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  //  @visibility("read", "create", "update")
-  //  @doc("List of linked Catalogs.")
-  //  @extension("x-ms-identifiers", ["id"])
-  //  catalogs?: Array<LinkedCatalog>;
-
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked Storages.")
-  @extension("x-ms-identifiers", ["id"])
-  storages?: Array<LinkedStorage>;
+  @extension("x-ms-identifiers", #["id"])
+  storageIds?: Array<StorageId>;
 
-  //  @visibility("read", "create", "update")
-  //  @doc("List of linked Bookshelves.")
-  //  @extension("x-ms-identifiers", ["id"])
-  //  bookshelves?: Array<LinkedBookShelf>;
-
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked SuperComputers.")
-  @extension("x-ms-identifiers", ["id"])
-  supercomputers?: Array<LinkedSuperComputer>;
+  @extension("x-ms-identifiers", #["id"])
+  supercomputerIds?: Array<SuperComputerId>;
 
   @doc("workspace API endpoint Uri.")
-  @visibility("read")
-  workspaceApiUri: string;
+  @visibility(Lifecycle.Read)
+  workspaceApiUri?: string;
 
   @doc("workspace User Interface Uri.")
-  @visibility("read")
-  workspaceUiUri: string;
+  @visibility(Lifecycle.Read)
+  workspaceUiUri?: string;
+
+  ...MoboConfigurationWithMrg;
 }
 
 @armResourceOperations
 interface Workspaces {
   get is ArmResourceRead<Workspace>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Workspace>;
-  update is ArmResourcePatchSync<Workspace, WorkspaceProperties>;
+  update is ArmResourcePatchAsync<Workspace, WorkspaceProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Workspace>;
   listByResourceGroup is ArmResourceListByParent<Workspace>;
   listBySubscription is ArmListBySubscription<Workspace>;

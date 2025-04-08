@@ -3136,6 +3136,145 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Science/tools/{toolName}/execute": {
+      "post": {
+        "operationId": "Tools_Execute",
+        "tags": [
+          "Tools"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "toolName",
+            "in": "path",
+            "description": "The name of the Tool",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExecutionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExecutionStatus"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Tools_Execute_MaximumSet": {
+            "$ref": "./examples/Tools_Execute_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Science/tools/{toolName}/getExecutionStatus": {
+      "post": {
+        "operationId": "Tools_GetExecutionStatus",
+        "tags": [
+          "Tools"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "toolName",
+            "in": "path",
+            "description": "The name of the Tool",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ExecutionStatus"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Tools_GetExecutionStatus_MaximumSet": {
+            "$ref": "./examples/Tools_GetExecutionStatus_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Science/workspaces": {
       "get": {
         "operationId": "Workspaces_ListByResourceGroup",
@@ -4272,6 +4411,100 @@
         ]
       }
     },
+    "ExecutionRequest": {
+      "type": "object",
+      "description": "An execution of aTool",
+      "properties": {
+        "actionId": {
+          "type": "string",
+          "description": "The action ID, as defined in the tool's resource definition."
+        },
+        "parameters": {
+          "type": "array",
+          "description": "The parameters of the execution.",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          },
+          "x-ms-identifiers": []
+        },
+        "inputHandles": {
+          "type": "array",
+          "description": "Handles to the input data to use for this execution.",
+          "items": {
+            "$ref": "#/definitions/LinkedDataSets"
+          }
+        },
+        "outputHandles": {
+          "type": "array",
+          "description": "On the request, this specifies locations to the SharedStorage also represented as Datasets\nand or others datasets to write output to.\nAny data which the tool writes to the directory specified by SC_TOOL_OUTPUT_DIR is written\nto the default SharedStorage location, and any additional\nlocations specified in this array.",
+          "items": {
+            "$ref": "#/definitions/LinkedDataSets"
+          }
+        },
+        "nodePoolIds": {
+          "type": "array",
+          "description": "IDs of NodePools to use for this execution.",
+          "items": {
+            "$ref": "#/definitions/LinkedNodePools"
+          }
+        },
+        "sharedStorage": {
+          "$ref": "#/definitions/LinkedStorage",
+          "description": "The shared storage which would be mounted on the nodepools and made available for the tool to use for this execution."
+        }
+      },
+      "required": [
+        "actionId",
+        "nodePoolIds",
+        "sharedStorage"
+      ]
+    },
+    "ExecutionStatus": {
+      "type": "object",
+      "description": "Execution status model",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/RunTimeState",
+          "description": "The runtime state of the execution."
+        },
+        "runtimeDetails": {
+          "type": "string",
+          "description": "Human-readable details about the execution status."
+        },
+        "createdTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the execution was created."
+        },
+        "completedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the execution completed."
+        },
+        "errorDetails": {
+          "type": "array",
+          "description": "Error details if the execution failed.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "toolReport": {
+          "type": "object",
+          "description": "Details provided by the tool (rather than the platform).",
+          "properties": {
+            "estimatedCompletionTime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "required": [
+        "status",
+        "runtimeDetails",
+        "createdTime"
+      ]
+    },
     "KeyVaultSecretCredential": {
       "type": "object",
       "description": "SAS token credential properties",
@@ -4333,7 +4566,59 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.AiForScience/bookshelf"
+                "type": "Microsoft.AiForScience/bookshelves"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "LinkedDataSets": {
+      "type": "object",
+      "description": "Linked DataSets.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Fully qualified resource ID for the DataSet resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/DataAssets/{assetName}/DataSets/{setName}",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Science/DataAssets/DataSets"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "LinkedNodePools": {
+      "type": "object",
+      "description": "Linked NodePools.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Fully qualified resource ID for the NodePool resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/supercomputers/{scName}/nodepools/{name}",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Science/supercomputers/nodepools"
               }
             ]
           }
@@ -4350,7 +4635,7 @@
         "id": {
           "type": "string",
           "format": "arm-id",
-          "description": "Fully qualified resource ID for the Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+          "description": "Fully qualified resource ID for the Science Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AiForScience/storages/{accountName}",
           "x-ms-mutability": [
             "read",
             "update",
@@ -4359,7 +4644,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.AiForScience/storage"
+                "type": "Microsoft.AiForScience/storages"
               }
             ]
           }
@@ -4385,7 +4670,7 @@
           "x-ms-arm-id-details": {
             "allowedResources": [
               {
-                "type": "Microsoft.AiForScience/supercomputer"
+                "type": "Microsoft.AiForScience/supercomputers"
               }
             ]
           }
@@ -5008,6 +5293,49 @@
       },
       "readOnly": true
     },
+    "RunTimeState": {
+      "type": "string",
+      "description": "Tools runtime execution state",
+      "enum": [
+        "Pending",
+        "Running",
+        "Succeeded",
+        "Failed",
+        "Cancelled"
+      ],
+      "x-ms-enum": {
+        "name": "RunTimeState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "Tool execution has not started yet"
+          },
+          {
+            "name": "Running",
+            "value": "Running",
+            "description": "Tool is Running"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Tool has successfully run"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Tool run has Failed"
+          },
+          {
+            "name": "Cancelled",
+            "value": "Cancelled",
+            "description": "Tool run is Cancelled"
+          }
+        ]
+      },
+      "readOnly": true
+    },
     "Storage": {
       "type": "object",
       "description": "Storage tracked resource",
@@ -5387,6 +5715,10 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "WithExecutionId": {
+      "type": "object",
+      "description": "Tool execution ID"
     },
     "WithTitle": {
       "type": "object",

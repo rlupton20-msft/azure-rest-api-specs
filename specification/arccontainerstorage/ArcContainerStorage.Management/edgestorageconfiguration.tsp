@@ -13,16 +13,18 @@ using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
+//    generation: "2"
+
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
-  is ExtensionResource<EdgeStorageConfigurationProperties> {
-  @doc("The name of the EdgeStorageConfiguration resource, which must be 'edge-storage-configuration'.")
-  @key("edgeStorageConfigurationName")
-  @path
-  @segment("edgestorageconfigurations")
-  // Enforce the singleton name 'edge-storage-configuration -- need to test'
-  @pattern("^edge-storage-configuration$")
-  name: string;
+  is ExtensionResource<
+    EdgeStorageConfigurationProperties,
+    PropertiesOptional = false
+  > {
+  ...ResourceNameParameter<
+    EdgeStorageConfiguration,
+    NamePattern = "^edge-storage-configuration$"
+  >;
 }
 
 @minLength(1)
@@ -36,23 +38,43 @@ scalar StorageClass extends string;
 model EdgeStorageConfigurationProperties {
   @doc("The default disk storage class(es) to be used for edge volumes. Must not be empty and is immutable once set.")
   @minItems(1)
-  @visibility("read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
   failoverEdgeVolumeConsumers?: boolean = true;
 
+  @doc("This indicates how to ensure mTLS")
+  serviceMesh?: ServiceMesh = ServiceMesh.`cert-manager`; // Deprecated field, but have it here for backward compatibility
+
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
 
   @doc("The provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: provisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: EdgeStorageConfigurationStatus;
 }
+
+@doc("This indicates how to ensure mTLS (deprecated)")
+union ServiceMesh {
+  @doc("Open service mesh (deprecated)")
+  osm: "osm",
+
+  @doc("Cert manager is used to ensure mTLS")
+  `cert-manager`: "cert-manager",
+
+  @doc("No service mesh is used")
+  none: "none",
+
+  string,
+}
+
+@pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
+scalar UUIDType extends string;
 
 //
 // Workload Identity
@@ -60,12 +82,10 @@ model EdgeStorageConfigurationProperties {
 @doc("Defines the workload identity properties.")
 model WorkloadIdentity {
   @doc("The client ID for the workload identity.")
-  @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  clientId: string;
+  clientId: UUIDType;
 
   @doc("The tenant ID for the workload identity.")
-  @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
-  tenantId: string;
+  tenantId: UUIDType;
 }
 
 //

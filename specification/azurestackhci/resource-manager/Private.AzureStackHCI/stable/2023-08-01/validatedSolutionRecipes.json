@@ -41,6 +41,9 @@
   "tags": [
     {
       "name": "ValidatedSolutionRecipes"
+    },
+    {
+      "name": "ResourceGroupValidatedSolutionRecipes"
     }
   ],
   "paths": {
@@ -74,11 +77,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "ValidatedSolutionRecipes_ListBySubscriptionLocationResource": {
-            "$ref": "./examples/ValidatedSolutionRecipes_ListBySubscriptionLocationResource.json"
           }
         },
         "x-ms-pageable": {
@@ -125,725 +123,131 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/resourceGroupValidatedSolutionRecipes": {
+      "get": {
+        "operationId": "ResourceGroupValidatedSolutionRecipes_ListByResourceGroupLocationResource",
+        "tags": [
+          "ResourceGroupValidatedSolutionRecipes"
+        ],
+        "description": "List all validated solution recipes.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
         },
-        "x-ms-examples": {
-          "ValidatedSolutionRecipes_Get": {
-            "$ref": "./examples/ValidatedSolutionRecipes_Get.json"
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureStackHCI/locations/{location}/resourceGroupValidatedSolutionRecipes/{resourceGroupValidatedSolutionRecipeName}": {
+      "get": {
+        "operationId": "ResourceGroupValidatedSolutionRecipes_Get",
+        "tags": [
+          "ResourceGroupValidatedSolutionRecipes"
+        ],
+        "description": "Get a validated solution recipe.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "resourceGroupValidatedSolutionRecipeName",
+            "in": "path",
+            "description": "The name of the ResourceGroupValidatedSolutionRecipe",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-.]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipe"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
     }
   },
   "definitions": {
-    "ClusterPattern": {
-      "type": "string",
-      "description": "Supported Storage Type for HCI Cluster",
-      "enum": [
-        "Standard",
-        "Stretch",
-        "RackAware"
-      ],
-      "x-ms-enum": {
-        "name": "ClusterPattern",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Standard",
-            "value": "Standard",
-            "description": "Standard Cluster."
-          },
-          {
-            "name": "Stretch",
-            "value": "Stretch",
-            "description": "Stretch Cluster."
-          },
-          {
-            "name": "RackAware",
-            "value": "RackAware",
-            "description": "RackAware Cluster."
-          }
-        ]
-      }
-    },
-    "DeploymentAdapterPropertyOverrides": {
+    "ResourceGroupValidatedSolutionRecipe": {
       "type": "object",
-      "description": "The network adapter properties to override during deployment of a cluster.",
+      "description": "Represents a validated solution recipe resource at resource group level.",
       "properties": {
-        "jumboPacket": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "networkDirect": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "networkDirectTechnology": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. Expected values are 'iWARP', 'RoCEv2', 'RoCE'"
+        "properties": {
+          "$ref": "#/definitions/ValidatedSolutionRecipeProperties",
+          "description": "The resource-specific properties for this resource."
         }
-      }
-    },
-    "DeploymentHostNetwork": {
-      "type": "object",
-      "description": "The HostNetwork of a cluster.",
-      "properties": {
-        "intents": {
-          "type": "array",
-          "description": "The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM.",
-          "items": {
-            "$ref": "#/definitions/DeploymentIntents"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
-        },
-        "storageNetworks": {
-          "type": "array",
-          "description": "List of StorageNetworks config to deploy AzureStackHCI Cluster.",
-          "items": {
-            "$ref": "#/definitions/DeploymentStorageNetworks"
-          },
-          "x-ms-identifiers": [
-            "name"
-          ]
-        },
-        "storageConnectivitySwitchless": {
-          "type": "boolean",
-          "description": "Defines how the storage adapters between nodes are connected either switch or switch less.."
-        },
-        "enableStorageAutoIp": {
-          "type": "boolean",
-          "description": "Optional parameter required only for 3 Nodes switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically."
-        }
-      }
-    },
-    "DeploymentIntents": {
-      "type": "object",
-      "description": "The Intents of a cluster.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the network intent you wish to create."
-        },
-        "trafficType": {
-          "type": "array",
-          "description": "List of network traffic types. Only allowed values are 'Compute', 'Storage', 'Management'.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "adapter": {
-          "type": "array",
-          "description": "Array of network interfaces used for the network intent.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "overrideVirtualSwitchConfiguration": {
-          "type": "boolean",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "virtualSwitchConfigurationOverrides": {
-          "$ref": "#/definitions/DeploymentVirtualSwitchConfigurationOverrides",
-          "description": "Set virtualSwitch ConfigurationOverrides for cluster."
-        },
-        "overrideQosPolicy": {
-          "type": "boolean",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "qosPolicyOverrides": {
-          "$ref": "#/definitions/QosPolicyOverrides",
-          "description": "Set QoS PolicyOverrides for cluster."
-        },
-        "overrideAdapterProperty": {
-          "type": "boolean",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "adapterPropertyOverrides": {
-          "$ref": "#/definitions/DeploymentAdapterPropertyOverrides",
-          "description": "Set Adapter PropertyOverrides for cluster."
-        }
-      }
-    },
-    "DeploymentMode": {
-      "type": "string",
-      "description": "Deployment mode to trigger job.",
-      "enum": [
-        "Validate",
-        "Deploy"
-      ],
-      "x-ms-enum": {
-        "name": "DeploymentMode",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Validate",
-            "value": "Validate",
-            "description": "Validate ECE action deployment for a cluster."
-          },
-          {
-            "name": "Deploy",
-            "value": "Deploy",
-            "description": "Deploy ECE action deployment for a cluster."
-          }
-        ]
-      }
-    },
-    "DeploymentStorageAdapterIPInfo": {
-      "type": "object",
-      "description": "The storage network adapter info.",
-      "properties": {
-        "physicalNode": {
-          "type": "string",
-          "description": "physical node name."
-        },
-        "ipv4Address": {
-          "type": "string",
-          "description": "The IPv4 address assigned to network adapter used for storage."
-        },
-        "subnetMask": {
-          "type": "string",
-          "description": "The SubnetMask address assigned to network adapter used for storage."
-        }
-      }
-    },
-    "DeploymentStorageNetworks": {
-      "type": "object",
-      "description": "The StorageNetworks of a cluster.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the storage network."
-        },
-        "networkAdapterName": {
-          "type": "string",
-          "description": "Name of the storage network adapter."
-        },
-        "vlanId": {
-          "type": "string",
-          "description": "ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic."
-        },
-        "storageAdapterIPInfo": {
-          "type": "array",
-          "description": "List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster.",
-          "items": {
-            "$ref": "#/definitions/DeploymentStorageAdapterIPInfo"
-          },
-          "x-ms-identifiers": [
-            "physicalNode"
-          ]
-        }
-      }
-    },
-    "DeploymentVirtualSwitchConfigurationOverrides": {
-      "type": "object",
-      "description": "The VirtualSwitchConfigurationOverrides of a cluster.",
-      "properties": {
-        "enableIov": {
-          "type": "string",
-          "description": "Enable IoV for Virtual Switch"
-        },
-        "loadBalancingAlgorithm": {
-          "type": "string",
-          "description": "Load Balancing Algorithm for Virtual Switch"
-        }
-      }
-    },
-    "EceActionStatus": {
-      "type": "object",
-      "description": "Validation / deployment status details for Job.",
-      "properties": {
-        "status": {
-          "type": "string",
-          "description": "Job status.",
-          "readOnly": true
-        },
-        "steps": {
-          "type": "array",
-          "description": "List of steps of Edge device job.",
-          "items": {
-            "$ref": "#/definitions/Step"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": [
-            "name"
-          ]
-        }
-      }
-    },
-    "EdgeDeviceKind": {
-      "type": "string",
-      "description": "Edge device type based on host OS installed.",
-      "enum": [
-        "HCI",
-        "WindowsServer",
-        "WindowsIoT",
-        "AzureLinux",
-        "UbuntuLinux",
-        "AzureLinuxRoe"
-      ],
-      "x-ms-enum": {
-        "name": "EdgeDeviceKind",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "HCI",
-            "value": "HCI",
-            "description": "Arc-enabled edge device with HCI OS."
-          },
-          {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Arc-enabled edge device with WindowsServer OS."
-          },
-          {
-            "name": "WindowsIoT",
-            "value": "WindowsIoT",
-            "description": "Arc-enabled edge device with WindowsIoT OS."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Arc-enabled edge device with AzureLinux OS."
-          },
-          {
-            "name": "UbuntuLinux",
-            "value": "UbuntuLinux",
-            "description": "Arc-enabled edge device with UbuntuLinux OS."
-          },
-          {
-            "name": "AzureLinuxRoe",
-            "value": "AzureLinuxRoe",
-            "description": "Arc-enabled edge device with Azure Linux restricted operating environment."
-          }
-        ]
-      }
-    },
-    "EdgeSolutionType": {
-      "type": "string",
-      "description": "Edge solution type.",
-      "enum": [
-        "WindowsServer",
-        "AzureLinux"
-      ],
-      "x-ms-enum": {
-        "name": "EdgeSolutionType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "WindowsServer",
-            "value": "WindowsServer",
-            "description": "Edge solution for Windows based edge devices."
-          },
-          {
-            "name": "AzureLinux",
-            "value": "AzureLinux",
-            "description": "Edge solution for Azure linux edge devices."
-          }
-        ]
-      }
-    },
-    "IdentityProvider": {
-      "type": "string",
-      "description": "Identity Provider for the cluster",
-      "enum": [
-        "ActiveDirectory",
-        "LocalIdentity"
-      ],
-      "x-ms-enum": {
-        "name": "IdentityProvider",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "ActiveDirectory",
-            "value": "ActiveDirectory",
-            "description": "Active Directory as the Identity Provider. This is the default option."
-          },
-          {
-            "name": "LocalIdentity",
-            "value": "LocalIdentity",
-            "description": "Use local identity with Azure Keyvault"
-          }
-        ]
-      }
-    },
-    "JobReportedProperties": {
-      "type": "object",
-      "description": "Reported Properties for job triggered from cloud.",
-      "properties": {
-        "percentComplete": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The percentage of the job that is complete.",
-          "readOnly": true
-        },
-        "validationStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Validation status of job.",
-          "readOnly": true
-        },
-        "deploymentStatus": {
-          "$ref": "#/definitions/EceActionStatus",
-          "description": "Deployment status of job.",
-          "readOnly": true
-        }
-      }
-    },
-    "JobStatus": {
-      "type": "string",
-      "description": "Represents the various statuses a job can have throughout its lifecycle.",
-      "enum": [
-        "NotSpecified",
-        "ValidationInProgress",
-        "ValidationSuccess",
-        "ValidationFailed",
-        "DeploymentInProgress",
-        "DeploymentFailed",
-        "DeploymentSuccess",
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "Paused",
-        "Scheduled"
-      ],
-      "x-ms-enum": {
-        "name": "JobStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "NotSpecified",
-            "value": "NotSpecified",
-            "description": "The job status has not been specified."
-          },
-          {
-            "name": "ValidationInProgress",
-            "value": "ValidationInProgress",
-            "description": "The job is currently undergoing validation."
-          },
-          {
-            "name": "ValidationSuccess",
-            "value": "ValidationSuccess",
-            "description": "The job has successfully passed validation."
-          },
-          {
-            "name": "ValidationFailed",
-            "value": "ValidationFailed",
-            "description": "The job has failed validation."
-          },
-          {
-            "name": "DeploymentInProgress",
-            "value": "DeploymentInProgress",
-            "description": "The job's deployment is currently in progress."
-          },
-          {
-            "name": "DeploymentFailed",
-            "value": "DeploymentFailed",
-            "description": "The job's deployment has failed."
-          },
-          {
-            "name": "DeploymentSuccess",
-            "value": "DeploymentSuccess",
-            "description": "The job has been successfully deployed."
-          },
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "The job has succeeded."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "The job has failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "The job has been canceled."
-          },
-          {
-            "name": "Paused",
-            "value": "Paused",
-            "description": "The job is paused."
-          },
-          {
-            "name": "Scheduled",
-            "value": "Scheduled",
-            "description": "The job is scheduled to run."
-          }
-        ]
       },
-      "readOnly": true
-    },
-    "LocalAvailabilityZoneMode": {
-      "type": "string",
-      "description": "Local Availability Zone Mode for HCI cluster.",
-      "enum": [
-        "Active",
-        "Passive"
-      ],
-      "x-ms-enum": {
-        "name": "LocalAvailabilityZoneMode",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Active",
-            "value": "Active",
-            "description": "Local Availability Zone in active mode."
-          },
-          {
-            "name": "Passive",
-            "value": "Passive",
-            "description": "Local Availability Zone in passive mode."
-          }
-        ]
-      }
-    },
-    "LocalAvailabilityZones": {
-      "type": "object",
-      "description": "Local Availability Zone information for HCI cluster",
-      "properties": {
-        "localAvailabilityZoneName": {
-          "type": "string",
-          "description": "Local Availability Zone name for HCI cluster"
-        },
-        "localAvailabilityZoneMode": {
-          "$ref": "#/definitions/LocalAvailabilityZoneMode",
-          "description": "Local Availability Zone Mode for HCI cluster. Can be active or passive."
-        },
-        "nodes": {
-          "type": "array",
-          "description": "Nodes belonging to a particular zone",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-identifiers": []
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
-      }
+      ]
     },
-    "LogCollectionStatus": {
-      "type": "string",
-      "description": "Represents the status of a log collection operation.",
-      "enum": [
-        "None",
-        "InProgress",
-        "Failed",
-        "Succeeded"
-      ],
-      "x-ms-enum": {
-        "name": "LogCollectionStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "None",
-            "value": "None",
-            "description": "Indicates that no log collection operation has been initiated."
-          },
-          {
-            "name": "InProgress",
-            "value": "InProgress",
-            "description": "Indicates that the log collection operation is currently in progress."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Indicates that the log collection operation has failed."
-          },
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Indicates that the log collection operation has completed successfully."
+    "ResourceGroupValidatedSolutionRecipeListResult": {
+      "type": "object",
+      "description": "The response of a ResourceGroupValidatedSolutionRecipe list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ResourceGroupValidatedSolutionRecipe items on this page",
+          "items": {
+            "$ref": "#/definitions/ResourceGroupValidatedSolutionRecipe"
           }
-        ]
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
       },
-      "readOnly": true
-    },
-    "ProvisioningState": {
-      "type": "string",
-      "description": "The provisioning state of a resource.",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled",
-        "NotSpecified",
-        "Provisioning",
-        "Updating",
-        "Deleting",
-        "Accepted"
-      ],
-      "x-ms-enum": {
-        "name": "ProvisioningState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Resource has been created."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "Resource creation failed."
-          },
-          {
-            "name": "Canceled",
-            "value": "Canceled",
-            "description": "Resource creation was canceled."
-          },
-          {
-            "name": "NotSpecified",
-            "value": "NotSpecified",
-            "description": "The resource provision state is not specified"
-          },
-          {
-            "name": "Provisioning",
-            "value": "Provisioning",
-            "description": "The resource is being provisioned"
-          },
-          {
-            "name": "Updating",
-            "value": "Updating",
-            "description": "The resource is updating"
-          },
-          {
-            "name": "Deleting",
-            "value": "Deleting",
-            "description": "The resource is being deleted"
-          },
-          {
-            "name": "Accepted",
-            "value": "Accepted",
-            "description": "The resource create request has been accepted"
-          }
-        ]
-      },
-      "readOnly": true
-    },
-    "QosPolicyOverrides": {
-      "type": "object",
-      "description": "The QoSPolicyOverrides of a cluster.",
-      "properties": {
-        "priorityValue8021Action_Cluster": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "priorityValue8021Action_SMB": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        },
-        "bandwidthPercentage_SMB": {
-          "type": "string",
-          "description": "This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation."
-        }
-      }
-    },
-    "RemoteSupportAccessLevel": {
-      "type": "string",
-      "description": "Defines the level of remote support access granted.",
-      "enum": [
-        "None",
-        "Diagnostics",
-        "DiagnosticsAndRepair"
-      ],
-      "x-ms-enum": {
-        "name": "RemoteSupportAccessLevel",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "None",
-            "value": "None",
-            "description": "No remote support access is granted."
-          },
-          {
-            "name": "Diagnostics",
-            "value": "Diagnostics",
-            "description": "Access is limited to diagnostics information only."
-          },
-          {
-            "name": "DiagnosticsAndRepair",
-            "value": "DiagnosticsAndRepair",
-            "description": "Access includes diagnostics information and the ability to perform repairs."
-          }
-        ]
-      }
-    },
-    "RemoteSupportType": {
-      "type": "string",
-      "description": "Defines the type of remote support action to be performed on an edge device.",
-      "enum": [
-        "Enable",
-        "Revoke"
-      ],
-      "x-ms-enum": {
-        "name": "RemoteSupportType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enable",
-            "value": "Enable",
-            "description": "Enables remote support for the edge device."
-          },
-          {
-            "name": "Revoke",
-            "value": "Revoke",
-            "description": "Revokes previously granted remote support access for the edge device."
-          }
-        ]
-      }
-    },
-    "Step": {
-      "type": "object",
-      "description": "Step details during job execution.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of step.",
-          "readOnly": true
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of step.",
-          "readOnly": true
-        },
-        "fullStepIndex": {
-          "type": "string",
-          "description": "FullStepIndex of step.",
-          "readOnly": true
-        },
-        "startTimeUtc": {
-          "type": "string",
-          "description": "Start time in utc of step.",
-          "readOnly": true
-        },
-        "endTimeUtc": {
-          "type": "string",
-          "description": "End time in utc of step.",
-          "readOnly": true
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of step. Allowed values are 'Error', 'Success', 'InProgress'",
-          "readOnly": true
-        },
-        "steps": {
-          "type": "array",
-          "description": "List of nested steps during job execution..",
-          "items": {
-            "$ref": "#/definitions/Step"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": [
-            "name"
-          ]
-        },
-        "exception": {
-          "type": "array",
-          "description": "List of exceptions in job execution.",
-          "items": {
-            "type": "string"
-          },
-          "readOnly": true
-        }
-      }
+      "required": [
+        "value"
+      ]
     },
     "ValidatedSolutionRecipe": {
       "type": "object",
@@ -856,7 +260,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -960,39 +364,39 @@
         },
         "enableAutomaticUpgrade": {
           "type": "boolean",
-          "description": "Represents the behavior of the automatic upgrades of the extension."
+          "description": "Indicates whether automatic upgrades of the extension are enabled."
         },
         "lcmUpdate": {
           "type": "boolean",
-          "description": "Represents the behavior of the lcm update of the extension."
+          "description": "Indicates whether the LCM (Lifecycle Management) update of the extension is enabled."
         },
         "catalog": {
           "type": "string",
-          "description": "Represents the catalog."
+          "description": "Specifies the catalog to which the extension belongs."
         },
         "ring": {
           "type": "string",
-          "description": "Represents the ring."
+          "description": "Specifies the ring to which the extension belongs, internally used by component."
         },
         "releaseTrain": {
           "type": "string",
-          "description": "Represents the release train."
+          "description": "Specifies the release train to which given component belongs."
         },
         "link": {
           "type": "string",
-          "description": "Represents the link."
+          "description": "Specifies the link associated with the extension."
         },
         "name": {
           "type": "string",
-          "description": "Represents the name."
+          "description": "Specifies the name of the extension."
         },
         "expectedHash": {
           "type": "string",
-          "description": "Represents the expected hash."
+          "description": "Specifies the expected hash of the extension."
         },
         "previewSource": {
           "type": "string",
-          "description": "Represents the preview source."
+          "description": "Specifies the preview source of the extension."
         }
       }
     },
@@ -1002,19 +406,19 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Represents the payload's identifier."
+          "description": "Represents the unique identifier of the payload used to query the URL."
         },
         "hash": {
           "type": "string",
-          "description": "Represents the payload's hash."
+          "description": "Represents the cryptographic hash of the payload, ensuring data integrity."
         },
         "fileName": {
           "type": "string",
-          "description": "Represents the payload's fileName."
+          "description": "Represents the name of the file associated with the payload."
         },
         "url": {
           "type": "string",
-          "description": "Represents the payload's url."
+          "description": "Represents the URL from which the payload can be downloaded."
         }
       },
       "required": [
@@ -1096,11 +500,15 @@
         "recipeContent": {
           "$ref": "#/definitions/ValidatedSolutionRecipeContent",
           "description": "Represents contents of a validated solution recipe."
+        },
+        "signature": {
+          "type": "string",
+          "description": "Represents the signature of the recipe, to be used for ensuring its integrity."
         }
       },
       "required": [
         "recipeContent"
       ]
-    },
-  "parameters": {}
+    }
+  }
 }

@@ -19,11 +19,11 @@ namespace Microsoft.AiForScience;
 
 @doc("Linked Storage.")
 model LinkedStorage {
-  @doc("Fully qualified resource ID for the Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
+  @doc("Fully qualified resource ID for the Science Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AiForScience/storages/{accountName}")
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.AiForScience/storage"; // TODO: Change to Science shared storage?
+      type: "Microsoft.AiForScience/storages"; // TODO: Change to Science shared storage?
     }
   ]>;
 }
@@ -34,7 +34,7 @@ model LinkedBookShelf {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.AiForScience/bookshelf";
+      type: "Microsoft.AiForScience/bookshelves";
     }
   ]>;
 }
@@ -45,7 +45,7 @@ model LinkedSuperComputer {
   @visibility("read", "create", "update")
   id: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.AiForScience/supercomputer";
+      type: "Microsoft.AiForScience/supercomputers";
     }
   ]>;
 }
@@ -56,7 +56,7 @@ model LinkedSuperComputer {
 //  @visibility("read", "create", "update")
 //  id: Azure.Core.armResourceIdentifier<[
 //    {
-//      type: "Microsoft.AiForScience/catalog";
+//      type: "Microsoft.AiForScience/catalogs";
 //    }
 //  ]>;
 //}

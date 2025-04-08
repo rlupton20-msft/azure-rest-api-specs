@@ -22,7 +22,7 @@ model Hl7EdgeConnector is TrackedResource<Hl7EdgeConnectorProperties> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   extendedLocation: ExtendedLocation;
 }
 
@@ -33,14 +33,14 @@ model Hl7EdgeConnectorProperties {
     @doc("The Receiver Endpoint Configuration to be used for hl7 connector configuration.")
     hl7Configuration?: {
       @doc("Optional string representing the carriage return character.")
-      @maxLength(1)
+      @maxLength(4)
       carriageReturn?: string;
 
       @doc("Optional boolean indicating if the carriage return is optional.")
       carriageReturnOptional?: boolean;
 
       @doc("Optional string representing the end block delimiter.")
-      @maxLength(1)
+      @maxLength(4)
       endBlockDelimiter?: string;
 
       @doc("Optional enum representing the error acknowledgment strategy.")
@@ -50,25 +50,25 @@ model Hl7EdgeConnectorProperties {
       noStartByteRequired?: boolean;
 
       @doc("Optional string representing the start block delimiter.")
-      @maxLength(1)
+      @maxLength(4)
       startBlockDelimiter?: string;
     };
 
     @doc("The Listener Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read", "update")
+    @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     messageListenerConfiguration: {
       @doc("The inactivity timeout in seconds.")
-      @minValue(1)
+      @minValue(10)
       inactivityTimeoutInSeconds?: int32;
 
       @doc("The size of the message buffer.")
-      @minValue(1)
+      @minValue(512)
       messageBufferSize?: int32;
 
       @doc("The port number to use.")
-      @minValue(0)
+      @minValue(1)
       @maxValue(65535)
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       port: int32;
 
       @doc("Indicates whether to reuse the connection.")
@@ -76,16 +76,16 @@ model Hl7EdgeConnectorProperties {
     };
 
     @doc("The Storage Endpoint Configuration to be used for hl7 connector configuration.")
-    @visibility("create", "read", "update")
+    @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     storageEndpointConfiguration: {
       @doc("URL of the blob storage where the output will be stored.")
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       @pattern("^https://.*$")
       blobUrl: string;
 
       @doc("Name of the container in the blob storage.")
       @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
-      @visibility("create", "read", "update")
+      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       container: string;
 
       @doc("Optional file extension for the output file.")
@@ -103,7 +103,7 @@ model Hl7EdgeConnectorProperties {
   };
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

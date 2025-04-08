@@ -12,11 +12,11 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @doc("Asset definition.")
 model Asset is TrackedResource<AssetProperties> {
   @doc("Asset name parameter.")
@@ -31,12 +31,31 @@ model Asset is TrackedResource<AssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
+@added(Versions.v2024_09_01_preview)
 @removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate request properties.")
+model MigrateRequest {
+  @doc("The resource id of the namespace to migrate Asset into.")
+  @pattern("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private\\.DeviceRegistry/namespaces/[^/]+$")
+  namespaceId: string;
+}
+
+@added(Versions.v2024_09_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate response properties.")
+model MigrateResponse {
+  @doc("The resource id of the migrated Asset.")
+  @visibility(Lifecycle.Read)
+  resourceId: string;
+}
+
 @added(Versions.v2024_11_01)
+@removed(Versions.v2024_10_01_preview)
+@removed(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface Assets {
   get is ArmResourceRead<Asset>;
@@ -58,4 +77,8 @@ interface Assets {
     Record<string>,
     Record<string>
   >;
+
+  @added(Versions.v2024_09_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  migrate is ArmResourceActionSync<Asset, MigrateRequest, MigrateResponse>;
 }

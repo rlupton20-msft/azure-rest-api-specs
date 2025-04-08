@@ -33,24 +33,23 @@ model StageSpec {
 @doc("Workflow Version Properties")
 model WorkflowVersionProperties {
   @doc("Revision number of resolved config for this workflow version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   revision?: int32;
 
   @doc("Resolved configuration values")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   configuration?: string;
 
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   @doc("A list of stage specs")
-  @visibility("read")
   stageSpec: StageSpec[];
 
   @doc("Review id of resolved config for this workflow version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reviewId?: string;
 
   @doc("State of workflow version")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   state?: State;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
@@ -59,7 +58,7 @@ model WorkflowVersionProperties {
   specification?: Record<unknown>;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

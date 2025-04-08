@@ -28,6 +28,23 @@ union AutoRenew {
 }
 
 /**
+ * The operation type for the linked resources
+ */
+union OriginResourceOperationType {
+  string,
+
+  /**
+   * Renew operation type
+   */
+  Renew: "Renew",
+
+  /**
+   * Merge operation type
+   */
+  Merge: "Merge",
+}
+
+/**
  * The policy override for the resource indicates whether the self-serve cancellation or seat reduction is allowed.
  */
 union Cancellation {
@@ -221,7 +238,7 @@ model SaasResourceProperties {
   /**
    * The billing subscription id linked to this resource, with full format like /providers/Microsoft.Billing/billingAccounts/1111:2222/billingSubscriptions/Id
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   billingSubscriptionId?: string;
 
   /**
@@ -242,13 +259,13 @@ model SaasResourceProperties {
   /**
    * Type of the product for which the saas resource is purchased
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   productType?: string;
 
   /**
    * Type of the offer for which the saas resource is purchased
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   offerType?: OfferType;
 
   /**
@@ -259,13 +276,13 @@ model SaasResourceProperties {
   /**
    * License data of the product
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   licenseData?: string;
 
   /**
    * Gets the status of the SaaSHub saas resource at the time the operation was called.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
@@ -281,19 +298,19 @@ model SaasResourceProperties {
   /**
    * The SKU description of the product for which the saas resource is purchased.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   skuDescription?: string;
 
   /**
    * The status of the saas resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: SaasResourceStatus;
 
   /**
    * The suspension reason for a saas resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   suspensionReasons?: string[];
 
   /**
@@ -319,6 +336,21 @@ model SaasResourceProperties {
    * An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have "{externalSystem}:{externalId}", e.g. "oms:1111-2222-444-666"
    */
   externalId?: string;
+
+  /**
+   * Linked resources for the saas resource
+   */
+  linkedResources?: LinkedResources;
+
+  /**
+   * Billing token for current term transaction.
+   */
+  billingToken?: string;
+
+  /**
+   * Availability token for current term transaction.
+   */
+  availabilityToken?: string;
 }
 
 /**
@@ -328,14 +360,26 @@ model SaasResourcePropertiesSystemOverrides {
   /**
    * The policy override for the resource indicates whether the self-serve cancellation or seat reduction is allowed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   cancellation?: Cancellation;
 
   /**
    * The end date in UTC time by when the self-serve cancellation ends.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   cancellationAllowedEndDate?: utcDateTime;
+
+  /**
+   * Represents an dependency-generated ID unique per instance of this resource.
+   */
+  @visibility(Lifecycle.Read)
+  systemId?: string;
+
+  /**
+   * Represents a system entity version for the resource, used for concurrency control.
+   */
+  @visibility(Lifecycle.Read)
+  systemVersion?: string;
 }
 
 /**
@@ -355,19 +399,49 @@ model RenewalTermDetails {
   /**
    * Billing frequency of the product under the saas resource. Example P1Y and P1M
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   billingFrequency?: string;
 
   /**
    * The duration for which you can use the saas resource. Example P1Y and P1M
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   termUnit?: string;
 
   /**
-   * End date of the term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored
+   * End date of the renewal term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored
    */
   endDate?: utcDateTime;
+
+  /**
+   * Linked resources for the saas resource
+   */
+  linkedResources?: LinkedResources;
+
+  /**
+   * Billing token for renewal term transaction.
+   */
+  billingToken?: string;
+
+  /**
+   * Availability token for renewal term transaction.
+   */
+  availabilityToken?: string;
+}
+
+/**
+ * Linked resources for the saas resource
+ */
+model LinkedResources {
+  /**
+   * The resources ids which will be linked to current resource.
+   */
+  resourceIds?: string[];
+
+  /**
+   * The link operation type.
+   */
+  operationType?: OriginResourceOperationType;
 }
 
 /**
@@ -377,19 +451,18 @@ model TermDetails {
   /**
    * Billing frequency of the product under the saas resource. Example P1Y and P1M
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   billingFrequency?: string;
 
   /**
    * The duration for which you can use the saas resource. Example P1Y and P1M
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   termUnit?: string;
 
   /**
-   * Start date of the term in UTC time.
+   * Start date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support future start date scenario. The time part passed in will be ignored
    */
-  @visibility("read")
   startDate?: utcDateTime;
 
   /**
@@ -425,25 +498,25 @@ model CanCreateResult {
   /**
    * Whether the validation passed/failed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   evaluateResult?: EvaluateResult;
 
   /**
    * ReasonCode for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reasonCode?: string;
 
   /**
    * Detailed reason for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reason?: string;
 
   /**
    * Additional information for failed validation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   additionalInfo?: CanCreateResultAdditionalInfo;
 }
 
@@ -454,28 +527,28 @@ model CanCreateResultAdditionalInfo {
   /**
    * Additional detail when request payload failed addOn constraints. Null when constraints passed or not applicable.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   addOn?: CanCreateResultAddOnInfo;
 
   /**
    * Additional detail when request payload failed promotion constraints. Null when constraints passed or not applicable.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   promotion?: CanCreateResultPromotionInfo[];
 
   /**
    * Additional evaluation eligibility result for qualifying co-term resources for a future price concession. Null when constraints passed or not applicable.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   futurePrice?: CanCreateResultFuturePriceInfo[];
 
   /**
    * Additional detail when request payload failed coTerm constraints. Null when constraints passed or not applicable.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   coTermDates?: CoTermDateEligibilityResult[];
 }
 
@@ -486,14 +559,14 @@ model CanCreateResultAddOnInfo {
   /**
    * AddOn ineligible reasons.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ineligibilityReasons?: string[];
 
   /**
    * AddOn eligibility constraints.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   eligibilityConstraints?: EligibilityConstraint[];
 }
 
@@ -504,13 +577,13 @@ model EligibilityConstraint {
   /**
    * The failed eligibility constraint type.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   constraintType?: string;
 
   /**
    * true if eligibility is satisfied, false otherwise
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   isEligible?: EligibilityResult;
 }
 
@@ -521,26 +594,26 @@ model CanCreateResultPromotionInfo {
   /**
    * Promotion id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   promotionId?: string;
 
   /**
    * True if user is eligible for this promotion, false otherwise
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   isEligible?: EligibilityResult;
 
   /**
    * Promotion ineligible reasons.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ineligibilityReasons?: string[];
 
   /**
    * Promotion eligibility constraints.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   eligibilityConstraints?: EligibilityConstraint[];
 }
 
@@ -551,39 +624,39 @@ model CanCreateResultFuturePriceInfo {
   /**
    * The term end date in UTC time, for resources in this group.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   termEndDate?: utcDateTime;
 
   /**
    * Total cumulative quantity of licenses for resources in this group.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   totalQuantity?: int64;
 
   /**
    * Whether the future price concession eligibility is satisfied by subscriptions in this group
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   isEligible?: EligibilityResult;
 
   /**
    * List of qualifying resources for the future price concession
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   qualifyingResources?: CanCreateResultFuturePriceQualifyingResource[];
 
   /**
    * Types of future price concession. E.g. FuturePriceNotToExceedCap, PercentageDiscount
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   futurePriceConcessionTypes?: string[];
 
   /**
    * Minimum number of seats required to be eligible for the future price concession
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   minimumQuantityRequired?: int64;
 }
 
@@ -594,7 +667,7 @@ model CanCreateResultFuturePriceQualifyingResource {
   /**
    * Qualifying resource names
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   resourceName?: string;
 }
 
@@ -605,25 +678,25 @@ model CoTermDateEligibilityResult {
   /**
    * Target cloud resource or contract name to coTerm to.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   coTermTarget?: string;
 
   /**
    * Whether the target is cloud resource or contract.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   coTermTargetType?: CoTermTargetType;
 
   /**
    * CoTerm end date in UTC time.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   termEndDate?: utcDateTime;
 
   /**
    * CoTerm error details
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   errorCode?: string;
 }
 
@@ -634,25 +707,25 @@ model CanCancelResult {
   /**
    * Whether the validation passed/failed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   evaluateResult?: EvaluateResult;
 
   /**
    * ReasonCode for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reasonCode?: string;
 
   /**
    * Detailed reason for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reason?: string;
 
   /**
    * Additional information for failed validation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   additionalInfo?: CanCancelResultAdditionalInfo;
 }
 
@@ -663,7 +736,7 @@ model CanCancelResultAdditionalInfo {
   /**
    * The end date in UTC time by when the self-serve cancellation ends.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   cancellationWindowEndTimestamp?: utcDateTime;
 }
 
@@ -698,7 +771,7 @@ model MergeSourceSaasResource {
   /**
    * The validation error it ran into. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   validationError?: string;
 }
 
@@ -709,25 +782,25 @@ model CanMergeResult {
   /**
    * Whether the validation passed/failed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   evaluateResult?: EvaluateResult;
 
   /**
    * ReasonCode for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reasonCode?: string;
 
   /**
    * Detailed reason for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reason?: string;
 
   /**
    * Additional information for failed validation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   additionalInfo?: MergeSourceSaasResource[];
 }
 
@@ -738,31 +811,31 @@ model CanUpdateResult {
   /**
    * Whether the validation passed/failed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   evaluateResult?: EvaluateResult;
 
   /**
    * ReasonCode for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reasonCode?: string;
 
   /**
    * Detailed reason for why the request payload failed validation. Null when validation passed.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reason?: string;
 
   /**
    * Update scenario that was identified based on the canUpdate request body values.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   updateScenario?: string;
 
   /**
    * Additional information for failed validation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   additionalInfo?: CanUpdateResultAdditionalInfo;
 }
 
@@ -773,14 +846,14 @@ model CanUpdateResultAdditionalInfo {
   /**
    * Additional detail when request payload failed refundableQuantity constraints. Null when constraints passed or not applicable. Relevant scenarios: remove quantity.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   refundableQuantity?: RefundableQuantityResult;
 
   /**
    * Additional detail when request payload failed coTerm constraints. Null when constraints passed or not applicable. Relevant scenarios: coterm, scheduled conversion with coterm.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   coTermDates?: CoTermDateEligibilityResult[];
 }
 
@@ -791,14 +864,14 @@ model RefundableQuantityResult {
   /**
    * Total refundable quantity at the time of the evaluation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   totalRefundableQuantity?: int64;
 
   /**
    * Batches of refundable quantity with their respective refund window end date.
    */
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   refundableQuantities?: RefundableQuantityResultRefundableQuantitiesInfo[];
 }
 
@@ -809,13 +882,13 @@ model RefundableQuantityResultRefundableQuantitiesInfo {
   /**
    * Refundable quantity within this window.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   quantity?: int64;
 
   /**
    * The end date in UTC time by when the refund window ends.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   // FIXME: (utcDateTime) Please double check that this is the correct type for your scenario.
   returnWindowEndDateTime?: utcDateTime;
 }

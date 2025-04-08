@@ -21,36 +21,36 @@
 // // We can't determine the status of the configuration
 // Unknown ConfigurationStatusEnum = "Unknown"
 
-@doc("provisioningState")
+@doc("Provisioning state of the resource")
 union provisioningState {
-  @doc("Succeeded")
+  @doc("Succeeded creation of resources")
   Succeeded: "Succeeded",
 
-  @doc("Failed")
+  @doc("Failed to create resources")
   Failed: "Failed",
 
-  @doc("Canceled")
+  @doc("Canceled creation of resources")
   Canceled: "Canceled",
 
-  @doc("ConfigNotInUse")
+  @doc("Config is not in use")
   ConfigNotInUse: "NotInUse",
 
-  @doc("InProgress")
+  @doc("InProgress creation of resources")
   InProgress: "InProgress",
 
-  @doc("Pending")
+  @doc("Pending waiting for controllers")
   Pending: "Pending",
 
-  @doc("Running")
+  @doc("Running resources")
   Running: "Running",
 
-  @doc("Terminating")
+  @doc("Terminating resources")
   Terminating: "Terminating",
 
-  @doc("Updating")
+  @doc("Updating resources")
   Updating: "Updating",
 
-  @doc("Unknown")
+  @doc("Unknown state (possible error)")
   Unknown: "Unknown",
 
   string,

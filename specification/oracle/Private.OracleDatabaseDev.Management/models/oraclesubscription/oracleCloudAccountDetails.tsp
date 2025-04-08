@@ -19,12 +19,12 @@ model OracleCloudAccountDetails is ProxyResource<OracleCloudAccountProperties> {
 @doc("CloudAccount resource model")
 model OracleCloudAccountProperties {
   @doc("A valid Oracle Grid Infrastructure (GI) software version.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minLength(1)
   @maxLength(255)
   cloudAccountName: string;
 
   @doc("A valid Oracle Grid Infrastructure (GI) software version.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   cloudAccountHomeRegion: string;
 }

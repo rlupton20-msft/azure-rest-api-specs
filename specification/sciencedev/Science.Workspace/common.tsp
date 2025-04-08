@@ -15,43 +15,29 @@ union Sender {
 @doc("For adding message sender.")
 model WithSender {
   @doc("The sender")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   sender: Sender;
 }
 
 @doc("For adding version ID.")
 model WithVersionId {
   @doc("The version ID")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   versionId: string;
 }
 
 @doc("For project reference.")
 model WithProjectId {
   @doc("The ID of the associated Project")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   projectId: string;
 }
 
 @doc("For investigation reference.")
 model WithInvestigationId {
   @doc("The ID of the associated Investigation")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   investigationId: string;
-}
-
-@doc("For pan reference.")
-model WithPlanId {
-  @doc("The ID of the associated plan")
-  @visibility("read")
-  planId: string;
-}
-
-@doc("For run reference.")
-model WithRunId {
-  @doc("The ID of the associated plan run")
-  @visibility("read")
-  runId: string;
 }
 
 /** Enum for runMode */
@@ -65,62 +51,17 @@ union RunMode {
   string,
 }
 
-@doc("Step within a plan")
-model Step {
-  //  @doc("The step name.")
-  //  @visibility("read")
-  //  @key("stepName")
-  //  name: string;
-
-  //  ...WithCreatedAt;
-  //  ...WithUpdatedAt;
-  //  ...WithStatus<RunStatus>;
-  //  ...WithStatusReason;
-  //  ...WithResultAsset;
-
-  @doc("The step order.")
-  @visibility("read")
-  stepNumber: int32;
-
-  // TODO: What does actionId mean? I'm not clear how this differs from step name. Is this the same as "activityId" from run step?
-  @doc("The step action ID.")
-  @visibility("read")
-  actionId: string;
-
-  @doc("The ID of the associated Tool within Catalog.")
-  @visibility("read")
-  toolId: string;
-
-  @doc("The step category.")
-  @visibility("read")
-  category: string;
-}
-
-@doc("For adding run mode.")
-model WithRunMode {
-  @doc("The mode of the plan run")
-  @visibility("read", "create")
-  runMode?: RunMode;
-}
-
-@doc("For adding Plan Blueprint yaml.")
-model WithYaml {
-  @doc("The plan Blueprint as YAML")
-  @visibility("read", "create", "update")
-  planBlueprintYaml?: string;
-}
-
 @doc("For project reference.")
 model WithProjectIdOptional {
   @doc("The ID of the associated Project")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   projectId?: string;
 }
 
 @doc("For investigation reference.")
 model WithInvestigationIdOptional {
   @doc("The ID of the associated Investigation")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   investigationId?: string;
 }
 
