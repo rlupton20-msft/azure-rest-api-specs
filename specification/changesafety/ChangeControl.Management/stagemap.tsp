@@ -25,18 +25,18 @@ model StageMap is ProxyResource<StageMapProperties> {
 
 @doc("Detailed properties of the StageMap resource.")
 model StageMapProperties {
-  @visibility(Lifecycle.Read)
+  @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
   @doc("Array of stages objects.")
   @OpenAPI.extension("x-ms-identifiers", ["name"])
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   stages: Stage[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("StageMap parameters schema for each stage.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   parameters?: Record<Parameter>;
 }
 
@@ -46,22 +46,22 @@ model Stage {
   @minLength(3)
   @maxLength(100)
   @pattern("^[a-zA-Z0-9-]{3,100}$")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   name: string;
 
   @doc("Positive integer defining the orchestration order of the stages.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   @minValue(1)
   sequence: int32;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Parameters to apply on the change of that stage. Key value pairs of parameter and values.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   parameterValues?: Record<string | int32>;
 
   @doc("Stage Map resource Id.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   nestedStageMapResourceId?: StageMapResourceId;
 }
 

@@ -17,7 +17,7 @@ model Validator is ProxyResource<ValidatorProperties> {
   @key("validatorName")
   @path
   @segment("validators")
-  @visibility(Lifecycle.Read)
+  @visibility("read")
   @doc("The name of the resource validator.")
   name: string;
 }
@@ -29,7 +29,7 @@ model ValidatorVersion is ProxyResource<ValidatorVersionProperties> {
   @key("validatorVersionName")
   @path
   @segment("versions")
-  @visibility(Lifecycle.Read)
+  @visibility("read")
   @doc("The semantic version of the validator")
   name: string;
 }

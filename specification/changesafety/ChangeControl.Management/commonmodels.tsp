@@ -45,42 +45,42 @@ union ParameterType {
 @discriminator("type")
 model Parameter {
   @doc("Data type of the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   type: ParameterType;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: Metadata does not have a fixed schema as there may be any number of properties. Hence implemented as a Record."
   @doc("user-specified parameter metadata")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   metadata?: Record<string>;
 }
 
 @doc("String Type Parameter model.")
 model StringParameter extends Parameter {
   @doc("Data type of the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   type: ParameterType.String;
 
   @doc("Default value for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @visibility("read", "create")
   defaultValue?: string;
 
   @doc("Allowed list of the values for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @visibility("read", "create")
   allowedValues: Array<string>;
 }
 
 @doc("Integer type parameter model")
 model NumberParameter extends Parameter {
   @doc("Data type of the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility("read", "create", "update")
   type: ParameterType.Number;
 
   @doc("Default value for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @visibility("read", "create")
   defaultValue?: int32;
 
   @doc("Allowed list of the values for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @visibility("read", "create")
   allowedValues: Array<int32>;
 }
