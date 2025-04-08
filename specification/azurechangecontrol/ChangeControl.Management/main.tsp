@@ -15,9 +15,7 @@ using Azure.ResourceManager;
 
 /** Private.AzureChangeControl Resource Provider management API. */
 @armProviderNamespace
-@service({
-  title: "Microsoft.AzureChangeControl management service",
-})
+@service(#{ title: "Private.AzureChangeControl management service" })
 @versioned(Versions)
 namespace Private.AzureChangeControl;
 
