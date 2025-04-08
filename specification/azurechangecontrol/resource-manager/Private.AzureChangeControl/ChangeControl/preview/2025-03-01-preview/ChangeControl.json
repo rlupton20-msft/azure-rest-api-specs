@@ -2278,7 +2278,7 @@
       "x-ms-arm-id-details": {
         "allowedResources": [
           {
-            "type": "Microsoft.ChangeSafety/changeStates"
+            "type": "Private.AzureChangeControl/changeStates"
           }
         ]
       }
@@ -2731,6 +2731,50 @@
         ]
       },
       "readOnly": true
+    },
+    "ResourceContent": {
+      "type": "object",
+      "description": "Resource operation content model.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the resource."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the resource."
+        },
+        "properties": {
+          "type": "object",
+          "description": "The properties of the resource."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "ResourceOperation": {
+      "type": "object",
+      "description": "Resource operation model.",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The uri of the operation."
+        },
+        "httpMethod": {
+          "$ref": "#/definitions/ArmOperation",
+          "description": "The http method of the operation."
+        },
+        "content": {
+          "$ref": "#/definitions/ResourceContent",
+          "description": "The resource operation content."
+        }
+      },
+      "required": [
+        "uri",
+        "httpMethod"
+      ]
     },
     "RetrieveNextStagesResponse": {
       "type": "object",

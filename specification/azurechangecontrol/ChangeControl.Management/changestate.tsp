@@ -115,15 +115,6 @@ model RetrieveNextStagesResponseItem {
   parameterValues: Record<string | int32>;
 }
 
-@doc("VerifyChangeValidity POST Action request.")
-model VerifyChangeValidityRequest {
-  @doc("The resource operation.")
-  operation: ResourceOperation;
-
-  @doc("The stage progression Id.")
-  stageProgressionId?: string;
-}
-
 @doc("Resource operation model.")
 model ResourceOperation {
   @doc("The uri of the operation.")
@@ -147,18 +138,6 @@ model ResourceContent {
 
   @doc("The properties of the resource.")
   properties: {};
-}
-
-@doc("VerifyChangeValidity POST Action response.")
-model VerifyChangeValidityResponse {
-  @doc("The outcome of the verification.")
-  outcome: string;
-
-  @doc("The explanation message of the verification.")
-  message: string;
-
-  @doc("The experation time of the change.")
-  validUntil?: utcDateTime;
 }
 
 @doc("Internal status of the ChangeState resource.")
@@ -473,7 +452,7 @@ union ValidationOutcome {
 scalar ChangeStateResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.ChangeSafety/changeStates",
+      type: "Private.AzureChangeControl/changeStates",
     }
   ]>;
 
