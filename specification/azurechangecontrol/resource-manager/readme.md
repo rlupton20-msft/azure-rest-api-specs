@@ -25,12 +25,6 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 These are the global settings for the ChangeSafety.
 
-```yaml
-openapi-type: arm
-tag: package-2024-10-01-preview
-openapi-subtype: providerHub
-```
-
 ### Tag: package-2024-10-01-preview
 
 These settings apply only when `--tag=package-2024-10-01-preview` is specified on the command line.
@@ -40,6 +34,14 @@ input-file:
   - Private.AzureChangeControl/ChangeControl/preview/2024-10-01-preview/ChangeControl.json
 ```
 
+### Tag: package-2025-03-01-preview
+
+These settings apply only when `--tag=package-2025-03-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-03-01-preview'
+input-file:
+  - Private.AzureChangeControl/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
+```
 ---
 
 ## Suppression
