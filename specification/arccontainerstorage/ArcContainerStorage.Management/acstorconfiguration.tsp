@@ -5,21 +5,13 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
 //    generation: "6"
 @doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
-model AcStorConfiguration
-  is ExtensionResource<
-    AcStorConfigurationProperties,
-    PropertiesOptional = false
-  > {
+model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
   ...ResourceNameParameter<
     AcStorConfiguration,
     NamePattern = "^acstor-configuration$"
@@ -31,15 +23,15 @@ model AcStorConfiguration
 model AcStorConfigurationProperties {
   @doc("The mount point for the disk.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  diskMountPoint?: string = "/mnt"; // Default value is "/mnt"
+  diskMountPoint?: string;
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  diskCapacity: string; //TODO: check later if this is optional
+  diskCapacity: string;
 
   @doc("The linux IO interface to use.")
-  ioInterface?: IoInterfaces = IoInterfaces.uring;
+  ioInterface?: IoInterfaces;
 
   @doc("Configuration for creating a storage pool.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
@@ -47,7 +39,7 @@ model AcStorConfigurationProperties {
 
   @doc("io engine cpu limit")
   @pattern("^([0-9]+m?|0[.][0-9]+)?$")
-  ioEngineCpuLimit?: string = "2000m";
+  ioEngineCpuLimit?: string;
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
@@ -62,22 +54,22 @@ model AcStorConfigurationProperties {
 @doc("Defines the configuration for creating a storage pool.")
 model StoragePoolConfig {
   @doc("Whether to create a storage pool.")
-  enabled?: boolean = true; // Default value is true
+  enabled?: boolean;
 
   @doc("The number of replicas to create.")
   @minValue(1) // Minimum value constraint
   @maxValue(128) // Maximum value constraint
-  replicas?: int32 = 3; // Default value is 3
+  replicas?: int32;
 
   @doc("The name of the storage pool.")
-  name?: string = "arccontainerstorage-storage-pool"; // Default name
+  name?: string;
 
   // We need a liquid transform for this
   @doc("The storage engine to use.")
-  engineType?: EngineTypes = EngineTypes.xfs; // Default value is "xfs"
+  engineType?: EngineTypes;
 
   @doc("The type of disk to use.")
-  diskType?: DiskTypes = DiskTypes.temp;
+  diskType?: DiskTypes;
 }
 
 @doc("Linux io interfaces used for disk operations.")
@@ -124,13 +116,20 @@ model AcStorConfigurationStatus {
 
   @doc("Additional details about the configuration's status.")
   details?: string;
+
+  @doc("Provisioning status of the resource.")
+  provisioningStatus?: ProvisioningStatus;
 }
 
 // Define the operations for the AcStorConfiguration resource
 @armResourceOperations
 interface AcStorConfigurations {
-  get is ArmResourceRead<AcStorConfiguration>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<AcStorConfiguration>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AcStorConfiguration>;
   delete is ArmResourceDeleteWithoutOkAsync<AcStorConfiguration>;
+  get is ArmResourceRead<AcStorConfiguration>;
   list is ArmResourceListByParent<AcStorConfiguration>;
+  update is ArmResourcePatchAsync<
+    AcStorConfiguration,
+    AcStorConfigurationProperties
+  >;
 }

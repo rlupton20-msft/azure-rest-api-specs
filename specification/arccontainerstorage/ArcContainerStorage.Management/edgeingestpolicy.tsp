@@ -5,11 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp"; // Import provisioningState model
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
@@ -34,7 +30,7 @@ model EdgeIngestPolicyProperties {
 
   //"Defines the action to take on any linked EdgeSubVolumes that are requested to be deleted.")
   @doc("Possible values: trigger-immediate-ingest or abandon. Can be extended to other string values.")
-  onDelete?: OnDeleteAction = "trigger-immediate-ingest"; // Default value is "trigger-immediate-ingest"
+  onDelete?: OnDeleteAction;
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
@@ -88,24 +84,24 @@ union EvictionOrder {
 @doc("Defines the configuration for ingest policies.")
 model IngestConfig {
   @doc("The order in which dirty files will be uploaded.")
-  order?: IngestOrder = IngestOrder.`oldest-first`;
+  order?: IngestOrder;
 
   @doc("The minimum number of seconds before a dirty file is eligible for ingest.")
   @minValue(0)
   @maxValue(31536000)
-  minDelaySec?: int32 = 60;
+  minDelaySec?: int32;
 }
 
 // Define the eviction configuration
 @doc("Defines the configuration for eviction policies.")
 model EvictionConfig {
   @doc("The order in which clean files will be evicted.")
-  order?: EvictionOrder = EvictionOrder.unordered;
+  order?: EvictionOrder;
 
   @doc("The number of seconds before a clean file is eligible for eviction.")
   @minValue(0) // Minimum value constraint
   @maxValue(31536000) // Maximum value constraint
-  minDelaySec?: int32 = 300; // Default value is 300 seconds (5 minutes)
+  minDelaySec?: int32;
 }
 
 // Define the status properties for the EdgeIngestPolicy
@@ -116,13 +112,17 @@ model EdgeIngestPolicyStatus {
 
   @doc("Additional details about the policy's status.")
   details?: string;
+
+  @doc("Provisioning status of the resource.")
+  provisioningStatus?: ProvisioningStatus;
 }
 
 // Define the operations for the EdgeIngestPolicy resource
 @armResourceOperations
 interface EdgeIngestPolicies {
-  get is ArmResourceRead<EdgeIngestPolicy>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeIngestPolicy>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeIngestPolicy>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeIngestPolicy>;
+  get is ArmResourceRead<EdgeIngestPolicy>;
   list is ArmResourceListByParent<EdgeIngestPolicy>;
+  update is ArmResourcePatchAsync<EdgeIngestPolicy, EdgeIngestPolicyProperties>;
 }

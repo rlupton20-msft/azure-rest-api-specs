@@ -5,11 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
@@ -19,8 +15,7 @@ namespace Private.ArcContainerStorage;
  * EdgeVolume is a custom resource that defines the configuration for edge volume storage.
  */
 @doc("EdgeVolume is a custom resource for defining an edge volume.")
-model EdgeVolume
-  is ExtensionResource<EdgeVolumeProperties, PropertiesOptional = false> {
+model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
   ...ResourceNameParameter<
     EdgeVolume,
     NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
@@ -35,17 +30,17 @@ model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  requestedSize: string = "1Gi";
+  requestedSize: string;
 
   @doc("Weight of concurrency for ingest operations (between 1 and 256).")
   @minValue(1) // Minimum value constraint
   @maxValue(256) // Maximum value constraint
-  ingestOperationConcurrency?: int32 = 128;
+  ingestOperationConcurrency?: int32;
 
   @doc("Weight of concurrency for mirror operations (between 1 and 256).")
   @minValue(1) // Minimum value constraint
   @maxValue(256) // Maximum value constraint
-  mirrorOperationConcurrency?: int32 = 128;
+  mirrorOperationConcurrency?: int32;
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
@@ -62,7 +57,7 @@ model EdgeVolumeProperties {
 @doc("Defines the observed state (status) of the EdgeVolume resource.")
 model EdgeVolumeStatus {
   @doc("The current state of the EdgeVolume. Defaults to 'unknown'.")
-  state?: string = "unknown";
+  state?: string;
 
   @doc("Additional details about the EdgeVolume status.")
   details?: string;
@@ -78,6 +73,9 @@ model EdgeVolumeStatus {
 
   @doc("List of subvolumes (by name or ID) that have encountered errors.")
   subvolumesWithErrors?: string[];
+
+  @doc("Provisioning status of the resource.")
+  provisioningStatus?: ProvisioningStatus;
 }
 
 @doc("Adding provisioning state for EdgeVolume")
@@ -99,8 +97,9 @@ union provisioningStateVolume {
  */
 @armResourceOperations
 interface EdgeVolumes {
-  get is ArmResourceRead<EdgeVolume>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeVolume>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeVolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeVolume>;
+  get is ArmResourceRead<EdgeVolume>;
   list is ArmResourceListByParent<EdgeVolume>;
+  update is ArmResourcePatchAsync<EdgeVolume, EdgeVolumeProperties>;
 }
