@@ -55,3 +55,12 @@ union provisioningState {
 
   string,
 }
+
+@doc("Provisioning status of the resource")
+model ProvisioningStatus {
+  @doc("The status string of the provisioning status.")
+  status: string;
+
+  @doc("The operation ID of the provisioning status.")
+  operationId: string;
+}
