@@ -51,5 +51,4 @@ interface NamespaceDiscoveredAssets {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAsset>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredAsset>;
-  listBySubscription is ArmListBySubscription<NamespaceDiscoveredAsset>;
 }
