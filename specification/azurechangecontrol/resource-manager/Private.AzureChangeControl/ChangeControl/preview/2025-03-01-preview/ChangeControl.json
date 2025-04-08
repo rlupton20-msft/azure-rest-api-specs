@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Private.AzureChangeControl management service",
-    "version": "2024-10-01-preview",
+    "version": "2025-03-01-preview",
     "description": "Private.AzureChangeControl Resource Provider management API.",
     "x-typespec-generated": [
       {
@@ -81,7 +81,10 @@
         },
         "x-ms-examples": {
           "Operations_List_MaximumSet": {
-            "$ref": "./examples/Operations_List.json"
+            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
+          },
+          "Operations_List_MinimumSet": {
+            "$ref": "./examples/Operations_List_MinimumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -120,7 +123,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_ListBySubscription_MaximumSet": {
-            "$ref": "./examples/ChangeStates_ListBySubscription.json"
+            "$ref": "./examples/ChangeStates_ListBySubscription_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -168,8 +171,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_Get_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_Get_At_Subscription_Level.json"
+          "ChangeStates_GetAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_GetAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -227,8 +230,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_CreateOrUpdate_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_CreateOrUpdate_At_Subscription_Level.json"
+          "ChangeStates_CreateOrUpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_CreateOrUpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -280,8 +283,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_Update_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_Update_At_Subscription_Level.json"
+          "ChangeStates_UpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_UpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -335,8 +338,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_Delete_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_Delete_Subscription_Level.json"
+          "ChangeStates_DeleteAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_DeleteAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -385,8 +388,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_RetrieveNextStages_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_RetrieveNextStages_At_Subscription_Level.json"
+          "ChangeStates_RetrieveNextStagesAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_RetrieveNextStagesAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       }
@@ -431,8 +434,8 @@
           }
         },
         "x-ms-examples": {
-          "StageProgressions_ListByParent_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageProgressions_ListByParent_At_Subscription_Level.json"
+          "StageProgressions_ListByParentAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageProgressions_ListByParentAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -505,8 +508,8 @@
           }
         },
         "x-ms-examples": {
-          "StageProgressions_CreateOrUpdate_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageProgressions_CreateOrUpdate_At_Subscription_Level.json"
+          "StageProgressions_CreateOrUpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageProgressions_CreateOrUpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -568,8 +571,8 @@
           }
         },
         "x-ms-examples": {
-          "StageProgressions_Update_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageProgressions_Update_At_Subscription_Level.json"
+          "StageProgressions_UpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageProgressions_UpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -622,8 +625,63 @@
           }
         },
         "x-ms-examples": {
-          "StageProgressions_Delete_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageProgressions_Delete_At_Subscription_Level.json"
+          "StageProgressions_DeleteAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageProgressions_DeleteAtSubscriptionLevel_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.AzureChangeControl/changeStates/{changeStateName}/verifyChangeValidity": {
+      "post": {
+        "operationId": "ChangeStates_VerifyChangeValidityAtSubscriptionLevel",
+        "tags": [
+          "ChangeStates"
+        ],
+        "description": "Verify the change validity at subscription level.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "changeStateName",
+            "in": "path",
+            "description": "The name of the ChangeState resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ChangeStates_VerifyChangeValidityAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/ChangeStates_VerifyChangeValidityAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       }
@@ -659,7 +717,7 @@
         },
         "x-ms-examples": {
           "StageMaps_ListBySubscription_MaximumSet": {
-            "$ref": "./examples/StageMaps_ListBySubscription.json"
+            "$ref": "./examples/StageMaps_ListBySubscription_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -707,8 +765,8 @@
           }
         },
         "x-ms-examples": {
-          "StageMaps_Get_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageMaps_Get_At_Subscription_Level.json"
+          "StageMaps_GetAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageMaps_GetAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -766,8 +824,8 @@
           }
         },
         "x-ms-examples": {
-          "StageMaps_CreateOrUpdate_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageMaps_CreateOrUpdate_At_Subscription_Level.json"
+          "StageMaps_CreateOrUpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageMaps_CreateOrUpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -819,8 +877,8 @@
           }
         },
         "x-ms-examples": {
-          "StageMaps_Update_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageMaps_Update_At_Subscription_Level.json"
+          "StageMaps_UpdateAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageMaps_UpdateAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -863,8 +921,8 @@
           }
         },
         "x-ms-examples": {
-          "StageMaps_Delete_MaximumSet_At_Subscription_Level": {
-            "$ref": "./examples/StageMaps_Delete_At_Subscription_Level.json"
+          "StageMaps_DeleteAtSubscriptionLevel_MaximumSet": {
+            "$ref": "./examples/StageMaps_DeleteAtSubscriptionLevel_MaximumSet_Gen.json"
           }
         }
       }
@@ -902,8 +960,8 @@
           }
         },
         "x-ms-examples": {
-          "ChangeStates_List_MaximumSet": {
-            "$ref": "./examples/ChangeStates_List.json"
+          "ChangeStates_ListByResourceGroup_MaximumSet": {
+            "$ref": "./examples/ChangeStates_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -955,7 +1013,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_Get_MaximumSet": {
-            "$ref": "./examples/ChangeStates_Get.json"
+            "$ref": "./examples/ChangeStates_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1017,7 +1075,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_CreateOrUpdate_MaximumSet": {
-            "$ref": "./examples/ChangeStates_CreateOrUpdate.json"
+            "$ref": "./examples/ChangeStates_CreateOrUpdate_MaximumSet_Gen.json"
           }
         }
       },
@@ -1073,7 +1131,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_Update_MaximumSet": {
-            "$ref": "./examples/ChangeStates_Update.json"
+            "$ref": "./examples/ChangeStates_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -1131,7 +1189,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_Delete_MaximumSet": {
-            "$ref": "./examples/ChangeStates_Delete.json"
+            "$ref": "./examples/ChangeStates_Delete_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1184,7 +1242,7 @@
         },
         "x-ms-examples": {
           "ChangeStates_RetrieveNextStages_MaximumSet": {
-            "$ref": "./examples/ChangeStates_RetrieveNextStages.json"
+            "$ref": "./examples/ChangeStates_RetrieveNextStages_MaximumSet_Gen.json"
           }
         }
       }
@@ -1233,7 +1291,7 @@
         },
         "x-ms-examples": {
           "StageProgressions_ListByParent_MaximumSet": {
-            "$ref": "./examples/StageProgressions_ListByParent.json"
+            "$ref": "./examples/StageProgressions_ListByParent_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1295,7 +1353,7 @@
         },
         "x-ms-examples": {
           "StageProgressions_Get_MaximumSet": {
-            "$ref": "./examples/StageProgressions_Get.json"
+            "$ref": "./examples/StageProgressions_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1367,7 +1425,7 @@
         },
         "x-ms-examples": {
           "StageProgressions_CreateOrUpdate_MaximumSet": {
-            "$ref": "./examples/StageProgressions_CreateOrUpdate.json"
+            "$ref": "./examples/StageProgressions_CreateOrUpdate_MaximumSet_Gen.json"
           }
         }
       },
@@ -1433,7 +1491,7 @@
         },
         "x-ms-examples": {
           "StageProgressions_Update_MaximumSet": {
-            "$ref": "./examples/StageProgressions_Update.json"
+            "$ref": "./examples/StageProgressions_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -1490,7 +1548,65 @@
         },
         "x-ms-examples": {
           "StageProgressions_Delete_MaximumSet": {
-            "$ref": "./examples/StageProgressions_Delete.json"
+            "$ref": "./examples/StageProgressions_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureChangeControl/changeStates/{changeStateName}/verifyChangeValidity": {
+      "post": {
+        "operationId": "ChangeStates_VerifyChangeValidity",
+        "tags": [
+          "ChangeStates"
+        ],
+        "description": "Verify the change validity.",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "changeStateName",
+            "in": "path",
+            "description": "The name of the ChangeState resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VerifyChangeValidityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ChangeStates_VerifyChangeValidity_MaximumSet": {
+            "$ref": "./examples/ChangeStates_VerifyChangeValidity_MaximumSet_Gen.json"
           }
         }
       }
@@ -1528,8 +1644,8 @@
           }
         },
         "x-ms-examples": {
-          "StageMaps_List_MaximumSet": {
-            "$ref": "./examples/StageMaps_List.json"
+          "StageMaps_ListByResourceGroup_MaximumSet": {
+            "$ref": "./examples/StageMaps_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1581,7 +1697,7 @@
         },
         "x-ms-examples": {
           "StageMaps_Get_MaximumSet": {
-            "$ref": "./examples/StageMaps_Get.json"
+            "$ref": "./examples/StageMaps_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1643,7 +1759,7 @@
         },
         "x-ms-examples": {
           "StageMaps_CreateOrUpdate_MaximumSet": {
-            "$ref": "./examples/StageMaps_CreateOrUpdate.json"
+            "$ref": "./examples/StageMaps_CreateOrUpdate_MaximumSet_Gen.json"
           }
         }
       },
@@ -1699,7 +1815,7 @@
         },
         "x-ms-examples": {
           "StageMaps_Update_MaximumSet": {
-            "$ref": "./examples/StageMaps_Update.json"
+            "$ref": "./examples/StageMaps_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -1746,7 +1862,7 @@
         },
         "x-ms-examples": {
           "StageMaps_Delete_MaximumSet": {
-            "$ref": "./examples/StageMaps_Delete.json"
+            "$ref": "./examples/StageMaps_Delete_MaximumSet_Gen.json"
           }
         }
       }
@@ -1757,7 +1873,9 @@
       "type": "string",
       "description": "Supported ARM Operations.",
       "enum": [
-        "DELETE"
+        "DELETE",
+        "PUT",
+        "PATCH"
       ],
       "x-ms-enum": {
         "name": "ArmOperation",
@@ -1767,6 +1885,16 @@
             "name": "DELETE",
             "value": "DELETE",
             "description": "DELETE ARM Operation."
+          },
+          {
+            "name": "PUT",
+            "value": "PUT",
+            "description": "PUT ARM Operation."
+          },
+          {
+            "name": "PATCH",
+            "value": "PATCH",
+            "description": "PATCH ARM Operation."
           }
         ]
       }
@@ -1779,10 +1907,10 @@
           "type": "array",
           "description": "Arm Operation Array.",
           "items": {
-            "$ref": "#/definitions/ArmOperationResource"
+            "$ref": "#/definitions/ArmResourceOperation"
           },
           "x-ms-identifiers": [
-            "resourceId"
+            "uri"
           ],
           "x-ms-mutability": [
             "read",
@@ -1819,22 +1947,32 @@
       ],
       "x-ms-discriminator-value": "ArmOperation"
     },
-    "ArmOperationResource": {
+    "ArmResourceOperation": {
       "type": "object",
       "description": "Artifact content model for Inline ArmOperations.",
       "properties": {
-        "resourceId": {
+        "uri": {
           "type": "string",
-          "description": "Target resource Id that needs to be changed.",
+          "format": "uri",
+          "description": "The uri of the operation.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "operation": {
+        "httpMethod": {
           "$ref": "#/definitions/ArmOperation",
-          "description": "ARM operation. eg: DELETE",
+          "description": "The http method of the operation.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "content": {
+          "$ref": "#/definitions/OperationContent",
+          "description": "The resource operation content.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -1843,8 +1981,8 @@
         }
       },
       "required": [
-        "resourceId",
-        "operation"
+        "uri",
+        "httpMethod"
       ]
     },
     "ArtifactType": {
@@ -2061,6 +2199,12 @@
             "read",
             "create"
           ]
+        },
+        "stageMapSnapshot": {
+          "type": "array",
+          "description": "Referenced stagemap snapshot.",
+          "items": {},
+          "readOnly": true
         }
       },
       "required": [
@@ -2260,7 +2404,7 @@
       "type": "object",
       "description": "Artifact content model for External ArmTemplates or Bicep files.",
       "properties": {
-        "uri": {
+        "externalArtifactUri": {
           "type": "string",
           "format": "uri",
           "description": "URI for the external ARM template or Bicep file.",
@@ -2272,7 +2416,7 @@
         }
       },
       "required": [
-        "uri"
+        "externalArtifactUri"
       ]
     },
     "ExternalBicepTemplateChangeArtifact": {
@@ -2326,7 +2470,7 @@
       "type": "object",
       "description": "Artifact content model for Inline template or bicep content.",
       "properties": {
-        "script": {
+        "inlineScript": {
           "type": "string",
           "description": "Inline ArmTemplate string or Bicep content.",
           "x-ms-mutability": [
@@ -2337,7 +2481,7 @@
         }
       },
       "required": [
-        "script"
+        "inlineScript"
       ]
     },
     "InlineBicepTemplateChangeArtifact": {
@@ -2409,6 +2553,43 @@
         }
       ],
       "x-ms-discriminator-value": "number"
+    },
+    "OperationContent": {
+      "type": "object",
+      "description": "Resource operation content model.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "description": "The properties of the resource.",
+          "additionalProperties": {},
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "properties"
+      ]
     },
     "Parameter": {
       "type": "object",
@@ -2603,10 +2784,10 @@
           "$ref": "#/definitions/ChangeStateResourceId",
           "description": "ChangeState resource Id."
         },
-        "lastStageSequence": {
+        "lastStageProgressionSequence": {
           "type": "integer",
           "format": "int32",
-          "description": "Last stage sequence in the StageProgression."
+          "description": "Sequence of last StageProgression completed within the ChangeState."
         },
         "nextStages": {
           "type": "array",
@@ -2621,7 +2802,7 @@
       },
       "required": [
         "changeStateResourceId",
-        "lastStageSequence",
+        "lastStageProgressionSequence",
         "nextStages"
       ]
     },
@@ -3097,10 +3278,10 @@
       "type": "object",
       "description": "Artifact content model for TemplateSpec resource.",
       "properties": {
-        "resourceId": {
+        "artifactResourceId": {
           "type": "string",
           "format": "arm-id",
-          "description": "TemplateSpec resource Id in ARM.",
+          "description": "TemplateSpec artifact resource Id in ARM.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -3109,7 +3290,7 @@
         }
       },
       "required": [
-        "resourceId"
+        "artifactResourceId"
       ]
     },
     "TemplateSpecChangeArtifact": {
@@ -3135,6 +3316,88 @@
         }
       ],
       "x-ms-discriminator-value": "TemplateSpec"
+    },
+    "ValidationOutcome": {
+      "type": "string",
+      "description": "Supported validation outcomes.",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Deferred"
+      ],
+      "x-ms-enum": {
+        "name": "ValidationOutcome",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Represents a Succeeded outcome."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Represents a Failed outcome."
+          },
+          {
+            "name": "Deferred",
+            "value": "Deferred",
+            "description": "Represents a Deferred outcome."
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "VerifyChangeValidityRequest": {
+      "type": "object",
+      "description": "VerifyChangeValidity POST Action request.",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/ArmResourceOperation",
+          "description": "The resource operation.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "stageProgressionId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The stage progression Id.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "operation"
+      ]
+    },
+    "VerifyChangeValidityResponse": {
+      "type": "object",
+      "description": "VerifyChangeValidity POST Action response.",
+      "properties": {
+        "outcome": {
+          "$ref": "#/definitions/ValidationOutcome",
+          "description": "The outcome of the verification."
+        },
+        "message": {
+          "type": "string",
+          "description": "The explanation message of the verification."
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the validation result expires."
+        }
+      },
+      "required": [
+        "outcome",
+        "message"
+      ]
     }
   },
   "parameters": {}
