@@ -113,6 +113,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "BilledItems_ListByResourceGroup": {
+            "$ref": "./examples/BilledItemListByResourceGroup.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -218,6 +223,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "BilledItems_ListBySubscription": {
+            "$ref": "./examples/BilledItemListBySubscription.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -261,6 +271,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "BilledItems_Get": {
+            "$ref": "./examples/BilledItemGet.json"
           }
         }
       },
@@ -329,6 +344,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "BilledItems_CreateOrUpdate": {
+            "$ref": "./examples/BilledItemCreate.json"
+          }
+        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -381,6 +401,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "BilledItems_Update": {
+            "$ref": "./examples/BilledItemUpdate.json"
+          }
         }
       },
       "delete": {
@@ -420,6 +445,11 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "BilledItems_Delete": {
+            "$ref": "./examples/BilledItemDelete.json"
           }
         }
       }
@@ -986,85 +1016,12 @@
         "value"
       ]
     },
-    "BilledItemOffer": {
-      "type": "object",
-      "description": "BilledItem offer details",
-      "properties": {
-        "billingResourceId": {
-          "type": "string",
-          "description": "The billing resource identifier"
-        },
-        "productCode": {
-          "type": "string",
-          "description": "The product code"
-        },
-        "productToken": {
-          "type": "string",
-          "description": "The product token"
-        },
-        "billingToken": {
-          "type": "string",
-          "description": "The billing token"
-        },
-        "state": {
-          "type": "string",
-          "description": "The state of the offer"
-        },
-        "quantity": {
-          "type": "number",
-          "format": "double",
-          "description": "The quantity of the offer"
-        },
-        "autoRenew": {
-          "type": "string",
-          "description": "Whether the offer auto-renews"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The start date of the offer"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The end date of the offer"
-        },
-        "nextCharge": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The next charge date of the offer"
-        },
-        "schedule": {
-          "$ref": "#/definitions/BilledItemOfferSchedule",
-          "description": "The schedule details for the offer"
-        }
-      }
-    },
-    "BilledItemOfferSchedule": {
-      "type": "object",
-      "description": "BilledItem offer schedule details",
-      "properties": {
-        "productCode": {
-          "type": "string",
-          "description": "The product code of the schedule"
-        },
-        "quantity": {
-          "type": "number",
-          "format": "double",
-          "description": "The quantity of the schedule"
-        },
-        "effective": {
-          "type": "string",
-          "description": "When the schedule is effective"
-        }
-      }
-    },
     "BilledItemProperties": {
       "type": "object",
       "description": "BilledItem properties",
       "properties": {
         "offer": {
-          "$ref": "#/definitions/BilledItemOffer",
+          "$ref": "#/definitions/Offer",
           "description": "The offer details for this billed item"
         },
         "provisioningState": {
@@ -1168,6 +1125,79 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "Offer": {
+      "type": "object",
+      "description": "Offer details",
+      "properties": {
+        "billingResourceId": {
+          "type": "string",
+          "description": "The billing resource identifier"
+        },
+        "productCode": {
+          "type": "string",
+          "description": "The product code"
+        },
+        "productToken": {
+          "type": "string",
+          "description": "The product token"
+        },
+        "billingToken": {
+          "type": "string",
+          "description": "The billing token"
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the offer"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double",
+          "description": "The quantity of the offer"
+        },
+        "autoRenew": {
+          "type": "boolean",
+          "description": "Whether the offer auto-renews"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start date of the offer"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date of the offer"
+        },
+        "nextCharge": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The next charge date of the offer"
+        },
+        "schedule": {
+          "$ref": "#/definitions/OfferSchedule",
+          "description": "The schedule details for the offer"
+        }
+      }
+    },
+    "OfferSchedule": {
+      "type": "object",
+      "description": "Offer schedule details",
+      "properties": {
+        "productCode": {
+          "type": "string",
+          "description": "The product code of the schedule"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double",
+          "description": "The quantity of the schedule"
+        },
+        "effective": {
+          "type": "string",
+          "description": "When the schedule is effective"
+        }
+      }
     },
     "ProvisioningState": {
       "type": "string",

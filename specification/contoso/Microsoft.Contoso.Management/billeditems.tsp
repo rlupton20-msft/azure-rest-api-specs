@@ -22,16 +22,16 @@ model BilledItem is TrackedResource<BilledItemProperties> {
 @added(Versions.v2025_04_01_preview)
 model BilledItemProperties {
   /** The offer details for this billed item */
-  offer?: BilledItemOffer;
+  offer?: Offer;
   
   /** The provisioning state of the resource */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-/** BilledItem offer details */
+/** Offer details */
 @added(Versions.v2025_04_01_preview)
-model BilledItemOffer {
+model Offer {
   /** The billing resource identifier */
   billingResourceId?: string;
 
@@ -51,7 +51,7 @@ model BilledItemOffer {
   quantity?: float64;
 
   /** Whether the offer auto-renews */
-  autoRenew?: string;
+  autoRenew?: boolean;
 
   /** The start date of the offer */
   startDate?: utcDateTime;
@@ -63,12 +63,12 @@ model BilledItemOffer {
   nextCharge?: utcDateTime;
 
   /** The schedule details for the offer */
-  schedule?: BilledItemOfferSchedule;
+  schedule?: OfferSchedule;
 }
 
-/** BilledItem offer schedule details */
+/** Offer schedule details */
 @added(Versions.v2025_04_01_preview)
-model BilledItemOfferSchedule {
+model OfferSchedule {
   /** The product code of the schedule */
   productCode?: string;
 
