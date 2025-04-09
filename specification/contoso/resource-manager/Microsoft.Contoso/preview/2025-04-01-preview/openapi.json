@@ -114,8 +114,8 @@
           }
         },
         "x-ms-examples": {
-          "BilledItems_ListByResourceGroup": {
-            "$ref": "./examples/BilledItemListByResourceGroup.json"
+          "BilledItems_ListBySubscription": {
+            "$ref": "./examples/BilledItemListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -224,8 +224,8 @@
           }
         },
         "x-ms-examples": {
-          "BilledItems_ListBySubscription": {
-            "$ref": "./examples/BilledItemListBySubscription.json"
+          "BilledItems_ListByResourceGroup": {
+            "$ref": "./examples/BilledItemListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -314,12 +314,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource 'BilledItem' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/BilledItem"
-            }
-          },
           "201": {
             "description": "Resource 'BilledItem' create operation succeeded",
             "schema": {
@@ -395,6 +389,20 @@
               "$ref": "#/definitions/BilledItem"
             }
           },
+          "202": {
+            "description": "Resource update accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -406,6 +414,10 @@
           "BilledItems_Update": {
             "$ref": "./examples/BilledItemUpdate.json"
           }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
         }
       },
       "delete": {
@@ -980,6 +992,21 @@
         }
       ]
     },
+    "BilledItemProperties": {
+      "type": "object",
+      "description": "BilledItem properties",
+      "properties": {
+        "offer": {
+          "$ref": "#/definitions/Offer",
+          "description": "The offer details for this billed item"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the resource",
+          "readOnly": true
+        }
+      }
+    },
     "BilledItem": {
       "type": "object",
       "description": "BilledItem resource",
@@ -1016,18 +1043,13 @@
         "value"
       ]
     },
-    "BilledItemProperties": {
+    "BilledItemUpdateProperties": {
       "type": "object",
-      "description": "BilledItem properties",
+      "description": "BilledItem update properties",
       "properties": {
         "offer": {
           "$ref": "#/definitions/Offer",
           "description": "The offer details for this billed item"
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The provisioning state of the resource",
-          "readOnly": true
         }
       }
     },
@@ -1036,7 +1058,7 @@
       "description": "BilledItem resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/BilledItemProperties",
+          "$ref": "#/definitions/BilledItemUpdateProperties",
           "description": "The resource-specific properties for this resource."
         }
       },

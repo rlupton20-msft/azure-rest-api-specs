@@ -29,6 +29,13 @@ model BilledItemProperties {
   provisioningState?: ProvisioningState;
 }
 
+/** BilledItem properties */
+@added(Versions.v2025_04_01_preview)
+model BilledItemUpdateProperties  {
+  /** The offer details for this billed item */
+  offer?: Offer;
+}
+
 /** Offer details */
 @added(Versions.v2025_04_01_preview)
 model Offer {
@@ -84,7 +91,7 @@ model OfferSchedule {
 interface BilledItems {
   get is ArmResourceRead<BilledItem>;
   createOrUpdate is ArmResourceCreateOrReplaceAsync<BilledItem>;
-  update is ArmResourcePatchSync<BilledItem, BilledItemProperties>;
+  update is ArmResourcePatchAsync<BilledItem, BilledItemUpdateProperties>;
   delete is ArmResourceDeleteSync<BilledItem>;
   listByResourceGroup is ArmResourceListByParent<BilledItem>;
   listBySubscription is ArmListBySubscription<BilledItem>;
