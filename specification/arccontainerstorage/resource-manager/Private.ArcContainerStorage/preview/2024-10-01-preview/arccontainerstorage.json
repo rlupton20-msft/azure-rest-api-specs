@@ -1534,8 +1534,7 @@
         },
         "status": {
           "$ref": "#/definitions/AcStorConfigurationStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       },
       "required": [
@@ -1554,6 +1553,10 @@
           "type": "string",
           "description": "io engine cpu limit",
           "pattern": "^([0-9]+m?|0[.][0-9]+)?$"
+        },
+        "status": {
+          "$ref": "#/definitions/AcStorConfigurationStatusUpdate",
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -1571,6 +1574,24 @@
         },
         "provisioningStatus": {
           "$ref": "#/definitions/ProvisioningStatus",
+          "description": "Provisioning status of the resource."
+        }
+      }
+    },
+    "AcStorConfigurationStatusUpdate": {
+      "type": "object",
+      "description": "Defines the observed status of the AcStorConfiguration resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the configuration."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the configuration's status."
+        },
+        "provisioningStatus": {
+          "$ref": "#/definitions/ProvisioningStatusUpdate",
           "description": "Provisioning status of the resource."
         }
       }
@@ -1800,8 +1821,7 @@
         },
         "status": {
           "$ref": "#/definitions/EdgeIngestPolicyStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -1820,6 +1840,10 @@
         "onDelete": {
           "$ref": "#/definitions/OnDeleteAction",
           "description": "Possible values: trigger-immediate-ingest or abandon. Can be extended to other string values."
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeIngestPolicyStatusUpdate",
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -1837,6 +1861,24 @@
         },
         "provisioningStatus": {
           "$ref": "#/definitions/ProvisioningStatus",
+          "description": "Provisioning status of the resource."
+        }
+      }
+    },
+    "EdgeIngestPolicyStatusUpdate": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeIngestPolicy resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the policy."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the policy's status."
+        },
+        "provisioningStatus": {
+          "$ref": "#/definitions/ProvisioningStatusUpdate",
           "description": "Provisioning status of the resource."
         }
       }
@@ -1929,8 +1971,7 @@
         },
         "status": {
           "$ref": "#/definitions/EdgeStorageConfigurationStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       },
       "required": [
@@ -1952,6 +1993,10 @@
         "workloadIdentity": {
           "$ref": "#/definitions/WorkloadIdentityUpdate",
           "description": "Object containing optional workload identity information."
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeStorageConfigurationStatusUpdate",
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -1969,6 +2014,24 @@
         },
         "provisioningStatus": {
           "$ref": "#/definitions/ProvisioningStatus",
+          "description": "Provisioning status of the resource."
+        }
+      }
+    },
+    "EdgeStorageConfigurationStatusUpdate": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeStorageConfiguration resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the configuration."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the configuration's status."
+        },
+        "provisioningStatus": {
+          "$ref": "#/definitions/ProvisioningStatusUpdate",
           "description": "Provisioning status of the resource."
         }
       }
@@ -2163,8 +2226,7 @@
         },
         "status": {
           "$ref": "#/definitions/EdgeSubvolumeStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       },
       "required": [
@@ -2210,6 +2272,10 @@
         "authSys": {
           "$ref": "#/definitions/AuthSysConfigUpdate",
           "description": "Optional Unix-like ownership info (UID/GID) for the subvolume."
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeSubvolumeStatusUpdate",
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -2219,8 +2285,7 @@
       "properties": {
         "state": {
           "type": "string",
-          "description": "The current state of the subvolume. Defaults to 'unknown'.",
-          "default": "unknown"
+          "description": "The current state of the subvolume."
         },
         "lastConfigError": {
           "type": "string",
@@ -2276,6 +2341,66 @@
       "required": [
         "connectedContainer"
       ]
+    },
+    "EdgeSubvolumeStatusUpdate": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeSubvolume resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the subvolume."
+        },
+        "lastConfigError": {
+          "type": "string",
+          "description": "Last config error message."
+        },
+        "edgeVolumeRef": {
+          "type": "string",
+          "description": "A reference to the EdgeVolume resource."
+        },
+        "numberFilesLeftToUpload": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of files left to upload."
+        },
+        "backendConnection": {
+          "type": "string",
+          "description": "Describes the backend connection."
+        },
+        "requestedSyncSubvolume": {
+          "type": "string",
+          "description": "The subvolume requested for sync."
+        },
+        "runningSync": {
+          "type": "string",
+          "description": "The current running sync state."
+        },
+        "connectedStorageAccountEndpoint": {
+          "type": "string",
+          "description": "The connected storage account endpoint in use."
+        },
+        "connectedContainer": {
+          "type": "string",
+          "description": "The connected container in use."
+        },
+        "fileErrors": {
+          "type": "array",
+          "description": "List of file errors encountered.",
+          "items": {
+            "$ref": "#/definitions/FileError"
+          },
+          "x-ms-identifiers": []
+        },
+        "totalFileErrors": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of file errors."
+        },
+        "provisioningStatus": {
+          "$ref": "#/definitions/ProvisioningStatusUpdate",
+          "description": "Provisioning status of the resource."
+        }
+      }
     },
     "EdgeSubvolumeUpdate": {
       "type": "object",
@@ -2449,8 +2574,7 @@
         },
         "status": {
           "$ref": "#/definitions/EdgeVolumeStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       },
       "required": [
@@ -2474,6 +2598,10 @@
           "description": "Weight of concurrency for mirror operations (between 1 and 256).",
           "minimum": 1,
           "maximum": 256
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeVolumeStatusUpdate",
+          "description": "Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources."
         }
       }
     },
@@ -2510,6 +2638,43 @@
         },
         "provisioningStatus": {
           "$ref": "#/definitions/ProvisioningStatus",
+          "description": "Provisioning status of the resource."
+        }
+      }
+    },
+    "EdgeVolumeStatusUpdate": {
+      "type": "object",
+      "description": "Defines the observed state (status) of the EdgeVolume resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the EdgeVolume. Defaults to 'unknown'."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the EdgeVolume status."
+        },
+        "size": {
+          "type": "string",
+          "description": "The amount of space used (string format, e.g., '500Mi')."
+        },
+        "spaceAvailable": {
+          "type": "string",
+          "description": "The amount of space available (string format, e.g., '500Mi')."
+        },
+        "persistentVolume": {
+          "type": "string",
+          "description": "A reference to the underlying persistent volume."
+        },
+        "subvolumesWithErrors": {
+          "type": "array",
+          "description": "List of subvolumes (by name or ID) that have encountered errors.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "provisioningStatus": {
+          "$ref": "#/definitions/ProvisioningStatusUpdate",
           "description": "Provisioning status of the resource."
         }
       }
@@ -2730,6 +2895,20 @@
         "status",
         "operationId"
       ]
+    },
+    "ProvisioningStatusUpdate": {
+      "type": "object",
+      "description": "Provisioning status of the resource",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status string of the provisioning status."
+        },
+        "operationId": {
+          "type": "string",
+          "description": "The operation ID of the provisioning status."
+        }
+      }
     },
     "ServiceMesh": {
       "type": "string",
