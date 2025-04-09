@@ -27,7 +27,7 @@ These are the global settings for the ChangeSafety.
 
 ```yaml
 openapi-type: arm
-tag: package-2024-10-01-preview
+tag: package-2025-03-01-preview
 openapi-subtype: providerHub
 ```
 
@@ -40,6 +40,14 @@ input-file:
   - Microsoft.ChangeSafety/ChangeControl/preview/2024-10-01-preview/ChangeControl.json
 ```
 
+### Tag: package-2025-03-01-preview
+
+These settings apply only when `--tag=package-2025-03-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-03-01-preview'
+input-file:
+  - Microsoft.ChangeSafety/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
+```
 ---
 
 ## Suppression
@@ -59,6 +67,7 @@ directive:
       - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
       - $.definitions.StageMapProperties.properties.parameters
       - $.definitions.StageMapPropertiesUpdate.properties.parameters
+      - $.definitions.OperationContent.properties.properties
 ```
 
 ---

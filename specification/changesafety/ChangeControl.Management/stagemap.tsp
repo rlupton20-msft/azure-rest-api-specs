@@ -31,12 +31,12 @@ model StageMapProperties {
 
   @doc("Array of stages objects.")
   @OpenAPI.extension("x-ms-identifiers", ["name"])
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   stages: Stage[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("StageMap parameters schema for each stage.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   parameters?: Record<Parameter>;
 }
 
@@ -46,22 +46,22 @@ model Stage {
   @minLength(3)
   @maxLength(100)
   @pattern("^[a-zA-Z0-9-]{3,100}$")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   name: string;
 
   @doc("Positive integer defining the orchestration order of the stages.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @minValue(1)
   sequence: int32;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Parameters to apply on the change of that stage. Key value pairs of parameter and values.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   parameterValues?: Record<string | int32>;
 
   @doc("Stage Map resource Id.")
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   nestedStageMapResourceId?: StageMapResourceId;
 }
 
