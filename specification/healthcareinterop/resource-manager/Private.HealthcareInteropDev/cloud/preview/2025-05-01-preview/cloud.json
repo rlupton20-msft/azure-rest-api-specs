@@ -2411,7 +2411,7 @@
     },
     "ErrorAckStrategy": {
       "type": "string",
-      "description": "The error acknowledgment strategy.",
+      "description": "The strategy for how HL7 message error acknowledgments are sent back to the caller.",
       "enum": [
         "SendNackOnError",
         "NeverSendNack"
@@ -2423,12 +2423,12 @@
           {
             "name": "SendNackOnError",
             "value": "SendNackOnError",
-            "description": "The error acknowledgment strategy is to send a negative acknowledgment (NACK) message."
+            "description": "The error acknowledgment strategy is to send a negative acknowledgment (NACK) message"
           },
           {
             "name": "NeverSendNack",
             "value": "NeverSendNack",
-            "description": "The error acknowledgment strategy is to never send a negative acknowledgment (NACK) message."
+            "description": "The error acknowledgment strategy is to never send a negative acknowledgment (NACK) message"
           }
         ]
       }
@@ -3077,6 +3077,39 @@
         ]
       }
     },
+    "Hl7Configuration": {
+      "type": "object",
+      "description": "Settings used to customize how HL7 messages are read.",
+      "properties": {
+        "carriageReturn": {
+          "type": "string",
+          "description": "Optional string representing the carriage return character used in the HL7/MLLP implementation.",
+          "maxLength": 4
+        },
+        "carriageReturnOptional": {
+          "type": "boolean",
+          "description": "Optional boolean indicating if the carriage return is optional in the HL7/MLLP implementation."
+        },
+        "endBlockDelimiter": {
+          "type": "string",
+          "description": "Optional string representing the end block delimiter used in the HL7/MLLP implementation.",
+          "maxLength": 4
+        },
+        "errorAckStrategy": {
+          "$ref": "#/definitions/ErrorAckStrategy",
+          "description": "Optional enum representing how HL7 message error acknowledgments are sent back to the caller"
+        },
+        "noStartByteRequired": {
+          "type": "boolean",
+          "description": "Optional boolean indicating if no start byte is required in the HL7/MLLP implementation."
+        },
+        "startBlockDelimiter": {
+          "type": "string",
+          "description": "Optional string representing the start block delimiter used in the HL7/MLLP implementation.",
+          "maxLength": 4
+        }
+      }
+    },
     "Hl7Connector": {
       "type": "object",
       "description": "The healthcare interop Hl7 connector resource that reads healthcare events/messages from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.",
@@ -3131,12 +3164,16 @@
           "description": "The receiver configuration to be used for the Hl7 connector.",
           "properties": {
             "hl7Configuration": {
-              "$ref": "#/definitions/Hl7ReceiverConfiguration",
+              "$ref": "#/definitions/Hl7Configuration",
               "description": "The receiver endpoint configuration to be used for Hl7 connector."
             },
             "messageListenerConfiguration": {
               "$ref": "#/definitions/MessageListenerConfiguration",
               "description": "The listener configuration to be used for Hl7 connector."
+            },
+            "requirements": {
+              "$ref": "#/definitions/Requirements",
+              "description": "The resource requirements for the application (CPU, Memory, and Storage)."
             }
           },
           "required": [
@@ -3161,12 +3198,16 @@
           "description": "The receiver configuration to be used for the Hl7 connector.",
           "properties": {
             "hl7Configuration": {
-              "$ref": "#/definitions/Hl7ReceiverConfiguration",
+              "$ref": "#/definitions/Hl7Configuration",
               "description": "The receiver endpoint configuration to be used for Hl7 connector."
             },
             "messageListenerConfiguration": {
               "$ref": "#/definitions/MessageListenerConfigurationUpdate",
               "description": "The listener configuration to be used for Hl7 connector."
+            },
+            "requirements": {
+              "$ref": "#/definitions/Requirements",
+              "description": "The resource requirements for the application (CPU, Memory, and Storage)."
             }
           }
         }
@@ -3233,39 +3274,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "Hl7ReceiverConfiguration": {
-      "type": "object",
-      "description": "The Hl7 receiver endpoint configuration properties.",
-      "properties": {
-        "carriageReturn": {
-          "type": "string",
-          "description": "Optional string representing the carriage return character.",
-          "maxLength": 1
-        },
-        "carriageReturnOptional": {
-          "type": "boolean",
-          "description": "Optional boolean indicating if the carriage return is optional."
-        },
-        "endBlockDelimiter": {
-          "type": "string",
-          "description": "Optional string representing the end block delimiter.",
-          "maxLength": 1
-        },
-        "errorAckStrategy": {
-          "$ref": "#/definitions/ErrorAckStrategy",
-          "description": "Optional enum representing the error acknowledgment strategy."
-        },
-        "noStartByteRequired": {
-          "type": "boolean",
-          "description": "Optional boolean indicating if no start byte is required."
-        },
-        "startBlockDelimiter": {
-          "type": "string",
-          "description": "Optional string representing the start block delimiter.",
-          "maxLength": 1
-        }
-      }
     },
     "Hub": {
       "type": "object",
@@ -3487,30 +3495,35 @@
     },
     "MessageListenerConfiguration": {
       "type": "object",
-      "description": "The message listener configuration properties.",
+      "description": "Settings used to customize the newtwork listener configuration.",
       "properties": {
         "inactivityTimeoutInSeconds": {
           "type": "integer",
           "format": "int32",
-          "description": "The inactivity timeout in seconds.",
-          "minimum": 1
+          "description": "Optional duration in seconds to wait before an inactive connection is closed. Not used if useTransientConnection is true.",
+          "minimum": 10
         },
         "messageBufferSize": {
           "type": "integer",
           "format": "int32",
-          "description": "The size of the message buffer.",
-          "minimum": 1
+          "description": "Optional size of the message buffer used when reading HL7 messages from an MLLP connection.",
+          "minimum": 512
         },
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "The port number to use.",
-          "minimum": 0,
-          "maximum": 65535
+          "description": "The port number that will be exposed to receive HL7 messages.",
+          "minimum": 1,
+          "maximum": 65535,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         },
-        "reuseConnection": {
+        "useTransientConnection": {
           "type": "boolean",
-          "description": "Indicates whether to reuse the connection."
+          "description": "Optional setting that will close the connection between each HL7 message received."
         }
       },
       "required": [
@@ -3519,30 +3532,35 @@
     },
     "MessageListenerConfigurationUpdate": {
       "type": "object",
-      "description": "The message listener configuration properties.",
+      "description": "Settings used to customize the newtwork listener configuration.",
       "properties": {
         "inactivityTimeoutInSeconds": {
           "type": "integer",
           "format": "int32",
-          "description": "The inactivity timeout in seconds.",
-          "minimum": 1
+          "description": "Optional duration in seconds to wait before an inactive connection is closed. Not used if useTransientConnection is true.",
+          "minimum": 10
         },
         "messageBufferSize": {
           "type": "integer",
           "format": "int32",
-          "description": "The size of the message buffer.",
-          "minimum": 1
+          "description": "Optional size of the message buffer used when reading HL7 messages from an MLLP connection.",
+          "minimum": 512
         },
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "The port number to use.",
-          "minimum": 0,
-          "maximum": 65535
+          "description": "The port number that will be exposed to receive HL7 messages.",
+          "minimum": 1,
+          "maximum": 65535,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         },
-        "reuseConnection": {
+        "useTransientConnection": {
           "type": "boolean",
-          "description": "Indicates whether to reuse the connection."
+          "description": "Optional setting that will close the connection between each HL7 message received."
         }
       }
     },
@@ -3894,6 +3912,24 @@
         "customLocation",
         "storageExtensionManagedIdentity"
       ]
+    },
+    "Requirements": {
+      "type": "object",
+      "description": "The resource requirements for the application (CPU, Memory, and Storage).",
+      "properties": {
+        "cpu": {
+          "type": "string",
+          "description": "The required CPU for the edge connector. The string is Kubernetes Quantity Format (e.g. 100m)."
+        },
+        "memory": {
+          "type": "string",
+          "description": "The required Memory for the edge connector. The string is Kubernetes Quantity Format (e.g. 512Mi)."
+        },
+        "storage": {
+          "type": "string",
+          "description": "The required Storage for the edge connector. The string is Kubernetes Quantity Format (e.g. 10Gi)."
+        }
+      }
     },
     "ScheduleRecurrenceTriggerConfiguration": {
       "type": "object",
