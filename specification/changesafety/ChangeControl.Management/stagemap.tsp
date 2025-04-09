@@ -25,12 +25,12 @@ model StageMap is ProxyResource<StageMapProperties> {
 
 @doc("Detailed properties of the StageMap resource.")
 model StageMapProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
   @doc("Array of stages objects.")
-  @OpenAPI.extension("x-ms-identifiers", ["name"])
+  @OpenAPI.extension("x-ms-identifiers", #["name"])
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   stages: Stage[];
 

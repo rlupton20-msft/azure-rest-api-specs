@@ -25,7 +25,7 @@ model StageProgression is ProxyResource<StageProgressionProperties> {
 
 @doc("Detailed properties of the StageProgression resource.")
 model StageProgressionProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
@@ -39,7 +39,7 @@ model StageProgressionProperties {
   @doc("StageProgression resource state.")
   state: StageProgressionState;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The sequence of the stage within the ChangeStage parent resource.")
   @minValue(1)
   sequence?: int32;
