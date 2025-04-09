@@ -3,5 +3,5 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 using Azure.ResourceManager;
 namespace Private {
-  @@armProviderNamespace(Azure.Discovery, "Azure.Discovery");
+  @@armProviderNamespace(Microsoft.Discovery, "Private.Discovery");
 }

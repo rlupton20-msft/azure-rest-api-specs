@@ -5,11 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
@@ -17,10 +13,7 @@ namespace Private.ArcContainerStorage;
 
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
-  is ExtensionResource<
-    EdgeStorageConfigurationProperties,
-    PropertiesOptional = false
-  > {
+  is ExtensionResource<EdgeStorageConfigurationProperties> {
   ...ResourceNameParameter<
     EdgeStorageConfiguration,
     NamePattern = "^edge-storage-configuration$"
@@ -42,10 +35,10 @@ model EdgeStorageConfigurationProperties {
   defaultDiskStorageClasses: StorageClass[];
 
   @doc("Automatically failover edge volume consumers.")
-  failoverEdgeVolumeConsumers?: boolean = true;
+  failoverEdgeVolumeConsumers?: boolean;
 
   @doc("This indicates how to ensure mTLS")
-  serviceMesh?: ServiceMesh = ServiceMesh.`cert-manager`; // Deprecated field, but have it here for backward compatibility
+  serviceMesh?: ServiceMesh;
 
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
@@ -54,8 +47,7 @@ model EdgeStorageConfigurationProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: provisioningState;
 
-  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility(Lifecycle.Read)
+  @doc("Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   status?: EdgeStorageConfigurationStatus;
 }
 
@@ -98,6 +90,9 @@ model EdgeStorageConfigurationStatus {
 
   @doc("Additional details about the configuration's status.")
   details?: string;
+
+  @doc("Provisioning status of the resource.")
+  provisioningStatus?: ProvisioningStatus;
 }
 
 //
@@ -105,8 +100,12 @@ model EdgeStorageConfigurationStatus {
 //
 @armResourceOperations
 interface EdgeStorageConfigurations {
-  get is ArmResourceRead<EdgeStorageConfiguration>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeStorageConfiguration>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeStorageConfiguration>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeStorageConfiguration>;
+  get is ArmResourceRead<EdgeStorageConfiguration>;
   list is ArmResourceListByParent<EdgeStorageConfiguration>;
+  update is ArmResourcePatchAsync<
+    EdgeStorageConfiguration,
+    EdgeStorageConfigurationProperties
+  >;
 }

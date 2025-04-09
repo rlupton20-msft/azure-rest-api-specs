@@ -6,7 +6,7 @@ import "@azure-tools/typespec-client-generator-core";
 using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
-using Azure.Discovery.Shared;
+using Microsoft.Discovery.Shared;
 
 @doc("For adding YAML to define the definition.")
 model WithDefinitionContents {

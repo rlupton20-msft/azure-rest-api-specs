@@ -55,13 +55,13 @@ Compiling the TypeSpec source will generate content under the following director
 ## Namespace(s)
 
 ### Azure Discovery components
-Although each component subteam will maintain their TypeSpec and examples in a dedicated component-level package, all components will share a common namespace, `Azure.Discovery`. If a package (directory name) contains `.Management`, it is for the ARM control plane. If not, it's data plane.
+Although each component subteam will maintain their TypeSpec and examples in a dedicated component-level package, all components will share a common namespace, `Microsoft.Discovery`. If a package (directory name) contains `.Management`, it is for the ARM control plane. If not, it's data plane.
 
 ### Prod vs Dev
 Private RP (PRP) namespaces should start with `Private.` and production namespaces should stat with `Azure.`. To avoid the need to manually edit files when merging PRP changes to Prod, a converter is used to transform the PRP namespace. This is accomplished by importing `namespace-prp.tsp` in `main.tsp` for PRP but stripping this import from Prod.
 ```
 namespace Private {
-  @@armProviderNamespace(Azure.Discovery,
+  @@armProviderNamespace(Microsoft.Discovery,
     "Private.Discovery"
   );
 }

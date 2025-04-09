@@ -11,8 +11,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Azure.Discovery.Workspace.Versions)
-namespace Azure.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Workspace.Versions)
+namespace Microsoft.Discovery.Workspace;
 
 @added(Versions.`2025-07-01-preview`)
 @doc("Enumeration for message status.")

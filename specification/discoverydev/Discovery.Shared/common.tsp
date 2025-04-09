@@ -9,13 +9,13 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Azure.Discovery.Shared.Versions)
-namespace Azure.Discovery.Shared;
+@versioned(Microsoft.Discovery.Shared.Versions)
+namespace Microsoft.Discovery.Shared;
 
-@doc("The Azure.Discovery.Shared versions.")
+@doc("The Microsoft.Discovery.Shared versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2025-07-01-preview version of the Azure.Discovery.Shared.")
+  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Shared.")
   `2025-07-01-preview`,
 }
 

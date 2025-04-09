@@ -191,7 +191,12 @@ model MessagingEndpoints {
 @doc("Connection endpoint url a device can use to connect to a service.")
 model DeviceMessagingEndpoint {
   @doc("Type of connection used for the endpoint.")
+  @removed(Versions.v2025_07_01_preview)
   type?: string;
+
+  @doc("Type of connection used for the endpoint.")
+  @added(Versions.v2025_07_01_preview)
+  endpointType?: string;
 
   @added(Versions.v2025_07_01_preview)
   @doc("Fully qualified domain name.")
@@ -201,8 +206,8 @@ model DeviceMessagingEndpoint {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
-  @doc("Type of connection endpoint.")
-  type: string;
+  @doc("Type of connection used for the endpoint.")
+  endpointType?: string;
 
   @doc("Fully qualified domain name.")
   address: string;
@@ -213,8 +218,21 @@ model InboundEndpoints {
   @doc("Defines the client authentication mechanism to the server.")
   authentication?: HostAuthentication;
 
+  @doc("Defines server trust settings for the endpoint.")
+  trustSettings?: TrustSettings;
+
   @doc("Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).")
   additionalConfiguration?: string;
+}
+
+@doc("Defines server trust settings for an endpoint.")
+@added(Versions.v2025_07_01_preview)
+model TrustSettings {
+  @doc("Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false.")
+  trustList?: string;
+
+  @doc("Defines a secret reference for certificate issuers to trust. Either trustList or issuerList is required when autoTrust is set to false.")
+  issuerList?: string;
 }
 
 @doc("Definition of the client authentication mechanism to the host.")

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Microsoft.AzureChangeControl management service",
+    "title": "Private.AzureChangeControl management service",
     "version": "2024-10-01-preview",
     "description": "Private.AzureChangeControl Resource Provider management API.",
     "x-typespec-generated": [
@@ -624,56 +624,6 @@
         "x-ms-examples": {
           "StageProgressions_Delete_MaximumSet_At_Subscription_Level": {
             "$ref": "./examples/StageProgressions_Delete_At_Subscription_Level.json"
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.AzureChangeControl/changeStates/{changeStateName}/verifyChangeValidity": {
-      "post": {
-        "operationId": "ChangeStates_VerifyChangeValidityAtSubscriptionLevel",
-        "tags": [
-          "ChangeStates"
-        ],
-        "description": "Verify the change validity at subscription level.",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "changeStateName",
-            "in": "path",
-            "description": "The name of the ChangeState resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 100,
-            "pattern": "^[a-zA-Z0-9-]{3,100}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VerifyChangeValidityRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/VerifyChangeValidityResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1545,67 +1495,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureChangeControl/changeStates/{changeStateName}/verifyChangeValidity": {
-      "post": {
-        "operationId": "ChangeStates_VerifyChangeValidity",
-        "tags": [
-          "ChangeStates"
-        ],
-        "description": "Verify the change validity.",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "changeStateName",
-            "in": "path",
-            "description": "The name of the ChangeState resource.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 100,
-            "pattern": "^[a-zA-Z0-9-]{3,100}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VerifyChangeValidityRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/VerifyChangeValidityResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ChangeStates_VerifyChangeValidity_MaximumSet": {
-            "$ref": "./examples/ChangeStates_VerifyChangeValidity.json"
-          },
-          "ChangeStates_VerifyChangeValidity__At_Subscription_Level": {
-            "$ref": "./examples/ChangeStates_VerifyChangeValidity_At_Subscription_Level.json"
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureChangeControl/stageMaps": {
       "get": {
         "operationId": "StageMaps_ListByResourceGroup",
@@ -1868,9 +1757,7 @@
       "type": "string",
       "description": "Supported ARM Operations.",
       "enum": [
-        "DELETE",
-        "PUT",
-        "PATCH"
+        "DELETE"
       ],
       "x-ms-enum": {
         "name": "ArmOperation",
@@ -1880,16 +1767,6 @@
             "name": "DELETE",
             "value": "DELETE",
             "description": "DELETE ARM Operation."
-          },
-          {
-            "name": "PUT",
-            "value": "PUT",
-            "description": "PUT ARM Operation."
-          },
-          {
-            "name": "PATCH",
-            "value": "PATCH",
-            "description": "PATCH ARM Operation."
           }
         ]
       }
@@ -1900,7 +1777,7 @@
       "properties": {
         "operations": {
           "type": "array",
-          "description": "Arm Operation array.",
+          "description": "Arm Operation Array.",
           "items": {
             "$ref": "#/definitions/ArmOperationResource"
           },
@@ -2184,12 +2061,6 @@
             "read",
             "create"
           ]
-        },
-        "stageMapSnapshot": {
-          "type": "array",
-          "description": "Referenced stagemap snapshot.",
-          "items": {},
-          "readOnly": true
         }
       },
       "required": [
@@ -2726,7 +2597,7 @@
     },
     "RetrieveNextStagesResponse": {
       "type": "object",
-      "description": "RetrieveNextStage POST Action response.",
+      "description": "RetrieveNextStages POST Action response.",
       "properties": {
         "changeStateResourceId": {
           "$ref": "#/definitions/ChangeStateResourceId",
@@ -3264,46 +3135,6 @@
         }
       ],
       "x-ms-discriminator-value": "TemplateSpec"
-    },
-    "VerifyChangeValidityRequest": {
-      "type": "object",
-      "description": "VerifyChangeValidity POST Action request.",
-      "properties": {
-        "operation": {
-          "$ref": "#/definitions/ResourceOperation",
-          "description": "The resource operation."
-        },
-        "stageProgressionId": {
-          "type": "string",
-          "description": "The stage progression Id."
-        }
-      },
-      "required": [
-        "operation"
-      ]
-    },
-    "VerifyChangeValidityResponse": {
-      "type": "object",
-      "description": "VerifyChangeValidity POST Action response.",
-      "properties": {
-        "outcome": {
-          "type": "string",
-          "description": "The outcome of the verification."
-        },
-        "message": {
-          "type": "string",
-          "description": "The explanation message of the verification."
-        },
-        "validUntil": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The experation time of the change."
-        }
-      },
-      "required": [
-        "outcome",
-        "message"
-      ]
     }
   },
   "parameters": {}

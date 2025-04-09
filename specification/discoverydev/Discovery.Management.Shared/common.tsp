@@ -10,11 +10,11 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-/** Azure.Discovery Resource Provider management API. */
+/** Microsoft.Discovery Resource Provider management API. */
 @armProviderNamespace
-@service(#{ title: "Azure.Discovery management service" })
-@versioned(Azure.Discovery.Versions)
-namespace Azure.Discovery;
+@service(#{ title: "Microsoft.Discovery management service" })
+@versioned(Microsoft.Discovery.Versions)
+namespace Microsoft.Discovery;
 
 /** The available API versions. */
 enum Versions {
@@ -87,60 +87,60 @@ model MoboConfigurationWithMrg {
 
 alias DataContainerId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/DataContainers";
+    type: "Microsoft.Discovery/DataContainers";
   }
 ]>;
 
 alias DataAssetId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/DataContainers/DataAssets";
+    type: "Microsoft.Discovery/DataContainers/DataAssets";
   }
 ]>;
 
 alias StorageId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Storages";
+    type: "Microsoft.Discovery/Storages";
   }
 ]>;
 
 alias BookShelfId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Bookshelves";
+    type: "Microsoft.Discovery/Bookshelves";
   }
 ]>;
 
 alias SuperComputerId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/SuperComputers";
+    type: "Microsoft.Discovery/SuperComputers";
   }
 ]>;
 
 alias ToolId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Tools";
+    type: "Microsoft.Discovery/Tools";
   }
 ]>;
 
 alias AgentId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Agents";
+    type: "Microsoft.Discovery/Agents";
   }
 ]>;
 
 alias ModelId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Models";
+    type: "Microsoft.Discovery/Models";
   }
 ]>;
 
 alias NodePoolId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/Supercomputers/NodePools";
+    type: "Microsoft.Discovery/Supercomputers/NodePools";
   }
 ]>;
 
 alias WorkspaceId = Azure.Core.armResourceIdentifier<[
   {
-    type: "Azure.Discovery/workspaces";
+    type: "Microsoft.Discovery/workspaces";
   }
 ]>;

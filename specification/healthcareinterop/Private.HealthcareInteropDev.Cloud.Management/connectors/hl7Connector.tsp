@@ -32,6 +32,10 @@ model Hl7ConnectorProperties {
   @doc("The resource ID of an existing hub resource to link/associate this hl7Connector resource to.")
   hubResourceId: HubResourceId;
 
+  @doc("The resource ID of the remote connector environment connected cluster where the connector will be deployed.")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
+  connectedClusterId: ConnectedClusterResourceId;
+
   @doc("The receiver configuration to be used for the Hl7 connector.")
   receiver?: {
     @doc("The receiver endpoint configuration to be used for Hl7 connector.")
@@ -43,6 +47,10 @@ model Hl7ConnectorProperties {
     @doc("The resource requirements for the application (CPU, Memory, and Storage).")
     requirements?: Requirements;
   };
+
+  @visibility(Lifecycle.Read)
+  @doc("The resource ID of the hl7EdgeConnector resource managed by this resource.")
+  managedHl7EdgeConnectorResourceId?: Hl7EdgeConnectorResourceId;
 }
 
 @armResourceOperations
