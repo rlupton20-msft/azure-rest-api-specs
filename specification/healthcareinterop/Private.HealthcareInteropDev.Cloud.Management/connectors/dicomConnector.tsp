@@ -1,0 +1,56 @@
+import "@typespec/rest";
+import "@typespec/http";
+import "@azure-tools/typespec-azure-resource-manager";
+import "./../common/provisioningState.tsp";
+import "./../common/resourceIds.tsp";
+
+using TypeSpec.Rest;
+using TypeSpec.Http;
+using Azure.ResourceManager;
+
+namespace Private.HealthcareInteropDev;
+
+@doc("The healthcare interop dicom connector resource that reads healthcare images from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.")
+@resource("dicomConnectors")
+model DicomConnector is TrackedResource<DicomConnectorProperties> {
+  @doc("The name of the Dicom connector resource.")
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @key("dicomConnectorName")
+  @segment("dicomConnectors")
+  @path
+  name: string;
+}
+
+@doc("The properties to configure the dicom connector resource.")
+model DicomConnectorProperties {
+  @doc("The status of the last provisioning operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningLROState;
+
+  @doc("The resource ID of an existing hub resource to link/associate this dicomConnector resource to.")
+  hubResourceId: HubResourceId;
+
+  @doc("The receiver configuration to be used for the dicom connector.")
+  receiver?: {
+    @doc("The listener configuration to be used for dicom connector.")
+    dicomListenerConfiguration: DicomListenerConfiguration;
+  };
+}
+
+@doc("The dicom listener configuration properties.")
+model DicomListenerConfiguration {
+  @doc("The port number to use.")
+  @minValue(1)
+  @maxValue(65535)
+  port: int32;
+}
+
+@armResourceOperations
+interface DicomConnectors {
+  get is ArmResourceRead<DicomConnector>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<DicomConnector>;
+  update is ArmResourcePatchAsync<DicomConnector, DicomConnectorProperties>;
+  delete is ArmResourceDeleteWithoutOkAsync<DicomConnector>;
+  listByResourceGroup is ArmResourceListByParent<DicomConnector>;
+  listBySubscription is ArmListBySubscription<DicomConnector>;
+}
