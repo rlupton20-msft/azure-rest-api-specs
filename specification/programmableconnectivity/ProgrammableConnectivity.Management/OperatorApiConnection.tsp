@@ -126,7 +126,7 @@ model OperatorApiConnectionProperties {
    */
   @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
   @visibility(Lifecycle.Read)
-  planTermsAndConditionsLinks: string[];
+  planTermsAndConditionsLinks?: string[];
 
   /**
    * The market in which the plan is purchased. It must be one of the markets included

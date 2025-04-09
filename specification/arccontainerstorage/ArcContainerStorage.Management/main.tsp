@@ -7,7 +7,6 @@ import "./edgeingestpolicy.tsp";
 import "./edgestorageconfiguration.tsp";
 import "./edgesubvolume.tsp";
 import "./edgevolume.tsp";
-import "./syncsubvolume.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

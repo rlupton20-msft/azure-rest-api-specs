@@ -53,5 +53,4 @@ interface NamespaceAssetEndpointProfiles {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceAssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<NamespaceAssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<NamespaceAssetEndpointProfile>;
 }

@@ -67,5 +67,4 @@ interface NamespaceDevices {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDevice>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDevice>;
-  listBySubscription is ArmListBySubscription<NamespaceDevice>;
 }

@@ -6,11 +6,8 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./provisioningState.tsp";
 import "./edgevolume.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.ArcContainerStorage;
 
@@ -22,8 +19,7 @@ namespace Private.ArcContainerStorage;
  */
 @doc("EdgeSubvolume is a custom resource that defines the configuration for a subvolume.")
 @parentResource(EdgeVolume)
-model EdgeSubvolume
-  is ProxyResource<EdgeSubvolumeProperties, PropertiesOptional = false> {
+model EdgeSubvolume is ProxyResource<EdgeSubvolumeProperties> {
   ...ResourceNameParameter<
     EdgeSubvolume,
     NamePattern = "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
@@ -37,7 +33,7 @@ model EdgeSubvolume
 model EdgeSubvolumeProperties {
   @doc("Type of the subvolume.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  subvolumeType?: SubvolumeType = SubvolumeType.INGEST;
+  subvolumeType?: SubvolumeType;
 
   @doc("Top-level path for this subvolume (e.g., /mysubvol).")
   @minLength(1)
@@ -49,7 +45,7 @@ model EdgeSubvolumeProperties {
   @minLength(1)
   @maxLength(253)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$")
-  ingestPolicy?: string = "edgeingestpolicy-default";
+  ingestPolicy?: string;
 
   @doc("Authentication config for certain subvolumes.")
   auth: AuthConfig;
@@ -198,6 +194,9 @@ model EdgeSubvolumeStatus {
 
   @doc("Total count of file errors.")
   totalFileErrors?: int32;
+
+  @doc("Provisioning status of the resource.")
+  provisioningStatus?: ProvisioningStatus;
 }
 
 /**
@@ -223,8 +222,9 @@ model FileError {
  */
 @armResourceOperations
 interface EdgeSubvolumes {
-  get is ArmResourceRead<EdgeSubvolume>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<EdgeSubvolume>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<EdgeSubvolume>;
   delete is ArmResourceDeleteWithoutOkAsync<EdgeSubvolume>;
+  get is ArmResourceRead<EdgeSubvolume>;
   list is ArmResourceListByParent<EdgeSubvolume>;
+  update is ArmResourcePatchAsync<EdgeSubvolume, EdgeSubvolumeProperties>;
 }

@@ -27,7 +27,8 @@ model Hub is Azure.ResourceManager.TrackedResource<HubProperties> {
 @doc("The properties to configure the healthcare interop hub.")
 model HubProperties {
   @doc("The configuration for the managed infra resources associated with this hub resource.")
-  managedInfraConfiguration: ManagedInfraConfiguration;
+  @visibility(Lifecycle.Read)
+  managedInfraConfiguration?: ManagedInfraConfiguration;
 
   @doc("The managed-on-behalf-of configuration for the resource provider to be able to manage resources on behalf of the resource owner.")
   @visibility(Lifecycle.Read)
@@ -43,9 +44,9 @@ model HubProperties {
 
 @doc("The configuration for the managed infra resources.")
 model ManagedInfraConfiguration {
-  @doc("Name to be used for the managed resource group that will be created. This cannot be updated after the resource is created.")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
-  resourceGroupName: string;
+  @doc("The name of the managed resource group.")
+  @visibility(Lifecycle.Read)
+  resourceGroupName?: string;
 
   @doc("The configuration of the managed-on-behalf-of storage account.")
   @visibility(Lifecycle.Read)

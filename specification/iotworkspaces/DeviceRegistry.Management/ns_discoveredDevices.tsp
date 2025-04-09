@@ -49,5 +49,4 @@ interface NamespaceDiscoveredDevices {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredDevice>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredDevice>;
-  listBySubscription is ArmListBySubscription<NamespaceDiscoveredDevice>;
 }

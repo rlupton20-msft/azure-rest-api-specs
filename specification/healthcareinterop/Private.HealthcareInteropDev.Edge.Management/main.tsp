@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./hl7edgeconnector.tsp";
+import "./dicomedgeconnector.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

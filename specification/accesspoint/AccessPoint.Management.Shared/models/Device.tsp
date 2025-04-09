@@ -22,7 +22,7 @@ namespace Microsoft.AccessPoint;
 
 @doc("An Access Point Device Resource")
 @parentResource(AccessPointAccount)
-model Device is ProxyResource<DeviceProperties> {
+model Device is TrackedResource<DeviceProperties> {
   ...ResourceNameParameter<
     Device,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -40,6 +40,7 @@ model DeviceProperties {
   mac: string;
 
   @doc("The unique serial number of the device.")
+  @pattern("^[a-zA-Z0-9]{3,24}$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   serial: string;
 
@@ -55,8 +56,8 @@ model DeviceProperties {
   @doc("The IP address of the device that belongs to the attached network.")
   ipAddress: ipV4Address;
 
-  @doc("The labels associated with the device.")
-  labels: Array<string>;
+  @doc("The label associated with the device.")
+  label: string;
 
   @doc("Additional details.")
   description?: string;
