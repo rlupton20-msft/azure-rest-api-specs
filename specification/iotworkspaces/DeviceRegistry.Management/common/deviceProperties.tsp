@@ -191,7 +191,12 @@ model MessagingEndpoints {
 @doc("Connection endpoint url a device can use to connect to a service.")
 model DeviceMessagingEndpoint {
   @doc("Type of connection used for the endpoint.")
+  @removed(Versions.v2025_07_01_preview)
   type?: string;
+
+  @doc("Type of connection used for the endpoint.")
+  @added(Versions.v2025_07_01_preview)
+  endpointType?: string;
 
   @added(Versions.v2025_07_01_preview)
   @doc("Fully qualified domain name.")
@@ -201,8 +206,8 @@ model DeviceMessagingEndpoint {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
-  @doc("Type of connection endpoint.")
-  type: string;
+  @doc("Type of connection used for the endpoint.")
+  endpointType?: string;
 
   @doc("Fully qualified domain name.")
   address: string;
@@ -223,26 +228,11 @@ model InboundEndpoints {
 @doc("Defines server trust settings for an endpoint.")
 @added(Versions.v2025_07_01_preview)
 model TrustSettings {
-  @doc("Defines how to trust server certificates.")
-  autoTrust: AutoTrust;
-
   @doc("Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false.")
   trustList?: string;
 
   @doc("Defines a secret reference for certificate issuers to trust. Either trustList or issuerList is required when autoTrust is set to false.")
   issuerList?: string;
-}
-
-@doc("Defines the AutoTrust for a TLS configuration.")
-@added(Versions.v2025_07_01_preview)
-union AutoTrust {
-  @doc("Trust all certificates automatically.")
-  Enabled: "Enabled",
-
-  @doc("Trust only the specified certificates or issers.")
-  Disabled: "Disabled",
-
-  string,
 }
 
 @doc("Definition of the client authentication mechanism to the host.")

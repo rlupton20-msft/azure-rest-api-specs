@@ -74,7 +74,7 @@ model DiscoveredOutboundEndpoints {
 @added(Versions.v2025_07_01_preview)
 model DiscoveredInboundEndpoints {
   @doc("Type of connection endpoint.")
-  type: string;
+  endpointType: string;
 
   @doc("Fully qualified domain name.")
   address: string;

@@ -61,7 +61,13 @@ model NamespaceProperties {
 @doc("Connection endpoint url a device can use to connect to a service.")
 model MessagingEndpoint {
   @doc("Type of connection used for the endpoint.")
+  @removed(Versions.v2024_11_01)
+  @removed(Versions.v2025_07_01_preview)
   type?: string;
+
+  @doc("Type of connection used for endpoint.")
+  @added(Versions.v2025_07_01_preview)
+  endpointType?: string;
 
   @doc("The complete ARM resourceId for the messaging endpoint.")
   resourceId?: string;

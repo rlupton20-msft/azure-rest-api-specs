@@ -3178,30 +3178,6 @@
         ]
       }
     },
-    "AutoTrust": {
-      "type": "string",
-      "description": "Defines the AutoTrust for a TLS configuration.",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "x-ms-enum": {
-        "name": "AutoTrust",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Trust all certificates automatically."
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Trust only the specified certificates or issers."
-          }
-        ]
-      }
-    },
     "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityUpdate": {
       "type": "object",
       "description": "Managed service identity (either system assigned, or none)",
@@ -3607,7 +3583,7 @@
       "type": "object",
       "description": "Connection endpoint url a device can use to connect to a service.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
           "description": "Type of connection used for the endpoint."
         },
@@ -3624,7 +3600,7 @@
       "type": "object",
       "description": "Connection endpoint url a device can use to connect to a service.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
           "description": "Type of connection used for the endpoint."
         },
@@ -4107,7 +4083,7 @@
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
           "description": "Type of connection endpoint."
         },
@@ -4132,7 +4108,7 @@
         }
       },
       "required": [
-        "type",
+        "endpointType",
         "address"
       ]
     },
@@ -4140,7 +4116,7 @@
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
           "description": "Type of connection endpoint."
         },
@@ -4559,9 +4535,9 @@
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection used for the endpoint."
         },
         "address": {
           "type": "string",
@@ -4585,7 +4561,6 @@
         }
       },
       "required": [
-        "type",
         "address"
       ]
     },
@@ -4593,9 +4568,9 @@
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection used for the endpoint."
         },
         "address": {
           "type": "string",
@@ -4610,7 +4585,7 @@
           "description": "Defines the client authentication mechanism to the server."
         },
         "trustSettings": {
-          "$ref": "#/definitions/TrustSettingsUpdate",
+          "$ref": "#/definitions/TrustSettings",
           "description": "Defines server trust settings for the endpoint."
         },
         "additionalConfiguration": {
@@ -4662,9 +4637,9 @@
       "type": "object",
       "description": "Connection endpoint url a device can use to connect to a service.",
       "properties": {
-        "type": {
+        "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection used for endpoint."
         },
         "resourceId": {
           "type": "string",
@@ -6120,31 +6095,6 @@
       "type": "object",
       "description": "Defines server trust settings for an endpoint.",
       "properties": {
-        "autoTrust": {
-          "$ref": "#/definitions/AutoTrust",
-          "description": "Defines how to trust server certificates."
-        },
-        "trustList": {
-          "type": "string",
-          "description": "Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false."
-        },
-        "issuerList": {
-          "type": "string",
-          "description": "Defines a secret reference for certificate issuers to trust. Either trustList or issuerList is required when autoTrust is set to false."
-        }
-      },
-      "required": [
-        "autoTrust"
-      ]
-    },
-    "TrustSettingsUpdate": {
-      "type": "object",
-      "description": "Defines server trust settings for an endpoint.",
-      "properties": {
-        "autoTrust": {
-          "$ref": "#/definitions/AutoTrust",
-          "description": "Defines how to trust server certificates."
-        },
         "trustList": {
           "type": "string",
           "description": "Defines a secret reference for certificates to trust. Either trustList or issuerList is required when autoTrust is set to false."
