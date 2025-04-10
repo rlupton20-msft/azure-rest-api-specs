@@ -40,6 +40,14 @@ scalar Hl7EdgeConnectorResourceId
     }
   ]>;
 
+@doc("The resource ID of a healthcare interop DicomConnector resource.")
+scalar DicomConnectorResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.HealthcareInteropDev/dicomConnectors",
+    }
+  ]>;
+
 @doc("The resource ID of a healthcare interop DicomEdgeConnector resource.")
 scalar DicomEdgeConnectorResourceId
   extends Azure.Core.armResourceIdentifier<[

@@ -1,14 +1,14 @@
 import "../resourceIds.tsp";
 
-@doc("The destination configuration for the FHIR query batch based channel resources.")
+@doc("The destination configuration for the channel resources.")
 @discriminator("connectorType")
-model FhirQueryBatchChannelDestinationProperties {
+model ChannelDestinationProperties {
   @doc("The type of destination connector.")
-  connectorType: FhirQueryBatchChannelDestinationConnectorType;
+  connectorType: ChannelDestinationConnectorType;
 }
 
-@doc("Types of destination connectors supported for the FHIR query batch based channel resources.")
-union FhirQueryBatchChannelDestinationConnectorType {
+@doc("Types of destination connectors supported for the channel resources.")
+union ChannelDestinationConnectorType {
   string,
 
   @doc("Storage Account destination connector.")
@@ -19,20 +19,20 @@ union FhirQueryBatchChannelDestinationConnectorType {
 }
 
 @doc("StorageAccountConnector destination properties.")
-model FhirQueryBatchStorageAccountConnectorDestinationProperties
-  extends FhirQueryBatchChannelDestinationProperties {
+model StorageAccountConnectorDestinationProperties
+  extends ChannelDestinationProperties {
   @doc("The type of destination connector to be used for the channel.")
-  connectorType: FhirQueryBatchChannelDestinationConnectorType.StorageAccountConnector;
+  connectorType: ChannelDestinationConnectorType.StorageAccountConnector;
 
   @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.")
   storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
 }
 
 @doc("OneLakeConnector destination properties.")
-model FhirQueryBatchOneLakeConnectorDestinationProperties
-  extends FhirQueryBatchChannelDestinationProperties {
+model OneLakeConnectorDestinationProperties
+  extends ChannelDestinationProperties {
   @doc("The type of destination connector to be used for the channel.")
-  connectorType: FhirQueryBatchChannelDestinationConnectorType.OneLakeConnector;
+  connectorType: ChannelDestinationConnectorType.OneLakeConnector;
 
   @doc("The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination.")
   oneLakeConnectorResourceId: OneLakeConnectorResourceId;
