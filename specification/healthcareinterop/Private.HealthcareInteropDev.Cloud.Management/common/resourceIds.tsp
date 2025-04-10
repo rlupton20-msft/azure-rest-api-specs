@@ -1,7 +1,5 @@
 import "@azure-tools/typespec-azure-core";
 
-using Azure.Core;
-
 @doc("The resource ID of a storage account.")
 scalar StorageAccountResourceId
   extends Azure.Core.armResourceIdentifier<[
@@ -39,6 +37,14 @@ scalar Hl7EdgeConnectorResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
       type: "Private.HealthcareInteropDev/hl7EdgeConnectors",
+    }
+  ]>;
+
+@doc("The resource ID of a healthcare interop DicomEdgeConnector resource.")
+scalar DicomEdgeConnectorResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.HealthcareInteropDev/dicomEdgeConnectors",
     }
   ]>;
 

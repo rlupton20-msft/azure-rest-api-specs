@@ -138,6 +138,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "DicomConnectors_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_ListBySubscription_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -463,6 +468,11 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "DicomConnectors_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_ListByResourceGroup_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -504,6 +514,11 @@
             "schema": {
               "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "DicomConnectors_Get_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -575,7 +590,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomConnectors_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
       },
       "patch": {
         "operationId": "DicomConnectors_Update",
@@ -642,7 +662,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomConnectors_Update_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_Update_MaximumSet_Gen.json"
+          }
+        }
       },
       "delete": {
         "operationId": "DicomConnectors_Delete",
@@ -697,7 +722,12 @@
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomConnectors_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/DicomConnectors_Delete_MaximumSet_Gen.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryEventBatchChannels": {
@@ -2691,6 +2721,15 @@
           "$ref": "#/definitions/HubResourceId",
           "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to."
         },
+        "connectedClusterId": {
+          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "receiver": {
           "type": "object",
           "description": "The receiver configuration to be used for the dicom connector.",
@@ -2698,15 +2737,25 @@
             "dicomListenerConfiguration": {
               "$ref": "#/definitions/DicomListenerConfiguration",
               "description": "The listener configuration to be used for dicom connector."
+            },
+            "requirements": {
+              "$ref": "#/definitions/Requirements",
+              "description": "The resource requirements for the application (CPU, Memory, and Storage)."
             }
           },
           "required": [
             "dicomListenerConfiguration"
           ]
+        },
+        "managedDicomEdgeConnectorResourceId": {
+          "$ref": "#/definitions/DicomEdgeConnectorResourceId",
+          "description": "The resource ID of the hl7EdgeConnector resource managed by this resource.",
+          "readOnly": true
         }
       },
       "required": [
-        "hubResourceId"
+        "hubResourceId",
+        "connectedClusterId"
       ]
     },
     "DicomConnectorPropertiesUpdate": {
@@ -2717,6 +2766,15 @@
           "$ref": "#/definitions/HubResourceId",
           "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to."
         },
+        "connectedClusterId": {
+          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
         "receiver": {
           "type": "object",
           "description": "The receiver configuration to be used for the dicom connector.",
@@ -2724,6 +2782,10 @@
             "dicomListenerConfiguration": {
               "$ref": "#/definitions/DicomListenerConfigurationUpdate",
               "description": "The listener configuration to be used for dicom connector."
+            },
+            "requirements": {
+              "$ref": "#/definitions/Requirements",
+              "description": "The resource requirements for the application (CPU, Memory, and Storage)."
             }
           }
         }
@@ -2744,16 +2806,33 @@
         }
       ]
     },
+    "DicomEdgeConnectorResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "The resource ID of a healthcare interop DicomEdgeConnector resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.HealthcareInteropDev/dicomEdgeConnectors"
+          }
+        ]
+      }
+    },
     "DicomListenerConfiguration": {
       "type": "object",
-      "description": "The dicom listener configuration properties.",
+      "description": "The Listener Configuration to be used for dicom connector configuration.",
       "properties": {
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "The port number to use.",
+          "description": "The port number that will be exposed to receive DICOM images.",
           "minimum": 1,
-          "maximum": 65535
+          "maximum": 65535,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "required": [
@@ -2762,14 +2841,19 @@
     },
     "DicomListenerConfigurationUpdate": {
       "type": "object",
-      "description": "The dicom listener configuration properties.",
+      "description": "The Listener Configuration to be used for dicom connector configuration.",
       "properties": {
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "The port number to use.",
+          "description": "The port number that will be exposed to receive DICOM images.",
           "minimum": 1,
-          "maximum": 65535
+          "maximum": 65535,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
     },

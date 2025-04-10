@@ -3,6 +3,8 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
+import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/requirements.tsp";
+import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/dicomModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -30,19 +32,22 @@ model DicomConnectorProperties {
   @doc("The resource ID of an existing hub resource to link/associate this dicomConnector resource to.")
   hubResourceId: HubResourceId;
 
+  @doc("The resource ID of the remote connector environment connected cluster where the connector will be deployed.")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
+  connectedClusterId: ConnectedClusterResourceId;
+
   @doc("The receiver configuration to be used for the dicom connector.")
   receiver?: {
     @doc("The listener configuration to be used for dicom connector.")
     dicomListenerConfiguration: DicomListenerConfiguration;
-  };
-}
 
-@doc("The dicom listener configuration properties.")
-model DicomListenerConfiguration {
-  @doc("The port number to use.")
-  @minValue(1)
-  @maxValue(65535)
-  port: int32;
+    @doc("The resource requirements for the application (CPU, Memory, and Storage).")
+    requirements?: Requirements;
+  };
+
+  @visibility(Lifecycle.Read)
+  @doc("The resource ID of the hl7EdgeConnector resource managed by this resource.")
+  managedDicomEdgeConnectorResourceId?: DicomEdgeConnectorResourceId;
 }
 
 @armResourceOperations
