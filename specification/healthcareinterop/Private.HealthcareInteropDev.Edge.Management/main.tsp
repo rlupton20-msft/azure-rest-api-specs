@@ -39,16 +39,7 @@ union ProvisioningState {
   /** The resource is being Deleted */
   Deleting: "Deleting",
 }
-@doc("The error acknowledgment strategy.")
-union ErrorAckStrategy {
-  string,
 
-  /** The error acknowledgment strategy is to send a negative acknowledgment (NACK) message */
-  SendNackOnError: "SendNackOnError",
-
-  /** The error acknowledgment strategy is to never send a negative acknowledgment (NACK) message */
-  NeverSendNack: "NeverSendNack",
-}
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @armResourceOperations

@@ -2,11 +2,12 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./extendedLocation.tsp";
+import "./common/models/extendedLocation.tsp";
+import "./common/models/requirements.tsp";
+import "./common/models/dicomModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
-using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
@@ -32,13 +33,10 @@ model DicomEdgeConnectorProperties {
   receiver?: {
     @doc("The Listener Configuration to be used for dicom connector configuration.")
     @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-    dicomListenerConfiguration: {
-      @doc("The port number to use.")
-      @minValue(1)
-      @maxValue(65535)
-      @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-      port: int32;
-    };
+    dicomListenerConfiguration: DicomListenerConfiguration;
+
+    @doc("The resource requirements for the application (CPU, Memory, and Storage).")
+    requirements?: Requirements;
 
     @doc("The Storage Endpoint Configuration to be used for dicom connector configuration.")
     @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)

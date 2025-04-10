@@ -1,7 +1,5 @@
 import "@azure-tools/typespec-azure-resource-manager";
 
-using Azure.ResourceManager;
-
 namespace Private.HealthcareInteropDev;
 
 @doc("The extended location.")
