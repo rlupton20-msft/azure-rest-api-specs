@@ -161,8 +161,8 @@ model AuthSysConfig {
  */
 @doc("Defines the observed status of the EdgeSubvolume resource.")
 model EdgeSubvolumeStatus {
-  @doc("The current state of the subvolume. Defaults to 'unknown'.")
-  state?: string = "unknown";
+  @doc("The current state of the subvolume.")
+  state?: string;
 
   @doc("Last config error message.")
   lastConfigError?: string;
