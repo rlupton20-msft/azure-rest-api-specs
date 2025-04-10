@@ -66,7 +66,8 @@ model EdgeSubvolumeProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateSubVolume;
 
-  @doc("Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility(Lifecycle.Read)
   status?: EdgeSubvolumeStatus;
 }
 
@@ -160,8 +161,8 @@ model AuthSysConfig {
  */
 @doc("Defines the observed status of the EdgeSubvolume resource.")
 model EdgeSubvolumeStatus {
-  @doc("The current state of the subvolume.")
-  state?: string;
+  @doc("The current state of the subvolume. Defaults to 'unknown'.")
+  state?: string = "unknown";
 
   @doc("Last config error message.")
   lastConfigError?: string;

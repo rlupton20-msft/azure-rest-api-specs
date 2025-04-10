@@ -46,7 +46,8 @@ model EdgeVolumeProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: provisioningState | provisioningStateVolume;
 
-  @doc("Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility(Lifecycle.Read)
   status?: EdgeVolumeStatus;
 }
 
