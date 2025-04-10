@@ -47,7 +47,8 @@ model EdgeStorageConfigurationProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: provisioningState;
 
-  @doc("Reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
+  @visibility(Lifecycle.Read)
   status?: EdgeStorageConfigurationStatus;
 }
 
