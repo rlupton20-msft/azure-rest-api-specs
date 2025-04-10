@@ -66,6 +66,15 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2025_07_01_preview: "2025-07-01-preview",
+
+  // Dev API Versions
+  // Please add new versions before this line
+  @doc("Private.DeviceRegistry Resource Provider management API version 2021-10-10-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  v2021_10_10_preview: "2021-10-10-preview",
+  // DO NOT ADD NEW API VERSIONS HERE
+  // ADD NEW VERSIONS BEFORE DEV API VERSIONS
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
