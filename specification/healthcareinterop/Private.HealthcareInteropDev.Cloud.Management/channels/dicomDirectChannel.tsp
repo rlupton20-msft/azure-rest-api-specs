@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@doc("The healthcare interop resource that transfers Dicom files.")
+@doc("The healthcare interop resource that transfers DICOM files.")
 @resource("dicomDirectChannels")
 model DicomDirectChannel
   is TrackedResource<DicomDirectChannelProperties> {
