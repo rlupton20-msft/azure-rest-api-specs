@@ -46,7 +46,7 @@ model DicomConnectorProperties {
   };
 
   @visibility(Lifecycle.Read)
-  @doc("The resource ID of the hl7EdgeConnector resource managed by this resource.")
+  @doc("The resource ID of the dicomEdgeConnector resource managed by this resource.")
   managedDicomEdgeConnectorResourceId?: DicomEdgeConnectorResourceId;
 }
 
