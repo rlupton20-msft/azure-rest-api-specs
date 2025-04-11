@@ -44,7 +44,7 @@ model Hl7EdgeConnectorProperties {
     @doc("The Storage Endpoint Configuration to be used for hl7 connector configuration.")
     @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
     storageEndpointConfiguration: {
-      @doc("URL of the blob storage where the output will be stored.")
+      @doc("URL of the storage endpoint where the output will be stored.")
       @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       @pattern("^https://.*$")
       endpoint: string;
