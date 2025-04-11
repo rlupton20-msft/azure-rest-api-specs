@@ -97,7 +97,7 @@ model FhirQueryEventBatchChannelTransformationProperties {
 @doc("Properties for Job")
 model FhirQueryEventBatchChannelJobProperties {
   @doc("The trigger configuration")
-  trigger: RecurrenceTriggerProperties;
+  trigger: BatchTriggerProperties;
 }
 
 // #endregion Job

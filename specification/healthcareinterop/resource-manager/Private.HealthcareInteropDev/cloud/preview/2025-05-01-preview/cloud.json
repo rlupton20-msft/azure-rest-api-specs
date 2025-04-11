@@ -2858,16 +2858,9 @@
     "AdhocTriggerConfiguration": {
       "type": "object",
       "description": "The adhoc based trigger configuration.",
-      "properties": {
-        "startDateTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
-        }
-      },
       "allOf": [
         {
-          "$ref": "#/definitions/OneTimeTriggerProperties"
+          "$ref": "#/definitions/BatchTriggerProperties"
         }
       ],
       "x-ms-discriminator-value": "AdhocTrigger"
@@ -2875,16 +2868,9 @@
     "AdhocTriggerConfigurationUpdate": {
       "type": "object",
       "description": "The adhoc based trigger configuration.",
-      "properties": {
-        "startDateTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
-        }
-      },
       "allOf": [
         {
-          "$ref": "#/definitions/OneTimeTriggerPropertiesUpdate"
+          "$ref": "#/definitions/BatchTriggerPropertiesUpdate"
         }
       ],
       "x-ms-discriminator-value": "AdhocTrigger"
@@ -2906,6 +2892,77 @@
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
         }
       ]
+    },
+    "BatchTriggerProperties": {
+      "type": "object",
+      "description": "Trigger configuration for batch based channels",
+      "properties": {
+        "triggerType": {
+          "$ref": "#/definitions/BatchTriggerType",
+          "description": "The type of trigger."
+        },
+        "startDateTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
+        },
+        "state": {
+          "$ref": "#/definitions/TriggerState",
+          "description": "The state of the trigger."
+        }
+      },
+      "discriminator": "triggerType",
+      "required": [
+        "triggerType",
+        "state"
+      ]
+    },
+    "BatchTriggerPropertiesUpdate": {
+      "type": "object",
+      "description": "Trigger configuration for batch based channels",
+      "properties": {
+        "triggerType": {
+          "$ref": "#/definitions/BatchTriggerType",
+          "description": "The type of trigger."
+        },
+        "startDateTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
+        },
+        "state": {
+          "$ref": "#/definitions/TriggerState",
+          "description": "The state of the trigger."
+        }
+      },
+      "discriminator": "triggerType",
+      "required": [
+        "triggerType"
+      ]
+    },
+    "BatchTriggerType": {
+      "type": "string",
+      "description": "The batch trigger types.",
+      "enum": [
+        "AdhocTrigger",
+        "RecurringScheduleTrigger"
+      ],
+      "x-ms-enum": {
+        "name": "BatchTriggerType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AdhocTrigger",
+            "value": "AdhocTrigger",
+            "description": "The adhoc trigger type."
+          },
+          {
+            "name": "RecurringScheduleTrigger",
+            "value": "RecurringScheduleTrigger",
+            "description": "The recurring schedule trigger type."
+          }
+        ]
+      }
     },
     "BlobServiceEndpoint": {
       "type": "string",
@@ -3762,7 +3819,7 @@
       "description": "Properties for Job",
       "properties": {
         "trigger": {
-          "$ref": "#/definitions/RecurrenceTriggerProperties",
+          "$ref": "#/definitions/BatchTriggerProperties",
           "description": "The trigger configuration"
         }
       },
@@ -3775,7 +3832,7 @@
       "description": "Properties for Job",
       "properties": {
         "trigger": {
-          "$ref": "#/definitions/RecurrenceTriggerPropertiesUpdate",
+          "$ref": "#/definitions/BatchTriggerPropertiesUpdate",
           "description": "The trigger configuration"
         }
       }
@@ -3969,7 +4026,7 @@
       "description": "Properties for Job",
       "properties": {
         "trigger": {
-          "$ref": "#/definitions/OneTimeTriggerProperties",
+          "$ref": "#/definitions/BatchTriggerProperties",
           "description": "The trigger configuration"
         }
       },
@@ -3982,7 +4039,7 @@
       "description": "Properties for Job",
       "properties": {
         "trigger": {
-          "$ref": "#/definitions/OneTimeTriggerPropertiesUpdate",
+          "$ref": "#/definitions/BatchTriggerPropertiesUpdate",
           "description": "The trigger configuration"
         }
       }
@@ -4797,6 +4854,10 @@
         "workspaceId": {
           "type": "string",
           "description": "GUID of the workspace to connect to."
+        },
+        "folderPath": {
+          "type": "string",
+          "description": "Optional string to specify the folder path to use when reading/writing the files from/to a lakehouse. If not specified, the root of the lakehouse file directory will be used."
         }
       },
       "required": [
@@ -4824,6 +4885,10 @@
         "workspaceId": {
           "type": "string",
           "description": "GUID of the workspace to connect to."
+        },
+        "folderPath": {
+          "type": "string",
+          "description": "Optional string to specify the folder path to use when reading/writing the files from/to a lakehouse. If not specified, the root of the lakehouse file directory will be used."
         }
       }
     },
@@ -4853,61 +4918,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "OneTimeTriggerProperties": {
-      "type": "object",
-      "description": "OneTime based trigger configuration",
-      "properties": {
-        "triggerType": {
-          "$ref": "#/definitions/OneTimeTriggerType",
-          "description": "The type of trigger."
-        },
-        "state": {
-          "$ref": "#/definitions/TriggerState",
-          "description": "The state of the trigger."
-        }
-      },
-      "discriminator": "triggerType",
-      "required": [
-        "triggerType",
-        "state"
-      ]
-    },
-    "OneTimeTriggerPropertiesUpdate": {
-      "type": "object",
-      "description": "OneTime based trigger configuration",
-      "properties": {
-        "triggerType": {
-          "$ref": "#/definitions/OneTimeTriggerType",
-          "description": "The type of trigger."
-        },
-        "state": {
-          "$ref": "#/definitions/TriggerState",
-          "description": "The state of the trigger."
-        }
-      },
-      "discriminator": "triggerType",
-      "required": [
-        "triggerType"
-      ]
-    },
-    "OneTimeTriggerType": {
-      "type": "string",
-      "description": "The trigger type.",
-      "enum": [
-        "AdhocTrigger"
-      ],
-      "x-ms-enum": {
-        "name": "OneTimeTriggerType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AdhocTrigger",
-            "value": "AdhocTrigger",
-            "description": "The adhoc trigger type."
-          }
-        ]
-      }
     },
     "ProvisioningLROState": {
       "type": "string",
@@ -4964,60 +4974,61 @@
       },
       "readOnly": true
     },
-    "RecurrenceTriggerProperties": {
+    "RecurringScheduleTriggerConfiguration": {
       "type": "object",
-      "description": "Recurrence based trigger configuration",
+      "description": "The recurring schedule based trigger configuration.",
       "properties": {
-        "triggerType": {
-          "$ref": "#/definitions/RecurrenceTriggerType",
-          "description": "The type of trigger."
-        },
-        "state": {
-          "$ref": "#/definitions/TriggerState",
-          "description": "The state of the trigger."
-        }
-      },
-      "discriminator": "triggerType",
-      "required": [
-        "triggerType",
-        "state"
-      ]
-    },
-    "RecurrenceTriggerPropertiesUpdate": {
-      "type": "object",
-      "description": "Recurrence based trigger configuration",
-      "properties": {
-        "triggerType": {
-          "$ref": "#/definitions/RecurrenceTriggerType",
-          "description": "The type of trigger."
-        },
-        "state": {
-          "$ref": "#/definitions/TriggerState",
-          "description": "The state of the trigger."
-        }
-      },
-      "discriminator": "triggerType",
-      "required": [
-        "triggerType"
-      ]
-    },
-    "RecurrenceTriggerType": {
-      "type": "string",
-      "description": "The trigger type.",
-      "enum": [
-        "ScheduleTrigger"
-      ],
-      "x-ms-enum": {
-        "name": "RecurrenceTriggerType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "ScheduleTrigger",
-            "value": "ScheduleTrigger",
-            "description": "The schedule trigger type."
+        "activeHours": {
+          "type": "array",
+          "description": "Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.",
+          "items": {
+            "type": "integer",
+            "format": "int32"
           }
-        ]
-      }
+        },
+        "activeDays": {
+          "type": "array",
+          "description": "Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BatchTriggerProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "RecurringScheduleTrigger"
+    },
+    "RecurringScheduleTriggerConfigurationUpdate": {
+      "type": "object",
+      "description": "The recurring schedule based trigger configuration.",
+      "properties": {
+        "activeHours": {
+          "type": "array",
+          "description": "Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "activeDays": {
+          "type": "array",
+          "description": "Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BatchTriggerPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "RecurringScheduleTrigger"
     },
     "RemoteConnectorEnvironment": {
       "type": "object",
@@ -5103,72 +5114,6 @@
           "description": "The required Storage for the edge connector. The string is Kubernetes Quantity Format (e.g. 10Gi)."
         }
       }
-    },
-    "ScheduleRecurrenceTriggerConfiguration": {
-      "type": "object",
-      "description": "The schedule based recurrence trigger configuration.",
-      "properties": {
-        "startDateTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
-        },
-        "activeHours": {
-          "type": "array",
-          "description": "Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.",
-          "items": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "activeDays": {
-          "type": "array",
-          "description": "Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.",
-          "items": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/RecurrenceTriggerProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "ScheduleTrigger"
-    },
-    "ScheduleRecurrenceTriggerConfigurationUpdate": {
-      "type": "object",
-      "description": "The schedule based recurrence trigger configuration.",
-      "properties": {
-        "startDateTimeUtc": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned."
-        },
-        "activeHours": {
-          "type": "array",
-          "description": "Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.",
-          "items": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "activeDays": {
-          "type": "array",
-          "description": "Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.",
-          "items": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/RecurrenceTriggerPropertiesUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "ScheduleTrigger"
     },
     "StorageAccountConfiguration": {
       "type": "object",
