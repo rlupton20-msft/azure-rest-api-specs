@@ -96,7 +96,7 @@ model FhirQueryFlatFileBatchChannelTransformationProperties {
 @doc("Properties for Job")
 model FhirQueryFlatFileBatchChannelJobProperties {
   @doc("The trigger configuration")
-  trigger: OneTimeTriggerProperties;
+  trigger: BatchTriggerProperties;
 }
 
 // #endregion Job

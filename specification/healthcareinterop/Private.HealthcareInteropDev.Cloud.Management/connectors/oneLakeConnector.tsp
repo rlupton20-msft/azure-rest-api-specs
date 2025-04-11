@@ -39,6 +39,9 @@ model OneLakeConnectorProperties {
 
   @doc("GUID of the workspace to connect to.")
   workspaceId: string;
+
+  @doc("Optional string to specify the folder path to use when reading/writing the files from/to a lakehouse. If not specified, the root of the lakehouse file directory will be used.")
+  folderPath?: string;
 }
 
 @armResourceOperations

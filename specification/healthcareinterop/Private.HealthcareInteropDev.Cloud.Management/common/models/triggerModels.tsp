@@ -1,35 +1,43 @@
-@doc("Recurrence based trigger configuration")
+@doc("Trigger configuration for batch based channels")
 @discriminator("triggerType")
-model RecurrenceTriggerProperties {
+model BatchTriggerProperties {
   @doc("The type of trigger.")
-  triggerType: RecurrenceTriggerType;
+  triggerType: BatchTriggerType;
+
+  @doc("Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned.")
+  startDateTimeUtc?: utcDateTime;
 
   @doc("The state of the trigger.")
   state: TriggerState;
 }
 
-@doc("The trigger type.")
-union RecurrenceTriggerType {
+@doc("The batch trigger types.")
+union BatchTriggerType {
   string,
 
-  @doc("The schedule trigger type.")
-  ScheduleTrigger: "ScheduleTrigger",
+  @doc("The adhoc trigger type.")
+  AdhocTrigger: "AdhocTrigger",
+
+  @doc("The recurring schedule trigger type.")
+  RecurringScheduleTrigger: "RecurringScheduleTrigger",
 }
 
-@doc("The schedule based recurrence trigger configuration.")
-model ScheduleRecurrenceTriggerConfiguration
-  extends RecurrenceTriggerProperties {
+@doc("The recurring schedule based trigger configuration.")
+model RecurringScheduleTriggerConfiguration extends BatchTriggerProperties {
   @doc("The type of trigger.")
-  triggerType: RecurrenceTriggerType.ScheduleTrigger;
-
-  @doc("Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned.")
-  startDateTimeUtc?: utcDateTime;
+  triggerType: BatchTriggerType.RecurringScheduleTrigger;
 
   @doc("Optional input to specify the recurrence configuration for the schedule indicating the hours the schedule should run on. By default, the schedule will run at all hours.")
   activeHours?: Array<int32>;
 
   @doc("Optional input to specify the recurrence configuration for the schedule indicating the days the schedule should run on. By default, the schedule will run on all days.")
   activeDays?: Array<int32>;
+}
+
+@doc("The adhoc based trigger configuration.")
+model AdhocTriggerConfiguration extends BatchTriggerProperties {
+  @doc("The type of trigger.")
+  triggerType: BatchTriggerType.AdhocTrigger;
 }
 
 @doc("The trigger state.")
@@ -41,31 +49,4 @@ union TriggerState {
 
   @doc("The trigger is disabled.")
   Disabled: "Disabled",
-}
-
-@doc("OneTime based trigger configuration")
-@discriminator("triggerType")
-model OneTimeTriggerProperties {
-  @doc("The type of trigger.")
-  triggerType: OneTimeTriggerType;
-
-  @doc("The state of the trigger.")
-  state: TriggerState;
-}
-
-@doc("The trigger type.")
-union OneTimeTriggerType {
-  string,
-
-  @doc("The adhoc trigger type.")
-  AdhocTrigger: "AdhocTrigger",
-}
-
-@doc("The adhoc based trigger configuration.")
-model AdhocTriggerConfiguration extends OneTimeTriggerProperties {
-  @doc("The type of trigger.")
-  triggerType: OneTimeTriggerType.AdhocTrigger;
-
-  @doc("Optional input to specify the start date time of the trigger in UTC timezone. By default, the trigger will start once the resource is successfully provisioned.")
-  startDateTimeUtc?: utcDateTime;
 }
