@@ -390,7 +390,7 @@
             }
           },
           "202": {
-            "description": "Resource update accepted.",
+            "description": "The request to update the resource has been accepted and is being processed asynchronously.",
             "headers": {
               "Azure-AsyncOperation": {
                 "type": "string",
@@ -449,6 +449,20 @@
           "200": {
             "description": "Resource deleted successfully."
           },
+          "202": {
+            "description": "The request to delete the resource has been accepted and is being processed asynchronously.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "204": {
             "description": "Resource does not exist."
           },
@@ -463,6 +477,10 @@
           "BilledItems_Delete": {
             "$ref": "./examples/BilledItemDelete.json"
           }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
         }
       }
     },
@@ -996,9 +1014,9 @@
       "type": "object",
       "description": "BilledItem properties",
       "properties": {
-        "offer": {
-          "$ref": "#/definitions/Offer",
-          "description": "The offer details for this billed item"
+        "billingData": {
+          "$ref": "#/definitions/BillingData",
+          "description": "The billing data for this billed item"
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -1047,9 +1065,9 @@
       "type": "object",
       "description": "BilledItem update properties",
       "properties": {
-        "offer": {
-          "$ref": "#/definitions/Offer",
-          "description": "The offer details for this billed item"
+        "billingData": {
+          "$ref": "#/definitions/BillingData",
+          "description": "The billing data for this billed item"
         }
       }
     },
@@ -1148,76 +1166,103 @@
         }
       ]
     },
-    "Offer": {
+    "BillingData": {
       "type": "object",
-      "description": "Offer details",
+      "description": "Billing data details",
       "properties": {
-        "billingResourceId": {
+        "systemId": {
           "type": "string",
-          "description": "The billing resource identifier"
+          "description": "Guid, read-only, optional. Represents an RP-generated ID unique per instance of this resource."
         },
         "productCode": {
           "type": "string",
-          "description": "The product code"
+          "description": "Guid, required. Identifies the offer."
         },
         "productToken": {
           "type": "string",
-          "description": "The product token"
+          "description": "JWT, optional. A specific version of the offer."
         },
         "billingToken": {
           "type": "string",
-          "description": "The billing token"
+          "description": "JWT, optional. Used for additional transaction context."
         },
         "state": {
           "type": "string",
-          "description": "The state of the offer"
+          "description": "Enum-as-string, read-only. Represents the billing state of this resource."
         },
         "quantity": {
           "type": "number",
           "format": "double",
-          "description": "The quantity of the offer"
-        },
-        "autoRenew": {
-          "type": "boolean",
-          "description": "Whether the offer auto-renews"
+          "description": "Long, default = 1. The quantity."
         },
         "startDate": {
           "type": "string",
           "format": "date-time",
-          "description": "The start date of the offer"
+          "description": "DateTime, defaults to DateTime.UtcNow when offer has term duration."
         },
         "endDate": {
           "type": "string",
           "format": "date-time",
-          "description": "The end date of the offer"
-        },
-        "nextCharge": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The next charge date of the offer"
+          "description": "DateTime, defaults to DateTime.UtcNow + term duration when applicable."
         },
         "schedule": {
-          "$ref": "#/definitions/OfferSchedule",
-          "description": "The schedule details for the offer"
+          "$ref": "#/definitions/BillingSchedule",
+          "description": "Optional. Can only be set when offer is renewable."
         }
       }
     },
-    "OfferSchedule": {
+    "BillingSchedule": {
       "type": "object",
-      "description": "Offer schedule details",
+      "description": "Billing schedule details",
+      "properties": {
+        "nextInvoiceDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Read-only. The next invoice date.",
+          "readOnly": true
+        },
+        "renewal": {
+          "type": "string",
+          "description": "The renewal type (automatic|disabled)."
+        },
+        "changes": {
+          "type": "array",
+          "description": "Optional scheduled changes.",
+          "items": {
+            "$ref": "#/definitions/BillingChange"
+          }
+        }
+      }
+    },
+    "BillingChange": {
+      "type": "object",
+      "description": "Billing change details",
       "properties": {
         "productCode": {
           "type": "string",
-          "description": "The product code of the schedule"
+          "description": "Guid, defaults to billingData.productCode."
+        },
+        "productToken": {
+          "type": "string",
+          "description": "JWT, optional."
+        },
+        "billingToken": {
+          "type": "string",
+          "description": "JWT, optional."
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "DateTime, optional."
         },
         "quantity": {
           "type": "number",
           "format": "double",
-          "description": "The quantity of the schedule"
+          "description": "Long, defaults to billingData.quantity."
         },
         "effective": {
           "type": "string",
-          "description": "When the schedule is effective"
+          "description": "Enum-as-string, defaults to renewal (renewal|nextCycle)."
         }
       }
     },

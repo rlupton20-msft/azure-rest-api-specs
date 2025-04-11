@@ -3,13 +3,11 @@ import "@typespec/http";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
-
 namespace Microsoft.Contoso;
 
 /** BilledItem resource */
@@ -21,69 +19,86 @@ model BilledItem is TrackedResource<BilledItemProperties> {
 /** BilledItem properties */
 @added(Versions.v2025_04_01_preview)
 model BilledItemProperties {
-  /** The offer details for this billed item */
-  offer?: Offer;
+  /** The billing data for this billed item */
+  billingData?: BillingData;
   
   /** The provisioning state of the resource */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-/** BilledItem properties */
+/** BilledItem properties for update */
 @added(Versions.v2025_04_01_preview)
-model BilledItemUpdateProperties  {
-  /** The offer details for this billed item */
-  offer?: Offer;
+model BilledItemUpdateProperties {
+  /** The billing data for this billed item */
+  billingData?: BillingData;
 }
 
-/** Offer details */
+/** Billing data details */
 @added(Versions.v2025_04_01_preview)
-model Offer {
-  /** The billing resource identifier */
-  billingResourceId?: string;
-
+model BillingData {
+  /** The system identifier */
+  systemId?: string;
+  
+  /** The state of the billing */
+  state?: string;
+  
   /** The product code */
-  productCode?: string;
-
+  productCode: string;
+  
   /** The product token */
   productToken?: string;
-
+  
   /** The billing token */
   billingToken?: string;
-
-  /** The state of the offer */
-  state?: string;
-
-  /** The quantity of the offer */
-  quantity?: float64;
-
-  /** Whether the offer auto-renews */
-  autoRenew?: boolean;
-
-  /** The start date of the offer */
+  
+  /** The quantity */
+  quantity?: float64 = 1;
+  
+  /** The start date */
   startDate?: utcDateTime;
-
-  /** The end date of the offer */
+  
+  /** The end date */
   endDate?: utcDateTime;
-
-  /** The next charge date of the offer */
-  nextCharge?: utcDateTime;
-
-  /** The schedule details for the offer */
-  schedule?: OfferSchedule;
+  
+  /** The schedule details */
+  schedule?: BillingSchedule;
 }
 
-/** Offer schedule details */
+/** Billing schedule details */
 @added(Versions.v2025_04_01_preview)
-model OfferSchedule {
-  /** The product code of the schedule */
+model BillingSchedule {
+  /** The next invoice date */
+  @visibility(Lifecycle.Read)
+  nextInvoiceDate?: utcDateTime;
+  
+  /** The renewal type */
+  renewal?: string;
+  
+  /** The scheduled changes */
+  changes?: BillingChange[];
+}
+
+/** Billing change details */
+@added(Versions.v2025_04_01_preview)
+model BillingChange {
+  /** The product code */
   productCode?: string;
-
-  /** The quantity of the schedule */
+  
+  /** The product token */
+  productToken?: string;
+  
+  /** The billing token */
+  billingToken?: string;
+  
+  /** The end date */
+  endDate?: utcDateTime;
+  
+  /** The quantity */
   quantity?: float64;
-
-  /** When the schedule is effective */
-  effective?: string;
+  
+  /** When the change is effective */
+  effective?: string = "renewal";
 }
 
 @added(Versions.v2025_04_01_preview)
