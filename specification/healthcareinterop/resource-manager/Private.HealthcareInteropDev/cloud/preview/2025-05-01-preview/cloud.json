@@ -61,6 +61,9 @@
       "name": "DicomConnectors"
     },
     {
+      "name": "DicomDirectChannels"
+    },
+    {
       "name": "FhirQueryEventBatchChannels"
     },
     {
@@ -143,6 +146,45 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.HealthcareInteropDev/dicomDirectChannels": {
+      "get": {
+        "operationId": "DicomDirectChannels_ListBySubscription",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "List DicomDirectChannel resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannelListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "DicomDirectChannels_ListBySubscription_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_ListBySubscription_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -728,6 +770,302 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/dicomDirectChannels": {
+      "get": {
+        "operationId": "DicomDirectChannels_ListByResourceGroup",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "List DicomDirectChannel resources by resource group",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannelListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "DicomDirectChannels_ListByResourceGroup_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_ListByResourceGroup_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/dicomDirectChannels/{dicomDirectChannelName}": {
+      "get": {
+        "operationId": "DicomDirectChannels_Get",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "Get a DicomDirectChannel",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "dicomDirectChannelName",
+            "in": "path",
+            "description": "The name of the DicomDirectChannel resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannel"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DicomDirectChannels_Get_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "DicomDirectChannels_CreateOrUpdate",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "Create a DicomDirectChannel",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "dicomDirectChannelName",
+            "in": "path",
+            "description": "The name of the DicomDirectChannel resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DicomDirectChannel' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannel"
+            }
+          },
+          "201": {
+            "description": "Resource 'DicomDirectChannel' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannel"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomDirectChannels_CreateOrUpdate_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "DicomDirectChannels_Update",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "Update a DicomDirectChannel",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "dicomDirectChannelName",
+            "in": "path",
+            "description": "The name of the DicomDirectChannel resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannelUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DicomDirectChannel"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomDirectChannels_Update_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DicomDirectChannels_Delete",
+        "tags": [
+          "DicomDirectChannels"
+        ],
+        "description": "Delete a DicomDirectChannel",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "dicomDirectChannelName",
+            "in": "path",
+            "description": "The name of the DicomDirectChannel resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "DicomDirectChannels_Delete_MaximumSet_Gen": {
+            "$ref": "./examples/DicomDirectChannels_Delete_MaximumSet_Gen.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryEventBatchChannels": {
@@ -2575,6 +2913,58 @@
       "description": "Storage account blob service endpoint",
       "pattern": ".+\\.blob\\.core\\.windows\\.net\\/"
     },
+    "ChannelDestinationConnectorType": {
+      "type": "string",
+      "description": "Types of destination connectors supported for the channel resources.",
+      "enum": [
+        "StorageAccountConnector",
+        "OneLakeConnector"
+      ],
+      "x-ms-enum": {
+        "name": "ChannelDestinationConnectorType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "StorageAccountConnector",
+            "value": "StorageAccountConnector",
+            "description": "Storage Account destination connector."
+          },
+          {
+            "name": "OneLakeConnector",
+            "value": "OneLakeConnector",
+            "description": "One Lake destination connector."
+          }
+        ]
+      }
+    },
+    "ChannelDestinationProperties": {
+      "type": "object",
+      "description": "The destination configuration for the channel resources.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/ChannelDestinationConnectorType",
+          "description": "The type of destination connector."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
+    "ChannelDestinationPropertiesUpdate": {
+      "type": "object",
+      "description": "The destination configuration for the channel resources.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/ChannelDestinationConnectorType",
+          "description": "The type of destination connector."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
     "ConnectedClusterResourceId": {
       "type": "string",
       "format": "arm-id",
@@ -2791,12 +3181,202 @@
         }
       }
     },
+    "DicomConnectorResourceId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "The resource ID of a healthcare interop DicomConnector resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Private.HealthcareInteropDev/dicomConnectors"
+          }
+        ]
+      }
+    },
+    "DicomConnectorSourceProperties": {
+      "type": "object",
+      "description": "DicomConnector source properties.",
+      "properties": {
+        "dicomConnectorResourceId": {
+          "$ref": "#/definitions/DicomConnectorResourceId",
+          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source."
+        }
+      },
+      "required": [
+        "dicomConnectorResourceId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DicomDirectChannelSourceProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "DicomConnector"
+    },
+    "DicomConnectorSourcePropertiesUpdate": {
+      "type": "object",
+      "description": "DicomConnector source properties.",
+      "properties": {
+        "dicomConnectorResourceId": {
+          "$ref": "#/definitions/DicomConnectorResourceId",
+          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DicomDirectChannelSourcePropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "DicomConnector"
+    },
     "DicomConnectorUpdate": {
       "type": "object",
       "description": "The healthcare interop dicom connector resource that reads healthcare images from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/DicomConnectorPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
+    "DicomDirectChannel": {
+      "type": "object",
+      "description": "The healthcare interop resource that transfers Dicom files.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DicomDirectChannelProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DicomDirectChannelListResult": {
+      "type": "object",
+      "description": "The response of a DicomDirectChannel list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DicomDirectChannel items on this page",
+          "items": {
+            "$ref": "#/definitions/DicomDirectChannel"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DicomDirectChannelProperties": {
+      "type": "object",
+      "description": "The properties to configure the DicomDirectChannel resource.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningLROState",
+          "description": "The status of the last provisioning operation.",
+          "readOnly": true
+        },
+        "hubResourceId": {
+          "$ref": "#/definitions/HubResourceId",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to."
+        },
+        "sourceConfiguration": {
+          "$ref": "#/definitions/DicomDirectChannelSourceProperties",
+          "description": "The settings to configure the source of the data to be ingested."
+        },
+        "destinationConfiguration": {
+          "$ref": "#/definitions/ChannelDestinationProperties",
+          "description": "The settings to configure the destination of the data to be persisted."
+        }
+      },
+      "required": [
+        "hubResourceId",
+        "sourceConfiguration",
+        "destinationConfiguration"
+      ]
+    },
+    "DicomDirectChannelPropertiesUpdate": {
+      "type": "object",
+      "description": "The properties to configure the DicomDirectChannel resource.",
+      "properties": {
+        "hubResourceId": {
+          "$ref": "#/definitions/HubResourceId",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to."
+        },
+        "sourceConfiguration": {
+          "$ref": "#/definitions/DicomDirectChannelSourcePropertiesUpdate",
+          "description": "The settings to configure the source of the data to be ingested."
+        },
+        "destinationConfiguration": {
+          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate",
+          "description": "The settings to configure the destination of the data to be persisted."
+        }
+      }
+    },
+    "DicomDirectChannelSourceConnectorType": {
+      "type": "string",
+      "description": "Types of source connectors supported for the DicomDirectChannel resource.",
+      "enum": [
+        "DicomConnector"
+      ],
+      "x-ms-enum": {
+        "name": "DicomDirectChannelSourceConnectorType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "DicomConnector",
+            "value": "DicomConnector",
+            "description": "Dicom connector."
+          }
+        ]
+      }
+    },
+    "DicomDirectChannelSourceProperties": {
+      "type": "object",
+      "description": "The source configuration for the DicomDirectChannel resource.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/DicomDirectChannelSourceConnectorType",
+          "description": "The type of source connector to be used for this channel."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
+    "DicomDirectChannelSourcePropertiesUpdate": {
+      "type": "object",
+      "description": "The source configuration for the DicomDirectChannel resource.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/DicomDirectChannelSourceConnectorType",
+          "description": "The type of source connector to be used for this channel."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
+    "DicomDirectChannelUpdate": {
+      "type": "object",
+      "description": "The healthcare interop resource that transfers Dicom files.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DicomDirectChannelPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -4143,6 +4723,41 @@
         }
       ]
     },
+    "OneLakeConnectorDestinationProperties": {
+      "type": "object",
+      "description": "OneLakeConnector destination properties.",
+      "properties": {
+        "oneLakeConnectorResourceId": {
+          "$ref": "#/definitions/OneLakeConnectorResourceId",
+          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "required": [
+        "oneLakeConnectorResourceId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ChannelDestinationProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "OneLakeConnector"
+    },
+    "OneLakeConnectorDestinationPropertiesUpdate": {
+      "type": "object",
+      "description": "OneLakeConnector destination properties.",
+      "properties": {
+        "oneLakeConnectorResourceId": {
+          "$ref": "#/definitions/OneLakeConnectorResourceId",
+          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "OneLakeConnector"
+    },
     "OneLakeConnectorListResult": {
       "type": "object",
       "description": "The response of a OneLakeConnector list operation.",
@@ -4595,6 +5210,41 @@
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
+    },
+    "StorageAccountConnectorDestinationProperties": {
+      "type": "object",
+      "description": "StorageAccountConnector destination properties.",
+      "properties": {
+        "storageAccountConnectorResourceId": {
+          "$ref": "#/definitions/StorageAccountConnectorResourceId",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "required": [
+        "storageAccountConnectorResourceId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ChannelDestinationProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "StorageAccountConnector"
+    },
+    "StorageAccountConnectorDestinationPropertiesUpdate": {
+      "type": "object",
+      "description": "StorageAccountConnector destination properties.",
+      "properties": {
+        "storageAccountConnectorResourceId": {
+          "$ref": "#/definitions/StorageAccountConnectorResourceId",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "StorageAccountConnector"
     },
     "StorageAccountConnectorListResult": {
       "type": "object",

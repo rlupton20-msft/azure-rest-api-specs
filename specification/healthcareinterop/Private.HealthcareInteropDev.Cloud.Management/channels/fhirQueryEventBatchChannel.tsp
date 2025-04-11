@@ -41,7 +41,7 @@ model FhirQueryEventBatchChannelProperties {
   transformationConfiguration: FhirQueryEventBatchChannelTransformationProperties;
 
   @doc("The settings to configure the destination of the data to be persisted.")
-  destinationConfiguration: ChannelDestinationProperties;
+  destinationConfiguration: FhirQueryBatchChannelDestinationProperties;
 
   @doc("The settings to configure the job executions to process the data.")
   jobConfiguration: FhirQueryEventBatchChannelJobProperties;
