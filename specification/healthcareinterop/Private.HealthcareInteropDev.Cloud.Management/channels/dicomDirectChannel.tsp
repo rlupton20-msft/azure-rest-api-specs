@@ -3,6 +3,7 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
+import "./../common/models/destinationModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -35,7 +36,7 @@ model DicomDirectChannelProperties {
   sourceConfiguration: DicomDirectChannelSourceProperties;
 
   @doc("The settings to configure the destination of the data to be persisted.")
-  destinationConfiguration: ChannelDestinationProperties;
+  destinationConfiguration: DicomDirectChannelDestinationProperties;
 }
 
 // #region Source
@@ -69,43 +70,7 @@ model DicomConnectorSourceProperties
 
 // #region Destination
 
-@doc("The destination configuration for the channel resources.")
-@discriminator("connectorType")
-model ChannelDestinationProperties {
-  @doc("The type of destination connector.")
-  connectorType: ChannelDestinationConnectorType;
-}
-
-@doc("Types of destination connectors supported for the channel resources.")
-union ChannelDestinationConnectorType {
-  string,
-
-  @doc("Storage Account destination connector.")
-  StorageAccountConnector: "StorageAccountConnector",
-
-  @doc("One Lake destination connector.")
-  OneLakeConnector: "OneLakeConnector",
-}
-
-@doc("StorageAccountConnector destination properties.")
-model StorageAccountConnectorDestinationProperties
-  extends ChannelDestinationProperties {
-  @doc("The type of destination connector to be used for the channel.")
-  connectorType: ChannelDestinationConnectorType.StorageAccountConnector;
-
-  @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.")
-  storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
-}
-
-@doc("OneLakeConnector destination properties.")
-model OneLakeConnectorDestinationProperties
-  extends ChannelDestinationProperties {
-  @doc("The type of destination connector to be used for the channel.")
-  connectorType: ChannelDestinationConnectorType.OneLakeConnector;
-
-  @doc("The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination.")
-  oneLakeConnectorResourceId: OneLakeConnectorResourceId;
-}
+// Shared models in ../common/models/destinationModels.tsp
 
 // #endregion Destination
 

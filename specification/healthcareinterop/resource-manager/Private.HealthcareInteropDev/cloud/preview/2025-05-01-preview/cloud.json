@@ -2913,58 +2913,6 @@
       "description": "Storage account blob service endpoint",
       "pattern": ".+\\.blob\\.core\\.windows\\.net\\/"
     },
-    "ChannelDestinationConnectorType": {
-      "type": "string",
-      "description": "Types of destination connectors supported for the channel resources.",
-      "enum": [
-        "StorageAccountConnector",
-        "OneLakeConnector"
-      ],
-      "x-ms-enum": {
-        "name": "ChannelDestinationConnectorType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "StorageAccountConnector",
-            "value": "StorageAccountConnector",
-            "description": "Storage Account destination connector."
-          },
-          {
-            "name": "OneLakeConnector",
-            "value": "OneLakeConnector",
-            "description": "One Lake destination connector."
-          }
-        ]
-      }
-    },
-    "ChannelDestinationProperties": {
-      "type": "object",
-      "description": "The destination configuration for the channel resources.",
-      "properties": {
-        "connectorType": {
-          "$ref": "#/definitions/ChannelDestinationConnectorType",
-          "description": "The type of destination connector."
-        }
-      },
-      "discriminator": "connectorType",
-      "required": [
-        "connectorType"
-      ]
-    },
-    "ChannelDestinationPropertiesUpdate": {
-      "type": "object",
-      "description": "The destination configuration for the channel resources.",
-      "properties": {
-        "connectorType": {
-          "$ref": "#/definitions/ChannelDestinationConnectorType",
-          "description": "The type of destination connector."
-        }
-      },
-      "discriminator": "connectorType",
-      "required": [
-        "connectorType"
-      ]
-    },
     "ConnectedClusterResourceId": {
       "type": "string",
       "format": "arm-id",
@@ -3258,6 +3206,52 @@
         }
       ]
     },
+    "DicomDirectChannelDestinationConnectorType": {
+      "type": "string",
+      "description": "Types of destination connectors supported for the channel resources.",
+      "enum": [
+        "StorageAccountConnector"
+      ],
+      "x-ms-enum": {
+        "name": "DicomDirectChannelDestinationConnectorType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "StorageAccountConnector",
+            "value": "StorageAccountConnector",
+            "description": "Storage Account destination connector."
+          }
+        ]
+      }
+    },
+    "DicomDirectChannelDestinationProperties": {
+      "type": "object",
+      "description": "The destination configuration for the channel resources.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/DicomDirectChannelDestinationConnectorType",
+          "description": "The type of destination connector."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
+    "DicomDirectChannelDestinationPropertiesUpdate": {
+      "type": "object",
+      "description": "The destination configuration for the channel resources.",
+      "properties": {
+        "connectorType": {
+          "$ref": "#/definitions/DicomDirectChannelDestinationConnectorType",
+          "description": "The type of destination connector."
+        }
+      },
+      "discriminator": "connectorType",
+      "required": [
+        "connectorType"
+      ]
+    },
     "DicomDirectChannelListResult": {
       "type": "object",
       "description": "The response of a DicomDirectChannel list operation.",
@@ -3297,7 +3291,7 @@
           "description": "The settings to configure the source of the data to be ingested."
         },
         "destinationConfiguration": {
-          "$ref": "#/definitions/ChannelDestinationProperties",
+          "$ref": "#/definitions/DicomDirectChannelDestinationProperties",
           "description": "The settings to configure the destination of the data to be persisted."
         }
       },
@@ -3320,7 +3314,7 @@
           "description": "The settings to configure the source of the data to be ingested."
         },
         "destinationConfiguration": {
-          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate",
+          "$ref": "#/definitions/DicomDirectChannelDestinationPropertiesUpdate",
           "description": "The settings to configure the destination of the data to be persisted."
         }
       }
@@ -3385,6 +3379,41 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "DicomDirectStorageAccountConnectorDestinationProperties": {
+      "type": "object",
+      "description": "StorageAccountConnector destination properties.",
+      "properties": {
+        "storageAccountConnectorResourceId": {
+          "$ref": "#/definitions/StorageAccountConnectorResourceId",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "required": [
+        "storageAccountConnectorResourceId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DicomDirectChannelDestinationProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "StorageAccountConnector"
+    },
+    "DicomDirectStorageAccountConnectorDestinationPropertiesUpdate": {
+      "type": "object",
+      "description": "StorageAccountConnector destination properties.",
+      "properties": {
+        "storageAccountConnectorResourceId": {
+          "$ref": "#/definitions/StorageAccountConnectorResourceId",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DicomDirectChannelDestinationPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "StorageAccountConnector"
     },
     "DicomEdgeConnectorResourceId": {
       "type": "string",
@@ -4723,41 +4752,6 @@
         }
       ]
     },
-    "OneLakeConnectorDestinationProperties": {
-      "type": "object",
-      "description": "OneLakeConnector destination properties.",
-      "properties": {
-        "oneLakeConnectorResourceId": {
-          "$ref": "#/definitions/OneLakeConnectorResourceId",
-          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
-        }
-      },
-      "required": [
-        "oneLakeConnectorResourceId"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/ChannelDestinationProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "OneLakeConnector"
-    },
-    "OneLakeConnectorDestinationPropertiesUpdate": {
-      "type": "object",
-      "description": "OneLakeConnector destination properties.",
-      "properties": {
-        "oneLakeConnectorResourceId": {
-          "$ref": "#/definitions/OneLakeConnectorResourceId",
-          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "OneLakeConnector"
-    },
     "OneLakeConnectorListResult": {
       "type": "object",
       "description": "The response of a OneLakeConnector list operation.",
@@ -5210,41 +5204,6 @@
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
         }
       ]
-    },
-    "StorageAccountConnectorDestinationProperties": {
-      "type": "object",
-      "description": "StorageAccountConnector destination properties.",
-      "properties": {
-        "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
-        }
-      },
-      "required": [
-        "storageAccountConnectorResourceId"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/ChannelDestinationProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "StorageAccountConnector"
-    },
-    "StorageAccountConnectorDestinationPropertiesUpdate": {
-      "type": "object",
-      "description": "StorageAccountConnector destination properties.",
-      "properties": {
-        "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ChannelDestinationPropertiesUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "StorageAccountConnector"
     },
     "StorageAccountConnectorListResult": {
       "type": "object",
