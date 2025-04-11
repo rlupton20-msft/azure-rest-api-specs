@@ -12,8 +12,7 @@ namespace Private.HealthcareInteropDev;
 
 @doc("The healthcare interop resource that transfers DICOM files.")
 @resource("dicomDirectChannels")
-model DicomDirectChannel
-  is TrackedResource<DicomDirectChannelProperties> {
+model DicomDirectChannel is TrackedResource<DicomDirectChannelProperties> {
   @doc("The name of the DicomDirectChannel resource.")
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("dicomDirectChannelName")
