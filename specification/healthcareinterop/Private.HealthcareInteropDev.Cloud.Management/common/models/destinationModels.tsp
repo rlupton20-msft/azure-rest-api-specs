@@ -1,5 +1,4 @@
 import "../resourceIds.tsp";
-
 @doc("The destination configuration for the FHIR query batch based channel resources.")
 @discriminator("connectorType")
 model FhirQueryBatchChannelDestinationProperties {
