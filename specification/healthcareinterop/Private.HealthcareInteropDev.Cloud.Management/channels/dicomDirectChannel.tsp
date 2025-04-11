@@ -3,7 +3,6 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
-import "./../common/models/destinationModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -70,7 +69,30 @@ model DicomConnectorSourceProperties
 
 // #region Destination
 
-// Shared models in ../common/models/destinationModels.tsp
+@doc("The destination configuration for the channel resources.")
+@discriminator("connectorType")
+model DicomDirectChannelDestinationProperties {
+  @doc("The type of destination connector.")
+  connectorType: DicomDirectChannelDestinationConnectorType;
+}
+
+@doc("Types of destination connectors supported for the channel resources.")
+union DicomDirectChannelDestinationConnectorType {
+  string,
+
+  @doc("Storage Account destination connector.")
+  StorageAccountConnector: "StorageAccountConnector",
+}
+
+@doc("StorageAccountConnector destination properties.")
+model DicomDirectStorageAccountConnectorDestinationProperties
+  extends DicomDirectChannelDestinationProperties {
+  @doc("The type of destination connector to be used for the channel.")
+  connectorType: DicomDirectChannelDestinationConnectorType.StorageAccountConnector;
+
+  @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.")
+  storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
+}
 
 // #endregion Destination
 

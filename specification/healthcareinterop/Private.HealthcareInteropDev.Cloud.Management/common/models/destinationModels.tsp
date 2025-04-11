@@ -1,30 +1,4 @@
 import "../resourceIds.tsp";
-
-@doc("The destination configuration for the channel resources.")
-@discriminator("connectorType")
-model DicomDirectChannelDestinationProperties {
-  @doc("The type of destination connector.")
-  connectorType: DicomDirectChannelDestinationConnectorType;
-}
-
-@doc("Types of destination connectors supported for the channel resources.")
-union DicomDirectChannelDestinationConnectorType {
-  string,
-
-  @doc("Storage Account destination connector.")
-  StorageAccountConnector: "StorageAccountConnector",
-}
-
-@doc("StorageAccountConnector destination properties.")
-model DicomDirectStorageAccountConnectorDestinationProperties
-  extends DicomDirectChannelDestinationProperties {
-  @doc("The type of destination connector to be used for the channel.")
-  connectorType: DicomDirectChannelDestinationConnectorType.StorageAccountConnector;
-
-  @doc("The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.")
-  storageAccountConnectorResourceId: StorageAccountConnectorResourceId;
-}
-
 @doc("The destination configuration for the FHIR query batch based channel resources.")
 @discriminator("connectorType")
 model FhirQueryBatchChannelDestinationProperties {
