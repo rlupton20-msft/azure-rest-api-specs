@@ -2,18 +2,14 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-import "../Discovery.Shared/all.tsp";
-import "../Discovery.Management.Shared/all.tsp";
 import "./_knowledgeBase.tsp";
 
+using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 using Microsoft.Discovery.Shared;
-
-using TypeSpec.Http;
-using Azure.ClientGenerator.Core;
 
 @versioned(Microsoft.Discovery.Bookshelf.Versions)
 namespace Microsoft.Discovery.Bookshelf;
@@ -43,14 +39,24 @@ model WithRunId {
 }
 
 interface KnowledgeBaseVersions {
-  @doc("Creates or replaces a KnowledgeBaseVersion.")
-  createOrReplaceKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseVersion>;
-
   @doc("Creates or updates a KnowledgeBaseVersion.")
   createOrUpdateKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseVersion>;
 
   @doc("Fetch a KnowledgeBaseVersion by name.")
   getKnowledgeBaseVersion is ResourceRead<KnowledgeBaseVersion>;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Get the most recent version of KnowledgeBase.")
+  @get
+  @route("/knowledgeBases/{knowledgeBaseName}/versions/@latest")
+  getLatestVersion is Foundations.Operation<
+    {
+      /** Name of the KnowledgeBase */
+      @path
+      knowledgeBaseName: string;
+    },
+    KnowledgeBaseVersion
+  >;
 
   @doc("List KnowledgeBaseVersion resources")
   listKnowledgeBaseVersions is ResourceList<

@@ -19,6 +19,7 @@ model Conversation {
   @doc("The conversation name.")
   @visibility(Lifecycle.Read)
   @key("conversationName")
+  @pattern(resourceNamePattern)
   name: string;
 
   ...DataPlaneResource;
@@ -43,8 +44,8 @@ interface Conversations {
     Conversation
   >;
 
-  @doc("Creates or updates a Conversation.")
-  createOrUpdateConversation is StandardResourceOperations.ResourceCreateOrUpdate<Conversation>;
+  @doc("Updates a Conversation.")
+  updateConversation is StandardResourceOperations.ResourceCreateOrUpdate<Conversation>;
 
   //  @doc("Delete a Conversation asynchronously.")
   //  @pollingOperation(Conversations.getConversationOperationStatus)

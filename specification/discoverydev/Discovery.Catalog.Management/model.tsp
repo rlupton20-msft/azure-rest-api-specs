@@ -4,7 +4,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
 
-// import "./project.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -26,9 +26,8 @@ model ModelProperties {
   ...CatalogArtifactBaseProperties;
 
   @doc("The ARM resource ID of the subnet.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Is it a resource identifier or just string? Please find example.
-  // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
-  subnetId: Azure.Core.armResourceIdentifier;
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  subnetId: Microsoft.Discovery.Shared.SubnetId;
 
   @doc("The deployment ID of the Model.")
   @visibility(Lifecycle.Read)

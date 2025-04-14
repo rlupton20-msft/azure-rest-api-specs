@@ -15,11 +15,6 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Discovery.Catalog.Versions)
 namespace Microsoft.Discovery.Catalog;
 
-@doc("AgentDefinition attributes from definitionContents")
-model AgentDefinitionAttributes {
-  ...BaseAttributesWithDescription;
-}
-
 @doc("A catalog agent definition.")
 @parentResource(Catalog)
 @resource("agentDefinitions")
@@ -27,9 +22,10 @@ model AgentDefinition {
   @doc("The agent name.")
   @visibility(Lifecycle.Read)
   @key("agentName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
 
-  ...Artifact<AgentDefinitionAttributes>;
+  ...Artifact;
 }
 
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
@@ -37,19 +33,16 @@ model AgentDefinition {
 @doc("An agent.")
 @parentResource(Catalog)
 @resource("agentDefinitions")
-model AgentDefinitionWithYaml extends AgentDefinition {
+model AgentDefinitionWithContent extends AgentDefinition {
   ...WithDefinitionContents;
 }
 
 interface AgentDefinitions {
   @doc("Fetch AgentDefinition by name.")
-  getAgentDefinition is ResourceRead<AgentDefinition>;
+  getAgentDefinition is ResourceRead<AgentDefinitionWithContent>;
 
-  @doc("Creates an AgentDefinition.")
-  createOrReplaceAgentDefinition is StandardResourceOperations.ResourceCreateOrReplace<AgentDefinitionWithYaml>;
-
-  @doc("Updates an AgentDefinition.")
-  createOrUpdateAgentDefinition is StandardResourceOperations.ResourceCreateOrUpdate<AgentDefinitionWithYaml>;
+  @doc("Creates or updates an AgentDefinition.")
+  createOrUpdateAgentDefinition is StandardResourceOperations.ResourceCreateOrUpdate<AgentDefinitionWithContent>;
 
   @doc("List AgentDefinition resources within Catalog.")
   listAgentDefinitions is ResourceList<AgentDefinition>;

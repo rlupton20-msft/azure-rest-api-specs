@@ -3,6 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 import "./supercomputer.tsp";
 
 using TypeSpec.Rest;
@@ -19,6 +20,7 @@ namespace Microsoft.Discovery;
 @parentResource(Supercomputer)
 model NodePool is TrackedResource<NodePoolProperties> {
   ...ResourceNameParameter<NodePool>;
+  ...ResourceSkuProperty;
 }
 
 @doc("NodePool properties")
@@ -29,13 +31,9 @@ model NodePoolProperties {
 
   @doc("The subnet.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  subnetId: string; // TODO Make resource identifier
+  subnetId: Microsoft.Discovery.Shared.SubnetId;
 
-  @doc("The Sku.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  vmSku: string; // TODO: Make arm sku, which will we support (allow list)?
-
-  @doc("The number of nodes.")
+  @doc("The maximum number of nodes.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   maxNodeCount: int32;
 }

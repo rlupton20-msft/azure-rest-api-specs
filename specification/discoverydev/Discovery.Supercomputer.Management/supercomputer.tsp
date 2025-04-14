@@ -3,12 +3,14 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
+using Microsoft.Discovery.Shared;
 
 @armProviderNamespace
 @versioned(Microsoft.Discovery.Versions)
@@ -17,7 +19,9 @@ namespace Microsoft.Discovery;
 @doc("Supercomputer tracked resource")
 model Supercomputer is TrackedResource<SupercomputerProperties> {
   ...ResourceNameParameter<Supercomputer>;
-  ...ManagedServiceIdentityProperty;
+
+  /** Updatable managed service identity */
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
 @doc("Supercomputer properties")
@@ -31,7 +35,7 @@ model SupercomputerProperties {
   @visibility(Lifecycle.Read)
   workspaceId?: WorkspaceId;
 
-  ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
+  ...MoboConfigurationWithMrg;
 }
 
 @armResourceOperations

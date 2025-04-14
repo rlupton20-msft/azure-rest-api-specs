@@ -1,32 +1,22 @@
-import "../Discovery.Shared/all.tsp";
+import "../Discovery.Shared/data-plane.tsp";
+import "../Discovery.Shared/shared.tsp";
+import "@typespec/versioning";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 
-using Azure.Core;
-using Azure.Core.Traits;
+using TypeSpec.Versioning;
 using Azure.ClientGenerator.Core;
 using Microsoft.Discovery.Shared;
+
+@versioned(Microsoft.Discovery.Catalog.Versions)
+namespace Microsoft.Discovery.Catalog;
 
 @doc("For adding YAML to define the definition.")
 model WithDefinitionContents {
   @doc("The definition")
-  @visibility(Lifecycle.Create, Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   definitionContent: string;
-}
-
-@doc("Scope")
-union Scope {
-  /** The resource is Archived/discarded. */
-  Archived: "Archived",
-
-  /** The resource is visible by users. */
-  Visible: "Visible",
-
-  /** The resource is hidden from users. */
-  Hidden: "Hidden",
-
-  string,
 }
 
 @doc("For adding category.")
@@ -56,27 +46,12 @@ model WithLicense {
   license: string;
 }
 
-@doc("For adding definition attributes.")
-model WithAttributes<T> {
-  @doc("The definition attributes extracted from definitionContents Yaml")
-  @visibility(Lifecycle.Read)
-  attributes?: T;
-}
-
-@access(Access.internal)
-@doc("BaseAttributes")
-model BaseAttributes {
-  ...DataPlaneResource;
-}
-
-@doc("BaseAttributes with Description")
-model BaseAttributesWithDescription {
-  ...BaseAttributes;
-
-  @doc("The description")
-  @visibility(Lifecycle.Read)
-  description: string;
-}
+// @doc("For adding definition attributes.")
+// model WithAttributes<T> {
+//   @doc("The definition attributes extracted from definitionContents Yaml")
+//   @visibility(Lifecycle.Read)
+//   attributes?: T;
+// }
 
 @doc("For adding copilot Instruction")
 model WithCopilotInstruction {
@@ -106,13 +81,32 @@ model WithRepo {
   repo: string;
 }
 
-@doc("Basis artifact properties")
-model Artifact<T> {
-  ...WithId;
+@doc("Base artifact properties")
+model Artifact {
+  ...DataPlaneResource;
+
+  /** Name of the catalog containing this resource. */
+  @visibility(Lifecycle.Read)
+  @pattern(resourceNamePattern)
+  catalogName: string;
+
+  @doc("The description")
+  @visibility(Lifecycle.Read)
+  description: string;
+
+  ...WithScope;
   ...WithAuthor;
-
-  //  ...WithDescription;
   ...WithTags;
+}
 
-  ...WithAttributes<T>;
+@access(Access.internal)
+@doc("For Catalog data plane list/get of control plane resource proxy.")
+model CatalogControlPlaneProxyResource {
+  ...ControlPlaneProxyResource;
+  ...WithAuthor;
+  ...WithScope;
+
+  /** Indicates whether or not resource is public. */
+  @visibility(Lifecycle.Read)
+  isPublic: boolean;
 }

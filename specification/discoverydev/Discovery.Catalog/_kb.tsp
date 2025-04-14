@@ -15,16 +15,6 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Discovery.Catalog.Versions)
 namespace Microsoft.Discovery.Catalog;
 
-@doc("KnowledgeBaseDefinition attributes from definitionContents")
-model KnowledgeBaseDefinitionAttributes {
-  ...BaseAttributesWithDescription;
-  ...WithCategory;
-  ...WithLicense;
-  ...WithCopilotInstruction;
-  ...WithInfraType;
-  ...WithVersion;
-}
-
 @doc("A knowledgeBase Definition.")
 @parentResource(Catalog)
 @resource("knowledgeBaseDefinitions")
@@ -32,9 +22,15 @@ model KnowledgeBaseDefinition {
   @doc("The knowledgeBase name.")
   @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
 
-  ...Artifact<KnowledgeBaseDefinitionAttributes>;
+  ...Artifact;
+  ...WithCategory;
+  ...WithLicense;
+  ...WithCopilotInstruction;
+  ...WithInfraType;
+  ...WithVersion;
 }
 
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
@@ -42,19 +38,16 @@ model KnowledgeBaseDefinition {
 @doc("A knowledgeBase Definition.")
 @parentResource(Catalog)
 @resource("knowledgeBaseDefinitions")
-model KnowledgeBaseDefinitionWithYaml extends KnowledgeBaseDefinition {
+model KnowledgeBaseDefinitionWithContent extends KnowledgeBaseDefinition {
   ...WithDefinitionContents;
 }
 
 interface KnowledgeBaseDefinitions {
   @doc("Fetch KnowledgeBaseDefinition by name.")
-  getKnowledgeBaseDefinition is ResourceRead<KnowledgeBaseDefinition>;
+  getKnowledgeBaseDefinition is ResourceRead<KnowledgeBaseDefinitionWithContent>;
 
-  @doc("Creates a KnowledgeBaseDefinition.")
-  createOrReplaceKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrReplace<KnowledgeBaseDefinitionWithYaml>;
-
-  @doc("Updates KnowledgeBaseDefinition.")
-  createOrUpdateKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseDefinitionWithYaml>;
+  @doc("Creates or updates KnowledgeBaseDefinition.")
+  createOrUpdateKnowledgeBaseDefinition is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseDefinitionWithContent>;
 
   @doc("List KnowledgeBaseDefinition resources within Catalog.")
   listKnowledgeBaseDefinitions is ResourceList<KnowledgeBaseDefinition>;

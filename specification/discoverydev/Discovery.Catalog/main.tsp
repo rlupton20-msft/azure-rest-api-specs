@@ -8,6 +8,7 @@ import "./_tool.tsp";
 import "./_model.tsp";
 import "./_agent.tsp";
 import "./_kb.tsp";
+// import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -52,6 +53,7 @@ namespace Microsoft.Discovery.Catalog;
 @doc("The Microsoft.Discovery.Catalog service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Catalog service.")
+  @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
+  @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Catalog service data plane.")
   `2025-07-01-preview`,
 }

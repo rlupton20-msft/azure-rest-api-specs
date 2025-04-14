@@ -1,36 +1,37 @@
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-import "../Discovery.Shared/all.tsp";
-import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/data-plane.tsp";
+import "../Discovery.Shared/shared.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
-using Azure.Core.Traits;
 using Microsoft.Discovery.Shared;
 
 @versioned(Microsoft.Discovery.Bookshelf.Versions)
 namespace Microsoft.Discovery.Bookshelf;
 
 /** Enum for IndexingStatus */
+@lroStatus
 union IndexingStatus {
   /** Indexing Not started */
   NotStarted: "NotStarted",
 
-  /** Indexing Processing: Formerly Started */
-  // TODO: Consider "Indexing"", "Processing" or other verb ending in "ing" to indicate transient/non-terminal.
-  Processing: "Processing",
+  /** Running */
+  Running: "Running",
 
-  /** Indexing Completed */
-  Completed: "Completed",
+  /** Succeeded */
+  @lroSucceeded
+  Succeeded: "Succeeded",
 
-  /** Indexing Stopped */
-  Stopped: "Stopped ",
+  /** Canceled */
+  @lroCanceled
+  Canceled: "Canceled",
 
-  /** Indexing Failed */
-  Failed: "Failed ",
+  /** Failed */
+  @lroFailed
+  Failed: "Failed",
 
   string,
 }

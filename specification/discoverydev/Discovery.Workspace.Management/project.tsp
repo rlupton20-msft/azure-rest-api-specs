@@ -6,12 +6,14 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "./workspace.tsp";
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Microsoft.Discovery.Shared;
 
 @armProviderNamespace
 @versioned(Microsoft.Discovery.Versions)
@@ -25,13 +27,11 @@ model Project is TrackedResource<ProjectProperties> {
 
 @doc("Project properties")
 model ProjectProperties {
-  //  ...WithTitle;
-
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @doc("SAllowed Agents (Control plane resource references).")
+  @doc("Allowed Agents (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   agentIds: AgentId[];
 

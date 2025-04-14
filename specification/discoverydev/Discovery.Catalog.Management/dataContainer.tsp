@@ -95,7 +95,7 @@ model Credential {
   @doc("The data store kind.")
   kind: CredentialType;
 
-  ...WithDescription;
+  ...Microsoft.Discovery.Shared.WithDescription;
 }
 
 @doc("The managed identity credential properties.")
@@ -114,6 +114,7 @@ model KeyVaultSecretCredential extends Credential {
   kind: CredentialType.KeyVaultSecret;
 
   @doc("The shared access token.")
+  @secret
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   secretName: string;
 }
