@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 
 namespace Private.ArcContainerStorage;
 
-//    generation: "2"
+//    generation: "3"
 
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
