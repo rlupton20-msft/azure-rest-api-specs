@@ -16,11 +16,24 @@ using TypeSpec.Versioning;
 @versioned(Microsoft.Discovery.Versions)
 namespace Microsoft.Discovery;
 
+@doc("Supported Azure VM Skus.")
+union VmSku {
+  @doc("Standard_NC6 GPU-optimized Azure VM Sku with 6 vCPUs")
+  Standard_NC6: "Standard_NC6",
+
+  @doc("Standard_NC12 GPU-optimized Azure VM Sku with 12 vCPUs")
+  Standard_NC12: "Standard_NC12",
+
+  @doc("Standard_NC24 GPU-optimized Azure VM Sku with 24 vCPUs")
+  Standard_NC24: "Standard_NC24",
+
+  string,
+}
+
 @doc("NodePool tracked resource")
 @parentResource(Supercomputer)
 model NodePool is TrackedResource<NodePoolProperties> {
   ...ResourceNameParameter<NodePool>;
-  ...ResourceSkuProperty;
 }
 
 @doc("NodePool properties")
@@ -32,6 +45,10 @@ model NodePoolProperties {
   @doc("The subnet.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   subnetId: Microsoft.Discovery.Shared.SubnetId;
+
+  @doc("The Sku of the underlying Azure VM.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  vmSku: VmSku;
 
   @doc("The maximum number of nodes.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)

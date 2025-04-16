@@ -4406,33 +4406,6 @@
         }
       }
     },
-    "Azure.ResourceManager.CommonTypes.SkuUpdate": {
-      "type": "object",
-      "description": "The resource model definition representing SKU",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the SKU. Ex - P3. It is typically a letter+number code"
-        },
-        "tier": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/SkuTier",
-          "description": "This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT."
-        },
-        "size": {
-          "type": "string",
-          "description": "The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code."
-        },
-        "family": {
-          "type": "string",
-          "description": "If the service has different generations of hardware, for the same SKU, then that can be captured here."
-        },
-        "capacity": {
-          "type": "integer",
-          "format": "int32",
-          "description": "If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted."
-        }
-      }
-    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
@@ -5205,10 +5178,6 @@
         "properties": {
           "$ref": "#/definitions/NodePoolProperties",
           "description": "The resource-specific properties for this resource."
-        },
-        "sku": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Sku",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         }
       },
       "allOf": [
@@ -5263,6 +5232,14 @@
             ]
           }
         },
+        "vmSku": {
+          "$ref": "#/definitions/VmSku",
+          "description": "The Sku of the underlying Azure VM.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "maxNodeCount": {
           "type": "integer",
           "format": "int32",
@@ -5276,6 +5253,7 @@
       },
       "required": [
         "subnetId",
+        "vmSku",
         "maxNodeCount"
       ]
     },
@@ -5302,10 +5280,6 @@
         "properties": {
           "$ref": "#/definitions/NodePoolPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
-        },
-        "sku": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.SkuUpdate",
-          "description": "The SKU (Stock Keeping Unit) assigned to this resource."
         }
       },
       "allOf": [
@@ -6079,6 +6053,36 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "VmSku": {
+      "type": "string",
+      "description": "Supported Azure VM Skus.",
+      "enum": [
+        "Standard_NC6",
+        "Standard_NC12",
+        "Standard_NC24"
+      ],
+      "x-ms-enum": {
+        "name": "VmSku",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Standard_NC6",
+            "value": "Standard_NC6",
+            "description": "Standard_NC6 GPU-optimized Azure VM Sku with 6 vCPUs"
+          },
+          {
+            "name": "Standard_NC12",
+            "value": "Standard_NC12",
+            "description": "Standard_NC12 GPU-optimized Azure VM Sku with 12 vCPUs"
+          },
+          {
+            "name": "Standard_NC24",
+            "value": "Standard_NC24",
+            "description": "Standard_NC24 GPU-optimized Azure VM Sku with 24 vCPUs"
+          }
+        ]
+      }
     },
     "WithMoboBrokerResources": {
       "type": "object",
