@@ -55,13 +55,16 @@ model SolutionVersionParameter {
   reviewId: string;
 }
 
-@doc("Solution Version State Update Parameter")
-model UpdateSolutionVersionStateParameter {
+@doc("Update External Validation Status Parameter")
+model UpdateExternalValidationStatusParameter {
   @doc("Solution Version Id")
   solutionVersionId: string;
 
   @doc("Error Details if any failure is there")
   errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
+
+  @doc("External validation id")
+  externalValidationId: string;
 
   @doc("Validation Status of external validation")
   validationStatus: ValidationStatus;
@@ -243,7 +246,7 @@ interface Targets {
   @doc("Post request to update external validation status")
   updateExternalValidationStatus is ArmResourceActionAsync<
     Target,
-    UpdateSolutionVersionStateParameter,
+    UpdateExternalValidationStatusParameter,
     SolutionVersion
   >;
 }
