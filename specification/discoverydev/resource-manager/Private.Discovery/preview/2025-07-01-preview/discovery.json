@@ -5925,6 +5925,22 @@
             ]
           }
         },
+        "subnetId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "System Subnet ID associated with managed NodePool for system resources.\n    It should have connectivity to the child NodePool subnets.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Network/virtualNetworks/subnets"
+              }
+            ]
+          }
+        },
         "managedResourceGroup": {
           "type": "string",
           "description": "The resource group for resources managed on behalf of customer.",
@@ -5935,14 +5951,21 @@
           "description": "Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner.",
           "readOnly": true
         }
-      }
+      },
+      "required": [
+        "subnetId"
+      ]
+    },
+    "SupercomputerPropertiesUpdate": {
+      "type": "object",
+      "description": "Supercomputer properties"
     },
     "SupercomputerUpdate": {
       "type": "object",
       "description": "Supercomputer tracked resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/SupercomputerProperties",
+          "$ref": "#/definitions/SupercomputerPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         },
         "identity": {

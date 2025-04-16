@@ -35,6 +35,13 @@ model SupercomputerProperties {
   @visibility(Lifecycle.Read)
   workspaceId?: WorkspaceId;
 
+  /**
+    System Subnet ID associated with managed NodePool for system resources.
+    It should have connectivity to the child NodePool subnets.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  subnetId: Microsoft.Discovery.Shared.SubnetId;
+
   ...MoboConfigurationWithMrg;
 }
 
