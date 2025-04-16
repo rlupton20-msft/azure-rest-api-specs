@@ -6,7 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
-import "./ValidationStatus.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -39,7 +39,7 @@ model SolutionTemplateParameter {
   solutionInstanceName?: string;
 
   @doc("Solution Dependencies")
-   @Azure.ResourceManager.identifiers(#[])
+  @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
 }
 
@@ -55,19 +55,15 @@ model SolutionVersionParameter {
   reviewId: string;
 }
 
-// Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
 @doc("Solution Version State Update Parameter")
 model UpdateSolutionVersionStateParameter {
-  @doc("Solution Name")
-  solution: string;
+  @doc("Solution Version Id")
+  solutionVersionId: string;
 
-  @doc("Solution Version Name")
-  solutionVersion: string;
+  @doc("Error Details if any failure is there")
+  errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
 
-  @doc("Review ID")
-  reviewId: string;
-
-  @doc("Status")
+  @doc("Validation Status of external validation")
   validationStatus: ValidationStatus;
 }
 
@@ -91,7 +87,7 @@ model SolutionDependencyParameter {
   targetId?: string;
 
   @doc("Solution dependencies")
-   @Azure.ResourceManager.identifiers(#[])
+  @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependencyParameter[];
 }
 
@@ -244,9 +240,8 @@ interface Targets {
     SolutionVersion
   >;
 
-  // Don't merge in Microsoft.Edge, Only for Demo/POC purpose.
-  @doc("Post request to update state of solution version")
-  updateSolutionVersionState is ArmResourceActionAsync<
+  @doc("Post request to update external validation status")
+  updateExternalValidationStatus is ArmResourceActionAsync<
     Target,
     UpdateSolutionVersionStateParameter,
     SolutionVersion

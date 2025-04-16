@@ -29,7 +29,7 @@ union ResourceState {
 union State {
   @doc("Solution Instance is in review")
   InReview: "InReview",
-  
+
   @doc("Solution Instance upgrade is in review")
   UpgradeInReview: "UpgradeInReview",
 
@@ -38,7 +38,7 @@ union State {
 
   @doc("Solution Instance is ready to upgrade")
   ReadyToUpgrade: "ReadyToUpgrade",
- 
+
   @doc("Solution Instance is deploying")
   Deploying: "Deploying",
 
@@ -50,6 +50,23 @@ union State {
 
   @doc("Solution Instance is undeployed")
   Undeployed: "Undeployed",
+
+  @doc("Solution Instance is pending external validation")
+  PendingExternalValidation: "PendingExternalValidation",
+
+  @doc("Solution Instance failed external validation")
+  ExternalValidationFailed: "ExternalValidationFailed",
+
+  string,
+}
+
+@doc("Solution Instance Validation Status")
+union ValidationStatus {
+  @doc("Solution Instance is valid")
+  Valid: "Valid",
+
+  @doc("Solution Instance is invalid")
+  Invalid: "Invalid",
 
   string,
 }

@@ -50,13 +50,18 @@ model SolutionVersionProperties {
 
   @doc("Solution instance name")
   @visibility(Lifecycle.Read)
+  @maxLength(24)
   @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
-   @Azure.ResourceManager.identifiers(#[])
   @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependency[];
+
+  @doc("Error Details if any failure is there")
+  @visibility(Lifecycle.Read)
+  errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
@@ -87,9 +92,9 @@ model SolutionDependency {
   @doc("Solution Version Id")
   solutionVersionId: string;
 
-  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  @doc("Solution Instance Name")
   @maxLength(24)
-  @doc("Solution Instance Name")	
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Template Version Id")
@@ -99,7 +104,7 @@ model SolutionDependency {
   targetId: string;
 
   @doc("Solution dependencies")
-   @Azure.ResourceManager.identifiers(#[])
+  @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependency[];
 }
 
