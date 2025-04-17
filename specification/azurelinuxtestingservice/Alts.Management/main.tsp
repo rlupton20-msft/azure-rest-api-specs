@@ -37,10 +37,10 @@ namespace Private.AltsTest;
 // Common elements:
 @doc("General resource properties.")
 model ResourceProperties {
-	@doc("Resource provisioning state.")
-	@visibility(Lifecycle.Read)
+  @doc("Resource provisioning state.")
+  @visibility(Lifecycle.Read)
   @lroStatus
-	provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState;
 }
 // Extend the provisioning state
 @lroStatus
