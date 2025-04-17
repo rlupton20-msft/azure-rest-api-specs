@@ -80,7 +80,11 @@ interface Broker {
   delete is ArmResourceDeleteWithoutOkAsync<BrokerResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerResource>;
   @added(Versions.v2025_04_01)
-  getStatus is ArmResourceActionAsync<BrokerResource, void, BrokerStatusResponse>;
+  getStatus is ArmResourceActionAsync<
+    BrokerResource,
+    void,
+    BrokerStatusResponse
+  >;
 }
 
 // /instances/brokers/listeners resource Operations
