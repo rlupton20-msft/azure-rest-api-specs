@@ -29,7 +29,7 @@ Requirements for defining an ARM Service:
   - serviceVersion
   - armProviderNamespace
 */
-@service({ title: "Azure Linux Testing Service" })
+@service(#{ title: "Azure Linux Testing Service" })
 @doc("This is the Azure Linux Validation Service")
 @versioned(Versions)
 @armProviderNamespace("Private.ALTSTest")
