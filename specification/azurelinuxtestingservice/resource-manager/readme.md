@@ -26,7 +26,7 @@ These are the global settings for the azurelinuxtestingservice.
 
 ```yaml
 openapi-type: arm
-openapi-subtype: providerHub
+openapi-subtype: rpaas
 tag: package-2023-08-01-preview
 ```
 
