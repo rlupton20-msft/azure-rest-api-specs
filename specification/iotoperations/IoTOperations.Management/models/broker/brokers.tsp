@@ -6,6 +6,7 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using OpenAPI;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 namespace Private.IoTOperations;
 
@@ -60,6 +61,8 @@ model BrokerProperties {
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 }
+
+alias BrokerStatusResponse = Record<unknown>;
 
 @doc("Broker Advanced Settings")
 model AdvancedSettings {
