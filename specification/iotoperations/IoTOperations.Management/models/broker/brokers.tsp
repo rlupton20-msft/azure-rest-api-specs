@@ -62,7 +62,6 @@ model BrokerProperties {
   provisioningState?: ProvisioningState;
 }
 
-@added(Versions.v2025_04_01)
 alias BrokerStatusResponse = Record<unknown>;
 
 @doc("Broker Advanced Settings")
