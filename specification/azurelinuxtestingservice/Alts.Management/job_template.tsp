@@ -32,6 +32,7 @@ model JobTemplateResourceProperties is ResourceProperties{
     vmSize?: string[] = #[];
 
     @doc("Test Selections. Default is to run the smoke_test case")
+    @OpenAPI.extension("x-ms-identifiers", #[])
     selections?: Selections[];
 
     @doc("Custom parameters for different test cases")
@@ -42,18 +43,21 @@ model JobTemplateResourceProperties is ResourceProperties{
 }
 
 @doc("Action to take on a particular test case")
-enum TestCaseAction {
+union TestCaseAction {
   @doc("Include test case")
-  include,
+  include: "include",
 
   @doc("Exclude test case")
-  exclude,
+  exclude: "exclude",
 
   @doc("Force include test case")
-  forceInclude,
+  forceInclude: "forceInclude",
 
   @doc("Force exclude test case")
-  forceExclude,
+  forceExclude: "forceExclude",
+
+  @doc("Custom action as a string")
+  string,
 }
 
 @minValue(0)

@@ -42,6 +42,7 @@ model JobResourceProperties is ResourceProperties {
 
     @doc("Test results once job is completed.")
     @visibility(Lifecycle.Read)
+    @OpenAPI.extension("x-ms-identifiers", #[])
     results?: TestResultProperties[];
 
     @doc("Test duration in format 5h 10m 2s")
@@ -54,24 +55,28 @@ model JobResourceProperties is ResourceProperties {
 }
 
 @doc("Image type to use for testing")
-enum ImageType {
+union ImageType {
   @doc("VHD image")
-  vhd,
+  vhd: "vhd",
 
   @doc("Marketplace image")
-  marketplace,
+  marketplace: "marketplace",
 
   @doc("Shared image gallery")
-  shared_gallery,
+  shared_gallery: "shared_gallery",
+
+  string,
 }
 
 @doc("CPU Architecture")
-enum Architecture {
+union Architecture {
   @doc("x64 architecture")
-  x64,
+  x64: "x64",
 
   @doc("arm64 architecture")
-  arm64,
+  arm64: "arm64",
+
+  string,
 }
 
 @minValue(1)
