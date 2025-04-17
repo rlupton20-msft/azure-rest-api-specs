@@ -2,12 +2,7 @@ namespace Private.AltsTest;
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using Autorest;
-using Azure.Core;
-using Azure.Core.Foundations;
-using OpenAPI;
 
 @doc("A template defining the parameters for a test job.")
 model JobTemplate is TrackedResource<JobTemplateResourceProperties> {
@@ -97,6 +92,76 @@ model Selections {
     ignoreFailure?: boolean = false;
 }
 
+/**
+ * Represents the updateable properties of a Job Template.
+ */
+model JobTemplatePatch {
+  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
+
+  /** RP-specific properties */
+  properties?: JobTemplatePatchProperties;
+}
+
+/**
+ * Properties model for patch operations without default values,
+ * defaults are prohibited for PATCH operations
+ */
+@doc("The job template properties for PATCH operations without default values")
+model JobTemplatePatchProperties {
+    @doc("Tags used to organized templates.")
+    templateTags?: string[];
+
+    @doc("Azure region to run test in.")
+    region?: string[];
+
+    @doc("VM sizes to run test on.")
+    vmSize?: string[];
+
+    @doc("Test Selections without defaults")
+    @OpenAPI.extension("x-ms-identifiers", #[])
+    selections?: SelectionsPatch[];
+
+    #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "customParameters requires a Record<string> for backward compatibility"
+    @doc("Custom parameters for different test cases")
+    customParameters?: Record<string>;
+
+    @doc("The number of concurrent environments.")
+    concurrency?: int32;
+}
+
+@doc("Details test case criteria for PATCH operations (without default values)")
+model SelectionsPatch {
+    @doc("Test case name.")
+    caseName?: string[];
+
+    @doc("Test case area.")
+    caseArea?: string[];
+
+    @doc("Test case category.")
+    caseCategory?: string[];
+
+    @doc("Test case priority. Valid values are from 0-4")
+    casePriority?: CasePriorityLevel[];
+
+    @doc("Test case tags.")
+    caseTags?: string[];
+
+    @doc("Action to take.")
+    action?: TestCaseAction;
+
+    @doc("Test iterations to run.")
+    testIterations?: int32;
+
+    @doc("Retry on failure.")
+    retryCount?: int32;
+
+    @doc("Use new environment for each test case.")
+    useNewEnvironment?: boolean;
+
+    @doc("Ignore failed test cases.")
+    ignoreFailure?: boolean;
+}
+
 @doc("JobTemplate operations.")
 @armResourceOperations(JobTemplate)
 interface JobTemplates {
@@ -104,6 +169,6 @@ interface JobTemplates {
   listbySubscription is ArmListBySubscription<JobTemplate>;
   get is ArmResourceRead<JobTemplate>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<JobTemplate>;
-  update is ArmResourcePatchSync<JobTemplate, JobTemplateResourceProperties>;
+  update is ArmCustomPatchSync<JobTemplate, JobTemplatePatch>;
   delete is ArmResourceDeleteSync<JobTemplate>;
 }

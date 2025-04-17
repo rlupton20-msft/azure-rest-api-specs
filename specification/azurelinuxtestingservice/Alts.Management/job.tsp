@@ -148,6 +148,6 @@ interface Jobs {
     listbySubscription is ArmListBySubscription<Job>;
     get is ArmResourceRead<Job>;
     createOrUpdate is ArmResourceCreateOrUpdateAsync<Job>;
-    update is ArmResourcePatchSync<Job, JobResourceProperties>;    
+    update is ArmTagsPatchSync<Job>;   
     delete is ArmResourceDeleteWithoutOkAsync<Job>;
 }

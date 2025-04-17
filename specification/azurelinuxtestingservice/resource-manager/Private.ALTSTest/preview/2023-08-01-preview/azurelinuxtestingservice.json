@@ -360,7 +360,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/JobTemplateUpdate"
+              "$ref": "#/definitions/JobTemplatePatch"
             }
           }
         ],
@@ -638,7 +638,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/JobUpdate"
+              "$ref": "#/definitions/JobTagsUpdate"
             }
           }
         ],
@@ -754,24 +754,6 @@
           }
         ]
       }
-    },
-    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
-      "type": "object",
-      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/Resource"
-        }
-      ]
     },
     "CasePriorityLevel": {
       "type": "integer",
@@ -946,6 +928,19 @@
         }
       }
     },
+    "JobTagsUpdate": {
+      "type": "object",
+      "description": "The type used for updating tags in Job resources.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "JobTemplate": {
       "type": "object",
       "description": "A template defining the parameters for a test job.",
@@ -981,6 +976,70 @@
       "required": [
         "value"
       ]
+    },
+    "JobTemplatePatch": {
+      "type": "object",
+      "description": "Represents the updateable properties of a Job Template.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/JobTemplatePatchProperties",
+          "description": "RP-specific properties"
+        }
+      }
+    },
+    "JobTemplatePatchProperties": {
+      "type": "object",
+      "description": "The job template properties for PATCH operations without default values",
+      "properties": {
+        "templateTags": {
+          "type": "array",
+          "description": "Tags used to organized templates.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "region": {
+          "type": "array",
+          "description": "Azure region to run test in.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vmSize": {
+          "type": "array",
+          "description": "VM sizes to run test on.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selections": {
+          "type": "array",
+          "description": "Test Selections without defaults",
+          "items": {
+            "$ref": "#/definitions/SelectionsPatch"
+          },
+          "x-ms-identifiers": []
+        },
+        "customParameters": {
+          "type": "object",
+          "description": "Custom parameters for different test cases",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "concurrency": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of concurrent environments."
+        }
+      }
     },
     "JobTemplateResourceProperties": {
       "type": "object",
@@ -1037,36 +1096,6 @@
           "default": 4
         }
       }
-    },
-    "JobTemplateUpdate": {
-      "type": "object",
-      "description": "A template defining the parameters for a test job.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/JobTemplateResourceProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
-        }
-      ]
-    },
-    "JobUpdate": {
-      "type": "object",
-      "description": "A job is an instance of LISA running the specified test parameters",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/JobResourceProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
-        }
-      ]
     },
     "MarketplaceImage": {
       "type": "object",
@@ -1270,6 +1299,69 @@
           "type": "boolean",
           "description": "Ignore failed test cases. Default false",
           "default": false
+        }
+      }
+    },
+    "SelectionsPatch": {
+      "type": "object",
+      "description": "Details test case criteria for PATCH operations (without default values)",
+      "properties": {
+        "caseName": {
+          "type": "array",
+          "description": "Test case name.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "caseArea": {
+          "type": "array",
+          "description": "Test case area.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "caseCategory": {
+          "type": "array",
+          "description": "Test case category.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "casePriority": {
+          "type": "array",
+          "description": "Test case priority. Valid values are from 0-4",
+          "items": {
+            "$ref": "#/definitions/CasePriorityLevel"
+          }
+        },
+        "caseTags": {
+          "type": "array",
+          "description": "Test case tags.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "action": {
+          "$ref": "#/definitions/TestCaseAction",
+          "description": "Action to take."
+        },
+        "testIterations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Test iterations to run."
+        },
+        "retryCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Retry on failure."
+        },
+        "useNewEnvironment": {
+          "type": "boolean",
+          "description": "Use new environment for each test case."
+        },
+        "ignoreFailure": {
+          "type": "boolean",
+          "description": "Ignore failed test cases."
         }
       }
     },
