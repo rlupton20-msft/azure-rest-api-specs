@@ -62,10 +62,10 @@ model BucketSource extends Source {
 
   @doc("Details for how to connect to the backing data store.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  connection: Connection;
+  connection: BucketConnection;
 
   @doc("Details for how to authenticate to the backing data store.")
-  authProperties: AuthProperties;
+  authProperties: BucketAuthProperties;
 
   @doc("The host to use when computing the signature for requests to the backing data store. If not provided, defaults to what is provided in the endpoint for the connection.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
@@ -73,31 +73,31 @@ model BucketSource extends Source {
 }
 
 @doc("The properties of the backing data store.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model DataShareSource extends Source {
   @visibility(Lifecycle.Read)
   type: SourceType.DataShare;
 
   @doc("Details for how to connect to the backing data store.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  connection: Connection;
+  connection: DataShareConnection;
 
   @doc("Details for how to authenticate to the backing data store.")
-  authProperties: AuthProperties;
+  authProperties: DataShareAuthProperties;
 }
 
-// Connection Properties
+// BucketConnection Properties
 @discriminator("type")
 @doc("Details related to the type of bucket connection")
-model Connection {
+model BucketConnection {
   @doc("Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object. Not mutable once the Storage Connector is created.")
-  type: ConnectionType;
+  type: BucketConnectionType;
 }
 
 @doc("Details related to endpoint based bucket connection")
-model EndpointConnection extends Connection {
+model EndpointBucketConnection extends BucketConnection {
   @visibility(Lifecycle.Read)
-  type: ConnectionType.Endpoint;
+  type: BucketConnectionType.Endpoint;
 
   @doc("Endpoint to connect to, including the protocol (http vs https), the host name, the port if applicable (defaulting to 80 or 443), and the path if applicable. Samples: https://203.0.113.1:9000/AllowSelfSignedCerts Bucket: https://data.contoso.com/bucketname .")
   @minLength(4)
@@ -107,22 +107,11 @@ model EndpointConnection extends Connection {
   tlsVerification?: TlsVerification = TlsVerification.Perform;
 }
 
-@doc("Details related to DataShare based connection")
-@added(Versions.v2025_05_01_preview)
-model DataShareConnection extends Connection {
-  @visibility(Lifecycle.Read)
-  type: ConnectionType.DataShare;
-
-  @doc("The URI of the backing DataShare. Must be in the format: asds://<region>:<DataShareName>:<DataShareIdentifier>")
-  @pattern("^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-  dataShareUri: string;
-}
-
 @doc("Details related to PrivateLink based connection")
-@added(Versions.v2025_06_01_preview)
-model PrivateLinkConnection extends Connection {
+@added(Versions.v2025_05_01_preview)
+model PrivateLinkBucketConnection extends BucketConnection {
   @visibility(Lifecycle.Read)
-  type: ConnectionType.PrivateLink;
+  type: BucketConnectionType.PrivateLink;
 
   @doc("The name of the system created Private Endpoint.")
   @visibility(Lifecycle.Read)
@@ -145,18 +134,39 @@ model PrivateLinkConnection extends Connection {
   tlsVerification?: TlsVerification = TlsVerification.Perform;
 }
 
-// Auth Properties
+// DataShareConnection Properties
+@discriminator("type")
+@doc("Details related to the type of datashare connection")
+@added(Versions.v2025_07_01_preview)
+model DataShareConnection {
+  @doc("Type of the connection. Controls the type of the connection object. Not mutable once the Storage Connector is created.")
+  type: DataShareConnectionType;
+}
+
+// DataShareConnection Properties
+@doc("Details of datashare connection")
+@added(Versions.v2025_07_01_preview)
+model DataShareConnectionProperties extends DataShareConnection {
+  @visibility(Lifecycle.Read)
+  type: DataShareConnectionType.DataShare;
+
+  @doc("The URI of the backing DataShare. Must be in the format: asds://<region>:<DataShareName>:<DataShareIdentifier>")
+  @pattern("^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+  dataShareUri: string;
+}
+
+// Bucket Auth Properties
 @discriminator("type")
 @doc("The auth properties for bucket connection.")
-model AuthProperties {
+model BucketAuthProperties {
   @doc("The auth type for bucket connection.")
-  type: AuthType;
+  type: BucketAuthType;
 }
 
 @doc("The access key properties for bucket connection.")
-model AccessKeyProperties extends AuthProperties {
+model BucketAccessKeyProperties extends BucketAuthProperties {
   @visibility(Lifecycle.Read)
-  type: AuthType.AccessKey;
+  type: BucketAuthType.AccessKey;
 
   @doc("Access key ID for the backing data store.")
   @minLength(3)
@@ -171,11 +181,20 @@ model AccessKeyProperties extends AuthProperties {
   signingRegion?: string;
 }
 
+// DataShare Auth Properties
+@discriminator("type")
+@doc("The auth properties for datashare connection.")
+@added(Versions.v2025_07_01_preview)
+model DataShareAuthProperties {
+  @doc("The auth type for datashare connection.")
+  type: DataShareAuthType;
+}
+
 @doc("The managed identity properties for dataShare connection.")
-@added(Versions.v2025_05_01_preview)
-model ManagedIdentityAuthProperties extends AuthProperties {
+@added(Versions.v2025_07_01_preview)
+model ManagedIdentityAuthProperties extends DataShareAuthProperties {
   @visibility(Lifecycle.Read)
-  type: AuthType.ManagedIdentity;
+  type: DataShareAuthType.ManagedIdentity;
 
   @doc("ARM ID of the managed identity that should be used to authenticate to the backing data source.")
   identityResourceId?: string;
