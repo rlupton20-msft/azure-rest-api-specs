@@ -64,7 +64,7 @@ scalar CasePriorityLevel extends int32;
 @doc("Details test case criteria")
 model Selections {
     @doc("Test case name. Default is empty.")
-    caseName?: string[] = [];
+    caseName?: string[] = #[];
 
     @doc("Test case area. Default is empty.")
     caseArea?: string[] = [];
