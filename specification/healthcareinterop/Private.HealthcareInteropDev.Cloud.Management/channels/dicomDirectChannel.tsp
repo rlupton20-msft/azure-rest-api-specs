@@ -40,26 +40,7 @@ model DicomDirectChannelProperties {
 // #region Source
 
 @doc("The source configuration for the DicomDirectChannel resource.")
-@discriminator("connectorType")
 model DicomDirectChannelSourceProperties {
-  @doc("The type of source connector to be used for this channel.")
-  connectorType: DicomDirectChannelSourceConnectorType;
-}
-
-@doc("Types of source connectors supported for the DicomDirectChannel resource.")
-union DicomDirectChannelSourceConnectorType {
-  string,
-
-  @doc("Dicom connector.")
-  DicomConnector: "DicomConnector",
-}
-
-@doc("DicomConnector source properties.")
-model DicomConnectorSourceProperties
-  extends DicomDirectChannelSourceProperties {
-  @doc("The type of source connector to be used for this channel.")
-  connectorType: DicomDirectChannelSourceConnectorType.DicomConnector;
-
   @doc("The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source.")
   dicomConnectorResourceId: DicomConnectorResourceId;
 }
