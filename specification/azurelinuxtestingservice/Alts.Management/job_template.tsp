@@ -30,6 +30,7 @@ model JobTemplateResourceProperties is ResourceProperties{
     @OpenAPI.extension("x-ms-identifiers", #[])
     selections?: Selections[];
 
+    #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "customParameters requires a Record<string> for backward compatibility"
     @doc("Custom parameters for different test cases")
     customParameters?: Record<string>;
 

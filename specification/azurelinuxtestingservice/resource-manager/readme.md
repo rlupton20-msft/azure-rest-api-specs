@@ -36,7 +36,10 @@ These settings apply only when `--tag=package-2023-08-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-08-01-preview'
 input-file:
-  - Private.ALTSTest/preview/2023-08-01-preview/azurelinuxtestingservice.json
+  - Private.AltsTest/preview/2023-08-01-preview/azurelinuxtestingservice.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    reason: AdditionalProperties is required for our user-defined customParameters field.
 ```
 
 ---

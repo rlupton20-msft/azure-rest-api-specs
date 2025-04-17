@@ -57,6 +57,7 @@ model TestResultProperties is ResourceProperties {
   @doc("Wala Version")
   walaVersion?: string;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "extraFields requires a Record<string> for backward compatibility"
   @doc("Extra fields")
   extraFields?: Record<string>;
 

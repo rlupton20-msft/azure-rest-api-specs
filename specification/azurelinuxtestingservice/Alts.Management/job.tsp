@@ -88,7 +88,7 @@ scalar VhdGeneration extends int32;
 model Image {
     @doc("The type of image")
     type: ImageType;
-    
+
     @doc("Options are 1 or 2. Defaults to 1")
     vhdGeneration?: VhdGeneration = 1;
 
@@ -134,7 +134,7 @@ model SharedImageGallery extends Image {
     @doc("Resource group name - Optional")
     resourceGroup?: string = "";
 
-    @doc("Gallery")
+    @doc("Gallery Name")
     gallery: string;
 
     @doc("Image definition")
