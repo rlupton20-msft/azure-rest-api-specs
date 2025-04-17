@@ -48,20 +48,22 @@ model ResourceProperties {
 // Extend the provisioning state
 @lroStatus
 @doc("The extended resource provisioning states.")
-enum ProvisioningState {
-  ...ResourceProvisioningState, // Succeeded, Failed, and Canceled
+union ProvisioningState {
+  ResourceProvisioningState, // Succeeded, Failed, and Canceled
 
   @doc("The resource is queued for provisioning.")
-  Queued,
+  Queued: "Queued",
 
   @doc("The resource is being provisioned.")
-  Provisioning,
+  Provisioning: "Provisioning",
 
   @doc("The resource is running.")
-  Running,
+  Running: "Running",
 
   @doc("The resource is being canceled.")
-  Cancelling,
+  Cancelling: "Cancelling",
+
+  string,
 }
 
 
