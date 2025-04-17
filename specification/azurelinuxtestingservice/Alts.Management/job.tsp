@@ -86,6 +86,9 @@ scalar VhdGeneration extends int32;
 @doc("This object collects the image information used for testing. The associated properties of each image type must be populated.s")
 @discriminator("type")
 model Image {
+    @doc("The type of image")
+    type: ImageType;
+    
     @doc("Options are 1 or 2. Defaults to 1")
     vhdGeneration?: VhdGeneration = 1;
 
