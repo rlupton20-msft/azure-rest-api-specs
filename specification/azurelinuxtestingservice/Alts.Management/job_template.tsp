@@ -4,7 +4,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using Autorest;
 using Azure.Core;
 using Azure.Core.Foundations;
@@ -16,7 +15,7 @@ model JobTemplate is TrackedResource<JobTemplateResourceProperties> {
     @pattern("^[a-zA-Z0-9-_]{3,60}$")
     @key("jobTemplateName")
     @segment("jobTemplates")
-    @visibility("read")
+    @visibility(Lifecycle.Read)
     @path()
     name: string; 
 }
@@ -24,13 +23,13 @@ model JobTemplate is TrackedResource<JobTemplateResourceProperties> {
 @doc("The job template properties")
 model JobTemplateResourceProperties is ResourceProperties{
     @doc("Tags used to organized templates.")
-    templateTags?: string[] = [];
+    templateTags?: string[] = #[];
 
     @doc("Azure region to run test in.")
-    region?: string[] = [];
+    region?: string[] = #[];
 
     @doc("VM sizes to run test on.")
-    vmSize?: string[] = [];
+    vmSize?: string[] = #[];
 
     @doc("Test Selections. Default is to run the smoke_test case")
     selections?: Selections[];
@@ -67,16 +66,16 @@ model Selections {
     caseName?: string[] = #[];
 
     @doc("Test case area. Default is empty.")
-    caseArea?: string[] = [];
+    caseArea?: string[] = #[];
 
     @doc("Test case category. Default is empty.")
-    caseCategory?: string[] = [];
+    caseCategory?: string[] = #[];
 
     @doc("Test case priority. Default is empty and represents all priorities. Valid values are from 0-4")
-    casePriority?: CasePriorityLevel[] = [];
+    casePriority?: CasePriorityLevel[] = #[];
 
     @doc("Test case tags. Default empty")
-    caseTags?: string[] = [];
+    caseTags?: string[] = #[];
 
     @doc("Action to take. Default is include")
     action?: TestCaseAction = TestCaseAction.include;
