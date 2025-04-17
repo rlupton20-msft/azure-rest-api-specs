@@ -99,7 +99,7 @@ interface JobTemplates {
   listByResourceGroup is ArmResourceListByParent<JobTemplate>;
   listbySubscription is ArmListBySubscription<JobTemplate>;
   get is ArmResourceRead<JobTemplate>;
-  createOrUpdate is ArmResourceCreateOrUpdateSync<JobTemplate>;
+  createOrUpdate is ArmResourceCreateOrReplaceSync<JobTemplate>;
   update is ArmResourcePatchSync<JobTemplate, JobTemplateResourceProperties>;
   delete is ArmResourceDeleteSync<JobTemplate>;
 }

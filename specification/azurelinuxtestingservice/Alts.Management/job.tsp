@@ -144,5 +144,5 @@ interface Jobs {
     get is ArmResourceRead<Job>;
     createOrUpdate is ArmResourceCreateOrUpdateAsync<Job>;
     update is ArmResourcePatchSync<Job, JobResourceProperties>;    
-    delete is ArmResourceDeleteAsync<Job>;
+    delete is ArmResourceDeleteWithoutOkAsync<Job>;
 }
