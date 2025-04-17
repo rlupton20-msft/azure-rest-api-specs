@@ -68,7 +68,6 @@ union ProvisioningState {
 enum Versions {
   @doc("The 2023-08-01-preview API version.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2023_08_01_preview: "2023-08-01-preview",
 }
 
