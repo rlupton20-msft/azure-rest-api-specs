@@ -23,7 +23,7 @@ union SourceType {
   Bucket: "Bucket",
 
   @doc("Source type - DataShare")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   DataShare: "DataShare",
 
   string,
@@ -49,9 +49,9 @@ union BucketAuthType {
 }
 
 @doc("The auth type supported for datashare.")
+@added(Versions.v2025_07_01_preview)
 union DataShareAuthType {
   @doc("Managed Identity auth type")
-  @added(Versions.v2025_07_01_preview)
   ManagedIdentity: "ManagedIdentity",
 
   string,
@@ -70,6 +70,7 @@ union BucketConnectionType {
 }
 
 @doc("The connection type for datashare connection")
+@added(Versions.v2025_07_01_preview)
 union DataShareConnectionType {
   @doc("DataShare connection type")
   DataShare: "DataShare",
