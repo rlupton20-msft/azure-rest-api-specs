@@ -25,7 +25,7 @@ model JobTemplateResourceProperties is ResourceProperties {
 
   @doc("VM sizes to run test on.")
   vmSize?: string[] = #[];
-  
+
   @doc("OS disk enccryption setting for Confidential VM only.")
   encryptDisk?: boolean = false;
 
@@ -120,7 +120,7 @@ model JobTemplatePatchProperties {
 
   @doc("VM sizes to run test on.")
   vmSize?: string[];
-  
+
   @doc("OS disk encryption setting for Confidential VM only.")
   encryptDisk?: boolean;
 
