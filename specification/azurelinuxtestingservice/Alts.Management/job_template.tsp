@@ -25,6 +25,9 @@ model JobTemplateResourceProperties is ResourceProperties {
 
   @doc("VM sizes to run test on.")
   vmSize?: string[] = #[];
+  
+  @doc("OS disk enccryption setting for Confidential VM only.")
+  encryptDisk?: boolean = false;
 
   @doc("Test Selections. Default is to run the smoke_test case")
   @OpenAPI.extension("x-ms-identifiers", #[])
@@ -117,6 +120,9 @@ model JobTemplatePatchProperties {
 
   @doc("VM sizes to run test on.")
   vmSize?: string[];
+  
+  @doc("OS disk encryption setting for Confidential VM only.")
+  encryptDisk?: boolean;
 
   @doc("Test Selections without defaults")
   @OpenAPI.extension("x-ms-identifiers", #[])
