@@ -3,6 +3,8 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
+import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/requirements.tsp";
+import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/dicomModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -10,7 +12,7 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@doc("The healthcare interop dicom connector resource that reads healthcare images from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.")
+@doc("The healthcare interop DICOM connector resource that reads healthcare images from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.")
 @resource("dicomConnectors")
 model DicomConnector is TrackedResource<DicomConnectorProperties> {
   @doc("The name of the Dicom connector resource.")
@@ -21,7 +23,7 @@ model DicomConnector is TrackedResource<DicomConnectorProperties> {
   name: string;
 }
 
-@doc("The properties to configure the dicom connector resource.")
+@doc("The properties to configure the DICOM connector resource.")
 model DicomConnectorProperties {
   @doc("The status of the last provisioning operation.")
   @visibility(Lifecycle.Read)
@@ -30,19 +32,22 @@ model DicomConnectorProperties {
   @doc("The resource ID of an existing hub resource to link/associate this dicomConnector resource to.")
   hubResourceId: HubResourceId;
 
-  @doc("The receiver configuration to be used for the dicom connector.")
-  receiver?: {
-    @doc("The listener configuration to be used for dicom connector.")
-    dicomListenerConfiguration: DicomListenerConfiguration;
-  };
-}
+  @doc("The resource ID of the remote connector environment connected cluster where the connector will be deployed.")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
+  connectedClusterId: ConnectedClusterResourceId;
 
-@doc("The dicom listener configuration properties.")
-model DicomListenerConfiguration {
-  @doc("The port number to use.")
-  @minValue(1)
-  @maxValue(65535)
-  port: int32;
+  @doc("The receiver configuration to be used for the DICOM connector.")
+  receiver?: {
+    @doc("The listener configuration to be used for DICOM connector.")
+    dicomListenerConfiguration: DicomListenerConfiguration;
+
+    @doc("The resource requirements for the application (CPU, Memory, and Storage).")
+    requirements?: Requirements;
+  };
+
+  @visibility(Lifecycle.Read)
+  @doc("The resource ID of the dicomEdgeConnector resource managed by this resource.")
+  managedDicomEdgeConnectorResourceId?: DicomEdgeConnectorResourceId;
 }
 
 @armResourceOperations
