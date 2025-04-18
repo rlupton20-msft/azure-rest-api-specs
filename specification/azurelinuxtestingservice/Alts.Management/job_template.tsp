@@ -55,7 +55,6 @@ union TestCaseAction {
   @doc("Force exclude test case")
   forceExclude: "forceExclude",
 
-  @doc("Custom action as a string")
   string,
 }
 
