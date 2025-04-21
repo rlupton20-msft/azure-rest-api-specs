@@ -21,6 +21,7 @@ model KnowledgeBaseVersion {
   @doc("The version name.")
   @visibility(Lifecycle.Read)
   @key("versionName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
 
   ...BaseKnowledgeBase;

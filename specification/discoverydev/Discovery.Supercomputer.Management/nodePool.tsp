@@ -18,14 +18,14 @@ namespace Microsoft.Discovery;
 
 @doc("Supported Azure VM Skus.")
 union VmSku {
-  @doc("Standard_NC6 GPU-optimized Azure VM Sku with 6 vCPUs")
-  Standard_NC6: "Standard_NC6",
+  @doc("Standard_NC96ads_A100_v4 GPU-optimized Azure VM Sku")
+  Standard_NC96ads_A100_v4: "Standard_NC96ads_A100_v4",
 
-  @doc("Standard_NC12 GPU-optimized Azure VM Sku with 12 vCPUs")
-  Standard_NC12: "Standard_NC12",
+  @doc("Standard_NC48ads_A100_v4 GPU-optimized Azure VM Sku")
+  Standard_NC48ads_A100_v4: "Standard_NC48ads_A100_v4",
 
-  @doc("Standard_NC24 GPU-optimized Azure VM Sku with 24 vCPUs")
-  Standard_NC24: "Standard_NC24",
+  @doc("Standard_NC24ads_A100_v4 GPU-optimized Azure VM Sku")
+  Standard_NC24ads_A100_v4: "Standard_NC24ads_A100_v4",
 
   string,
 }
@@ -61,6 +61,6 @@ interface NodePools {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<NodePool>;
   update is ArmResourcePatchAsync<NodePool, NodePoolProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<NodePool>;
-  listByResourceGroup is ArmResourceListByParent<NodePool>;
+  listBySupercomputer is ArmResourceListByParent<NodePool>;
   listBySubscription is ArmListBySubscription<NodePool>;
 }

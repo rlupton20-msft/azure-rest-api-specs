@@ -43,6 +43,6 @@ interface DataAssets {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<DataAsset>;
   update is ArmResourcePatchAsync<DataAsset, DataAssetProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<DataAsset>;
-  listByResourceGroup is ArmResourceListByParent<DataAsset>;
+  listByDataContainer is ArmResourceListByParent<DataAsset>;
   listBySubscription is ArmListBySubscription<DataAsset>;
 }

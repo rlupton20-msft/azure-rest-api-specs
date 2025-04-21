@@ -35,14 +35,6 @@ model ProjectProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   agentIds: AgentId[];
 
-  @doc("Allowed Tools (Control plane resource references).")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  toolIds: ToolId[];
-
-  @doc("Allowed Models (Control plane resource references).")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  modelIds: ModelId[];
-
   @doc("Allowed KnowledgeBases (Data plane resource IDs).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   knowledgeBaseIds: string[];
@@ -58,6 +50,6 @@ interface Projects {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Project>;
   update is ArmResourcePatchAsync<Project, ProjectProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Project>;
-  listByResourceGroup is ArmResourceListByParent<Project>;
+  listByWorkspace is ArmResourceListByParent<Project>;
   listBySubscription is ArmListBySubscription<Project>;
 }
