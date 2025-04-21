@@ -841,6 +841,66 @@
     }
   },
   "definitions": {
+    "AccessKeyProperties": {
+      "type": "object",
+      "description": "The access key properties for bucket connection.",
+      "properties": {
+        "accessKeyId": {
+          "type": "string",
+          "description": "Access key ID for the backing data store.",
+          "minLength": 3
+        },
+        "secretAccessKey": {
+          "type": "string",
+          "format": "password",
+          "description": "Secret access key. Redacted when read via a Get or List API.",
+          "minLength": 3,
+          "x-ms-secret": true
+        },
+        "signingRegion": {
+          "type": "string",
+          "description": "Region to use in the signing algorithm.  If not provided, defaults to us-east-1."
+        }
+      },
+      "required": [
+        "accessKeyId",
+        "secretAccessKey"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthProperties"
+        }
+      ],
+      "x-ms-discriminator-value": "AccessKey"
+    },
+    "AccessKeyPropertiesUpdate": {
+      "type": "object",
+      "description": "The access key properties for bucket connection.",
+      "properties": {
+        "accessKeyId": {
+          "type": "string",
+          "description": "Access key ID for the backing data store.",
+          "minLength": 3
+        },
+        "secretAccessKey": {
+          "type": "string",
+          "format": "password",
+          "description": "Secret access key. Redacted when read via a Get or List API.",
+          "minLength": 3,
+          "x-ms-secret": true
+        },
+        "signingRegion": {
+          "type": "string",
+          "description": "Region to use in the signing algorithm.  If not provided, defaults to us-east-1."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthPropertiesUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "AccessKey"
+    },
     "AccessPolicy": {
       "type": "object",
       "description": "Policy that specify the permission allowed to a managed identity.",
@@ -883,6 +943,58 @@
         "assetPath",
         "displayName"
       ]
+    },
+    "AuthProperties": {
+      "type": "object",
+      "description": "The auth properties for bucket connection.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/AuthType",
+          "description": "The auth type for bucket connection."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "AuthPropertiesUpdate": {
+      "type": "object",
+      "description": "The auth properties for bucket connection.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/AuthType",
+          "description": "The auth type for bucket connection."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "AuthType": {
+      "type": "string",
+      "description": "The auth type supported for bucket connection.",
+      "enum": [
+        "AccessKey",
+        "ManagedIdentity"
+      ],
+      "x-ms-enum": {
+        "name": "AuthType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AccessKey",
+            "value": "AccessKey",
+            "description": "Access Key auth type"
+          },
+          {
+            "name": "ManagedIdentity",
+            "value": "ManagedIdentity",
+            "description": "Managed Identity auth type"
+          }
+        ]
+      }
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
@@ -933,156 +1045,12 @@
       },
       "readOnly": true
     },
-    "BucketAccessKeyProperties": {
-      "type": "object",
-      "description": "The access key properties for bucket connection.",
-      "properties": {
-        "accessKeyId": {
-          "type": "string",
-          "description": "Access key ID for the backing data store.",
-          "minLength": 3
-        },
-        "secretAccessKey": {
-          "type": "string",
-          "format": "password",
-          "description": "Secret access key. Redacted when read via a Get or List API.",
-          "minLength": 3,
-          "x-ms-secret": true
-        },
-        "signingRegion": {
-          "type": "string",
-          "description": "Region to use in the signing algorithm.  If not provided, defaults to us-east-1."
-        }
-      },
-      "required": [
-        "accessKeyId",
-        "secretAccessKey"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/BucketAuthProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "AccessKey"
-    },
-    "BucketAccessKeyPropertiesUpdate": {
-      "type": "object",
-      "description": "The access key properties for bucket connection.",
-      "properties": {
-        "accessKeyId": {
-          "type": "string",
-          "description": "Access key ID for the backing data store.",
-          "minLength": 3
-        },
-        "secretAccessKey": {
-          "type": "string",
-          "format": "password",
-          "description": "Secret access key. Redacted when read via a Get or List API.",
-          "minLength": 3,
-          "x-ms-secret": true
-        },
-        "signingRegion": {
-          "type": "string",
-          "description": "Region to use in the signing algorithm.  If not provided, defaults to us-east-1."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/BucketAuthPropertiesUpdate"
-        }
-      ],
-      "x-ms-discriminator-value": "AccessKey"
-    },
-    "BucketAuthProperties": {
-      "type": "object",
-      "description": "The auth properties for bucket connection.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/BucketAuthType",
-          "description": "The auth type for bucket connection."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "BucketAuthPropertiesUpdate": {
-      "type": "object",
-      "description": "The auth properties for bucket connection.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/BucketAuthType",
-          "description": "The auth type for bucket connection."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "BucketAuthType": {
-      "type": "string",
-      "description": "The auth type supported for bucket connection.",
-      "enum": [
-        "AccessKey"
-      ],
-      "x-ms-enum": {
-        "name": "BucketAuthType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "AccessKey",
-            "value": "AccessKey",
-            "description": "Access Key auth type"
-          }
-        ]
-      }
-    },
-    "BucketConnection": {
-      "type": "object",
-      "description": "Details related to the type of bucket connection",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/BucketConnectionType",
-          "description": "Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object. Not mutable once the Storage Connector is created."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "BucketConnectionType": {
-      "type": "string",
-      "description": "The connection type for bucket connection",
-      "enum": [
-        "Endpoint",
-        "PrivateLink"
-      ],
-      "x-ms-enum": {
-        "name": "BucketConnectionType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Endpoint",
-            "value": "Endpoint",
-            "description": "Endpoint connection type"
-          },
-          {
-            "name": "PrivateLink",
-            "value": "PrivateLink",
-            "description": "PrivateLink connection type"
-          }
-        ]
-      }
-    },
     "BucketSource": {
       "type": "object",
       "description": "The properties of the backing data store.",
       "properties": {
         "connection": {
-          "$ref": "#/definitions/BucketConnection",
+          "$ref": "#/definitions/Connection",
           "description": "Details for how to connect to the backing data store.",
           "x-ms-mutability": [
             "read",
@@ -1090,7 +1058,7 @@
           ]
         },
         "authProperties": {
-          "$ref": "#/definitions/BucketAuthProperties",
+          "$ref": "#/definitions/AuthProperties",
           "description": "Details for how to authenticate to the backing data store."
         },
         "hostOverride": {
@@ -1118,7 +1086,7 @@
       "description": "The properties of the backing data store.",
       "properties": {
         "authProperties": {
-          "$ref": "#/definitions/BucketAuthPropertiesUpdate",
+          "$ref": "#/definitions/AuthPropertiesUpdate",
           "description": "Details for how to authenticate to the backing data store."
         }
       },
@@ -1128,6 +1096,50 @@
         }
       ],
       "x-ms-discriminator-value": "Bucket"
+    },
+    "Connection": {
+      "type": "object",
+      "description": "Details related to the type of bucket connection",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ConnectionType",
+          "description": "Type of the connection - Endpoint or PrivateLink. Controls the type of the connection object. Not mutable once the Storage Connector is created."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "ConnectionType": {
+      "type": "string",
+      "description": "The connection type for bucket connection",
+      "enum": [
+        "Endpoint",
+        "PrivateLink",
+        "DataShare"
+      ],
+      "x-ms-enum": {
+        "name": "ConnectionType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Endpoint",
+            "value": "Endpoint",
+            "description": "Endpoint connection type"
+          },
+          {
+            "name": "PrivateLink",
+            "value": "PrivateLink",
+            "description": "PrivateLink connection type"
+          },
+          {
+            "name": "DataShare",
+            "value": "DataShare",
+            "description": "DataShare connection type"
+          }
+        ]
+      }
     },
     "Connector": {
       "type": "object",
@@ -1320,69 +1332,9 @@
         }
       ]
     },
-    "DataShareAuthProperties": {
-      "type": "object",
-      "description": "The auth properties for datashare connection.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/DataShareAuthType",
-          "description": "The auth type for datashare connection."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "DataShareAuthPropertiesUpdate": {
-      "type": "object",
-      "description": "The auth properties for datashare connection.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/DataShareAuthType",
-          "description": "The auth type for datashare connection."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "DataShareAuthType": {
-      "type": "string",
-      "description": "The auth type supported for datashare.",
-      "enum": [
-        "ManagedIdentity"
-      ],
-      "x-ms-enum": {
-        "name": "DataShareAuthType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "ManagedIdentity",
-            "value": "ManagedIdentity",
-            "description": "Managed Identity auth type"
-          }
-        ]
-      }
-    },
     "DataShareConnection": {
       "type": "object",
-      "description": "Details related to the type of datashare connection",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/DataShareConnectionType",
-          "description": "Type of the connection. Controls the type of the connection object. Not mutable once the Storage Connector is created."
-        }
-      },
-      "discriminator": "type",
-      "required": [
-        "type"
-      ]
-    },
-    "DataShareConnectionProperties": {
-      "type": "object",
-      "description": "Details of datashare connection",
+      "description": "Details related to DataShare based connection",
       "properties": {
         "dataShareUri": {
           "type": "string",
@@ -1395,28 +1347,10 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/DataShareConnection"
+          "$ref": "#/definitions/Connection"
         }
       ],
       "x-ms-discriminator-value": "DataShare"
-    },
-    "DataShareConnectionType": {
-      "type": "string",
-      "description": "The connection type for datashare connection",
-      "enum": [
-        "DataShare"
-      ],
-      "x-ms-enum": {
-        "name": "DataShareConnectionType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "DataShare",
-            "value": "DataShare",
-            "description": "DataShare connection type"
-          }
-        ]
-      }
     },
     "DataShareListResult": {
       "type": "object",
@@ -1569,7 +1503,7 @@
       "description": "The properties of the backing data store.",
       "properties": {
         "connection": {
-          "$ref": "#/definitions/DataShareConnection",
+          "$ref": "#/definitions/Connection",
           "description": "Details for how to connect to the backing data store.",
           "x-ms-mutability": [
             "read",
@@ -1577,7 +1511,7 @@
           ]
         },
         "authProperties": {
-          "$ref": "#/definitions/DataShareAuthProperties",
+          "$ref": "#/definitions/AuthProperties",
           "description": "Details for how to authenticate to the backing data store."
         }
       },
@@ -1597,7 +1531,7 @@
       "description": "The properties of the backing data store.",
       "properties": {
         "authProperties": {
-          "$ref": "#/definitions/DataShareAuthPropertiesUpdate",
+          "$ref": "#/definitions/AuthPropertiesUpdate",
           "description": "Details for how to authenticate to the backing data store."
         }
       },
@@ -1671,9 +1605,9 @@
         ]
       }
     },
-    "EndpointBucketConnection": {
+    "EndpointConnection": {
       "type": "object",
-      "description": "Details related to endpoint based bucket connection",
+      "description": "Details related to endpoint based connection",
       "properties": {
         "endpoint": {
           "type": "string",
@@ -1711,7 +1645,7 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/BucketConnection"
+          "$ref": "#/definitions/Connection"
         }
       ],
       "x-ms-discriminator-value": "Endpoint"
@@ -1727,7 +1661,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/DataShareAuthProperties"
+          "$ref": "#/definitions/AuthProperties"
         }
       ],
       "x-ms-discriminator-value": "ManagedIdentity"
@@ -1743,7 +1677,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/DataShareAuthPropertiesUpdate"
+          "$ref": "#/definitions/AuthPropertiesUpdate"
         }
       ],
       "x-ms-discriminator-value": "ManagedIdentity"
@@ -1807,7 +1741,7 @@
       ],
       "allOf": [
         {
-          "$ref": "#/definitions/BucketConnection"
+          "$ref": "#/definitions/Connection"
         }
       ],
       "x-ms-discriminator-value": "PrivateLink"
