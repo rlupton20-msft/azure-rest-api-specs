@@ -117,8 +117,8 @@ model DataShareConnection extends Connection {
   @visibility(Lifecycle.Read)
   type: ConnectionType.DataShare;
 
-  @doc("The URI of the backing DataShare. Must be in the format: asds://<region>:<DataShareName>:<DataShareIdentifier>")
-  @pattern("^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+  @doc("The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>")
+  @pattern("^azds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
   dataShareUri: string;
 }
 

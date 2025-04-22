@@ -19,16 +19,13 @@ model DataShareProperties {
   @doc("System-generated identifier for the Storage DataShare. Not a valid input parameter when creating.")
   dataShareIdentifier?: string;
 
-  @doc("State - Active | Inactive. Default: Active. Specifies whether or not the DataShare is active. When set to Inactive, all data plane datasharing calls to the provider will fail.")
-  state?: State = State.Active;
-
   @doc("Arbitrary description of this Data Share. Max 250 characters.")
   @maxLength(250)
   description?: string;
 
   @visibility(Lifecycle.Read)
-  @doc("The DataShare URI to be shared with the consumer. URI Format - 'asds://<location>:<dataShareName>:<dataShareIdentifier>'.")
-  @pattern("^asds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+  @doc("The DataShare URI to be shared with the consumer. URI Format - 'azds://<location>:<dataShareName>:<dataShareIdentifier>'.")
+  @pattern("^azds://[a-zA-Z0-9-]+:[a-zA-Z0-9-_]+:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
   dataShareUri: string;
 
   @doc("List of access policies that specify the permission allowed to a managed identity.")
