@@ -125,7 +125,7 @@ model DataShareConnection extends Connection {
 // PrivateLink Connection Properties
 @doc("Details related to PrivateLink based connection")
 @added(Versions.v2025_05_01_preview)
-model PrivateLinkBucketConnection extends Connection {
+model PrivateLinkConnection extends Connection {
   @visibility(Lifecycle.Read)
   type: ConnectionType.PrivateLink;
 
