@@ -40,11 +40,11 @@ model DicomEdgeConnectorProperties {
 
     @doc("The Storage Endpoint Configuration to be used for dicom connector configuration.")
     @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
-    localStorageEndpointConfiguration?: {
-      @doc("URL of the blob storage where the output will be stored.")
+    storageEndpointConfiguration?: {
+      @doc("URL of the storage endpoint where the output will be stored.")
       @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
       @pattern("^https://.*$")
-      blobUrl: string;
+      endpoint: string;
 
       @doc("Name of the container in the blob storage.")
       @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
@@ -53,7 +53,7 @@ model DicomEdgeConnectorProperties {
 
       @doc("Format for the output folder.")
       @maxLength(255)
-      outputFolderFormat: string;
+      outputFolderFormat?: string;
     };
   };
 

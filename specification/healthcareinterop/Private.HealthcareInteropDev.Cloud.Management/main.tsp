@@ -8,6 +8,7 @@ import "./connectors/storageAccountConnector.tsp";
 import "./connectors/oneLakeConnector.tsp";
 import "./connectors/hl7Connector.tsp";
 import "./connectors/dicomConnector.tsp";
+import "./channels/dicomDirectChannel.tsp";
 import "./channels/fhirQueryEventBatchChannel.tsp";
 import "./channels/fhirQueryFlatFileBatchChannel.tsp";
 

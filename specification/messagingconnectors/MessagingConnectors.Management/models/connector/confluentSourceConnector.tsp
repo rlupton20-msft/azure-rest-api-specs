@@ -63,8 +63,12 @@ model ConfluentSourceConnectorProperties extends DataSourceProperties {
   authentication: Authentication;
 
   @doc("Sasl mechanism of the confluent.")
-  saslMechanism: SaslMechanismForConfluent;
+  saslMechanism?: SaslMechanismForConfluent;
 
   @doc("Security protocol of the confluent.")
-  securityProtocol: SecurityProtocolForConfluent;
+  securityProtocol?: SecurityProtocolForConfluent;
+
+  @added(Versions.v2025_03_01_preview)
+  @doc("OffsetStartTime in utcDateTime zone.")
+  offsetStartTime?: utcDateTime;
 }

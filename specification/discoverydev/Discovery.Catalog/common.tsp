@@ -32,6 +32,7 @@ model WithVersion {
   @visibility(Lifecycle.Read)
   version: string;
 }
+
 @doc("For adding author.")
 model WithAuthor {
   @doc("The author")
@@ -45,13 +46,6 @@ model WithLicense {
   @visibility(Lifecycle.Read)
   license: string;
 }
-
-// @doc("For adding definition attributes.")
-// model WithAttributes<T> {
-//   @doc("The definition attributes extracted from definitionContents Yaml")
-//   @visibility(Lifecycle.Read)
-//   attributes?: T;
-// }
 
 @doc("For adding copilot Instruction")
 model WithCopilotInstruction {
@@ -83,12 +77,13 @@ model WithRepo {
 
 @doc("Base artifact properties")
 model Artifact {
-  ...DataPlaneResource;
-
   /** Name of the catalog containing this resource. */
   @visibility(Lifecycle.Read)
   @pattern(resourceNamePattern)
   catalogName: string;
+
+  ...WithId;
+  ...DataPlaneResource;
 
   @doc("The description")
   @visibility(Lifecycle.Read)

@@ -38,6 +38,7 @@ union IndexingStatus {
 
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
+  ...WithId;
   ...DataPlaneResource;
   ...WithTags;
   ...WithDescription;
@@ -49,7 +50,7 @@ model BaseKnowledgeBase {
 
   @doc("URL to access the knowledge base.")
   @visibility(Lifecycle.Read)
-  // TODO: is thus the data plane API?
+  // TODO: Should this be in KnowledgeBaseDefinition?
   knowledgeBaseUrl?: string;
 
   @doc("Version.")
@@ -60,12 +61,13 @@ model BaseKnowledgeBase {
 @doc("A knowledgeBase.")
 @resource("knowledgeBases")
 model KnowledgeBase {
-  ...BaseKnowledgeBase;
-
   @doc("The knowledgeBase name.")
   @visibility(Lifecycle.Read)
   @key("knowledgeBaseName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
+
+  ...BaseKnowledgeBase;
 }
 
 interface KnowledgeBases {

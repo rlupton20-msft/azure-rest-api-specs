@@ -25,12 +25,12 @@ model KnowledgeBaseDefinition {
   @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
 
+  ...WithVersion;
   ...Artifact;
   ...WithCategory;
   ...WithLicense;
   ...WithCopilotInstruction;
   ...WithInfraType;
-  ...WithVersion;
 }
 
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
