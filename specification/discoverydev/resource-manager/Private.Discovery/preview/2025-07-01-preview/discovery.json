@@ -5232,9 +5232,9 @@
             ]
           }
         },
-        "vmSku": {
-          "$ref": "#/definitions/VmSku",
-          "description": "The Sku of the underlying Azure VM.",
+        "vmSize": {
+          "$ref": "#/definitions/VmSize",
+          "description": "The Size of the underlying Azure VM.",
           "x-ms-mutability": [
             "read",
             "create"
@@ -5244,6 +5244,19 @@
           "type": "integer",
           "format": "int32",
           "description": "The maximum number of nodes.",
+          "minimum": 1,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "minNodeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of nodes.",
+          "default": 0,
+          "minimum": 0,
           "x-ms-mutability": [
             "read",
             "update",
@@ -5253,7 +5266,7 @@
       },
       "required": [
         "subnetId",
-        "vmSku",
+        "vmSize",
         "maxNodeCount"
       ]
     },
@@ -5265,6 +5278,19 @@
           "type": "integer",
           "format": "int32",
           "description": "The maximum number of nodes.",
+          "minimum": 1,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "minNodeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of nodes.",
+          "default": 0,
+          "minimum": 0,
           "x-ms-mutability": [
             "read",
             "update",
@@ -5991,32 +6017,98 @@
         }
       ]
     },
-    "VmSku": {
+    "VmSize": {
       "type": "string",
-      "description": "Supported Azure VM Skus.",
+      "description": "Supported Azure VM Sizes.",
       "enum": [
-        "Standard_NC96ads_A100_v4",
+        "Standard_NC24ads_A100_v4",
         "Standard_NC48ads_A100_v4",
-        "Standard_NC24ads_A100_v4"
+        "Standard_NC96ads_A100_v4",
+        "Standard_NC4as_T4_v3",
+        "Standard_NC8as_T4_v3",
+        "Standard_NC16as_T4_v3",
+        "Standard_NC64as_T4_v3",
+        "Standard_NV6ads_A10_v5",
+        "Standard_NV12ads_A10_v5",
+        "Standard_NV24ads_A10_v5",
+        "Standard_NV36ads_A10_v5",
+        "Standard_NV36adms_A10_v5",
+        "Standard_NV72ads_A10_v5",
+        "Standard_ND40rs_v2"
       ],
       "x-ms-enum": {
-        "name": "VmSku",
+        "name": "VmSize",
         "modelAsString": true,
         "values": [
           {
-            "name": "Standard_NC96ads_A100_v4",
-            "value": "Standard_NC96ads_A100_v4",
-            "description": "Standard_NC96ads_A100_v4 GPU-optimized Azure VM Sku"
+            "name": "Standard_NC24ads_A100_v4",
+            "value": "Standard_NC24ads_A100_v4",
+            "description": "Standard_NC24ads_A100_v4 GPU-optimized Azure VM Size"
           },
           {
             "name": "Standard_NC48ads_A100_v4",
             "value": "Standard_NC48ads_A100_v4",
-            "description": "Standard_NC48ads_A100_v4 GPU-optimized Azure VM Sku"
+            "description": "Standard_NC48ads_A100_v4 GPU-optimized Azure VM Size"
           },
           {
-            "name": "Standard_NC24ads_A100_v4",
-            "value": "Standard_NC24ads_A100_v4",
-            "description": "Standard_NC24ads_A100_v4 GPU-optimized Azure VM Sku"
+            "name": "Standard_NC96ads_A100_v4",
+            "value": "Standard_NC96ads_A100_v4",
+            "description": "Standard_NC96ads_A100_v4 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NC4as_T4_v3",
+            "value": "Standard_NC4as_T4_v3",
+            "description": "Standard_NC4as_T4_v3 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NC8as_T4_v3",
+            "value": "Standard_NC8as_T4_v3",
+            "description": "Standard_NC8as_T4_v3 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NC16as_T4_v3",
+            "value": "Standard_NC16as_T4_v3",
+            "description": "Standard_NC16as_T4_v3 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NC64as_T4_v3",
+            "value": "Standard_NC64as_T4_v3",
+            "description": "Standard_NC64as_T4_v3 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV6ads_A10_v5",
+            "value": "Standard_NV6ads_A10_v5",
+            "description": "Standard_NV6ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV12ads_A10_v5",
+            "value": "Standard_NV12ads_A10_v5",
+            "description": "Standard_NV12ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV24ads_A10_v5",
+            "value": "Standard_NV24ads_A10_v5",
+            "description": "Standard_NV24ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV36ads_A10_v5",
+            "value": "Standard_NV36ads_A10_v5",
+            "description": "Standard_NV36ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV36adms_A10_v5",
+            "value": "Standard_NV36adms_A10_v5",
+            "description": "Standard_NV36ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_NV72ads_A10_v5",
+            "value": "Standard_NV72ads_A10_v5",
+            "description": "Standard_NV36ads_A10_v5 GPU-optimized Azure VM Size"
+          },
+          {
+            "name": "Standard_ND40rs_v2",
+            "value": "Standard_ND40rs_v2",
+            "description": "Standard_ND40rs_v2 GPU-optimized Azure VM Size"
           }
         ]
       }

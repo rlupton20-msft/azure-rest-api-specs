@@ -38,6 +38,7 @@ union IndexingStatus {
 
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
+  ...WithId;
   ...DataPlaneResource;
   ...WithTags;
   ...WithDescription;

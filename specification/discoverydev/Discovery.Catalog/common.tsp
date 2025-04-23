@@ -82,6 +82,7 @@ model Artifact {
   @pattern(resourceNamePattern)
   catalogName: string;
 
+  ...WithId;
   ...DataPlaneResource;
 
   @doc("The description")

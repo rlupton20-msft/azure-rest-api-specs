@@ -23,7 +23,7 @@ alias Operations = Azure.Core.ResourceOperations<ServiceTraits>;
 @access(Access.internal)
 @doc("For adding ID.")
 model WithId {
-  @doc("The ID")
+  @doc("The ID for the resource.")
   @visibility(Lifecycle.Read)
   id?: string;
 }
@@ -160,7 +160,6 @@ model WithQueryCreatedSince {
 @access(Access.internal)
 @doc("For searching items created after specified timestamp.")
 model DataPlaneResource {
-  ...WithId;
   ...WithCreated;
   ...WithLastModified;
 }
