@@ -29,40 +29,47 @@ Requirements for defining an ARM Service:
   - serviceVersion
   - armProviderNamespace
 */
-@service({
-    title: "Azure Linux Testing Service",
-    version: "2023-08-01-preview"
-})
+@service(#{ title: "Azure Linux Testing Service" })
 @doc("This is the Azure Linux Validation Service")
-@useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+@versioned(Versions)
 @armProviderNamespace("Private.ALTSTest")
 namespace Private.AltsTest;
 // Common elements:
 @doc("General resource properties.")
 model ResourceProperties {
-	@doc("Resource provisioning state.")
-	@visibility("read")
+  @doc("Resource provisioning state.")
+  @visibility(Lifecycle.Read)
   @lroStatus
-	provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState;
 }
 // Extend the provisioning state
 @lroStatus
 @doc("The extended resource provisioning states.")
-enum ProvisioningState {
-  ...ResourceProvisioningState, // Succeeded, Failed, and Canceled
+union ProvisioningState {
+  ResourceProvisioningState, // Succeeded, Failed, and Canceled
 
   @doc("The resource is queued for provisioning.")
-  Queued,
+  Queued: "Queued",
 
   @doc("The resource is being provisioned.")
-  Provisioning,
+  Provisioning: "Provisioning",
 
   @doc("The resource is running.")
-  Running,
+  Running: "Running",
 
   @doc("The resource is being canceled.")
-  Cancelling,
+  Cancelling: "Cancelling",
+
+  string,
 }
 
+/** The available API versions. */
+@doc("The available API versions for Private.ALTSTest")
+enum Versions {
+  @doc("The 2023-08-01-preview API version.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2023_08_01_preview: "2023-08-01-preview",
+}
 
 interface Operations extends Azure.ResourceManager.Operations {}

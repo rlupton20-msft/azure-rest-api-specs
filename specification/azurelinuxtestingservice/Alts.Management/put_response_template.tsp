@@ -23,7 +23,7 @@ using OpenAPI;
 @armResourceCreateOrUpdate(TResource)
 @put
 op ArmResourceCreateOrUpdateSyncCompliant<
-  TResource extends Azure.ResourceManager.Foundations.ArmResource,
+  TResource extends Azure.ResourceManager.Foundations.Resource,
   TBaseParameters = Azure.ResourceManager.Foundations.BaseParameters<TResource>
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
@@ -34,11 +34,11 @@ op ArmResourceCreateOrUpdateSyncCompliant<
 ): ArmUpdatedResponse<TResource> | ArmCreatedResponseSync<TResource> | Azure.ResourceManager.ErrorResponse;
 
 @doc("ARM update operation completed successfully.")
-model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.ArmResource>
+model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.Resource>
   is ArmResponse<TResource>;
 
 @doc("ARM create operation completed successfully.")
-model ArmCreatedResponseSync<TResource extends Azure.ResourceManager.Foundations.ArmResource>
+model ArmCreatedResponseSync<TResource extends Azure.ResourceManager.Foundations.Resource>
   is Body<TResource> {
   ...CreatedResponse;
 }
@@ -55,14 +55,12 @@ model ArmCreatedResponseSync<TResource extends Azure.ResourceManager.Foundations
 @extension("x-ms-long-running-operation", true)
 @extension(
   "x-ms-long-running-operation-options",
-  {
-    `final-state-via`: "azure-async-operation",
-  }
+  #{ `final-state-via`: "azure-async-operation" }
 )
 @armResourceCreateOrUpdate(TResource)
 @put
 op ArmResourceCreateOrUpdateAsyncCompliant<
-  TResource extends ArmResource,
+  TResource extends Azure.ResourceManager.Foundations.Resource,
   TBaseParameters = BaseParameters<TResource>
 >(
   ...ResourceInstanceParameters<TResource, TBaseParameters>,
