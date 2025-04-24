@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -11,13 +11,12 @@ using TypeSpec.OpenAPI;
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
-@added(Versions.v2025_03_01_preview)
 @doc("Configuration for DataverseSourceConnector")
 model DataverseSourceConnectorProperties extends DataSourceProperties {
   @doc("Type of DataverseSourceConnector")
   connectorType: ConnectorType.DataverseSource;
 
-  @doc("namespace hostname of the EventHub.")
+  @doc("Namespace of the EventHub.")
   eventHubNamespaceHostname: string;
 
   @doc("Name of the EventHub.")
@@ -34,4 +33,7 @@ model DataverseSourceConnectorProperties extends DataSourceProperties {
 
   @doc("OffsetStartTime in utcDateTime zone.")
   offsetStartTime?: utcDateTime;
+
+  @doc("List of post entity images")
+  postEntityImages: string[];
 }

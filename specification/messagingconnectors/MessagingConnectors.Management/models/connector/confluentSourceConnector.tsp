@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -11,6 +11,23 @@ using TypeSpec.OpenAPI;
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
+@doc("Enum of the SecurityProtocol for Confluent connector")
+union SecurityProtocolForConfluent {
+  @doc("The SASL_PLAINTEXT security protocol.")
+  SaslPlaintext: "SASL_PLAINTEXT",
+
+  @doc("The PLAINTEXT security protocol.")
+  Plaintext: "PLAINTEXT",
+
+  @doc("The SASL_SSL security protocol.")
+  SaslSsl: "SASL_SSL",
+
+  @doc("The SSL security protocol.")
+  Ssl: "SSL",
+
+  string,
+}
+
 @doc("Enum of the SaslMechanism for Confluent connector")
 union SaslMechanismForConfluent {
   @doc("The PLAIN sasl mechanism.")
@@ -21,23 +38,6 @@ union SaslMechanismForConfluent {
 
   @doc("The SCRAM-SHA-512 sasl mechanism.")
   ScramSha512: "SCRAM-SHA-512",
-
-  string,
-}
-
-@doc("Enum of the SecurityProtocol for Confluent connector")
-union SecurityProtocolForConfluent {
-  @doc("The SASL_PLAINTEXT security protocol.")
-  SaslPlainText: "SASL_PLAINTEXT",
-
-  @doc("The PLAINTEXT security protocol.")
-  PlainText: "PLAINTEXT",
-
-  @doc("The SASL_SSL security protocol.")
-  SaslSsl: "SASL_SSL",
-
-  @doc("The SSL security protocol.")
-  Ssl: "SSL",
 
   string,
 }
@@ -59,16 +59,15 @@ model ConfluentSourceConnectorProperties extends DataSourceProperties {
   @doc("AutoOffsetReset policy of the Confluent consume.")
   autoOffsetReset: string;
 
-  @doc("Auth of Eventhub")
+  @doc("UserName+Password Or OAuth for Confluent.")
   authentication: Authentication;
-
-  @doc("Sasl mechanism of the confluent.")
-  saslMechanism?: SaslMechanismForConfluent;
 
   @doc("Security protocol of the confluent.")
   securityProtocol?: SecurityProtocolForConfluent;
 
-  @added(Versions.v2025_03_01_preview)
+  @doc("Sasl mechanism of the confluent.")
+  saslMechanism?: SaslMechanismForConfluent;
+
   @doc("OffsetStartTime in utcDateTime zone.")
   offsetStartTime?: utcDateTime;
 }

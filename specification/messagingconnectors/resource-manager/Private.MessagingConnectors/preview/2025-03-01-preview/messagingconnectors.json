@@ -853,7 +853,7 @@
         },
         "authentication": {
           "$ref": "#/definitions/Authentication",
-          "description": "Auth of AzureDataExplorer"
+          "description": "The OAuth accessToken"
         }
       },
       "required": [
@@ -877,15 +877,15 @@
           "type": "string",
           "description": "Name for topic Or Queue."
         },
-        "subscriptionName": {
-          "type": "string",
-          "description": "Name for subscription."
-        },
         "connectionString": {
           "type": "string",
           "format": "password",
-          "description": "connectionString for AzureServiceBusSource.",
+          "description": "Gets or sets the connection string for the Azure Servicebus instance.",
           "x-ms-secret": true
+        },
+        "subscriptionName": {
+          "type": "string",
+          "description": "Name for subscription."
         },
         "serviceBusType": {
           "$ref": "#/definitions/AzureServiceBusType",
@@ -908,22 +908,22 @@
       "type": "string",
       "description": "Type of AzureServiceBusType",
       "enum": [
-        "Topic",
-        "Queue"
+        "Queue",
+        "Topic"
       ],
       "x-ms-enum": {
         "name": "AzureServiceBusType",
         "modelAsString": true,
         "values": [
           {
-            "name": "Topic",
-            "value": "Topic",
-            "description": "Topic type"
-          },
-          {
             "name": "Queue",
             "value": "Queue",
             "description": "Queue type"
+          },
+          {
+            "name": "Topic",
+            "value": "Topic",
+            "description": "Topic type"
           }
         ]
       }
@@ -1142,15 +1142,15 @@
         },
         "authentication": {
           "$ref": "#/definitions/Authentication",
-          "description": "Auth of Eventhub"
-        },
-        "saslMechanism": {
-          "$ref": "#/definitions/SaslMechanismForConfluent",
-          "description": "Sasl mechanism of the confluent."
+          "description": "UserName+Password Or OAuth for Confluent."
         },
         "securityProtocol": {
           "$ref": "#/definitions/SecurityProtocolForConfluent",
           "description": "Security protocol of the confluent."
+        },
+        "saslMechanism": {
+          "$ref": "#/definitions/SaslMechanismForConfluent",
+          "description": "Sasl mechanism of the confluent."
         },
         "offsetStartTime": {
           "type": "string",
@@ -1822,7 +1822,7 @@
       "properties": {
         "eventHubNamespaceHostname": {
           "type": "string",
-          "description": "namespace hostname of the EventHub."
+          "description": "Namespace of the EventHub."
         },
         "eventHub": {
           "type": "string",
@@ -1844,6 +1844,13 @@
           "type": "string",
           "format": "date-time",
           "description": "OffsetStartTime in utcDateTime zone."
+        },
+        "postEntityImages": {
+          "type": "array",
+          "description": "List of post entity images",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -1851,7 +1858,8 @@
         "eventHub",
         "consumerGroup",
         "startEventPosition",
-        "authentication"
+        "authentication",
+        "postEntityImages"
       ],
       "allOf": [
         {
@@ -1860,32 +1868,32 @@
       ],
       "x-ms-discriminator-value": "DataverseSource"
     },
-    "DecimalHandlingModes": {
+    "DecimalHandlingMode": {
       "type": "string",
-      "description": "Mode of DecimalHandling",
+      "description": "Enum DecimalHandlingMode for Cdc",
       "enum": [
         "Precise",
         "Double",
         "String"
       ],
       "x-ms-enum": {
-        "name": "DecimalHandlingModes",
+        "name": "DecimalHandlingMode",
         "modelAsString": true,
         "values": [
           {
-            "name": "Precise",
+            "name": "PreciseMode",
             "value": "Precise",
-            "description": "precise mode"
+            "description": "The Precise mode."
           },
           {
-            "name": "Double",
+            "name": "DoubleMode",
             "value": "Double",
-            "description": "Double mode"
+            "description": "The Double mode."
           },
           {
-            "name": "String",
+            "name": "StringMode",
             "value": "String",
-            "description": "Double mode"
+            "description": "The String mode."
           }
         ]
       }
@@ -1943,7 +1951,7 @@
       "properties": {
         "eventHubNamespaceHostname": {
           "type": "string",
-          "description": "namespace hostname of the EventHub."
+          "description": "namespace of the EventHub."
         },
         "eventHub": {
           "type": "string",
@@ -2074,29 +2082,37 @@
       "properties": {
         "connectionUrl": {
           "type": "string",
-          "description": "Url of HANA database."
+          "description": "HANA JDBC connection URI, e.g. jdbc:sap://127.0.0.1:30015."
         },
         "userName": {
           "type": "string",
-          "description": "User for HANA database."
+          "description": "HANA JDBC connection username."
         },
         "password": {
           "type": "string",
           "format": "password",
-          "description": "Password for HANA database.",
+          "description": "HANA JDBC connection password.",
           "x-ms-secret": true
+        },
+        "schema": {
+          "type": "string",
+          "description": "HANA schema to source data from."
+        },
+        "mode": {
+          "$ref": "#/definitions/HanaMode",
+          "description": "The mode in which data should be fetched from SAP DB table. Default is bulk. And supported values are bulk, incrementing. "
+        },
+        "incrementingColumn": {
+          "type": "string",
+          "description": "In order to fetch data from a SAP DB table when mode is set to incrementing, an incremental (or auto-incremental) column needs to be provided."
         },
         "queryMode": {
           "$ref": "#/definitions/HanaQueryMode",
           "description": "The query mode in which data should be fetched from SAP DB table."
         },
-        "schema": {
-          "type": "string",
-          "description": "HANA schema to source data from, default as the HANA username.."
-        },
         "table": {
           "type": "string",
-          "description": "Table name for HANA database."
+          "description": "the SAP DB table name where the data needs to be read from."
         },
         "query": {
           "type": "string",
@@ -2120,14 +2136,6 @@
         "numericMapping": {
           "$ref": "#/definitions/HanaNumericMapping",
           "description": "Whether the DECIMAL column types are mapped to the default decimal type or one of the primitive types."
-        },
-        "mode": {
-          "$ref": "#/definitions/HanaMode",
-          "description": "The mode in which data should be fetched from SAP DB table."
-        },
-        "incrementingColumn": {
-          "type": "string",
-          "description": "In order to fetch data from a SAP DB table when mode is set to incrementing, an incremental (or auto-incremental) column needs to be provided."
         }
       },
       "required": [
@@ -2144,7 +2152,7 @@
     },
     "HanaMode": {
       "type": "string",
-      "description": "Type of HanaNumericMapping",
+      "description": "Specify the mode in which data should be fetched from SAP DB table",
       "enum": [
         "Bulk",
         "Incrementing"
@@ -2156,19 +2164,19 @@
           {
             "name": "Bulk",
             "value": "Bulk",
-            "description": "Bulk mode"
+            "description": "Bulk mode to fetch from SAP table."
           },
           {
             "name": "Incrementing",
             "value": "Incrementing",
-            "description": "Incrementing mode"
+            "description": "Incrementing mode to fetch from SAP table."
           }
         ]
       }
     },
     "HanaNumericMapping": {
       "type": "string",
-      "description": "Type of HanaNumericMapping",
+      "description": "Control whether the DECIMAL column types are mapped to the default decimal type or one of the primitive types.",
       "enum": [
         "None",
         "BestFit",
@@ -2181,24 +2189,24 @@
           {
             "name": "None",
             "value": "None",
-            "description": "Table type."
+            "description": "HanaNumericMapping of none."
           },
           {
             "name": "BestFit",
             "value": "BestFit",
-            "description": "Query type."
+            "description": "HanaNumericMapping of best_fit."
           },
           {
             "name": "BestFitEagerDouble",
             "value": "BestFitEagerDouble",
-            "description": "BestFitEagerDouble type."
+            "description": "HanaNumericMapping of best_fit_eager_double."
           }
         ]
       }
     },
     "HanaQueryMode": {
       "type": "string",
-      "description": "Type of HanaQueryMode",
+      "description": "Specify the query mode in which data should be fetched from SAP DB table",
       "enum": [
         "Table",
         "Query"
@@ -2210,12 +2218,12 @@
           {
             "name": "Table",
             "value": "Table",
-            "description": "Table type"
+            "description": "Query HANA by Schema and Table."
           },
           {
             "name": "Query",
             "value": "Query",
-            "description": "Query type"
+            "description": "Query HANA by specific SQL query."
           }
         ]
       }
@@ -2367,7 +2375,7 @@
     },
     "KinesisStartPositionType": {
       "type": "string",
-      "description": "StartPosition types for Kinesis",
+      "description": "StartPosition types for Kinesis, https://docs.aws.amazon.com/kinesis/latest/APIReference/API_StartingPosition.html",
       "enum": [
         "TrimHorizon",
         "Latest",
@@ -2598,28 +2606,28 @@
           "type": "string",
           "description": "Tables used as source."
         },
-        "tableIncludeList": {
-          "type": "string",
-          "description": "Tables to be included, regex supported."
-        },
-        "tableExcludeList": {
-          "type": "string",
-          "description": "Tables to be excluded, regex supported."
-        },
         "snapshotLockingMode": {
           "$ref": "#/definitions/SnapshotLockingModeForMysql",
           "description": "Snapshot Locking Mode."
         },
+        "tableIncludeList": {
+          "type": "string",
+          "description": "Tables used as source."
+        },
+        "tableExcludeList": {
+          "type": "string",
+          "description": "Tables to be excluded."
+        },
         "columnIncludeList": {
           "type": "string",
-          "description": "Columns to be included, regex supported."
+          "description": "Columns to be included."
         },
         "columnExcludeList": {
           "type": "string",
-          "description": "Columns to be excluded, regex supported."
+          "description": "Columns to be excluded."
         },
         "decimalHandlingMode": {
-          "$ref": "#/definitions/DecimalHandlingModes",
+          "$ref": "#/definitions/DecimalHandlingMode",
           "description": "Handling mode for DECIMAL and NUMERIC."
         },
         "snapshotSelectStatementOverrides": {
@@ -2634,7 +2642,7 @@
           "type": "array",
           "description": "Operation types to be skipped.",
           "items": {
-            "$ref": "#/definitions/SkippedOperationsModes"
+            "$ref": "#/definitions/SkippedOperationsMode"
           }
         }
       },
@@ -2746,22 +2754,22 @@
         },
         "tableIncludeList": {
           "type": "string",
-          "description": "Tables to be included, regex supported."
+          "description": "Tables used as source."
         },
         "tableExcludeList": {
           "type": "string",
-          "description": "Tables to be excluded, regex supported."
+          "description": "Tables to be excluded."
         },
         "columnIncludeList": {
           "type": "string",
-          "description": "Columns to be included, regex supported."
+          "description": "Columns to be included."
         },
         "columnExcludeList": {
           "type": "string",
-          "description": "Columns to be excluded, regex supported."
+          "description": "Columns to be excluded."
         },
         "decimalHandlingMode": {
-          "$ref": "#/definitions/DecimalHandlingModes",
+          "$ref": "#/definitions/DecimalHandlingMode",
           "description": "Handling mode for DECIMAL and NUMERIC."
         },
         "snapshotSelectStatementOverrides": {
@@ -2780,7 +2788,7 @@
           "type": "array",
           "description": "Operation types to be skipped.",
           "items": {
-            "$ref": "#/definitions/SkippedOperationsModes"
+            "$ref": "#/definitions/SkippedOperationsMode"
           }
         },
         "publicationName": {
@@ -2806,7 +2814,7 @@
     },
     "PublicationAutocreateModes": {
       "type": "string",
-      "description": "Mode of PublicationAutocreateMode",
+      "description": "Type of PublicationAutocreateMode",
       "enum": [
         "AllTables",
         "Disabled",
@@ -2819,17 +2827,17 @@
           {
             "name": "AllTables",
             "value": "AllTables",
-            "description": "AllTables mode"
+            "description": "The AllTables mode."
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "Disabled mode"
+            "description": "The Disabled mode."
           },
           {
             "name": "Filtered",
             "value": "Filtered",
-            "description": "Filtered mode"
+            "description": "The Filtered mode."
           }
         ]
       }
@@ -3068,12 +3076,12 @@
         "modelAsString": true,
         "values": [
           {
-            "name": "SaslPlainText",
+            "name": "SaslPlaintext",
             "value": "SASL_PLAINTEXT",
             "description": "The SASL_PLAINTEXT security protocol."
           },
           {
-            "name": "PlainText",
+            "name": "Plaintext",
             "value": "PLAINTEXT",
             "description": "The PLAINTEXT security protocol."
           },
@@ -3090,9 +3098,9 @@
         ]
       }
     },
-    "SkippedOperationsModes": {
+    "SkippedOperationsMode": {
       "type": "string",
-      "description": "Mode of SkippedOperationsMode",
+      "description": "Enum SkippedOperationsMode for Cdc",
       "enum": [
         "InsertOrCreate",
         "Update",
@@ -3101,33 +3109,33 @@
         "None"
       ],
       "x-ms-enum": {
-        "name": "SkippedOperationsModes",
+        "name": "SkippedOperationsMode",
         "modelAsString": true,
         "values": [
           {
             "name": "InsertOrCreate",
             "value": "InsertOrCreate",
-            "description": "InsertOrCreate mode"
+            "description": "The InsertOrCreate mode."
           },
           {
             "name": "Update",
             "value": "Update",
-            "description": "Update mode"
+            "description": "The Update mode."
           },
           {
             "name": "Delete",
             "value": "Delete",
-            "description": "Delete mode"
+            "description": "The Delete mode."
           },
           {
             "name": "Truncate",
             "value": "Truncate",
-            "description": "Truncate mode"
+            "description": "The Truncate mode."
           },
           {
             "name": "None",
             "value": "None",
-            "description": "None mode"
+            "description": "The None mode."
           }
         ]
       }
@@ -3136,14 +3144,19 @@
       "type": "string",
       "description": "Type of SnapshotLockingMode",
       "enum": [
+        "None",
         "Minimal",
-        "Extended",
-        "None"
+        "Extended"
       ],
       "x-ms-enum": {
         "name": "SnapshotLockingModeForMysql",
         "modelAsString": true,
         "values": [
+          {
+            "name": "None",
+            "value": "None",
+            "description": "None type"
+          },
           {
             "name": "Minimal",
             "value": "Minimal",
@@ -3153,11 +3166,6 @@
             "name": "Extended",
             "value": "Extended",
             "description": "Extended type"
-          },
-          {
-            "name": "None",
-            "value": "None",
-            "description": "None type"
           }
         ]
       }
@@ -3191,7 +3199,7 @@
         },
         "userName": {
           "type": "string",
-          "description": "Solace Pubsub+ connection username."
+          "description": "Solace Pubsub+ connection username. Note: Currently we support only username/password. expose TLS related, properties is we want to support client certificate authentication"
         },
         "password": {
           "type": "string",
@@ -3216,7 +3224,7 @@
         },
         "messageProcessor": {
           "type": "string",
-          "description": "PubSub+ Kafka Source connector message processor."
+          "description": "PubSub+ Kafka Source connector message processor. PubSub+ Kafka Source connector message processor Refer to https://github.com/SolaceProducts/pubsubplus-connector-kafka-source"
         },
         "mapUserProperties": {
           "type": "boolean",
@@ -3364,22 +3372,22 @@
         },
         "tableIncludeList": {
           "type": "string",
-          "description": "Tables to be included, regex supported."
+          "description": "Tables used as source."
         },
         "tableExcludeList": {
           "type": "string",
-          "description": "Tables to be excluded, regex supported."
+          "description": "Tables to be excluded."
         },
         "columnIncludeList": {
           "type": "string",
-          "description": "Columns to be included, regex supported."
+          "description": "Columns to be included."
         },
         "columnExcludeList": {
           "type": "string",
-          "description": "Columns to be excluded, regex supported."
+          "description": "Columns to be excluded."
         },
         "decimalHandlingMode": {
-          "$ref": "#/definitions/DecimalHandlingModes",
+          "$ref": "#/definitions/DecimalHandlingMode",
           "description": "Handling mode for DECIMAL and NUMERIC."
         },
         "snapshotSelectStatementOverrides": {
@@ -3394,7 +3402,7 @@
           "type": "array",
           "description": "Operation types to be skipped.",
           "items": {
-            "$ref": "#/definitions/SkippedOperationsModes"
+            "$ref": "#/definitions/SkippedOperationsMode"
           }
         },
         "isReadOnlyReplica": {

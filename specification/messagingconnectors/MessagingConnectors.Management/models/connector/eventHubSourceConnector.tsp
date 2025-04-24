@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -11,7 +11,6 @@ using TypeSpec.OpenAPI;
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
-@added(Versions.v2025_03_01_preview)
 @doc("The position of events in an Event Hub partition")
 union EventPosition {
   @doc("Corresponds to the first record of the partition.")
@@ -23,13 +22,12 @@ union EventPosition {
   string,
 }
 
-@added(Versions.v2025_03_01_preview)
 @doc("Configuration for EventHubSourceConnector")
 model EventHubSourceConnectorProperties extends DataSourceProperties {
   @doc("Type of EventHubSourceConnector")
   connectorType: ConnectorType.EventHubSource;
 
-  @doc("namespace hostname of the EventHub.")
+  @doc("namespace of the EventHub.")
   eventHubNamespaceHostname: string;
 
   @doc("Name of the EventHub.")
