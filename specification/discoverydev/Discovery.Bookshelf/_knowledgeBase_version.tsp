@@ -39,6 +39,27 @@ model WithRunId {
   runId: string;
 }
 
+/**
+ * Operation signature to retrieve a resource operation status.
+ * @template Resource The type of the resource.
+ * @template StatusResult Object describing the result of the status operation.
+ * @template StatusError Object describing the error of the status operation. If not provided, the default error type is used.
+ * @template Traits Traits to apply to the operation.
+ */
+@readsResource(ResourceOperationStatus<Resource>)
+@Foundations.Private.ensureResourceType(Resource)
+op GetResourceOperationStatus<
+  Resource extends TypeSpec.Reflection.Model,
+  StatusResult = Resource,
+  StatusError = Foundations.Error,
+  Traits extends TypeSpec.Reflection.Model = {}
+> is Foundations.ResourceOperation<
+  ResourceOperationStatus<Resource, StatusResult, StatusError>,
+  {},
+  ResourceOperationStatusResponse<Resource, StatusResult, StatusError>,
+  Traits
+>;
+
 interface KnowledgeBaseVersions {
   @doc("Creates or updates a KnowledgeBaseVersion.")
   createOrUpdateKnowledgeBaseVersion is StandardResourceOperations.ResourceCreateOrUpdate<KnowledgeBaseVersion>;
@@ -65,13 +86,27 @@ interface KnowledgeBaseVersions {
     QueryParametersTrait<WithQueryCreatedSince>
   >;
 
-  getIndexingOperationStatus is Operations.GetResourceOperationStatus<
-    KnowledgeBaseVersion,
-    WithRunId
-  >;
+  //   @route("/indexingOperations/{operationId}")
+  //   getIndexingOperationStatus is Operations.GetResourceOperationStatus<KnowledgeBaseVersion,
+  //     WithRunId
+  //   >;
+
+  //   #suppress "@azure-tools/typespec-azure-core/use-standard-operations" "This is a custom operation status endpoint."
+  //   @route("/knowledgeBases/{knowledgeBaseName}/versions/{versionName}/indexingOperations/{operationId}")
+  //   getIndexingOperationStatus is Foundations.GetOperationStatus<
+  //       {
+  //           /** Name of the knowledgeBase resource. */
+  //           @path knowledgeBaseName: string;
+  //           /** Version of the knowledgeBase resource. */
+  //           @path versionName: string;
+  //       },
+  //       KnowledgeBaseVersion
+  //   >;
+
+  getOperationStatus is Operations.GetResourceOperationStatus<KnowledgeBaseVersion>;
 
   @doc("Start indexing.")
-  @pollingOperation(KnowledgeBaseVersions.getIndexingOperationStatus)
+  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
   startIndexing is Operations.LongRunningResourceAction<
     KnowledgeBaseVersion,
     WithNodePool,
@@ -79,7 +114,7 @@ interface KnowledgeBaseVersions {
   >;
 
   @doc("Stop indexing.")
-  @pollingOperation(KnowledgeBaseVersions.getIndexingOperationStatus)
+  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
   stopIndexing is Operations.LongRunningResourceAction<
     KnowledgeBaseVersion,
     WithNodePool,
@@ -87,8 +122,8 @@ interface KnowledgeBaseVersions {
   >;
 
   @doc("Delete a KnowledgeBaseVersion.")
-  //  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
-  deleteKnowledgeBaseVersion is ResourceDelete<KnowledgeBaseVersion>;
+  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
+  deleteKnowledgeBaseVersion is LongRunningResourceDelete<KnowledgeBaseVersion>;
 
   //  @doc("Restore the KnowledgeBase to the state of this version.")
   //  restore is Operations.ResourceAction<KnowledgeBaseVersion, {}, KnowledgeBase>;

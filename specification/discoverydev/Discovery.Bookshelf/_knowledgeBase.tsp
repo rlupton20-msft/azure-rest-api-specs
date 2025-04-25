@@ -39,10 +39,14 @@ union IndexingStatus {
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
   ...WithId;
-  ...DataPlaneResource;
-  ...WithTags;
-  ...WithDescription;
-  ...WithStatus<IndexingStatus>;
+
+  @doc("Version.")
+  @visibility(Lifecycle.Read)
+  version: string;
+
+  /** The ame of the associated Bookshelf tracked resource. */
+  @visibility(Lifecycle.Read)
+  bookshelfName: string;
 
   @doc("Catalog data assets to index.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -53,9 +57,10 @@ model BaseKnowledgeBase {
   // TODO: Should this be in KnowledgeBaseDefinition?
   knowledgeBaseUrl?: string;
 
-  @doc("Version.")
-  @visibility(Lifecycle.Read)
-  version: string;
+  ...DataPlaneResource;
+  ...WithTags;
+  ...WithDescription;
+  ...WithStatus<IndexingStatus>;
 }
 
 @doc("A knowledgeBase.")
@@ -77,12 +82,9 @@ interface KnowledgeBases {
   @doc("List KnowledgeBase resources")
   listKnowledgeBases is ResourceList<KnowledgeBase>;
 
-  //  getOperationStatus is Operations.GetResourceOperationStatus<
-  //    KnowledgeBase,
-  //    never
-  //  >;
+  getOperationStatus is Operations.GetResourceOperationStatus<KnowledgeBase>;
 
   @doc("Delete a KnowledgeBase.")
-  //  @pollingOperation(KnowledgeBases.getOperationStatus)
-  deleteKnowledgeBase is ResourceDelete<KnowledgeBase>;
+  @pollingOperation(KnowledgeBases.getOperationStatus)
+  deleteKnowledgeBase is LongRunningResourceDelete<KnowledgeBase>;
 }

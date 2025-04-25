@@ -252,6 +252,6 @@ interface Tools {
   @pollingOperation(Tools.getRunStatus)
   run is Foundations.LongRunningOperation<
     RunRequest,
-    AcceptedResponse & RunResult
+    AcceptedResponse & Foundations.OperationStatus<RunResult>
   >;
 }
