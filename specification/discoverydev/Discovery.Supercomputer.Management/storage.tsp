@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
 
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -12,15 +13,37 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using OpenAPI;
+using Microsoft.Discovery.Shared;
 
 @armProviderNamespace
 @versioned(Microsoft.Discovery.Versions)
 namespace Microsoft.Discovery;
 
+@doc("The kind of the backing data store.")
+union StorageKind {
+  @doc("Use Azure NetApp.")
+  AzureNetApp: "AzureNetApp",
+
+  string,
+}
+
 @doc("Storage tracked resource")
 model Storage is TrackedResource<StorageProperties> {
   ...ResourceNameParameter<Storage>;
-  //   ...ResourceSkuProperty; // Adds sku: https://azure.github.io/typespec-azure/docs/libraries/azure-resource-manager/reference/data-types/
+}
+
+@discriminator("kind")
+@doc("An abstract representation of data storage kind.")
+model Store {
+  @doc("The data storage kind.")
+  kind: StorageKind;
+}
+
+@doc("The Azure NetApp properties.")
+model AzureNetApp extends Store {
+  /** Azure NetApp */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  kind: StorageKind.AzureNetApp;
 }
 
 @doc("Storage properties")
@@ -29,12 +52,15 @@ model StorageProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @doc("The ARM resource ID of the subnet. The subnetId should match the vnetId of supercomputers which will be used for running the tools that use the shared storage.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update) // TODO: Is it a resource identifier or just string? Please find example.
-  // /subscriptions/.../resourceGroups/.../providers/Microsoft.Networks/virtualNetworks/{vnetName}/subnets/{subnetName}
-  subnetId: Azure.Core.armResourceIdentifier;
+  @doc("Data store properties")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  store: Store;
 
-  ...MoboConfigurationWithMrg; // TODO: Do we need to limit ARM resource type(s)?
+  @doc("The ARM resource ID of the subnet. The subnetId should match the vnetId of supercomputers which will be used for running the tools that use the shared storage.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  subnetId: SubnetId;
+
+  ...MoboConfigurationWithMrg;
 
   // read
   @doc("The ID of the workspace.")

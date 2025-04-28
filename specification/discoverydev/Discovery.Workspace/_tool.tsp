@@ -2,7 +2,8 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
-import "../Discovery.Catalog.Management/common.tsp";
+import "../Discovery.Shared/data-plane.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -27,7 +28,7 @@ union RunStatus {
   @lroSucceeded
   Succeeded: "Succeeded",
 
-  /** Aborted */
+  /** Canceled */
   @lroCanceled
   Canceled: "Canceled",
 
@@ -79,13 +80,13 @@ model DataAssetMount {
  *   "inputDataAssets": [
  *     {
  *         "relativeMountPath": "abcdef-input-1",
- *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Science/dataContainers/{dataContainerName}/dataAssets/SmilesTxtDataAsset",
+ *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Discovery/dataContainers/{dataContainerName}/dataAssets/SmilesTxtDataAsset",
  *     }
  *   ],
  *   "outputDataAssets": [
  *     {
  *         "relativeMountPath": "abcdef-output-1",
- *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Science/dataContainers/{dataContainerName}/dataAssets/MySharedStorageDataAsset1",
+ *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Discovery/dataContainers/{dataContainerName}/dataAssets/MySharedStorageDataAsset1",
  *     }
  *   ],
  *   "sharedStorageId": "MySharedStorage"
@@ -113,11 +114,10 @@ model DataAssetMount {
  */
 @doc("Parameters to run a Tool")
 model RunRequest {
+  ...WithProjectName;
+
   /** ID of the tool to execute */
   toolId: ToolId;
-
-  /** Name of the Project to run the tool under. This Project must exist as a child of the Workspace whose endpoint the RunRequest is submitted to. */
-  projectName: string;
 
   /** Command to pass to tool container entrypoint.
    *
@@ -232,18 +232,26 @@ model RunResult {
   debugInfo: string;
 }
 
+/** Project name path parameter */
+model WithProjectName {
+  /** Name of the associated Project. */
+  @path
+  @pattern(resourceNamePattern)
+  projectName: string;
+}
+
 interface Tools {
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Used for to poll status of a Tool run.")
-  @route("/tools/operations")
-  getRunStatus is Foundations.GetOperationStatus<{}, RunResult>;
+  @route("/tools/projects/{projectName}/operations")
+  getRunStatus is Foundations.GetOperationStatus<WithProjectName, RunResult>;
 
   /** Run the specified tool in the context of the specified project. */
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
-  @route("/tools:run")
+  @route("/tools/projects/{projectName}:run")
   @pollingOperation(Tools.getRunStatus)
   run is Foundations.LongRunningOperation<
     RunRequest,
-    AcceptedResponse & RunResult
+    AcceptedResponse & Foundations.OperationStatus<RunResult>
   >;
 }

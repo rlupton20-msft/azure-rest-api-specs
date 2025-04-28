@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -11,7 +11,7 @@ using TypeSpec.OpenAPI;
 @versioned(Versions)
 namespace Private.MessagingConnectors;
 
-@doc("StartPosition types for Kinesis")
+@doc("StartPosition types for Kinesis, https://docs.aws.amazon.com/kinesis/latest/APIReference/API_StartingPosition.html")
 union KinesisStartPositionType {
   @doc("TrimHorizon type")
   TrimHorizon: "TrimHorizon",

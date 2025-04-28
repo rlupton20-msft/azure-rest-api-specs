@@ -3,7 +3,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./common.tsp";
-import "../Discovery.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -37,7 +36,13 @@ model Investigation {
   @doc("The investigation name.")
   @visibility(Lifecycle.Read)
   @key("investigationName")
+  @pattern(resourceNamePattern)
   name: string;
+
+  @doc("The parent project name.")
+  @visibility(Lifecycle.Read)
+  @pattern(resourceNamePattern)
+  projectName: string;
 
   ...DataPlaneResource;
   ...WithStatus<InvestigationStatus>;
@@ -72,9 +77,6 @@ model RunParams {
 interface Investigations {
   @doc("Fetch a Investigation by name.")
   getInvestigation is ResourceRead<Investigation>;
-
-  @doc("Creates or replaces Investigation.")
-  createOrReplaceInvestigation is StandardResourceOperations.ResourceCreateOrReplace<Investigation>;
 
   @doc("Creates or updates Investigation.")
   createOrUpdateInvestigation is StandardResourceOperations.ResourceCreateOrUpdate<Investigation>;

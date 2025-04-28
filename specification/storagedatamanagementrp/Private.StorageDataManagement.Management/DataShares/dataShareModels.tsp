@@ -13,7 +13,7 @@ namespace Microsoft.Storage;
 
 // DataShare Properties
 @doc("Details of the Storage DataShare.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model DataShareProperties {
   @visibility(Lifecycle.Read)
   @doc("System-generated identifier for the Storage DataShare. Not a valid input parameter when creating.")
@@ -46,7 +46,7 @@ model DataShareProperties {
 
 // Access Policy
 @doc("Policy that specify the permission allowed to a managed identity.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model AccessPolicy {
   @doc("The AAD principal ID of the Managed Identity.")
   @pattern("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
@@ -62,7 +62,7 @@ model AccessPolicy {
 
 // Asset
 @doc("Properties of a shared resource.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model Asset {
   @doc("Source Path to be shared. It can be a folder or a blob. The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.")
   assetPath: string;

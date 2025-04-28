@@ -2,8 +2,9 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "./common.tsp";
-import "../Discovery.Shared/all.tsp";
+import "../Discovery.Shared/data-plane.tsp";
 
+using Microsoft.Discovery.Shared;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -19,6 +20,7 @@ model Project {
   @doc("The project name.")
   @visibility(Lifecycle.Read)
   @key("projectName")
+  @pattern(resourceNamePattern)
   name: string;
 }
 

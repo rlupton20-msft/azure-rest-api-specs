@@ -1,9 +1,9 @@
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
 import "./common.tsp";
 import "./_conversation.tsp";
-import "../Discovery.Management.Shared/all.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -130,6 +130,7 @@ model WithConversationId {
 }
 
 @doc("Enumeration for message status.")
+@lroStatus
 union MessageStatus {
   /** Message Accepted */
   Accepted: "Accepted",
@@ -137,13 +138,19 @@ union MessageStatus {
   /** Message is awaiting user input */
   AwaitingUserInput: "AwaitingUserInput",
 
-  /** Message is Processing */
-  Processing: "Processing",
+  /** Running */
+  Running: "Running",
 
-  /** Message Completed */
-  Completed: "Completed",
+  /** Succeeded */
+  @lroSucceeded
+  Succeeded: "Succeeded",
 
-  /** Message Failed */
+  /** Canceled */
+  @lroCanceled
+  Canceled: "Canceled",
+
+  /** Failed */
+  @lroFailed
   Failed: "Failed",
 
   string,
@@ -156,7 +163,15 @@ model ConversationMessage {
   @doc("The message name.")
   @visibility(Lifecycle.Read)
   @key("messageName")
+  @pattern(resourceNamePattern)
   name: string;
+
+  @doc("The conversation name.")
+  @visibility(Lifecycle.Read)
+  @pattern(resourceNamePattern)
+  conversationName: string;
+
+  //   ...ConversationPathContent;
 
   ...DataPlaneResource;
 

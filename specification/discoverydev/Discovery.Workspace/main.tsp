@@ -6,9 +6,11 @@ import "./_project.tsp";
 import "./_investigation.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
+
 // import "./_conversation_message_confirmation.tsp";
 // import "./_conversation_message_dataAssets.tsp";
 // import "./_conversation_message_logs.tsp";
+
 import "./_tool.tsp";
 
 using TypeSpec.Http;
@@ -37,7 +39,7 @@ using Azure.Core;
   {
     // TODO: Work with backend team to determine example.
     @doc("""
-      Supported Azure Discovery Workspace Services endpoints (protocol and hostname, for example: https://{workspaceName}.discovery.azure.com).
+      Supported Discovery Workspace Services endpoints (protocol and hostname, for example: https://{workspaceName}.discovery.azure.com).
       """)
     endpoint: url,
 
@@ -53,8 +55,8 @@ namespace Microsoft.Discovery.Workspace;
 
 @doc("The Microsoft.Discovery.Workspace service versions.")
 enum Versions {
-  @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Workspace service data plane.")
   `2025-07-01-preview`,
 }

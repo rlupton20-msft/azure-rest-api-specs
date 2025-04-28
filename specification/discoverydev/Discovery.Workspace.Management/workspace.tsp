@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
 
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -20,6 +21,9 @@ namespace Microsoft.Discovery;
 @doc("Workspace tracked resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
   ...ResourceNameParameter<Workspace>;
+
+  /** Updatable managed service identity */
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
 @doc("Workspace properties")
@@ -31,20 +35,20 @@ model WorkspaceProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked Storages.")
   @extension("x-ms-identifiers", #["id"])
-  storageIds?: Array<StorageId>;
+  storageIds?: Array<Microsoft.Discovery.Shared.StorageId>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked SuperComputers.")
   @extension("x-ms-identifiers", #["id"])
-  supercomputerIds?: Array<SuperComputerId>;
+  supercomputerIds?: Array<Microsoft.Discovery.Shared.SuperComputerId>;
 
   @doc("workspace API endpoint Uri.")
   @visibility(Lifecycle.Read)
-  workspaceApiUri?: string;
+  workspaceApiUri?: url;
 
   @doc("workspace User Interface Uri.")
   @visibility(Lifecycle.Read)
-  workspaceUiUri?: string;
+  workspaceUiUri?: url;
 
   ...MoboConfigurationWithMrg;
 }

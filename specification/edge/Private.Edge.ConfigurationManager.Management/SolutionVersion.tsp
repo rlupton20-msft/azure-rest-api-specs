@@ -35,6 +35,10 @@ model SolutionVersionProperties {
   @visibility(Lifecycle.Read)
   configuration?: string;
 
+  @doc("Configuration on the line level across all solution template versions")
+  @visibility(Lifecycle.Read)
+  targetLevelConfiguration?: string;
+
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("App components spec")
@@ -44,19 +48,28 @@ model SolutionVersionProperties {
   @visibility(Lifecycle.Read)
   reviewId?: string;
 
+  @doc("External validation id")
+  @visibility(Lifecycle.Read)
+  externalValidationId?: string;
+
   @doc("State of solution instance")
   @visibility(Lifecycle.Read)
   state?: State;
 
   @doc("Solution instance name")
   @visibility(Lifecycle.Read)
+  @maxLength(24)
   @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependency Context")
-   @Azure.ResourceManager.identifiers(#[])
   @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependency[];
+
+  @doc("Error Details if any failure is there")
+  @visibility(Lifecycle.Read)
+  errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
@@ -87,9 +100,9 @@ model SolutionDependency {
   @doc("Solution Version Id")
   solutionVersionId: string;
 
-  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+  @doc("Solution Instance Name")
   @maxLength(24)
-  @doc("Solution Instance Name")	
+  @pattern("^(?!v-)(?!.*-v-)[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionInstanceName?: string;
 
   @doc("Solution Template Version Id")
@@ -99,7 +112,7 @@ model SolutionDependency {
   targetId: string;
 
   @doc("Solution dependencies")
-   @Azure.ResourceManager.identifiers(#[])
+  @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependency[];
 }
 

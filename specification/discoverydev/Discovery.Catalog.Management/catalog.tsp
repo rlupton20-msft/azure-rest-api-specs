@@ -3,6 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -27,11 +28,11 @@ model CatalogProperties {
 
   @doc("The URI/URL for the Catalog user interface.")
   @visibility(Lifecycle.Read)
-  catalogUiUri?: string;
+  catalogUiUri?: url;
 
   @doc("The URI/URL for the Catalog data plane API.")
   @visibility(Lifecycle.Read)
-  catalogApiUri?: string;
+  catalogApiUri?: url;
 
   ...MoboConfigurationWithMrg;
 }

@@ -2,15 +2,13 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
-import "../Discovery.Shared/all.tsp";
+import "@azure-tools/typespec-azure-resource-manager";
+
 import "./_knowledgeBase.tsp";
 import "./_knowledgeBase_version.tsp";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.Core.Foundations;
 
 @useAuth(
   ApiKeyAuth<ApiKeyLocation.header, "api-key"> | OAuth2Auth<[
@@ -50,6 +48,7 @@ namespace Microsoft.Discovery.Bookshelf;
 @doc("The Microsoft.Discovery.Bookshelf service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Bookshelf service data plane.")
   `2025-07-01-preview`,
 }

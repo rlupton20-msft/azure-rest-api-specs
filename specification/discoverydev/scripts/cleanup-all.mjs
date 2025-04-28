@@ -18,6 +18,88 @@ const getPathForOperationId = ({swaggerObject, operationId}) => {
   // throw new Error(`Unable to find operation "${operationId}"`)
 }
 
+const uuid = '00000011-1111-2222-2222-123456789111'
+const fixPropertiesBag = ({properties}) => {
+  if(!properties) {
+    return undefined
+  }
+  return {
+    ...properties,
+    workspaceId: !properties.workspaceId ? undefined : '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/workspaces/workspace1',
+    subnetId: !properties?.subnetId ? undefined : '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Network/virtualNetworks/virtualnetwork1',
+    managedOnBehalfOfConfiguration: !properties?.managedOnBehalfOfConfiguration ? undefined : {
+      moboBrokerResources: [
+        { id: '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Storage/storageAccounts/storage1' }
+      ]
+    },
+    ...fixDiscoverIds({ object: properties }),
+  }
+}
+
+const makeDiscoveryArmId = ({resourceTypeName}) => {
+  const irregularPlurals = {
+    bookshelf: 'bookshelves'
+  }
+  const pathSegment = irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`
+  return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/${pathSegment}/${resourceTypeName}12`
+}
+
+const fixDiscoverIds = ({object}) => {
+  const discoveryTypeNames = [
+    'storage',
+    'supercomputer',
+    'dataContainer',
+    'dataAsset',
+    'bookshelf',
+    'tool',
+    'agent',
+    'model',
+    'nodePool',
+    'workspace',
+  ]
+
+  const resp = {
+    // ...object
+  }
+  for(const resourceTypeName of discoveryTypeNames) {
+    if(object[`${resourceTypeName}Id`]) {
+      resp[`${resourceTypeName}Id`] = makeDiscoveryArmId({
+        resourceTypeName,
+      })
+    }
+    if(object[`${resourceTypeName}Ids`]) {
+      resp[`${resourceTypeName}Ids`] = [
+        makeDiscoveryArmId({
+          resourceTypeName,
+        })
+      ]
+    }
+  }
+  return resp
+}
+const fixIdentity = ({identity}) => {
+  if(!identity) {
+    return undefined
+  }
+  const resp = {
+    ...identity,
+    principalId: identity?.principalId && uuid,
+    tenantId: identity?.tenantId && uuid,
+  }
+  if(identity?.userAssignedIdentities) {
+    for(const [key, { principalId,  clientId, ...rest}] of Object.entries(identity?.userAssignedIdentities)) {
+      resp.userAssignedIdentities[key] = {
+        principalId: principalId && uuid,
+        clientId: clientId && uuid,
+        ...rest,
+      }
+    }
+  }
+  return resp
+}
+
+const definitionContent = 'artifact_definition_content_in_yaml_format'
+
 const fixIds = ({ swaggerObject, exampleObject, operationId}) => {
 
     let basePath = getPathForOperationId({
@@ -32,7 +114,7 @@ const fixIds = ({ swaggerObject, exampleObject, operationId}) => {
     if(!body) {
       continue
     }
-    const {id, name, ...bodyRest } = body
+    const {id, name, identity, properties, ...bodyRest } = body
     for(const [propName, propVal] of Object.entries(exampleObject.parameters)) {
       basePath = basePath.replaceAll(`{${propName}}`, propVal)
     }
@@ -52,16 +134,26 @@ const fixIds = ({ swaggerObject, exampleObject, operationId}) => {
         ...rest,
         body: {
           id: id ? basePath : undefined,
-          name:  name && _name ? _name : name,
+          name: name && _name ? _name : name,
           ...bodyRest,
-          value: Array.isArray(body?.value) ? body.value.map(({ id, name, ..._val }) => ({
-            id: id && name ? `${basePath}/${name}` : undefined,
-            name,
-            ..._val,
-          })) : undefined,
-        }
+          identity: identity && fixIdentity({identity}),
 
-      }
+          properties: properties && fixPropertiesBag({ properties }),
+
+          // Handle list responses
+          value: ! Array.isArray(body?.value) ? undefined : (
+            body.value.map(({ id, name, identity, properties, ..._val }) => ({
+              id: id && name ? `${basePath}/${name}` : undefined,
+              name,
+              ..._val,
+              identity: identity && fixIdentity({ identity }),
+              ...fixDiscoverIds({ object: _val }),
+              properties: properties && fixPropertiesBag({ properties }),
+            }))
+          ),
+          definitionContent: !body.definitionContent ? undefined : definitionContent,
+        },
+      };
     }
   }
   return exampleObject
@@ -108,7 +200,7 @@ const runMain = () => {
 
     console.log("\nDeleting:", outDirPath)
     rmSync(outDirPath, { recursive: true, force : true })
-    mkdirSync(outDirPath)
+    mkdirSync(outDirPath, { recursive: true })
     console.log("\n------------------------")
     console.log("Processing: ", inDir)
     for(const file of readdirSync(inDir)) {
@@ -138,6 +230,19 @@ const runMain = () => {
           if(key.endsWith("Name") && value === "Replace this value with a string matching RegExp ^[a-zA-Z0-9-]{3,24}$") {
             contents.parameters[key] = crypto.randomBytes(9).toString('hex')
           }
+        }
+        if(contents.parameters.resource?.definitionContent) {
+          contents.parameters.resource.definitionContent = definitionContent
+        }
+        if(contents.parameters.resource?.properties) {
+          // Fix issue with sending managedOnBehalfOfConfiguration in create/update payload
+          contents.parameters.resource.properties.managedOnBehalfOfConfiguration = undefined;
+          contents.parameters.resource.properties = fixPropertiesBag({ properties: contents.parameters.resource.properties })
+        }
+        if(contents.parameters.properties?.properties) {
+          // Fix issue with sending managedOnBehalfOfConfiguration in create/update payload
+          contents.parameters.properties.properties.managedOnBehalfOfConfiguration = undefined;
+          contents.parameters.properties.properties = fixPropertiesBag({ properties: contents.parameters.properties.properties })
         }
       }
       // else {

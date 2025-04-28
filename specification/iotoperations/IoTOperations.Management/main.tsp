@@ -32,6 +32,16 @@ namespace Private.IoTOperations;
 
 /** Api versions */
 enum Versions {
+  /** 2024-07-01-preview version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-07-01-preview`,
+
+  /** 2024-08-15-preview version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-08-15-preview`,
+
   /** 2024-09-15-preview version */
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
@@ -69,6 +79,12 @@ interface Broker {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<BrokerResource>;
   delete is ArmResourceDeleteWithoutOkAsync<BrokerResource>;
   listByResourceGroup is ArmResourceListByParent<BrokerResource>;
+  @added(Versions.v2025_04_01)
+  getStatus is ArmResourceActionAsync<
+    BrokerResource,
+    void,
+    BrokerStatusResponse
+  >;
 }
 
 // /instances/brokers/listeners resource Operations

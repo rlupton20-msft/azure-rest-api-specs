@@ -9,7 +9,7 @@ using Azure.ResourceManager;
 
 namespace Private.ArcContainerStorage;
 
-//    generation: "6"
+//    generation: "7"
 @doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
 model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
   ...ResourceNameParameter<

@@ -3,7 +3,7 @@ import "@typespec/rest";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 
-import "../Discovery.Shared/all.tsp";
+import "../Discovery.Shared/data-plane.tsp";
 import "./_agent.tsp";
 import "./_kb.tsp";
 import "./_model.tsp";

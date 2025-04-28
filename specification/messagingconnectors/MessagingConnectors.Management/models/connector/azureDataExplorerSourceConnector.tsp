@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -25,6 +25,6 @@ model AzureDataExplorerSourceConnectorProperties extends DataSourceProperties {
   @doc("AzureDataExplorer table names use commas to separate multiple tables.")
   tableNames: string;
 
-  @doc("Auth of AzureDataExplorer")
+  @doc("The OAuth accessToken")
   authentication: Authentication;
 }

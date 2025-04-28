@@ -1,4 +1,4 @@
-import "@typespec/http";
+﻿import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -13,11 +13,11 @@ namespace Private.MessagingConnectors;
 
 @doc("Type of AzureServiceBusType")
 union AzureServiceBusType {
-  @doc("Topic type")
-  Topic: "Topic",
-
   @doc("Queue type")
   Queue: "Queue",
+
+  @doc("Topic type")
+  Topic: "Topic",
 
   string,
 }
@@ -30,12 +30,12 @@ model AzureServiceBusSourceConnectorProperties extends DataSourceProperties {
   @doc("Name for topic Or Queue.")
   topicOrQueueName: string;
 
-  @doc("Name for subscription.")
-  subscriptionName?: string;
-
-  @doc("connectionString for AzureServiceBusSource.")
+  @doc("Gets or sets the connection string for the Azure Servicebus instance.")
   @secret
   connectionString: string;
+
+  @doc("Name for subscription.")
+  subscriptionName?: string;
 
   @doc("AzureServiceBusSource type.")
   serviceBusType: AzureServiceBusType;

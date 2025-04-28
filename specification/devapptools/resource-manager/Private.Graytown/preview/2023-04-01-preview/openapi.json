@@ -318,6 +318,28 @@
     }
   },
   "definitions": {
+    "ExtendedLocation": {
+      "type": "object",
+      "description": "The extended location.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The extended location type."
+        },
+        "name": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The extended location name.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ExtendedLocation/customLocations"
+              }
+            ]
+          }
+        }
+      }
+    },
     "GPUVendor": {
       "type": "string",
       "description": "Supported GPU vendors",
@@ -418,8 +440,15 @@
         "properties": {
           "$ref": "#/definitions/PreCheckRequestProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "The extended location."
         }
       },
+      "required": [
+        "extendedLocation"
+      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -521,6 +550,10 @@
         "properties": {
           "$ref": "#/definitions/PreCheckRequestProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "The extended location."
         }
       },
       "allOf": [

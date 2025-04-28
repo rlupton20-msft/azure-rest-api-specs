@@ -15,16 +15,6 @@ using Azure.ClientGenerator.Core;
 @versioned(Microsoft.Discovery.Catalog.Versions)
 namespace Microsoft.Discovery.Catalog;
 
-@doc("ToolDefinition attributes from definitionContents")
-model ToolDefinitionAttributes {
-  ...BaseAttributesWithDescription;
-  ...WithCategory;
-  ...WithLicense;
-  ...WithVersion;
-  ...WithDocs;
-  ...WithRepo;
-}
-
 @doc("A tool.")
 @parentResource(Catalog)
 @resource("toolDefinitions")
@@ -32,9 +22,15 @@ model ToolDefinition {
   @doc("The tool name.")
   @visibility(Lifecycle.Read)
   @key("toolName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
 
-  ...Artifact<ToolDefinitionAttributes>;
+  ...Artifact;
+  ...WithCategory;
+  ...WithLicense;
+  ...WithVersion;
+  ...WithDocs;
+  ...WithRepo;
 }
 
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
@@ -42,19 +38,16 @@ model ToolDefinition {
 @doc("A tool.")
 @parentResource(Catalog)
 @resource("toolDefinitions")
-model ToolDefinitionWithYaml extends ToolDefinition {
+model ToolDefinitionWithContent extends ToolDefinition {
   ...WithDefinitionContents;
 }
 
 interface ToolDefinitions {
   @doc("Fetch a ToolDefinition by name.")
-  getToolDefinition is ResourceRead<ToolDefinition>;
+  getToolDefinition is ResourceRead<ToolDefinitionWithContent>;
 
-  @doc("Creates a ToolDefinition.")
-  createOrReplaceToolDefinition is StandardResourceOperations.ResourceCreateOrReplace<ToolDefinitionWithYaml>;
-
-  @doc("Update a ToolDefinition.")
-  createOrUpdateToolDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ToolDefinitionWithYaml>;
+  @doc("Create or update a ToolDefinition.")
+  createOrUpdateToolDefinition is StandardResourceOperations.ResourceCreateOrUpdate<ToolDefinitionWithContent>;
 
   @doc("List ToolDefinition resources within Catalog.")
   listToolDefinitions is ResourceList<ToolDefinition>;

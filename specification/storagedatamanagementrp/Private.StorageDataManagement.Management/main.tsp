@@ -28,6 +28,9 @@ enum Versions {
 
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   v2025_06_01_preview: "2025-06-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2025_07_01_preview: "2025-07-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -70,7 +73,7 @@ interface Connectors {
 
 @doc("A DataShare is a tracked ARM resource modeled as a sub-resource of a Storage Account")
 @parentResource(StorageAccount)
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model DataShare is TrackedResource<DataShareProperties> {
   @doc("The name of the Storage Data Share")
   @pattern("^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$")
@@ -83,22 +86,22 @@ model DataShare is TrackedResource<DataShareProperties> {
 @armResourceOperations(DataShare)
 interface DataShares {
   @doc("Get the specified Storage DataShare.")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   get is ArmResourceRead<DataShare>;
 
   @doc("Create a Storage DataShare if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource. ")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   create is ArmResourceCreateOrReplaceAsync<DataShare>;
 
   @doc("Update a Storage DataShare.")
-  @added(Versions.v2025_05_01_preview)
-  update is ArmResourcePatchSync<DataShare, DataShareProperties>;
+  @added(Versions.v2025_07_01_preview)
+  update is ArmResourcePatchAsync<DataShare, DataShareProperties>;
 
   @doc("Delete a Storage DataShare.")
-  @added(Versions.v2025_05_01_preview)
-  delete is ArmResourceDeleteSync<DataShare>;
+  @added(Versions.v2025_07_01_preview)
+  delete is ArmResourceDeleteWithoutOkAsync<DataShare>;
 
   @doc("List all Storage DataShares in a Storage Account.")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   listByStorageAccount is ArmResourceListByParent<DataShare>;
 }

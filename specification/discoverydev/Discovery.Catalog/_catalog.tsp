@@ -20,8 +20,17 @@ model Catalog {
   @doc("The catalog name.")
   @visibility(Lifecycle.Read)
   @key("catalogName")
+  @pattern(Microsoft.Discovery.Shared.resourceNamePattern)
   name: string;
+
+  ...CatalogControlPlaneProxyResource;
 }
 
 @doc("A Catalog.")
-interface CatalogInt {}
+interface Catalogs {
+  @doc("Fetch a Catalog by name.")
+  getCatalog is ResourceRead<Catalog>;
+
+  @doc("List Catalog resources.")
+  listModelDefinitions is ResourceList<Catalog>;
+}

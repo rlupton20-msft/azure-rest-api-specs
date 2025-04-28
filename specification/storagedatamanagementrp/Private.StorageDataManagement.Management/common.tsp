@@ -23,7 +23,7 @@ union SourceType {
   Bucket: "Bucket",
 
   @doc("Source type - DataShare")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   DataShare: "DataShare",
 
   string,
@@ -46,7 +46,7 @@ union AuthType {
   AccessKey: "AccessKey",
 
   @doc("Managed Identity auth type")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   ManagedIdentity: "ManagedIdentity",
 
   string,
@@ -57,13 +57,13 @@ union ConnectionType {
   @doc("Endpoint connection type")
   Endpoint: "Endpoint",
 
-  @doc("DataShare connection type")
-  @added(Versions.v2025_05_01_preview)
-  DataShare: "DataShare",
-
   @doc("PrivateLink connection type")
-  @added(Versions.v2025_06_01_preview)
+  @added(Versions.v2025_05_01_preview)
   PrivateLink: "PrivateLink",
+
+  @doc("DataShare connection type")
+  @added(Versions.v2025_07_01_preview)
+  DataShare: "DataShare",
 
   string,
 }
@@ -97,7 +97,7 @@ union DataSourceType {
   S3_Compatible: "S3_Compatible",
 
   @doc("Azure DataShare data source type.")
-  @added(Versions.v2025_05_01_preview)
+  @added(Versions.v2025_07_01_preview)
   Azure_DataShare: "Azure_DataShare",
 
   string,

@@ -10,9 +10,26 @@ using Azure.ResourceManager;
 
 namespace Private.Graytown;
 
+/** The extended location. */
+model ExtendedLocation {
+  /** The extended location type. */
+  type?: string;
+
+  /** The extended location name. */
+  name?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.ExtendedLocation/customLocations";
+    }
+  ]>;
+}
+
 /** PreCheckRequest resource */
 model PreCheckRequest is ExtensionResource<PreCheckRequestProperties> {
   ...ResourceNameParameter<PreCheckRequest>;
+
+  /** The extended location. */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "This property is allowed but not recognized by the linter"
+  extendedLocation: ExtendedLocation;
 }
 
 /** PreCheckRequest properties */

@@ -55,6 +55,7 @@ model Source {
   type: SourceType;
 }
 
+// Bucket Source Properties
 @doc("The properties of the backing data store.")
 model BucketSource extends Source {
   @visibility(Lifecycle.Read)
@@ -72,8 +73,9 @@ model BucketSource extends Source {
   hostOverride?: string;
 }
 
+// DataShare Source Properties
 @doc("The properties of the backing data store.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model DataShareSource extends Source {
   @visibility(Lifecycle.Read)
   type: SourceType.DataShare;
@@ -94,7 +96,8 @@ model Connection {
   type: ConnectionType;
 }
 
-@doc("Details related to endpoint based bucket connection")
+// Endpoint Connection Properties
+@doc("Details related to endpoint based connection")
 model EndpointConnection extends Connection {
   @visibility(Lifecycle.Read)
   type: ConnectionType.Endpoint;
@@ -107,8 +110,9 @@ model EndpointConnection extends Connection {
   tlsVerification?: TlsVerification = TlsVerification.Perform;
 }
 
+// DataShare Connection Properties
 @doc("Details related to DataShare based connection")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model DataShareConnection extends Connection {
   @visibility(Lifecycle.Read)
   type: ConnectionType.DataShare;
@@ -118,8 +122,9 @@ model DataShareConnection extends Connection {
   dataShareUri: string;
 }
 
+// PrivateLink Connection Properties
 @doc("Details related to PrivateLink based connection")
-@added(Versions.v2025_06_01_preview)
+@added(Versions.v2025_05_01_preview)
 model PrivateLinkConnection extends Connection {
   @visibility(Lifecycle.Read)
   type: ConnectionType.PrivateLink;
@@ -153,6 +158,7 @@ model AuthProperties {
   type: AuthType;
 }
 
+// AccessKey Auth Properties
 @doc("The access key properties for bucket connection.")
 model AccessKeyProperties extends AuthProperties {
   @visibility(Lifecycle.Read)
@@ -171,8 +177,9 @@ model AccessKeyProperties extends AuthProperties {
   signingRegion?: string;
 }
 
+// Managed Identity Auth Properties
 @doc("The managed identity properties for dataShare connection.")
-@added(Versions.v2025_05_01_preview)
+@added(Versions.v2025_07_01_preview)
 model ManagedIdentityAuthProperties extends AuthProperties {
   @visibility(Lifecycle.Read)
   type: AuthType.ManagedIdentity;

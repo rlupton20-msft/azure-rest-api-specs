@@ -5,8 +5,8 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./dataContainer.tsp";
-// import "./workspace.tsp";
 import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -18,10 +18,9 @@ using Azure.ResourceManager;
 @versioned(Microsoft.Discovery.Versions)
 namespace Microsoft.Discovery;
 
-#suppress "@azure-tools/typespec-autorest/union-unsupported"
 @doc("Data Asset properties")
 model DataAssetProperties {
-  ...WithDescription;
+  ...Microsoft.Discovery.Shared.WithDescription;
 
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
@@ -44,6 +43,6 @@ interface DataAssets {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<DataAsset>;
   update is ArmResourcePatchAsync<DataAsset, DataAssetProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<DataAsset>;
-  listByResourceGroup is ArmResourceListByParent<DataAsset>;
+  listByDataContainer is ArmResourceListByParent<DataAsset>;
   listBySubscription is ArmListBySubscription<DataAsset>;
 }
