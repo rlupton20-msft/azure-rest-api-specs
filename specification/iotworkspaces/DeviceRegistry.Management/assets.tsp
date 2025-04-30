@@ -14,9 +14,8 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.DeviceRegistry;
-@added(Versions.v2024_11_01)
 @removed(Versions.v2024_10_01_preview)
-@removed(Versions.v2025_07_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Asset definition.")
 model Asset is TrackedResource<AssetProperties> {
   @doc("Asset name parameter.")
@@ -34,6 +33,19 @@ model Asset is TrackedResource<AssetProperties> {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
+
+alias AssetPropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    AssetProperties,
+    "defaultTopic"
+  >>>;
+
+  @added(Versions.v2024_07_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  @added(Versions.v2024_11_01)
+  @doc("Object that describes the default topic information for the asset.")
+  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
+};
 
 @added(Versions.v2024_09_01_preview)
 @removed(Versions.v2024_10_01_preview)
@@ -53,9 +65,8 @@ model MigrateResponse {
   resourceId: string;
 }
 
-@added(Versions.v2024_11_01)
 @removed(Versions.v2024_10_01_preview)
-@removed(Versions.v2025_07_01_preview)
+@added(Versions.v2024_11_01)
 @armResourceOperations
 interface Assets {
   get is ArmResourceRead<Asset>;
@@ -64,7 +75,7 @@ interface Assets {
     Asset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       Asset,
-      AssetProperties
+      AssetPropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;

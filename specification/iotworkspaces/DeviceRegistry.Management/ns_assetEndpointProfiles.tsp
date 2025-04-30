@@ -17,7 +17,7 @@ using Azure.ResourceManager;
 namespace Private.DeviceRegistry;
 
 @parentResource(Namespace)
-@doc("Asset Endpoint Profile definition.")
+@doc("Namespace Asset Endpoint Profile definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 model NamespaceAssetEndpointProfile
@@ -38,6 +38,18 @@ model NamespaceAssetEndpointProfile
   extendedLocation: ExtendedLocation;
 }
 
+alias NamespaceAssetEndpointProfilePropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    AssetEndpointProfileProperties,
+    "authentication"
+  >>>;
+
+  @added(Versions.v2024_10_01_preview)
+  @removed(Versions.v2024_11_01)
+  @doc("Object that describes the default user authentication information for the asset endpoint profile.")
+  authentication?: OptionalProperties<OmitDefaults<Authentication>>;
+};
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @armResourceOperations
@@ -48,7 +60,7 @@ interface NamespaceAssetEndpointProfiles {
     NamespaceAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceAssetEndpointProfile,
-      AssetEndpointProfileProperties
+      NamespaceAssetEndpointProfilePropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceAssetEndpointProfile>;

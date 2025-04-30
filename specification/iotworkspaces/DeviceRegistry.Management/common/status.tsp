@@ -4,27 +4,23 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using Azure.Core;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
 @doc("Defines the status config properties.")
 @added(Versions.v2025_07_01_preview)
 model StatusConfig {
-  @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
+  @doc("A read-only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
   @visibility(Lifecycle.Read)
   version?: int64;
 
-  @doc("A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.")
+  @doc("A read-only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.")
   @visibility(Lifecycle.Read)
   lastTransitionTime?: utcDateTime;
 
-  @doc("Object to transfer and persist errors that originate from the Edge.")
+  @doc("Object to transfer and persist errors that originate from the edge.")
   @visibility(Lifecycle.Read)
   error?: StatusError;
 }
@@ -36,7 +32,7 @@ model StatusError {
   @visibility(Lifecycle.Read)
   code?: string;
 
-  @doc("Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).")
+  @doc("Human-readable helpful error message to provide additional context for error (e.g.,: “Capability ID 'foo' does not exist”).")
   @visibility(Lifecycle.Read)
   message?: string;
 
@@ -58,11 +54,11 @@ model StatusErrorDetails {
   @visibility(Lifecycle.Read)
   code?: string;
 
-  @doc("Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).")
+  @doc("Human-readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).")
   @visibility(Lifecycle.Read)
   message?: string;
 
-  @doc("Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).")
+  @doc("Human-readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).")
   @visibility(Lifecycle.Read)
   info?: string;
 

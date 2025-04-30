@@ -15,7 +15,7 @@ using Azure.ResourceManager;
 
 namespace Private.DeviceRegistry;
 
-@doc("Discovered Asset Endpoint Profile definition.")
+@doc("Namespace Discovered Asset Endpoint Profile definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @parentResource(Namespace)

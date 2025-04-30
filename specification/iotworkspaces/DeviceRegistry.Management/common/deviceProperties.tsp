@@ -281,15 +281,3 @@ model DeviceStatusEndpoint {
   @added(Versions.v2025_07_01_preview)
   error?: StatusError;
 }
-
-@doc("Defines the asset endpoint profile status error properties.")
-@added(Versions.v2025_07_01_preview)
-model DeviceStatusError {
-  @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
-  @visibility(Lifecycle.Read)
-  code?: int32;
-
-  @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
-  @visibility(Lifecycle.Read)
-  message?: string;
-}

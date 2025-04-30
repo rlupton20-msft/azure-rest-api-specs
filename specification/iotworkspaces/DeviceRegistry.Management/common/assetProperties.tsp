@@ -6,9 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./topic.tsp";
-import "./deviceRef.tsp";
 
-using Azure.ResourceManager;
 using TypeSpec.Versioning;
 using OpenAPI;
 
@@ -45,22 +43,12 @@ model AssetProperties {
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   assetEndpointProfileRef: string;
-
-  @doc("Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use.")
-  @added(Versions.v2025_07_01_preview)
-  deviceRef: DeviceRef;
 
   @doc("An integer that is incremented each time the resource is modified.")
   @visibility(Lifecycle.Read)
   @typeChangedFrom(Versions.v2024_07_01_preview, int32)
   version?: int64;
-
-  @doc("A timestamp that is updated each time the resource is modified.")
-  @visibility(Lifecycle.Read)
-  @added(Versions.v2025_07_01_preview)
-  lastTransitionTime?: utcDateTime;
 
   @doc("Asset manufacturer name.")
   manufacturer?: string;
@@ -103,32 +91,12 @@ model AssetProperties {
   @added(Versions.v2024_07_01_preview)
   defaultDatasetsConfiguration?: string;
 
-  @doc("Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.")
-  @added(Versions.v2025_07_01_preview)
-  defaultStreamsConfiguration?: string;
-
   @doc("Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.")
   defaultEventsConfiguration?: string;
 
   @doc("Object that describes the default topic information for the asset.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   defaultTopic?: Topic;
-
-  @doc("Default destinations for a Dataset.")
-  @added(Versions.v2025_07_01_preview)
-  @identifiers(#[])
-  defaultDatasetsDestinations?: DatasetDestination[];
-
-  @doc("Default destinations for an Event.")
-  @added(Versions.v2025_07_01_preview)
-  @identifiers(#[])
-  defaultEventsDestinations?: EventDestination[];
-
-  @doc("Default destinations for a Stream.")
-  @added(Versions.v2025_07_01_preview)
-  @identifiers(#[])
-  defaultStreamsDestinations?: StreamDestination[];
 
   @doc("Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration.")
   @removed(Versions.v2024_07_01_preview)
@@ -143,11 +111,6 @@ model AssetProperties {
   @doc("Array of events that are part of the asset. Each event can have per-event configuration.")
   @extension("x-ms-identifiers", #[])
   events?: Event[];
-
-  @doc("Array of streams that are part of the asset. Each stream can have per-stream configuration.")
-  @identifiers(#[])
-  @added(Versions.v2025_07_01_preview)
-  streams?: Stream[];
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -164,30 +127,15 @@ model Dataset {
   @doc("Name of the dataset.")
   name: string;
 
-  @doc("Name of the data source within a dataset.")
-  @added(Versions.v2025_07_01_preview)
-  dataSource?: string;
-
-  @doc("Uri or type definition id in companion spec.")
-  @added(Versions.v2025_07_01_preview)
-  typeRef?: string;
-
   @doc("Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.")
   datasetConfiguration?: string;
 
   @doc("Object that describes the topic information for the specific dataset.")
-  @removed(Versions.v2025_07_01_preview)
   topic?: Topic;
 
-  @doc("Destinations for a dataset.")
-  @added(Versions.v2025_07_01_preview)
-  @identifiers(#[])
-  destinations?: DatasetDestination[];
-
   @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
-  @typeChangedFrom(Versions.v2025_07_01_preview, DataPoint[])
-  @Azure.ResourceManager.identifiers(#[])
-  dataPoints?: DatasetDataPoint[];
+  @extension("x-ms-identifiers", #[])
+  dataPoints?: DataPoint[];
 }
 
 @doc("Defines the data point properties.")
@@ -217,21 +165,8 @@ model DataPointBase {
 model DataPoint extends DataPointBase {
   @doc("An indication of how the data point should be mapped to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   observabilityMode?: DataPointObservabilityMode = DataPointObservabilityMode.None;
 }
-
-@doc("Defines the dataset data point properties.")
-@added(Versions.v2025_07_01_preview)
-model DatasetDataPoint is DataPoint {
-  @doc("Uri or type definition id in companion spec.")
-  @added(Versions.v2025_07_01_preview)
-  typeRef?: string;
-}
-
-@doc("Defines the event data point properties.")
-@added(Versions.v2025_07_01_preview)
-model EventDataPoint is DataPoint;
 
 @doc("Defines the data point observability mode.")
 @removed(Versions.v2024_07_01_preview)
@@ -256,7 +191,6 @@ union DataPointsObservabilityMode {
 
 @doc("Defines the data point observability mode.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2025_07_01_preview)
 union DataPointObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   None: "None",
@@ -298,22 +232,7 @@ model EventBase {
 
   @doc("Object that describes the topic information for the specific event.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   topic?: Topic;
-
-  @doc("Destinations for an Event.")
-  @added(Versions.v2025_07_01_preview)
-  @identifiers(#[])
-  destinations?: EventDestination[];
-
-  @doc("Uri or type definition id in companion spec.")
-  @added(Versions.v2025_07_01_preview)
-  typeRef?: string;
-
-  @doc("Array of data points that are part of the event. Each data point can have per-data point configuration.")
-  @identifiers(#[])
-  @added(Versions.v2025_07_01_preview)
-  dataPoints?: EventDataPoint[];
 }
 
 // workaround done to define a default after breaking change on enum values
@@ -322,7 +241,6 @@ model EventBase {
 model Event extends EventBase {
   @doc("An indication of how the event should be mapped to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   observabilityMode?: EventObservabilityMode = EventObservabilityMode.None;
 }
 
@@ -342,7 +260,6 @@ union EventsObservabilityMode {
 
 @doc("Defines the event observability mode.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2025_07_01_preview)
 union EventObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
@@ -355,42 +272,17 @@ union EventObservabilityMode {
   string,
 }
 
-@doc("Defines the stream properties.")
-@added(Versions.v2025_07_01_preview)
-model Stream {
-  @doc("Name of the stream definition.")
-  name: string;
-
-  @doc("Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.")
-  streamConfiguration?: string;
-
-  @doc("Uri or type definition id in companion spec.")
-  @added(Versions.v2025_07_01_preview)
-  typeRef?: string;
-
-  @doc("Destinations for a Stream.")
-  @identifiers(#[])
-  destinations?: StreamDestination[];
-}
-
 @doc("Defines the asset status properties.")
 model AssetStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
   @visibility(Lifecycle.Read)
   @extension("x-ms-identifiers", #[])
-  @removed(Versions.v2025_07_01_preview)
   errors?: AssetStatusError[];
 
   @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
   @typeChangedFrom(Versions.v2024_07_01_preview, int32)
   @visibility(Lifecycle.Read)
-  @removed(Versions.v2025_07_01_preview)
   version?: int64;
-
-  @doc("Defines the asset status config properties.")
-  @visibility(Lifecycle.Read)
-  @added(Versions.v2025_07_01_preview)
-  config?: StatusConfig;
 
   @doc("Array of dataset statuses that describe the status of each dataset.")
   @visibility(Lifecycle.Read)
@@ -403,16 +295,9 @@ model AssetStatus {
   @added(Versions.v2024_07_01_preview)
   @extension("x-ms-identifiers", #[])
   events?: AssetStatusEvent[];
-
-  @doc("Array of stream statuses that describe the status of each stream.")
-  @visibility(Lifecycle.Read)
-  @added(Versions.v2025_07_01_preview)
-  @Azure.ResourceManager.identifiers(#[])
-  streams?: AssetStatusStream[];
 }
 
 @doc("Defines the asset status error properties.")
-@removed(Versions.v2025_07_01_preview)
 model AssetStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
   @visibility(Lifecycle.Read)
@@ -433,10 +318,6 @@ model AssetStatusDataset {
   @doc("The message schema reference object.")
   @visibility(Lifecycle.Read)
   messageSchemaReference?: MessageSchemaReference;
-
-  @doc("Object to transfer and persist errors that originate from the Edge.")
-  @added(Versions.v2025_07_01_preview)
-  error?: StatusError;
 }
 
 @doc("Defines the asset status event properties.")
@@ -449,26 +330,6 @@ model AssetStatusEvent {
   @doc("The message schema reference object.")
   @visibility(Lifecycle.Read)
   messageSchemaReference?: MessageSchemaReference;
-
-  @doc("Object to transfer and persist errors that originate from the Edge.")
-  @added(Versions.v2025_07_01_preview)
-  error?: StatusError;
-}
-
-@doc("Defines the asset status stream properties.")
-@added(Versions.v2025_07_01_preview)
-model AssetStatusStream {
-  @doc("The name of the stream. Must be unique within the status.streams array. This name is used to correlate between the spec and status event information.")
-  @visibility(Lifecycle.Read)
-  name: string;
-
-  @doc("The message schema reference object.")
-  @visibility(Lifecycle.Read)
-  messageSchemaReference?: MessageSchemaReference;
-
-  @doc("Object to transfer and persist errors that originate from the Edge.")
-  @added(Versions.v2025_07_01_preview)
-  error?: StatusError;
 }
 
 @doc("Defines the message schema reference properties.")

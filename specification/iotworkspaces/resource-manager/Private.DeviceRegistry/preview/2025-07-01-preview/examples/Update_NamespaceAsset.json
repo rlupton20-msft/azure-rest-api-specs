@@ -44,6 +44,10 @@
             "deviceName": "device1",
             "endpointName": "8ZBA6LRHU0A458969"
           },
+          "assetTypeRefs": [
+            "myAssetTypeRef1",
+            "myAssetTypeRef2"
+          ],
           "enabled": true,
           "externalAssetId": "8ZBA6LRHU0A458969",
           "displayName": "AssetDisplayNameUpdate",
@@ -67,9 +71,10 @@
           "defaultDatasetsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultEventsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultStreamsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+          "defaultManagementGroupsConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
           "defaultDatasetsDestinations": [
             {
-              "target": "EdgeStateStore",
+              "target": "BrokerStateStore",
               "configuration": {
                 "key": "defaultValue"
               }
@@ -102,7 +107,7 @@
               "datasetConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
               "destinations": [
                 {
-                  "target": "EdgeStateStore",
+                  "target": "BrokerStateStore",
                   "configuration": {
                     "key": "dataset1"
                   }
@@ -212,6 +217,35 @@
               ]
             }
           ],
+          "managementGroups": [
+            {
+              "name": "managementGroup1",
+              "managementGroupConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
+              "typeRef": "managementGroup1TypeRef",
+              "defaultTopic": "/contoso/managementGroup1",
+              "defaultTimeoutInSeconds": 100,
+              "actions": [
+                {
+                  "name": "action1",
+                  "actionConfiguration": "{\"retryCount\":5,\"retryBackoffInterval\":5}",
+                  "targetUri": "/onvif/device_service?ONVIFProfile=Profile1",
+                  "topic": "/contoso/managementGroup1/action1",
+                  "typeRef": "action1TypeRef",
+                  "actionType": "Call",
+                  "timeoutInSeconds": 60
+                },
+                {
+                  "name": "action2",
+                  "actionConfiguration": "{\"retryCount\":5,\"retryBackoffInterval\":5}",
+                  "targetUri": "/onvif/device_service?ONVIFProfile=Profile2",
+                  "topic": "/contoso/managementGroup1/action2",
+                  "typeRef": "action2TypeRef",
+                  "actionType": "Call",
+                  "timeoutInSeconds": 60
+                }
+              ]
+            }
+          ],
           "status": {
             "config": {
               "version": 9,
@@ -297,6 +331,65 @@
                   ],
                   "innerError": {}
                 }
+              }
+            ],
+            "managementGroups": [
+              {
+                "name": "managementGroup1",
+                "actions": [
+                  {
+                    "name": "action1",
+                    "requestMessageSchemaReference": {
+                      "schemaRegistryNamespace": "liagdwhnvlhcptvmufws",
+                      "schemaName": "lytgdlsvivtcrtuvje",
+                      "schemaVersion": "1"
+                    },
+                    "responseMessageSchemaReference": {
+                      "schemaRegistryNamespace": "liagdwhnvlhcptvmufws",
+                      "schemaName": "lytgdlsvivtcrtuvje",
+                      "schemaVersion": "1"
+                    },
+                    "error": {
+                      "code": "400",
+                      "message": "Error",
+                      "details": [
+                        {
+                          "code": "400.123.456.789",
+                          "message": "Validation error",
+                          "info": "Property is not valid.",
+                          "correlationId": "xqoettlcdlxchoscv"
+                        }
+                      ],
+                      "innerError": {}
+                    }
+                  },
+                  {
+                    "name": "action2",
+                    "requestMessageSchemaReference": {
+                      "schemaRegistryNamespace": "liagdwhnvlhcptvmufws",
+                      "schemaName": "lytgdlsvivtcrtuvje",
+                      "schemaVersion": "1"
+                    },
+                    "responseMessageSchemaReference": {
+                      "schemaRegistryNamespace": "liagdwhnvlhcptvmufws",
+                      "schemaName": "lytgdlsvivtcrtuvje",
+                      "schemaVersion": "1"
+                    },
+                    "error": {
+                      "code": "400",
+                      "message": "Error",
+                      "details": [
+                        {
+                          "code": "400.123.456.789",
+                          "message": "Validation error",
+                          "info": "Property is not valid.",
+                          "correlationId": "xqoettlcdlxchoscv"
+                        }
+                      ],
+                      "innerError": {}
+                    }
+                  }
+                ]
               }
             ]
           },

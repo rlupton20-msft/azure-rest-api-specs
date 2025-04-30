@@ -15,7 +15,7 @@ using Azure.ResourceManager;
 
 namespace Private.DeviceRegistry;
 
-@doc("Namespace Discovered Device definition.")
+@doc("Discovered device definition.")
 @parentResource(Namespace)
 @added(Versions.v2025_07_01_preview)
 model NamespaceDiscoveredDevice is TrackedResource<DiscoveredDeviceProperties> {

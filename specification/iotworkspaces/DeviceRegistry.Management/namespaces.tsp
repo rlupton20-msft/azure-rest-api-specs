@@ -69,12 +69,12 @@ model MessagingEndpoint {
   @added(Versions.v2025_07_01_preview)
   endpointType?: string;
 
-  @doc("The complete ARM resourceId for the messaging endpoint.")
-  resourceId?: string;
-
   @added(Versions.v2025_07_01_preview)
   @doc("The endpoint address to connect to.")
   address: string;
+
+  @doc("The complete ARM resourceId for the messaging endpoint.")
+  resourceId?: string;
 }
 
 @added(Versions.v2024_10_01_preview)

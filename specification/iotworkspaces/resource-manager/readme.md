@@ -40,6 +40,8 @@ suppressions:
       - deviceregistry.json
     where:
       - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceAssetProperties.properties.attributes
       - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
       - $.definitions.DiscoveredAssetProperties.properties.attributes
       - $.definitions.NamespaceDiscoveredAssetUpdateProperties.properties.attributes
@@ -140,6 +142,7 @@ suppressions:
       - $.definitions.AssetListResult.properties.value.items.properties.properties.properties.attributes
       - $.definitions.AssetProperties.properties.attributes
       - $.definitions.AssetUpdate.properties.properties.properties.attributes
+      - $.definitions.NamespaceAssetProperties.properties.attributes
       - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
       - $.definitions.Device.properties.properties.properties.attributes
       - $.definitions.DeviceListResult.properties.value.items.properties.properties.properties.attributes

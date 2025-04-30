@@ -13,7 +13,7 @@ using Azure.ResourceManager;
 
 namespace Private.DeviceRegistry;
 
-@doc("Namespace Discovered Asset definition.")
+@doc("Discovered asset definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -35,6 +35,18 @@ model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   extendedLocation: ExtendedLocation;
 }
 
+alias DiscoveredAssetPropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    DiscoveredAssetProperties,
+    "defaultTopic"
+  >>>;
+
+  @added(Versions.v2024_10_01_preview)
+  @removed(Versions.v2025_07_01_preview)
+  @doc("Object that describes the default topic information for the discovered asset.")
+  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
+};
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -46,7 +58,7 @@ interface NamespaceDiscoveredAssets {
     NamespaceDiscoveredAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceDiscoveredAsset,
-      DiscoveredAssetProperties
+      DiscoveredAssetPropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAsset>;
