@@ -3,7 +3,6 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
-import "./../common/scalarExtensions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -33,7 +32,8 @@ model StorageAccountConnectorProperties {
   hubResourceId: HubResourceId;
 
   @doc("URL of the Azure storage account container to connect to.")
-  storageAccountContainerUrl: StorageAccountContainerURI;
+  @pattern(".+\\.core\\.windows\\.net\\/.+")
+  storageAccountContainerUrl: url;
 
   @doc("Optional string to specify the blob prefix/path to use when reading/writing blobs from/to an Azure Storage container. If not specified, the root of the container will be used.")
   blobPrefix?: string;
