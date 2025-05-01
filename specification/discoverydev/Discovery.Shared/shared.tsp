@@ -117,3 +117,9 @@ alias SubnetId = Azure.Core.armResourceIdentifier<[
     type: "Microsoft.Network/virtualNetworks/subnets";
   }
 ]>;
+
+alias UserAssignedIdentityId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.ManagedIdentity/userAssignedIdentities";
+  }
+]>;
