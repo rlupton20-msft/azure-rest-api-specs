@@ -44,21 +44,21 @@ model OperatorApiConnectionProperties {
   /**
    * Details about the SaaS offer purchased from the marketplace.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   saasProperties?: SaasProperties;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication?: ApplicationProperties;
 
   /**
    * Application ID of the App Developer that is registered with the Operator in a specific country/region.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   appId?: string;
 
@@ -75,14 +75,14 @@ model OperatorApiConnectionProperties {
   /**
    * Type of the account the user has with the Operator's Network API infrastructure. AzureManaged | UserManaged.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create)
   accountType: AccountType;
 
   /**
    * Application secret linked to the 'appId'. This should be stored securely and is not returned back when the resource information is read.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Create, Lifecycle.Update)
   @secret
   appSecret?: string;
@@ -118,33 +118,33 @@ model OperatorApiConnectionProperties {
    *
    * Must be set to True, as the Terms and Conditions must be accepted.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   planTermsAndConditionsAccepted: boolean;
 
   /**
    * Links to the Terms and Conditions of the Operator API Plan that were accepted on creation.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read)
   planTermsAndConditionsLinks?: string[];
 
   /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @maxItems(1)
   purposes: Purpose[];
 
   /**
    * Explanation of the reason that justifies the purpose: specifically why is the API used for the application's use case.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   purposeReason: string;
 
   /**
    * List of ways the data returned on this API is processed.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @OpenAPI.extension("x-ms-identifiers", #["processingOperation"])
   dataProcessingList: DataProcessing[];
 }
@@ -152,7 +152,7 @@ model OperatorApiConnectionProperties {
 /**
  * The Account Type of the Operator API Connections.
  */
-@TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
 union AccountType {
   /**
    * Managed by Azure on-behalf-of the user.
@@ -170,7 +170,7 @@ union AccountType {
 /**
  * Model defining how received data is processed.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model DataProcessing {
   /**
    *  The operation that is performed on the data received.
@@ -208,7 +208,7 @@ model DataProcessing {
 /**
  * Model defining the information required about the countries/regions the data transits through or is stored in.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model DataRegions {
   /**
    * The country code of the country/region the data transits through or is stored in.
@@ -236,7 +236,7 @@ model DataRegions {
  * Valid values for the frequency based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Frequency {
   continuousFrequency: "Continuous",
   oftenFrequency: "Often",
@@ -249,7 +249,7 @@ union Frequency {
  * Valid values for the duration based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Duration {
   endlessDuration: "Endless",
   fixedOccurrencesDuration: "Fixed occurrences",
@@ -264,7 +264,7 @@ union Duration {
  * Valid values for the context based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Context {
   algorithmicLogic: "Algorithmic logic",
   assistiveAutomation: "Assistive automation",
@@ -382,7 +382,7 @@ union Context {
  * Valid values for the processing operation based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union ProcessingOperation {
   access: "Access",
   acquire: "Acquire",
@@ -443,7 +443,7 @@ union ProcessingOperation {
  * Valid values for the purpose based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Purpose {
   academicResearch: "Academic Research",
   accountManagement: "Account Management",
