@@ -55,14 +55,14 @@ model GatewayProperties {
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication: ApplicationProperties;
 
   /**
    * Details about the Organization owning the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplicationOwner: ApplicationOwnerProperties;
 }
@@ -70,7 +70,7 @@ model GatewayProperties {
 /**
  * Details about the Application Owner (i.e. organization) that would use the Operator's Network APIs.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model ApplicationOwnerProperties {
   /**
    * Common name of the organization owning the application.
@@ -161,74 +161,74 @@ model ApplicationProperties {
   /**
    * Name of the application.
    */
-  @TypeSpec.Versioning.madeRequired(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.madeRequired(Versions.v2025_03_30_preview)
   name: string;
 
   /**
    * Description of the application.
    */
-  @TypeSpec.Versioning.madeRequired(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.madeRequired(Versions.v2025_03_30_preview)
   applicationDescription: string;
 
   /**
    * The category that describes the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   applicationType?: string;
 
   /**
    * The category of the application.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   category: Category;
 
   /**
    * Commercial name of the application.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   commercialName: string;
 
   /**
    * Privacy rights request email address.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   privacyRightsRequestEmailAddress: string;
 
   /**
    * URL for the organization's privacy policy.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   privacyPolicyUrl: url;
 
   /**
    * Legal name of the organization owning the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   legalName?: string;
 
   /**
    * A description of the organization owning the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   organizationDescription?: string;
 
   /**
    * Unique Tax Number for the user's organization in the country/region the APC Gateway is being purchased.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   taxNumber?: string;
 
   /**
    * Email address of the Privacy contact or Data Protection officer of the organization.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   privacyContactEmailAddress?: string;
 }
 
 /**
  * Model defining a contactable person.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model Person {
   /**
    * Family name of the contactable person.
@@ -249,7 +249,7 @@ model Person {
 /**
  * Model defining a geographic address.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model GeographicAddress {
   /**
    * Street Number of the address.
@@ -291,7 +291,7 @@ model GeographicAddress {
 /**
  * Model defining a local representative for a country/region.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model LocalRepresentative {
   /**
    * Country code for the country/region the local representative is representing.
@@ -316,7 +316,7 @@ model LocalRepresentative {
  * Valid values for category based on https://www.tmforum.org/oda/open-apis/directory/open-gateway-onboarding-and-ordering-component-suite-TMF931
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Category {
   agriculture: "Agriculture",
   artAndDesign: "Art and design",
@@ -369,7 +369,7 @@ union Category {
  * Valid values for the Organization Type based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union OrganizationType {
   academicScientificOrganization: "Academic scientific organization",
   forProfitOrganization: "For profit organization",
