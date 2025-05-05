@@ -39,9 +39,17 @@ input-file:
   - preview/2025-05-01-preview/cloud.json
 suppressions:
   - code: PatchBodyParametersSchema
-    from:
-      - cloud.json
-    reason: There are properties used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
+    from: cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryEventBatchChannels/{fhirQueryEventBatchChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType, emrSystem, triggerType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
+  - code: PatchBodyParametersSchema
+    from: cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryFlatFileBatchChannels/{fhirQueryFlatFileBatchChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType, emrSystem, triggerType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
+  - code: PatchBodyParametersSchema
+    from: cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/dicomDirectChannels/{dicomDirectChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
 ```
 
 ---
@@ -56,7 +64,6 @@ This is not used by Autorest itself.
 ```yaml $(swagger-to-sdk)
 swagger-to-sdk:
   - repo: azure-sdk-for-python
-  - repo: azure-sdk-for-java
   - repo: azure-sdk-for-go
   - repo: azure-sdk-for-js
   - repo: azure-resource-manager-schemas
