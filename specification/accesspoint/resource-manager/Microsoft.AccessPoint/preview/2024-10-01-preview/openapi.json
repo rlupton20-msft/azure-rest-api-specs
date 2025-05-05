@@ -53,6 +53,9 @@
     },
     {
       "name": "DeviceOperations"
+    },
+    {
+      "name": "AzureVirtualDesktopOperations"
     }
   ],
   "paths": {
@@ -346,6 +349,299 @@
             "name": "accessPointAccountName",
             "in": "path",
             "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/azureVirtualDesktops": {
+      "get": {
+        "operationId": "AzureVirtualDesktopOperations_ListByParent",
+        "tags": [
+          "AzureVirtualDesktopOperations"
+        ],
+        "description": "List AzureVirtualDesktop resources by AccessPointAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktopListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/azureVirtualDesktops/{azureVirtualDesktopName}": {
+      "get": {
+        "operationId": "AzureVirtualDesktopOperations_Get",
+        "tags": [
+          "AzureVirtualDesktopOperations"
+        ],
+        "description": "Get a AzureVirtualDesktop",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "azureVirtualDesktopName",
+            "in": "path",
+            "description": "The name of the AzureVirtualDesktop",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktop"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AzureVirtualDesktopOperations_CreateOrUpdate",
+        "tags": [
+          "AzureVirtualDesktopOperations"
+        ],
+        "description": "Create a AzureVirtualDesktop",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "azureVirtualDesktopName",
+            "in": "path",
+            "description": "The name of the AzureVirtualDesktop",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktop"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AzureVirtualDesktop' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktop"
+            }
+          },
+          "201": {
+            "description": "Resource 'AzureVirtualDesktop' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktop"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "AzureVirtualDesktopOperations_Update",
+        "tags": [
+          "AzureVirtualDesktopOperations"
+        ],
+        "description": "Update a AzureVirtualDesktop",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "azureVirtualDesktopName",
+            "in": "path",
+            "description": "The name of the AzureVirtualDesktop",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktopUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AzureVirtualDesktop"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AzureVirtualDesktopOperations_Delete",
+        "tags": [
+          "AzureVirtualDesktopOperations"
+        ],
+        "description": "Delete a AzureVirtualDesktop",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "azureVirtualDesktopName",
+            "in": "path",
+            "description": "The name of the AzureVirtualDesktop",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -1365,6 +1661,148 @@
         }
       ]
     },
+    "AzureVirtualDesktop": {
+      "type": "object",
+      "description": "An Azure Virtual Desktop Resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureVirtualDesktopProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "AzureVirtualDesktopListResult": {
+      "type": "object",
+      "description": "The response of a AzureVirtualDesktop list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AzureVirtualDesktop items on this page",
+          "items": {
+            "$ref": "#/definitions/AzureVirtualDesktop"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AzureVirtualDesktopProperties": {
+      "type": "object",
+      "description": "Azure Virtual Desktop Properties",
+      "properties": {
+        "menuOrder": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The location for this service on the menu."
+        },
+        "hostNetworkLevel": {
+          "type": "string",
+          "description": "The network level for the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Additional details."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "audioOutputEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether audio output is enabled."
+        },
+        "audioInputEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether audio input is enabled."
+        },
+        "cameraEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the camera is enabled."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "The application id for the service."
+        },
+        "redirectUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The redirect URL for the service."
+        }
+      },
+      "required": [
+        "menuOrder",
+        "hostNetworkLevel",
+        "applicationId",
+        "redirectUrl"
+      ]
+    },
+    "AzureVirtualDesktopPropertiesUpdate": {
+      "type": "object",
+      "description": "Azure Virtual Desktop Properties",
+      "properties": {
+        "menuOrder": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The location for this service on the menu."
+        },
+        "hostNetworkLevel": {
+          "type": "string",
+          "description": "The network level for the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Additional details."
+        },
+        "audioOutputEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether audio output is enabled."
+        },
+        "audioInputEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether audio input is enabled."
+        },
+        "cameraEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the camera is enabled."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "The application id for the service."
+        },
+        "redirectUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The redirect URL for the service."
+        }
+      }
+    },
+    "AzureVirtualDesktopUpdate": {
+      "type": "object",
+      "description": "An Azure Virtual Desktop Resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureVirtualDesktopPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "BaseResourceProperties": {
       "type": "object",
       "description": "Properties for a base resource.",
@@ -1795,6 +2233,34 @@
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
+      ]
+    },
+    "VirtualDesktopInfrastructureProperties": {
+      "type": "object",
+      "description": "Properties for all Virtual Desktop Infrastructure resources.",
+      "properties": {
+        "menuOrder": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The location for this service on the menu."
+        },
+        "hostNetworkLevel": {
+          "type": "string",
+          "description": "The network level for the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Additional details."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "menuOrder",
+        "hostNetworkLevel"
       ]
     }
   },
