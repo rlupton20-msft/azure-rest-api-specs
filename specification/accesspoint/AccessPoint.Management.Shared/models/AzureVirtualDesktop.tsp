@@ -30,7 +30,7 @@ model AzureVirtualDesktop is TrackedResource<AzureVirtualDesktopProperties> {
   >;
 }
 
-@doc("Azure Virtual Deskotp Properties")
+@doc("Azure Virtual Desktop Properties")
 model AzureVirtualDesktopProperties is VirtualDesktopInfrastructureProperties {
   @doc("Indicates whether audio output is enabled.")
   audioOutputEnabled?: boolean;
@@ -42,7 +42,7 @@ model AzureVirtualDesktopProperties is VirtualDesktopInfrastructureProperties {
   cameraEnabled?: boolean;
 
   @doc("The application id for the service.")
-  applicationId: uuid;
+  applicationId: string;
 
   @doc("The redirect URL for the service.")
   redirectUrl: url;
