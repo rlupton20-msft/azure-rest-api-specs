@@ -3,6 +3,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "./common/error.tsp";
 import "./common/provisioningState.tsp";
 
 using TypeSpec.Http;
@@ -77,6 +78,58 @@ model MessagingEndpoint {
   resourceId?: string;
 }
 
+@added(Versions.v2025_07_01_preview)
+@doc("Request body for the migrate resources operation in to Namespace resource.")
+model NamespaceMigrateRequest {
+  @doc("Scope of the migrate resources operation.")
+  scope?: Scope;
+
+  @doc("List of asset resources to be migrated.")
+  resourceIds?: string[];
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Response for the migrate asset resources operation into Namespace resource.")
+model NamespaceMigrateResponse {
+  @doc("List of migrate results containing result of each asset migrate operation.")
+  @OpenAPI.extension("x-ms-identifiers", #["resourceId"])
+  migrateResults?: MigrateResult[];
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Result of Migrate operation of asset resource into Namespace resource.")
+model MigrateResult {
+  @doc("The resource Id of the asset resource.")
+  resourceId?: string;
+
+  @doc("The result of the migrate operation.")
+  result?: MigrateResultType;
+
+  @doc("The error  if the migrate operation is not successful.")
+  error?: Error;
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Result Type of Migrate Operation.")
+union MigrateResultType {
+  @doc("Resource Migrate operation is successful.")
+  Succeeded: "Succeeded",
+
+  @doc("Resource Migrate operation is not successful.")
+  Failed: "Failed",
+
+  string,
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Scope of the migrate resources operation.")
+union Scope {
+  @doc("Scoping the migration to resourceIds provided")
+  Resources: "Resources",
+
+  string,
+}
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -88,4 +141,14 @@ interface Namespaces {
   delete is ArmResourceDeleteWithoutOkAsync<Namespace>;
   listByResourceGroup is ArmResourceListByParent<Namespace>;
   listBySubscription is ArmListBySubscription<Namespace>;
+
+  @added(Versions.v2025_07_01_preview)
+  migrate is ArmResourceActionAsync<
+    Namespace,
+    NamespaceMigrateRequest,
+    NamespaceMigrateResponse,
+    LroHeaders = ArmAsyncOperationHeader &
+      ArmLroLocationHeader &
+      Azure.Core.Foundations.RetryAfterHeader
+  >;
 }
