@@ -14,13 +14,13 @@ export const dataPlanePackageNames = [
 
 export const compilePackage = ({packagePath}) => {
 
-  try {
+  //try {
   const cmd = `npx tsp compile ${packagePath}`
   console.log(cmd)
   execSync(cmd, { stdio: 'inherit' })
-   } catch (err) {
-     console.warn(err)
-   }
+  // } catch (err) {
+  //   console.warn(err)
+  // }
 }
 
 export const validatePackage = ({packagePath}) => {
@@ -37,12 +37,11 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
     resolve(tspPackageDir, "examples/**/*_Gen.json"),
     resolve(swaggerPackageDir, "preview/**/examples/*_Gen.json"),
   ]
+
   for(const _glob of dirGlobsToClean) {
     console.log("\x1b[90m", ` • Deleting Swagger examples from: ${_glob}`)
     for(const filePath of fastGlob.sync(_glob)) {
-      if(fs.existsSync(filePath)) {
-        fs.rmSync(filePath)
-      }
+      fs.rmSync(filePath)
     }
   }
 
@@ -51,6 +50,7 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
   })
 
   console.log("Generating examples:", tspPackageDir);
+
   for(const apiVersion of apiVersions) {
     const swaggerDir = resolve(swaggerPackageDir, `preview/${apiVersion}`)
     for(const fileName of fs.readdirSync(swaggerDir)) {
@@ -68,8 +68,8 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
     }
   }
 
+
   console.log('\x1b[32m', "Finished generating examples for", swaggerPackageDir);
 
 }
-
 
