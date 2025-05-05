@@ -19,9 +19,6 @@ namespace Microsoft.Discovery;
 @doc("Supercomputer tracked resource")
 model Supercomputer is TrackedResource<SupercomputerProperties> {
   ...ResourceNameParameter<Supercomputer>;
-
-  /** Updatable managed service identity */
-  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
 @doc("Supercomputer properties")
@@ -41,6 +38,18 @@ model SupercomputerProperties {
    */
   @visibility(Lifecycle.Read, Lifecycle.Create)
   subnetId: Microsoft.Discovery.Shared.SubnetId;
+
+  /**
+    List of User Assigned Identity IDs associated with the Supercomputer
+    for the purpose of workload identity.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
+
+  // The User Assigned Identity id used by the cluster kubelet agent, often for container image acr access.
+  @doc("Kubelet identity ID")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  kubeletIdentity?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 
   ...MoboConfigurationWithMrg;
 }

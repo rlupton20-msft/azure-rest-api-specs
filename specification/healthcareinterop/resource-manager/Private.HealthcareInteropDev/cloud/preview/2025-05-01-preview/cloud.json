@@ -2964,24 +2964,6 @@
         ]
       }
     },
-    "BlobServiceEndpoint": {
-      "type": "string",
-      "format": "uri",
-      "description": "Storage account blob service endpoint",
-      "pattern": ".+\\.blob\\.core\\.windows\\.net\\/"
-    },
-    "ConnectedClusterResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a Kubernetes connected cluster.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Kubernetes/connectedClusters"
-          }
-        ]
-      }
-    },
     "Credential": {
       "type": "object",
       "description": "The credential properties.",
@@ -3041,31 +3023,27 @@
           ]
         },
         "id": {
-          "$ref": "#/definitions/CustomLocationResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the custom location resource.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ExtendedLocation/customLocations"
+              }
+            ]
+          }
         }
       },
       "required": [
         "name",
         "id"
       ]
-    },
-    "CustomLocationResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of the custom location resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.ExtendedLocation/customLocations"
-          }
-        ]
-      }
     },
     "DicomConnector": {
       "type": "object",
@@ -3113,17 +3091,33 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
         },
         "receiver": {
           "type": "object",
@@ -3143,9 +3137,17 @@
           ]
         },
         "managedDicomEdgeConnectorResourceId": {
-          "$ref": "#/definitions/DicomEdgeConnectorResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the dicomEdgeConnector resource managed by this resource.",
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/dicomEdgeConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -3158,17 +3160,33 @@
       "description": "The properties to configure the DICOM connector resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
         },
         "receiver": {
           "type": "object",
@@ -3184,18 +3202,6 @@
             }
           }
         }
-      }
-    },
-    "DicomConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop DicomConnector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/dicomConnectors"
-          }
-        ]
       }
     },
     "DicomConnectorUpdate": {
@@ -3305,8 +3311,16 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/DicomDirectChannelSourceProperties",
@@ -3328,8 +3342,16 @@
       "description": "The properties to configure the DicomDirectChannel resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this dicomDirectChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/DicomDirectChannelSourcePropertiesUpdate",
@@ -3346,8 +3368,16 @@
       "description": "The source configuration for the DicomDirectChannel resource.",
       "properties": {
         "dicomConnectorResourceId": {
-          "$ref": "#/definitions/DicomConnectorResourceId",
-          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/dicomConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -3359,8 +3389,16 @@
       "description": "The source configuration for the DicomDirectChannel resource.",
       "properties": {
         "dicomConnectorResourceId": {
-          "$ref": "#/definitions/DicomConnectorResourceId",
-          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing dicomConnector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/dicomConnectors"
+              }
+            ]
+          }
         }
       }
     },
@@ -3384,8 +3422,16 @@
       "description": "StorageAccountConnector destination properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -3403,8 +3449,16 @@
       "description": "StorageAccountConnector destination properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -3413,18 +3467,6 @@
         }
       ],
       "x-ms-discriminator-value": "StorageAccountConnector"
-    },
-    "DicomEdgeConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop DicomEdgeConnector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/dicomEdgeConnectors"
-          }
-        ]
-      }
     },
     "DicomListenerConfiguration": {
       "type": "object",
@@ -3613,12 +3655,6 @@
         "type"
       ]
     },
-    "FabricHostURI": {
-      "type": "string",
-      "format": "uri",
-      "description": "Fabric host URI",
-      "pattern": ".+\\.fabric\\.microsoft\\.com"
-    },
     "FhirQueryBatchChannelDestinationConnectorType": {
       "type": "string",
       "description": "Types of destination connectors supported for the FHIR query batch based channel resources.",
@@ -3676,8 +3712,16 @@
       "description": "OneLakeConnector destination properties.",
       "properties": {
         "oneLakeConnectorResourceId": {
-          "$ref": "#/definitions/OneLakeConnectorResourceId",
-          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/oneLakeConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -3695,8 +3739,16 @@
       "description": "OneLakeConnector destination properties.",
       "properties": {
         "oneLakeConnectorResourceId": {
-          "$ref": "#/definitions/OneLakeConnectorResourceId",
-          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing oneLakeConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/oneLakeConnectors"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -3711,8 +3763,16 @@
       "description": "StorageAccountConnector destination properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -3730,8 +3790,16 @@
       "description": "StorageAccountConnector destination properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as destination.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -3810,8 +3878,16 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryEventBatchChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryEventBatchChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/FhirQueryEventBatchChannelSourceProperties",
@@ -3843,8 +3919,16 @@
       "description": "The properties to configure the FhirQueryEventBatchChannel resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryEventBatchChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryEventBatchChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/FhirQueryEventBatchChannelSourcePropertiesUpdate",
@@ -4017,8 +4101,16 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryFlatFileBatchChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryFlatFileBatchChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/FhirQueryFlatFileBatchChannelSourceProperties",
@@ -4050,8 +4142,16 @@
       "description": "The properties to configure the FhirQueryFlatFileBatchChannel resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryFlatFileBatchChannel resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this fhirQueryFlatFileBatchChannel resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "sourceConfiguration": {
           "$ref": "#/definitions/FhirQueryFlatFileBatchChannelSourcePropertiesUpdate",
@@ -4217,18 +4317,6 @@
         "emrSystem"
       ]
     },
-    "HealthcareExtensionResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of the healthcare extension.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Kubernetes/connectedClusters/Microsoft.KubernetesConfiguration/extensions"
-          }
-        ]
-      }
-    },
     "Hl7Configuration": {
       "type": "object",
       "description": "Settings used to customize how HL7 messages are read.",
@@ -4308,17 +4396,33 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this hl7Connector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this hl7Connector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
         },
         "receiver": {
           "type": "object",
@@ -4342,9 +4446,17 @@
           ]
         },
         "managedHl7EdgeConnectorResourceId": {
-          "$ref": "#/definitions/Hl7EdgeConnectorResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the hl7EdgeConnector resource managed by this resource.",
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hl7EdgeConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -4357,17 +4469,33 @@
       "description": "The properties to configure the Hl7 connector resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this hl7Connector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this hl7Connector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the remote connector environment connected cluster where the connector will be deployed.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
         },
         "receiver": {
           "type": "object",
@@ -4389,25 +4517,21 @@
         }
       }
     },
-    "Hl7ConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop hl7Connector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/hl7Connectors"
-          }
-        ]
-      }
-    },
     "Hl7ConnectorSourceProperties": {
       "type": "object",
       "description": "Hl7Connector source properties.",
       "properties": {
         "hl7ConnectorResourceId": {
-          "$ref": "#/definitions/Hl7ConnectorResourceId",
-          "description": "The resource ID of an existing hl7Connector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hl7Connector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hl7Connectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -4425,8 +4549,16 @@
       "description": "Hl7Connector source properties.",
       "properties": {
         "hl7ConnectorResourceId": {
-          "$ref": "#/definitions/Hl7ConnectorResourceId",
-          "description": "The resource ID of an existing hl7Connector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hl7Connector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hl7Connectors"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -4450,18 +4582,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "Hl7EdgeConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop hl7EdgeConnector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/hl7EdgeConnectors"
-          }
-        ]
-      }
     },
     "Hub": {
       "type": "object",
@@ -4542,18 +4662,6 @@
         }
       }
     },
-    "HubResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop hub resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/hubs"
-          }
-        ]
-      }
-    },
     "HubUpdate": {
       "type": "object",
       "description": "The healthcare interop hub resource to centrally manage configuration across a collection of associated healthcare interop resources such as connectors and channels.",
@@ -4574,13 +4682,23 @@
       "description": "Key Vault configuration.",
       "properties": {
         "keyVaultResourceId": {
-          "$ref": "#/definitions/KeyVaultResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the key vault.",
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.KeyVault/vaults"
+              }
+            ]
+          }
         },
         "keyVaultUri": {
-          "$ref": "#/definitions/KeyVaultURI",
+          "type": "string",
+          "format": "uri",
           "description": "The URI of the key vault.",
+          "pattern": ".+\\.vault\\.azure\\.net\\/",
           "readOnly": true
         }
       },
@@ -4625,24 +4743,6 @@
         }
       ],
       "x-ms-discriminator-value": "KeyVaultKey"
-    },
-    "KeyVaultResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a key vault.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.KeyVault/vaults"
-          }
-        ]
-      }
-    },
-    "KeyVaultURI": {
-      "type": "string",
-      "format": "uri",
-      "description": "Key Vault URI",
-      "pattern": ".+\\.vault\\.azure\\.net\\/"
     },
     "ManagedInfraConfiguration": {
       "type": "object",
@@ -4782,12 +4882,22 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this oneLakeConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this oneLakeConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "host": {
-          "$ref": "#/definitions/FabricHostURI",
-          "description": "Optional string to specify the host of the Microsoft Fabric instance in the form of https://<host>.fabric.microsoft.com. By default, the host https://onelake.dfs.fabric.microsoft.com/ will be used."
+          "type": "string",
+          "format": "uri",
+          "description": "Optional string to specify the host of the Microsoft Fabric instance in the form of https://<host>.fabric.microsoft.com. By default, the host https://onelake.dfs.fabric.microsoft.com/ will be used.",
+          "pattern": ".+\\.fabric\\.microsoft\\.com"
         },
         "lakehouseId": {
           "type": "string",
@@ -4813,12 +4923,22 @@
       "description": "The properties to configure the OneLakeConnector resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this oneLakeConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this oneLakeConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "host": {
-          "$ref": "#/definitions/FabricHostURI",
-          "description": "Optional string to specify the host of the Microsoft Fabric instance in the form of https://<host>.fabric.microsoft.com. By default, the host https://onelake.dfs.fabric.microsoft.com/ will be used."
+          "type": "string",
+          "format": "uri",
+          "description": "Optional string to specify the host of the Microsoft Fabric instance in the form of https://<host>.fabric.microsoft.com. By default, the host https://onelake.dfs.fabric.microsoft.com/ will be used.",
+          "pattern": ".+\\.fabric\\.microsoft\\.com"
         },
         "lakehouseId": {
           "type": "string",
@@ -4832,18 +4952,6 @@
           "type": "string",
           "description": "Optional string to specify the folder path to use when reading/writing the files from/to a lakehouse. If not specified, the root of the lakehouse file directory will be used."
         }
-      }
-    },
-    "OneLakeConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop oneLakeConnector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/oneLakeConnectors"
-          }
-        ]
       }
     },
     "OneLakeConnectorUpdate": {
@@ -4986,12 +5094,20 @@
           ]
         },
         "connectedClusterId": {
-          "$ref": "#/definitions/ConnectedClusterResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the remote connector environment connected cluster.",
           "x-ms-mutability": [
             "read",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters"
+              }
+            ]
+          }
         },
         "location": {
           "type": "string",
@@ -5003,13 +5119,21 @@
           ]
         },
         "healthcareExtensionId": {
-          "$ref": "#/definitions/HealthcareExtensionResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the healthcare extension.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Kubernetes/connectedClusters/Microsoft.KubernetesConfiguration/extensions"
+              }
+            ]
+          }
         },
         "customLocation": {
           "$ref": "#/definitions/CustomLocation",
@@ -5062,13 +5186,23 @@
       "description": "Storage account configuration.",
       "properties": {
         "storageAccountResourceId": {
-          "$ref": "#/definitions/StorageAccountResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The resource ID of the storage account.",
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts"
+              }
+            ]
+          }
         },
         "storageAccountBlobEndpoint": {
-          "$ref": "#/definitions/BlobServiceEndpoint",
+          "type": "string",
+          "format": "uri",
           "description": "The storage account blob service endpoint.",
+          "pattern": ".+\\.core\\.windows\\.net\\/",
           "readOnly": true
         }
       },
@@ -5123,12 +5257,22 @@
           "readOnly": true
         },
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this storageAccountConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this storageAccountConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "storageAccountContainerUrl": {
-          "$ref": "#/definitions/StorageAccountContainerURI",
-          "description": "URL of the Azure storage account container to connect to."
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the Azure storage account container to connect to.",
+          "pattern": ".+\\.core\\.windows\\.net\\/.+"
         },
         "blobPrefix": {
           "type": "string",
@@ -5145,12 +5289,22 @@
       "description": "The properties to configure the StorageAccountConnector resource.",
       "properties": {
         "hubResourceId": {
-          "$ref": "#/definitions/HubResourceId",
-          "description": "The resource ID of an existing hub resource to link/associate this storageAccountConnector resource to."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing hub resource to link/associate this storageAccountConnector resource to.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/hubs"
+              }
+            ]
+          }
         },
         "storageAccountContainerUrl": {
-          "$ref": "#/definitions/StorageAccountContainerURI",
-          "description": "URL of the Azure storage account container to connect to."
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the Azure storage account container to connect to.",
+          "pattern": ".+\\.core\\.windows\\.net\\/.+"
         },
         "blobPrefix": {
           "type": "string",
@@ -5158,25 +5312,21 @@
         }
       }
     },
-    "StorageAccountConnectorResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a healthcare interop storageAccountConnector resource.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Private.HealthcareInteropDev/storageAccountConnectors"
-          }
-        ]
-      }
-    },
     "StorageAccountConnectorSourceProperties": {
       "type": "object",
       "description": "StorageAccountConnector source properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -5194,8 +5344,16 @@
       "description": "StorageAccountConnector source properties.",
       "properties": {
         "storageAccountConnectorResourceId": {
-          "$ref": "#/definitions/StorageAccountConnectorResourceId",
-          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as source."
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of an existing storageAccountConnector resource linked/associated to the same hub resource, to use as source.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HealthcareInteropDev/storageAccountConnectors"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -5219,24 +5377,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "StorageAccountContainerURI": {
-      "type": "string",
-      "format": "uri",
-      "description": "Storage account container URI",
-      "pattern": ".+\\.blob\\.core\\.windows\\.net\\/.+"
-    },
-    "StorageAccountResourceId": {
-      "type": "string",
-      "format": "arm-id",
-      "description": "The resource ID of a storage account.",
-      "x-ms-arm-id-details": {
-        "allowedResources": [
-          {
-            "type": "Microsoft.Storage/storageAccounts"
-          }
-        ]
-      }
     },
     "TriggerState": {
       "type": "string",

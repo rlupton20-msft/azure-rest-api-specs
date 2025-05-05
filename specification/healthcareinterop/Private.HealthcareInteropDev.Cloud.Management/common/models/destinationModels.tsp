@@ -1,4 +1,10 @@
+import "@typespec/versioning";
 import "../resourceIds.tsp";
+
+using TypeSpec.Versioning;
+
+@versioned(Private.HealthcareInteropDev.Versions)
+namespace Private.HealthcareInteropDev;
 
 @doc("The destination configuration for the FHIR query batch based channel resources.")
 @discriminator("connectorType")

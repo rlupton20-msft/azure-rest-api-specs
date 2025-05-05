@@ -3,7 +3,6 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
-import "./../common/scalarExtensions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -32,7 +31,8 @@ model OneLakeConnectorProperties {
   hubResourceId: HubResourceId;
 
   @doc("Optional string to specify the host of the Microsoft Fabric instance in the form of https://<host>.fabric.microsoft.com. By default, the host https://onelake.dfs.fabric.microsoft.com/ will be used.")
-  host?: FabricHostURI;
+  @pattern(".+\\.fabric\\.microsoft\\.com")
+  host?: url;
 
   @doc("GUID of the lakehouse to connect to.")
   lakehouseId: string;

@@ -59,6 +59,7 @@ suppressions:
       - $.definitions.DiscoveredOutboundEndpoints.properties.assigned
       - $.definitions.DiscoveredOutboundEndpointsUpdate.properties.assigned
       - $.definitions.DeviceStatusEndpoints.properties.inbound
+      - $.definitions.Error.properties.innerError
       - $.definitions.StatusError.properties.innerError
   - code: OperationIdNounVerb
     from:

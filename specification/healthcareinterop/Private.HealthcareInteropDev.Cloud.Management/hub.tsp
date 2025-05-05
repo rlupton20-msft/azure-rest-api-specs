@@ -3,8 +3,6 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/provisioningState.tsp";
-import "./common/resourceIds.tsp";
-import "./common/scalarExtensions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -65,7 +63,8 @@ model StorageAccountConfiguration {
 
   @doc("The storage account blob service endpoint.")
   @visibility(Lifecycle.Read)
-  storageAccountBlobEndpoint: BlobServiceEndpoint;
+  @pattern(".+\\.core\\.windows\\.net\\/")
+  storageAccountBlobEndpoint: url;
 }
 
 @doc("Key Vault configuration.")
@@ -76,7 +75,8 @@ model KeyVaultConfiguration {
 
   @doc("The URI of the key vault.")
   @visibility(Lifecycle.Read)
-  keyVaultUri: KeyVaultURI;
+  @pattern(".+\\.vault\\.azure\\.net\\/")
+  keyVaultUri: url;
 }
 
 @doc("An Environment hosted on a remote location where Connectors can be deployed.")
