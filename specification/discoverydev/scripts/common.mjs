@@ -1,5 +1,7 @@
 import { resolve } from "path"
 import { execSync } from "child_process"
+import fs from "fs"
+import fastGlob from "fast-glob";
 
 export const apiVersions = [
   "2025-07-01-preview"
@@ -12,13 +14,13 @@ export const dataPlanePackageNames = [
 
 export const compilePackage = ({packagePath}) => {
 
-  //try {
+  try {
   const cmd = `npx tsp compile ${packagePath}`
   console.log(cmd)
   execSync(cmd, { stdio: 'inherit' })
-  // } catch (err) {
-  //   console.warn(err)
-  // }
+   } catch (err) {
+     console.warn(err)
+   }
 }
 
 export const validatePackage = ({packagePath}) => {
@@ -31,15 +33,17 @@ export const validatePackage = ({packagePath}) => {
 
 export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
   console.log("Deleting generated Swagger file and examples:", tspPackageDir);
-  const dirsToClean = [
+  const dirGlobsToClean = [
     resolve(tspPackageDir, "examples/**/*_Gen.json"),
     resolve(swaggerPackageDir, "preview/**/examples/*_Gen.json"),
-    resolve(swaggerPackageDir, "preview/**/discovery*.json"),
   ]
-  for(const path of dirsToClean) {
-    const cmd = `rm -f  ${path}`
-    console.log(cmd);
-    execSync(cmd, { stdio: 'inherit' });
+  for(const _glob of dirGlobsToClean) {
+    console.log("\x1b[90m", ` • Deleting Swagger examples from: ${_glob}`)
+    for(const filePath of fastGlob.sync(_glob)) {
+      if(fs.existsSync(filePath)) {
+        fs.rmSync(filePath)
+      }
+    }
   }
 
   compilePackage({
@@ -47,17 +51,22 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
   })
 
   console.log("Generating examples:", tspPackageDir);
-  const swaggerFiles = apiVersions.map((version) => resolve(swaggerPackageDir, `preview/${version}/discovery*.json`))
-  for(const swaggerFile of swaggerFiles) {
-    // try {
-      const cmd = `npx oav generate-examples ${swaggerFile}`
-      console.log(cmd);
-      execSync(cmd, { stdio: 'inherit' });
-    // } catch (error) {
-    //   console.error('\x1b[31m%s\x1b[39m', `Issues occurred running oav. See logs above: ${error.message}`)
-    // }
-  }
+  for(const apiVersion of apiVersions) {
+    const swaggerDir = resolve(swaggerPackageDir, `preview/${apiVersion}`)
+    for(const fileName of fs.readdirSync(swaggerDir)) {
+    const filePath = resolve(swaggerDir, fileName)
+      if(fs.lstatSync(filePath).isFile() && filePath.toLowerCase().endsWith(".json")) {
+        // try {
+        const cmd = `npx oav generate-examples ${filePath}`
+        console.log(`\x1b[35m${cmd}`);// 35
+        execSync(cmd, {stdio: 'inherit'});
+        // } catch (error) {
+        //   console.error('\x1b[31m%s\x1b[39m', `Issues occurred running oav. See logs above: ${error.message}`)
+        // }
+      }
 
+    }
+  }
 
   console.log('\x1b[32m', "Finished generating examples for", swaggerPackageDir);
 
