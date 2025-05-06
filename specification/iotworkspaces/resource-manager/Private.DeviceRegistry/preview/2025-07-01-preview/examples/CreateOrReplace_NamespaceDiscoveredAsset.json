@@ -36,26 +36,69 @@
         "softwareRevision": "2.0",
         "documentationUri": "https://www.example.com/manual",
         "serialNumber": "64-103816-519918-8",
+        "attributes": {
+          "floor": "1"
+        },
         "defaultDatasetsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
         "defaultEventsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+        "defaultStreamsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
         "defaultManagementGroupsConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
+        "defaultDatasetsDestinations": [
+          {
+            "target": "BrokerStateStore",
+            "configuration": {
+              "key": "defaultValue"
+            }
+          }
+        ],
+        "defaultEventsDestinations": [
+          {
+            "target": "Storage",
+            "configuration": {
+              "path": "/tmp"
+            }
+          }
+        ],
+        "defaultStreamsDestinations": [
+          {
+            "target": "Mqtt",
+            "configuration": {
+              "topic": "/contoso/test",
+              "retain": "Never",
+              "qos": "Qos0",
+              "ttl": 3600
+            }
+          }
+        ],
         "datasets": [
           {
             "name": "dataset1",
             "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/Boiler;i=5",
             "typeRef": "dataset1TypeRef",
             "datasetConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+            "destinations": [
+              {
+                "target": "BrokerStateStore",
+                "configuration": {
+                  "key": "dataset1"
+                }
+              }
+            ],
             "dataPoints": [
               {
-                "name": "dataPoint1",
-                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
+                "name": "dataset1DataPoint1",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
                 "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
-                "typeRef": "dataset1DataPoint1TypeRef"
+                "typeRef": "dataset1DataPoint1TypeRef",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
               },
               {
-                "name": "dataPoint2",
-                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt2",
-                "dataPointConfiguration": "{\"publishingInterval\":4,\"samplingInterval\":4,\"queueSize\":7}"
+                "name": "dataset1DataPoint2",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
+                "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                "typeRef": "dataset1DataPoint2TypeRef",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
               }
             ]
           }
@@ -64,12 +107,96 @@
           {
             "name": "event1",
             "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
-            "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}"
+            "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+            "destinations": [
+              {
+                "target": "Mqtt",
+                "configuration": {
+                  "topic": "/contoso/testEvent1",
+                  "retain": "Keep",
+                  "qos": "Qos0",
+                  "ttl": 7200
+                }
+              }
+            ],
+            "typeRef": "event1Ref",
+            "dataPoints": [
+              {
+                "name": "event1DataPoint1",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt6",
+                "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              },
+              {
+                "name": "event1DataPoint2",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt7",
+                "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              }
+            ]
           },
           {
             "name": "event2",
             "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-            "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":8,\"queueSize\":4}"
+            "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":8,\"queueSize\":4}",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+            "destinations": [
+              {
+                "target": "Storage",
+                "configuration": {
+                  "path": "/tmp/event2"
+                }
+              }
+            ],
+            "typeRef": "event2Ref",
+            "dataPoints": [
+              {
+                "name": "event2DataPoint1",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt9",
+                "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              },
+              {
+                "name": "event2DataPoint2",
+                "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt10",
+                "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              }
+            ]
+          }
+        ],
+        "streams": [
+          {
+            "name": "stream1",
+            "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+            "typeRef": "stream1TypeRef",
+            "destinations": [
+              {
+                "target": "Storage",
+                "configuration": {
+                  "path": "/tmp/stream1"
+                }
+              }
+            ]
+          },
+          {
+            "name": "stream2",
+            "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+            "typeRef": "stream2TypeRef",
+            "destinations": [
+              {
+                "target": "Mqtt",
+                "configuration": {
+                  "topic": "/contoso/testStream2",
+                  "retain": "Never",
+                  "qos": "Qos0",
+                  "ttl": 7200
+                }
+              }
+            ]
           }
         ],
         "managementGroups": [
@@ -77,6 +204,7 @@
             "name": "managementGroup1",
             "managementGroupConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
             "typeRef": "managementGroup1TypeRef",
+            "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
             "defaultTopic": "/contoso/managementGroup1",
             "defaultTimeoutInSeconds": 100,
             "actions": [
@@ -87,7 +215,8 @@
                 "topic": "/contoso/managementGroup1/action1",
                 "typeRef": "action1TypeRef",
                 "actionType": "Call",
-                "timeoutInSeconds": 60
+                "timeoutInSeconds": 60,
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
               },
               {
                 "name": "action2",
@@ -96,7 +225,8 @@
                 "topic": "/contoso/managementGroup1/action2",
                 "typeRef": "action2TypeRef",
                 "actionType": "Call",
-                "timeoutInSeconds": 60
+                "timeoutInSeconds": 60,
+                "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
               }
             ]
           }
@@ -145,24 +275,68 @@
           "softwareRevision": "2.0",
           "documentationUri": "https://www.example.com/manual",
           "serialNumber": "64-103816-519918-8",
+          "attributes": {
+            "floor": "1"
+          },
           "defaultDatasetsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultEventsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+          "defaultStreamsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultManagementGroupsConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
+          "defaultDatasetsDestinations": [
+            {
+              "target": "BrokerStateStore",
+              "configuration": {
+                "key": "defaultValue"
+              }
+            }
+          ],
+          "defaultEventsDestinations": [
+            {
+              "target": "Storage",
+              "configuration": {
+                "path": "/tmp"
+              }
+            }
+          ],
+          "defaultStreamsDestinations": [
+            {
+              "target": "Mqtt",
+              "configuration": {
+                "topic": "/contoso/test",
+                "retain": "Never",
+                "qos": "Qos0",
+                "ttl": 3600
+              }
+            }
+          ],
           "datasets": [
             {
               "name": "dataset1",
+              "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/Boiler;i=5",
+              "typeRef": "dataset1TypeRef",
               "datasetConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "BrokerStateStore",
+                  "configuration": {
+                    "key": "dataset1"
+                  }
+                }
+              ],
               "dataPoints": [
                 {
-                  "name": "dataPoint1",
-                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
+                  "name": "dataset1DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
                   "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "typeRef": "dataset1DataPoint1TypeRef",
                   "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 },
                 {
-                  "name": "dataPoint2",
-                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt2",
-                  "dataPointConfiguration": "{\"publishingInterval\":4,\"samplingInterval\":4,\"queueSize\":7}",
+                  "name": "dataset1DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "typeRef": "dataset1DataPoint2TypeRef",
                   "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 }
               ]
@@ -173,13 +347,95 @@
               "name": "event1",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
               "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}",
-              "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "Mqtt",
+                  "configuration": {
+                    "topic": "/contoso/testEvent1",
+                    "retain": "Keep",
+                    "qos": "Qos0",
+                    "ttl": 7200
+                  }
+                }
+              ],
+              "typeRef": "event1Ref",
+              "dataPoints": [
+                {
+                  "name": "event1DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt6",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                },
+                {
+                  "name": "event1DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt7",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                }
+              ]
             },
             {
               "name": "event2",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
               "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":8,\"queueSize\":4}",
-              "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "Storage",
+                  "configuration": {
+                    "path": "/tmp/event2"
+                  }
+                }
+              ],
+              "typeRef": "event2Ref",
+              "dataPoints": [
+                {
+                  "name": "event2DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt9",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                },
+                {
+                  "name": "event2DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt10",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                }
+              ]
+            }
+          ],
+          "streams": [
+            {
+              "name": "stream1",
+              "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "typeRef": "stream1TypeRef",
+              "destinations": [
+                {
+                  "target": "Storage",
+                  "configuration": {
+                    "path": "/tmp/stream1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "stream2",
+              "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "typeRef": "stream2TypeRef",
+              "destinations": [
+                {
+                  "target": "Mqtt",
+                  "configuration": {
+                    "topic": "/contoso/testStream2",
+                    "retain": "Never",
+                    "qos": "Qos0",
+                    "ttl": 7200
+                  }
+                }
+              ]
             }
           ],
           "managementGroups": [
@@ -187,6 +443,7 @@
               "name": "managementGroup1",
               "managementGroupConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
               "typeRef": "managementGroup1TypeRef",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
               "defaultTopic": "/contoso/managementGroup1",
               "defaultTimeoutInSeconds": 100,
               "actions": [
@@ -197,7 +454,8 @@
                   "topic": "/contoso/managementGroup1/action1",
                   "typeRef": "action1TypeRef",
                   "actionType": "Call",
-                  "timeoutInSeconds": 60
+                  "timeoutInSeconds": 60,
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 },
                 {
                   "name": "action2",
@@ -206,7 +464,8 @@
                   "topic": "/contoso/managementGroup1/action2",
                   "typeRef": "action2TypeRef",
                   "actionType": "Call",
-                  "timeoutInSeconds": 60
+                  "timeoutInSeconds": 60,
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 }
               ]
             }
@@ -255,25 +514,68 @@
           "softwareRevision": "2.0",
           "documentationUri": "https://www.example.com/manual",
           "serialNumber": "64-103816-519918-8",
+          "attributes": {
+            "floor": "1"
+          },
           "defaultDatasetsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultEventsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+          "defaultStreamsConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
           "defaultManagementGroupsConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
+          "defaultDatasetsDestinations": [
+            {
+              "target": "BrokerStateStore",
+              "configuration": {
+                "key": "defaultValue"
+              }
+            }
+          ],
+          "defaultEventsDestinations": [
+            {
+              "target": "Storage",
+              "configuration": {
+                "path": "/tmp"
+              }
+            }
+          ],
+          "defaultStreamsDestinations": [
+            {
+              "target": "Mqtt",
+              "configuration": {
+                "topic": "/contoso/test",
+                "retain": "Never",
+                "qos": "Qos0",
+                "ttl": 3600
+              }
+            }
+          ],
           "datasets": [
             {
               "name": "dataset1",
+              "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/Boiler;i=5",
+              "typeRef": "dataset1TypeRef",
               "datasetConfiguration": "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
               "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "BrokerStateStore",
+                  "configuration": {
+                    "key": "dataset1"
+                  }
+                }
+              ],
               "dataPoints": [
                 {
-                  "name": "dataPoint1",
-                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
+                  "name": "dataset1DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
                   "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "typeRef": "dataset1DataPoint1TypeRef",
                   "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 },
                 {
-                  "name": "dataPoint2",
-                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt2",
-                  "dataPointConfiguration": "{\"publishingInterval\":4,\"samplingInterval\":4,\"queueSize\":7}",
+                  "name": "dataset1DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "typeRef": "dataset1DataPoint2TypeRef",
                   "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
                 }
               ]
@@ -284,21 +586,70 @@
               "name": "event1",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
               "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":1,\"queueSize\":8}",
-              "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "Mqtt",
+                  "configuration": {
+                    "topic": "/contoso/testEvent1",
+                    "retain": "Keep",
+                    "qos": "Qos0",
+                    "ttl": 7200
+                  }
+                }
+              ],
+              "typeRef": "event1Ref",
+              "dataPoints": [
+                {
+                  "name": "event1DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt6",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                },
+                {
+                  "name": "event1DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt7",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                }
+              ]
             },
             {
               "name": "event2",
               "eventNotifier": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
               "eventConfiguration": "{\"publishingInterval\":7,\"samplingInterval\":8,\"queueSize\":4}",
-              "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "destinations": [
+                {
+                  "target": "Storage",
+                  "configuration": {
+                    "path": "/tmp/event2"
+                  }
+                }
+              ],
+              "typeRef": "event2Ref",
+              "dataPoints": [
+                {
+                  "name": "event2DataPoint1",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt9",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                },
+                {
+                  "name": "event2DataPoint2",
+                  "dataSource": "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt10",
+                  "dataPointConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+                  "lastUpdatedOn": "2024-04-09T14:20:00.52Z"
+                }
+              ]
             }
           ],
           "streams": [
             {
               "name": "stream1",
               "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
-              "typeRef": "stream1TypeRef",
               "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
+              "typeRef": "stream1TypeRef",
               "destinations": [
                 {
                   "target": "Storage",
@@ -311,6 +662,7 @@
             {
               "name": "stream2",
               "streamConfiguration": "{\"publishingInterval\":8,\"samplingInterval\":8,\"queueSize\":4}",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
               "typeRef": "stream2TypeRef",
               "destinations": [
                 {
@@ -330,9 +682,9 @@
               "name": "managementGroup1",
               "managementGroupConfiguration": "{\"retryCount\":10,\"retryBackoffInterval\":15}",
               "typeRef": "managementGroup1TypeRef",
+              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
               "defaultTopic": "/contoso/managementGroup1",
               "defaultTimeoutInSeconds": 100,
-              "lastUpdatedOn": "2024-04-09T14:20:00.52Z",
               "actions": [
                 {
                   "name": "action1",

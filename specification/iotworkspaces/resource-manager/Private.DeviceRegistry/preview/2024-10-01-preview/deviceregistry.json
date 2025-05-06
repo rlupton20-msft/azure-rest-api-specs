@@ -3977,33 +3977,6 @@
         "name"
       ]
     },
-    "DiscoveredDatasetDataPoint": {
-      "type": "object",
-      "description": "Defines the discovered dataset data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the data point was added or modified."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
-      ]
-    },
     "DiscoveredEvent": {
       "type": "object",
       "description": "Defines the event properties.",
@@ -4033,33 +4006,6 @@
       "required": [
         "name",
         "eventNotifier"
-      ]
-    },
-    "DiscoveredEventDataPoint": {
-      "type": "object",
-      "description": "Defines the discovered event data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the data point was added or modified."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
       ]
     },
     "Endpoint": {
@@ -5055,7 +5001,7 @@
       "description": "Discovered asset definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredAssetProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredAssetProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -5197,6 +5143,99 @@
         "value"
       ]
     },
+    "NamespaceDiscoveredAssetProperties": {
+      "type": "object",
+      "description": "Defines the discovered asset properties.",
+      "properties": {
+        "assetEndpointProfileRef": {
+          "type": "string",
+          "description": "A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset."
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Asset manufacturer."
+        },
+        "manufacturerUri": {
+          "type": "string",
+          "description": "Asset manufacturer URI."
+        },
+        "model": {
+          "type": "string",
+          "description": "Asset model."
+        },
+        "productCode": {
+          "type": "string",
+          "description": "Asset product code."
+        },
+        "hardwareRevision": {
+          "type": "string",
+          "description": "Asset hardware revision number."
+        },
+        "softwareRevision": {
+          "type": "string",
+          "description": "Asset software revision number."
+        },
+        "documentationUri": {
+          "type": "string",
+          "description": "Asset documentation reference."
+        },
+        "serialNumber": {
+          "type": "string",
+          "description": "Asset serial number."
+        },
+        "defaultDatasetsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
+        },
+        "defaultEventsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
+        },
+        "defaultTopic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the default topic information for the asset."
+        },
+        "datasets": {
+          "type": "array",
+          "description": "Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredDataset"
+          },
+          "x-ms-identifiers": []
+        },
+        "events": {
+          "type": "array",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredEvent"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "assetEndpointProfileRef",
+        "discoveryId",
+        "version"
+      ]
+    },
     "NamespaceDiscoveredAssetUpdate": {
       "type": "object",
       "description": "The type used for update operations of the NamespaceDiscoveredAsset.",
@@ -5229,7 +5268,7 @@
         },
         "manufacturer": {
           "type": "string",
-          "description": "Asset manufacturer name."
+          "description": "Asset manufacturer."
         },
         "manufacturerUri": {
           "type": "string",
@@ -5237,7 +5276,7 @@
         },
         "model": {
           "type": "string",
-          "description": "Asset model name."
+          "description": "Asset model."
         },
         "productCode": {
           "type": "string",
@@ -5245,15 +5284,15 @@
         },
         "hardwareRevision": {
           "type": "string",
-          "description": "Revision number of the hardware."
+          "description": "Asset hardware revision number."
         },
         "softwareRevision": {
           "type": "string",
-          "description": "Revision number of the software."
+          "description": "Asset software revision number."
         },
         "documentationUri": {
           "type": "string",
-          "description": "Reference to the documentation."
+          "description": "Asset documentation reference."
         },
         "serialNumber": {
           "type": "string",
@@ -5271,7 +5310,7 @@
           "type": "array",
           "description": "Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DiscoveredDataset"
+            "$ref": "#/definitions/NamespaceDiscoveredDataset"
           },
           "x-ms-identifiers": []
         },
@@ -5279,7 +5318,7 @@
           "type": "array",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "items": {
-            "$ref": "#/definitions/DiscoveredEvent"
+            "$ref": "#/definitions/NamespaceDiscoveredEvent"
           },
           "x-ms-identifiers": []
         },
@@ -5298,6 +5337,147 @@
           }
         }
       }
+    },
+    "NamespaceDiscoveredDataPoint": {
+      "type": "object",
+      "description": "Defines the data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
+    },
+    "NamespaceDiscoveredDataset": {
+      "type": "object",
+      "description": "Defines the dataset properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the dataset."
+        },
+        "datasetConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset."
+        },
+        "topic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the topic information for the specific dataset."
+        },
+        "dataPoints": {
+          "type": "array",
+          "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredDataPoint"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "NamespaceDiscoveredDatasetDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered dataset data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
+    },
+    "NamespaceDiscoveredEvent": {
+      "type": "object",
+      "description": "Defines the event properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event."
+        },
+        "eventNotifier": {
+          "type": "string",
+          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
+        },
+        "eventConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "topic": {
+          "$ref": "#/definitions/Topic",
+          "description": "Object that describes the topic information for the specific event."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the event was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "eventNotifier"
+      ]
+    },
+    "NamespaceDiscoveredEventDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered event data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
     },
     "NamespaceEvent": {
       "type": "object",
