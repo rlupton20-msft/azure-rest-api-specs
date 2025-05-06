@@ -4387,7 +4387,7 @@
             "create"
           ]
         },
-        "contentDefinitions": {
+        "definitionContent": {
           "type": "string",
           "description": "Agent definition YAML as a string.",
           "x-ms-mutability": [
@@ -4399,6 +4399,45 @@
         "modelId": {
           "type": "string",
           "description": "Reference to the model.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "toolSet": {
+          "type": "array",
+          "description": "References to the tools.",
+          "items": {
+            "$ref": "#/definitions/ToolReference"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "agentSet": {
+          "type": "array",
+          "description": "References to the agents.",
+          "items": {
+            "$ref": "#/definitions/AgentReference"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "knowledgeBaseSet": {
+          "type": "array",
+          "description": "References to the knowledgebases.",
+          "items": {
+            "$ref": "#/definitions/KnowledgeBaseReference"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -4413,7 +4452,7 @@
       },
       "required": [
         "agentDefinitionId",
-        "contentDefinitions",
+        "definitionContent",
         "modelId"
       ]
     },
@@ -4421,7 +4460,7 @@
       "type": "object",
       "description": "Agent properties",
       "properties": {
-        "contentDefinitions": {
+        "definitionContent": {
           "type": "string",
           "description": "Agent definition YAML as a string.",
           "x-ms-mutability": [
@@ -4438,8 +4477,65 @@
             "update",
             "create"
           ]
+        },
+        "toolSet": {
+          "type": "array",
+          "description": "References to the tools.",
+          "items": {
+            "$ref": "#/definitions/ToolReference"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "agentSet": {
+          "type": "array",
+          "description": "References to the agents.",
+          "items": {
+            "$ref": "#/definitions/AgentReference"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "knowledgeBaseSet": {
+          "type": "array",
+          "description": "References to the knowledgebases.",
+          "items": {
+            "$ref": "#/definitions/KnowledgeBaseReference"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       }
+    },
+    "AgentReference": {
+      "type": "object",
+      "description": "Agent reference",
+      "properties": {
+        "agentId": {
+          "type": "string",
+          "description": "The resource ID of the agent."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the agent."
+        }
+      },
+      "required": [
+        "agentId",
+        "name"
+      ]
     },
     "AgentUpdate": {
       "type": "object",
@@ -5069,6 +5165,24 @@
       ],
       "x-ms-discriminator-value": "KeyVaultSecret"
     },
+    "KnowledgeBaseReference": {
+      "type": "object",
+      "description": "Knowledgebase reference",
+      "properties": {
+        "knowledgeBaseId": {
+          "type": "string",
+          "description": "The resource ID of the knowledge base."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the knowledge base."
+        }
+      },
+      "required": [
+        "knowledgeBaseId",
+        "name"
+      ]
+    },
     "ManagedIdentityCredential": {
       "type": "object",
       "description": "The managed identity credential properties.",
@@ -5146,15 +5260,15 @@
       "type": "object",
       "description": "Model properties",
       "properties": {
-        "modelDefinitionId": {
+        "modelReferenceId": {
           "type": "string",
-          "description": "Reference to model definition.",
+          "description": "Reference to model.",
           "x-ms-mutability": [
             "read",
             "create"
           ]
         },
-        "contentDefinitions": {
+        "definitionContent": {
           "type": "string",
           "description": "Model definition YAML as a string.",
           "x-ms-mutability": [
@@ -5185,8 +5299,7 @@
         }
       },
       "required": [
-        "modelDefinitionId",
-        "contentDefinitions",
+        "modelReferenceId",
         "workspaceId"
       ]
     },
@@ -6057,7 +6170,7 @@
             "create"
           ]
         },
-        "contentDefinitions": {
+        "definitionContent": {
           "type": "string",
           "description": "Tool definition YAML as a string.",
           "readOnly": true
@@ -6070,12 +6183,30 @@
       },
       "required": [
         "toolDefinitionId",
-        "contentDefinitions"
+        "definitionContent"
       ]
     },
     "ToolPropertiesUpdate": {
       "type": "object",
       "description": "Discovery Tool properties"
+    },
+    "ToolReference": {
+      "type": "object",
+      "description": "Tool reference",
+      "properties": {
+        "toolId": {
+          "type": "string",
+          "description": "The resource ID of the tool."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tool."
+        }
+      },
+      "required": [
+        "toolId",
+        "name"
+      ]
     },
     "ToolUpdate": {
       "type": "object",

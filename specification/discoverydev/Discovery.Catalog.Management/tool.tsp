@@ -27,7 +27,7 @@ model ToolProperties {
 
   @doc("Tool definition YAML as a string.")
   @visibility(Lifecycle.Read)
-  contentDefinitions: string;
+  definitionContent: string;
 
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)

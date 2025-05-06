@@ -19,6 +19,33 @@ model Agent is TrackedResource<AgentProperties> {
   ...ResourceNameParameter<Agent>;
 }
 
+@doc("Tool reference")
+model ToolReference {
+  @doc("The resource ID of the tool.")
+  toolId: string;
+
+  @doc("The name of the tool.")
+  name: string;
+}
+
+@doc("Agent reference")
+model AgentReference {
+  @doc("The resource ID of the agent.")
+  agentId: string;
+
+  @doc("The name of the agent.")
+  name: string;
+}
+
+@doc("Knowledgebase reference")
+model KnowledgeBaseReference {
+  @doc("The resource ID of the knowledge base.")
+  knowledgeBaseId: string;
+
+  @doc("The name of the knowledge base.")
+  name: string;
+}
+
 @doc("Agent properties")
 model AgentProperties {
   @doc("Reference to agent definition.")
@@ -27,11 +54,23 @@ model AgentProperties {
 
   @doc("Agent definition YAML as a string.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  contentDefinitions: string;
+  definitionContent: string;
 
   @doc("Reference to the model.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   modelId: string;
+
+  @doc("References to the tools.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  toolSet?: ToolReference[];
+
+  @doc("References to the agents.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  agentSet?: AgentReference[];
+
+  @doc("References to the knowledgebases.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  knowledgeBaseSet?: KnowledgeBaseReference[];
 
   @doc("The provisioning state of the AI agent.")
   @visibility(Lifecycle.Read)

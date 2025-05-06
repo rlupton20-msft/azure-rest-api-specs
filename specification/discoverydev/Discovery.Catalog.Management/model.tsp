@@ -23,13 +23,13 @@ model Model is TrackedResource<ModelProperties> {
 
 @doc("Model properties")
 model ModelProperties {
-  @doc("Reference to model definition.")
+  @doc("Reference to model.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  modelDefinitionId: string;
+  modelReferenceId: string;
 
   @doc("Model definition YAML as a string.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  contentDefinitions: string;
+  definitionContent?: string;
 
   @doc("The ARM resource ID of the workspace.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
