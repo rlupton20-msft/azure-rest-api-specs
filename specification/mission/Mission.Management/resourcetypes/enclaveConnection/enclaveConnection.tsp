@@ -5,7 +5,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "../shared/provisioningstate.tsp";
 import "../shared/resourceid.tsp";
-import "../shared/approvaloperationstatus.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -45,21 +44,26 @@ union EnclaveConnectionState {
 @doc("Enclave Connection Resource properties")
 model EnclaveConnectionProperties {
   @doc("The state of the enclaveConnection.")
+  @visibility(Lifecycle.Read)
   state?: EnclaveConnectionState;
 
   @doc("Community Resource Id.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   communityResourceId: CommunityResourceId;
 
   @doc("Source Resource Id.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   sourceResourceId: EnclaveConnectionSourceResourceId;
 
   @doc("Source CIDR.")
   sourceCidr?: string;
 
   @doc("Source IP group Resource Id.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   ipGroup?: IPGroupResourceId;
 
   @doc("Destination Endpoint Resource Id.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   destinationEndpointId: DestinationEndpointResourceId;
 
   @doc("Provisioning State.")
@@ -67,12 +71,8 @@ model EnclaveConnectionProperties {
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids modified by enclave Connections.")
-  resourceCollection?: string[];
-
-  @added(Microsoft.Mission.Versions.v2025_03_01_preview)
   @visibility(Lifecycle.Read)
-  @doc("Approval Operation Status")
-  approvalOperationStatus?: ApprovalOperationStatus;
+  resourceCollection?: string[];
 }
 
 @doc("Enclave Connection Patch properties")

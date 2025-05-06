@@ -79,6 +79,7 @@ model TransitHubProperties {
   transitOption?: TransitOption;
 
   @doc("List of resource ids modified by transitHubs.")
+  @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 }
 

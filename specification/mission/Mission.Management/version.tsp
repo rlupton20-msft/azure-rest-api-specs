@@ -22,9 +22,9 @@ enum Versions {
   @Versioning.useDependency(Azure.Core.Versions.v1_0_Preview_2)
   v2024_12_01_preview: "2024-12-01-preview",
 
-  @doc("The 2025-03-01-preview version.")
-  @armCommonTypesVersion("v5")
+  @doc("The 2025-05-01-preview version.")
+  @armCommonTypesVersion("v6")
   @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @Versioning.useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  v2025_03_01_preview: "2025-03-01-preview",
+  v2025_05_01_preview: "2025-05-01-preview",
 }
