@@ -4,9 +4,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-// import "./project.tsp";
-import "./common.tsp";
-
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
@@ -24,7 +21,13 @@ model Tool is TrackedResource<ToolProperties> {
 
 @doc("Discovery Tool properties")
 model ToolProperties {
-  ...CatalogArtifactBaseProperties;
+  @doc("Reference to tool definition.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  toolDefinitionId: string;
+
+  @doc("Tool definition YAML as a string.")
+  @visibility(Lifecycle.Read)
+  definitionContent: string;
 
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
