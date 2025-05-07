@@ -105,7 +105,7 @@ model EnclaveDefaultSettings {
 
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Diagnostic Destination.")
-  diagnosticDestination: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
+  diagnosticDestination?: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
 }
 
 @doc("Enclave Address Spaces")
@@ -124,10 +124,10 @@ model MaintenanceModeConfiguration {
   mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string = "Off";
 
   @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals: Principal[] = #[];
+  principals?: Principal[] = #[];
 
   @doc("Justification for entering or exiting Maintenance Mode")
-  justification: "Networking" | "Governance" | "Off" | string = "Off";
+  justification?: "Networking" | "Governance" | "Off" | string = "Off";
 }
 
 @doc("Virtual Enclave Resource properties")
