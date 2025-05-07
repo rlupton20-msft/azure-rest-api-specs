@@ -1,4 +1,5 @@
 // cspell:enableCompoundWords
+// cspell:words managedonbehalfofconfiguration
 
 import "@typespec/rest";
 import "@typespec/versioning";
