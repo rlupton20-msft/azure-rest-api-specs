@@ -1,3 +1,5 @@
+// cspell:enableCompoundWords
+
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -89,7 +91,7 @@ model EnclaveVirtualNetwork {
 }
 
 @doc("Virtual Enclave Default Settings")
-model EnclaveDefaultSettings {
+model EnclaveDefaultSettingsDef {
   @doc("Key Vault Resource Id.")
   @visibility(Lifecycle.Read)
   keyVaultResourceId?: KeyVaultResourceId;
@@ -102,10 +104,18 @@ model EnclaveDefaultSettings {
   @doc("Log Analytics Resource Ids.")
   @visibility(Lifecycle.Read)
   logAnalyticsResourceIdCollection?: LogAnalyticsResourceId[];
+}
 
+model EnclaveDefaultSettings is EnclaveDefaultSettingsDef {
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Diagnostic Destination.")
   diagnosticDestination?: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
+}
+
+model EnclaveDefaultSettingsPatch is EnclaveDefaultSettingsDef {
+  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @doc("Diagnostic Destination.")
+  diagnosticDestination?: DiagnosticDestination;
 }
 
 @doc("Enclave Address Spaces")
@@ -130,8 +140,21 @@ model MaintenanceModeConfiguration {
   justification?: "Networking" | "Governance" | "Off" | string = "Off";
 }
 
+@added(Microsoft.Mission.Versions.v2024_06_01_preview)
+@doc("Maintenance Mode")
+model MaintenanceModeConfigurationPatch {
+  @doc("Current mode of Maintenance Mode Configuration")
+  mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string;
+
+  @doc("The user, group or service principal object affected by Maintenance Mode")
+  principals?: Principal[];
+
+  @doc("Justification for entering or exiting Maintenance Mode")
+  justification?: "Networking" | "Governance" | "Off" | string;
+}
+
 @doc("Virtual Enclave Resource properties")
-model VirtualEnclaveProperties {
+model VirtualEnclavePropertiesDef {
   @doc("Provisioning State.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
@@ -148,9 +171,6 @@ model VirtualEnclaveProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   communityResourceId: CommunityResourceId;
 
-  @doc("Default Settings")
-  enclaveDefaultSettings?: EnclaveDefaultSettings;
-
   @doc("List of resource ids created by Virtual Enclave.")
   @visibility(Lifecycle.Read)
   resourceCollection?: armResourceIdentifier[];
@@ -163,9 +183,6 @@ model VirtualEnclaveProperties {
   @visibility(Lifecycle.Read)
   @doc("Managed On Behalf Of Configuration.")
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
-
-  @doc("Maintenance Mode configuration.")
-  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 
   @doc("Deploy Bastion service (True or False).")
   bastionEnabled?: boolean = false;
@@ -183,8 +200,23 @@ model VirtualEnclaveProperties {
   governedServiceList?: GovernedServiceItem[];
 }
 
+@doc("Virtual Enclave Resource properties")
+model VirtualEnclaveProperties is VirtualEnclavePropertiesDef {
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
+
+  @doc("Default Settings")
+  enclaveDefaultSettings?: EnclaveDefaultSettings;
+}
+
 @doc("Virtual Enclave Patch properties")
-model VirtualEnclavePatchProperties is VirtualEnclaveProperties;
+model VirtualEnclavePatchProperties is VirtualEnclavePropertiesDef {
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatch;
+  
+  @doc("Default Settings")
+  enclaveDefaultSettings?: EnclaveDefaultSettingsPatch;
+}
 
 @doc("Virtual Enclave Patch Resource")
 model VirtualEnclavePatchResource {

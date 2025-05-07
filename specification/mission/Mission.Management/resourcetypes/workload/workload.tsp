@@ -1,3 +1,5 @@
+// cspell:enableCompoundWords
+
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";

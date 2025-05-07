@@ -4533,6 +4533,36 @@
         ]
       }
     },
+    "DiagnosticDestination": {
+      "type": "string",
+      "description": "Specifies the destination of where to store diagnostic logs.",
+      "enum": [
+        "CommunityOnly",
+        "EnclaveOnly",
+        "Both"
+      ],
+      "x-ms-enum": {
+        "name": "DiagnosticDestination",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "CommunityOnly",
+            "value": "CommunityOnly",
+            "description": "DiagnosticDestination Type CommunityOnly"
+          },
+          {
+            "name": "EnclaveOnly",
+            "value": "EnclaveOnly",
+            "description": "DiagnosticDestination Type EnclaveOnly"
+          },
+          {
+            "name": "Both",
+            "value": "Both",
+            "description": "DiagnosticDestination Type Both"
+          }
+        ]
+      }
+    },
     "EnclaveAddressSpaces": {
       "type": "object",
       "description": "Enclave Address Spaces",
@@ -4787,6 +4817,34 @@
               }
             ]
           }
+        }
+      }
+    },
+    "EnclaveDefaultSettingsPatch": {
+      "type": "object",
+      "description": "Virtual Enclave Default Settings",
+      "properties": {
+        "keyVaultResourceId": {
+          "$ref": "#/definitions/KeyVaultResourceId",
+          "description": "Key Vault Resource Id.",
+          "readOnly": true
+        },
+        "storageAccountResourceId": {
+          "$ref": "#/definitions/StorageAccountResourceId",
+          "description": "Storage Account Resource Id.",
+          "readOnly": true
+        },
+        "logAnalyticsResourceIdCollection": {
+          "type": "array",
+          "description": "Log Analytics Resource Ids.",
+          "items": {
+            "$ref": "#/definitions/LogAnalyticsResourceId"
+          },
+          "readOnly": true
+        },
+        "diagnosticDestination": {
+          "$ref": "#/definitions/DiagnosticDestination",
+          "description": "Diagnostic Destination."
         }
       }
     },
@@ -5206,6 +5264,45 @@
       "required": [
         "mode"
       ]
+    },
+    "MaintenanceModeConfigurationPatch": {
+      "type": "object",
+      "description": "Maintenance Mode",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Current mode of Maintenance Mode Configuration",
+          "enum": [
+            "On",
+            "CanNotDelete",
+            "Off",
+            "General",
+            "Advanced"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "principals": {
+          "type": "array",
+          "description": "The user, group or service principal object affected by Maintenance Mode",
+          "items": {
+            "$ref": "#/definitions/Principal"
+          }
+        },
+        "justification": {
+          "type": "string",
+          "description": "Justification for entering or exiting Maintenance Mode",
+          "enum": [
+            "Networking",
+            "Governance",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      }
     },
     "MaintenanceModeConfigurationUpdate": {
       "type": "object",
@@ -6017,14 +6114,6 @@
           "$ref": "#/definitions/EnclaveVirtualNetwork",
           "description": "Virtual Network."
         },
-        "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
-          "description": "Default Settings"
-        },
-        "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationUpdate",
-          "description": "Maintenance Mode configuration."
-        },
         "bastionEnabled": {
           "type": "boolean",
           "description": "Deploy Bastion service (True or False).",
@@ -6043,6 +6132,14 @@
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
           }
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatch",
+          "description": "Maintenance Mode configuration."
+        },
+        "enclaveDefaultSettings": {
+          "$ref": "#/definitions/EnclaveDefaultSettingsPatch",
+          "description": "Default Settings"
         }
       }
     },
@@ -6111,10 +6208,6 @@
             "create"
           ]
         },
-        "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
-          "description": "Default Settings"
-        },
         "resourceCollection": {
           "type": "array",
           "description": "List of resource ids created by Virtual Enclave.",
@@ -6129,10 +6222,6 @@
           "$ref": "#/definitions/ManagedResourceGroupConfiguration",
           "description": "Managed resource group configuration.",
           "readOnly": true
-        },
-        "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfiguration",
-          "description": "Maintenance Mode configuration."
         },
         "bastionEnabled": {
           "type": "boolean",
@@ -6152,6 +6241,14 @@
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
           }
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfiguration",
+          "description": "Maintenance Mode configuration."
+        },
+        "enclaveDefaultSettings": {
+          "$ref": "#/definitions/EnclaveDefaultSettings",
+          "description": "Default Settings"
         }
       },
       "required": [
