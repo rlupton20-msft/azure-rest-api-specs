@@ -3952,6 +3952,7 @@
         "connectionUpdateMode": {
           "type": "string",
           "description": "Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).",
+          "default": "Automatic",
           "enum": [
             "Automatic",
             "Manual"
@@ -4043,48 +4044,37 @@
             "create"
           ]
         }
-      }
+      },
+      "required": [
+        "connectionUpdateMode"
+      ]
     },
-    "ApprovalStatus": {
-      "type": "string",
-      "description": "Approval Status Enum",
-      "enum": [
-        "Approved",
-        "Rejected",
-        "Pending",
-        "Deleted",
-        "Expired"
-      ],
-      "x-ms-enum": {
-        "name": "ApprovalStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Approved",
-            "value": "Approved",
-            "description": "ApprovalStatus Type Approved"
-          },
-          {
-            "name": "Rejected",
-            "value": "Rejected",
-            "description": "ApprovalStatus Type Rejected"
-          },
-          {
-            "name": "Pending",
-            "value": "Pending",
-            "description": "ApprovalStatus Type Pending"
-          },
-          {
-            "name": "Deleted",
-            "value": "Deleted",
-            "description": "ApprovalStatus Type Deleted"
-          },
-          {
-            "name": "Expired",
-            "value": "Expired",
-            "description": "ApprovalStatus Type Expired"
+    "ApprovalSettingsUpdate": {
+      "type": "object",
+      "description": "ApprovalSettings Properties",
+      "properties": {
+        "connectionUpdateMode": {
+          "type": "string",
+          "description": "Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).",
+          "default": "Automatic",
+          "enum": [
+            "Automatic",
+            "Manual"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
           }
-        ]
+        },
+        "mandatoryApprovers": {
+          "type": "array",
+          "description": "List of mandatory approvers for the approval request",
+          "items": {
+            "$ref": "#/definitions/MandatoryApprover"
+          },
+          "x-ms-identifiers": [
+            "approverEntraId"
+          ]
+        }
       }
     },
     "Approver": {
@@ -4572,36 +4562,6 @@
         ]
       }
     },
-    "DiagnosticDestination": {
-      "type": "string",
-      "description": "Specifies the destination of where to store diagnostic logs.",
-      "enum": [
-        "CommunityOnly",
-        "EnclaveOnly",
-        "Both"
-      ],
-      "x-ms-enum": {
-        "name": "DiagnosticDestination",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "CommunityOnly",
-            "value": "CommunityOnly",
-            "description": "DiagnosticDestination Type CommunityOnly"
-          },
-          {
-            "name": "EnclaveOnly",
-            "value": "EnclaveOnly",
-            "description": "DiagnosticDestination Type EnclaveOnly"
-          },
-          {
-            "name": "Both",
-            "value": "Both",
-            "description": "DiagnosticDestination Type Both"
-          }
-        ]
-      }
-    },
     "EnclaveAddressSpaces": {
       "type": "object",
       "description": "Enclave Address Spaces",
@@ -4827,8 +4787,75 @@
           "readOnly": true
         },
         "diagnosticDestination": {
-          "$ref": "#/definitions/DiagnosticDestination",
-          "description": "Diagnostic Destination."
+          "type": "string",
+          "description": "Diagnostic Destination.",
+          "default": "EnclaveOnly",
+          "enum": [
+            "CommunityOnly",
+            "EnclaveOnly",
+            "Both"
+          ],
+          "x-ms-enum": {
+            "name": "DiagnosticDestination",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "CommunityOnly",
+                "value": "CommunityOnly",
+                "description": "DiagnosticDestination Type CommunityOnly"
+              },
+              {
+                "name": "EnclaveOnly",
+                "value": "EnclaveOnly",
+                "description": "DiagnosticDestination Type EnclaveOnly"
+              },
+              {
+                "name": "Both",
+                "value": "Both",
+                "description": "DiagnosticDestination Type Both"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "diagnosticDestination"
+      ]
+    },
+    "EnclaveDefaultSettingsUpdate": {
+      "type": "object",
+      "description": "Virtual Enclave Default Settings",
+      "properties": {
+        "diagnosticDestination": {
+          "type": "string",
+          "description": "Diagnostic Destination.",
+          "default": "EnclaveOnly",
+          "enum": [
+            "CommunityOnly",
+            "EnclaveOnly",
+            "Both"
+          ],
+          "x-ms-enum": {
+            "name": "DiagnosticDestination",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "CommunityOnly",
+                "value": "CommunityOnly",
+                "description": "DiagnosticDestination Type CommunityOnly"
+              },
+              {
+                "name": "EnclaveOnly",
+                "value": "EnclaveOnly",
+                "description": "DiagnosticDestination Type EnclaveOnly"
+              },
+              {
+                "name": "Both",
+                "value": "Both",
+                "description": "DiagnosticDestination Type Both"
+              }
+            ]
+          }
         }
       }
     },
@@ -5211,6 +5238,7 @@
         "mode": {
           "type": "string",
           "description": "Current mode of Maintenance Mode Configuration",
+          "default": "Off",
           "enum": [
             "On",
             "CanNotDelete",
@@ -5225,6 +5253,7 @@
         "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
+          "default": [],
           "items": {
             "$ref": "#/definitions/Principal"
           }
@@ -5232,6 +5261,7 @@
         "justification": {
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
+          "default": "Off",
           "enum": [
             "Networking",
             "Governance",
@@ -5243,7 +5273,9 @@
         }
       },
       "required": [
-        "mode"
+        "mode",
+        "principals",
+        "justification"
       ]
     },
     "MaintenanceModeConfigurationUpdate": {
@@ -5253,6 +5285,7 @@
         "mode": {
           "type": "string",
           "description": "Current mode of Maintenance Mode Configuration",
+          "default": "Off",
           "enum": [
             "On",
             "CanNotDelete",
@@ -5267,6 +5300,7 @@
         "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
+          "default": [],
           "items": {
             "$ref": "#/definitions/Principal"
           }
@@ -5274,6 +5308,7 @@
         "justification": {
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
+          "default": "Off",
           "enum": [
             "Networking",
             "Governance",
@@ -5448,8 +5483,47 @@
           "description": "Resource Action of the item being approved or declined."
         },
         "approvalStatus": {
-          "$ref": "#/definitions/ApprovalStatus",
-          "description": "Approval status."
+          "type": "string",
+          "description": "Approval status.",
+          "default": "Pending",
+          "enum": [
+            "Approved",
+            "Rejected",
+            "Pending",
+            "Deleted",
+            "Expired"
+          ],
+          "x-ms-enum": {
+            "name": "ApprovalStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Approved",
+                "value": "Approved",
+                "description": "ApprovalStatus Type Approved"
+              },
+              {
+                "name": "Rejected",
+                "value": "Rejected",
+                "description": "ApprovalStatus Type Rejected"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "ApprovalStatus Type Pending"
+              },
+              {
+                "name": "Deleted",
+                "value": "Deleted",
+                "description": "ApprovalStatus Type Deleted"
+              },
+              {
+                "name": "Expired",
+                "value": "Expired",
+                "description": "ApprovalStatus Type Expired"
+              }
+            ]
+          }
         },
         "approvalCallbackRoute": {
           "type": "string",
@@ -5461,7 +5535,8 @@
         }
       },
       "required": [
-        "resourceAction"
+        "resourceAction",
+        "approvalStatus"
       ]
     },
     "RequestMetadataUpdate": {
@@ -5473,8 +5548,47 @@
           "description": "Resource Action of the item being approved or declined."
         },
         "approvalStatus": {
-          "$ref": "#/definitions/ApprovalStatus",
-          "description": "Approval status."
+          "type": "string",
+          "description": "Approval status.",
+          "default": "Pending",
+          "enum": [
+            "Approved",
+            "Rejected",
+            "Pending",
+            "Deleted",
+            "Expired"
+          ],
+          "x-ms-enum": {
+            "name": "ApprovalStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Approved",
+                "value": "Approved",
+                "description": "ApprovalStatus Type Approved"
+              },
+              {
+                "name": "Rejected",
+                "value": "Rejected",
+                "description": "ApprovalStatus Type Rejected"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "ApprovalStatus Type Pending"
+              },
+              {
+                "name": "Deleted",
+                "value": "Deleted",
+                "description": "ApprovalStatus Type Deleted"
+              },
+              {
+                "name": "Expired",
+                "value": "Expired",
+                "description": "ApprovalStatus Type Expired"
+              }
+            ]
+          }
         },
         "approvalCallbackRoute": {
           "type": "string",
@@ -5950,7 +6064,7 @@
           }
         },
         "approvalSettings": {
-          "$ref": "#/definitions/ApprovalSettings",
+          "$ref": "#/definitions/ApprovalSettingsUpdate",
           "description": "Approval requirements for various actions on the community's resources."
         },
         "maintenanceModeConfiguration": {
@@ -6050,7 +6164,7 @@
           "description": "Virtual Network."
         },
         "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
+          "$ref": "#/definitions/EnclaveDefaultSettingsUpdate",
           "description": "Default Settings"
         },
         "maintenanceModeConfiguration": {

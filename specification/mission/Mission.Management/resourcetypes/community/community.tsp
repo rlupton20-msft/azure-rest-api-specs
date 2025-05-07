@@ -121,7 +121,7 @@ model ApprovalSettings {
   connectionUpdate?: ApprovalPolicy;
 
   @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
-  connectionUpdateMode?: "Automatic" | "Manual" | string;
+  connectionUpdateMode: "Automatic" | "Manual" | string = "Automatic";
 
   @doc("Approval required for enclave connection deletion (Required or NotRequired).")
   @visibility(Lifecycle.Read, Lifecycle.Create)
