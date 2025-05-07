@@ -122,9 +122,6 @@ model ApprovalSettings {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   connectionUpdate?: ApprovalPolicy;
 
-  @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
-  connectionUpdateMode?: "Automatic" | "Manual" | string = "Automatic";
-
   @doc("Approval required for enclave connection deletion (Required or NotRequired).")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   connectionDeletion?: ApprovalPolicy;
@@ -172,7 +169,7 @@ model ApprovalSettings {
 }
 
 @doc("Community Resource Properties")
-model CommunityProperties {
+model CommunityPropertiesDef {
   @doc("Address Space.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   addressSpace?: string;
@@ -223,8 +220,17 @@ model CommunityProperties {
   firewallSku?: FirewallSKU = FirewallSKU.Standard;
 }
 
-@doc("Community Patch Properties")
-model CommunityPatchProperties is CommunityProperties;
+@doc("Community Resource Properties")
+model CommunityProperties is CommunityPropertiesDef {
+  @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
+  connectionUpdateMode?: "Automatic" | "Manual" | string = "Automatic";
+}
+
+@doc("Community Resource Properties")
+model CommunityPatchProperties is CommunityPropertiesDef {
+  @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
+  connectionUpdateMode?: "Automatic" | "Manual" | string;
+}
 
 @doc("Community Patch Resource")
 model CommunityPatchResource {
