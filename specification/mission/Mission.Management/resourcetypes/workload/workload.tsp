@@ -1,3 +1,6 @@
+// cspell:enableCompoundWords
+// cspell:words managedonbehalfofconfiguration
+
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
@@ -5,6 +8,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 import "../shared/provisioningstate.tsp";
 import "../shared/resourceid.tsp";
+import "../shared/managedonbehalfofconfiguration.tsp";
 import "../virtualEnclave/virtualenclave.tsp";
 
 using TypeSpec.Rest;
@@ -31,6 +35,11 @@ model WorkloadProperties {
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("List of resource group ids.")
   resourceGroupCollection?: string[];
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @visibility(Lifecycle.Read)
+  @doc("Managed On Behalf Of Configuration.")
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 
 @doc("Workload Patch properties")

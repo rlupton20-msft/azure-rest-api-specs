@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "../shared/provisioningstate.tsp";
 import "../shared/resourceid.tsp";
 import "../shared/endpointrulebase.tsp";
-import "../shared/approvaloperationstatus.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -86,6 +85,7 @@ model CommunityEndpointProperties {
 
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("List of resource ids created by community endpoint.")
+  @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 
   @doc("Provisioning State.")
@@ -96,11 +96,6 @@ model CommunityEndpointProperties {
   @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Whether approval is needed for the connection (True or False).")
   approvalRequired?: boolean;
-
-  @added(Microsoft.Mission.Versions.v2025_03_01_preview)
-  @visibility(Lifecycle.Read)
-  @doc("Approval Operation Status")
-  approvalOperationStatus?: ApprovalOperationStatus;
 }
 
 @doc("Community Endpoint Patch properties")
