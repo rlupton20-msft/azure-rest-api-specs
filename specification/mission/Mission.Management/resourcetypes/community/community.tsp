@@ -210,10 +210,6 @@ model CommunityPropertiesDef {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
-
-  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
-  @doc("Maintenance Mode configuration.")
-  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
   
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default")
@@ -224,12 +220,20 @@ model CommunityPropertiesDef {
 model CommunityProperties is CommunityPropertiesDef {
   @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
   connectionUpdateMode?: "Automatic" | "Manual" | string = "Automatic";
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }
 
 @doc("Community Resource Properties")
 model CommunityPatchProperties is CommunityPropertiesDef {
   @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
   connectionUpdateMode?: "Automatic" | "Manual" | string;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatch;
 }
 
 @doc("Community Patch Resource")
