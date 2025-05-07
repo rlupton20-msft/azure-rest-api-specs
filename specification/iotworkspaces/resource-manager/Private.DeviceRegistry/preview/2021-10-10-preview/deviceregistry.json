@@ -4687,231 +4687,6 @@
         }
       }
     },
-    "DiscoveredAssetProperties": {
-      "type": "object",
-      "description": "Defines the discovered asset properties.",
-      "properties": {
-        "deviceRef": {
-          "$ref": "#/definitions/DeviceRef",
-          "description": "Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use."
-        },
-        "discoveryId": {
-          "type": "string",
-          "description": "Identifier used to detect changes in the asset."
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Asset manufacturer name."
-        },
-        "manufacturerUri": {
-          "type": "string",
-          "description": "Asset manufacturer URI."
-        },
-        "model": {
-          "type": "string",
-          "description": "Asset model name."
-        },
-        "productCode": {
-          "type": "string",
-          "description": "Asset product code."
-        },
-        "hardwareRevision": {
-          "type": "string",
-          "description": "Revision number of the hardware."
-        },
-        "softwareRevision": {
-          "type": "string",
-          "description": "Revision number of the software."
-        },
-        "documentationUri": {
-          "type": "string",
-          "description": "Reference to the documentation."
-        },
-        "serialNumber": {
-          "type": "string",
-          "description": "Asset serial number."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes.",
-          "additionalProperties": {}
-        },
-        "defaultDatasetsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
-        },
-        "defaultEventsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
-        },
-        "defaultStreamsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here."
-        },
-        "defaultDatasetsDestinations": {
-          "type": "array",
-          "description": "Default destinations for a Dataset.",
-          "items": {
-            "$ref": "#/definitions/DatasetDestination"
-          },
-          "x-ms-identifiers": []
-        },
-        "defaultEventsDestinations": {
-          "type": "array",
-          "description": "Default destinations for an Event.",
-          "items": {
-            "$ref": "#/definitions/EventDestination"
-          },
-          "x-ms-identifiers": []
-        },
-        "defaultStreamsDestinations": {
-          "type": "array",
-          "description": "Default destinations for a Stream.",
-          "items": {
-            "$ref": "#/definitions/StreamDestination"
-          },
-          "x-ms-identifiers": []
-        },
-        "datasets": {
-          "type": "array",
-          "description": "Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.",
-          "items": {
-            "$ref": "#/definitions/DiscoveredDataset"
-          },
-          "x-ms-identifiers": []
-        },
-        "events": {
-          "type": "array",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
-          "items": {
-            "$ref": "#/definitions/DiscoveredEvent"
-          },
-          "x-ms-identifiers": []
-        },
-        "streams": {
-          "type": "array",
-          "description": "Array of streams that are part of the asset. Each stream can have per-stream configuration.",
-          "items": {
-            "$ref": "#/definitions/DiscoveredStream"
-          },
-          "x-ms-identifiers": []
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "deviceRef",
-        "discoveryId",
-        "version"
-      ]
-    },
-    "DiscoveredDataPoint": {
-      "type": "object",
-      "description": "Defines the data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the data point was added or modified."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
-      ]
-    },
-    "DiscoveredDataset": {
-      "type": "object",
-      "description": "Defines the dataset properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the dataset."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "Name of the data source within a dataset."
-        },
-        "typeRef": {
-          "type": "string",
-          "description": "Uri or type definition id in companion spec."
-        },
-        "datasetConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset."
-        },
-        "destinations": {
-          "type": "array",
-          "description": "Destinations for a Dataset.",
-          "items": {
-            "$ref": "#/definitions/DatasetDestination"
-          },
-          "x-ms-identifiers": []
-        },
-        "dataPoints": {
-          "type": "array",
-          "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
-          "items": {
-            "$ref": "#/definitions/DiscoveredDatasetDataPoint"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "DiscoveredDatasetDataPoint": {
-      "type": "object",
-      "description": "Defines the discovered dataset data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the data point was added or modified."
-        },
-        "typeRef": {
-          "type": "string",
-          "description": "Uri or type definition id in companion spec."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
-      ]
-    },
     "DiscoveredDeviceProperties": {
       "type": "object",
       "description": "Defines the Discovered Asset Endpoint Profile properties.",
@@ -4975,80 +4750,6 @@
       "required": [
         "discoveryId",
         "version"
-      ]
-    },
-    "DiscoveredEvent": {
-      "type": "object",
-      "description": "Defines the event properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the event."
-        },
-        "eventNotifier": {
-          "type": "string",
-          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
-        },
-        "eventConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "destinations": {
-          "type": "array",
-          "description": "Destinations for an Event.",
-          "items": {
-            "$ref": "#/definitions/EventDestination"
-          },
-          "x-ms-identifiers": []
-        },
-        "typeRef": {
-          "type": "string",
-          "description": "Uri or type definition id in companion spec."
-        },
-        "dataPoints": {
-          "type": "array",
-          "description": "Array of data points that are part of the event. Each data point can have per-data point configuration.",
-          "items": {
-            "$ref": "#/definitions/DiscoveredEventDataPoint"
-          },
-          "x-ms-identifiers": []
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the event was added or modified."
-        }
-      },
-      "required": [
-        "name",
-        "eventNotifier"
-      ]
-    },
-    "DiscoveredEventDataPoint": {
-      "type": "object",
-      "description": "Defines the discovered event data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "lastUpdatedOn": {
-          "type": "string",
-          "format": "date-time",
-          "description": "UTC timestamp indicating when the data point was added or modified."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
       ]
     },
     "DiscoveredInboundEndpoints": {
@@ -5175,35 +4876,6 @@
           }
         }
       }
-    },
-    "DiscoveredStream": {
-      "type": "object",
-      "description": "Defines the stream properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the stream definition."
-        },
-        "streamConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream."
-        },
-        "typeRef": {
-          "type": "string",
-          "description": "Uri or type definition id in companion spec."
-        },
-        "destinations": {
-          "type": "array",
-          "description": "Destinations for a Stream.",
-          "items": {
-            "$ref": "#/definitions/StreamDestination"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "name"
-      ]
     },
     "EdgeStateStoreDestinationConfiguration": {
       "type": "object",
@@ -6849,7 +6521,7 @@
       "description": "Discovered asset definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredAssetProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredAssetProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -6891,6 +6563,151 @@
         "value"
       ]
     },
+    "NamespaceDiscoveredAssetProperties": {
+      "type": "object",
+      "description": "Defines the discovered asset properties.",
+      "properties": {
+        "deviceRef": {
+          "$ref": "#/definitions/DeviceRef",
+          "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use."
+        },
+        "assetTypeRefs": {
+          "type": "array",
+          "description": "URIs or type definition IDs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset."
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Asset manufacturer."
+        },
+        "manufacturerUri": {
+          "type": "string",
+          "description": "Asset manufacturer URI."
+        },
+        "model": {
+          "type": "string",
+          "description": "Asset model."
+        },
+        "productCode": {
+          "type": "string",
+          "description": "Asset product code."
+        },
+        "hardwareRevision": {
+          "type": "string",
+          "description": "Asset hardware revision number."
+        },
+        "softwareRevision": {
+          "type": "string",
+          "description": "Asset software revision number."
+        },
+        "documentationUri": {
+          "type": "string",
+          "description": "Asset documentation reference."
+        },
+        "serialNumber": {
+          "type": "string",
+          "description": "Asset serial number."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes.",
+          "additionalProperties": {}
+        },
+        "defaultDatasetsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
+        },
+        "defaultEventsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
+        },
+        "defaultStreamsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here."
+        },
+        "defaultManagementGroupsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here."
+        },
+        "defaultDatasetsDestinations": {
+          "type": "array",
+          "description": "Default destinations for a dataset.",
+          "items": {
+            "$ref": "#/definitions/DatasetDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "defaultEventsDestinations": {
+          "type": "array",
+          "description": "Default destinations for an event.",
+          "items": {
+            "$ref": "#/definitions/EventDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "defaultStreamsDestinations": {
+          "type": "array",
+          "description": "Default destinations for a stream.",
+          "items": {
+            "$ref": "#/definitions/StreamDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "datasets": {
+          "type": "array",
+          "description": "Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredDataset"
+          },
+          "x-ms-identifiers": []
+        },
+        "events": {
+          "type": "array",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredEvent"
+          },
+          "x-ms-identifiers": []
+        },
+        "streams": {
+          "type": "array",
+          "description": "Array of streams that are part of the asset. Each stream can have a per-stream configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredStream"
+          },
+          "x-ms-identifiers": []
+        },
+        "managementGroups": {
+          "type": "array",
+          "description": "Array of management groups that are part of the asset. Each management group can have a per-group configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredManagementGroup"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "deviceRef",
+        "discoveryId",
+        "version"
+      ]
+    },
     "NamespaceDiscoveredAssetUpdate": {
       "type": "object",
       "description": "The type used for update operations of the NamespaceDiscoveredAsset.",
@@ -6914,7 +6731,14 @@
       "properties": {
         "deviceRef": {
           "$ref": "#/definitions/DeviceRefUpdate",
-          "description": "Reference to the device that provide data points for this asset. Must provide device name & endpoint on the device to use."
+          "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use."
+        },
+        "assetTypeRefs": {
+          "type": "array",
+          "description": "URIs or type definition IDs.",
+          "items": {
+            "type": "string"
+          }
         },
         "discoveryId": {
           "type": "string",
@@ -6927,7 +6751,7 @@
         },
         "manufacturer": {
           "type": "string",
-          "description": "Asset manufacturer name."
+          "description": "Asset manufacturer."
         },
         "manufacturerUri": {
           "type": "string",
@@ -6935,7 +6759,7 @@
         },
         "model": {
           "type": "string",
-          "description": "Asset model name."
+          "description": "Asset model."
         },
         "productCode": {
           "type": "string",
@@ -6943,15 +6767,15 @@
         },
         "hardwareRevision": {
           "type": "string",
-          "description": "Revision number of the hardware."
+          "description": "Asset hardware revision number."
         },
         "softwareRevision": {
           "type": "string",
-          "description": "Revision number of the software."
+          "description": "Asset software revision number."
         },
         "documentationUri": {
           "type": "string",
-          "description": "Reference to the documentation."
+          "description": "Asset documentation reference."
         },
         "serialNumber": {
           "type": "string",
@@ -6974,9 +6798,13 @@
           "type": "string",
           "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here."
         },
+        "defaultManagementGroupsConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here."
+        },
         "defaultDatasetsDestinations": {
           "type": "array",
-          "description": "Default destinations for a Dataset.",
+          "description": "Default destinations for a dataset.",
           "items": {
             "$ref": "#/definitions/DatasetDestination"
           },
@@ -6984,7 +6812,7 @@
         },
         "defaultEventsDestinations": {
           "type": "array",
-          "description": "Default destinations for an Event.",
+          "description": "Default destinations for an event.",
           "items": {
             "$ref": "#/definitions/EventDestination"
           },
@@ -6992,7 +6820,7 @@
         },
         "defaultStreamsDestinations": {
           "type": "array",
-          "description": "Default destinations for a Stream.",
+          "description": "Default destinations for a stream.",
           "items": {
             "$ref": "#/definitions/StreamDestination"
           },
@@ -7002,7 +6830,7 @@
           "type": "array",
           "description": "Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set.",
           "items": {
-            "$ref": "#/definitions/DiscoveredDataset"
+            "$ref": "#/definitions/NamespaceDiscoveredDataset"
           },
           "x-ms-identifiers": []
         },
@@ -7010,19 +6838,131 @@
           "type": "array",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "items": {
-            "$ref": "#/definitions/DiscoveredEvent"
+            "$ref": "#/definitions/NamespaceDiscoveredEvent"
           },
           "x-ms-identifiers": []
         },
         "streams": {
           "type": "array",
-          "description": "Array of streams that are part of the asset. Each stream can have per-stream configuration.",
+          "description": "Array of streams that are part of the asset. Each stream can have a per-stream configuration.",
           "items": {
-            "$ref": "#/definitions/DiscoveredStream"
+            "$ref": "#/definitions/NamespaceDiscoveredStream"
+          },
+          "x-ms-identifiers": []
+        },
+        "managementGroups": {
+          "type": "array",
+          "description": "Array of management groups that are part of the asset. Each management group can have a per-group configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredManagementGroup"
           },
           "x-ms-identifiers": []
         }
       }
+    },
+    "NamespaceDiscoveredDataPoint": {
+      "type": "object",
+      "description": "Defines the data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
+    },
+    "NamespaceDiscoveredDataset": {
+      "type": "object",
+      "description": "Defines the dataset properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the dataset."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "Name of the data source within a dataset."
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        },
+        "datasetConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset."
+        },
+        "destinations": {
+          "type": "array",
+          "description": "Destinations for a dataset.",
+          "items": {
+            "$ref": "#/definitions/DatasetDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "dataPoints": {
+          "type": "array",
+          "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredDatasetDataPoint"
+          },
+          "x-ms-identifiers": []
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (in UTC) indicating when the dataset was added or modified."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "NamespaceDiscoveredDatasetDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered dataset data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
     },
     "NamespaceDiscoveredDevice": {
       "type": "object",
@@ -7119,6 +7059,259 @@
           "description": "An integer that is incremented each time the resource is modified."
         }
       }
+    },
+    "NamespaceDiscoveredEvent": {
+      "type": "object",
+      "description": "Defines the event properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event."
+        },
+        "eventNotifier": {
+          "type": "string",
+          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
+        },
+        "eventConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "destinations": {
+          "type": "array",
+          "description": "Destinations for an event.",
+          "items": {
+            "$ref": "#/definitions/EventDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        },
+        "dataPoints": {
+          "type": "array",
+          "description": "Array of data points that are part of the event. Each data point can have a per-data point configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredEventDataPoint"
+          },
+          "x-ms-identifiers": []
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the event was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "eventNotifier"
+      ]
+    },
+    "NamespaceDiscoveredEventDataPoint": {
+      "type": "object",
+      "description": "Defines the discovered event data point properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the data point."
+        },
+        "dataSource": {
+          "type": "string",
+          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
+        },
+        "dataPointConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp indicating when the data point was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "dataSource"
+      ]
+    },
+    "NamespaceDiscoveredManagementAction": {
+      "type": "object",
+      "description": "Defines the action properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the action."
+        },
+        "actionConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the action."
+        },
+        "targetUri": {
+          "type": "string",
+          "description": "The target URI on which a client can invoke the specific action."
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        },
+        "topic": {
+          "type": "string",
+          "description": "The MQTT topic path on which a client will receive the request for the action."
+        },
+        "actionType": {
+          "type": "string",
+          "description": "The type of the action.",
+          "default": "Call",
+          "enum": [
+            "Call",
+            "Read",
+            "Write"
+          ],
+          "x-ms-enum": {
+            "name": "NamespaceDiscoveredManagementActionType",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Call",
+                "value": "Call",
+                "description": "Call action type."
+              },
+              {
+                "name": "Read",
+                "value": "Read",
+                "description": "Read action type."
+              },
+              {
+                "name": "Write",
+                "value": "Write",
+                "description": "Write action type."
+              }
+            ]
+          }
+        },
+        "timeoutInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Response timeout for the action."
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (in UTC) indicating when the management action was added or modified."
+        }
+      },
+      "required": [
+        "name",
+        "targetUri"
+      ]
+    },
+    "NamespaceDiscoveredManagementActionType": {
+      "type": "string",
+      "description": "Defines the ManagementAction's type.",
+      "enum": [
+        "Call",
+        "Read",
+        "Write"
+      ],
+      "x-ms-enum": {
+        "name": "NamespaceDiscoveredManagementActionType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Call",
+            "value": "Call",
+            "description": "Call action type."
+          },
+          {
+            "name": "Read",
+            "value": "Read",
+            "description": "Read action type."
+          },
+          {
+            "name": "Write",
+            "value": "Write",
+            "description": "Write action type."
+          }
+        ]
+      }
+    },
+    "NamespaceDiscoveredManagementGroup": {
+      "type": "object",
+      "description": "Defines the management group properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the management group."
+        },
+        "managementGroupConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the management group."
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        },
+        "defaultTopic": {
+          "type": "string",
+          "description": "Default MQTT topic path on which a client will receive the request for all actions that are part of the management group."
+        },
+        "defaultTimeoutInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Default response timeout for all actions that are part of the management group.",
+          "default": 100
+        },
+        "actions": {
+          "type": "array",
+          "description": "Array of actions that are part of the management group. Each action can have an individual configuration.",
+          "items": {
+            "$ref": "#/definitions/NamespaceDiscoveredManagementAction"
+          },
+          "x-ms-identifiers": []
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (in UTC) indicating when the management group was added or modified."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "NamespaceDiscoveredStream": {
+      "type": "object",
+      "description": "Defines the stream properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the stream definition."
+        },
+        "streamConfiguration": {
+          "type": "string",
+          "description": "Stringified JSON that contains connector-specific configuration for the specific stream."
+        },
+        "typeRef": {
+          "type": "string",
+          "description": "URI or type definition ID."
+        },
+        "destinations": {
+          "type": "array",
+          "description": "Destinations for a stream.",
+          "items": {
+            "$ref": "#/definitions/StreamDestination"
+          },
+          "x-ms-identifiers": []
+        },
+        "lastUpdatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (in UTC) indicating when the stream was added or modified."
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "NamespaceEvent": {
       "type": "object",

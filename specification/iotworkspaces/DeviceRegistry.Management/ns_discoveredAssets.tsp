@@ -4,7 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/provisioningState.tsp";
-import "./common/discoveredAssetProperties.tsp";
+import "./common/ns_discoveredAssetProperties.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -18,7 +18,8 @@ namespace Private.DeviceRegistry;
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
-model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
+model NamespaceDiscoveredAsset
+  is TrackedResource<NamespaceDiscoveredAssetProperties> {
   @doc("Namespace Discovered Asset name parameter.")
   @key("discoveredAssetName")
   @segment("discoveredAssets")
@@ -35,9 +36,9 @@ model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-alias DiscoveredAssetPropertiesUpdate = {
+alias NamespaceDiscoveredAssetPropertiesUpdate = {
   ...OptionalProperties<UpdateableProperties<OmitProperties<
-    DiscoveredAssetProperties,
+    NamespaceDiscoveredAssetProperties,
     "defaultTopic"
   >>>;
 
@@ -58,7 +59,7 @@ interface NamespaceDiscoveredAssets {
     NamespaceDiscoveredAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceDiscoveredAsset,
-      DiscoveredAssetPropertiesUpdate
+      NamespaceDiscoveredAssetPropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAsset>;

@@ -21,9 +21,6 @@ namespace Microsoft.AccessPoint;
 
 @doc("Properties for all Virtual Desktop Infrastructure resources.")
 model VirtualDesktopInfrastructureProperties {
-  @doc("The location for this service on the menu.")
-  menuOrder: int32;
-
   @doc("The network level for the service.")
   hostNetworkLevel: string;
 

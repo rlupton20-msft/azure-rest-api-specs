@@ -7,10 +7,7 @@ import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./authenticationMethod.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
