@@ -31,11 +31,7 @@ model BookshelfProperties {
 
   /** The bookshelf data plane API URI */
   @visibility(Lifecycle.Read)
-  bookshelfApiUri?: url;
-
-  @doc("bookshelf User Interface Uri.")
-  @visibility(Lifecycle.Read)
-  bookshelfUiUri?: url;
+  bookshelfUri?: url;
 }
 
 @armResourceOperations
