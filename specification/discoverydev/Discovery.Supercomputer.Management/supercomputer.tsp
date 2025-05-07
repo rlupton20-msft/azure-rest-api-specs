@@ -40,18 +40,36 @@ model SupercomputerProperties {
   subnetId: Microsoft.Discovery.Shared.SubnetId;
 
   /**
-    List of User Assigned Identity IDs associated with the Supercomputer
-    for the purpose of workload identity.
+    Dictionary of identity properties for the Supercomputer.
    */
+  @doc("Dictionary of identity properties.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
+  identities: SupercomputerIdentities;
 
-  // The User Assigned Identity id used by the cluster kubelet agent, often for container image acr access.
-  @doc("Kubelet identity ID")
+  ...MoboConfigurationWithMrg;
+}
+
+/**
+    Model representing the dictionary of identity properties.
+   */
+@doc("Dictionary of identity properties for the Supercomputer.")
+model SupercomputerIdentities {
+  /**
+      Cluster identity ID used by the supercomputer.
+      This identity is used by the supercomputer at cluster level to access Azure resources.
+      This identity must have NetworkContributor role on the system subnet.
+    */
+  @doc("Cluster identity ID.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  clusterIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+
+  @doc("Kubelet identity ID used by kubelet agent running on nodes.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   kubeletIdentity?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 
-  ...MoboConfigurationWithMrg;
+  @doc("Workload identity IDs to be used by tools running on supercomputer.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
 }
 
 @armResourceOperations
