@@ -3789,7 +3789,7 @@
       "description": "Approvals properties for patching",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateApprovalProperties",
+          "$ref": "#/definitions/UpdateApprovalPropertiesPatch",
           "description": "Approval Patch properties"
         }
       }
@@ -3820,8 +3820,12 @@
     },
     "ApprovalProperties": {
       "type": "object",
-      "description": "Approvals Resource Properties",
+      "description": "Approvals properties with default values.",
       "properties": {
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadata",
+          "description": "Request metadata for the approval request."
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
@@ -3834,10 +3838,6 @@
         "parent2": {
           "type": "string",
           "description": "Parameter for optimizing query results"
-        },
-        "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadata",
-          "description": "Request metadata for the approval request."
         },
         "approvers": {
           "type": "array",
@@ -4044,6 +4044,48 @@
             "create"
           ]
         }
+      }
+    },
+    "ApprovalStatus": {
+      "type": "string",
+      "description": "Approval Status Enum",
+      "enum": [
+        "Approved",
+        "Rejected",
+        "Pending",
+        "Deleted",
+        "Expired"
+      ],
+      "x-ms-enum": {
+        "name": "ApprovalStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Approved",
+            "value": "Approved",
+            "description": "ApprovalStatus Type Approved"
+          },
+          {
+            "name": "Rejected",
+            "value": "Rejected",
+            "description": "ApprovalStatus Type Rejected"
+          },
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "ApprovalStatus Type Pending"
+          },
+          {
+            "name": "Deleted",
+            "value": "Deleted",
+            "description": "ApprovalStatus Type Deleted"
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "ApprovalStatus Type Expired"
+          }
+        ]
       }
     },
     "Approver": {
@@ -5405,13 +5447,9 @@
       "type": "object",
       "description": "Request Metadata for approvals request.",
       "properties": {
-        "resourceAction": {
-          "type": "string",
-          "description": "Resource Action of the item being approved or declined."
-        },
         "approvalStatus": {
           "type": "string",
-          "description": "Approval status.",
+          "description": "Status of the approval. Uses ApprovalStatus enum.",
           "default": "Pending",
           "enum": [
             "Approved",
@@ -5451,6 +5489,10 @@
               }
             ]
           }
+        },
+        "resourceAction": {
+          "type": "string",
+          "description": "Resource Action of the item being approved or declined."
         },
         "approvalCallbackRoute": {
           "type": "string",
@@ -5465,56 +5507,17 @@
         "resourceAction"
       ]
     },
-    "RequestMetadataUpdate": {
+    "RequestMetadataPatch": {
       "type": "object",
-      "description": "Request Metadata for approvals request.",
+      "description": "Request Metadata for approvals request without default values.",
       "properties": {
+        "approvalStatus": {
+          "$ref": "#/definitions/ApprovalStatus",
+          "description": "Status of the approval. Uses ApprovalStatus enum."
+        },
         "resourceAction": {
           "type": "string",
           "description": "Resource Action of the item being approved or declined."
-        },
-        "approvalStatus": {
-          "type": "string",
-          "description": "Approval status.",
-          "default": "Pending",
-          "enum": [
-            "Approved",
-            "Rejected",
-            "Pending",
-            "Deleted",
-            "Expired"
-          ],
-          "x-ms-enum": {
-            "name": "ApprovalStatus",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Approved",
-                "value": "Approved",
-                "description": "ApprovalStatus Type Approved"
-              },
-              {
-                "name": "Rejected",
-                "value": "Rejected",
-                "description": "ApprovalStatus Type Rejected"
-              },
-              {
-                "name": "Pending",
-                "value": "Pending",
-                "description": "ApprovalStatus Type Pending"
-              },
-              {
-                "name": "Deleted",
-                "value": "Deleted",
-                "description": "ApprovalStatus Type Deleted"
-              },
-              {
-                "name": "Expired",
-                "value": "Expired",
-                "description": "ApprovalStatus Type Expired"
-              }
-            ]
-          }
         },
         "approvalCallbackRoute": {
           "type": "string",
@@ -5904,10 +5907,14 @@
         ]
       }
     },
-    "UpdateApprovalProperties": {
+    "UpdateApprovalPropertiesPatch": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadataPatch",
+          "description": "Request metadata for the approval request without default values."
+        },
         "parent1": {
           "type": "string",
           "description": "Parameter for optimizing query results"
@@ -5915,10 +5922,6 @@
         "parent2": {
           "type": "string",
           "description": "Parameter for optimizing query results"
-        },
-        "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadataUpdate",
-          "description": "Request metadata for the approval request."
         },
         "approvers": {
           "type": "array",
