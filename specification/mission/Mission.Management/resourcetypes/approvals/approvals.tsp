@@ -54,7 +54,7 @@ model RequestMetadata {
   resourceAction: string;
 
   @doc("Approval status.")
-  approvalStatus?: ApprovalStatus = ApprovalStatus.Pending;
+  approvalStatus?: ApprovalStatus;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Route name for the approval callback")
