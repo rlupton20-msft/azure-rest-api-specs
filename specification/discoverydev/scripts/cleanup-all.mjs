@@ -1,10 +1,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync} from "fs";
 import { basename, dirname, resolve } from "path"
-import { execSync } from "child_process"
 import * as crypto from "node:crypto";
 
 import { apiVersions, dataPlanePackageNames, validatePackage } from "./common.mjs";
-import _ from "lodash";
 
 const getPathForOperationId = ({swaggerObject, operationId}) => {
   for(const [basePath, operations] of Object.entries(swaggerObject.paths)) {
@@ -20,10 +18,11 @@ const getPathForOperationId = ({swaggerObject, operationId}) => {
 
 const uuid = '00000011-1111-2222-2222-123456789111'
 const fixPropertiesBag = ({properties}) => {
+
   if(!properties) {
     return undefined
   }
-  return {
+  const res =  {
     ...properties,
     workspaceId: !properties.workspaceId ? undefined : '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/workspaces/workspace1',
     subnetId: !properties?.subnetId ? undefined : '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Network/virtualNetworks/virtualnetwork1',
@@ -32,16 +31,45 @@ const fixPropertiesBag = ({properties}) => {
         { id: '/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Storage/storageAccounts/storage1' }
       ]
     },
+    identities: properties.identities ? fixManagedIds({object: properties.identities}) : undefined,
     ...fixDiscoverIds({ object: properties }),
   }
+  return res
+
 }
 
+const managedIdentityResourceId = "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1"
 const makeDiscoveryArmId = ({resourceTypeName}) => {
   const irregularPlurals = {
     bookshelf: 'bookshelves'
   }
   const pathSegment = irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`
   return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/${pathSegment}/${resourceTypeName}12`
+}
+
+const fixManagedIds = ({object}) => {
+  const res = {
+    ...object
+  }
+  const identityPropertyNames = [
+    "clusterIdentity",
+    "kubeletIdentity",
+  ]
+  for(const propertyName of identityPropertyNames) {
+    if(res[propertyName]) {
+      res[propertyName] = managedIdentityResourceId
+    }
+  }
+  const identityListPropertyNames = [
+    "workloadIdentities",
+  ]
+
+  for(const propertyName of identityListPropertyNames) {
+    if(Array.isArray(res[propertyName])) {
+      res[propertyName] = [managedIdentityResourceId]
+    }
+  }
+  return res
 }
 
 const fixDiscoverIds = ({object}) => {
@@ -159,6 +187,18 @@ const fixIds = ({ swaggerObject, exampleObject, operationId}) => {
   return exampleObject
 }
 
+const fixRegexIssues = ({object}) => {
+  const res = {
+    ...object,
+  }
+  for(const [key, value] of Object.entries(object)) {
+    if(typeof value === "string" && value?.startsWith("Replace this value with a string matching RegExp ^[a-zA-Z0-9-]")) { //{3,24}$")) {
+      res[key] = crypto.randomBytes(9).toString('hex')
+    }
+  }
+  return res
+}
+
 const runMain = () => {
   console.log("***********************************")
   const dirs = []
@@ -226,11 +266,8 @@ const runMain = () => {
         }
       }
       if(contents.parameters) {
-        for(const [key, value] of Object.entries(contents.parameters)) {
-          if(key.endsWith("Name") && value === "Replace this value with a string matching RegExp ^[a-zA-Z0-9-]{3,24}$") {
-            contents.parameters[key] = crypto.randomBytes(9).toString('hex')
-          }
-        }
+        contents.parameters = fixRegexIssues({ object: contents.parameters})
+
         if(contents.parameters.resource?.definitionContent) {
           contents.parameters.resource.definitionContent = definitionContent
         }
@@ -254,19 +291,18 @@ const runMain = () => {
         console.log(`Failed to fox IDs for ${file}: ${err.message}`)
         throw err;
       }
+      const regexToReplace = "Replace this value with a string matching RegExp ^[a-zA-Z0-9-]{3,24}$"
+      const fileText = JSON.stringify({
+        title,
+        ...contents,
+      }, null, 2).replaceAll(regexToReplace, "myReallyGoodName")
       writeFileSync(
         filePath,
-          JSON.stringify({
-          title,
-          ...contents,
-        }, null, 2)
+        fileText
       )
       writeFileSync(
         resolve(outDirPath, file),
-        JSON.stringify({
-          title,
-          ...contents,
-        }, null, 2)
+        fileText
       )
     }
   }

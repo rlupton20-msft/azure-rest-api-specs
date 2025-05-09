@@ -16,9 +16,7 @@ using TypeSpec.Versioning;
  */
 @armProviderNamespace
 // @useAuth(AadOauth2Auth<["user_impersonation"]>)
-@service({
-  title: "Edge Copilot",
-})
+@service(#{ title: "Edge Copilot" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.Copilot;
@@ -30,9 +28,30 @@ interface Operations extends Azure.ResourceManager.Operations {}
  */
 enum Versions {
   /**
+   * The 2023-09-01-preview API version.
+   */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  v2023_09_01_preview: "2023-09-01-preview",
+
+  /**
+   * The 2025-02-01-preview API version.
+   */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  v2025_02_01_preview: "2025-02-01-preview",
+
+  /**
    * The 2025-03-01-preview API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
   v2025_03_01_preview: "2025-03-01-preview",
+
+  /**
+   * The 2025-06-01-preview API version.
+   */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  v2025_06_01_preview: "2025-06-01-preview",
 }
