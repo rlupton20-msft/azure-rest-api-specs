@@ -112,9 +112,8 @@ model Image {
   @doc("Options are x64 or arm64. Defaults to x64")
   architecture?: Architecture = Architecture.x64;
 
-  @doc("Options are empty list [] or a list with combination of the following ['none', 'secureboot', 'cvm', 'stateless']")
-  @maxItems(4)
-  securityProfile?: SecurityProfile[] = #[];
+  @doc("Options are 'none', 'secureboot', 'cvm', 'stateless'")
+  securityProfile?: SecurityProfile;
 }
 
 @doc("VHD image type object")
