@@ -70,8 +70,12 @@ model BulkDeploySolutionParameter {
 
 @doc("Bulk deploy target details")
 model BulkDeployTargetDetails {
-  @doc("Target id")
-  targetId: string;
+  @doc("ArmId of Target")
+  targetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets";
+    }
+  ]>;
 
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
