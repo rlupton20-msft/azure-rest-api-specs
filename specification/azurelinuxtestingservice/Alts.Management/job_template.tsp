@@ -29,6 +29,9 @@ model JobTemplateResourceProperties is ResourceProperties {
   @doc("OS disk enccryption setting for Confidential VM only.")
   encryptDisk?: boolean = false;
 
+  @doc("Options are 'none', 'secureboot', 'cvm', 'stateless'")
+  securityProfile?: SecurityProfile;
+
   @doc("Test Selections. Default is to run the smoke_test case")
   @OpenAPI.extension("x-ms-identifiers", #[])
   selections?: Selections[];
@@ -39,6 +42,23 @@ model JobTemplateResourceProperties is ResourceProperties {
 
   @doc("The number of concurrent environments. Default is 4.")
   concurrency?: int32 = 4;
+}
+
+@doc("Security Profiles")
+union SecurityProfile {
+  @doc("none = no additional security features")
+  none: "none",
+
+  @doc("cvm = Confidential Virtual Machine support")
+  cvm: "cvm",
+
+  @doc("secureboot = Secure boot capabilities")
+  secureboot: "secureboot",
+
+  @doc("stateless = Stateless security configuration")
+  stateless: "stateless",
+
+  string,
 }
 
 @doc("Action to take on a particular test case")
@@ -122,6 +142,9 @@ model JobTemplatePatchProperties {
 
   @doc("OS disk encryption setting for Confidential VM only.")
   encryptDisk?: boolean;
+
+  @doc("Options are 'none', 'secureboot', 'cvm', 'stateless'")
+  securityProfile?: SecurityProfile;
 
   @doc("Test Selections without defaults")
   @OpenAPI.extension("x-ms-identifiers", #[])
