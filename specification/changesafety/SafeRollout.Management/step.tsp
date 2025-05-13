@@ -74,7 +74,7 @@ model StepOperation {
   statusMessage?: string;
 
   @doc("Operation id.")
-  operationId: Azure.Core.uuid;
+  operationId: string;
 
   @doc("The operation type.")
   operationType: OperationType;

@@ -14,7 +14,7 @@ using Azure.ResourceManager;
 @armProviderNamespace
 @service(#{ title: "Private.ChangeSafety" })
 @versioned(Versions)
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
 namespace Private.ChangeSafety;
 
 enum Versions {

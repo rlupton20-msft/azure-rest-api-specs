@@ -31,7 +31,7 @@ union ProvisioningState {
   Canceled: "Canceled",
 }
 
-@doc("Error")
+@doc("The error object for the safe rollout.")
 model Error {
   @doc("error code")
   code: string;
