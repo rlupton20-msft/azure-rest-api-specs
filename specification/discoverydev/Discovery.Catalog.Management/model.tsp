@@ -23,15 +23,17 @@ model Model is TrackedResource<ModelProperties> {
 
 @doc("Model properties")
 model ModelProperties {
-  ...CatalogArtifactBaseProperties;
+  @doc("Reference to model.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  modelReferenceId: string;
 
-  @doc("The ARM resource ID of the subnet.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  subnetId: Microsoft.Discovery.Shared.SubnetId;
+  @doc("Model definition YAML as a string.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  definitionContent?: string;
 
-  @doc("The deployment ID of the Model.")
-  @visibility(Lifecycle.Read)
-  modelDeploymentId?: string;
+  @doc("The ARM resource ID of the workspace.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  workspaceId: Microsoft.Discovery.Shared.WorkspaceId;
 
   @doc("The provisioning status of the Model.")
   @visibility(Lifecycle.Read)

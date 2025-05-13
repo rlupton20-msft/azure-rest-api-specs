@@ -9,5 +9,6 @@ import "./models/AccessPointAccount.tsp";
 import "./models/UpdateGroup.tsp";
 import "./models/Network.tsp";
 import "./models/Device.tsp";
+import "./models/DeviceServiceLink.tsp";
 import "./models/VirtualDesktopInfrastructure.tsp";
 import "./models/AzureVirtualDesktop.tsp";
