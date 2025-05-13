@@ -138,7 +138,7 @@ model ApprovalPropertiesPatch {
 }
 
 @doc("Approvals properties for patching")
-model ApprovalPatchResource {
+model ApprovalPatchModel {
   @doc("Approval Patch properties")
   properties?: Update<ApprovalPropertiesPatch>;
 }

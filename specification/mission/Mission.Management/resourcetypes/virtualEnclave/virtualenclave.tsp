@@ -220,7 +220,7 @@ model VirtualEnclavePatchProperties is VirtualEnclavePropertiesDef {
 }
 
 @doc("Virtual Enclave Patch Resource")
-model VirtualEnclavePatchResource {
+model VirtualEnclavePatchModel {
   @doc("Virtual Enclave Patch properties")
   properties?: Update<VirtualEnclavePatchProperties>;
 

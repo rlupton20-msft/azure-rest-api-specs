@@ -87,7 +87,7 @@ model TransitHubProperties {
 model TransitHubPatchProperties is TransitHubProperties;
 
 @doc("TH Patch Resource")
-model TransitHubPatchResource {
+model TransitHubPatchModel {
   @doc("The TransitHub resource.")
   properties?: Update<TransitHubPatchProperties>;
 

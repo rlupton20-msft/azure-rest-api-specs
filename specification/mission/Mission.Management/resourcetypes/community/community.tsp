@@ -257,7 +257,7 @@ model CommunityPatchProperties is CommunityPropertiesDef {
 }
 
 @doc("Community Patch Resource")
-model CommunityPatchResource {
+model CommunityPatchModel {
   @doc("Community Patch properties")
   properties?: Update<CommunityPatchProperties>;
 

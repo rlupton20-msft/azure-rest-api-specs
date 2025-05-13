@@ -46,7 +46,7 @@ model WorkloadProperties {
 model WorkloadPatchProperties is WorkloadProperties;
 
 @doc("Workload Patch Resource")
-model WorkloadPatchResource {
+model WorkloadPatchModel {
   @doc("Workload Patch properties")
   properties?: Update<WorkloadPatchProperties>;
 

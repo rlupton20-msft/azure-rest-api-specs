@@ -79,7 +79,7 @@ model EnclaveConnectionProperties {
 model EnclaveConnectionPatchProperties is EnclaveConnectionProperties;
 
 @doc("Enclave Connection Patch Resource")
-model EnclaveConnectionPatchResource {
+model EnclaveConnectionPatchModel {
   @doc("Enclave Connection Patch properties")
   properties?: Update<EnclaveConnectionPatchProperties>;
 

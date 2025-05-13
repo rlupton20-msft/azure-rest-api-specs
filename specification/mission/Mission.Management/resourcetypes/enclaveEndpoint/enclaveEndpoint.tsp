@@ -73,7 +73,7 @@ model EnclaveEndpointProperties {
 model EnclaveEndpointPatchProperties is EnclaveEndpointProperties;
 
 @doc("Enclave Endpoint Patch Resource")
-model EnclaveEndpointPatchResource {
+model EnclaveEndpointPatchModel {
   @doc("Enclave Endpoint Patch properties")
   properties?: Update<EnclaveEndpointPatchProperties>;
 

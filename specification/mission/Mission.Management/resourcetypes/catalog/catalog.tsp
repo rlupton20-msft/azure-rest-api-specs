@@ -38,6 +38,8 @@ model BlobCatalog is CatalogBase {
 union Catalog {
   @doc("Blob Catalog")
   blob: BlobCatalog,
+
+  string,
 }
 
 @doc("Package Properties")
@@ -79,7 +81,7 @@ model CatalogProperties {
 model CatalogPatchProperties is CatalogProperties;
 
 @doc("Catalog Patch Resource")
-model CatalogPatchResource {
+model CatalogPatchModel {
   @doc("Catalog Patch properties")
   properties?: Update<CatalogPatchProperties>;
 

@@ -47,7 +47,7 @@ interface Workload {
   >;
   update is ArmCustomPatchAsync<
     WorkloadResource,
-    PatchModel = WorkloadPatchResource
+    PatchModel = WorkloadPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -68,7 +68,7 @@ interface VirtualEnclave {
   >;
   update is ArmCustomPatchAsync<
     EnclaveResource,
-    PatchModel = VirtualEnclavePatchResource
+    PatchModel = VirtualEnclavePatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -106,7 +106,7 @@ interface Community {
   >;
   update is ArmCustomPatchAsync<
     CommunityResource,
-    PatchModel = CommunityPatchResource
+    PatchModel = CommunityPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -141,7 +141,7 @@ interface TransitHub {
   >;
   update is ArmCustomPatchAsync<
     TransitHubResource,
-    PatchModel = TransitHubPatchResource
+    PatchModel = TransitHubPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -163,7 +163,7 @@ interface EnclaveConnection {
   >;
   update is ArmCustomPatchAsync<
     EnclaveConnectionResource,
-    PatchModel = EnclaveConnectionPatchResource
+    PatchModel = EnclaveConnectionPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -202,7 +202,7 @@ interface EnclaveEndpoints {
   >;
   update is ArmCustomPatchAsync<
     EnclaveEndpointResource,
-    PatchModel = EnclaveEndpointPatchResource
+    PatchModel = EnclaveEndpointPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -241,7 +241,7 @@ interface CommunityEndpoints {
   >;
   update is ArmCustomPatchAsync<
     CommunityEndpointResource,
-    PatchModel = CommunityEndpointPatchResource
+    PatchModel = CommunityEndpointPatchModel
   >;
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
   #suppress "deprecated" "Backwards compatibility"
@@ -281,7 +281,7 @@ interface Approval {
   listByParent is ArmResourceListByParent<ApprovalResource>;
   update is ArmCustomPatchAsync<
     ApprovalResource,
-    PatchModel = ApprovalPatchResource
+    PatchModel = ApprovalPatchModel
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ApprovalResource>;
   @doc("Upon receiving approval or rejection from approver, this facilitates actions on approval resource")

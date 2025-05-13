@@ -102,7 +102,7 @@ model CommunityEndpointProperties {
 model CommunityEndpointPatchProperties is CommunityEndpointProperties;
 
 @doc("Community Endpoint Patch Resource")
-model CommunityEndpointPatchResource {
+model CommunityEndpointPatchModel {
   @doc("Community Endpoint Patch properties")
   properties?: Update<CommunityEndpointPatchProperties>;
 
