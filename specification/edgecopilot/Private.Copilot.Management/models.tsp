@@ -4,6 +4,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -96,6 +97,7 @@ model ChatRequest {
   /**
    * Language of the portal user setting.
    */
+  @added(Versions.v2025_02_01_preview)
   language?: string;
 }
 
@@ -111,17 +113,21 @@ model ChatContext {
   /**
    * Resource Ids of the chat is referring to.
    */
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   resourceIds?: Azure.Core.armResourceIdentifier[];
 
   /**
    * The start time of the issue that needs troubleshoot.
    */
+  @added(Versions.v2025_02_01_preview)
+  @madeOptional(Versions.v2025_03_01_preview)
   startTime?: utcDateTime;
 
   /**
    * The end time of the issue that needs troubleshoot.
    */
+  @added(Versions.v2025_02_01_preview)
+  @madeOptional(Versions.v2025_03_01_preview)
   endTime?: utcDateTime;
 }
 
@@ -154,6 +160,7 @@ model ChatMessage {
 /**
  * Chat response schema. Contains reply messages from chatbot.
  */
+@renamedFrom(Versions.v2025_02_01_preview, "ChatResponse")
 model ChatResult {
   /**
    * Session Id of current chat.
@@ -163,6 +170,6 @@ model ChatResult {
   /**
    * Reply message schema. Contains reply messages from chatbot
    */
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   replyMessages: ChatMessage[];
 }

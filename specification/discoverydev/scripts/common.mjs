@@ -67,10 +67,10 @@ export const updateExamples = ({tspPackageDir, swaggerPackageDir}) => {
 
     }
   }
+  
 
 
   console.log('\x1b[32m', "Finished generating examples for", swaggerPackageDir);
 
 }
-
 
