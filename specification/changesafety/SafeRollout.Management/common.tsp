@@ -62,6 +62,6 @@ union Status {
   @doc("Resource is failed.")
   Failed: "Failed",
 
-  @doc("Resouce is initialized.")
+  @doc("Resource is initialized.")
   Initialized: "Initialized",
 }
