@@ -23,7 +23,7 @@ namespace Microsoft.AccessPoint;
 
 @doc("An Azure Virtual Desktop Resource.")
 @parentResource(AccessPointAccount)
-model AzureVirtualDesktop is TrackedResource<AzureVirtualDesktopProperties> {
+model AzureVirtualDesktop is ProxyResource<AzureVirtualDesktopProperties> {
   ...ResourceNameParameter<
     AzureVirtualDesktop,
     NamePattern = "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"

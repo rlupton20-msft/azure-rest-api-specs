@@ -83,23 +83,6 @@ union Architecture {
 @maxValue(2)
 scalar VhdGeneration extends int32;
 
-@doc("Security Profiles")
-union SecurityProfile {
-  @doc("none = no additional security features")
-  none: "none",
-
-  @doc("cvm = Confidential Virtual Machine support")
-  cvm: "cvm",
-
-  @doc("secureboot = Secure boot capabilities")
-  secureboot: "secureboot",
-
-  @doc("stateless = Stateless security configuration")
-  stateless: "stateless",
-
-  string,
-}
-
 @doc("This object collects the image information used for testing. The associated properties of each image type must be populated.s")
 @discriminator("type")
 model Image {
@@ -111,10 +94,6 @@ model Image {
 
   @doc("Options are x64 or arm64. Defaults to x64")
   architecture?: Architecture = Architecture.x64;
-
-  @doc("Options are empty list [] or a list with combination of the following ['none', 'secureboot', 'cvm', 'stateless']")
-  @maxItems(4)
-  securityProfile?: SecurityProfile[] = #[];
 }
 
 @doc("VHD image type object")

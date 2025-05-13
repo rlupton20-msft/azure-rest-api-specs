@@ -55,6 +55,9 @@
       "name": "DeviceOperations"
     },
     {
+      "name": "DeviceServiceLinkOperations"
+    },
+    {
       "name": "AzureVirtualDesktopOperations"
     }
   ],
@@ -642,6 +645,317 @@
             "name": "azureVirtualDesktopName",
             "in": "path",
             "description": "The name of the AzureVirtualDesktop",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/deviceServiceLinks": {
+      "get": {
+        "operationId": "DeviceServiceLinkOperations_ListByParent",
+        "tags": [
+          "DeviceServiceLinkOperations"
+        ],
+        "description": "List DeviceServiceLink resources by AccessPointAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLinkListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AccessPoint/accessPointAccounts/{accessPointAccountName}/deviceServiceLinks/{deviceServiceLinkName}": {
+      "get": {
+        "operationId": "DeviceServiceLinkOperations_Get",
+        "tags": [
+          "DeviceServiceLinkOperations"
+        ],
+        "description": "Get a DeviceServiceLink",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "deviceServiceLinkName",
+            "in": "path",
+            "description": "The name of the DeviceServiceLink",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLink"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DeviceServiceLinkOperations_CreateOrUpdate",
+        "tags": [
+          "DeviceServiceLinkOperations"
+        ],
+        "description": "Create a DeviceServiceLink",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "deviceServiceLinkName",
+            "in": "path",
+            "description": "The name of the DeviceServiceLink",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLink"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DeviceServiceLink' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLink"
+            }
+          },
+          "201": {
+            "description": "Resource 'DeviceServiceLink' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLink"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "DeviceServiceLinkOperations_Update",
+        "tags": [
+          "DeviceServiceLinkOperations"
+        ],
+        "description": "Update a DeviceServiceLink",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "deviceServiceLinkName",
+            "in": "path",
+            "description": "The name of the DeviceServiceLink",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLinkUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceServiceLink"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "DeviceServiceLinkOperations_Delete",
+        "tags": [
+          "DeviceServiceLinkOperations"
+        ],
+        "description": "Delete a DeviceServiceLink",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "accessPointAccountName",
+            "in": "path",
+            "description": "The name of the Access Point",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "deviceServiceLinkName",
+            "in": "path",
+            "description": "The name of the DeviceServiceLink",
             "required": true,
             "type": "string",
             "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$"
@@ -1645,6 +1959,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -1672,7 +1987,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -1788,7 +2103,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -1958,6 +2273,97 @@
           "description": "Additional details."
         }
       }
+    },
+    "DeviceServiceLink": {
+      "type": "object",
+      "description": "Represents link between a Device and a Virtual Desktop Infrastructure service.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeviceServiceLinkProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "DeviceServiceLinkListResult": {
+      "type": "object",
+      "description": "The response of a DeviceServiceLink list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DeviceServiceLink items on this page",
+          "items": {
+            "$ref": "#/definitions/DeviceServiceLink"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceServiceLinkProperties": {
+      "type": "object",
+      "description": "Device Service Link properties",
+      "properties": {
+        "deviceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The fully qualified ARM URI of the associated Device resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "serviceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The fully qualified ARM URI of the associated Virtual Desktop Infrastructure service resource."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "deviceId",
+        "serviceId"
+      ]
+    },
+    "DeviceServiceLinkPropertiesUpdate": {
+      "type": "object",
+      "description": "Device Service Link properties",
+      "properties": {
+        "serviceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The fully qualified ARM URI of the associated Virtual Desktop Infrastructure service resource."
+        }
+      }
+    },
+    "DeviceServiceLinkUpdate": {
+      "type": "object",
+      "description": "Represents link between a Device and a Virtual Desktop Infrastructure service.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeviceServiceLinkPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "DeviceUpdate": {
       "type": "object",
