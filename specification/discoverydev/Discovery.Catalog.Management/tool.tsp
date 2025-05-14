@@ -3,6 +3,8 @@ import "@typespec/http";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -25,9 +27,13 @@ model ToolProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   toolDefinitionId: string;
 
+  @doc("The ARM resource ID of the model.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  modelId?: Microsoft.Discovery.Shared.ModelId;
+
   @doc("Tool definition YAML as a string.")
   @visibility(Lifecycle.Read)
-  definitionContent: string;
+  definitionContent?: string;
 
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
