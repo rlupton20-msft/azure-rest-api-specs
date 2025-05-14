@@ -54,9 +54,6 @@
       "name": "VirtualNetworkAddresses"
     },
     {
-      "name": "SystemVersions"
-    },
-    {
       "name": "OracleSubscriptions"
     },
     {
@@ -72,13 +69,13 @@
       "name": "DbSystemShapes"
     },
     {
-      "name": "FlexComponents"
-    },
-    {
       "name": "DnsPrivateViews"
     },
     {
       "name": "DnsPrivateZones"
+    },
+    {
+      "name": "FlexComponents"
     },
     {
       "name": "AutonomousDatabases"
@@ -94,6 +91,12 @@
     },
     {
       "name": "AutonomousDatabaseVersions"
+    },
+    {
+      "name": "OracleCloudAccount"
+    },
+    {
+      "name": "SystemVersions"
     },
     {
       "name": "ExadbVmClusters"
@@ -587,6 +590,85 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName": {
+      "get": {
+        "operationId": "OracleCloudAccount_ListByLocation",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "List OracleCloudAccountDetails resources by SubscriptionLocationResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetailsListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/cloudAccountName/{cloudAccountName}": {
+      "get": {
+        "operationId": "OracleCloudAccount_Get",
+        "tags": [
+          "OracleCloudAccount"
+        ],
+        "description": "Get a OracleCloudAccountDetails",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "cloudAccountName",
+            "in": "path",
+            "description": "CloudAccountName",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/OracleCloudAccountDetails"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/dbSystemShapes": {
       "get": {
         "operationId": "DbSystemShapes_ListByLocation",
@@ -948,48 +1030,6 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}": {
-      "get": {
-        "operationId": "GiVersions_Get",
-        "tags": [
-          "GiVersions"
-        ],
-        "description": "Get a GiVersion",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "giversionname",
-            "in": "path",
-            "description": "GiVersion name",
-            "required": true,
-            "type": "string",
-            "pattern": ".*"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/GiVersion"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
         }
       }
     },
@@ -1505,31 +1545,13 @@
               "$ref": "#/definitions/ActivationLinks"
             }
           },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/listCloudAccountDetails": {
@@ -1554,31 +1576,13 @@
               "$ref": "#/definitions/CloudAccountDetails"
             }
           },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     },
     "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/listSaasSubscriptionDetails": {
@@ -1603,6 +1607,40 @@
               "$ref": "#/definitions/SaasSubscriptionDetails"
             }
           },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/oracleSubscriptions/default/removeAzureSubscriptions": {
+      "post": {
+        "operationId": "OracleSubscriptions_RemoveAzureSubscriptions",
+        "tags": [
+          "OracleSubscriptions"
+        ],
+        "description": "Remove Azure Subscriptions",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureSubscriptions"
+            }
+          }
+        ],
+        "responses": {
           "202": {
             "description": "Resource operation accepted.",
             "headers": {
@@ -2494,68 +2532,6 @@
             "schema": {
               "$ref": "#/definitions/RestoreAutonomousDatabaseDetails"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/AutonomousDatabase"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/shrink": {
-      "post": {
-        "operationId": "AutonomousDatabases_Shrink",
-        "tags": [
-          "AutonomousDatabases"
-        ],
-        "description": "This operation shrinks the current allocated storage down to the current actual used data storage.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "autonomousdatabasename",
-            "in": "path",
-            "description": "The database name.",
-            "required": true,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 30,
-            "pattern": ".*"
           }
         ],
         "responses": {
@@ -3973,6 +3949,155 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}/attach": {
+      "post": {
+        "operationId": "VirtualNetworkAddresses_Attach",
+        "tags": [
+          "VirtualNetworkAddresses"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudvmclustername",
+            "in": "path",
+            "description": "CloudVmCluster name",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          },
+          {
+            "name": "virtualnetworkaddressname",
+            "in": "path",
+            "description": "Virtual IP address hostname.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 63,
+            "pattern": ".*"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VirtualNetworkAddressProperties"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VirtualNetworkAddress"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}/detach": {
+      "post": {
+        "operationId": "VirtualNetworkAddresses_Detach",
+        "tags": [
+          "VirtualNetworkAddresses"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudvmclustername",
+            "in": "path",
+            "description": "CloudVmCluster name",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          },
+          {
+            "name": "virtualnetworkaddressname",
+            "in": "path",
+            "description": "Virtual IP address hostname.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 63,
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/VirtualNetworkAddress"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/dbSystems": {
       "get": {
         "operationId": "DbSystems_ListByResourceGroup",
@@ -4560,7 +4685,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeOcid}": {
       "get": {
         "operationId": "ExascaleDbNodes_Get",
         "tags": [
@@ -4586,11 +4711,13 @@
             "pattern": ".*"
           },
           {
-            "name": "exascaleDbNodeName",
+            "name": "exascaleDbNodeOcid",
             "in": "path",
-            "description": "The name of the ExascaleDbNode",
+            "description": "The OCID of the ExascaleDbNode",
             "required": true,
             "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
             "pattern": ".*"
           }
         ],
@@ -4610,7 +4737,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}/action": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeOcid}/action": {
       "post": {
         "operationId": "ExascaleDbNodes_Action",
         "tags": [
@@ -4636,11 +4763,13 @@
             "pattern": ".*"
           },
           {
-            "name": "exascaleDbNodeName",
+            "name": "exascaleDbNodeOcid",
             "in": "path",
-            "description": "The name of the ExascaleDbNode",
+            "description": "The OCID of the ExascaleDbNode",
             "required": true,
             "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
             "pattern": ".*"
           },
           {
@@ -5704,7 +5833,7 @@
     },
     "AutonomousDatabaseBackupLifecycleState": {
       "type": "string",
-      "description": "Autonomous database backup lifecycle state enum",
+      "description": "AutonomousDatabaseBackupLifecycleState enum",
       "enum": [
         "Creating",
         "Active",
@@ -5719,27 +5848,27 @@
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "AutonomousDatabase backup is creating"
+            "description": "AutonomousDatabase backup Creating"
           },
           {
             "name": "Active",
             "value": "Active",
-            "description": "AutonomousDatabase backup is active"
+            "description": "AutonomousDatabase backup Active"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "AutonomousDatabase backup is deleting"
+            "description": "AutonomousDatabase backup Deleting"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "AutonomousDatabase backup is failed"
+            "description": "AutonomousDatabase backup Failed"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "AutonomousDatabase backup is updating"
+            "description": "AutonomousDatabase backup Updating"
           }
         ]
       }
@@ -5866,7 +5995,7 @@
     },
     "AutonomousDatabaseBackupType": {
       "type": "string",
-      "description": "Autonomous database backup type enum",
+      "description": "AutonomousDatabaseBackupType enum",
       "enum": [
         "Incremental",
         "Full",
@@ -8817,11 +8946,11 @@
     },
     "DbActionResponse": {
       "type": "object",
-      "description": "ExascaleDbNode action response",
+      "description": "Exascale DB Node action response",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/AzureResourceProvisioningState",
-          "description": "ExascaleDbNode provisioning state"
+          "description": "Exascale DB Node provisioning state"
         }
       }
     },
@@ -8957,7 +9086,7 @@
           {
             "name": "VmdbRebootMigration",
             "value": "VmdbRebootMigration",
-            "description": "VMDB reboot migration maintenance type"
+            "description": "Provisioning value"
           }
         ]
       }
@@ -9098,47 +9227,47 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Indicates that resource in Provisioning state"
+            "description": "PROVISIONING value"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Indicates that resource in Available state"
+            "description": "AVAILABLE value"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "Indicates that resource in Updating state"
+            "description": "UPDATING value"
           },
           {
             "name": "Stopping",
             "value": "Stopping",
-            "description": "Indicates that resource in Stopping state"
+            "description": "STOPPING value"
           },
           {
             "name": "Stopped",
             "value": "Stopped",
-            "description": "Indicates that resource in Stopped state"
+            "description": "STOPPED value"
           },
           {
             "name": "Starting",
             "value": "Starting",
-            "description": "Indicates that resource in Starting state"
+            "description": "STARTING value"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "Indicates that resource in Terminating state"
+            "description": "TERMINATING value"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "Indicates that resource in Terminated state"
+            "description": "TERMINATED value"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Indicates that resource in Failed state"
+            "description": "FAILED value"
           }
         ]
       }
@@ -9375,7 +9504,7 @@
         },
         "computeModel": {
           "$ref": "#/definitions/ComputeModel",
-          "description": "The compute model of the Db server.",
+          "description": "The compute model of the Exadata Infrastructure",
           "readOnly": true
         }
       }
@@ -10033,7 +10162,7 @@
         },
         "computeModel": {
           "$ref": "#/definitions/ComputeModel",
-          "description": "The compute model of the DB system for this shape"
+          "description": "The compute model of the Exadata Infrastructure"
         },
         "areServerTypesSupported": {
           "type": "boolean",
@@ -10315,7 +10444,7 @@
     },
     "DnsPrivateViewsLifecycleState": {
       "type": "string",
-      "description": "DNS Private Views lifecycle state enum",
+      "description": "DnsPrivateViews lifecycle state enum",
       "enum": [
         "Active",
         "Deleted",
@@ -10329,22 +10458,22 @@
           {
             "name": "Active",
             "value": "Active",
-            "description": "DNS Private View is active"
+            "description": "Active value"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "DNS Private View is deleted"
+            "description": "Deleted value"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "DNS Private View is deleting"
+            "description": "Deleting value"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "DNS Private View is updating"
+            "description": "Updating value"
           }
         ]
       }
@@ -10446,7 +10575,7 @@
     },
     "DnsPrivateZonesLifecycleState": {
       "type": "string",
-      "description": "DNS Private Zones lifecycle state enum",
+      "description": "DnsPrivateZones lifecycle state enum",
       "enum": [
         "Active",
         "Creating",
@@ -10461,27 +10590,27 @@
           {
             "name": "Active",
             "value": "Active",
-            "description": "DNS Private Zones is active"
+            "description": "Active value"
           },
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "DNS Private Zones is creating"
+            "description": "Creating value"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "DNS Private Zones is deleted"
+            "description": "Deleted value"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "DNS Private Zones is deleting"
+            "description": "Deleting value"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "DNS Private Zones is updating"
+            "description": "Updating value"
           }
         ]
       }
@@ -11121,7 +11250,8 @@
         },
         "maintenanceType": {
           "type": "string",
-          "description": "The type of database node maintenance."
+          "description": "The type of database node maintenance.",
+          "readOnly": true
         },
         "memorySizeInGbs": {
           "type": "integer",
@@ -11506,8 +11636,6 @@
         "computeModel": {
           "type": "string",
           "description": "The compute model of the DB Server for this Flex Component.",
-          "minLength": 1,
-          "maxLength": 255,
           "readOnly": true
         },
         "hardwareType": {
@@ -12101,7 +12229,7 @@
         },
         "subnetId": {
           "$ref": "#/definitions/SubnetId",
-          "description": "Delegated Azure subnet.",
+          "description": "Client subnet",
           "x-ms-mutability": [
             "read",
             "create"
@@ -12323,6 +12451,64 @@
         ]
       }
     },
+    "OracleCloudAccountDetails": {
+      "type": "object",
+      "description": "CloudAccount resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/OracleCloudAccountProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "OracleCloudAccountDetailsListResult": {
+      "type": "object",
+      "description": "The response of a OracleCloudAccountDetails list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The OracleCloudAccountDetails items on this page",
+          "items": {
+            "$ref": "#/definitions/OracleCloudAccountDetails"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "OracleCloudAccountProperties": {
+      "type": "object",
+      "description": "CloudAccount resource model",
+      "properties": {
+        "cloudAccountName": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "minLength": 1,
+          "maxLength": 255,
+          "readOnly": true
+        },
+        "cloudAccountHomeRegion": {
+          "type": "string",
+          "description": "A valid Oracle Grid Infrastructure (GI) software version.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "cloudAccountName",
+        "cloudAccountHomeRegion"
+      ]
+    },
     "OracleSubscription": {
       "type": "object",
       "description": "OracleSubscription resource definition",
@@ -12465,7 +12651,7 @@
       "description": "The type used for update operations of the OracleSubscription.",
       "properties": {
         "plan": {
-          "$ref": "#/definitions/PlanUpdate",
+          "$ref": "#/definitions/ResourcePlanTypeUpdate",
           "description": "Details of the resource plan."
         },
         "properties": {
@@ -12566,32 +12752,6 @@
             "description": "Unrestricted permission level"
           }
         ]
-      }
-    },
-    "PlanUpdate": {
-      "type": "object",
-      "description": "ResourcePlanTypeUpdate model definition",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "A user defined name of the 3rd Party Artifact that is being procured."
-        },
-        "publisher": {
-          "type": "string",
-          "description": "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic"
-        },
-        "product": {
-          "type": "string",
-          "description": "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. "
-        },
-        "promotionCode": {
-          "type": "string",
-          "description": "A publisher provided promotion code as provisioned in Data Market for the said product/artifact."
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of the desired product/artifact."
-        }
       }
     },
     "PortRange": {
@@ -12935,6 +13095,32 @@
         }
       }
     },
+    "ResourcePlanTypeUpdate": {
+      "type": "object",
+      "description": "ResourcePlanTypeUpdate model definition",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user defined name of the 3rd Party Artifact that is being procured."
+        },
+        "publisher": {
+          "type": "string",
+          "description": "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic"
+        },
+        "product": {
+          "type": "string",
+          "description": "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. "
+        },
+        "promotionCode": {
+          "type": "string",
+          "description": "A publisher provided promotion code as provisioned in Data Market for the said product/artifact."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the desired product/artifact."
+        }
+      }
+    },
     "RestoreAutonomousDatabaseDetails": {
       "type": "object",
       "description": "Details to restore an Oracle Autonomous Database.",
@@ -12953,7 +13139,7 @@
       "type": "integer",
       "format": "int32",
       "description": "Retention period, in days, for backups.",
-      "minimum": 90,
+      "minimum": 60,
       "maximum": 2558
     },
     "RoleType": {
@@ -13558,27 +13744,27 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "Indicates that resource in Provisioning state"
+            "description": "Provisioning value"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "Indicates that resource in Available state"
+            "description": "Available value"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "Indicates that resource in Terminating state"
+            "description": "Terminating value"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "Indicates that resource in Terminated state"
+            "description": "Terminated value"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "Indicates that resource in Failed state"
+            "description": "Failed value"
           }
         ]
       }
@@ -13707,7 +13893,7 @@
     },
     "ZoneType": {
       "type": "string",
-      "description": "Zone type enum",
+      "description": "ZoneType enum",
       "enum": [
         "Primary",
         "Secondary"
@@ -13719,12 +13905,12 @@
           {
             "name": "Primary",
             "value": "Primary",
-            "description": "Primary zone"
+            "description": "Primary value"
           },
           {
             "name": "Secondary",
             "value": "Secondary",
-            "description": "Secondary zone"
+            "description": "Secondary value"
           }
         ]
       }
