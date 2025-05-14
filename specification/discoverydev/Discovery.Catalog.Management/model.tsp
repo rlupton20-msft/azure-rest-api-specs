@@ -3,7 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
-
+import "../Discovery.Management.Shared/all.tsp";
 import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
@@ -23,13 +23,13 @@ model Model is TrackedResource<ModelProperties> {
 
 @doc("Model properties")
 model ModelProperties {
-  @doc("Reference to model.")
+  @doc("Reference to model definition.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  modelReferenceId: string;
+  modelDefinitionId: string;
 
   @doc("Model definition YAML as a string.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  definitionContent?: string;
+  definitionContent: string;
 
   @doc("The ARM resource ID of the workspace.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
