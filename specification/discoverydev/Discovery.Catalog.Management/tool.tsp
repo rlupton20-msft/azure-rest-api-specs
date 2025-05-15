@@ -3,8 +3,8 @@ import "@typespec/http";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+
 import "../Discovery.Management.Shared/all.tsp";
-import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -21,31 +21,29 @@ model Tool is TrackedResource<ToolProperties> {
   ...ResourceNameParameter<Tool>;
 }
 
+/** Tool tracked resource list response item */
+model ToolListItem is TrackedResource<ToolListItemProperties> {
+  ...ResourceNameParameter<Tool>;
+}
+
+model ToolListResult is ResourceListResult<ToolListItem>;
+
+@doc("Discovery Tool list item properties")
+model ToolListItemProperties {
+  ...DiscoveryResourceProperties;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
+  @doc("Environment variables to make available")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  environmentVariables?: Record<string>;
+}
+
 @doc("Discovery Tool properties")
 model ToolProperties {
-  @doc("Reference to tool definition.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  toolDefinitionId: string;
-
-  @doc("The ARM resource ID of the model.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  modelId?: Microsoft.Discovery.Shared.ModelId;
-
-  @doc("Tool definition YAML as a string.")
-  @visibility(Lifecycle.Read)
-  definitionContent?: string;
-
-  @doc("The status of the last operation.")
-  @visibility(Lifecycle.Read)
-  provisioningState?: ProvisioningState;
+  ...ToolListItemProperties;
+  ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Tools {
-  get is ArmResourceRead<Tool>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Tool>;
-  update is ArmResourcePatchAsync<Tool, ToolProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Tool>;
-  listByResourceGroup is ArmResourceListByParent<Tool>;
-  listBySubscription is ArmListBySubscription<Tool>;
-}
+interface Tools
+  extends DiscoveryResource<Tool, ToolProperties, ToolListResult> {}

@@ -23,7 +23,8 @@ model Workspace is TrackedResource<WorkspaceProperties> {
   ...ResourceNameParameter<Workspace>;
 
   /** Updatable managed service identity */
-  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
+  //   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
+  // TODO: Maybe add this later?
 }
 
 @doc("Workspace properties")
@@ -49,6 +50,10 @@ model WorkspaceProperties {
   @doc("workspace User Interface Uri.")
   @visibility(Lifecycle.Read)
   workspaceUiUri?: url;
+
+  @doc("Identity IDs used for leveraging Workspace resources.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  workspaceIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 
   ...MoboConfigurationWithMrg;
 }

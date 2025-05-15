@@ -61,11 +61,6 @@ model StorageProperties {
   subnetId: SubnetId;
 
   ...MoboConfigurationWithMrg;
-
-  // read
-  @doc("The ID of the workspace.")
-  @visibility(Lifecycle.Read)
-  workspaceId?: WorkspaceId;
 }
 
 @armResourceOperations

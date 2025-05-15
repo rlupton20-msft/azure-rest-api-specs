@@ -52,3 +52,44 @@ model MoboConfigurationWithMrg {
   @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: WithMoboBrokerResources;
 }
+
+@doc("For resource version")
+model WithVersion {
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("The version of a resource definition")
+  version: string;
+}
+
+@doc("For tracking he status of the last operation.")
+model WithProvisioningState {
+  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
+}
+
+@doc("For resource definition content")
+model WithDefinitionContent {
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("The JSON content for defining a resource")
+  definitionContent: string;
+}
+
+@doc("For Workspace managed identity")
+model DiscoveryResourceProperties {
+  ...WithProvisioningState;
+  ...WithVersion;
+}
+
+@doc("Standard Discovery resource interface")
+interface DiscoveryResource<
+  T extends Azure.ResourceManager.Foundations.TrackedResource,
+  P extends {},
+  L extends {} = T
+> {
+  get is ArmResourceRead<T>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<T>;
+  update is ArmResourcePatchAsync<T, P>;
+  delete is ArmResourceDeleteWithoutOkAsync<T>;
+  listByResourceGroup is ArmResourceListByParent<T, Response = L>;
+  listBySubscription is ArmListBySubscription<T, Response = L>;
+}
