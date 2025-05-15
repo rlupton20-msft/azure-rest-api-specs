@@ -1,0 +1,89 @@
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+using OpenAPI;
+
+namespace Microsoft.Approvals;
+
+@doc("ApprovalWorkflowDefinition ARM resource.")
+model ApprovalWorkflowDefinition
+  is TrackedResource<ApprovalWorkflowDefinitionProperties> {
+  ...ResourceNameParameter<ApprovalWorkflowDefinition>;
+  ...EntityTagProperty;
+}
+
+@doc("RP-specific properties of an ApprovalWorkflowDefinition resource.")
+model ApprovalWorkflowDefinitionProperties {
+  @doc("The status of the last operation.")
+  @visibility("read")
+  provisioningState?: ProvisioningState;
+
+  @doc("The reference to a custom Logic App.")
+  logicAppRef?: LogicAppRef;
+
+  @doc("The rule about the stages, approvers and their orders for the approval workflow.")
+  approvalRule: ApprovalRule;
+
+  @doc("The hierarchical scope under which this approval workflow is assignable.")
+  scope: string;
+}
+
+@doc("Reference to a Logic App resource.")
+model LogicAppRef {
+  @doc("The workflow URL of the Logic App.")
+  workflowUrl: string;
+
+  @doc("The Http method to use when invoking the workflow URL.")
+  httpMethod: LogicAppHttpTriggerMethod;
+}
+
+@doc("Enum of Http methods to use when invoking a Logic App workflow.")
+union LogicAppHttpTriggerMethod {
+  string,
+
+  @doc("The Http GET method.")
+  GET: "GET",
+
+  @doc("The Http POST method.")
+  POST: "POST",
+
+  @doc("The Http PUT method.")
+  PUT: "PUT",
+}
+
+@doc("Rule rule about the stages, approvers and their orders for the approval workflow.")
+model ApprovalRule {
+  @doc("The definitions of all the stages in the approval workflow.")
+  @extension("x-ms-identifiers", ["name"])
+  stageDefinitions: ApprovalStageDefinition[];
+}
+
+@doc("Definition of an stage in an approval workflow.")
+model ApprovalStageDefinition {
+  @doc("The name of the stage, unique within a single approval workflow definition.")
+  name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+  @doc("The logic rules about how the stage dependes on other stages, representing as a JSON object.")
+  dependsOn?: {};
+
+  @doc("The list of identifiers of approvers in the stage.")
+  approvers: string[];
+
+  @doc("The minimal number of approvals required to complete the stage. The default value '1' means at least one approval is needed.")
+  quorum: int32 = 1;
+}
+
+@armResourceOperations(ApprovalWorkflowDefinition)
+interface ApprovalWorkflowDefinitions {
+  get is ArmResourceRead<ApprovalWorkflowDefinition>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ApprovalWorkflowDefinition>;
+  update is ArmResourcePatchAsync<
+    ApprovalWorkflowDefinition,
+    ApprovalWorkflowDefinitionProperties
+  >;
+  delete is ArmResourceDeleteWithoutOkAsync<ApprovalWorkflowDefinition>;
+  listByResourceGroup is ArmResourceListByParent<ApprovalWorkflowDefinition>;
+  listBySubscription is ArmListBySubscription<ApprovalWorkflowDefinition>;
+}
