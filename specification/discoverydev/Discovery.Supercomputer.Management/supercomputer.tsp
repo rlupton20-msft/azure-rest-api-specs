@@ -63,13 +63,21 @@ model SupercomputerIdentities {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   clusterIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 
-  @doc("Kubelet identity ID used by kubelet agent running on nodes.")
+  /**
+      Kubelet identity ID used by the supercomputer.
+      This identity is used by the supercomputer at node level to access Azure resources.
+      This identity must have ManagedIdentityOperator role on the clusterIdentity.
+    */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  kubeletIdentity?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  kubeletIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
   @doc("Workload identity IDs to be used by tools running on supercomputer.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
+  workloadIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity>;
+  //   @doc("Workload identity IDs to be used by tools running on supercomputer.")
+  //   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  //   workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
 }
 
 @armResourceOperations

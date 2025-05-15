@@ -27,7 +27,7 @@ model DataAssetProperties {
   provisioningState?: ProvisioningState;
 
   @doc("The path to the data within its parent container.")
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   path?: string;
 }
 

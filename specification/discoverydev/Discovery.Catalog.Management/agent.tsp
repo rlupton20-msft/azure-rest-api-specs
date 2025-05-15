@@ -3,10 +3,15 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-client-generator-core";
+
+import "../Discovery.Management.Shared/all.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
+using Azure.ClientGenerator.Core;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -19,10 +24,17 @@ model Agent is TrackedResource<AgentProperties> {
   ...ResourceNameParameter<Agent>;
 }
 
+/** Agent tracked resource list response item */
+model AgentListItem is TrackedResource<AgentListItemProperties> {
+  ...ResourceNameParameter<Agent>;
+}
+
+model AgentListResult is ResourceListResult<AgentListItem>;
+
 @doc("Tool reference")
 model ToolReference {
   @doc("The resource ID of the tool.")
-  toolId: string;
+  toolId: Microsoft.Discovery.Shared.ToolId;
 
   @doc("The name of the tool.")
   name: string;
@@ -31,13 +43,13 @@ model ToolReference {
 @doc("Agent reference")
 model AgentReference {
   @doc("The resource ID of the agent.")
-  agentId: string;
+  agentId: Microsoft.Discovery.Shared.AgentId;
 
   @doc("The name of the agent.")
   name: string;
 }
 
-@doc("Knowledgebase reference")
+@doc("KnowledgeBase reference")
 model KnowledgeBaseReference {
   @doc("The resource ID of the knowledge base.")
   knowledgeBaseId: string;
@@ -46,43 +58,29 @@ model KnowledgeBaseReference {
   name: string;
 }
 
-@doc("Agent properties")
-model AgentProperties {
-  @doc("Reference to agent definition.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  agentDefinitionId: string;
-
-  @doc("Agent definition YAML as a string.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  definitionContent: string;
-
+@doc("Agent list item properties")
+model AgentListItemProperties {
   @doc("Reference to the model.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  modelId: string;
+  modelName: string;
+
+  ...DiscoveryResourceProperties;
 
   @doc("References to the tools.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  toolSet?: ToolReference[];
+  tools?: ToolReference[];
 
-  @doc("References to the agents.")
+  @doc("References to the knowledgeBases.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  agentSet?: AgentReference[];
+  knowledgeBases?: KnowledgeBaseReference[];
+}
 
-  @doc("References to the knowledgebases.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  knowledgeBaseSet?: KnowledgeBaseReference[];
-
-  @doc("The provisioning state of the AI agent.")
-  @visibility(Lifecycle.Read)
-  provisioningState?: ProvisioningState;
+@doc("Agent properties")
+model AgentProperties {
+  ...AgentListItemProperties;
+  ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Agents {
-  get is ArmResourceRead<Agent>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Agent>;
-  update is ArmResourcePatchAsync<Agent, AgentProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Agent>;
-  listByResourceGroup is ArmResourceListByParent<Agent>;
-  listBySubscription is ArmListBySubscription<Agent>;
-}
+interface Agents
+  extends DiscoveryResource<Agent, AgentProperties, AgentListResult> {}
