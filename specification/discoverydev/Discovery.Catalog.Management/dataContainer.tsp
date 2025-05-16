@@ -105,7 +105,7 @@ model ManagedIdentityCredential extends Credential {
 
   @doc("The managed identity client Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  clientId?: string;
+  identityId?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 }
 
 @doc("SAS token credential properties")
