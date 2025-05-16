@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Private.IoTOperations management service.",
-    "version": "2024-09-15-preview",
+    "version": "2025-07-15-preview",
     "description": "Private.IoTOperations Resource Provider management API.",
     "x-typespec-generated": [
       {
@@ -65,6 +65,24 @@
     },
     {
       "name": "DataflowEndpoint"
+    },
+    {
+      "name": "DataflowGraph"
+    },
+    {
+      "name": "RegistryEndpoint"
+    },
+    {
+      "name": "AkriConnectorTemplate"
+    },
+    {
+      "name": "AkriConnector"
+    },
+    {
+      "name": "AkriDiscoveryHandler"
+    },
+    {
+      "name": "Diagnostic"
     }
   ],
   "paths": {
@@ -92,11 +110,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Operations_List": {
-            "$ref": "./examples/Operations_List_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -131,11 +144,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Instance_ListBySubscription": {
-            "$ref": "./examples/Instance_ListBySubscription_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -173,11 +181,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Instance_ListByResourceGroup": {
-            "$ref": "./examples/Instance_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -225,11 +228,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Instance_Get": {
-            "$ref": "./examples/Instance_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -300,11 +298,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Instance_CreateOrUpdate": {
-            "$ref": "./examples/Instance_CreateOrUpdate_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -358,11 +351,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Instance_Update": {
-            "$ref": "./examples/Instance_Update_MaximumSet_Gen.json"
           }
         }
       },
@@ -418,9 +406,794 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Instance_Delete": {
-            "$ref": "./examples/Instance_Delete_MaximumSet_Gen.json"
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates": {
+      "get": {
+        "operationId": "AkriConnectorTemplate_ListByInstanceResource",
+        "tags": [
+          "AkriConnectorTemplate"
+        ],
+        "description": "List AkriConnectorTemplateResource resources by InstanceResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorTemplateResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}": {
+      "get": {
+        "operationId": "AkriConnectorTemplate_Get",
+        "tags": [
+          "AkriConnectorTemplate"
+        ],
+        "description": "Get a AkriConnectorTemplateResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorTemplateResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AkriConnectorTemplate_CreateOrUpdate",
+        "tags": [
+          "AkriConnectorTemplate"
+        ],
+        "description": "Create a AkriConnectorTemplateResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorTemplateResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AkriConnectorTemplateResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorTemplateResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'AkriConnectorTemplateResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorTemplateResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "AkriConnectorTemplate_Delete",
+        "tags": [
+          "AkriConnectorTemplate"
+        ],
+        "description": "Delete a AkriConnectorTemplateResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors": {
+      "get": {
+        "operationId": "AkriConnector_ListByTemplate",
+        "tags": [
+          "AkriConnector"
+        ],
+        "description": "List AkriConnectorResource resources by AkriConnectorTemplateResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors/{akriConnectorName}": {
+      "get": {
+        "operationId": "AkriConnector_Get",
+        "tags": [
+          "AkriConnector"
+        ],
+        "description": "Get a AkriConnectorResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorName",
+            "in": "path",
+            "description": "Name of AkriConnector resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AkriConnector_CreateOrUpdate",
+        "tags": [
+          "AkriConnector"
+        ],
+        "description": "Create a AkriConnectorResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorName",
+            "in": "path",
+            "description": "Name of AkriConnector resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AkriConnectorResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'AkriConnectorResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriConnectorResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "AkriConnector_Delete",
+        "tags": [
+          "AkriConnector"
+        ],
+        "description": "Delete a AkriConnectorResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorTemplateName",
+            "in": "path",
+            "description": "Name of AkriConnectorTemplate resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriConnectorName",
+            "in": "path",
+            "description": "Name of AkriConnector resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriDiscoveryHandlers": {
+      "get": {
+        "operationId": "AkriDiscoveryHandler_ListByInstanceResource",
+        "tags": [
+          "AkriDiscoveryHandler"
+        ],
+        "description": "List AkriDiscoveryHandlerResource resources by InstanceResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriDiscoveryHandlerResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriDiscoveryHandlers/{akriDiscoveryHandlerName}": {
+      "get": {
+        "operationId": "AkriDiscoveryHandler_Get",
+        "tags": [
+          "AkriDiscoveryHandler"
+        ],
+        "description": "Get a AkriDiscoveryHandlerResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriDiscoveryHandlerName",
+            "in": "path",
+            "description": "Name of AkriDiscoveryHandler resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AkriDiscoveryHandlerResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AkriDiscoveryHandler_CreateOrUpdate",
+        "tags": [
+          "AkriDiscoveryHandler"
+        ],
+        "description": "Create a AkriDiscoveryHandlerResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriDiscoveryHandlerName",
+            "in": "path",
+            "description": "Name of AkriDiscoveryHandler resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AkriDiscoveryHandlerResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AkriDiscoveryHandlerResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriDiscoveryHandlerResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'AkriDiscoveryHandlerResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AkriDiscoveryHandlerResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "AkriDiscoveryHandler_Delete",
+        "tags": [
+          "AkriDiscoveryHandler"
+        ],
+        "description": "Delete a AkriDiscoveryHandlerResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "akriDiscoveryHandlerName",
+            "in": "path",
+            "description": "Name of AkriDiscoveryHandler resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-long-running-operation-options": {
@@ -469,11 +1242,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Broker_ListByResourceGroup": {
-            "$ref": "./examples/Broker_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -531,11 +1299,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Broker_Get": {
-            "$ref": "./examples/Broker_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -616,20 +1379,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Broker_CreateOrUpdate": {
-            "$ref": "./examples/Broker_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "Broker_CreateOrUpdate_Complex": {
-            "$ref": "./examples/Broker_CreateOrUpdate_Complex.json"
-          },
-          "Broker_CreateOrUpdate_Minimal": {
-            "$ref": "./examples/Broker_CreateOrUpdate_Minimal.json"
-          },
-          "Broker_CreateOrUpdate_Simple": {
-            "$ref": "./examples/Broker_CreateOrUpdate_Simple.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -697,11 +1446,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Broker_Delete": {
-            "$ref": "./examples/Broker_Delete_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -758,11 +1502,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerAuthentication_ListByResourceGroup": {
-            "$ref": "./examples/BrokerAuthentication_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -830,11 +1569,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerAuthentication_Get": {
-            "$ref": "./examples/BrokerAuthentication_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -925,14 +1659,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerAuthentication_CreateOrUpdate": {
-            "$ref": "./examples/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "BrokerAuthentication_CreateOrUpdate_Complex": {
-            "$ref": "./examples/BrokerAuthentication_CreateOrUpdate_Complex.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -1010,11 +1736,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerAuthentication_Delete": {
-            "$ref": "./examples/BrokerAuthentication_Delete_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1071,11 +1792,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerAuthorization_ListByResourceGroup": {
-            "$ref": "./examples/BrokerAuthorization_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1143,11 +1859,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerAuthorization_Get": {
-            "$ref": "./examples/BrokerAuthorization_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1238,17 +1949,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerAuthorization_CreateOrUpdate": {
-            "$ref": "./examples/BrokerAuthorization_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "BrokerAuthorization_CreateOrUpdate_Complex": {
-            "$ref": "./examples/BrokerAuthorization_CreateOrUpdate_Complex.json"
-          },
-          "BrokerAuthorization_CreateOrUpdate_Simple": {
-            "$ref": "./examples/BrokerAuthorization_CreateOrUpdate_Simple.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -1326,11 +2026,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerAuthorization_Delete": {
-            "$ref": "./examples/BrokerAuthorization_Delete_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1387,11 +2082,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerListener_ListByResourceGroup": {
-            "$ref": "./examples/BrokerListener_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1459,11 +2149,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "BrokerListener_Get": {
-            "$ref": "./examples/BrokerListener_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1554,17 +2239,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerListener_CreateOrUpdate": {
-            "$ref": "./examples/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "BrokerListener_CreateOrUpdate_Complex": {
-            "$ref": "./examples/BrokerListener_CreateOrUpdate_Complex.json"
-          },
-          "BrokerListener_CreateOrUpdate_Simple": {
-            "$ref": "./examples/BrokerListener_CreateOrUpdate_Simple.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -1642,11 +2316,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "BrokerListener_Delete": {
-            "$ref": "./examples/BrokerListener_Delete_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1693,11 +2362,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DataflowEndpoint_ListByResourceGroup": {
-            "$ref": "./examples/DataflowEndpoint_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -1755,11 +2419,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DataflowEndpoint_Get": {
-            "$ref": "./examples/DataflowEndpoint_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -1840,38 +2499,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "DataflowEndpoint_CreateOrUpdate": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_ADLSv2": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_ADLSv2.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_ADX": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_ADX.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_AIO": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_AIO.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_EventGrid": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_EventGrid.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_EventHub": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_EventHub.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_Fabric": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_Fabric.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_Kafka": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_Kafka.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_LocalStorage": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_LocalStorage.json"
-          },
-          "DataflowEndpoint_CreateOrUpdate_MQTT": {
-            "$ref": "./examples/DataflowEndpoint_CreateOrUpdate_MQTT.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -1939,11 +2566,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "DataflowEndpoint_Delete": {
-            "$ref": "./examples/DataflowEndpoint_Delete_MaximumSet_Gen.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -1990,11 +2612,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DataflowProfile_ListByResourceGroup": {
-            "$ref": "./examples/DataflowProfile_ListByResourceGroup_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -2052,11 +2669,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "DataflowProfile_Get": {
-            "$ref": "./examples/DataflowProfile_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -2137,17 +2749,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "DataflowProfile_CreateOrUpdate": {
-            "$ref": "./examples/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "DataflowProfile_CreateOrUpdate_Minimal": {
-            "$ref": "./examples/DataflowProfile_CreateOrUpdate_Minimal.json"
-          },
-          "DataflowProfile_CreateOrUpdate_Multi": {
-            "$ref": "./examples/DataflowProfile_CreateOrUpdate_Multi.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -2215,9 +2816,294 @@
             }
           }
         },
-        "x-ms-examples": {
-          "DataflowProfile_Delete": {
-            "$ref": "./examples/DataflowProfile_Delete_MaximumSet_Gen.json"
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs": {
+      "get": {
+        "operationId": "DataflowGraph_ListByDataflowProfile",
+        "tags": [
+          "DataflowGraph"
+        ],
+        "description": "List DataflowGraphResource resources by DataflowProfileResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowProfileName",
+            "in": "path",
+            "description": "Name of Instance dataflowProfile resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DataflowGraphResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}": {
+      "get": {
+        "operationId": "DataflowGraph_Get",
+        "tags": [
+          "DataflowGraph"
+        ],
+        "description": "Get a DataflowGraphResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowProfileName",
+            "in": "path",
+            "description": "Name of Instance dataflowProfile resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowGraphName",
+            "in": "path",
+            "description": "Name of Instance dataflowEndpoint resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DataflowGraphResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DataflowGraph_CreateOrUpdate",
+        "tags": [
+          "DataflowGraph"
+        ],
+        "description": "Create a DataflowGraphResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowProfileName",
+            "in": "path",
+            "description": "Name of Instance dataflowProfile resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowGraphName",
+            "in": "path",
+            "description": "Name of Instance dataflowEndpoint resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowGraphResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DataflowGraphResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DataflowGraphResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'DataflowGraphResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DataflowGraphResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "DataflowGraph_Delete",
+        "tags": [
+          "DataflowGraph"
+        ],
+        "description": "Delete a DataflowGraphResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowProfileName",
+            "in": "path",
+            "description": "Name of Instance dataflowProfile resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "dataflowGraphName",
+            "in": "path",
+            "description": "Name of Instance dataflowEndpoint resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2276,11 +3162,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Dataflow_ListByProfileResource": {
-            "$ref": "./examples/Dataflow_ListByProfileResource_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -2348,11 +3229,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Dataflow_Get": {
-            "$ref": "./examples/Dataflow_Get_MaximumSet_Gen.json"
           }
         }
       },
@@ -2443,26 +3319,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Dataflow_CreateOrUpdate": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_MaximumSet_Gen.json"
-          },
-          "Dataflow_CreateOrUpdate_ComplexContextualization": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_ComplexContextualization.json"
-          },
-          "Dataflow_CreateOrUpdate_ComplexEventHub": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_ComplexEventHub.json"
-          },
-          "Dataflow_CreateOrUpdate_FilterToTopic": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_FilterToTopic.json"
-          },
-          "Dataflow_CreateOrUpdate_SimpleEventGrid": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_SimpleEventGrid.json"
-          },
-          "Dataflow_CreateOrUpdate_SimpleFabric": {
-            "$ref": "./examples/Dataflow_CreateOrUpdate_SimpleFabric.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
         },
@@ -2540,9 +3396,504 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Dataflow_Delete": {
-            "$ref": "./examples/Dataflow_Delete_MaximumSet_Gen.json"
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/diagnostics": {
+      "get": {
+        "operationId": "Diagnostic_ListByInstanceResource",
+        "tags": [
+          "Diagnostic"
+        ],
+        "description": "List DiagnosticResource resources by InstanceResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiagnosticResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/diagnostics/{diagnosticName}": {
+      "get": {
+        "operationId": "Diagnostic_Get",
+        "tags": [
+          "Diagnostic"
+        ],
+        "description": "Get a DiagnosticResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "diagnosticName",
+            "in": "path",
+            "description": "Name of Instance diagnostic resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DiagnosticResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Diagnostic_CreateOrUpdate",
+        "tags": [
+          "Diagnostic"
+        ],
+        "description": "Create a DiagnosticResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "diagnosticName",
+            "in": "path",
+            "description": "Name of Instance diagnostic resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiagnosticResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DiagnosticResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DiagnosticResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'DiagnosticResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DiagnosticResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Diagnostic_Delete",
+        "tags": [
+          "Diagnostic"
+        ],
+        "description": "Delete a DiagnosticResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "diagnosticName",
+            "in": "path",
+            "description": "Name of Instance diagnostic resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/registryEndpoints": {
+      "get": {
+        "operationId": "RegistryEndpoint_ListByInstanceResource",
+        "tags": [
+          "RegistryEndpoint"
+        ],
+        "description": "List RegistryEndpointResource resources by InstanceResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/RegistryEndpointResourceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}": {
+      "get": {
+        "operationId": "RegistryEndpoint_Get",
+        "tags": [
+          "RegistryEndpoint"
+        ],
+        "description": "Get a RegistryEndpointResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "registryEndpointName",
+            "in": "path",
+            "description": "Name of RegistryEndpoint resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/RegistryEndpointResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "RegistryEndpoint_CreateOrUpdate",
+        "tags": [
+          "RegistryEndpoint"
+        ],
+        "description": "Create a RegistryEndpointResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "registryEndpointName",
+            "in": "path",
+            "description": "Name of RegistryEndpoint resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegistryEndpointResource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'RegistryEndpointResource' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/RegistryEndpointResource"
+            }
+          },
+          "201": {
+            "description": "Resource 'RegistryEndpointResource' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/RegistryEndpointResource"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "RegistryEndpoint_Delete",
+        "tags": [
+          "RegistryEndpoint"
+        ],
+        "description": "Delete a RegistryEndpointResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "instanceName",
+            "in": "path",
+            "description": "Name of instance.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "registryEndpointName",
+            "in": "path",
+            "description": "Name of RegistryEndpoint resource",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-long-running-operation-options": {
@@ -2608,6 +3959,1474 @@
           "$ref": "#/definitions/CertManagerCertOptions",
           "description": "Certificate rotation and private key configuration."
         }
+      }
+    },
+    "AkriConnectorProperties": {
+      "type": "object",
+      "description": "AkriConnector properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "AkriConnectorResource": {
+      "type": "object",
+      "description": "AkriConnector resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AkriConnectorProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AkriConnectorResourceListResult": {
+      "type": "object",
+      "description": "The response of a AkriConnectorResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AkriConnectorResource items on this page",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AkriConnectorTemplateAioMetadata": {
+      "type": "object",
+      "description": "AkriConnectorTemplateAioMetadata properties.",
+      "properties": {
+        "aioMinVersion": {
+          "type": "string",
+          "description": "The minimum version of AIO required for the connector."
+        },
+        "aioMaxVersion": {
+          "type": "string",
+          "description": "The maximum version of AIO required for the connector."
+        }
+      }
+    },
+    "AkriConnectorTemplateAllocation": {
+      "type": "object",
+      "description": "AkriConnectorTemplateAllocation properties.",
+      "properties": {
+        "policy": {
+          "$ref": "#/definitions/AkriConnectorTemplateAllocationPolicy",
+          "description": "The allocation policy type."
+        }
+      },
+      "discriminator": "policy",
+      "required": [
+        "policy"
+      ]
+    },
+    "AkriConnectorTemplateAllocationPolicy": {
+      "type": "string",
+      "description": "AkriConnectorTemplateAllocationPolicy properties.",
+      "enum": [
+        "Bucketized"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorTemplateAllocationPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Bucketized",
+            "value": "Bucketized",
+            "description": "Bucketized allocation policy."
+          }
+        ]
+      }
+    },
+    "AkriConnectorTemplateBucketizedAllocation": {
+      "type": "object",
+      "description": "AkriConnectorTemplateBucketizedAllocation properties.",
+      "properties": {
+        "bucketSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The bucketized allocation of AEPs for connectors.",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "bucketSize"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateAllocation"
+        }
+      ],
+      "x-ms-discriminator-value": "Bucketized"
+    },
+    "AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs": {
+      "type": "object",
+      "description": "AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs properties.",
+      "properties": {
+        "defaultDatasetConfigSchemaRef": {
+          "type": "string",
+          "description": "The default configuration schema reference for datasets."
+        },
+        "defaultEventsConfigSchemaRef": {
+          "type": "string",
+          "description": "The default configuration schema reference for events."
+        },
+        "defaultProcessControlConfigSchemaRef": {
+          "type": "string",
+          "description": "The default configuration schema reference for process control."
+        },
+        "defaultStreamsConfigSchemaRef": {
+          "type": "string",
+          "description": "The default configuration schema reference for streams."
+        },
+        "additionalConfigSchemaRef": {
+          "type": "string",
+          "description": "The additional configuration schema reference."
+        }
+      }
+    },
+    "AkriConnectorTemplateDeviceInboundEndpointType": {
+      "type": "object",
+      "description": "AkriConnectorTemplateDeviceInboundEndpointType properties.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the device inbound endpoint."
+        },
+        "endpointType": {
+          "$ref": "#/definitions/NonEmptyString",
+          "description": "The type of the device inbound endpoint."
+        },
+        "version": {
+          "$ref": "#/definitions/NonEmptyString",
+          "description": "The version of the device inbound endpoint."
+        },
+        "configurationSchemaRefs": {
+          "$ref": "#/definitions/AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs",
+          "description": "The configuration schema references for the device inbound endpoint."
+        }
+      },
+      "required": [
+        "endpointType",
+        "version"
+      ]
+    },
+    "AkriConnectorTemplateDiagnostics": {
+      "type": "object",
+      "description": "AkriConnectorTemplateDiagnostics properties.",
+      "properties": {
+        "logs": {
+          "$ref": "#/definitions/AkriConnectorsDiagnosticsLogs",
+          "description": "The log settings for the Connector template."
+        }
+      },
+      "required": [
+        "logs"
+      ]
+    },
+    "AkriConnectorTemplateHelmAdvancedConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmAdvancedConfiguration properties.",
+      "properties": {
+        "delete": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmDeleteConfiguration",
+          "description": "Delete operation configuration for the Helm chart."
+        },
+        "install": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmInstallConfiguration",
+          "description": "Install operation configuration for the Helm chart."
+        },
+        "upgrade": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmUpgradeConfiguration",
+          "description": "Upgrade operation configuration for the Helm chart."
+        }
+      }
+    },
+    "AkriConnectorTemplateHelmAuthSecretRef": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmAuthSecretRef properties.",
+      "properties": {
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the secret."
+        },
+        "passwordKey": {
+          "type": "string",
+          "description": "The key of the password in the secret."
+        },
+        "usernameKey": {
+          "type": "string",
+          "description": "The key of the username in the secret."
+        }
+      },
+      "required": [
+        "secretRef",
+        "passwordKey",
+        "usernameKey"
+      ]
+    },
+    "AkriConnectorTemplateHelmConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmConfiguration properties.",
+      "properties": {
+        "helmConfigurationSettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmConfigurationSettings",
+          "description": "The Helm configuration settings."
+        }
+      },
+      "required": [
+        "helmConfigurationSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateRuntimeConfiguration"
+        }
+      ],
+      "x-ms-discriminator-value": "HelmConfiguration"
+    },
+    "AkriConnectorTemplateHelmConfigurationSettings": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmConfiguration properties.",
+      "properties": {
+        "registrySettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmRegistrySettings",
+          "description": "The registry settings for the helm chart to be used."
+        },
+        "releaseName": {
+          "type": "string",
+          "description": "The release name of the Helm chart."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the Helm chart."
+        },
+        "advancedConfiguration": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmAdvancedConfiguration",
+          "description": "Advanced configuration for the Helm chart.\nInstall, upgrade, and uninstall options for the helm chart such as atomic, wait, timeout, `wait_for_jobs`, and `disable_hooks`."
+        },
+        "values": {
+          "type": "object",
+          "description": "A map of values to pass to the helm chart.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "releaseName",
+        "version"
+      ]
+    },
+    "AkriConnectorTemplateHelmContainerRegistry": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmContainerRegistry properties.",
+      "properties": {
+        "containerRegistrySettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmContainerRegistrySettings",
+          "description": "The registry settings for the container registry."
+        }
+      },
+      "required": [
+        "containerRegistrySettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmRegistrySettings"
+        }
+      ],
+      "x-ms-discriminator-value": "ContainerRegistry"
+    },
+    "AkriConnectorTemplateHelmContainerRegistrySettings": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmContainerRegistrySettings properties.",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "description": "The registry to use for the Helm chart."
+        },
+        "repository": {
+          "type": "string",
+          "description": "The repository to use for the Helm chart."
+        },
+        "authSecretRef": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmAuthSecretRef",
+          "description": "Optional reference to a secret in the same namespace to use for pulling the Helm chart."
+        }
+      },
+      "required": [
+        "registry",
+        "repository"
+      ]
+    },
+    "AkriConnectorTemplateHelmDeleteConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmDeleteConfiguration properties.",
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the operation in seconds."
+        },
+        "waitForJobs": {
+          "type": "boolean",
+          "description": "The wait for jobs flag."
+        },
+        "atomic": {
+          "type": "boolean",
+          "description": "Atomic flag for the operation."
+        },
+        "disableHooks": {
+          "type": "boolean",
+          "description": "Disable hooks flag for the operation."
+        },
+        "wait": {
+          "type": "boolean",
+          "description": "The wait flag for the operation."
+        }
+      }
+    },
+    "AkriConnectorTemplateHelmInstallConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmInstallConfiguration properties.",
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the operation in seconds."
+        },
+        "waitForJobs": {
+          "type": "boolean",
+          "description": "The wait for jobs flag."
+        },
+        "atomic": {
+          "type": "boolean",
+          "description": "Atomic flag for the operation."
+        },
+        "disableHooks": {
+          "type": "boolean",
+          "description": "Disable hooks flag for the operation."
+        },
+        "wait": {
+          "type": "boolean",
+          "description": "The wait flag for the operation."
+        }
+      }
+    },
+    "AkriConnectorTemplateHelmRegistryEndpointRef": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmRegistryEndpointRef properties.",
+      "properties": {
+        "registryEndpointRef": {
+          "type": "string",
+          "description": "The name of the registry endpoint."
+        }
+      },
+      "required": [
+        "registryEndpointRef"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmRegistrySettings"
+        }
+      ],
+      "x-ms-discriminator-value": "RegistryEndpointRef"
+    },
+    "AkriConnectorTemplateHelmRegistrySettings": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmRegistrySettings properties.",
+      "properties": {
+        "registrySettingsType": {
+          "$ref": "#/definitions/AkriConnectorTemplateHelmRegistrySettingsType"
+        }
+      },
+      "discriminator": "registrySettingsType",
+      "required": [
+        "registrySettingsType"
+      ]
+    },
+    "AkriConnectorTemplateHelmRegistrySettingsType": {
+      "type": "string",
+      "description": "AkriConnectorTemplateHelmRegistrySettingsType values.",
+      "enum": [
+        "RegistryEndpointRef",
+        "ContainerRegistry"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorTemplateHelmRegistrySettingsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "RegistryEndpointRef",
+            "value": "RegistryEndpointRef",
+            "description": "A Registry Endpoint reference."
+          },
+          {
+            "name": "ContainerRegistry",
+            "value": "ContainerRegistry",
+            "description": "A Container Registry reference."
+          }
+        ]
+      }
+    },
+    "AkriConnectorTemplateHelmUpgradeConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateHelmUpgradeConfiguration properties.",
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the operation in seconds."
+        },
+        "waitForJobs": {
+          "type": "boolean",
+          "description": "The wait for jobs flag."
+        },
+        "atomic": {
+          "type": "boolean",
+          "description": "Atomic flag for the operation."
+        },
+        "disableHooks": {
+          "type": "boolean",
+          "description": "Disable hooks flag for the operation."
+        },
+        "wait": {
+          "type": "boolean",
+          "description": "The wait flag for the operation."
+        }
+      }
+    },
+    "AkriConnectorTemplateManagedConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateManagedConfiguration properties.",
+      "properties": {
+        "managedConfigurationSettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateManagedConfigurationSettings",
+          "description": "The managed configuration settings."
+        }
+      },
+      "required": [
+        "managedConfigurationSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateRuntimeConfiguration"
+        }
+      ],
+      "x-ms-discriminator-value": "ManagedConfiguration"
+    },
+    "AkriConnectorTemplateManagedConfigurationSettings": {
+      "type": "object",
+      "description": "AkriConnectorTemplateManagedConfiguration properties.",
+      "properties": {
+        "managedConfigurationType": {
+          "$ref": "#/definitions/AkriConnectorTemplateManagedConfigurationType",
+          "description": "The type of the managed configuration."
+        },
+        "allocation": {
+          "$ref": "#/definitions/AkriConnectorTemplateAllocation",
+          "description": "Allocation settings for the managed configuration."
+        },
+        "persistentVolumeClaims": {
+          "type": "array",
+          "description": "The persistent volume claims for the managed configuration.",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorTemplatePersistentVolumeClaim"
+          },
+          "x-ms-identifiers": [
+            "claimName"
+          ]
+        },
+        "additionalConfiguration": {
+          "type": "object",
+          "description": "Additional configuration for the image of the managed configuration.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "persistentVolumeClaimTemplates": {
+          "type": "array",
+          "description": "The persistent volume claim templates for the managed configuration.\nSee https://raw.githubusercontent.com/kubernetes/kubernetes/refs/heads/master/api/openapi-spec/v3/apis__apps__v1_openapi.json.",
+          "items": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "x-ms-identifiers": []
+        },
+        "secrets": {
+          "type": "array",
+          "description": "Connector secrets that will be mounted onto all connector instances.",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorsSecret"
+          },
+          "x-ms-identifiers": [
+            "secretAlias"
+          ]
+        },
+        "trustSettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateTrustList",
+          "description": "Trust list for the connector. This is used to specify the certificates that all connector instances should trust."
+        }
+      },
+      "discriminator": "managedConfigurationType",
+      "required": [
+        "managedConfigurationType"
+      ]
+    },
+    "AkriConnectorTemplateManagedConfigurationType": {
+      "type": "string",
+      "description": "Managed configuration types.",
+      "enum": [
+        "ImageConfiguration",
+        "StatefulSetConfiguration"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorTemplateManagedConfigurationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ImageConfiguration",
+            "value": "ImageConfiguration",
+            "description": "Image Configuration Type."
+          },
+          {
+            "name": "StatefulSetConfiguration",
+            "value": "StatefulSetConfiguration",
+            "description": "StatefulSet Configuration Type."
+          }
+        ]
+      }
+    },
+    "AkriConnectorTemplatePersistentVolumeClaim": {
+      "type": "object",
+      "description": "AkriConnectorTemplatePersistentVolumeClaim properties.",
+      "properties": {
+        "claimName": {
+          "type": "string",
+          "description": "The name of the persistent volume claim."
+        },
+        "mountPath": {
+          "type": "string",
+          "description": "The mount path for the persistent volume claim."
+        }
+      },
+      "required": [
+        "claimName",
+        "mountPath"
+      ]
+    },
+    "AkriConnectorTemplateProperties": {
+      "type": "object",
+      "description": "AkriConnectorTemplate properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "aioMetadata": {
+          "$ref": "#/definitions/AkriConnectorTemplateAioMetadata",
+          "description": "Metadata about AIO."
+        },
+        "runtimeConfiguration": {
+          "$ref": "#/definitions/AkriConnectorTemplateRuntimeConfiguration",
+          "description": "The runtime configuration for the Connector template."
+        },
+        "diagnostics": {
+          "$ref": "#/definitions/AkriConnectorTemplateDiagnostics",
+          "description": "Diagnostics settings for the Connector template."
+        },
+        "deviceInboundEndpointTypes": {
+          "type": "array",
+          "description": "Device inbound endpoint types.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/AkriConnectorTemplateDeviceInboundEndpointType"
+          },
+          "x-ms-identifiers": [
+            "endpointType",
+            "version"
+          ]
+        },
+        "mqttConnectionConfiguration": {
+          "$ref": "#/definitions/AkriConnectorsMqttConnectionConfiguration",
+          "description": "Mqtt connection configuration settings."
+        }
+      },
+      "required": [
+        "runtimeConfiguration",
+        "deviceInboundEndpointTypes"
+      ]
+    },
+    "AkriConnectorTemplateResource": {
+      "type": "object",
+      "description": "AkriConnectorTemplate resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AkriConnectorTemplateProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AkriConnectorTemplateResourceListResult": {
+      "type": "object",
+      "description": "The response of a AkriConnectorTemplateResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AkriConnectorTemplateResource items on this page",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorTemplateResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AkriConnectorTemplateRuntimeConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateRuntimeConfiguration properties.",
+      "properties": {
+        "runtimeConfigurationType": {
+          "$ref": "#/definitions/AkriConnectorTemplateRuntimeConfigurationType",
+          "description": "Runtime configuration type for the Connector template."
+        }
+      },
+      "discriminator": "runtimeConfigurationType",
+      "required": [
+        "runtimeConfigurationType"
+      ]
+    },
+    "AkriConnectorTemplateRuntimeConfigurationType": {
+      "type": "string",
+      "description": "Runtime configuration types.",
+      "enum": [
+        "HelmConfiguration",
+        "ManagedConfiguration"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorTemplateRuntimeConfigurationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "HelmConfiguration",
+            "value": "HelmConfiguration",
+            "description": "Helm Configuration Type."
+          },
+          {
+            "name": "ManagedConfiguration",
+            "value": "ManagedConfiguration",
+            "description": "Managed Configuration Type."
+          }
+        ]
+      }
+    },
+    "AkriConnectorTemplateRuntimeImageConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateRuntimeImageConfiguration properties.",
+      "properties": {
+        "imageConfigurationSettings": {
+          "$ref": "#/definitions/AkriConnectorTemplateRuntimeImageConfigurationSettings",
+          "description": "The image configuration settings."
+        }
+      },
+      "required": [
+        "imageConfigurationSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateManagedConfigurationSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "ImageConfiguration"
+    },
+    "AkriConnectorTemplateRuntimeImageConfigurationSettings": {
+      "type": "object",
+      "description": "AkriConnectorTemplateRuntimeImageConfiguration properties.",
+      "properties": {
+        "imageName": {
+          "type": "string",
+          "description": "The image name without any registry reference, tag or digest."
+        },
+        "imagePullPolicy": {
+          "$ref": "#/definitions/AkriConnectorsImagePullPolicy",
+          "description": "The pull policy of the image."
+        },
+        "replicas": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of replicas to be set up."
+        },
+        "registrySettings": {
+          "$ref": "#/definitions/AkriConnectorsRegistrySettings",
+          "description": "The registry settings for the image. You can omit this field if using the default docker hub repository or using a local image."
+        },
+        "tagDigestSettings": {
+          "$ref": "#/definitions/AkriConnectorsTagDigestSettings",
+          "description": "Optional image tag or digest. If not specified, the default tag is `latest`."
+        }
+      },
+      "required": [
+        "imageName"
+      ]
+    },
+    "AkriConnectorTemplateRuntimeStatefulSetConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorTemplateRuntimeStatefulSetConfiguration properties.",
+      "properties": {
+        "statefulSetConfigurationSettings": {
+          "type": "object",
+          "description": "The stateful set configuration settings.",
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "statefulSetConfigurationSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorTemplateManagedConfigurationSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "StatefulSetConfiguration"
+    },
+    "AkriConnectorTemplateTrustList": {
+      "type": "object",
+      "description": "AkriConnectorTemplateTrustList properties.",
+      "properties": {
+        "trustListSecretRef": {
+          "type": "string",
+          "description": "The secret reference for certificates to trust."
+        }
+      },
+      "required": [
+        "trustListSecretRef"
+      ]
+    },
+    "AkriConnectorsContainerRegistry": {
+      "type": "object",
+      "description": "AkriConnectorsContainerRegistry properties.",
+      "properties": {
+        "containerRegistrySettings": {
+          "$ref": "#/definitions/AkriConnectorsContainerRegistrySettings",
+          "description": "The registry settings for the container registry."
+        }
+      },
+      "required": [
+        "containerRegistrySettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorsRegistrySettings"
+        }
+      ],
+      "x-ms-discriminator-value": "ContainerRegistry"
+    },
+    "AkriConnectorsContainerRegistrySettings": {
+      "type": "object",
+      "description": "AkriConnectorsContainerRegistry properties.",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "description": "The container registry to use for the artifact."
+        },
+        "imagePullSecrets": {
+          "type": "array",
+          "description": "Optional list of references to secrets in the same namespace to use for pulling the connector image.",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorsImagePullSecret"
+          },
+          "x-ms-identifiers": [
+            "secretRef"
+          ]
+        }
+      },
+      "required": [
+        "registry"
+      ]
+    },
+    "AkriConnectorsDiagnosticsLogs": {
+      "type": "object",
+      "description": "AkriConnectorsDiagnostic Log properties.",
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.",
+          "default": "info"
+        }
+      }
+    },
+    "AkriConnectorsDigest": {
+      "type": "object",
+      "description": "AkriConnectorsDigest properties.",
+      "properties": {
+        "digest": {
+          "type": "string",
+          "description": "The digest of the image."
+        }
+      },
+      "required": [
+        "digest"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorsTagDigestSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "Digest"
+    },
+    "AkriConnectorsImagePullPolicy": {
+      "type": "string",
+      "description": "Image pull policy.",
+      "enum": [
+        "Always",
+        "IfNotPresent",
+        "Never"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorsImagePullPolicy",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Always",
+            "value": "Always",
+            "description": "Always pull the image."
+          },
+          {
+            "name": "IfNotPresent",
+            "value": "IfNotPresent",
+            "description": "IfNotPresent pull the image."
+          },
+          {
+            "name": "Never",
+            "value": "Never",
+            "description": "Never pull the image."
+          }
+        ]
+      }
+    },
+    "AkriConnectorsImagePullSecret": {
+      "type": "object",
+      "description": "AkriConnectorsImagePullSecret properties.",
+      "properties": {
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the image pull secret."
+        }
+      },
+      "required": [
+        "secretRef"
+      ]
+    },
+    "AkriConnectorsMqttAuthentication": {
+      "type": "object",
+      "description": "AkriConnectorsMqttAuthentication properties.",
+      "properties": {
+        "method": {
+          "$ref": "#/definitions/AkriConnectorsMqttAuthenticationMethod",
+          "description": "The authentication method for the MQTT connection."
+        }
+      },
+      "discriminator": "method",
+      "required": [
+        "method"
+      ]
+    },
+    "AkriConnectorsMqttAuthenticationMethod": {
+      "type": "string",
+      "description": "AkriConnectorsMqttAuthenticationMethod properties.",
+      "enum": [
+        "ServiceAccountToken"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorsMqttAuthenticationMethod",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ServiceAccountToken",
+            "value": "ServiceAccountToken",
+            "description": "Service Account Token authentication."
+          }
+        ]
+      }
+    },
+    "AkriConnectorsMqttConnectionConfiguration": {
+      "type": "object",
+      "description": "AkriConnectorsMqttConnectionConfiguration properties.",
+      "properties": {
+        "authentication": {
+          "$ref": "#/definitions/AkriConnectorsMqttAuthentication",
+          "description": "Authentication properties."
+        },
+        "host": {
+          "type": "string",
+          "description": "Host of the Broker in the form of <hostname>:<port>."
+        },
+        "protocol": {
+          "$ref": "#/definitions/AkriConnectorsMqttProtocolType",
+          "description": "The protocol to use for the connection. Currently only `mqtt` is supported."
+        },
+        "keepAliveSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "KeepAlive for connection in seconds.",
+          "minimum": 0
+        },
+        "maxInflightMessages": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The max number of messages to keep in flight. For subscribe, this is the receive maximum. For publish, this is the maximum number of messages to send before waiting for an ack.",
+          "minimum": 0
+        },
+        "sessionExpirySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Session expiry in seconds.",
+          "minimum": 0
+        },
+        "tls": {
+          "$ref": "#/definitions/TlsProperties",
+          "description": "TLS configuration."
+        }
+      }
+    },
+    "AkriConnectorsMqttProtocolType": {
+      "type": "string",
+      "description": "Mqtt protocol types.",
+      "enum": [
+        "Mqtt"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorsMqttProtocolType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Mqtt",
+            "value": "Mqtt",
+            "description": "Mqtt protocol."
+          }
+        ]
+      }
+    },
+    "AkriConnectorsRegistryEndpointRef": {
+      "type": "object",
+      "description": "AkriConnectorsRegistryEndpointRef properties.",
+      "properties": {
+        "registryEndpointRef": {
+          "type": "string",
+          "description": "The name of the registry endpoint."
+        }
+      },
+      "required": [
+        "registryEndpointRef"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorsRegistrySettings"
+        }
+      ],
+      "x-ms-discriminator-value": "RegistryEndpointRef"
+    },
+    "AkriConnectorsRegistrySettings": {
+      "type": "object",
+      "description": "AkriConnectorsRegistrySettings properties.",
+      "properties": {
+        "registrySettingsType": {
+          "$ref": "#/definitions/AkriConnectorsRegistrySettingsType"
+        }
+      },
+      "discriminator": "registrySettingsType",
+      "required": [
+        "registrySettingsType"
+      ]
+    },
+    "AkriConnectorsRegistrySettingsType": {
+      "type": "string",
+      "description": "AkriConnectorsRegistrySettings properties.",
+      "enum": [
+        "RegistryEndpointRef",
+        "ContainerRegistry"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorsRegistrySettingsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "RegistryEndpointRef",
+            "value": "RegistryEndpointRef",
+            "description": "A Registry Endpoint reference."
+          },
+          {
+            "name": "ContainerRegistry",
+            "value": "ContainerRegistry",
+            "description": "A Container Registry reference."
+          }
+        ]
+      }
+    },
+    "AkriConnectorsSecret": {
+      "type": "object",
+      "description": "AkriConnectorsSecret properties.",
+      "properties": {
+        "secretKey": {
+          "type": "string",
+          "description": "The key in the secret to be mounted."
+        },
+        "secretAlias": {
+          "type": "string",
+          "description": "The application-defined alias for the secret."
+        },
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the secret to be mounted."
+        }
+      },
+      "required": [
+        "secretKey",
+        "secretAlias",
+        "secretRef"
+      ]
+    },
+    "AkriConnectorsServiceAccountAuthentication": {
+      "type": "object",
+      "description": "AkriConnectorsServiceAccountAuthentication properties.",
+      "properties": {
+        "serviceAccountTokenSettings": {
+          "$ref": "#/definitions/AkriConnectorsServiceAccountTokenSettings",
+          "description": "The service account token for the MQTT connection."
+        }
+      },
+      "required": [
+        "serviceAccountTokenSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorsMqttAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "ServiceAccountToken"
+    },
+    "AkriConnectorsServiceAccountTokenSettings": {
+      "type": "object",
+      "description": "AkriConnectorsServiceAccountTokenSettings properties.",
+      "properties": {
+        "audience": {
+          "type": "string",
+          "description": "The audience for the service account token."
+        }
+      },
+      "required": [
+        "audience"
+      ]
+    },
+    "AkriConnectorsTag": {
+      "type": "object",
+      "description": "AkriConnectorsTag properties.",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "description": "The tag of the image."
+        }
+      },
+      "required": [
+        "tag"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriConnectorsTagDigestSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "Tag"
+    },
+    "AkriConnectorsTagDigestSettings": {
+      "type": "object",
+      "description": "AkriConnectorsTagDigestSettings properties.",
+      "properties": {
+        "tagDigestType": {
+          "$ref": "#/definitions/AkriConnectorsTagDigestType",
+          "description": "The tag or digest type."
+        }
+      },
+      "discriminator": "tagDigestType",
+      "required": [
+        "tagDigestType"
+      ]
+    },
+    "AkriConnectorsTagDigestType": {
+      "type": "string",
+      "description": "AkriConnectorsTagDigestType values.",
+      "enum": [
+        "Tag",
+        "Digest"
+      ],
+      "x-ms-enum": {
+        "name": "AkriConnectorsTagDigestType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Tag",
+            "value": "Tag",
+            "description": "Indicates that a tag should be specified."
+          },
+          {
+            "name": "Digest",
+            "value": "Digest",
+            "description": "Indicates that a digest should be specified."
+          }
+        ]
+      }
+    },
+    "AkriDiscoveryHandlerAioMetadata": {
+      "type": "object",
+      "description": "Metadata about AIO.",
+      "properties": {
+        "aioMinVersion": {
+          "type": "string",
+          "description": "The minimum version of AIO required for the connector."
+        },
+        "aioMaxVersion": {
+          "type": "string",
+          "description": "The maximum version of AIO required for the connector."
+        }
+      }
+    },
+    "AkriDiscoveryHandlerDiagnostics": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerDiagnostics properties.",
+      "properties": {
+        "logs": {
+          "$ref": "#/definitions/AkriConnectorsDiagnosticsLogs",
+          "description": "The log settings for the Connector template."
+        }
+      },
+      "required": [
+        "logs"
+      ]
+    },
+    "AkriDiscoveryHandlerDiscoverableDeviceEndpointType": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerDiscoverableDeviceEndpointType properties.",
+      "properties": {
+        "endpointType": {
+          "$ref": "#/definitions/NonEmptyString",
+          "description": "The type of the endpoint."
+        },
+        "version": {
+          "$ref": "#/definitions/NonEmptyString",
+          "description": "The version of the endpoint."
+        }
+      },
+      "required": [
+        "endpointType",
+        "version"
+      ]
+    },
+    "AkriDiscoveryHandlerImageConfiguration": {
+      "type": "object",
+      "description": "AkriDiscoveryHandler Image configuration properties.",
+      "properties": {
+        "imageName": {
+          "type": "string",
+          "description": "The image name without any registry reference, tag or digest."
+        },
+        "imagePullPolicy": {
+          "$ref": "#/definitions/AkriConnectorsImagePullPolicy",
+          "description": "The pull policy of the image."
+        },
+        "replicas": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of replicas to be set up."
+        },
+        "registrySettings": {
+          "$ref": "#/definitions/AkriConnectorsRegistrySettings",
+          "description": "The registry settings for the image. You can omit this field if using the default docker hub repository or using a local image."
+        },
+        "tagDigestSettings": {
+          "$ref": "#/definitions/AkriConnectorsTagDigestSettings",
+          "description": "Optional image tag or digest. If not specified, the default tag is `latest`."
+        }
+      },
+      "required": [
+        "imageName"
+      ]
+    },
+    "AkriDiscoveryHandlerProperties": {
+      "type": "object",
+      "description": "AkriDiscoveryHandler properties.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "aioMetadata": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerAioMetadata",
+          "description": "Metadata about AIO."
+        },
+        "additionalConfiguration": {
+          "type": "object",
+          "description": "Additional configuration for the AkriDiscoveryHandler.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "diagnostics": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerDiagnostics",
+          "description": "Diagnostics settings for the AkriDiscoveryHandler."
+        },
+        "mode": {
+          "type": "string",
+          "description": "Mode of the AkriDiscoveryHandler.",
+          "default": "Enabled",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "OperationalMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Enabled",
+                "value": "Enabled",
+                "description": "Enabled is equivalent to True"
+              },
+              {
+                "name": "Disabled",
+                "value": "Disabled",
+                "description": "Disabled is equivalent to False."
+              }
+            ]
+          }
+        },
+        "discoverableDeviceEndpointTypes": {
+          "type": "array",
+          "description": "Device inbound endpoint types.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/AkriDiscoveryHandlerDiscoverableDeviceEndpointType"
+          },
+          "x-ms-identifiers": [
+            "endpointType",
+            "version"
+          ]
+        },
+        "mqttConnectionConfiguration": {
+          "$ref": "#/definitions/AkriConnectorsMqttConnectionConfiguration",
+          "description": "Mqtt connection configuration settings."
+        },
+        "imageConfiguration": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerImageConfiguration",
+          "description": "The image configuration for the AkriDiscoveryHandler."
+        },
+        "schedule": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerSchedule",
+          "description": "Schedule for the AkriDiscoveryHandler."
+        },
+        "secrets": {
+          "type": "array",
+          "description": "Secrets that will be mounted onto discovery handler.",
+          "items": {
+            "$ref": "#/definitions/AkriConnectorsSecret"
+          },
+          "x-ms-identifiers": [
+            "secretAlias"
+          ]
+        }
+      },
+      "required": [
+        "discoverableDeviceEndpointTypes",
+        "imageConfiguration",
+        "schedule"
+      ]
+    },
+    "AkriDiscoveryHandlerResource": {
+      "type": "object",
+      "description": "AkriDiscoveryHandler resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AkriDiscoveryHandlerResourceListResult": {
+      "type": "object",
+      "description": "The response of a AkriDiscoveryHandlerResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AkriDiscoveryHandlerResource items on this page",
+          "items": {
+            "$ref": "#/definitions/AkriDiscoveryHandlerResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AkriDiscoveryHandlerSchedule": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerSchedule properties.",
+      "properties": {
+        "scheduleType": {
+          "$ref": "#/definitions/AkriDiscoveryHandlerScheduleType",
+          "description": "Schedule type."
+        }
+      },
+      "discriminator": "scheduleType",
+      "required": [
+        "scheduleType"
+      ]
+    },
+    "AkriDiscoveryHandlerScheduleContinuous": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerScheduleContinuous properties.",
+      "properties": {
+        "continuous": {
+          "type": "string",
+          "description": "The time to run the discovery handler."
+        }
+      },
+      "required": [
+        "continuous"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriDiscoveryHandlerSchedule"
+        }
+      ],
+      "x-ms-discriminator-value": "Continuous"
+    },
+    "AkriDiscoveryHandlerScheduleCron": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerScheduleCron properties.",
+      "properties": {
+        "cron": {
+          "type": "string",
+          "description": "The cron expression for the schedule."
+        }
+      },
+      "required": [
+        "cron"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriDiscoveryHandlerSchedule"
+        }
+      ],
+      "x-ms-discriminator-value": "Cron"
+    },
+    "AkriDiscoveryHandlerScheduleRunOnce": {
+      "type": "object",
+      "description": "AkriDiscoveryHandlerScheduleRunOnce properties.",
+      "properties": {
+        "runOnce": {
+          "type": "string",
+          "description": "The time to run the discovery handler."
+        }
+      },
+      "required": [
+        "runOnce"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/AkriDiscoveryHandlerSchedule"
+        }
+      ],
+      "x-ms-discriminator-value": "RunOnce"
+    },
+    "AkriDiscoveryHandlerScheduleType": {
+      "type": "string",
+      "description": "AkriDiscoveryHandlerScheduleType properties.",
+      "enum": [
+        "Cron",
+        "RunOnce",
+        "Continuous"
+      ],
+      "x-ms-enum": {
+        "name": "AkriDiscoveryHandlerScheduleType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Cron",
+            "value": "Cron",
+            "description": "The schedule is a cron expression."
+          },
+          {
+            "name": "RunOnce",
+            "value": "RunOnce",
+            "description": "The discovery handler should run once."
+          },
+          {
+            "name": "Continuous",
+            "value": "Continuous",
+            "description": "The discovery handler should run continuously."
+          }
+        ]
       }
     },
     "AnonymousMethod": {
@@ -2695,6 +5514,31 @@
       "required": [
         "brokerResources",
         "principals"
+      ]
+    },
+    "AzureDeviceRegistryNamespaceID": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.DeviceRegistry/namespaces"
+          }
+        ]
+      }
+    },
+    "AzureDeviceRegistryNamespaceRef": {
+      "type": "object",
+      "description": "Azure Device Registry Namespace reference.",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/AzureDeviceRegistryNamespaceID",
+          "description": "The resource ID of the Azure Device Registry Namespace."
+        }
+      },
+      "required": [
+        "resourceId"
       ]
     },
     "BackendChain": {
@@ -2820,9 +5664,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -2924,6 +5765,10 @@
           "type": "string",
           "description": "Name of the trusted client ca cert resource.",
           "default": "client-ca"
+        },
+        "additionalValidation": {
+          "$ref": "#/definitions/BrokerAuthenticatorValidationMethods",
+          "description": "X509 authentication attributes properties."
         }
       }
     },
@@ -2973,6 +5818,30 @@
         "method"
       ]
     },
+    "BrokerAuthenticatorValidationMethods": {
+      "type": "string",
+      "description": "X509 authentication validation methods.",
+      "enum": [
+        "None",
+        "AzureDeviceRegistry"
+      ],
+      "x-ms-enum": {
+        "name": "BrokerAuthenticatorValidationMethods",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "None",
+            "value": "None",
+            "description": "No additional validation is performed"
+          },
+          {
+            "name": "AzureDeviceRegistry",
+            "value": "AzureDeviceRegistry",
+            "description": "Additional validation is performed using the Azure Device Registry."
+          }
+        ]
+      }
+    },
     "BrokerAuthorizationProperties": {
       "type": "object",
       "description": "BrokerAuthorization Resource properties",
@@ -3008,9 +5877,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -3136,9 +6002,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -3198,6 +6061,112 @@
             "name": "High",
             "value": "High",
             "description": "High memory profile."
+          }
+        ]
+      }
+    },
+    "BrokerPersistence": {
+      "type": "object",
+      "description": "Disk persistence configuration.\n\nWhen persistence is enabled, certain items (non-performance-critical data) selected for persistence will reside only on disk. Below are the affected items: \n\n- Retained messages will be stored on disk only. \n- WILL messages will be stored on disk only. \n- DSS key/value pairs will be stored on disk only, except for performance-critical items like timed locks, which remain in both disk and memory for improved performance.\n\nOptional. Everything is in-memory if not set. \nNote: if configured, all MQTT session states are written to disk.",
+      "properties": {
+        "dynamicSettings": {
+          "$ref": "#/definitions/BrokerPersistenceDynamicSettings",
+          "description": "Client sets the specified user property key/value in the CONNECT/SUBSCRIBE/PUBLISH. \nOptionally, if the customer specifies a configurable user property, it will work to enable persistence dynamically. The default user property key is 'aio-persistence' and value 'true'."
+        },
+        "maxSize": {
+          "type": "string",
+          "description": "The max size of the message buffer on disk. If a PVC template is specified using persistentVolumeClaimSpec Then this size is used as the request and limit sizes of that template. If a PVC template isn't specified Then local-path provisioner is requested with this size limit. Required.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "persistentVolumeClaimSpec": {
+          "$ref": "#/definitions/VolumeClaimSpec",
+          "description": "Use the specified persistent volume claim template to mount a persistent volume. Same object as in diskBackedMessageBuffer, but with a limitation that access modes field must be set to `ReadWriteOncePod`.\n\nIf unset, a default PVC with default properties will be used. Among other things this PVC will use the cluster default storage class, which may or may not be using a local path provisioner. User is opting in to sub-optimal behavior if they leave this unset or set it without the storage class field, and their cluster default is not a local path class.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "retain": {
+          "$ref": "#/definitions/BrokerRetainMessagesPolicy",
+          "description": "Controls which topic's retained messages should be persisted to disk."
+        },
+        "stateStore": {
+          "$ref": "#/definitions/BrokerStateStorePolicy",
+          "description": "Controls which keys should be persisted to disk for the state store."
+        },
+        "subscriberQueue": {
+          "$ref": "#/definitions/BrokerSubscriberQueuePolicy",
+          "description": "Controls which subscriber message queues should be persisted to disk. Important: to facilitate reconnection, session state metadata are ALWAYS written to disk if any persistence setting is specified, even if this section isn't set."
+        },
+        "encryption": {
+          "$ref": "#/definitions/BrokerPersistenceEncryption",
+          "description": "Controls settings related to encryption of the persistence database. Optional, defaults to enabling encryption."
+        }
+      },
+      "required": [
+        "maxSize"
+      ]
+    },
+    "BrokerPersistenceDynamicSettings": {
+      "type": "object",
+      "description": "Dynamic settings of the persistence.",
+      "properties": {
+        "userPropertyKey": {
+          "type": "string",
+          "description": "The user property key to enable persistence."
+        },
+        "userPropertyValue": {
+          "type": "string",
+          "description": "The user property value to enable persistence."
+        }
+      },
+      "required": [
+        "userPropertyKey",
+        "userPropertyValue"
+      ]
+    },
+    "BrokerPersistenceEncryption": {
+      "type": "object",
+      "description": "Broker Persistence Encryption properties.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Determines if encryption is enabled."
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerPersistencePolicyMode": {
+      "type": "string",
+      "description": "Broker Persistence Policy Mode values.",
+      "enum": [
+        "All",
+        "None",
+        "Custom"
+      ],
+      "x-ms-enum": {
+        "name": "BrokerPersistencePolicyMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "All",
+            "value": "All",
+            "description": "Policy mode for All."
+          },
+          {
+            "name": "None",
+            "value": "None",
+            "description": "Policy mode for None."
+          },
+          {
+            "name": "Custom",
+            "value": "Custom",
+            "description": "Indicates that the policy is a custom policy."
           }
         ]
       }
@@ -3283,6 +6252,10 @@
             "create"
           ]
         },
+        "persistence": {
+          "$ref": "#/definitions/BrokerPersistence",
+          "description": "The persistence settings of the Broker."
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
@@ -3331,9 +6304,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -3418,6 +6388,255 @@
       },
       "required": [
         "method"
+      ]
+    },
+    "BrokerRetainMessagesCustomPolicy": {
+      "type": "object",
+      "description": "Custom Broker Retain Message Policy.",
+      "properties": {
+        "retainSettings": {
+          "$ref": "#/definitions/BrokerRetainMessagesSettings",
+          "description": "Settings for the policy."
+        }
+      },
+      "required": [
+        "retainSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BrokerRetainMessagesPolicy"
+        }
+      ],
+      "x-ms-discriminator-value": "Custom"
+    },
+    "BrokerRetainMessagesDynamic": {
+      "type": "object",
+      "description": "Dynamic settings of BrokerRetainMessagesCustomPolicy.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Mode of the BrokerRetainMessagesCustomPolicy."
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerRetainMessagesPolicy": {
+      "type": "object",
+      "description": "Broker Retain policy properties.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/BrokerPersistencePolicyMode",
+          "description": "'All' to persist all retain messages, 'None' to not persist any, 'Custom' to persist only the specified topics."
+        }
+      },
+      "discriminator": "mode",
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerRetainMessagesSettings": {
+      "type": "object",
+      "description": "Broker Retain Messages properties.",
+      "properties": {
+        "topics": {
+          "type": "array",
+          "description": "List of topics under which retained messages would be persisted to disk. Wildcards # and + supported.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-identifiers": []
+        },
+        "dynamic": {
+          "$ref": "#/definitions/BrokerRetainMessagesDynamic",
+          "description": "Controls if MQTT clients can request for disk persistence via `MQTTv5` user property. Works in addition to other groups (logical OR)."
+        }
+      }
+    },
+    "BrokerStateStoreCustomPolicy": {
+      "type": "object",
+      "description": "Broker State Store Custom Policy.",
+      "properties": {
+        "stateStoreSettings": {
+          "$ref": "#/definitions/BrokerStateStorePolicySettings",
+          "description": "Settings for the policy."
+        }
+      },
+      "required": [
+        "stateStoreSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BrokerStateStorePolicy"
+        }
+      ],
+      "x-ms-discriminator-value": "Custom"
+    },
+    "BrokerStateStoreDynamic": {
+      "type": "object",
+      "description": "Dynamic settings of BrokerStateStoreCustomPolicy.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Mode of the BrokerStateStoreCustomPolicy."
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerStateStoreKeyType": {
+      "type": "string",
+      "description": "Broker State Store Key Type properties.",
+      "enum": [
+        "Pattern",
+        "String",
+        "Binary"
+      ],
+      "x-ms-enum": {
+        "name": "BrokerStateStoreKeyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Pattern",
+            "value": "Pattern",
+            "description": "Used for glob-style pattern matching."
+          },
+          {
+            "name": "String",
+            "value": "String",
+            "description": "Used to do exact match, for example, when a key contains characters that might be otherwise matched as a pattern (*, ?, [0-9])."
+          },
+          {
+            "name": "Binary",
+            "value": "Binary",
+            "description": "Used to match a binary key."
+          }
+        ]
+      }
+    },
+    "BrokerStateStorePolicy": {
+      "type": "object",
+      "description": "Broker State Store Policy.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/BrokerPersistencePolicyMode",
+          "description": "'All' to persist all keys, 'None' to not persist any, 'Custom' to persist only the specified keys."
+        }
+      },
+      "discriminator": "mode",
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerStateStorePolicyResources": {
+      "type": "object",
+      "description": "Broker State Store Policy Resources properties.",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/BrokerStateStoreKeyType",
+          "description": "The key to persist to disk."
+        },
+        "keys": {
+          "type": "array",
+          "description": "List of keys to persist to disk, required.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "keyType",
+        "keys"
+      ]
+    },
+    "BrokerStateStorePolicySettings": {
+      "type": "object",
+      "description": "Broker State Store Custom Policy Settings.",
+      "properties": {
+        "stateStoreResources": {
+          "type": "array",
+          "description": "List of key and key type to persist to disk.",
+          "items": {
+            "$ref": "#/definitions/BrokerStateStorePolicyResources"
+          },
+          "x-ms-identifiers": []
+        },
+        "dynamic": {
+          "$ref": "#/definitions/BrokerStateStoreDynamic",
+          "description": "Controls if MQTT clients can request for disk persistence via `MQTTv5` user property. Works in addition to other groups (logical OR)."
+        }
+      }
+    },
+    "BrokerSubscriberQueueCustomPolicy": {
+      "type": "object",
+      "description": "Custom Subscriber Queue Policy Properties.",
+      "properties": {
+        "subscriberQueueSettings": {
+          "$ref": "#/definitions/BrokerSubscriberQueueCustomPolicySettings",
+          "description": "Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR)."
+        }
+      },
+      "required": [
+        "subscriberQueueSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BrokerSubscriberQueuePolicy"
+        }
+      ],
+      "x-ms-discriminator-value": "Custom"
+    },
+    "BrokerSubscriberQueueCustomPolicySettings": {
+      "type": "object",
+      "description": "Broker Subscriber Queue Custom Policy properties.",
+      "properties": {
+        "subscriberClientIds": {
+          "type": "array",
+          "description": "List of client IDs of the subscribers, wildcard * supported.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dynamic": {
+          "$ref": "#/definitions/BrokerSubscriberQueueDynamic",
+          "description": "Controls if MQTT clients can request for disk persistence via `MQTTv5` user property. Works in addition to other groups (logical OR)."
+        },
+        "topics": {
+          "type": "array",
+          "description": "List of topics under which messages would be persisted to disk for each subscriber. Wildcards # and + supported.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "BrokerSubscriberQueueDynamic": {
+      "type": "object",
+      "description": "Dynamic settings of BrokerSubscriberQueueCustomPolicy.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Mode of the BrokerSubscriberQueueCustomPolicy."
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "BrokerSubscriberQueuePolicy": {
+      "type": "object",
+      "description": "Broker Subscriber Queue Policy properties.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/BrokerPersistencePolicyMode",
+          "description": "'All' to persist all subscriber queues, 'None' to not persist any, 'Custom' to persist only the specified queues."
+        }
+      },
+      "discriminator": "mode",
+      "required": [
+        "mode"
       ]
     },
     "Cardinality": {
@@ -3663,6 +6882,25 @@
         ]
       }
     },
+    "DatafloGraphDestinationNode": {
+      "type": "object",
+      "description": "DataflowGraph destination node properties.",
+      "properties": {
+        "destinationSettings": {
+          "$ref": "#/definitions/DataflowGraphDestinationNodeSettings",
+          "description": "Destination configuration."
+        }
+      },
+      "required": [
+        "destinationSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowGraphNode"
+        }
+      ],
+      "x-ms-discriminator-value": "Destination"
+    },
     "DataflowBuiltInTransformationDataset": {
       "type": "object",
       "description": "Dataflow BuiltIn Transformation dataset properties",
@@ -3876,6 +7114,11 @@
       "required": [
         "secretRef"
       ]
+    },
+    "DataflowEndpointAuthenticationAnonymous": {
+      "type": "object",
+      "description": "DataflowEndpoint Anonymous Authentication properties",
+      "additionalProperties": false
     },
     "DataflowEndpointAuthenticationSasl": {
       "type": "object",
@@ -4675,6 +7918,32 @@
         "method"
       ]
     },
+    "DataflowEndpointOpenTelemetry": {
+      "type": "object",
+      "description": "OpenTelemetry endpoint properties.",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Host of the OpenTelemetry in the form of <host>:<port>."
+        },
+        "batching": {
+          "$ref": "#/definitions/BatchingConfiguration",
+          "description": "Batching configuration."
+        },
+        "tls": {
+          "$ref": "#/definitions/TlsProperties",
+          "description": "TLS configuration."
+        },
+        "authentication": {
+          "$ref": "#/definitions/DataflowOpenTelemetryAuthentication",
+          "description": "Authentication properties for OpenTelemetry endpoints"
+        }
+      },
+      "required": [
+        "host",
+        "authentication"
+      ]
+    },
     "DataflowEndpointProperties": {
       "type": "object",
       "description": "DataflowEndpoint Resource properties. NOTE - Only one type of endpoint is supported for one Resource",
@@ -4682,6 +7951,10 @@
         "endpointType": {
           "$ref": "#/definitions/EndpointType",
           "description": "Endpoint Type."
+        },
+        "hostType": {
+          "$ref": "#/definitions/DataflowEnpointHostType",
+          "description": "The type of the Kafka host. E.g FabricRT, EventGrid."
         },
         "dataExplorerSettings": {
           "$ref": "#/definitions/DataflowEndpointDataExplorer",
@@ -4706,6 +7979,10 @@
         "mqttSettings": {
           "$ref": "#/definitions/DataflowEndpointMqtt",
           "description": "Broker endpoint."
+        },
+        "openTelemetrySettings": {
+          "$ref": "#/definitions/DataflowEndpointOpenTelemetry",
+          "description": "OpenTelemetry endpoint."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4734,9 +8011,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -4762,6 +8036,437 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "DataflowEnpointHostType": {
+      "type": "string",
+      "description": "DataflowEndpoint Host Type properties",
+      "enum": [
+        "FabricRT",
+        "EventGrid",
+        "LocalBroker",
+        "Eventhub",
+        "CustomMqtt",
+        "CustomKafka"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowEnpointHostType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "FabricRT",
+            "value": "FabricRT",
+            "description": "Fabric Real-Time Type"
+          },
+          {
+            "name": "EventGrid",
+            "value": "EventGrid",
+            "description": "EventGrid Type"
+          },
+          {
+            "name": "LocalBroker",
+            "value": "LocalBroker",
+            "description": "Local MQTT Type"
+          },
+          {
+            "name": "Eventhub",
+            "value": "Eventhub",
+            "description": "EventHub Type"
+          },
+          {
+            "name": "CustomMqtt",
+            "value": "CustomMqtt",
+            "description": "Custom MQTT Type"
+          },
+          {
+            "name": "CustomKafka",
+            "value": "CustomKafka",
+            "description": "Custom Kafka Type"
+          }
+        ]
+      }
+    },
+    "DataflowGraphConnectionInput": {
+      "type": "object",
+      "description": "DataflowGraph DataflowGraphNode Connection Input.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the source node."
+        },
+        "schema": {
+          "$ref": "#/definitions/DataflowGraphSchemaSettings",
+          "description": "Schema settings for the source node."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "DataflowGraphConnectionOutput": {
+      "type": "object",
+      "description": "DataflowGraph DataflowGraphNode Connection Output.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the destination node."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "DataflowGraphDestinationNodeSettings": {
+      "type": "object",
+      "description": "DataflowGraph destination node settings.",
+      "properties": {
+        "endpointRef": {
+          "type": "string",
+          "description": "The name of the DataflowEndpoint resource ."
+        },
+        "dataDestination": {
+          "type": "string",
+          "description": "Data destination at the endpoint."
+        },
+        "outputSchemaSettings": {
+          "$ref": "#/definitions/DataflowGraphSchemaSettings",
+          "description": "Output schema settings."
+        }
+      },
+      "required": [
+        "endpointRef",
+        "dataDestination"
+      ]
+    },
+    "DataflowGraphGraphNode": {
+      "type": "object",
+      "description": "DataflowGraph graph node properties.",
+      "properties": {
+        "graphSettings": {
+          "$ref": "#/definitions/DataflowGraphNodeGraphSettings",
+          "description": "Graph configuration."
+        }
+      },
+      "required": [
+        "graphSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowGraphNode"
+        }
+      ],
+      "x-ms-discriminator-value": "Graph"
+    },
+    "DataflowGraphGraphNodeConfiguration": {
+      "type": "object",
+      "description": "DataflowGraph graph node configuration.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Key of the configuration."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the configuration."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
+    "DataflowGraphNode": {
+      "type": "object",
+      "description": "DataflowGraph node properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the node."
+        },
+        "type": {
+          "$ref": "#/definitions/DataflowGraphNodeType",
+          "description": "Type of the node."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "DataflowGraphNodeConnection": {
+      "type": "object",
+      "description": "DataflowGraph DataflowGraphNode Connection.",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/DataflowGraphConnectionInput",
+          "description": "Information about the source node."
+        },
+        "to": {
+          "$ref": "#/definitions/DataflowGraphConnectionOutput",
+          "description": "Information about the destination node."
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ]
+    },
+    "DataflowGraphNodeGraphSettings": {
+      "type": "object",
+      "description": "DataflowGraph graph node settings.",
+      "properties": {
+        "registryEndpointRef": {
+          "type": "string",
+          "description": "Reference to the registry endpoint for pulling the artifact."
+        },
+        "artifact": {
+          "type": "string",
+          "description": "The artifact name and version to pull."
+        },
+        "configuration": {
+          "type": "array",
+          "description": "Configuration key-value pairs.",
+          "items": {
+            "$ref": "#/definitions/DataflowGraphGraphNodeConfiguration"
+          },
+          "x-ms-identifiers": [
+            "key"
+          ]
+        }
+      },
+      "required": [
+        "registryEndpointRef",
+        "artifact"
+      ]
+    },
+    "DataflowGraphNodeType": {
+      "type": "string",
+      "description": "DataflowGraph node types.",
+      "enum": [
+        "Source",
+        "Graph",
+        "Destination"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowGraphNodeType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Source",
+            "value": "Source",
+            "description": "Dataflow source node."
+          },
+          {
+            "name": "Graph",
+            "value": "Graph",
+            "description": "Dataflow graph node."
+          },
+          {
+            "name": "Destination",
+            "value": "Destination",
+            "description": "Dataflow destination node."
+          }
+        ]
+      }
+    },
+    "DataflowGraphProperties": {
+      "type": "object",
+      "description": "DataflowGraph properties.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "The mode of the dataflow graph.",
+          "default": "Enabled",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "OperationalMode",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Enabled",
+                "value": "Enabled",
+                "description": "Enabled is equivalent to True"
+              },
+              {
+                "name": "Disabled",
+                "value": "Disabled",
+                "description": "Disabled is equivalent to False."
+              }
+            ]
+          }
+        },
+        "requestDiskPersistence": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Disk persistence mode."
+        },
+        "nodes": {
+          "type": "array",
+          "description": "List of nodes in the dataflow graph.",
+          "items": {
+            "$ref": "#/definitions/DataflowGraphNode"
+          },
+          "x-ms-identifiers": [
+            "name"
+          ]
+        },
+        "nodeConnections": {
+          "type": "array",
+          "description": "List of connections between nodes in the dataflow graph.",
+          "items": {
+            "$ref": "#/definitions/DataflowGraphNodeConnection"
+          },
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the dataflow graph.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "nodes",
+        "nodeConnections"
+      ]
+    },
+    "DataflowGraphResource": {
+      "type": "object",
+      "description": "Instance dataflowEndpoint resource.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DataflowGraphProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "DataflowGraphResourceListResult": {
+      "type": "object",
+      "description": "The response of a DataflowGraphResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DataflowGraphResource items on this page",
+          "items": {
+            "$ref": "#/definitions/DataflowGraphResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DataflowGraphSchemaSettings": {
+      "type": "object",
+      "description": "DataflowGraph output schema settings.",
+      "properties": {
+        "serializationFormat": {
+          "$ref": "#/definitions/DataflowGraphSerializationFormat",
+          "description": "Output serialization format."
+        },
+        "schemaRef": {
+          "type": "string",
+          "description": "Reference to the schema that describes the output of the transformation."
+        }
+      },
+      "required": [
+        "schemaRef"
+      ]
+    },
+    "DataflowGraphSerializationFormat": {
+      "type": "string",
+      "description": "Serialization format for dataflow graph.",
+      "enum": [
+        "Delta",
+        "Json",
+        "Parquet",
+        "Avro"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowGraphSerializationFormat",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Delta",
+            "value": "Delta",
+            "description": "Delta Format"
+          },
+          {
+            "name": "Json",
+            "value": "Json",
+            "description": "JSON Format"
+          },
+          {
+            "name": "Parquet",
+            "value": "Parquet",
+            "description": "Parquet Format"
+          },
+          {
+            "name": "Avro",
+            "value": "Avro",
+            "description": "Avro serialization format."
+          }
+        ]
+      }
+    },
+    "DataflowGraphSourceNode": {
+      "type": "object",
+      "description": "DataflowGraph source node properties.",
+      "properties": {
+        "sourceSettings": {
+          "$ref": "#/definitions/DataflowGraphSourceSettings",
+          "description": "Source configuration."
+        }
+      },
+      "required": [
+        "sourceSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowGraphNode"
+        }
+      ],
+      "x-ms-discriminator-value": "Source"
+    },
+    "DataflowGraphSourceSettings": {
+      "type": "object",
+      "description": "DataflowGraph source node settings.",
+      "properties": {
+        "endpointRef": {
+          "type": "string",
+          "description": "The endpoint reference for the source."
+        },
+        "dataSources": {
+          "type": "array",
+          "description": "List of data sources.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "endpointRef",
+        "dataSources"
       ]
     },
     "DataflowMappingType": {
@@ -4805,6 +8510,107 @@
           }
         ]
       }
+    },
+    "DataflowOpenTelemetryAnonymousAuthentication": {
+      "type": "object",
+      "description": "DataflowOpenTelemetryAnonymousAuthentication properties.",
+      "properties": {
+        "anonymousSettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationAnonymous",
+          "description": "Settings for the anonymous connection"
+        }
+      },
+      "required": [
+        "anonymousSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowOpenTelemetryAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "Anonymous"
+    },
+    "DataflowOpenTelemetryAuthentication": {
+      "type": "object",
+      "description": "Dataflow OpenTelemetry authentication properties.",
+      "properties": {
+        "method": {
+          "$ref": "#/definitions/DataflowOpenTelemetryAuthenticationMethod",
+          "description": "The authentication method."
+        }
+      },
+      "discriminator": "method",
+      "required": [
+        "method"
+      ]
+    },
+    "DataflowOpenTelemetryAuthenticationMethod": {
+      "type": "string",
+      "description": "Dataflow OpenTelemetry authentication method values.",
+      "enum": [
+        "ServiceAccountToken",
+        "X509Certificate",
+        "Anonymous"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowOpenTelemetryAuthenticationMethod",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ServiceAccountToken",
+            "value": "ServiceAccountToken",
+            "description": "Uses serviceaccount token."
+          },
+          {
+            "name": "X509Certificate",
+            "value": "X509Certificate",
+            "description": "Uses x509 certificate."
+          },
+          {
+            "name": "Anonymous",
+            "value": "Anonymous",
+            "description": "Connects anonymously."
+          }
+        ]
+      }
+    },
+    "DataflowOpenTelemetryServiceAccountAuthentication": {
+      "type": "object",
+      "description": "DataflowOpenTelemetryServiceAccountAuthentication properties.",
+      "properties": {
+        "serviceAccountTokenSettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationServiceAccountToken",
+          "description": "Kubernetes service account token authentication."
+        }
+      },
+      "required": [
+        "serviceAccountTokenSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowOpenTelemetryAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "ServiceAccountToken"
+    },
+    "DataflowOpenTelemetryX509CertificateAuthentication": {
+      "type": "object",
+      "description": "DataflowOpenTelemetryX509CertificateAuthentication properties.",
+      "properties": {
+        "x509CertificateSettings": {
+          "$ref": "#/definitions/DataflowEndpointAuthenticationX509",
+          "description": "X.509 certificate authentication settings."
+        }
+      },
+      "required": [
+        "x509CertificateSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowOpenTelemetryAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "X509Certificate"
     },
     "DataflowOperation": {
       "type": "object",
@@ -4876,9 +8682,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -4935,6 +8738,10 @@
             ]
           }
         },
+        "requestDiskPersistence": {
+          "$ref": "#/definitions/OperationalMode",
+          "description": "Disk persistence mode."
+        },
         "operations": {
           "type": "array",
           "description": "List of operations including source and destination references as well as transformation.",
@@ -4970,9 +8777,6 @@
           ]
         }
       },
-      "required": [
-        "extendedLocation"
-      ],
       "allOf": [
         {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
@@ -5048,6 +8852,65 @@
         "dataSources"
       ]
     },
+    "DiagnosticProperties": {
+      "type": "object",
+      "description": "Diagnostic Resource properties",
+      "properties": {
+        "remoteSupport": {
+          "$ref": "#/definitions/DiagnosticsRemoteSupportProperties",
+          "description": "Remote Support Settings For Diagnostic."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "DiagnosticResource": {
+      "type": "object",
+      "description": "Instance diagnostic resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DiagnosticProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "DiagnosticResourceListResult": {
+      "type": "object",
+      "description": "The response of a DiagnosticResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DiagnosticResource items on this page",
+          "items": {
+            "$ref": "#/definitions/DiagnosticResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "DiagnosticsLogs": {
       "type": "object",
       "description": "Diagnostic Log properties",
@@ -5056,6 +8919,52 @@
           "type": "string",
           "description": "The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.",
           "default": "info"
+        }
+      }
+    },
+    "DiagnosticsRemoteSupportAccessLevels": {
+      "type": "string",
+      "description": "DiagnosticAccessLevels allowed",
+      "enum": [
+        "Diagnose",
+        "DiagnoseAndRepair"
+      ],
+      "x-ms-enum": {
+        "name": "DiagnosticsRemoteSupportAccessLevels",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Diagnose",
+            "value": "Diagnose",
+            "description": "Diagnose access level"
+          },
+          {
+            "name": "DiagnoseAndRepair",
+            "value": "DiagnoseAndRepair",
+            "description": "Diagnose And Repair Access Level"
+          }
+        ]
+      }
+    },
+    "DiagnosticsRemoteSupportActivationState": {
+      "$ref": "#/definitions/OperationalMode",
+      "x-nullable": false
+    },
+    "DiagnosticsRemoteSupportProperties": {
+      "type": "object",
+      "description": "RemoteSupport properties",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/DiagnosticsRemoteSupportActivationState",
+          "description": "Activation state of Diagnostic."
+        },
+        "accessLevel": {
+          "$ref": "#/definitions/DiagnosticsRemoteSupportAccessLevels",
+          "description": "Access level for Diagnostic."
+        },
+        "expirationTimestamp": {
+          "type": "string",
+          "description": "Expiration timestamp for Diagnostic."
         }
       }
     },
@@ -5090,7 +8999,8 @@
         "FabricOneLake",
         "Kafka",
         "LocalStorage",
-        "Mqtt"
+        "Mqtt",
+        "OpenTelemetry"
       ],
       "x-ms-enum": {
         "name": "EndpointType",
@@ -5125,6 +9035,11 @@
             "name": "Mqtt",
             "value": "Mqtt",
             "description": "Broker Type"
+          },
+          {
+            "name": "OpenTelemetry",
+            "value": "OpenTelemetry",
+            "description": "OpenTelemetry Type"
           }
         ]
       }
@@ -5242,6 +9157,53 @@
         }
       }
     },
+    "InstanceFeature": {
+      "type": "object",
+      "description": "The features of the AIO Instance.",
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/InstanceFeatureMode",
+          "description": "The state of the feature."
+        },
+        "settings": {
+          "type": "object",
+          "description": "The settings of the feature.",
+          "additionalProperties": {
+            "$ref": "#/definitions/OperationalMode"
+          }
+        }
+      }
+    },
+    "InstanceFeatureMode": {
+      "type": "string",
+      "description": "The enum defining mode of a feature.",
+      "enum": [
+        "Stable",
+        "Preview",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "InstanceFeatureMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Stable",
+            "value": "Stable",
+            "description": "Opt in to enable a stable feature"
+          },
+          {
+            "name": "Preview",
+            "value": "Preview",
+            "description": "Opt in to enable a preview feature"
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Opt out of a feature"
+          }
+        ]
+      }
+    },
     "InstancePatchModel": {
       "type": "object",
       "description": "The Instance update model.",
@@ -5280,6 +9242,21 @@
         "schemaRegistryRef": {
           "$ref": "#/definitions/SchemaRegistryRef",
           "description": "The reference to the Schema Registry for this AIO Instance."
+        },
+        "defaultSecretProviderClassRef": {
+          "$ref": "#/definitions/SecretProviderClassRef",
+          "description": "The reference to the AIO Secret provider class."
+        },
+        "features": {
+          "type": "object",
+          "description": "The features of the AIO Instance.",
+          "additionalProperties": {
+            "$ref": "#/definitions/InstanceFeature"
+          }
+        },
+        "adrNamespaceRef": {
+          "$ref": "#/definitions/AzureDeviceRegistryNamespaceRef",
+          "description": "The Azure Device Registry Namespace used by Assets, Discovered Assets and devices"
         }
       },
       "required": [
@@ -5895,6 +9872,344 @@
       },
       "readOnly": true
     },
+    "RegistryEndpointAnonymousAuthentication": {
+      "type": "object",
+      "description": "Anonymous authentication",
+      "properties": {
+        "anonymousSettings": {
+          "$ref": "#/definitions/RegistryEndpointAnonymousSettings",
+          "description": "Anonymous authentication properties"
+        }
+      },
+      "required": [
+        "anonymousSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "Anonymous"
+    },
+    "RegistryEndpointAnonymousSettings": {
+      "type": "object",
+      "description": "RegistryEndpoint Anonymous authentication properties",
+      "additionalProperties": false
+    },
+    "RegistryEndpointArtifactPullSecretAuthentication": {
+      "type": "object",
+      "description": "Artifact Pull Secret authentication",
+      "properties": {
+        "artifactPullSecretSettings": {
+          "$ref": "#/definitions/RegistryEndpointArtifactPullSecretSettings",
+          "description": "Artifact Pull Secret authentication properties"
+        }
+      },
+      "required": [
+        "artifactPullSecretSettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "ArtifactPullSecret"
+    },
+    "RegistryEndpointArtifactPullSecretSettings": {
+      "type": "object",
+      "description": "RegistryEndpoint Artifact Pull Secret authentication properties",
+      "properties": {
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the kubernetes secret that contains the artifact pull secret."
+        }
+      },
+      "required": [
+        "secretRef"
+      ]
+    },
+    "RegistryEndpointAuthentication": {
+      "type": "object",
+      "description": "Model for RegistryEndpointAuthentication",
+      "properties": {
+        "method": {
+          "$ref": "#/definitions/RegistryEndpointAuthenticationMethod",
+          "description": "The authentication method."
+        }
+      },
+      "discriminator": "method",
+      "required": [
+        "method"
+      ]
+    },
+    "RegistryEndpointAuthenticationMethod": {
+      "type": "string",
+      "description": "The authentication method.",
+      "enum": [
+        "SystemAssignedManagedIdentity",
+        "UserAssignedManagedIdentity",
+        "Anonymous",
+        "ArtifactPullSecret"
+      ],
+      "x-ms-enum": {
+        "name": "RegistryEndpointAuthenticationMethod",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SystemAssignedManagedIdentity",
+            "value": "SystemAssignedManagedIdentity",
+            "description": "SystemAssignedManagedIdentity type"
+          },
+          {
+            "name": "UserAssignedManagedIdentity",
+            "value": "UserAssignedManagedIdentity",
+            "description": "UserAssignedManagedIdentity type"
+          },
+          {
+            "name": "Anonymous",
+            "value": "Anonymous",
+            "description": "Anonymous Option"
+          },
+          {
+            "name": "ArtifactPullSecret",
+            "value": "ArtifactPullSecret",
+            "description": "Artifact Pull Secret authentication"
+          }
+        ]
+      }
+    },
+    "RegistryEndpointProperties": {
+      "type": "object",
+      "description": "RegistryEndpoint properties",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "The Container Registry endpoint hostname.",
+          "minLength": 3,
+          "maxLength": 63
+        },
+        "authentication": {
+          "$ref": "#/definitions/RegistryEndpointAuthentication",
+          "description": "The authentication settings for the Azure Container Registry."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "trustSettings": {
+          "$ref": "#/definitions/RegistryEndpointTrustedSettings",
+          "description": "Trust settings for the registry endpoint"
+        }
+      },
+      "required": [
+        "host",
+        "authentication"
+      ]
+    },
+    "RegistryEndpointResource": {
+      "type": "object",
+      "description": "RegistryEndpoint resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/RegistryEndpointProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation",
+          "description": "Edge location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "RegistryEndpointResourceListResult": {
+      "type": "object",
+      "description": "The response of a RegistryEndpointResource list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The RegistryEndpointResource items on this page",
+          "items": {
+            "$ref": "#/definitions/RegistryEndpointResource"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "RegistryEndpointSystemAssignedIdentityAuthentication": {
+      "type": "object",
+      "description": "System assigned identity authentication",
+      "properties": {
+        "systemAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/RegistryEndpointSystemAssignedManagedIdentitySettings",
+          "description": "System assigned managed identity properties"
+        }
+      },
+      "required": [
+        "systemAssignedManagedIdentitySettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "SystemAssignedManagedIdentity"
+    },
+    "RegistryEndpointSystemAssignedManagedIdentitySettings": {
+      "type": "object",
+      "description": "System assigned managed identity properties",
+      "properties": {
+        "audience": {
+          "type": "string",
+          "description": "Audience of the service to authenticate against. Optional; defaults to the audience for Service host configuration."
+        }
+      }
+    },
+    "RegistryEndpointTrustedSettings": {
+      "type": "object",
+      "description": "RegistryEndpointTrustedSettings properties",
+      "properties": {
+        "trustedSigningKeys": {
+          "$ref": "#/definitions/RegistryEndpointTrustedSigningKey",
+          "description": "The trust properties for the registry endpoint."
+        }
+      },
+      "required": [
+        "trustedSigningKeys"
+      ]
+    },
+    "RegistryEndpointTrustedSigningKey": {
+      "type": "object",
+      "description": "RegistryEndpoint Trust properties",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/RegistryEndpointTrustedSigningKeyType",
+          "description": "The trust type for the registry endpoint."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
+    },
+    "RegistryEndpointTrustedSigningKeyConfigMap": {
+      "type": "object",
+      "description": "Settings for RegistryEndpoint trust provided through a configmap.",
+      "properties": {
+        "configMapRef": {
+          "type": "string",
+          "description": "The name of the configmap."
+        }
+      },
+      "required": [
+        "configMapRef"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointTrustedSigningKey"
+        }
+      ],
+      "x-ms-discriminator-value": "ConfigMap"
+    },
+    "RegistryEndpointTrustedSigningKeySecret": {
+      "type": "object",
+      "description": "Settings for RegistryEndpoint trust provided through a secret.",
+      "properties": {
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the secret."
+        }
+      },
+      "required": [
+        "secretRef"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointTrustedSigningKey"
+        }
+      ],
+      "x-ms-discriminator-value": "Secret"
+    },
+    "RegistryEndpointTrustedSigningKeyType": {
+      "type": "string",
+      "description": "RegistryEndpointTrustedSigningKeyType values",
+      "enum": [
+        "Secret",
+        "ConfigMap"
+      ],
+      "x-ms-enum": {
+        "name": "RegistryEndpointTrustedSigningKeyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Secret",
+            "value": "Secret",
+            "description": "Trust settings stored in a Kubernetes Secret."
+          },
+          {
+            "name": "ConfigMap",
+            "value": "ConfigMap",
+            "description": "Trust settings stored in a Kubernetes ConfigMap."
+          }
+        ]
+      }
+    },
+    "RegistryEndpointUserAssignedIdentityAuthentication": {
+      "type": "object",
+      "description": "User assigned identity authentication",
+      "properties": {
+        "userAssignedManagedIdentitySettings": {
+          "$ref": "#/definitions/RegistryEndpointUserAssignedManagedIdentitySettings",
+          "description": "User assigned managed identity properties"
+        }
+      },
+      "required": [
+        "userAssignedManagedIdentitySettings"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RegistryEndpointAuthentication"
+        }
+      ],
+      "x-ms-discriminator-value": "UserAssignedManagedIdentity"
+    },
+    "RegistryEndpointUserAssignedManagedIdentitySettings": {
+      "type": "object",
+      "description": "User assigned managed identity properties",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "description": "Client ID for the user-assigned managed identity."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Resource identifier (application ID URI) of the resource, affixed with the .default suffix."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID."
+        }
+      },
+      "required": [
+        "clientId",
+        "tenantId"
+      ]
+    },
     "SanForCert": {
       "type": "object",
       "description": "Subject Alternative Names (SANs) for certificate.",
@@ -5958,6 +10273,31 @@
         "resourceId": {
           "$ref": "#/definitions/SchemaRegistryID",
           "description": "The resource ID of the Schema Registry."
+        }
+      },
+      "required": [
+        "resourceId"
+      ]
+    },
+    "SecretProviderClassID": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.SecretSyncController/azureKeyVaultSecretProviderClasses"
+          }
+        ]
+      }
+    },
+    "SecretProviderClassRef": {
+      "type": "object",
+      "description": "The reference to the AIO Secret provider class.",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/SecretProviderClassID",
+          "description": "The resource ID of the AIO Secret provider class."
         }
       },
       "required": [
@@ -6441,8 +10781,29 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "claims": {
+          "type": "array",
+          "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.\n\nThis is an alpha field and requires enabling the DynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
+          "items": {
+            "$ref": "#/definitions/VolumeClaimResourceRequirementsClaims"
+          },
+          "x-ms-identifiers": []
         }
       }
+    },
+    "VolumeClaimResourceRequirementsClaims": {
+      "type": "object",
+      "description": "VolumeClaimResourceRequirementsClaims properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the resource. This must match the name of a resource in spec.resourceClaims."
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "VolumeClaimSpec": {
       "type": "object",

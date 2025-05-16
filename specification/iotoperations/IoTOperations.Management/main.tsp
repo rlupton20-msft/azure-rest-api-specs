@@ -19,6 +19,7 @@ import "./models/registryEndpoints/registryEndpoint.tsp";
 import "./models/akri/connectorTemplate.tsp";
 import "./models/akri/connector.tsp";
 import "./models/akri/discoveryHandler.tsp";
+import "./models/diagnostics/diagnostic.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;
@@ -63,6 +64,11 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2025-07-01-preview`,
+  
+  /** 2025-07-15-preview */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2025-07-15-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -192,4 +198,14 @@ interface AkriDiscoveryHandler {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<AkriDiscoveryHandlerResource>;
   delete is ArmResourceDeleteWithoutOkAsync<AkriDiscoveryHandlerResource>;
   listByInstanceResource is ArmResourceListByParent<AkriDiscoveryHandlerResource>;
+}
+
+// /instance/diagnostics resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-15-preview`)
+interface Diagnostic {
+  get is ArmResourceRead<DiagnosticResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DiagnosticResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<DiagnosticResource>;
+  listByInstanceResource is ArmResourceListByParent<DiagnosticResource>;
 }
