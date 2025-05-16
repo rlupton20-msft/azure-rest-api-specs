@@ -112,6 +112,12 @@ alias WorkspaceId = Azure.Core.armResourceIdentifier<[
   }
 ]>;
 
+alias WorkflowId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Discovery/workflows";
+  }
+]>;
+
 alias SubnetId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Network/virtualNetworks/subnets";
