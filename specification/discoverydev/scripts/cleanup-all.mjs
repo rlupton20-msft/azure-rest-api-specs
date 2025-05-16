@@ -106,8 +106,12 @@ const fixManagedIds = ({ object }) => {
   const identityListPropertyNames = ["workloadIdentities"];
 
   for (const propertyName of identityListPropertyNames) {
-    if (Array.isArray(res[propertyName])) {
-      res[propertyName] = [managedIdentityResourceId];
+    const _it = res[propertyName]
+    if (_it && (typeof _it === "object") && !Array.isArray(_it)) {
+      for(const [key, val] of Object.entries(_it)) {
+        _it[key] = fixIdentity({ identity: val})
+      }
+      res[propertyName] = _it;
     }
   }
   return res;
@@ -155,15 +159,16 @@ const fixIdentity = ({ identity }) => {
     ...identity,
     principalId: identity?.principalId && uuid,
     tenantId: identity?.tenantId && uuid,
+    clientId: identity?.clientId && uuid,
   };
   if (identity?.userAssignedIdentities) {
     for (const [key, { principalId, clientId, ...rest }] of Object.entries(
       identity?.userAssignedIdentities,
     )) {
       resp.userAssignedIdentities[key] = {
+        ...rest,
         principalId: principalId && uuid,
         clientId: clientId && uuid,
-        ...rest,
       };
     }
   }

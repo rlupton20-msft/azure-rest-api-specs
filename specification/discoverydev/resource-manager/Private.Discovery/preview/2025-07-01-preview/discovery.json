@@ -5113,14 +5113,22 @@
       "type": "object",
       "description": "The managed identity credential properties.",
       "properties": {
-        "clientId": {
+        "identityId": {
           "type": "string",
+          "format": "arm-id",
           "description": "The managed identity client Id.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -6013,7 +6021,8 @@
           "type": "object",
           "description": "Workload identity IDs to be used by tools running on supercomputer.",
           "additionalProperties": {
-            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
+            "x-nullable": true
           },
           "x-ms-mutability": [
             "read",
@@ -6035,7 +6044,8 @@
           "type": "object",
           "description": "Workload identity IDs to be used by tools running on supercomputer.",
           "additionalProperties": {
-            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
+            "x-nullable": true
           },
           "x-ms-mutability": [
             "read",
@@ -6074,19 +6084,6 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "The status of the last operation.",
           "readOnly": true
-        },
-        "workspaceId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "The ID of the workspace.",
-          "readOnly": true,
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Discovery/workspaces"
-              }
-            ]
-          }
         },
         "subnetId": {
           "type": "string",
