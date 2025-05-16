@@ -1981,6 +1981,77 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/action": {
+      "post": {
+        "operationId": "AutonomousDatabases_Action",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "Perform Lifecycle Management Action on Autonomous Database",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "pattern": ".*"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseLifecycleAction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups": {
       "get": {
         "operationId": "AutonomousDatabaseBackups_ListByParent",
@@ -6303,8 +6374,12 @@
           "readOnly": true
         },
         "scheduledOperations": {
-          "$ref": "#/definitions/ScheduledOperationsType",
+          "type": "array",
           "description": "The list of scheduled operations.",
+          "items": {
+            "$ref": "#/definitions/ScheduledOperationsType"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -6817,6 +6892,49 @@
         ]
       }
     },
+    "AutonomousDatabaseLifecycleAction": {
+      "type": "object",
+      "description": "Autonomous Database Action Object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/AutonomousDatabaseLifecycleActionEnum",
+          "description": "Autonomous Database lifecycle action"
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "AutonomousDatabaseLifecycleActionEnum": {
+      "type": "string",
+      "description": "Autonomous Database Action Enum",
+      "enum": [
+        "Start",
+        "Stop",
+        "Restart"
+      ],
+      "x-ms-enum": {
+        "name": "AutonomousDatabaseLifecycleActionEnum",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Start",
+            "value": "Start",
+            "description": "Start Autonomous Database"
+          },
+          {
+            "name": "Stop",
+            "value": "Stop",
+            "description": "Stop Autonomous Database"
+          },
+          {
+            "name": "Restart",
+            "value": "Restart",
+            "description": "Restart Autonomous Database"
+          }
+        ]
+      }
+    },
     "AutonomousDatabaseLifecycleState": {
       "type": "string",
       "description": "Autonomous database lifecycle state enum",
@@ -7231,8 +7349,12 @@
           ]
         },
         "scheduledOperations": {
-          "$ref": "#/definitions/ScheduledOperationsTypeUpdate",
+          "type": "array",
           "description": "The list of scheduled operations.",
+          "items": {
+            "$ref": "#/definitions/ScheduledOperationsType"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -8932,16 +9054,6 @@
             "description": "Sunday value"
           }
         ]
-      }
-    },
-    "DayOfWeekUpdate": {
-      "type": "object",
-      "description": "DayOfWeek resource properties",
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/DayOfWeekName",
-          "description": "Name of the day of the week."
-        }
       }
     },
     "DbActionResponse": {
@@ -13253,7 +13365,7 @@
     },
     "ScheduledOperationsType": {
       "type": "object",
-      "description": "The list of scheduled operations.",
+      "description": "The details of scheduled operation.",
       "properties": {
         "dayOfWeek": {
           "$ref": "#/definitions/DayOfWeek",
@@ -13275,28 +13387,6 @@
       "required": [
         "dayOfWeek"
       ]
-    },
-    "ScheduledOperationsTypeUpdate": {
-      "type": "object",
-      "description": "The list of scheduled operations.",
-      "properties": {
-        "dayOfWeek": {
-          "$ref": "#/definitions/DayOfWeekUpdate",
-          "description": "Day of week"
-        },
-        "scheduledStartTime": {
-          "type": "string",
-          "description": "auto start time. value must be of ISO-8601 format HH:mm",
-          "minLength": 1,
-          "maxLength": 50
-        },
-        "scheduledStopTime": {
-          "type": "string",
-          "description": "auto stop time. value must be of ISO-8601 format HH:mm",
-          "minLength": 1,
-          "maxLength": 50
-        }
-      }
     },
     "SessionModeType": {
       "type": "string",
