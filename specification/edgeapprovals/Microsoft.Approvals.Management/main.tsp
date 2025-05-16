@@ -15,9 +15,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Private.Approvals")
-@service({
-  title: "Microsoft.Approvals",
-})
+@service(#{ title: "Microsoft.Approvals" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Approvals;

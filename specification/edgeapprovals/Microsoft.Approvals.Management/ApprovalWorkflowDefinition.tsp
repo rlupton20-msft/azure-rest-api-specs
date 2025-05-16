@@ -16,7 +16,7 @@ model ApprovalWorkflowDefinition
 @doc("RP-specific properties of an ApprovalWorkflowDefinition resource.")
 model ApprovalWorkflowDefinitionProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The reference to a custom Logic App.")
@@ -33,30 +33,18 @@ model ApprovalWorkflowDefinitionProperties {
 model LogicAppRef {
   @doc("The workflow URL of the Logic App.")
   workflowUrl: string;
-
-  @doc("The Http method to use when invoking the workflow URL.")
-  httpMethod: LogicAppHttpTriggerMethod;
-}
-
-@doc("Enum of Http methods to use when invoking a Logic App workflow.")
-union LogicAppHttpTriggerMethod {
-  string,
-
-  @doc("The Http GET method.")
-  GET: "GET",
-
-  @doc("The Http POST method.")
-  POST: "POST",
-
-  @doc("The Http PUT method.")
-  PUT: "PUT",
 }
 
 @doc("Rule rule about the stages, approvers and their orders for the approval workflow.")
 model ApprovalRule {
   @doc("The definitions of all the stages in the approval workflow.")
-  @extension("x-ms-identifiers", ["name"])
+  @extension("x-ms-identifiers", #["name"])
   stageDefinitions: ApprovalStageDefinition[];
+
+  @doc("The maximum time in minutes that the approval workflow can be executed. The default value is 7 days. The max value is 90 days.")
+  @minValue(1)
+  @maxValue(129600)
+  timeoutInMinutes?: int32 = 10080;
 }
 
 @doc("Definition of an stage in an approval workflow.")
@@ -65,7 +53,7 @@ model ApprovalStageDefinition {
   name: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
-  @doc("The logic rules about how the stage dependes on other stages, representing as a JSON object.")
+  @doc("The logic rules about how the stage depends on other stages, representing as a JSON object.")
   dependsOn?: {};
 
   @doc("The list of identifiers of approvers in the stage.")

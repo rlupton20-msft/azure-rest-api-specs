@@ -17,36 +17,36 @@ model ApprovalWorkflowInstance
 @doc("RP-specific properties of an ApprovalWorkflowInstance resource")
 model ApprovalWorkflowInstanceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The one who attempted to make the change for approvals.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   requestedBy: string;
 
   @doc("The ARM resource id of the change that the approval workflow instance was associated with. For example, the change state resource.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   requestedFor?: Azure.Core.armResourceIdentifier;
 
   @doc("The description of the change.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   description?: string;
 
   @doc("The change manifest associated with the approval workflow instance, free-formed and could be a serialized json string.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   changeManifest: string;
 
   @doc("The snapshot of the approval rule of the parent ApprovalWorkflowDefinition resource at the time the approval workflow instance was created.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   approvalRuleSnapshot: ApprovalRule;
 
   @doc("The latest execution state of the approval workflow instance.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   executionState: ApprovalWorkflowExecutionState;
 
   @doc("The latest status of each stage.")
-  @visibility("read")
-  @extension("x-ms-identifiers", ["name"])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #["name"])
   stageStatuses: ApprovalStageExecutionStatus[];
 }
 
@@ -63,8 +63,8 @@ union ApprovalWorkflowExecutionState {
   @doc("The approval workflow instance has ended without approval rules satisfied.")
   Rejected: "Rejected",
 
-  @doc("The approval workflow instance has been aborted.")
-  Cancelled: "Cancelled",
+  @doc("The approval workflow instance has been timed out.")
+  Timedout: "Timedout",
 
   @doc("The approval workflow instance has been faulted.")
   Faulted: "Faulted",
@@ -79,7 +79,7 @@ model ApprovalStageExecutionStatus {
   state: ApprovalStageExecutionState;
 
   @doc("The approvers' sign-off statuses for the stage.")
-  @extension("x-ms-identifiers", ["approver"])
+  @extension("x-ms-identifiers", #["approver"])
   signoffs: ApproverSignoffStatus[];
 }
 
@@ -105,7 +105,7 @@ union ApprovalStageExecutionState {
 
 @doc("Approver's sign-off status.")
 model ApproverSignoffStatus {
-  @doc("The idendifier of the person who takes the sign-off action.")
+  @doc("The identifier of the person who takes the sign-off action.")
   approver: string;
 
   @doc("The name of the approval stage where the sign-off belongs to.")
@@ -144,7 +144,7 @@ model ApprovalStageExecutionInput {
 @armResourceOperations(ApprovalWorkflowInstance)
 interface ApprovalWorkflowInstances {
   get is ArmResourceRead<ApprovalWorkflowInstance>;
-  create is ArmResourceCreateOrReplaceAsync<ApprovalWorkflowInstance>;
+  create is ArmResourceCreateOrReplaceSync<ApprovalWorkflowInstance>;
   delete is ArmResourceDeleteSync<ApprovalWorkflowInstance>;
   listByParent is ArmResourceListByParent<ApprovalWorkflowInstance>;
   executeStage is ArmResourceActionNoResponseContentAsync<

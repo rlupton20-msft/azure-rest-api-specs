@@ -17,71 +17,71 @@ model ApprovalSetting is ProxyResource<ApprovalSettingProperties> {
 @doc("RP-specific properties of an ApprovalSetting resource.")
 model ApprovalSettingProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The list of verification authorities.")
-  @extension("x-ms-identifiers", ["name"])
+  @extension("x-ms-identifiers", #["name"])
   verificationAuthorities: VerificationAuthority[];
 
   @doc("The settings of the requested verifiable credentials in the approvals service.")
-  requestedCrendentialsSetting: ApprovalRequestCrendentialsSetting;
+  requestedCredentialsSetting: ApprovalRequestCredentialsSetting;
 
   @doc("The settings of backend storage for approval service to use as a ledger.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   secureLedgerSetting: SecureLedgerSetting;
 }
 
 @doc("Information about a verification authority.")
 model VerificationAuthority {
   @doc("The name of the verification authority.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   name: string;
 
   @doc("The API endpoint of the verification authority.")
   apiEndpoint: string;
 
   @doc("The requested verifiable credentials for the verification authority.")
-  requestedCredential: RequestCendentialSetting;
+  requestedCredential: RequestCredentialSetting;
 }
 
 @doc("Settings of the requested verifiable credentials in the approvals service.")
-model ApprovalRequestCrendentialsSetting {
+model ApprovalRequestCredentialsSetting {
   @doc("The requested verifiable credentials for approvers.")
-  approver: RequestCendentialSetting;
+  approver: RequestCredentialSetting;
 
   @doc("The requested verifiable credentials for admins.")
-  admin: RequestCendentialSetting;
+  admin: RequestCredentialSetting;
 
   @doc("The requested verifiable credentials for devices.")
-  device: RequestCendentialSetting;
+  device: RequestCredentialSetting;
 
   @doc("The requested verifiable credentials for the approver management portal.")
-  approverManagementPortal: RequestCendentialSetting;
+  approverManagementPortal: RequestCredentialSetting;
 }
 
 @doc("The requested verifiable credentials for a specific type.")
-model RequestCendentialSetting {
+model RequestCredentialSetting {
   @doc("The list of issuers' decentralized identifiers that can be accepted.")
   acceptedIssuers: string[];
 
   @doc("The type of verifiable credential.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   vcType: string;
 }
 
 @doc("Settings of backend storage for approval service to use as a ledger.")
 model SecureLedgerSetting {
   @doc("The storage type.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   type: secureLedgerStorageType;
 
   @doc("The regions the storage should be created at and replicated to.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   regions: string[];
 
   @doc("The endpoint to access the storage.")
-  @visibility("hidden")
+  @invisible(Lifecycle)
   endpoint: string;
 }
 

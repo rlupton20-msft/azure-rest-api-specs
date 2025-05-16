@@ -15,7 +15,7 @@ model ApprovalWorkflowAssignment
 @doc("RP-specific properties of an ApprovalWorkflowAssignment resource")
 model ApprovalWorkflowAssignmentProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The hierarchical scope at which the approval workflow is assigned.")
