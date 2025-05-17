@@ -2,8 +2,6 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "../shared/resourceid.tsp";
-import "../shared/provisioningstate.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -38,18 +36,18 @@ union ApprovalStatus {
 }
 
 @doc("Specifies the action performed by the approver")
-union ActionPerformed {
-  @doc("ActionPerformed Type Approved")
+union ActionPerformedEnum {
+  @doc("ActionPerformedEnum Type Approved")
   Approved: "Approved",
 
-  @doc("ActionPerformed Type Rejected")
+  @doc("ActionPerformedEnum Type Rejected")
   Rejected: "Rejected",
 
   string,
 }
 
 @doc("Request Metadata for approvals request.")
-model RequestMetadataProperties {
+model RequestMetadata {
   @doc("Resource Action of the item being approved or declined.")
   resourceAction: string;
 
@@ -60,39 +58,27 @@ model RequestMetadataProperties {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Payload to be sent upon any action on approval request")
   approvalCallbackPayload?: string;
-}
 
-@doc("Request Metadata for approvals request.")
-model RequestMetadata {
   @doc("Status of the approval. Uses ApprovalStatus enum.")
   approvalStatus?: ApprovalStatus = ApprovalStatus.Pending;
-
-  ...RequestMetadataProperties;
-}
-
-@doc("Request Metadata for approvals request without default values.")
-model RequestMetadataPatch {
-  @doc("Status of the approval. Uses ApprovalStatus enum.")
-  approvalStatus?: ApprovalStatus;
-
-  ...RequestMetadataProperties;
 }
 
 @renamedFrom(Microsoft.Mission.Versions.v2024_12_01_preview, "Approvers")
 @doc("Approver Metadata for approvals request.")
+@discriminator("actionPerformed")
 model Approver {
   @doc("EntraId of the approver")
   approverEntraId: string;
 
   @doc("Action Performed by approver")
-  actionPerformed: ActionPerformed;
+  actionPerformed: ActionPerformedEnum;
 
   @doc("approval request last updated at")
   lastUpdatedAt: utcDateTime;
 }
 
 @doc("Approvals properties.")
-model ApprovalPropertiesDef {
+model ApprovalModel {
   @doc("Provisioning State.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
@@ -121,24 +107,9 @@ model ApprovalPropertiesDef {
   stateChangedAt?: utcDateTime;
 }
 
-@doc("Approvals properties with default values.")
-model ApprovalProperties {
-  @doc("Request metadata for the approval request.")
-  requestMetadata: RequestMetadata;
-
-  ...ApprovalPropertiesDef;
-}
-
-@doc("Approvals Properties without default values.")
-model ApprovalPropertiesPatch {
-  @doc("Request metadata for the approval request without default values.")
-  requestMetadata: RequestMetadataPatch;
-
-  ...ApprovalPropertiesDef;
-}
-
 @doc("Approvals properties for patching")
+@withoutDefaultValues
 model ApprovalPatchModel {
   @doc("Approval Patch properties")
-  properties?: Update<ApprovalPropertiesPatch>;
+  properties?: Update<ApprovalModel>;
 }

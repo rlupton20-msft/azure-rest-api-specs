@@ -21,6 +21,15 @@ import "./resourcetypes/approvals/approvals.tsp";
 import "./resourcetypes/postActions/initiatorcallback.tsp";
 import "./resourcetypes/postActions/approvaldeletioncallback.tsp";
 
+import "./resourcetypes/shared/endpointrulebase.tsp";
+import "./resourcetypes/shared/governedserviceitem.tsp";
+import "./resourcetypes/shared/managedonbehalfofconfiguration.tsp";
+import "./resourcetypes/shared/managedresourcegroupconfiguration.tsp";
+import "./resourcetypes/shared/principal.tsp";
+import "./resourcetypes/shared/provisioningstate.tsp";
+import "./resourcetypes/shared/resourceid.tsp";
+import "./resourcetypes/shared/roleassignmentitem.tsp";
+
 using Azure.ClientGenerator.Core;
 using Azure.Core;
 using Azure.Core.Traits;
@@ -38,7 +47,7 @@ model ArmUpdatedResponse<TResource extends Azure.ResourceManager.Foundations.Res
   is ArmResponse<TResource>;
 
 @doc("Community Model Resource")
-model CommunityResource is TrackedResource<CommunityProperties> {
+model CommunityResource is TrackedResource<CommunityModel> {
   @key("communityName")
   @segment("communities")
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
@@ -55,7 +64,7 @@ model CommunityResource is TrackedResource<CommunityProperties> {
 );
 
 @doc("Virtual Enclave Model Resource")
-model EnclaveResource is TrackedResource<VirtualEnclaveProperties> {
+model EnclaveResource is TrackedResource<VirtualEnclaveModel> {
   @key("virtualEnclaveName")
   @segment("virtualEnclaves")
   @pattern("^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
@@ -82,7 +91,6 @@ model WorkloadResource is TrackedResource<WorkloadProperties> {
   name: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("TransitHub Model Resource")
 @parentResource(CommunityResource)
 model TransitHubResource is TrackedResource<TransitHubProperties> {
@@ -94,7 +102,6 @@ model TransitHubResource is TrackedResource<TransitHubProperties> {
   name: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("EnclaveConnection Model Resource")
 model EnclaveConnectionResource
   is TrackedResource<EnclaveConnectionProperties> {
@@ -106,7 +113,6 @@ model EnclaveConnectionResource
   name: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("EnclaveEndpoint Model Resource")
 @parentResource(EnclaveResource)
 model EnclaveEndpointResource is TrackedResource<EnclaveEndpointProperties> {
@@ -118,7 +124,6 @@ model EnclaveEndpointResource is TrackedResource<EnclaveEndpointProperties> {
   name: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("CommunityEndpoint Model Resource")
 @parentResource(CommunityResource)
 model CommunityEndpointResource
@@ -131,9 +136,8 @@ model CommunityEndpointResource
   name: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 @doc("Approval Model Resource")
-model ApprovalResource is ExtensionResource<ApprovalProperties> {
+model ApprovalResource is ExtensionResource<ApprovalModel> {
   @key("approvalName")
   @segment("approvals")
   @path

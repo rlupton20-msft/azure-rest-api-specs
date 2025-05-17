@@ -3,8 +3,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../shared/provisioningstate.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -83,13 +81,10 @@ model TransitHubProperties {
   resourceCollection?: string[];
 }
 
-@doc("Describes the properties of an Transit Hub.")
-model TransitHubPatchProperties is TransitHubProperties;
-
 @doc("TH Patch Resource")
 model TransitHubPatchModel {
   @doc("The TransitHub resource.")
-  properties?: Update<TransitHubPatchProperties>;
+  properties?: Update<TransitHubProperties>;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }

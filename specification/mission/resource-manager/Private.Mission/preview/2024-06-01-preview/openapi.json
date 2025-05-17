@@ -249,7 +249,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ApprovalPatchResource"
+              "$ref": "#/definitions/ApprovalPatchModel"
             }
           }
         ],
@@ -954,7 +954,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CommunityPatchResource"
+              "$ref": "#/definitions/CommunityPatchModel"
             }
           }
         ],
@@ -1338,7 +1338,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CommunityEndpointPatchResource"
+              "$ref": "#/definitions/CommunityEndpointPatchModel"
             }
           }
         ],
@@ -1674,7 +1674,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/TransitHubPatchResource"
+              "$ref": "#/definitions/TransitHubPatchModel"
             }
           }
         ],
@@ -1978,7 +1978,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EnclaveConnectionPatchResource"
+              "$ref": "#/definitions/EnclaveConnectionPatchModel"
             }
           }
         ],
@@ -2422,7 +2422,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/VirtualEnclavePatchResource"
+              "$ref": "#/definitions/VirtualEnclavePatchModel"
             }
           }
         ],
@@ -2750,7 +2750,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EnclaveEndpointPatchResource"
+              "$ref": "#/definitions/EnclaveEndpointPatchModel"
             }
           }
         ],
@@ -3086,7 +3086,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/WorkloadPatchResource"
+              "$ref": "#/definitions/WorkloadPatchModel"
             }
           }
         ],
@@ -3286,24 +3286,10 @@
         "message"
       ]
     },
-    "ApprovalPatchResource": {
+    "ApprovalModel": {
       "type": "object",
-      "description": "Approvals properties for patching",
+      "description": "Approvals properties.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/UpdateApprovalPropertiesPatch",
-          "description": "Approval Patch properties"
-        }
-      }
-    },
-    "ApprovalProperties": {
-      "type": "object",
-      "description": "Approvals properties with default values.",
-      "properties": {
-        "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadata",
-          "description": "Request metadata for the approval request."
-        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
@@ -3317,17 +3303,24 @@
           "type": "string",
           "description": "Parameter for optimizing query results"
         }
-      },
-      "required": [
-        "requestMetadata"
-      ]
+      }
+    },
+    "ApprovalPatchModel": {
+      "type": "object",
+      "description": "Approvals properties for patching",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UpdateApprovalModel",
+          "description": "Approval Patch properties"
+        }
+      }
     },
     "ApprovalResource": {
       "type": "object",
       "description": "Approval Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/ApprovalProperties",
+          "$ref": "#/definitions/ApprovalModel",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
@@ -3358,36 +3351,6 @@
       "required": [
         "value"
       ]
-    },
-    "ApprovalStatus": {
-      "type": "string",
-      "description": "Approval Status Enum",
-      "enum": [
-        "Approved",
-        "Rejected",
-        "Pending"
-      ],
-      "x-ms-enum": {
-        "name": "ApprovalStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Approved",
-            "value": "Approved",
-            "description": "ApprovalStatus Type Approved"
-          },
-          {
-            "name": "Rejected",
-            "value": "Rejected",
-            "description": "ApprovalStatus Type Rejected"
-          },
-          {
-            "name": "Pending",
-            "value": "Pending",
-            "description": "ApprovalStatus Type Pending"
-          }
-        ]
-      }
     },
     "Azure.Core.azureLocation": {
       "type": "string",
@@ -3421,11 +3384,11 @@
       "description": "Request to the action call to check address space availability.",
       "properties": {
         "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
+          "$ref": "#/definitions/CommunityResourceIdScalar",
           "description": "Resource Id of the Community"
         },
         "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetwork",
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
           "description": "Information about the enclave virtual network"
         }
       },
@@ -3451,18 +3414,6 @@
       "type": "object",
       "description": "Base type for destination rules.",
       "properties": {
-        "name": {
-          "type": "string",
-          "description": "Endpoint Rule Name."
-        },
-        "destination": {
-          "type": "string",
-          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
-        },
-        "port": {
-          "type": "string",
-          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
-        },
         "destinationType": {
           "$ref": "#/definitions/DestinationType",
           "description": "Destination Type."
@@ -3477,15 +3428,27 @@
         "transitHubResourceId": {
           "$ref": "#/definitions/TransitHubResourceId",
           "description": "Transit Hub Resource Id."
+        },
+        "name": {
+          "type": "string",
+          "description": "Endpoint Rule Name."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas."
+        },
+        "port": {
+          "type": "string",
+          "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
         }
       }
     },
-    "CommunityEndpointPatchResource": {
+    "CommunityEndpointPatchModel": {
       "type": "object",
       "description": "Community Endpoint Patch Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateCommunityEndpointPatchProperties",
+          "$ref": "#/definitions/UpdateCommunityEndpointProperties",
           "description": "Community Endpoint Patch properties"
         },
         "tags": {
@@ -3628,28 +3591,7 @@
         "value"
       ]
     },
-    "CommunityPatchResource": {
-      "type": "object",
-      "description": "Community Patch Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/UpdateCommunityPatchProperties",
-          "description": "Community Patch properties"
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "identity": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
-          "description": "The managed service identities assigned to this resource."
-        }
-      }
-    },
-    "CommunityProperties": {
+    "CommunityModel": {
       "type": "object",
       "description": "Community Resource Properties",
       "properties": {
@@ -3695,12 +3637,33 @@
         }
       }
     },
+    "CommunityPatchModel": {
+      "type": "object",
+      "description": "Community Patch Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UpdateCommunityModel",
+          "description": "Community Patch properties"
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
+    },
     "CommunityResource": {
       "type": "object",
       "description": "Community Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/CommunityProperties",
+          "$ref": "#/definitions/CommunityModel",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         },
@@ -3715,7 +3678,7 @@
         }
       ]
     },
-    "CommunityResourceId": {
+    "CommunityResourceIdScalar": {
       "type": "string",
       "format": "arm-id",
       "description": "A type definition that refers the id to an Azure Resource Manager resource.",
@@ -3799,37 +3762,7 @@
         ]
       }
     },
-    "DiagnosticDestination": {
-      "type": "string",
-      "description": "Specifies the destination of where to store diagnostic logs.",
-      "enum": [
-        "CommunityOnly",
-        "EnclaveOnly",
-        "Both"
-      ],
-      "x-ms-enum": {
-        "name": "DiagnosticDestination",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "CommunityOnly",
-            "value": "CommunityOnly",
-            "description": "DiagnosticDestination Type CommunityOnly"
-          },
-          {
-            "name": "EnclaveOnly",
-            "value": "EnclaveOnly",
-            "description": "DiagnosticDestination Type EnclaveOnly"
-          },
-          {
-            "name": "Both",
-            "value": "Both",
-            "description": "DiagnosticDestination Type Both"
-          }
-        ]
-      }
-    },
-    "EnclaveAddressSpaces": {
+    "EnclaveAddressSpacesModel": {
       "type": "object",
       "description": "Enclave Address Spaces",
       "properties": {
@@ -3843,12 +3776,12 @@
         }
       }
     },
-    "EnclaveConnectionPatchResource": {
+    "EnclaveConnectionPatchModel": {
       "type": "object",
       "description": "Enclave Connection Patch Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateEnclaveConnectionPatchProperties",
+          "$ref": "#/definitions/UpdateEnclaveConnectionProperties",
           "description": "Enclave Connection Patch properties"
         },
         "tags": {
@@ -3870,7 +3803,7 @@
           "readOnly": true
         },
         "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
+          "$ref": "#/definitions/CommunityResourceIdScalar",
           "description": "Community Resource Id.",
           "x-ms-mutability": [
             "read",
@@ -4086,38 +4019,17 @@
         }
       }
     },
-    "EnclaveDefaultSettingsPatch": {
-      "type": "object",
-      "description": "Virtual Enclave Default Settings",
-      "properties": {
-        "keyVaultResourceId": {
-          "$ref": "#/definitions/KeyVaultResourceId",
-          "description": "Key Vault Resource Id.",
-          "readOnly": true
-        },
-        "storageAccountResourceId": {
-          "$ref": "#/definitions/StorageAccountResourceId",
-          "description": "Storage Account Resource Id.",
-          "readOnly": true
-        },
-        "logAnalyticsResourceIdCollection": {
-          "type": "array",
-          "description": "Log Analytics Resource Ids.",
-          "items": {
-            "$ref": "#/definitions/LogAnalyticsResourceId"
-          },
-          "readOnly": true
-        },
-        "diagnosticDestination": {
-          "$ref": "#/definitions/DiagnosticDestination",
-          "description": "Diagnostic Destination."
-        }
-      }
-    },
     "EnclaveEndpointDestinationRule": {
       "type": "object",
       "description": "Enclave Endpoint Rule Properties",
       "properties": {
+        "protocols": {
+          "type": "array",
+          "description": "Protocols. Options specified by Endpoint Protocol Enum.",
+          "items": {
+            "$ref": "#/definitions/EnclaveEndpointProtocol"
+          }
+        },
         "name": {
           "type": "string",
           "description": "Endpoint Rule Name."
@@ -4129,22 +4041,15 @@
         "port": {
           "type": "string",
           "description": "Port. Can include multiple ports separated by commas or a range indicated by a hyphen."
-        },
-        "protocols": {
-          "type": "array",
-          "description": "Protocols. Options specified by Endpoint Protocol Enum.",
-          "items": {
-            "$ref": "#/definitions/EnclaveEndpointProtocol"
-          }
         }
       }
     },
-    "EnclaveEndpointPatchResource": {
+    "EnclaveEndpointPatchModel": {
       "type": "object",
       "description": "Enclave Endpoint Patch Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateEnclaveEndpointPatchProperties",
+          "$ref": "#/definitions/UpdateEnclaveEndpointProperties",
           "description": "Enclave Endpoint Patch properties"
         },
         "tags": {
@@ -4280,7 +4185,7 @@
       "description": "Virtual Enclave Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/VirtualEnclaveProperties",
+          "$ref": "#/definitions/VirtualEnclaveModel",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         },
@@ -4316,7 +4221,7 @@
         "value"
       ]
     },
-    "EnclaveVirtualNetwork": {
+    "EnclaveVirtualNetworkModel": {
       "type": "object",
       "description": "Enclave Virtual Network Properties",
       "properties": {
@@ -4490,7 +4395,7 @@
         ]
       }
     },
-    "MaintenanceModeConfiguration": {
+    "MaintenanceModeConfigurationModel": {
       "type": "object",
       "description": "Maintenance Mode",
       "properties": {
@@ -4535,13 +4440,14 @@
         "mode"
       ]
     },
-    "MaintenanceModeConfigurationPatch": {
+    "MaintenanceModeConfigurationModelUpdate": {
       "type": "object",
       "description": "Maintenance Mode",
       "properties": {
         "mode": {
           "type": "string",
           "description": "Current mode of Maintenance Mode Configuration",
+          "default": "Off",
           "enum": [
             "On",
             "CanNotDelete",
@@ -4556,6 +4462,7 @@
         "principals": {
           "type": "array",
           "description": "The user, group or service principal object affected by Maintenance Mode",
+          "default": [],
           "items": {
             "$ref": "#/definitions/Principal"
           }
@@ -4563,6 +4470,7 @@
         "justification": {
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
+          "default": "Off",
           "enum": [
             "Networking",
             "Governance",
@@ -4714,64 +4622,6 @@
         ]
       },
       "readOnly": true
-    },
-    "RequestMetadata": {
-      "type": "object",
-      "description": "Request Metadata for approvals request.",
-      "properties": {
-        "approvalStatus": {
-          "type": "string",
-          "description": "Status of the approval. Uses ApprovalStatus enum.",
-          "default": "Pending",
-          "enum": [
-            "Approved",
-            "Rejected",
-            "Pending"
-          ],
-          "x-ms-enum": {
-            "name": "ApprovalStatus",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Approved",
-                "value": "Approved",
-                "description": "ApprovalStatus Type Approved"
-              },
-              {
-                "name": "Rejected",
-                "value": "Rejected",
-                "description": "ApprovalStatus Type Rejected"
-              },
-              {
-                "name": "Pending",
-                "value": "Pending",
-                "description": "ApprovalStatus Type Pending"
-              }
-            ]
-          }
-        },
-        "resourceAction": {
-          "type": "string",
-          "description": "Resource Action of the item being approved or declined."
-        }
-      },
-      "required": [
-        "resourceAction"
-      ]
-    },
-    "RequestMetadataPatch": {
-      "type": "object",
-      "description": "Request Metadata for approvals request without default values.",
-      "properties": {
-        "approvalStatus": {
-          "$ref": "#/definitions/ApprovalStatus",
-          "description": "Status of the approval. Uses ApprovalStatus enum."
-        },
-        "resourceAction": {
-          "type": "string",
-          "description": "Resource Action of the item being approved or declined."
-        }
-      }
     },
     "ServiceIdentifier": {
       "type": "string",
@@ -4937,12 +4787,12 @@
         ]
       }
     },
-    "TransitHubPatchResource": {
+    "TransitHubPatchModel": {
       "type": "object",
       "description": "TH Patch Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateTransitHubPatchProperties",
+          "$ref": "#/definitions/UpdateTransitHubProperties",
           "description": "The TransitHub resource."
         },
         "tags": {
@@ -5131,13 +4981,14 @@
         ]
       }
     },
-    "UpdateApprovalPropertiesPatch": {
+    "UpdateApprovalModel": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
-        "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadataPatch",
-          "description": "Request metadata for the approval request without default values."
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning State.",
+          "readOnly": true
         },
         "parent1": {
           "type": "string",
@@ -5149,7 +5000,7 @@
         }
       }
     },
-    "UpdateCommunityEndpointPatchProperties": {
+    "UpdateCommunityEndpointProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5167,7 +5018,7 @@
         }
       }
     },
-    "UpdateCommunityPatchProperties": {
+    "UpdateCommunityModel": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5213,7 +5064,7 @@
         }
       }
     },
-    "UpdateEnclaveConnectionPatchProperties": {
+    "UpdateEnclaveConnectionProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5223,7 +5074,7 @@
         }
       }
     },
-    "UpdateEnclaveEndpointPatchProperties": {
+    "UpdateEnclaveEndpointProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5241,7 +5092,7 @@
         }
       }
     },
-    "UpdateTransitHubPatchProperties": {
+    "UpdateTransitHubProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5268,12 +5119,12 @@
         }
       }
     },
-    "UpdateVirtualEnclavePatchProperties": {
+    "UpdateVirtualEnclaveModel": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
         "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetwork",
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
           "description": "Virtual Network."
         },
         "bastionEnabled": {
@@ -5282,16 +5133,16 @@
           "default": false
         },
         "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationPatch",
+          "$ref": "#/definitions/MaintenanceModeConfigurationModelUpdate",
           "description": "Maintenance Mode configuration."
         },
         "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettingsPatch",
+          "$ref": "#/definitions/EnclaveDefaultSettings",
           "description": "Default Settings"
         }
       }
     },
-    "UpdateWorkloadPatchProperties": {
+    "UpdateWorkloadProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
@@ -5309,28 +5160,7 @@
         }
       }
     },
-    "VirtualEnclavePatchResource": {
-      "type": "object",
-      "description": "Virtual Enclave Patch Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/UpdateVirtualEnclavePatchProperties",
-          "description": "Virtual Enclave Patch properties"
-        },
-        "identity": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
-          "description": "The managed service identities assigned to this resource."
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "VirtualEnclaveProperties": {
+    "VirtualEnclaveModel": {
       "type": "object",
       "description": "Virtual Enclave Resource properties",
       "properties": {
@@ -5340,16 +5170,16 @@
           "readOnly": true
         },
         "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetwork",
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
           "description": "Virtual Network."
         },
         "enclaveAddressSpaces": {
-          "$ref": "#/definitions/EnclaveAddressSpaces",
+          "$ref": "#/definitions/EnclaveAddressSpacesModel",
           "description": "Enclave Address Spaces",
           "readOnly": true
         },
         "communityResourceId": {
-          "$ref": "#/definitions/CommunityResourceId",
+          "$ref": "#/definitions/CommunityResourceIdScalar",
           "description": "Community Resource Id.",
           "x-ms-mutability": [
             "read",
@@ -5377,7 +5207,7 @@
           "default": false
         },
         "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfiguration",
+          "$ref": "#/definitions/MaintenanceModeConfigurationModel",
           "description": "Maintenance Mode configuration."
         },
         "enclaveDefaultSettings": {
@@ -5389,6 +5219,27 @@
         "enclaveVirtualNetwork",
         "communityResourceId"
       ]
+    },
+    "VirtualEnclavePatchModel": {
+      "type": "object",
+      "description": "Virtual Enclave Patch Model",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UpdateVirtualEnclaveModel",
+          "description": "Virtual Enclave Patch properties"
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
     },
     "VirtualNetworkResourceId": {
       "type": "string",
@@ -5402,12 +5253,12 @@
         ]
       }
     },
-    "WorkloadPatchResource": {
+    "WorkloadPatchModel": {
       "type": "object",
       "description": "Workload Patch Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateWorkloadPatchProperties",
+          "$ref": "#/definitions/UpdateWorkloadProperties",
           "description": "Workload Patch properties"
         },
         "tags": {

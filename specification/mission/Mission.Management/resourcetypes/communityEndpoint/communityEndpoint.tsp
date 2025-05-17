@@ -3,10 +3,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../shared/provisioningstate.tsp";
-import "../shared/resourceid.tsp";
-import "../shared/endpointrulebase.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -64,7 +60,7 @@ union DestinationType {
 }
 
 @doc("Base type for destination rules.")
-model CommunityEndpointDestinationRule is EndpointRuleBase {
+model CommunityEndpointDestinationRule {
   @doc("Destination Type.")
   destinationType?: DestinationType;
 
@@ -73,17 +69,17 @@ model CommunityEndpointDestinationRule is EndpointRuleBase {
 
   @doc("Transit Hub Resource Id.")
   transitHubResourceId?: TransitHubResourceId;
+
+  ...EndpointRuleBase;
 }
 
 @doc("Community Endpoint Resource properties")
 model CommunityEndpointProperties {
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @extension("x-ms-identifiers", #[])
   @doc("Community Endpoint Rule Collection.")
   ruleCollection: CommunityEndpointDestinationRule[];
 
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("List of resource ids created by community endpoint.")
   @visibility(Lifecycle.Read)
   resourceCollection?: string[];
@@ -92,19 +88,15 @@ model CommunityEndpointProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Whether approval is needed for the connection (True or False).")
   approvalRequired?: boolean;
 }
 
-@doc("Community Endpoint Patch properties")
-model CommunityEndpointPatchProperties is CommunityEndpointProperties;
-
 @doc("Community Endpoint Patch Resource")
 model CommunityEndpointPatchModel {
   @doc("Community Endpoint Patch properties")
-  properties?: Update<CommunityEndpointPatchProperties>;
+  properties?: Update<CommunityEndpointProperties>;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }

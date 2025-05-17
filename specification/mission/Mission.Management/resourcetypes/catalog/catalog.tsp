@@ -3,8 +3,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../shared/provisioningstate.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -29,9 +27,11 @@ model CatalogBase {
 }
 
 @doc("Blob Catalog type.")
-model BlobCatalog is CatalogBase {
+model BlobCatalog {
   @doc("Catalog Storage's URI.")
   uri?: string;
+
+  ...CatalogBase;
 }
 
 @doc("Catalog Types.")
@@ -77,13 +77,10 @@ model CatalogProperties {
   packageCollection?: Package[];
 }
 
-@doc("Catalog Patch properties")
-model CatalogPatchProperties is CatalogProperties;
-
 @doc("Catalog Patch Resource")
 model CatalogPatchModel {
   @doc("Catalog Patch properties")
-  properties?: Update<CatalogPatchProperties>;
+  properties?: Update<CatalogProperties>;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }

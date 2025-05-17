@@ -3,9 +3,6 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../shared/provisioningstate.tsp";
-import "../shared/resourceid.tsp";
-
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
@@ -49,7 +46,7 @@ model EnclaveConnectionProperties {
 
   @doc("Community Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  communityResourceId: CommunityResourceId;
+  communityResourceId: CommunityResourceIdScalar;
 
   @doc("Source Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
@@ -75,13 +72,10 @@ model EnclaveConnectionProperties {
   resourceCollection?: string[];
 }
 
-@doc("Enclave Connection Patch properties")
-model EnclaveConnectionPatchProperties is EnclaveConnectionProperties;
-
 @doc("Enclave Connection Patch Resource")
 model EnclaveConnectionPatchModel {
   @doc("Enclave Connection Patch properties")
-  properties?: Update<EnclaveConnectionPatchProperties>;
+  properties?: Update<EnclaveConnectionProperties>;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }
