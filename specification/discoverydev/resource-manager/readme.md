@@ -65,6 +65,10 @@ suppressions:
     where:
       - $.definitions.SupercomputerIdentities.properties.workloadIdentities
       - $.definitions.SupercomputerIdentitiesUpdate.properties.workloadIdentities
+  - code: GuidUsage
+    reason: Refers to clientId from Azure.ResourceManager.CommonTypes.UserAssignedIdentity.
+    from:
+      - discovery.json
 ```
 
 ---

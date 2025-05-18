@@ -27,11 +27,6 @@ model SupercomputerProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  // read
-  @doc("The ID of the workspace.")
-  @visibility(Lifecycle.Read)
-  workspaceId?: WorkspaceId;
-
   /**
     System Subnet ID associated with managed NodePool for system resources.
     It should have connectivity to the child NodePool subnets.
@@ -74,10 +69,7 @@ model SupercomputerIdentities {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
   @doc("Workload identity IDs to be used by tools running on supercomputer.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workloadIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity>;
-  //   @doc("Workload identity IDs to be used by tools running on supercomputer.")
-  //   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  //   workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
+  workloadIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 }
 
 @armResourceOperations
