@@ -20,8 +20,6 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ## Configuration
 
-### Basic Information
-
 These are the global settings for the mission.
 
 ```yaml
@@ -33,11 +31,16 @@ tag: package-private-2025-05-01-preview
 
 ### Tag: package-private-2025-05-01-preview
 
-These settings apply only when `--tag=package-private-2024-12-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-private-2025-05-01-preview` is specified on the command line.
 
 ```yaml $(tag) == 'package-private-2025-05-01-preview'
 input-file:
   - Private.Mission/preview/2025-05-01-preview/openapi.json
+suppressions:
+  - code: AvoidAnonymousTypes
+    from: openapi.json
+    where: $.definitions."Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate".properties.userAssignedIdentities.additionalProperties
+    reason: This is an incorrect failure due to a bug in the tool (https://github.com/Azure/typespec-azure/issues/1163)
 ```
 
 ### Tag: package-private-2024-12-01-preview
@@ -47,6 +50,11 @@ These settings apply only when `--tag=package-private-2024-12-01-preview` is spe
 ```yaml $(tag) == 'package-private-2024-12-01-preview'
 input-file:
   - Private.Mission/preview/2024-12-01-preview/openapi.json
+suppressions:
+  - code: AvoidAnonymousTypes
+    from: openapi.json
+    where: $.definitions."Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate".properties.userAssignedIdentities.additionalProperties
+    reason: This is an incorrect failure due to a bug in the tool (https://github.com/Azure/typespec-azure/issues/1163)
 ```
 
 ### Tag: package-private-2024-06-01-preview
@@ -56,7 +64,14 @@ These settings apply only when `--tag=package-private-2024-06-01-preview` is spe
 ```yaml $(tag) == 'package-private-2024-06-01-preview'
 input-file:
   - Private.Mission/preview/2024-06-01-preview/openapi.json
+suppressions:
+  - code: AvoidAnonymousTypes
+    from: openapi.json
+    where: $.definitions."Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate".properties.userAssignedIdentities.additionalProperties
+    reason: This is an incorrect failure due to a bug in the tool (https://github.com/Azure/typespec-azure/issues/1163)
 ```
+
+---
 
 # Code Generation
 
@@ -74,6 +89,7 @@ swagger-to-sdk:
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions
 ```
+
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)
