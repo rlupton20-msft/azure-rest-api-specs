@@ -53,23 +53,23 @@ union ServiceIdentifier {
 
 @doc("GovernedServiceItem Properties")
 model GovernedServiceItem {
-  @doc("service id")
+  @doc("Service ID")
   id: ServiceIdentifier;
 
-  @doc("service name")
+  @doc("Service name.")
   @visibility(Lifecycle.Read)
   name?: string;
 
-  @doc("governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).")
+  @doc("Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).")
   option?: "Allow" | "Deny" | "ExceptionOnly" | "NotApplicable" | string;
 
-  @doc("initiative enforcement (Enabled or Disabled).")
+  @doc("Initiative enforcement (Enabled or Disabled).")
   enforcement?: "Enabled" | "Disabled" | string;
 
-  @doc("policies set to auditOnly (True or False).")
+  @doc("Policies set to auditOnly (True or False).")
   auditOnly?: boolean;
 
-  @doc("initiatives associated with this service")
+  @doc("Initiatives associated with this service.")
   @visibility(Lifecycle.Read)
   initiatives?: string[];
 }

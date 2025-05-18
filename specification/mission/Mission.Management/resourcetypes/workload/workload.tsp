@@ -7,6 +7,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 
 using Azure.Core;
+using Azure.ResourceManager;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 
@@ -26,7 +27,7 @@ model WorkloadProperties {
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed On Behalf Of Configuration.")
   @visibility(Lifecycle.Read)
-  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 }
 
 @doc("Workload Patch Resource")

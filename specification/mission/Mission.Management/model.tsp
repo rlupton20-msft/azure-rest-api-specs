@@ -23,7 +23,6 @@ import "./resourcetypes/workload/workload.tsp";
 
 import "./resourcetypes/shared/endpointrulebase.tsp";
 import "./resourcetypes/shared/governedserviceitem.tsp";
-import "./resourcetypes/shared/managedonbehalfofconfiguration.tsp";
 import "./resourcetypes/shared/managedresourcegroupconfiguration.tsp";
 import "./resourcetypes/shared/principal.tsp";
 import "./resourcetypes/shared/provisioningstate.tsp";

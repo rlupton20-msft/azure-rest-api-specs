@@ -4573,6 +4573,36 @@
         ]
       }
     },
+    "DiagnosticDestination": {
+      "type": "string",
+      "description": "Specifies the destination of where to store diagnostic logs.",
+      "enum": [
+        "CommunityOnly",
+        "EnclaveOnly",
+        "Both"
+      ],
+      "x-ms-enum": {
+        "name": "DiagnosticDestination",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "CommunityOnly",
+            "value": "CommunityOnly",
+            "description": "DiagnosticDestination Type CommunityOnly"
+          },
+          {
+            "name": "EnclaveOnly",
+            "value": "EnclaveOnly",
+            "description": "DiagnosticDestination Type EnclaveOnly"
+          },
+          {
+            "name": "Both",
+            "value": "Both",
+            "description": "DiagnosticDestination Type Both"
+          }
+        ]
+      }
+    },
     "EnclaveAddressSpacesModel": {
       "type": "object",
       "description": "Enclave Address Spaces",
@@ -4775,7 +4805,7 @@
         ]
       }
     },
-    "EnclaveDefaultSettings": {
+    "EnclaveDefaultSettingsModel": {
       "type": "object",
       "description": "Virtual Enclave Default Settings",
       "properties": {
@@ -4827,6 +4857,34 @@
               }
             ]
           }
+        }
+      }
+    },
+    "EnclaveDefaultSettingsPatchModel": {
+      "type": "object",
+      "description": "Virtual Enclave Default Settings Patch Model",
+      "properties": {
+        "keyVaultResourceId": {
+          "$ref": "#/definitions/KeyVaultResourceId",
+          "description": "Key Vault Resource Id.",
+          "readOnly": true
+        },
+        "storageAccountResourceId": {
+          "$ref": "#/definitions/StorageAccountResourceId",
+          "description": "Storage Account Resource Id.",
+          "readOnly": true
+        },
+        "logAnalyticsResourceIdCollection": {
+          "type": "array",
+          "description": "Log Analytics Resource Ids.",
+          "items": {
+            "$ref": "#/definitions/LogAnalyticsResourceId"
+          },
+          "readOnly": true
+        },
+        "diagnosticDestination": {
+          "$ref": "#/definitions/DiagnosticDestination",
+          "description": "Diagnostic Destination."
         }
       }
     },
@@ -5079,22 +5137,71 @@
         }
       }
     },
+    "EnclaveVirtualNetworkPatchModel": {
+      "type": "object",
+      "description": "Enclave Virtual Network Properties",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
+        "networkSize": {
+          "type": "string",
+          "description": "Network Size.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "customCidrRange": {
+          "type": "string",
+          "description": "Custom CIDR Range.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Subnet Configurations.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          }
+        },
+        "allowSubnetCommunication": {
+          "type": "boolean",
+          "description": "Allow Subnet Communication.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "connectToAzureServices": {
+          "type": "boolean",
+          "description": "Connect to Azure Services (True or False).",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        }
+      }
+    },
     "GovernedServiceItem": {
       "type": "object",
       "description": "GovernedServiceItem Properties",
       "properties": {
         "id": {
           "$ref": "#/definitions/ServiceIdentifier",
-          "description": "service id"
+          "description": "Service ID"
         },
         "name": {
           "type": "string",
-          "description": "service name",
+          "description": "Service name.",
           "readOnly": true
         },
         "option": {
           "type": "string",
-          "description": "governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).",
+          "description": "Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable).",
           "enum": [
             "Allow",
             "Deny",
@@ -5107,7 +5214,7 @@
         },
         "enforcement": {
           "type": "string",
-          "description": "initiative enforcement (Enabled or Disabled).",
+          "description": "Initiative enforcement (Enabled or Disabled).",
           "enum": [
             "Enabled",
             "Disabled"
@@ -5118,11 +5225,11 @@
         },
         "auditOnly": {
           "type": "boolean",
-          "description": "policies set to auditOnly (True or False)."
+          "description": "Policies set to auditOnly (True or False)."
         },
         "initiatives": {
           "type": "array",
-          "description": "initiatives associated with this service",
+          "description": "Initiatives associated with this service.",
           "items": {
             "type": "string"
           },
@@ -5278,6 +5385,45 @@
           "type": "string",
           "description": "Justification for entering or exiting Maintenance Mode",
           "default": "Off",
+          "enum": [
+            "Networking",
+            "Governance",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "MaintenanceModeConfigurationPatchModel": {
+      "type": "object",
+      "description": "Maintenance Mode Patch Model",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Current mode of Maintenance Mode Configuration",
+          "enum": [
+            "On",
+            "CanNotDelete",
+            "Off",
+            "General",
+            "Advanced"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "principals": {
+          "type": "array",
+          "description": "The user, group or service principal object affected by Maintenance Mode",
+          "items": {
+            "$ref": "#/definitions/Principal"
+          }
+        },
+        "justification": {
+          "type": "string",
+          "description": "Justification for entering or exiting Maintenance Mode",
           "enum": [
             "Networking",
             "Governance",
@@ -6084,14 +6230,10 @@
         }
       }
     },
-    "UpdateVirtualEnclaveModel": {
+    "UpdateVirtualEnclavePatchProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
-        "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
-          "description": "Virtual Network."
-        },
         "bastionEnabled": {
           "type": "boolean",
           "description": "Deploy Bastion service (True or False).",
@@ -6118,13 +6260,17 @@
             "$ref": "#/definitions/GovernedServiceItem"
           }
         },
+        "enclaveVirtualNetwork": {
+          "$ref": "#/definitions/EnclaveVirtualNetworkPatchModel",
+          "description": "Enclave Virtual Network Patch Model."
+        },
         "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationModelUpdate",
-          "description": "Maintenance Mode configuration."
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "Enclave Maintenance Mode configuration Patch Model."
         },
         "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
-          "description": "Default Settings"
+          "$ref": "#/definitions/EnclaveDefaultSettingsPatchModel",
+          "description": "Encalve Default Settings Patch Model"
         }
       }
     },
@@ -6159,10 +6305,6 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning State.",
           "readOnly": true
-        },
-        "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
-          "description": "Virtual Network."
         },
         "enclaveAddressSpaces": {
           "$ref": "#/definitions/EnclaveAddressSpacesModel",
@@ -6223,18 +6365,22 @@
             "$ref": "#/definitions/GovernedServiceItem"
           }
         },
+        "enclaveVirtualNetwork": {
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
+          "description": "Enclave Virtual Network."
+        },
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfigurationModel",
-          "description": "Maintenance Mode configuration."
+          "description": "Enclave Maintenance Mode configuration."
         },
         "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettings",
-          "description": "Default Settings"
+          "$ref": "#/definitions/EnclaveDefaultSettingsModel",
+          "description": "Enclave Default Settings"
         }
       },
       "required": [
-        "enclaveVirtualNetwork",
-        "communityResourceId"
+        "communityResourceId",
+        "enclaveVirtualNetwork"
       ]
     },
     "VirtualEnclavePatchModel": {
@@ -6242,7 +6388,7 @@
       "description": "Virtual Enclave Patch Model",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateVirtualEnclaveModel",
+          "$ref": "#/definitions/UpdateVirtualEnclavePatchProperties",
           "description": "Virtual Enclave Patch properties"
         },
         "identity": {

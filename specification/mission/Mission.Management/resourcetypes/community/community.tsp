@@ -142,7 +142,7 @@ model CommunityModel {
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed On Behalf Of Configuration.")
   @visibility(Lifecycle.Read)
-  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 
   @doc("List of services governed by a community.")
   governedServiceList?: GovernedServiceItem[];
