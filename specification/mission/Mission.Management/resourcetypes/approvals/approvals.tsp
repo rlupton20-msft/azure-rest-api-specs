@@ -1,13 +1,13 @@
-import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/rest";
+import "@typespec/versioning";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
@@ -63,9 +63,12 @@ model RequestMetadata {
   approvalStatus?: ApprovalStatus = ApprovalStatus.Pending;
 }
 
+@doc("Request Metadata for approvals patch request.")
+@withoutDefaultValues
+model RequestMetadataPatchModel is RequestMetadata;
+
 @renamedFrom(Microsoft.Mission.Versions.v2024_12_01_preview, "Approvers")
 @doc("Approver Metadata for approvals request.")
-@discriminator("actionPerformed")
 model Approver {
   @doc("EntraId of the approver")
   approverEntraId: string;
@@ -77,8 +80,8 @@ model Approver {
   lastUpdatedAt: utcDateTime;
 }
 
-@doc("Approvals properties.")
-model ApprovalModel {
+@doc("Approval Base model.")
+model ApprovalBaseModel {
   @doc("Provisioning State.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
@@ -107,9 +110,20 @@ model ApprovalModel {
   stateChangedAt?: utcDateTime;
 }
 
-@doc("Approvals properties for patching")
-@withoutDefaultValues
+@doc("Approvals model.")
+model ApprovalModel is ApprovalBaseModel {
+  @doc("Request metadata for the approval request.")
+  requestMetadata: RequestMetadata;
+}
+
+@doc("Approvals patch properties.")
+model ApprovalPatchProperties is ApprovalBaseModel {
+  @doc("Request metadata for the approval request without default values.")
+  requestMetadata: RequestMetadataPatchModel;
+}
+
+@doc("Approvals patch model.")
 model ApprovalPatchModel {
   @doc("Approval Patch properties")
-  properties?: Update<ApprovalModel>;
+  properties?: Update<ApprovalPatchProperties>;
 }

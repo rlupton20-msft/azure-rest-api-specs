@@ -3786,7 +3786,7 @@
     },
     "ApprovalModel": {
       "type": "object",
-      "description": "Approvals properties.",
+      "description": "Approvals model.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -3824,15 +3824,22 @@
           "type": "string",
           "format": "date-time",
           "description": "Approval request state change time, time at which approval request state changed from pending to approved or rejected."
+        },
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadata",
+          "description": "Request metadata for the approval request."
         }
-      }
+      },
+      "required": [
+        "requestMetadata"
+      ]
     },
     "ApprovalPatchModel": {
       "type": "object",
-      "description": "Approvals properties for patching",
+      "description": "Approvals patch model.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/UpdateApprovalModel",
+          "$ref": "#/definitions/UpdateApprovalPatchProperties",
           "description": "Approval Patch properties"
         }
       }
@@ -4039,6 +4046,48 @@
         }
       }
     },
+    "ApprovalStatus": {
+      "type": "string",
+      "description": "Approval Status Enum",
+      "enum": [
+        "Approved",
+        "Rejected",
+        "Pending",
+        "Deleted",
+        "Expired"
+      ],
+      "x-ms-enum": {
+        "name": "ApprovalStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Approved",
+            "value": "Approved",
+            "description": "ApprovalStatus Type Approved"
+          },
+          {
+            "name": "Rejected",
+            "value": "Rejected",
+            "description": "ApprovalStatus Type Rejected"
+          },
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "ApprovalStatus Type Pending"
+          },
+          {
+            "name": "Deleted",
+            "value": "Deleted",
+            "description": "ApprovalStatus Type Deleted"
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "ApprovalStatus Type Expired"
+          }
+        ]
+      }
+    },
     "Approver": {
       "type": "object",
       "description": "Approver Metadata for approvals request.",
@@ -4057,7 +4106,6 @@
           "description": "approval request last updated at"
         }
       },
-      "discriminator": "actionPerformed",
       "required": [
         "approverEntraId",
         "actionPerformed",
@@ -5395,6 +5443,92 @@
       },
       "readOnly": true
     },
+    "RequestMetadata": {
+      "type": "object",
+      "description": "Request Metadata for approvals request.",
+      "properties": {
+        "resourceAction": {
+          "type": "string",
+          "description": "Resource Action of the item being approved or declined."
+        },
+        "approvalCallbackRoute": {
+          "type": "string",
+          "description": "Route name for the approval callback"
+        },
+        "approvalCallbackPayload": {
+          "type": "string",
+          "description": "Payload to be sent upon any action on approval request"
+        },
+        "approvalStatus": {
+          "type": "string",
+          "description": "Status of the approval. Uses ApprovalStatus enum.",
+          "default": "Pending",
+          "enum": [
+            "Approved",
+            "Rejected",
+            "Pending",
+            "Deleted",
+            "Expired"
+          ],
+          "x-ms-enum": {
+            "name": "ApprovalStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Approved",
+                "value": "Approved",
+                "description": "ApprovalStatus Type Approved"
+              },
+              {
+                "name": "Rejected",
+                "value": "Rejected",
+                "description": "ApprovalStatus Type Rejected"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "ApprovalStatus Type Pending"
+              },
+              {
+                "name": "Deleted",
+                "value": "Deleted",
+                "description": "ApprovalStatus Type Deleted"
+              },
+              {
+                "name": "Expired",
+                "value": "Expired",
+                "description": "ApprovalStatus Type Expired"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "resourceAction"
+      ]
+    },
+    "RequestMetadataPatchModel": {
+      "type": "object",
+      "description": "Request Metadata for approvals patch request.",
+      "properties": {
+        "resourceAction": {
+          "type": "string",
+          "description": "Resource Action of the item being approved or declined."
+        },
+        "approvalCallbackRoute": {
+          "type": "string",
+          "description": "Route name for the approval callback"
+        },
+        "approvalCallbackPayload": {
+          "type": "string",
+          "description": "Payload to be sent upon any action on approval request"
+        },
+        "approvalStatus": {
+          "$ref": "#/definitions/ApprovalStatus",
+          "description": "Status of the approval. Uses ApprovalStatus enum."
+        }
+      }
+    },
     "RoleAssignmentItem": {
       "type": "object",
       "description": "Role assignment item that indicates which principals should be assigned this role definition",
@@ -5773,15 +5907,10 @@
         ]
       }
     },
-    "UpdateApprovalModel": {
+    "UpdateApprovalPatchProperties": {
       "type": "object",
       "description": "A copy of the input model `T` with only the properties that are visible during the\n\"Update\" resource lifecycle phase.\n\nThe \"Update\" lifecycle phase is used for properties passed as parameters to operations\nthat update data, like HTTP PATCH operations.\n\nThis transformation will include only the properties that have the `Lifecycle.Update`\nvisibility modifier, and the types of all properties will be replaced with the\nequivalent `CreateOrUpdate` transformation.\n\nIf a `NameTemplate` is provided, the new model will be named according to the template.\nThe template uses the same syntax as the `@friendlyName` decorator.",
       "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning State.",
-          "readOnly": true
-        },
         "parent1": {
           "type": "string",
           "description": "Parameter for optimizing query results"
@@ -5813,6 +5942,10 @@
           "type": "string",
           "format": "date-time",
           "description": "Approval request state change time, time at which approval request state changed from pending to approved or rejected."
+        },
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadataPatchModel",
+          "description": "Request metadata for the approval request without default values."
         }
       }
     },
