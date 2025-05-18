@@ -7,8 +7,6 @@ import "@typespec/versioning";
 import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.ResourceManager;
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 
 @doc("Microsoft Mission Resource Provider management API.")
@@ -130,7 +128,7 @@ model CommunityBaseModel {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   addressSpace?: string;
 
-  @doc("Dns Servers.")
+  @doc("DNS Servers.")
   dnsServers?: string[];
 
   @doc("Provisioning State.")
@@ -177,7 +175,7 @@ model CommunityModel is CommunityBaseModel {
   maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
 }
 
-@doc("ApprovalSettings Properties")
+@doc("Community Resource Properties without default values")
 @withoutDefaultValues
 model CommunityPatchProperties is CommunityBaseModel {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)

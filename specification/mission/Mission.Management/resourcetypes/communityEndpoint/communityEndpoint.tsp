@@ -4,8 +4,6 @@ import "@typespec/rest";
 import "@typespec/versioning";
 
 using OpenAPI;
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 
 @doc("Microsoft Mission Resource Provider management API.")

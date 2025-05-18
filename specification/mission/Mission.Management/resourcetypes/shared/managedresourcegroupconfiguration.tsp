@@ -1,7 +1,6 @@
 import "@azure-tools/typespec-azure-core";
 
 using Azure.Core;
-
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 

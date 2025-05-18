@@ -9,8 +9,6 @@ import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.Core;
 using Azure.ResourceManager;
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 
 @doc("Microsoft Mission Resource Provider management API.")
@@ -18,6 +16,8 @@ namespace Microsoft.Mission;
 
 @doc("Specifies the destination of where to store diagnostic logs.")
 union DiagnosticDestination {
+  string,
+
   @doc("DiagnosticDestination Type CommunityOnly")
   CommunityOnly: "CommunityOnly",
 
@@ -26,8 +26,6 @@ union DiagnosticDestination {
 
   @doc("DiagnosticDestination Type Both")
   Both: "Both",
-
-  string,
 }
 
 @doc("Subnet Configuration")
