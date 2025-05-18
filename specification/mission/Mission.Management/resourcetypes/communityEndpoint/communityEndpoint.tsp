@@ -11,6 +11,8 @@ namespace Microsoft.Mission;
 
 @doc("Community Endpoint Protocol Enum")
 union CommunityEndpointProtocol {
+  string,
+
   @doc("CommunityEndpointProtocol Type ANY")
   ANY: "ANY",
 
@@ -34,12 +36,12 @@ union CommunityEndpointProtocol {
 
   @doc("CommunityEndpointProtocol Type HTTP")
   HTTP: "HTTP",
-
-  string,
 }
 
 @doc("Destination Type Enum")
 union DestinationType {
+  string,
+
   @doc("DestinationType Type FQDN")
   FQDN: "FQDN",
 
@@ -51,8 +53,6 @@ union DestinationType {
 
   @doc("DestinationType Type PrivateNetwork")
   PrivateNetwork: "PrivateNetwork",
-
-  string,
 }
 
 @doc("Base type for destination rules.")

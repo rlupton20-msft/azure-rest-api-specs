@@ -3,6 +3,8 @@ namespace Microsoft.Mission;
 
 @doc("Identifier for governed services.")
 union ServiceIdentifier {
+  string,
+
   @doc("Service identifier for AKS")
   AKS: "AKS",
 
@@ -47,8 +49,6 @@ union ServiceIdentifier {
 
   @doc("Service identifier for Storage")
   Storage: "Storage",
-
-  string,
 }
 
 @doc("GovernedServiceItem Properties")

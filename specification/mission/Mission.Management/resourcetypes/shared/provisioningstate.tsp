@@ -10,6 +10,8 @@ namespace Microsoft.Mission;
 @lroStatus
 @doc("The provisioning status of the resource.")
 union ProvisioningState {
+  ResourceProvisioningState,
+
   @doc("Provisioning State Type Accepted")
   Accepted: "Accepted",
 
@@ -36,6 +38,4 @@ union ProvisioningState {
 
   @doc("Provisioning State Type Updating")
   Updating: "Updating",
-
-  ResourceProvisioningState,
 }

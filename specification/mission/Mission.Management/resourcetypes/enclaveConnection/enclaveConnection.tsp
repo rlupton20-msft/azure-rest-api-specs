@@ -8,6 +8,8 @@ namespace Microsoft.Mission;
 
 @doc("Specifies the state of the enclave connection.")
 union EnclaveConnectionState {
+  string,
+
   @doc("EnclaveConnectionState Type Pending Approval")
   PendingApproval: "PendingApproval",
 
@@ -28,8 +30,6 @@ union EnclaveConnectionState {
 
   @doc("EnclaveConnectionState Type Disconnected")
   Disconnected: "Disconnected",
-
-  string,
 }
 
 @doc("Enclave Connection Resource properties")

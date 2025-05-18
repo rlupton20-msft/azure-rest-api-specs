@@ -8,6 +8,8 @@ namespace Microsoft.Mission;
 #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
 @doc("Approval Status Enum")
 union ApprovalStatus {
+  string,
+
   @doc("ApprovalStatus Type Approved")
   Approved: "Approved",
 
@@ -24,19 +26,17 @@ union ApprovalStatus {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("ApprovalStatus Type Expired")
   Expired: "Expired",
-
-  string,
 }
 
 @doc("Specifies the action performed by the approver")
 union ActionPerformedEnum {
+  string,
+
   @doc("ActionPerformedEnum Type Approved")
   Approved: "Approved",
 
   @doc("ActionPerformedEnum Type Rejected")
   Rejected: "Rejected",
-
-  string,
 }
 
 @doc("Request Metadata for approvals request.")

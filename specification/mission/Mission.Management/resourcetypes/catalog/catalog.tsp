@@ -8,32 +8,27 @@ namespace Microsoft.Mission;
 
 @doc("List of storage types support by catalog")
 union CatalogStorageType {
+  string,
+
   @doc("Blob Storage Catalog Type")
   BlobCatalog: "BlobCatalog",
-
-  string,
-}
-
-@doc("Base type for catalog.")
-model CatalogBase {
-  @doc("Catalog's storage type.")
-  catalogStorageType?: CatalogStorageType;
 }
 
 @doc("Blob Catalog type.")
 model BlobCatalog {
+  @doc("Catalog's storage type.")
+  catalogStorageType?: CatalogStorageType;
+
   @doc("Catalog Storage's URI.")
   uri?: string;
-
-  ...CatalogBase;
 }
 
 @doc("Catalog Types.")
 union Catalog {
+  string,
+
   @doc("Blob Catalog")
   blob: BlobCatalog,
-
-  string,
 }
 
 @doc("Package Properties")
