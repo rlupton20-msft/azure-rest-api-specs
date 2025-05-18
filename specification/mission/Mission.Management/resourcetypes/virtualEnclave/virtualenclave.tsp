@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/rest";
 import "@typespec/versioning";
+import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.Core;
 using Azure.ResourceManager;
@@ -113,23 +114,6 @@ model EnclaveAddressSpacesModel {
   managedAddressSpace?: string;
 }
 
-@doc("Maintenance Mode")
-model MaintenanceModeConfigurationModel {
-  @doc("Current mode of Maintenance Mode Configuration")
-  mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string = "Off";
-
-  @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals?: Principal[] = #[];
-
-  @doc("Justification for entering or exiting Maintenance Mode")
-  justification?: "Networking" | "Governance" | "Off" | string = "Off";
-}
-
-@doc("Maintenance Mode Patch Model")
-@withoutDefaultValues
-model MaintenanceModeConfigurationPatchModel
-  is MaintenanceModeConfigurationModel;
-
 @doc("Virtual Enclave Resource properties")
 model VirtualEnclaveBaseModel {
   @doc("Provisioning State.")
@@ -142,7 +126,7 @@ model VirtualEnclaveBaseModel {
 
   @doc("Community Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  communityResourceId: CommunityResourceIdScalar;
+  communityResourceId: CommunityResourceId;
 
   @doc("List of resource ids created by Virtual Enclave.")
   @visibility(Lifecycle.Read)

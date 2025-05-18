@@ -36,7 +36,7 @@ scalar NsgResourceId
     }
   ]>;
 
-scalar CommunityResourceIdScalar
+scalar CommunityResourceId
   extends armResourceIdentifier<[
     {
       type: "Microsoft.Mission/communities",

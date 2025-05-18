@@ -4,6 +4,7 @@
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/rest";
 import "@typespec/versioning";
+import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.ResourceManager;
 using TypeSpec.Http;
@@ -15,6 +16,8 @@ namespace Microsoft.Mission;
 
 @doc("Azure Firewall SKU")
 union FirewallSKU {
+  string,
+
   @doc("FirewallSKU Basic")
   Basic: "Basic",
 
@@ -23,8 +26,6 @@ union FirewallSKU {
 
   @doc("FirewallSKU Premium")
   Premium: "Premium",
-
-  string,
 }
 
 @added(Microsoft.Mission.Versions.v2024_12_01_preview)
@@ -118,8 +119,13 @@ model ApprovalSettings {
   connectionUpdateMode?: "Automatic" | "Manual" | string = "Automatic";
 }
 
+@added(Microsoft.Mission.Versions.v2024_12_01_preview)
+@doc("ApprovalSettings Properties")
+@withoutDefaultValues
+model ApprovalSettingsPatchModel is ApprovalSettings;
+
 @doc("Community Resource Properties")
-model CommunityModel {
+model CommunityBaseModel {
   @doc("Address Space.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   addressSpace?: string;
@@ -155,6 +161,13 @@ model CommunityModel {
   @doc("Community role assignments")
   communityRoleAssignments?: RoleAssignmentItem[];
 
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default")
+  firewallSku?: FirewallSKU = FirewallSKU.Standard;
+}
+
+@doc("Community Resource Properties")
+model CommunityModel is CommunityBaseModel {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
@@ -162,17 +175,24 @@ model CommunityModel {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+}
 
-  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
-  @doc("SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default")
-  firewallSku?: FirewallSKU = FirewallSKU.Standard;
+@doc("ApprovalSettings Properties")
+@withoutDefaultValues
+model CommunityPatchProperties is CommunityBaseModel {
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Approval requirements for various actions on the community's resources.")
+  approvalSettings?: ApprovalSettingsPatchModel;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
 }
 
 @doc("Community Patch Resource")
-@withoutDefaultValues
 model CommunityPatchModel {
   @doc("Community Patch properties")
-  properties?: Update<CommunityModel>;
+  properties?: Update<CommunityPatchProperties>;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
   ...ManagedServiceIdentityProperty;

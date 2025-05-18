@@ -46,7 +46,7 @@ model EnclaveConnectionProperties {
 
   @doc("Community Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  communityResourceId: CommunityResourceIdScalar;
+  communityResourceId: CommunityResourceId;
 
   @doc("Source Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
