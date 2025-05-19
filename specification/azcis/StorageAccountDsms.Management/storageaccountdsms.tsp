@@ -1,15 +1,14 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using OpenAPI;
 using Azure.Core;
 using Azure.ResourceManager;
-using Autorest;
+using OpenAPI;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 
@@ -36,51 +35,14 @@ model StorageAccountDsmsResourceProperties {
   @doc("Label of the XStore account.")
   label?: string;
 
-  @doc("If False, create Storage Account and dSMS object in Deferred Provisioning; if True, create dSMS object in Provisioning, then create Storage Account in Deferred Provisioning and refresh keys in dSMS. Optional, True by default.")
-  xstoreBootstrapping?: boolean;
-
   @doc("Name of the event to emit once the XStore account is created.")
   eventEmittedUponProvisioning?: string;
 
-  @doc("If True, will onboard the existing Storage Account to dSMS. If False, will generate dSMS object with random keys. Optional, False by default.")
-  useCreateInsteadOfGenerate?: boolean;
-
-  @doc("Storage account whitelist in dSMS.")
-  whitelists?: Whitelists;
-
-  @doc("Storage account Replication in dSMS.")
-  replicate?: Replicate;
-
-  @doc("Set to True to block auto key rollover. Optional, False by default.")
-  blockAutoRollover?: boolean;
-
-  @doc("Override default key renewal period.")
-  keyRenewalPeriodInDays?: int32;
-
-  @doc("Set to True if you need ACL the Storage Account to Autopilot or PilotFish environments. Optional.")
-  releaseKeyToAgent?: boolean;
-
-  @doc("Set to True to force global sync of dSMS secret or False to skip it. Optional, False by default.")
-  forceSyncGlobalDsmsSecret?: boolean;
-
-  @doc("Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal), Xstore, Invalid (can be used to create dummy Storage Accounts in dSMS).")
-  resourceProvider: string;
-
-  @doc("Set to True to pilot XStore resource provider. In new region or new cloud scenario, it can create Storage Account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE.")
-  pilotXstoreResourceProvider?: boolean;
-
-  @doc("Storage account shared access signature.")
-  @extension("x-ms-identifiers", #[])
-  accountSasInfos?: Array<AccountSasInfo>;
-
-  @doc("Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default.")
-  refreshInDsms?: boolean;
-
-  @doc("The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider.")
-  originalResourceProvider?: string;
+  @doc("Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal).")
+  resourceProvider: "Classic" | "ARM" | string;
 
   @doc("Residency boundary. Acceptable values: Worldwide, National.")
-  residencyBoundary?: string;
+  residencyBoundary?: "Worldwide" | "National" | string;
 
   @doc("Minimum account replication type, e.g. Standard_LRS. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used.")
   resiliencyMinimum?: string;
@@ -88,11 +50,26 @@ model StorageAccountDsmsResourceProperties {
   @doc("Maximum account replication type, e.g. Standard_ZRS.")
   resiliencyMaximum?: string;
 
-  @doc("Resiliencies progression id, e.g. Default, PremiumDefault, Zonal.")
-  resilienciesProgressionId?: string;
+  @doc("Resiliencies progression id. Acceptable values: Default, PremiumDefault, Zonal.")
+  resilienciesProgressionId?: "Default" | "PremiumDefault" | "Zonal" | string;
 
   @doc("Additional locations to support resiliency, e.g. primary.")
   additionalLocations?: string;
+
+  @doc("An array of Lifecycle Management Policy rules.")
+  lifecycleManagementPolicy?: Array<LifecycleManagementPolicyRule>;
+
+  @doc("Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default.")
+  refreshInDsms?: boolean;
+
+  @doc("The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider.")
+  originalResourceProvider?: string;
+
+  @doc("Dual Stack Endpoint Preference.")
+  dualStackEndpointPreference?: DualStackEndpointPreference;
+
+  @doc("Defines if Infrastructure Encryption is required.")
+  requireInfrastructureEncryption?: boolean;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
   #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Generic object model is used, because the number of nested properties can be different."
@@ -126,55 +103,82 @@ model StorageAccountDsmsResourceProperties {
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountXstoreCreationTime?: string;
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
   @doc("Resource template provision start time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
-  provisionStartTime?: string;
+  provisionStartTime_StorageAccountTemplate?: string;
 }
 
-@doc("AccountSasInfo element contains Sas Key Information.")
-model AccountSasInfo {
-  @doc("dSMS root folder.")
-  rootPath?: string;
+@doc("Lifecycle Management Policy Rule for Storage Account.")
+model LifecycleManagementPolicyRule {
+  @doc("Name of the policy rule.")
+  name: string;
 
-  @doc("Name of the Storage Account.")
-  name?: string;
+  @doc("Indicates whether the rule is enabled.")
+  enabled: boolean;
 
-  @doc("Path in Dsms endpoint. If this specified, then RootPath and Name should be ignored.")
-  dsmsLocation?: string;
-
-  @doc("The signed permissions for the account SAS. Acceptable values: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).")
-  signedPermissions?: string;
-
-  @doc("Services like blob(b), queue(q) and table(t).")
-  signedServices?: string;
-
-  @doc("The signed resource types that are accessible with the account SAS. Service (s)/Container (c)/Object (o).")
-  signedResourceTypes?: string;
-}
-
-@doc("Replicate element defines where the secret should be replicated to.")
-model Replicate {
-  @doc("Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances.")
-  type?: string;
-
-  @doc("Regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon.")
-  regions?: string;
-}
-
-@doc("Whitelist element defines the whitelist for a secret.")
-model Whitelist {
-  @doc("Type of the whitelist. ServiceID: whitelisting a service. SubscriptionID: whitelisting subscription ID for creating Storage Account objects. DnsDomain: whitelisting a DNS domain for creating chained certificates. ServiceTreeID: whitelisting a service tree ID.")
-  type?: string;
-
-  @doc("Values of the whitelist, separated by semicolon.")
-  values?: string;
-}
-
-@doc("Whitelists element is a wrapper object over a collection of Whitelist elements.")
-model Whitelists {
-  @doc("Array of whitelists.")
+  @doc("Policy for base blobs.")
   @extension("x-ms-identifiers", #[])
-  whitelist?: Array<Whitelist>;
+  baseBlobPolicy: Array<LcmActionPolicy>;
+
+  @doc("Policy for snapshots.")
+  @extension("x-ms-identifiers", #[])
+  snapshotPolicy: Array<LcmActionPolicy>;
+
+  @doc("Policy for versions.")
+  @extension("x-ms-identifiers", #[])
+  versionPolicy: Array<LcmActionPolicy>;
+
+  @doc("A string, containing BlobTypes to filter, separated with a semicolon. Acceptable values: 'blockBlob', 'appendBlob'.")
+  blobTypesFilter: string;
+
+  @doc("List of prefixes to filter by.")
+  prefixMatchFilter: Array<string>;
+
+  @doc("List of blob index match filters.")
+  blobIndexMatchFilter: Array<BlobIndexMatch>;
+}
+
+@doc("Lifecycle Management Policy details for a specific action in a rule.")
+model LcmActionPolicy {
+  @doc("Action to be performed. Acceptable values: tierToCool, tierToArchive, tierToCold, tierToHot, delete.")
+  action: string;
+
+  @doc("Days after modification greater than.")
+  daysAfterModificationGreaterThan?: int32;
+
+  @doc("Days after last access time greater than.")
+  daysAfterLastAccessTimeGreaterThan?: int32;
+
+  @doc("Days after last tier change greater than (specific to tierToArchive action).")
+  daysAfterLastTierChangeGreaterThan?: int32;
+
+  @doc("Days after creation greater than.")
+  daysAfterCreationGreaterThan?: int32;
+}
+
+@doc("Blob Index Match filter.")
+model BlobIndexMatch {
+  @doc("Filter tag name.")
+  name: string;
+
+  @doc("Comparison operator.")
+  operator: string;
+
+  @doc("Filter tag value.")
+  value: string;
+}
+
+@doc("Dual Stack Endpoint Preference.")
+model DualStackEndpointPreference {
+  @doc("Enable default dual stack endpoints.")
+  defaultDualStackEndpoints?: boolean;
+
+  @doc("Publish IPv4 endpoint.")
+  publishIpv4Endpoint?: boolean;
+
+  @doc("Publish IPv6 endpoint.")
+  publishIpv6Endpoint?: boolean;
 }
 
 @doc("StorageAccount Resource")
