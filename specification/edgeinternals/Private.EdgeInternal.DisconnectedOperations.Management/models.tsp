@@ -82,37 +82,37 @@ union RegistrationStatus {
 
 @doc("The disconnected operation properties")
 model DisconnectedOperationProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the stamp")
   stampId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The billing model")
   billingModel: BillingModel;
 
   @doc("The connection intent")
   connectionIntent: ConnectionIntent;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The connection status")
   connectionStatus?: ConnectionStatus;
 
   @doc("The registration intent")
-  @visibility("update", "read")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
   registrationStatus?: RegistrationStatus;
 
   @doc("The device version")
-  @visibility("update", "read")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
   deviceVersion?: string;
 }
 
 @doc("The disconnected operation manifest")
 model DisconnectedOperationDeploymentManifest {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource Id of the disconnected operations resource")
   resourceId: Azure.Core.armResourceIdentifier<[
     {
@@ -120,23 +120,24 @@ model DisconnectedOperationDeploymentManifest {
     }
   ]>;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource name")
   resourceName: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the stamp")
   stampId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource location")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   location: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The billing model")
   billingModel: BillingModel;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The connection intent")
   connectionIntent: ConnectionIntent;
 }
@@ -162,48 +163,84 @@ union ReleaseType {
 
 @doc("The image properties")
 model ImageProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The version of the package in the format 1.1.1")
   releaseVersion: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release name")
   releaseDisplayName: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release notes")
   releaseNotes: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release date")
   releaseDate: plainDate;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release type")
   releaseType: ReleaseType;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The versions that are compatible for this update package.")
   compatibleVersions?: Array<string>;
 }
 
 @doc("The image download properties")
-model ImageDownloadResult {
+model ImageDownloadResponse {
   ...ImageProperties;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the download")
   transactionId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The download uri")
   downloadLink: url;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
+  @doc("The download link expiry time")
+  linkExpiry: utcDateTime;
+}
+
+@doc("The file properties")
+model FileProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The resource provisioning state")
+  provisioningState?: ResourceProvisioningState;
+
+  @visibility(Lifecycle.Read)
+  @doc("The file display order")
+  fileOrder: int32;
+
+  @visibility(Lifecycle.Read)
+  @doc("The file title")
+  title: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The file description")
+  description: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The file size in MB")
+  size?: int64;
+}
+
+@doc("The file download properties")
+model FileDownloadResponse {
+  ...FileProperties;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download uri")
+  downloadLink: url;
+
+  @visibility(Lifecycle.Read)
   @doc("The download link expiry time")
   linkExpiry: utcDateTime;
 }
