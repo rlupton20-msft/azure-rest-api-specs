@@ -108,9 +108,6 @@ model ApproverSignoffStatus {
   @doc("The identifier of the person who takes the sign-off action.")
   approver: string;
 
-  @doc("The name of the approval stage where the sign-off belongs to.")
-  stageName: string;
-
   @doc("The action the approver has taken.")
   signoffAction: ApproverSignoffAction;
 
