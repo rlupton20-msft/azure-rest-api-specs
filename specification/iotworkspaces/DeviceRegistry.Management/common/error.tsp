@@ -21,11 +21,6 @@ model Error {
   @visibility(Lifecycle.Read)
   @identifiers(#[])
   details?: ErrorDetails[];
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "innerError property field is custom defined by services."
-  @doc("A set of key-value pairs that contain service specific details set by the service.")
-  @visibility(Lifecycle.Read)
-  innerError?: Record<unknown>;
 }
 
 @doc("Defines the error details properties.")

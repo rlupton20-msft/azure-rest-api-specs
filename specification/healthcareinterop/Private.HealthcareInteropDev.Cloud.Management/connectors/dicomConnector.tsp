@@ -8,10 +8,12 @@ import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/dicom
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
+@added(Versions.v2025_06_01_preview)
 @doc("The healthcare interop DICOM connector resource that reads healthcare images from on-prem systems which is processed by the healthcare interop channel resource(s) associated with this connector.")
 @resource("dicomConnectors")
 model DicomConnector is TrackedResource<DicomConnectorProperties> {
@@ -23,6 +25,7 @@ model DicomConnector is TrackedResource<DicomConnectorProperties> {
   name: string;
 }
 
+@added(Versions.v2025_06_01_preview)
 @doc("The properties to configure the DICOM connector resource.")
 model DicomConnectorProperties {
   @doc("The status of the last provisioning operation.")
@@ -50,6 +53,7 @@ model DicomConnectorProperties {
   managedDicomEdgeConnectorResourceId?: DicomEdgeConnectorResourceId;
 }
 
+@added(Versions.v2025_06_01_preview)
 @armResourceOperations
 interface DicomConnectors {
   get is ArmResourceRead<DicomConnector>;
