@@ -29,7 +29,7 @@ model NetworkAnchorProperties {
   @visibility(Lifecycle.Read)
   vnetId?: VnetId;
 
-  @doc("Client subnet")
+  @doc("Delegated Azure subnet.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   subnetId: SubnetId;
 
@@ -52,4 +52,39 @@ model NetworkAnchorProperties {
   @doc("OCI backup subnet cidr block.")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
   ociBackupCidrBlock?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("DnsResolutionFromOciToAzure properties")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  dnsResolutionFromOciToAzureProperties?: DnsResolutionFromOciToAzureProperties;
+
+  @added(Versions.v20250701_preview)
+  @doc("DnsResolutionFromAzureToOci properties")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  dnsResolutionFromAzureToOciProperties?: DnsResolutionFromAzureToOciProperties;
+}
+
+@added(Versions.v20250701_preview)
+@doc("DnsResolutionFromOciToAzure properties")
+model DnsResolutionFromOciToAzureProperties {
+  @doc("Indicates whether DNS forwarding from OCI to Azure is enabled for the Network Anchor.")
+  isEnabled?: boolean = false;
+
+  @doc("The domain name used for DNS forwarding from OCI to Azure.")
+  @minLength(1)
+  @maxLength(255)
+  domainName?: string;
+
+  @doc("The IP address used for DNS forwarding from OCI to Azure.")
+  forwardingIpAddress?: string;
+}
+
+@added(Versions.v20250701_preview)
+@doc("DnsResolutionFromAzureToOci properties")
+model DnsResolutionFromAzureToOciProperties {
+  @doc("Indicates whether DNS forwarding from Azure to OCI is enabled for the Network Anchor.")
+  isEnabled?: boolean = false;
+
+  @doc("The IP address used for DNS forwarding from Azure to OCI.")
+  listeningEndpointIpAddress?: string;
 }
