@@ -8,6 +8,7 @@ import "./ApprovalWorkflowDefinition.tsp";
 import "./ApprovalWorkflowAssignment.tsp";
 import "./ApprovalWorkflowInstance.tsp";
 import "./ApprovalSetting.tsp";
+import "./InvokeAndFetchApprovalRequest.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

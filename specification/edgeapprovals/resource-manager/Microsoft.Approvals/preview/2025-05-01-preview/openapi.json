@@ -52,6 +52,9 @@
     },
     {
       "name": "ApprovalSettings"
+    },
+    {
+      "name": "ApprovalRequest"
     }
   ],
   "paths": {
@@ -1156,6 +1159,46 @@
           }
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.Approvals/invokeAndFetchApprovalRequest": {
+      "post": {
+        "operationId": "ApprovalRequest_InvokeAndFetchApprovalRequest",
+        "tags": [
+          "ApprovalRequest"
+        ],
+        "description": "The ProviderLevelAction POST call to invoke and fetch the approval request.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalRequestInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalRequestOutput"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1207,6 +1250,85 @@
           "$ref": "#/definitions/RequestCredentialSettingUpdate",
           "description": "The requested verifiable credentials for the approver management portal."
         }
+      }
+    },
+    "ApprovalRequestInput": {
+      "type": "object",
+      "description": "The input for the invokeAndFetchApprovalRequest POST call.",
+      "properties": {
+        "changeStateId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The ARM resource ID of the ChangeState resource that the approval request is associated with.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ChangeSafety/changeStates"
+              }
+            ]
+          }
+        },
+        "stageProgression": {
+          "type": "string",
+          "description": "The name of the current stage progression of the ChangeState resource."
+        },
+        "resourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource that the approval request is associated with, if multiple resources are included in the ChangeState."
+        }
+      },
+      "required": [
+        "changeStateId",
+        "stageProgression"
+      ]
+    },
+    "ApprovalRequestOutput": {
+      "type": "object",
+      "description": "The output for the invokeAndFetchApprovalRequest POST call.",
+      "properties": {
+        "approvalRequestState": {
+          "$ref": "#/definitions/ApprovalRequestState",
+          "description": "The current state of the approval request."
+        },
+        "approvalToken": {
+          "type": "string",
+          "description": "The approval token of the approval request."
+        }
+      },
+      "required": [
+        "approvalRequestState",
+        "approvalToken"
+      ]
+    },
+    "ApprovalRequestState": {
+      "type": "string",
+      "description": "Enum of approval request state.",
+      "enum": [
+        "InProgress",
+        "Approved",
+        "Rejected"
+      ],
+      "x-ms-enum": {
+        "name": "ApprovalRequestState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "InProgress",
+            "value": "InProgress",
+            "description": "The approval request in still in progress."
+          },
+          {
+            "name": "Approved",
+            "value": "Approved",
+            "description": "The approval request has been approved."
+          },
+          {
+            "name": "Rejected",
+            "value": "Rejected",
+            "description": "The approval request has been rejected."
+          }
+        ]
       }
     },
     "ApprovalRule": {
