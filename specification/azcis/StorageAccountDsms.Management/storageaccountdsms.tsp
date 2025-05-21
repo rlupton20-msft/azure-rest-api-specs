@@ -128,17 +128,17 @@ model StorageAccountDsmsResourceProperties {
   #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
   @doc("DsmsAccountTemplate provision start time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
-  provisionStartTime_DsmsAccountTemplate?: string;
+  provisionStartTime_dsmsAccountTemplate?: string;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
   @doc("StorageAccountTemplate provision start time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
-  provisionStartTime_StorageAccountTemplate?: string;
+  provisionStartTime_storageAccountTemplate?: string;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
   @doc("StorageAccountSyncTemplate provision start time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
-  provisionStartTime_StorageAccountSyncTemplate?: string;
+  provisionStartTime_storageAccountSyncTemplate?: string;
 }
 
 @doc("Whitelist element defines the whitelist for a secret.")
