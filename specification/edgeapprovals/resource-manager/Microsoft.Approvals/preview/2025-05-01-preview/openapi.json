@@ -55,6 +55,850 @@
     }
   ],
   "paths": {
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowAssignments": {
+      "get": {
+        "operationId": "ApprovalWorkflowAssignments_ListByParent",
+        "tags": [
+          "ApprovalWorkflowAssignments"
+        ],
+        "description": "List ApprovalWorkflowAssignment resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignmentListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowAssignments/{approvalWorkflowAssignmentName}": {
+      "get": {
+        "operationId": "ApprovalWorkflowAssignments_Get",
+        "tags": [
+          "ApprovalWorkflowAssignments"
+        ],
+        "description": "Get a ApprovalWorkflowAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowAssignmentName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowAssignment",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowAssignments_Get_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowAssignments_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "ApprovalWorkflowAssignments_CreateOrUpdate",
+        "tags": [
+          "ApprovalWorkflowAssignments"
+        ],
+        "description": "Create a ApprovalWorkflowAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowAssignmentName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowAssignment",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ApprovalWorkflowAssignment' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignment"
+            }
+          },
+          "201": {
+            "description": "Resource 'ApprovalWorkflowAssignment' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignment"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowAssignments_CreateOrUpdate_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowAssignments_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ApprovalWorkflowAssignments_Update",
+        "tags": [
+          "ApprovalWorkflowAssignments"
+        ],
+        "description": "Update a ApprovalWorkflowAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowAssignmentName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowAssignment",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignmentUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowAssignment"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowAssignments_Update_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowAssignments_Update_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ApprovalWorkflowAssignments_Delete",
+        "tags": [
+          "ApprovalWorkflowAssignments"
+        ],
+        "description": "Delete a ApprovalWorkflowAssignment",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowAssignmentName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowAssignment",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowAssignments_Delete_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowAssignments_Delete_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowDefinitions": {
+      "get": {
+        "operationId": "ApprovalWorkflowDefinitions_ListByResourceGroup",
+        "tags": [
+          "ApprovalWorkflowDefinitions"
+        ],
+        "description": "List ApprovalWorkflowDefinition resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinitionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowDefinitions_ListByResourceGroup_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowDefinitions_ListByResourceGroup_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}": {
+      "get": {
+        "operationId": "ApprovalWorkflowDefinitions_Get",
+        "tags": [
+          "ApprovalWorkflowDefinitions"
+        ],
+        "description": "Get a ApprovalWorkflowDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinition"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowDefinitions_Get_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowDefinitions_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "ApprovalWorkflowDefinitions_CreateOrUpdate",
+        "tags": [
+          "ApprovalWorkflowDefinitions"
+        ],
+        "description": "Create a ApprovalWorkflowDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinition"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ApprovalWorkflowDefinition' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinition"
+            }
+          },
+          "201": {
+            "description": "Resource 'ApprovalWorkflowDefinition' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinition"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowDefinitions_CreateOrUpdate_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowDefinitions_CreateOrUpdate_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "ApprovalWorkflowDefinitions_Update",
+        "tags": [
+          "ApprovalWorkflowDefinitions"
+        ],
+        "description": "Update a ApprovalWorkflowDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinitionUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowDefinition"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowDefinitions_Update_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowDefinitions_Update_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "ApprovalWorkflowDefinitions_Delete",
+        "tags": [
+          "ApprovalWorkflowDefinitions"
+        ],
+        "description": "Delete a ApprovalWorkflowDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowDefinitions_Delete_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowDefinitions_Delete_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances": {
+      "get": {
+        "operationId": "ApprovalWorkflowInstances_ListByParent",
+        "tags": [
+          "ApprovalWorkflowInstances"
+        ],
+        "description": "List ApprovalWorkflowInstance resources by ApprovalWorkflowDefinition",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowInstanceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowInstances_ListByParent_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowInstances_ListByParent_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances/{approvalWorkflowInstanceName}": {
+      "get": {
+        "operationId": "ApprovalWorkflowInstances_Get",
+        "tags": [
+          "ApprovalWorkflowInstances"
+        ],
+        "description": "Get a ApprovalWorkflowInstance",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "approvalWorkflowInstanceName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowInstance",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowInstance"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowInstances_Get_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowInstances_Get_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "ApprovalWorkflowInstances_Create",
+        "tags": [
+          "ApprovalWorkflowInstances"
+        ],
+        "description": "Create a ApprovalWorkflowInstance",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "approvalWorkflowInstanceName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowInstance",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowInstance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'ApprovalWorkflowInstance' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowInstance"
+            }
+          },
+          "201": {
+            "description": "Resource 'ApprovalWorkflowInstance' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/ApprovalWorkflowInstance"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowInstances_Create_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowInstances_Create_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ApprovalWorkflowInstances_Delete",
+        "tags": [
+          "ApprovalWorkflowInstances"
+        ],
+        "description": "Delete a ApprovalWorkflowInstance",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "approvalWorkflowInstanceName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowInstance",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowInstances_Delete_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowInstances_Delete_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances/{approvalWorkflowInstanceName}/executeStage": {
+      "post": {
+        "operationId": "ApprovalWorkflowInstances_ExecuteStage",
+        "tags": [
+          "ApprovalWorkflowInstances"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "approvalWorkflowDefinitionName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowDefinition",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "approvalWorkflowInstanceName",
+            "in": "path",
+            "description": "The name of the ApprovalWorkflowInstance",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApprovalStageExecutionInput"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ApprovalWorkflowInstances_ExecuteStage_MaximumSet": {
+            "$ref": "./examples/ApprovalWorkflowInstances_ExecuteStage_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/providers/Private.Approvals/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -311,978 +1155,6 @@
             "$ref": "./examples/ApprovalSettings_Delete_MinimumSet_Gen.json"
           }
         }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Approvals/approvalWorkflowAssignments": {
-      "get": {
-        "operationId": "ApprovalWorkflowAssignments_ListBySubscription",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "List ApprovalWorkflowAssignment resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignmentListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_ListBySubscription_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_ListBySubscription_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.Approvals/approvalWorkflowDefinitions": {
-      "get": {
-        "operationId": "ApprovalWorkflowDefinitions_ListBySubscription",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "List ApprovalWorkflowDefinition resources by subscription ID",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinitionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_ListBySubscription_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_ListBySubscription_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowAssignments": {
-      "get": {
-        "operationId": "ApprovalWorkflowAssignments_ListByResourceGroup",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "List ApprovalWorkflowAssignment resources by resource group",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignmentListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_ListByResourceGroup_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_ListByResourceGroup_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowAssignments/{approvalWorkflowAssignmentName}": {
-      "get": {
-        "operationId": "ApprovalWorkflowAssignments_Get",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "Get a ApprovalWorkflowAssignment",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowAssignmentName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowAssignment",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignment"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_Get_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_Get_MaximumSet_Gen.json"
-          }
-        }
-      },
-      "put": {
-        "operationId": "ApprovalWorkflowAssignments_CreateOrUpdate",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "Create a ApprovalWorkflowAssignment",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowAssignmentName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowAssignment",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignment"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'ApprovalWorkflowAssignment' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignment"
-            }
-          },
-          "201": {
-            "description": "Resource 'ApprovalWorkflowAssignment' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignment"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_CreateOrUpdate_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_CreateOrUpdate_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "ApprovalWorkflowAssignments_Update",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "Update a ApprovalWorkflowAssignment",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowAssignmentName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowAssignment",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignmentUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowAssignment"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_Update_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_Update_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "ApprovalWorkflowAssignments_Delete",
-        "tags": [
-          "ApprovalWorkflowAssignments"
-        ],
-        "description": "Delete a ApprovalWorkflowAssignment",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowAssignmentName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowAssignment",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowAssignments_Delete_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowAssignments_Delete_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowDefinitions": {
-      "get": {
-        "operationId": "ApprovalWorkflowDefinitions_ListByResourceGroup",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "List ApprovalWorkflowDefinition resources by resource group",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinitionListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_ListByResourceGroup_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_ListByResourceGroup_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}": {
-      "get": {
-        "operationId": "ApprovalWorkflowDefinitions_Get",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "Get a ApprovalWorkflowDefinition",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinition"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_Get_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_Get_MaximumSet_Gen.json"
-          }
-        }
-      },
-      "put": {
-        "operationId": "ApprovalWorkflowDefinitions_CreateOrUpdate",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "Create a ApprovalWorkflowDefinition",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinition"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'ApprovalWorkflowDefinition' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinition"
-            }
-          },
-          "201": {
-            "description": "Resource 'ApprovalWorkflowDefinition' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinition"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_CreateOrUpdate_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_CreateOrUpdate_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "ApprovalWorkflowDefinitions_Update",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "Update a ApprovalWorkflowDefinition",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinitionUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowDefinition"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_Update_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_Update_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "ApprovalWorkflowDefinitions_Delete",
-        "tags": [
-          "ApprovalWorkflowDefinitions"
-        ],
-        "description": "Delete a ApprovalWorkflowDefinition",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowDefinitions_Delete_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowDefinitions_Delete_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances": {
-      "get": {
-        "operationId": "ApprovalWorkflowInstances_ListByParent",
-        "tags": [
-          "ApprovalWorkflowInstances"
-        ],
-        "description": "List ApprovalWorkflowInstance resources by ApprovalWorkflowDefinition",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowInstanceListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowInstances_ListByParent_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowInstances_ListByParent_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances/{approvalWorkflowInstanceName}": {
-      "get": {
-        "operationId": "ApprovalWorkflowInstances_Get",
-        "tags": [
-          "ApprovalWorkflowInstances"
-        ],
-        "description": "Get a ApprovalWorkflowInstance",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "approvalWorkflowInstanceName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowInstance",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowInstance"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowInstances_Get_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowInstances_Get_MaximumSet_Gen.json"
-          }
-        }
-      },
-      "put": {
-        "operationId": "ApprovalWorkflowInstances_Create",
-        "tags": [
-          "ApprovalWorkflowInstances"
-        ],
-        "description": "Create a ApprovalWorkflowInstance",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "approvalWorkflowInstanceName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowInstance",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Resource create parameters.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowInstance"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'ApprovalWorkflowInstance' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowInstance"
-            }
-          },
-          "201": {
-            "description": "Resource 'ApprovalWorkflowInstance' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/ApprovalWorkflowInstance"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowInstances_Create_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowInstances_Create_MaximumSet_Gen.json"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "ApprovalWorkflowInstances_Delete",
-        "tags": [
-          "ApprovalWorkflowInstances"
-        ],
-        "description": "Delete a ApprovalWorkflowInstance",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "approvalWorkflowInstanceName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowInstance",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowInstances_Delete_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowInstances_Delete_MaximumSet_Gen.json"
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Approvals/approvalWorkflowDefinitions/{approvalWorkflowDefinitionName}/approvalWorkflowInstances/{approvalWorkflowInstanceName}/executeStage": {
-      "post": {
-        "operationId": "ApprovalWorkflowInstances_ExecuteStage",
-        "tags": [
-          "ApprovalWorkflowInstances"
-        ],
-        "description": "A long-running resource action.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "approvalWorkflowDefinitionName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowDefinition",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "approvalWorkflowInstanceName",
-            "in": "path",
-            "description": "The name of the ApprovalWorkflowInstance",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApprovalStageExecutionInput"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "ApprovalWorkflowInstances_ExecuteStage_MaximumSet": {
-            "$ref": "./examples/ApprovalWorkflowInstances_ExecuteStage_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
       }
     }
   },
@@ -1634,7 +1506,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -1686,7 +1558,6 @@
         }
       },
       "required": [
-        "scope",
         "approvalWorkflowDefinitionId"
       ]
     },
@@ -1723,7 +1594,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -1743,7 +1614,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -1791,8 +1662,7 @@
         }
       },
       "required": [
-        "approvalRule",
-        "scope"
+        "approvalRule"
       ]
     },
     "ApprovalWorkflowDefinitionPropertiesUpdate": {
@@ -1824,7 +1694,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
     },
@@ -2040,25 +1910,6 @@
         "signoffDateTime"
       ]
     },
-    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
-      "type": "object",
-      "title": "Tracked Resource",
-      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-        }
-      ]
-    },
     "LogicAppRef": {
       "type": "object",
       "description": "Reference to a Logic App resource.",
@@ -2256,5 +2107,15 @@
       }
     }
   },
-  "parameters": {}
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
 }

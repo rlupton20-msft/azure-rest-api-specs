@@ -8,7 +8,7 @@ namespace Microsoft.Approvals;
 
 @doc("ApprovalWorkflowDefinition ARM resource.")
 model ApprovalWorkflowDefinition
-  is TrackedResource<ApprovalWorkflowDefinitionProperties> {
+  is ExtensionResource<ApprovalWorkflowDefinitionProperties> {
   ...ResourceNameParameter<ApprovalWorkflowDefinition>;
   ...EntityTagProperty;
 }
@@ -26,7 +26,7 @@ model ApprovalWorkflowDefinitionProperties {
   approvalRule: ApprovalRule;
 
   @doc("The hierarchical scope under which this approval workflow is assignable.")
-  scope: string;
+  scope?: string;
 }
 
 @doc("Reference to a Logic App resource.")
@@ -73,5 +73,4 @@ interface ApprovalWorkflowDefinitions {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ApprovalWorkflowDefinition>;
   listByResourceGroup is ArmResourceListByParent<ApprovalWorkflowDefinition>;
-  listBySubscription is ArmListBySubscription<ApprovalWorkflowDefinition>;
 }

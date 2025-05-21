@@ -7,7 +7,7 @@ namespace Microsoft.Approvals;
 
 @doc("ApprovalWorkflowAssignment ARM resource")
 model ApprovalWorkflowAssignment
-  is TrackedResource<ApprovalWorkflowAssignmentProperties> {
+  is ExtensionResource<ApprovalWorkflowAssignmentProperties> {
   ...ResourceNameParameter<ApprovalWorkflowAssignment>;
   ...EntityTagProperty;
 }
@@ -19,7 +19,7 @@ model ApprovalWorkflowAssignmentProperties {
   provisioningState?: ProvisioningState;
 
   @doc("The hierarchical scope at which the approval workflow is assigned.")
-  scope: string;
+  scope?: string;
 
   @doc("The ARM resource id of the ApprovalWorkflowDefinition associated with this assignment.")
   approvalWorkflowDefinitionId: Azure.Core.armResourceIdentifier<[
@@ -38,6 +38,5 @@ interface ApprovalWorkflowAssignments {
     ApprovalWorkflowAssignmentProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ApprovalWorkflowAssignment>;
-  listByResourceGroup is ArmResourceListByParent<ApprovalWorkflowAssignment>;
-  listBySubscription is ArmListBySubscription<ApprovalWorkflowAssignment>;
+  listByParent is ArmResourceListByParent<ApprovalWorkflowAssignment>;
 }
