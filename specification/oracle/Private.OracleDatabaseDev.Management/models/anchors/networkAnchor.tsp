@@ -29,7 +29,7 @@ model NetworkAnchorProperties {
   @visibility(Lifecycle.Read)
   vnetId?: VnetId;
 
-  @doc("Delegated Azure subnet.")
+  @doc("Client subnet")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   subnetId: SubnetId;
 
