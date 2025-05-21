@@ -35,38 +35,60 @@ model StorageAccountDsmsResourceProperties {
   @doc("Label of the XStore account.")
   label?: string;
 
+  @doc("If False, create Storage Account and dSMS object in Deferred Provisioning; if True, create dSMS object in Provisioning, then create Storage Account in Deferred Provisioning and refresh keys in dSMS. Optional, True by default.")
+  xstoreBootstrapping?: boolean;
+
   @doc("Name of the event to emit once the XStore account is created.")
   eventEmittedUponProvisioning?: string;
 
-  @doc("Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal).")
-  resourceProvider: "Classic" | "ARM" | string;
+  @doc("Storage account whitelist in dSMS.")
+  whitelists?: Whitelists;
 
-  @doc("Residency boundary. Acceptable values: Worldwide, National.")
+  @doc("Storage account Replication in dSMS.")
+  replicate?: Replicate;
+
+  @doc("Set to True to block auto key rollover. Optional, False by default.")
+  blockAutoRollover?: boolean;
+
+  @doc("Override default key renewal period.")
+  keyRenewalPeriodInDays?: int32;
+
+  @doc("Set to True if you need ACL the Storage Account to Autopilot or PilotFish environments. Optional.")
+  releaseKeyToAgent?: boolean;
+
+  @doc("Set to True to force global sync of dSMS secret or False to skip it. Optional, False by default.")
+  forceSyncGlobalDsmsSecret?: boolean;
+
+  @doc("Storage Account resource provider. Acceptable values: 'Classic' (for RDFE Storage Accounts), 'ARM' (StorageV2 (general purpose v2) on Azure Portal), 'Xstore', 'Invalid' (used to create a dummy account in dSMS).")
+  resourceProvider: "Classic" | "ARM" | "Xstore" | "Invalid" | string;
+
+  @doc("Set to True to pilot XStore resource provider. In new region or new cloud scenario, it can create Storage Account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE.")
+  pilotXstoreResourceProvider?: boolean;
+
+  @doc("Storage account shared access signature.")
+  @extension("x-ms-identifiers", #[])
+  accountSasInfos?: Array<AccountSasInfo>;
+
+  @doc("Residency boundary. Acceptable values: 'Worldwide', 'National'.")
   residencyBoundary?: "Worldwide" | "National" | string;
 
-  @doc("Minimum account replication type, e.g. Standard_LRS. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used.")
+  @doc("Minimum account replication type, e.g. 'Standard_LRS'. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used.")
   resiliencyMinimum?: string;
 
-  @doc("Maximum account replication type, e.g. Standard_ZRS.")
+  @doc("Maximum account replication type, e.g. 'Standard_ZRS'.")
   resiliencyMaximum?: string;
 
-  @doc("Resiliencies progression id. Acceptable values: Default, PremiumDefault, Zonal.")
+  @doc("Resiliencies progression id. Acceptable values: 'Default', 'PremiumDefault', 'Zonal'.")
   resilienciesProgressionId?: "Default" | "PremiumDefault" | "Zonal" | string;
 
-  @doc("Additional locations to support resiliency, e.g. primary.")
+  @doc("Additional locations to support resiliency, e.g. 'primary'.")
   additionalLocations?: string;
-
-  @doc("An array of Lifecycle Management Policy rules.")
-  lifecycleManagementPolicy?: Array<LifecycleManagementPolicyRule>;
-
-  @doc("Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default.")
-  refreshInDsms?: boolean;
-
-  @doc("The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider.")
-  originalResourceProvider?: string;
 
   @doc("Dual Stack Endpoint Preference.")
   dualStackEndpointPreference?: DualStackEndpointPreference;
+
+  @doc("An array of Lifecycle Management Policy rules.")
+  lifecycleManagementPolicy?: Array<LifecycleManagementPolicyRule>;
 
   @doc("Defines if Infrastructure Encryption is required.")
   requireInfrastructureEncryption?: boolean;
@@ -95,7 +117,7 @@ model StorageAccountDsmsResourceProperties {
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountArmCreationTime?: string;
 
-  @doc("Storage Account rdfe creation time; a part of provisioning ResultData output.")
+  @doc("Storage Account RDFE creation time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   storageAccountRdfeCreationTime?: string;
 
@@ -104,9 +126,65 @@ model StorageAccountDsmsResourceProperties {
   storageAccountXstoreCreationTime?: string;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
-  @doc("Resource template provision start time; a part of provisioning ResultData output.")
+  @doc("DsmsAccountTemplate provision start time; a part of provisioning ResultData output.")
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  provisionStartTime_DsmsAccountTemplate?: string;
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
+  @doc("StorageAccountTemplate provision start time; a part of provisioning ResultData output.")
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   provisionStartTime_StorageAccountTemplate?: string;
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "The names of Property types must use camelCase."
+  @doc("StorageAccountSyncTemplate provision start time; a part of provisioning ResultData output.")
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  provisionStartTime_StorageAccountSyncTemplate?: string;
+}
+
+@doc("Whitelist element defines the whitelist for a secret.")
+model Whitelist {
+  @doc("Type of the whitelist. ServiceID: whitelisting a service. SubscriptionID: whitelisting subscription ID for creating Storage Account objects. DnsDomain: whitelisting a DNS domain for creating chained certificates. ServiceTreeID: whitelisting a service tree ID.")
+  type: string;
+
+  @doc("Values of the whitelist, separated by semicolon.")
+  values: string;
+}
+
+@doc("Whitelists element is a wrapper object over a collection of Whitelist elements.")
+model Whitelists {
+  @doc("Array of whitelists.")
+  @extension("x-ms-identifiers", #[])
+  whitelist: Array<Whitelist>;
+}
+
+@doc("Replicate element defines where the secret should be replicated to.")
+model Replicate {
+  @doc("Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances.")
+  type: string;
+
+  @doc("Regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon.")
+  regions: string;
+}
+
+@doc("AccountSasInfo element contains Sas Key Information.")
+model AccountSasInfo {
+  @doc("dSMS root folder.")
+  rootPath: string;
+
+  @doc("Name of the Storage Account.")
+  name: string;
+
+  @doc("Path in Dsms endpoint. If this specified, then RootPath and Name should be ignored.")
+  dsmsLocation: string;
+
+  @doc("The signed permissions for the account SAS. Acceptable values: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).")
+  signedPermissions: string;
+
+  @doc("Services like blob(b), queue(q) and table(t).")
+  signedServices: string;
+
+  @doc("The signed resource types that are accessible with the account SAS. Service (s)/Container (c)/Object (o).")
+  signedResourceTypes: string;
 }
 
 @doc("Lifecycle Management Policy Rule for Storage Account.")
@@ -141,7 +219,7 @@ model LifecycleManagementPolicyRule {
 
 @doc("Lifecycle Management Policy details for a specific action in a rule.")
 model LcmActionPolicy {
-  @doc("Action to be performed. Acceptable values: tierToCool, tierToArchive, tierToCold, tierToHot, delete.")
+  @doc("Action to be performed. Acceptable values: 'tierToCool', 'tierToArchive', 'tierToCold', 'tierToHot', 'delete'.")
   action: string;
 
   @doc("Days after modification greater than.")
