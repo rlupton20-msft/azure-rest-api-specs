@@ -92,29 +92,41 @@ interface DeviceOperations {
   displayMessage is ArmResourceActionAsync<
     Device,
     DisplayMessageRequest,
-    DeviceActionResponse
+    ArmResponse<DeviceActionResponse>
   >;
 
   @doc("Refreshes the connection of a device.")
   refreshConnection is ArmResourceActionAsync<
     Device,
     void,
-    DeviceActionResponse
+    ArmResponse<DeviceActionResponse>
   >;
 
   @doc("Revokes device certificates.")
   revokeCertificates is ArmResourceActionAsync<
     Device,
     void,
-    DeviceActionResponse
+    ArmResponse<DeviceActionResponse>
   >;
 
   @doc("Sends a restart command to a device.")
-  reboot is ArmResourceActionAsync<Device, void, DeviceActionResponse>;
+  reboot is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
 
   @doc("Sends a shutdown command to a device.")
-  shutdown is ArmResourceActionAsync<Device, void, DeviceActionResponse>;
+  shutdown is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
 
   @doc("Sends a user log off command to a device.")
-  logOffUser is ArmResourceActionAsync<Device, void, DeviceActionResponse>;
+  logOffUser is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
 }
