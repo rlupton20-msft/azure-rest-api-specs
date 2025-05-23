@@ -56,8 +56,21 @@ suppressions:
       - discovery.json
     where: 
       - $.definitions.ToolProperties.properties.environmentVariables
-      - $.definitions.ToolListItemProperties.properties.environmentVariables
       - $.definitions.ToolPropertiesUpdate.properties.environmentVariables
+  - code: AvoidAdditionalProperties
+    reason: Enable customer to definitionContent matching user defined formats.
+    from:
+      - discovery.json
+    where:
+      - $.definitions.WithDefinitionContent.properties.definitionContent
+      - $.definitions.AgentProperties.properties.definitionContent
+      - $.definitions.AgentPropertiesUpdate.properties.definitionContent
+      - $.definitions.ModelProperties.properties.definitionContent
+      - $.definitions.ModelPropertiesUpdate.properties.definitionContent
+      - $.definitions.ToolProperties.properties.definitionContent
+      - $.definitions.ToolPropertiesUpdate.properties.definitionContent
+      - $.definitions.WorkflowProperties.properties.definitionContent
+      - $.definitions.WorkflowPropertiesUpdate.properties.definitionContent
   - code: AvoidAdditionalProperties
     reason: Enable customer to assign identities to tools.
     from:
@@ -65,10 +78,22 @@ suppressions:
     where:
       - $.definitions.SupercomputerIdentities.properties.workloadIdentities
       - $.definitions.SupercomputerIdentitiesUpdate.properties.workloadIdentities
-  - code: GuidUsage
-    reason: Refers to clientId from Azure.ResourceManager.CommonTypes.UserAssignedIdentity.
+  - code: OBJECT_MISSING_REQUIRED_PROPERTY
+    reason: These are source files for auo-generating examples.
     from:
-      - discovery.json
+      - scripts/json/agents/definitionContent.json
+      - scripts/json/tools/definitionContent.json
+      - scripts/json/models/definitionContent.json
+      - scripts/json/workflows/definitionContent.json
+  - code: OBJECT_ADDITIONAL_PROPERTIES
+    reason: These are source files for auo-generating examples.
+    from:
+      - scripts/json/agents/definitionContent.json
+      - scripts/json/tools/definitionContent.json
+      - scripts/json/models/definitionContent.json
+      - scripts/json/workflows/definitionContent.json
+
+
 ```
 
 ---

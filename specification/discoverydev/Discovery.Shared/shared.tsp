@@ -64,7 +64,7 @@ alias DataAssetId = Azure.Core.armResourceIdentifier<[
   }
 ]>;
 
-alias StorageId = Azure.Core.armResourceIdentifier<[
+alias DiscoveryStorageId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Discovery/Storages";
   }

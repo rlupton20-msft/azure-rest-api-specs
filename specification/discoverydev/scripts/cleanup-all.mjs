@@ -1,4 +1,4 @@
-import {
+import fs, {
   existsSync,
   mkdirSync,
   readdirSync,
@@ -6,6 +6,7 @@ import {
   rmSync,
   writeFileSync,
 } from "fs";
+import { fileURLToPath } from "url";
 import { basename, dirname, resolve } from "path";
 import * as crypto from "node:crypto";
 
@@ -14,6 +15,7 @@ import {
   dataPlanePackageNames,
   validatePackage,
 } from "./common.mjs";
+import path from "node:path";
 
 const getPathForOperationId = ({ swaggerObject, operationId }) => {
   for (const [basePath, operations] of Object.entries(swaggerObject.paths)) {
@@ -46,8 +48,42 @@ const fixSetLists = ({ properties }) => {
   return res;
 };
 
+const readJsonFromFile = ({ resourceTypeName, propertyName }) => {
+  if (!resourceTypeName) {
+    throw new Error("Resource type name is missing");
+  }
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const filePath = path.resolve(
+    __dirname,
+    "json",
+    resourceTypeName,
+    `${propertyName}.mjs`,
+  );
+  if (!fs.existsSync(filePath)) {
+    throw new Error(
+      `readJsonFromFile: Could not find JSON file for "${resourceTypeName}.${propertyName}": ${filePath}`,
+    );
+  }
+  // const rawText = fs.readFileSync(filePath, "utf8");
+  // if (!rawText) {
+  //   throw new Error(
+  //     `readJsonFromFile: No file content for "${resourceTypeName}.${propertyName}": ${filePath}`,
+  //   );
+  // }
+  let parsedJson = null;
+  try {
+    parsedJson = import(filePath);
+  } catch (err) {
+    throw new Error(`Invalid JSON file: ${filePath}`);
+  }
+  console.log(
+    `      - replacing ${resourceTypeName}.${propertyName} with: ${filePath}`,
+  );
+  return parsedJson;
+};
 const uuid = "00000011-1111-2222-2222-123456789111";
-const fixPropertiesBag = ({ properties }) => {
+const fixPropertiesBag = ({ properties, resourceTypeName }) => {
   if (!properties) {
     return undefined;
   }
@@ -72,9 +108,16 @@ const fixPropertiesBag = ({ properties }) => {
       ? fixManagedIds({ object: properties.identities })
       : undefined,
     ...fixDiscoverIds({ object: properties }),
+    definitionContent:
+      resourceTypeName && properties.definitionContent
+        ? readJsonFromFile({
+            resourceTypeName,
+            propertyName: "definitionContent",
+          })
+        : undefined,
   };
-  for(const propName of ["workspaceIdentity"]) {
-    if(res[propName]) {
+  for (const propName of ["workspaceIdentity"]) {
+    if (res[propName]) {
       res[propName] = managedIdentityResourceId;
     }
   }
@@ -84,13 +127,16 @@ const fixPropertiesBag = ({ properties }) => {
 const managedIdentityResourceId =
   "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1";
 
-const makeDiscoveryArmId = ({ resourceTypeName }) => {
-  const irregularPlurals = {
-    bookshelf: "bookshelves",
-  };
-  const pathSegment =
-    irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`;
-  return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/${pathSegment}/${resourceTypeName}12`;
+const makeDiscoveryArmId = ({ resourceTypeName, name }) => {
+  let rtName = resourceTypeName;
+  if (!rtName.endsWith("s")) {
+    const irregularPlurals = {
+      bookshelf: "bookshelves",
+    };
+    rtName = irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`;
+  }
+
+  return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/resourceGroups/rgdiscovery/providers/Microsoft.Discovery/${rtName}/${name || resourceTypeName + "12"}`;
 };
 
 const fixManagedIds = ({ object }) => {
@@ -106,10 +152,10 @@ const fixManagedIds = ({ object }) => {
   const identityListPropertyNames = ["workloadIdentities"];
 
   for (const propertyName of identityListPropertyNames) {
-    const _it = res[propertyName]
-    if (_it && (typeof _it === "object") && !Array.isArray(_it)) {
-      for(const [key, val] of Object.entries(_it)) {
-        _it[key] = fixIdentity({ identity: val})
+    const _it = res[propertyName];
+    if (_it && typeof _it === "object" && !Array.isArray(_it)) {
+      for (const [key, val] of Object.entries(_it)) {
+        _it[key] = fixIdentity({ identity: val });
       }
       res[propertyName] = _it;
     }
@@ -149,6 +195,9 @@ const fixDiscoverIds = ({ object }) => {
       ];
     }
   }
+  if (object.entryReferenceId) {
+    resp.entryReferenceId = makeDiscoveryArmId({ resourceTypeName: "agents" });
+  }
   return resp;
 };
 const fixIdentity = ({ identity }) => {
@@ -177,7 +226,12 @@ const fixIdentity = ({ identity }) => {
 
 const definitionContent = "artifact_definition_content_in_yaml_format";
 
-const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
+const fixIds = ({
+  swaggerObject,
+  exampleObject,
+  operationId,
+  isControlPlane,
+}) => {
   let basePath = getPathForOperationId({
     swaggerObject,
     operationId,
@@ -186,6 +240,7 @@ const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
     console.warn(`Unable to find base path "${basePath}"`);
     return exampleObject;
   }
+  const resourceTypeName = operationId.split("_")[0];
   for (const [returnCode, { body, ...rest }] of Object.entries(
     exampleObject.responses,
   )) {
@@ -213,23 +268,33 @@ const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
       exampleObject.responses[returnCode] = {
         ...rest,
         body: {
-          id: id ? basePath : undefined,
+          id: !id
+            ? undefined
+            : isControlPlane
+              ? makeDiscoveryArmId({ resourceTypeName, name: _name })
+              : basePath,
           name: name && _name ? _name : name,
           ...bodyRest,
           identity: identity && fixIdentity({ identity }),
 
-          properties: properties && fixPropertiesBag({ properties }),
+          properties:
+            properties && fixPropertiesBag({ properties, resourceTypeName }),
 
           // Handle list responses
           value: !Array.isArray(body?.value)
             ? undefined
             : body.value.map(({ id, name, identity, properties, ..._val }) => ({
-                id: id && name ? `${basePath}/${name}` : undefined,
+                id:
+                  id && isControlPlane
+                    ? makeDiscoveryArmId({ resourceTypeName, name })
+                    : undefined,
                 name,
                 ..._val,
                 identity: identity && fixIdentity({ identity }),
                 ...fixDiscoverIds({ object: _val }),
-                properties: properties && fixPropertiesBag({ properties }),
+                properties:
+                  properties &&
+                  fixPropertiesBag({ properties, resourceTypeName }),
               })),
           definitionContent: !body.definitionContent
             ? undefined
@@ -279,6 +344,7 @@ const runMain = () => {
   };
   for (const { inDir, outDir } of makeDirs()) {
     const outDirPath = resolve(outDir);
+    const isControlPlane = outDirPath.includes(".Management/");
 
     const swaggerDir = resolve(dirname(inDir));
     console.log("swaggerDir: ", swaggerDir);
@@ -291,8 +357,9 @@ const runMain = () => {
     if (!swaggerFile) {
       throw new Error("No specification file found");
     }
-    const swaggerObject = JSON.parse(readFileSync(swaggerFile));
-    // console.log("swaggerFile: ",swaggerFile)
+    const fileText = readFileSync(swaggerFile, "utf8");
+    const swaggerObject = JSON.parse(fileText);
+    console.log("swaggerFile: ", swaggerFile);
 
     console.log("\nDeleting:", outDirPath);
     rmSync(outDirPath, { recursive: true, force: true });
@@ -320,6 +387,7 @@ const runMain = () => {
           title = `${title} - generated by [MinimumSet] rule`;
         }
       }
+      const resourceTypeName = contents.operationId.split("_")[0];
       if (contents.parameters) {
         contents.parameters = fixRegexIssues({ object: contents.parameters });
 
@@ -332,6 +400,7 @@ const runMain = () => {
             undefined;
           contents.parameters.resource.properties = fixPropertiesBag({
             properties: contents.parameters.resource.properties,
+            resourceTypeName,
           });
         }
         if (contents.parameters.properties?.properties) {
@@ -340,6 +409,7 @@ const runMain = () => {
             undefined;
           contents.parameters.properties.properties = fixPropertiesBag({
             properties: contents.parameters.properties.properties,
+            resourceTypeName,
           });
         }
       }
@@ -351,6 +421,7 @@ const runMain = () => {
           swaggerObject,
           exampleObject: contents,
           operationId: contents.operationId,
+          isControlPlane,
         });
       } catch (err) {
         console.log(`Failed to fox IDs for ${file}: ${err.message}`);
