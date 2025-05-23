@@ -41,7 +41,14 @@ model ProjectProperties {
 
   @doc("ARM ID of the the starting (entry) point Agent or Workflow.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  entryReferenceId: string;
+  entryReferenceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Discovery/agents";
+    },
+    {
+      type: "Microsoft.Discovery/workflows";
+    }
+  ]>;
 
   @doc("Allowed DataContainers (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create)

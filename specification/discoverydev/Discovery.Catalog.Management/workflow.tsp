@@ -17,24 +17,12 @@ namespace Microsoft.Discovery;
 model Workflow is TrackedResource<WorkflowProperties> {
   ...ResourceNameParameter<Workflow>;
 }
-/** Workflow tracked resource list response item */
-model WorkflowListItem is TrackedResource<WorkflowListItemProperties> {
-  ...ResourceNameParameter<Workflow>;
-}
-
-model WorkflowListResult is ResourceListResult<WorkflowListItem>;
 
 @doc("Discovery Workflow list item properties")
-model WorkflowListItemProperties {
-  ...DiscoveryResourceProperties;
-}
-
-@doc("Discovery Workflow properties")
 model WorkflowProperties {
-  ...WorkflowListItemProperties;
+  ...DiscoveryResourceProperties;
   ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Workflows
-  extends DiscoveryResource<Workflow, WorkflowProperties, WorkflowListResult> {}
+interface Workflows extends DiscoveryResource<Workflow, WorkflowProperties> {}

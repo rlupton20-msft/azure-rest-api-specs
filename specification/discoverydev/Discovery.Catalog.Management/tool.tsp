@@ -21,29 +21,17 @@ model Tool is TrackedResource<ToolProperties> {
   ...ResourceNameParameter<Tool>;
 }
 
-/** Tool tracked resource list response item */
-model ToolListItem is TrackedResource<ToolListItemProperties> {
-  ...ResourceNameParameter<Tool>;
-}
-
-model ToolListResult is ResourceListResult<ToolListItem>;
-
 @doc("Discovery Tool list item properties")
-model ToolListItemProperties {
+model ToolProperties {
   ...DiscoveryResourceProperties;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
   @doc("Environment variables to make available")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   environmentVariables?: Record<string>;
-}
 
-@doc("Discovery Tool properties")
-model ToolProperties {
-  ...ToolListItemProperties;
   ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Tools
-  extends DiscoveryResource<Tool, ToolProperties, ToolListResult> {}
+interface Tools extends DiscoveryResource<Tool, ToolProperties> {}

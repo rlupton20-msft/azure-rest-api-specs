@@ -69,9 +69,10 @@ model WithProvisioningState {
 
 @doc("For resource definition content")
 model WithDefinitionContent {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Need flexibly content to match various use-cases"
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The JSON content for defining a resource")
-  definitionContent: string;
+  definitionContent: Record<unknown>;
 }
 
 @doc("For Workspace managed identity")
@@ -90,6 +91,6 @@ interface DiscoveryResource<
   createOrUpdate is ArmResourceCreateOrReplaceAsync<T>;
   update is ArmResourcePatchAsync<T, P>;
   delete is ArmResourceDeleteWithoutOkAsync<T>;
-  listByResourceGroup is ArmResourceListByParent<T, Response = L>;
-  listBySubscription is ArmListBySubscription<T, Response = L>;
+  listByResourceGroup is ArmResourceListByParent<T>;
+  listBySubscription is ArmListBySubscription<T>;
 }

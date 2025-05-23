@@ -29,6 +29,9 @@ union DataStoreType {
   @doc("The Azure storage file kind.")
   AzureStorageFile: "AzureStorageFile",
 
+  @doc("The Discovery storage kind.")
+  DiscoveryStorage: "DiscoveryStorage",
+
   string,
 }
 
@@ -50,7 +53,6 @@ model DataStore {
   kind: DataStoreType;
 }
 
-// @discriminator("kind")
 @doc("The Azure storage blob properties.")
 model AzureStorageBlob extends DataStore {
   /** Azure Storage Blob */
@@ -60,11 +62,21 @@ model AzureStorageBlob extends DataStore {
   ...WithStorageAccountId;
 }
 
+@doc("The Discovery storage properties.")
+model DiscoveryStorage extends DataStore {
+  /** Discovery Storage */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  kind: DataStoreType.DiscoveryStorage;
+
+  @doc("The associated Discovery storage ID.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  discoveryStorageId: Microsoft.Discovery.Shared.DiscoveryStorageId;
+}
+
 @doc("The Azure storage file properties.")
 model AzureStorageFile extends DataStore {
   /** Azure Storage File */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  // @discriminator("kind")
   kind: DataStoreType.AzureStorageFile;
 
   ...WithStorageAccountId;
