@@ -84,7 +84,7 @@ model DiscoveryResourceProperties {
 }
 
 @doc("For user assigned identity resource property.")
-model UserAssignedIdentity {
+model Identity {
   @doc("The resource ID of the user assigned identity.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   id: Microsoft.Discovery.Shared.UserAssignedIdentityId;

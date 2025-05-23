@@ -55,7 +55,7 @@ model SupercomputerIdentities {
     */
   @doc("Cluster identity ID.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  clusterIdentity: Microsoft.Discovery.UserAssignedIdentity;
+  clusterIdentity: Microsoft.Discovery.Identity;
 
   /**
       Kubelet identity ID used by the supercomputer.
@@ -63,7 +63,7 @@ model SupercomputerIdentities {
       This identity must have ManagedIdentityOperator role on the clusterIdentity.
     */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  kubeletIdentity: Microsoft.Discovery.UserAssignedIdentity;
+  kubeletIdentity: Microsoft.Discovery.Identity;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
   @doc("User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.")

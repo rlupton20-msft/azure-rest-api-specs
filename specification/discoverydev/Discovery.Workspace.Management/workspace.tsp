@@ -49,7 +49,7 @@ model WorkspaceProperties {
 
   @doc("Identity IDs used for leveraging Workspace resources.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  workspaceIdentity: Microsoft.Discovery.UserAssignedIdentity;
+  workspaceIdentity: Microsoft.Discovery.Identity;
 
   ...MoboConfigurationWithMrg;
 }
