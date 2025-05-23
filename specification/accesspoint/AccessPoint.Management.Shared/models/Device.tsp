@@ -67,6 +67,18 @@ model DeviceProperties {
   provisioningState?: ProvisioningState;
 }
 
+// Suppress because we have no custom properties for the response,
+// but the ArmResourceActionAsync requires a response model to generate the correct response types.
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+@doc("The base response for all device actions.")
+model DeviceActionResponse {}
+
+@doc("The request body for the displayMessage device action.")
+model DisplayMessageRequest {
+  @doc("The message to be displayed on the device.")
+  message: string;
+}
+
 @armResourceOperations
 interface DeviceOperations {
   get is ArmResourceRead<Device>;
@@ -74,4 +86,47 @@ interface DeviceOperations {
   update is ArmResourcePatchSync<Device, DeviceProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Device>;
   listByParent is ArmResourceListByParent<Device>;
+
+  // Device actions
+  @doc("Displays a provided messages on a device.")
+  displayMessage is ArmResourceActionAsync<
+    Device,
+    DisplayMessageRequest,
+    ArmResponse<DeviceActionResponse>
+  >;
+
+  @doc("Refreshes the connection of a device.")
+  refreshConnection is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
+
+  @doc("Revokes device certificates.")
+  revokeCertificates is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
+
+  @doc("Sends a restart command to a device.")
+  reboot is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
+
+  @doc("Sends a shutdown command to a device.")
+  shutdown is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
+
+  @doc("Sends a user log off command to a device.")
+  logOffUser is ArmResourceActionAsync<
+    Device,
+    void,
+    ArmResponse<DeviceActionResponse>
+  >;
 }
