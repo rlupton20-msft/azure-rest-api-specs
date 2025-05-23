@@ -78,21 +78,12 @@ suppressions:
     where:
       - $.definitions.SupercomputerIdentities.properties.workloadIdentities
       - $.definitions.SupercomputerIdentitiesUpdate.properties.workloadIdentities
-  - code: OBJECT_MISSING_REQUIRED_PROPERTY
-    reason: These are source files for auo-generating examples.
+  - code: GuidUsage
+    reason: Need to match ARM managed identity schema.
     from:
-      - scripts/json/agents/definitionContent.json
-      - scripts/json/tools/definitionContent.json
-      - scripts/json/models/definitionContent.json
-      - scripts/json/workflows/definitionContent.json
-  - code: OBJECT_ADDITIONAL_PROPERTIES
-    reason: These are source files for auo-generating examples.
-    from:
-      - scripts/json/agents/definitionContent.json
-      - scripts/json/tools/definitionContent.json
-      - scripts/json/models/definitionContent.json
-      - scripts/json/workflows/definitionContent.json
-
+      - discovery.json
+    where:
+      - $.definitions["Azure.Core.uuid"].format
 
 ```
 

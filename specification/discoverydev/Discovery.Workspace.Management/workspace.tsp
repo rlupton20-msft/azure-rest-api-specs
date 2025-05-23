@@ -48,8 +48,8 @@ model WorkspaceProperties {
   workspaceUiUri?: url;
 
   @doc("Identity IDs used for leveraging Workspace resources.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workspaceIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  workspaceIdentity: Microsoft.Discovery.UserAssignedIdentity;
 
   ...MoboConfigurationWithMrg;
 }

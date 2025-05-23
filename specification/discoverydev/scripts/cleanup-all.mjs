@@ -57,7 +57,7 @@ const readJsonFromFile = ({ resourceTypeName, propertyName }) => {
   const filePath = path.resolve(
     __dirname,
     "json",
-    resourceTypeName,
+    resourceTypeName.toLowerCase(),
     `${propertyName}.mjs`,
   );
   if (!fs.existsSync(filePath)) {
@@ -118,14 +118,15 @@ const fixPropertiesBag = ({ properties, resourceTypeName }) => {
   };
   for (const propName of ["workspaceIdentity"]) {
     if (res[propName]) {
-      res[propName] = managedIdentityResourceId;
+      res[propName] = managedIdentityResourceObj;
     }
   }
   return fixSetLists({ properties: res });
 };
 
-const managedIdentityResourceId =
-  "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1";
+const managedIdentityResourceObj = {
+  id: "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1"
+};
 
 const makeDiscoveryArmId = ({ resourceTypeName, name }) => {
   let rtName = resourceTypeName;
@@ -146,7 +147,7 @@ const fixManagedIds = ({ object }) => {
   const identityPropertyNames = ["clusterIdentity", "kubeletIdentity"];
   for (const propertyName of identityPropertyNames) {
     if (res[propertyName]) {
-      res[propertyName] = managedIdentityResourceId;
+      res[propertyName] = managedIdentityResourceObj;
     }
   }
   const identityListPropertyNames = ["workloadIdentities"];

@@ -4518,6 +4518,11 @@
         }
       ]
     },
+    "Azure.Core.uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Universally Unique Identifier"
+    },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
       "title": "Tracked Resource",
@@ -5946,40 +5951,24 @@
       "description": "Dictionary of identity properties for the Supercomputer.",
       "properties": {
         "clusterIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/UserAssignedIdentity",
           "description": "Cluster identity ID.",
           "x-ms-mutability": [
             "read",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "kubeletIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/UserAssignedIdentity",
           "description": "Kubelet identity ID used by the supercomputer.\n      This identity is used by the supercomputer at node level to access Azure resources.\n      This identity must have ManagedIdentityOperator role on the clusterIdentity.",
           "x-ms-mutability": [
             "read",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "workloadIdentities": {
           "type": "object",
-          "description": "Workload identity IDs to be used by tools running on supercomputer.",
+          "description": "User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.",
           "additionalProperties": {
             "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
@@ -6002,7 +5991,7 @@
       "properties": {
         "workloadIdentities": {
           "type": "object",
-          "description": "Workload identity IDs to be used by tools running on supercomputer.",
+          "description": "User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.",
           "additionalProperties": {
             "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
@@ -6274,6 +6263,42 @@
         {
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
+      ]
+    },
+    "UserAssignedIdentity": {
+      "type": "object",
+      "description": "For user assigned identity resource property.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of the user assigned identity.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        },
+        "principalId": {
+          "$ref": "#/definitions/Azure.Core.uuid",
+          "description": "The principal ID of the assigned identity.",
+          "readOnly": true
+        },
+        "clientId": {
+          "$ref": "#/definitions/Azure.Core.uuid",
+          "description": "The client ID of the assigned identity.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
       ]
     },
     "VmSize": {
@@ -6675,21 +6700,12 @@
           "readOnly": true
         },
         "workspaceIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/UserAssignedIdentity",
           "description": "Identity IDs used for leveraging Workspace resources.",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "managedResourceGroup": {
           "type": "string",
@@ -6757,23 +6773,6 @@
             "update",
             "create"
           ]
-        },
-        "workspaceIdentity": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Identity IDs used for leveraging Workspace resources.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
         }
       }
     },

@@ -4,12 +4,14 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./namespace.tsp";
+import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using Microsoft.Discovery.Shared;
 
 @versioned(Microsoft.Discovery.Versions)
 namespace Microsoft.Discovery;
@@ -79,6 +81,15 @@ model WithDefinitionContent {
 model DiscoveryResourceProperties {
   ...WithProvisioningState;
   ...WithVersion;
+}
+
+@doc("For user assigned identity resource property.")
+model UserAssignedIdentity {
+  @doc("The resource ID of the user assigned identity.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  id: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+
+  ...Azure.ResourceManager.CommonTypes.UserAssignedIdentity;
 }
 
 @doc("Standard Discovery resource interface")
