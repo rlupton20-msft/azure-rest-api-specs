@@ -22,7 +22,7 @@ model Configuration is TrackedResource<ConfigurationProperties> {
 @doc("Configuration Properties")
 model ConfigurationProperties {
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 }
 
@@ -56,7 +56,7 @@ model ConfigurationReference
 @doc("Properties for ConfigurationReference Resource")
 model ConfigurationReferenceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 
   @doc("ArmId of Configuration resource")

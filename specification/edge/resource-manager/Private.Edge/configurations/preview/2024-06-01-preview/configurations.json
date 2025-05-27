@@ -68,6 +68,9 @@
     },
     {
       "name": "ProvisioningConfigurations"
+    },
+    {
+      "name": "StaticConfigurations"
     }
   ],
   "paths": {
@@ -2677,6 +2680,284 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/staticConfigurations": {
+      "get": {
+        "operationId": "StaticConfigurations_ListByConfiguration",
+        "tags": [
+          "StaticConfigurations"
+        ],
+        "description": "List Static Configuration Resources",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StaticConfigurationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/staticConfigurations/{staticConfigurationName}": {
+      "get": {
+        "operationId": "StaticConfigurations_Get",
+        "tags": [
+          "StaticConfigurations"
+        ],
+        "description": "Get a Static Configuration Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "staticConfigurationName",
+            "in": "path",
+            "description": "The name of the StaticConfiguration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StaticConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "StaticConfigurations_CreateOrUpdate",
+        "tags": [
+          "StaticConfigurations"
+        ],
+        "description": "Create or update a Static Configuration Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "staticConfigurationName",
+            "in": "path",
+            "description": "The name of the StaticConfiguration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StaticConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'StaticConfiguration' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/StaticConfiguration"
+            }
+          },
+          "201": {
+            "description": "Resource 'StaticConfiguration' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/StaticConfiguration"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "StaticConfigurations_Update",
+        "tags": [
+          "StaticConfigurations"
+        ],
+        "description": "Update a Static Configuration Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "staticConfigurationName",
+            "in": "path",
+            "description": "The name of the StaticConfiguration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StaticConfigurationUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StaticConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "StaticConfigurations_Delete",
+        "tags": [
+          "StaticConfigurations"
+        ],
+        "description": "Delete a Static Configuration Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "description": "The name of the Configuration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "staticConfigurationName",
+            "in": "path",
+            "description": "The name of the StaticConfiguration",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configurations/{configurationName}/timeServerConfigurations": {
       "get": {
         "operationId": "TimeServerConfigurations_ListByConfiguration",
@@ -3077,6 +3358,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -4335,6 +4617,93 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/SecurityConfigurationPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "StaticConfiguration": {
+      "type": "object",
+      "description": "Static Configuration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/StaticConfigurationProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "StaticConfigurationListResult": {
+      "type": "object",
+      "description": "The response of a StaticConfiguration list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The StaticConfiguration items on this page",
+          "items": {
+            "$ref": "#/definitions/StaticConfiguration"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "StaticConfigurationProperties": {
+      "type": "object",
+      "description": "Static Configuration Properties",
+      "properties": {
+        "schemaId": {
+          "type": "string",
+          "description": "Schema Id for configuration"
+        },
+        "values": {
+          "type": "string",
+          "description": "Values of configuration, should be in yaml format"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "values"
+      ]
+    },
+    "StaticConfigurationPropertiesUpdate": {
+      "type": "object",
+      "description": "Static Configuration Properties",
+      "properties": {
+        "schemaId": {
+          "type": "string",
+          "description": "Schema Id for configuration"
+        },
+        "values": {
+          "type": "string",
+          "description": "Values of configuration, should be in yaml format"
+        }
+      }
+    },
+    "StaticConfigurationUpdate": {
+      "type": "object",
+      "description": "Static Configuration Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/StaticConfigurationPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         }
       },
