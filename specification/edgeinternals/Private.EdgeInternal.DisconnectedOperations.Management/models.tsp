@@ -7,6 +7,7 @@ using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.EdgeInternal;
 
@@ -130,7 +131,6 @@ model DisconnectedOperationDeploymentManifest {
 
   @visibility(Lifecycle.Read)
   @doc("The resource location")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
   location: string;
 
   @visibility(Lifecycle.Read)
@@ -209,32 +209,53 @@ model ImageDownloadResponse {
   linkExpiry: utcDateTime;
 }
 
-@doc("The file properties")
-model FileProperties {
+
+@doc("The image download properties")
+@renamedFrom(Versions.v2025_05_01, "ImageDownloadResponse")
+model ImageDownloadResult {
+  ...ImageProperties;
+
+  @visibility(Lifecycle.Read)
+  @doc("The unique Id of the download")
+  transactionId: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download uri")
+  downloadLink: url;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download link expiry time")
+  linkExpiry: utcDateTime;
+}
+
+@doc("The artifact properties")
+@added(Versions.v2025_05_01)
+model ArtifactProperties {
   @visibility(Lifecycle.Read)
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
   @visibility(Lifecycle.Read)
-  @doc("The file display order")
-  fileOrder: int32;
+  @doc("The artifact display order")
+  artifactOrder: int32;
 
   @visibility(Lifecycle.Read)
-  @doc("The file title")
+  @doc("The artifact title")
   title: string;
 
   @visibility(Lifecycle.Read)
-  @doc("The file description")
+  @doc("The artifact description")
   description: string;
 
   @visibility(Lifecycle.Read)
-  @doc("The file size in MB")
+  @doc("The artifact size in MB")
   size?: int64;
 }
 
-@doc("The file download properties")
-model FileDownloadResponse {
-  ...FileProperties;
+@doc("The artifact download properties")
+@added(Versions.v2025_05_01)
+model ArtifactDownloadResult {
+  ...ArtifactProperties;
 
   @visibility(Lifecycle.Read)
   @doc("The download uri")

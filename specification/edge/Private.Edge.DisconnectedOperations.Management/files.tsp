@@ -12,17 +12,17 @@ using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
 namespace Microsoft.Edge;
-@doc("Disconnected operations image resource.")
-@parentResource(DisconnectedOperation)
-model Image is ProxyResource<ImageProperties> {
-  ...ResourceNameParameter<Image>;
+@doc("Disconnected operations file resource.")
+@parentResource(Image)
+model File is ProxyResource<FileProperties> {
+  ...ResourceNameParameter<File>;
 }
 
 @armResourceOperations
-interface Images {
+interface Files {
   @doc("List by parent")
   listByParent is ArmResourceListByParent<
-    Image,
+    File,
     {
       ...ApiVersionParameter;
       ...FilterQueryParameter;
@@ -32,5 +32,12 @@ interface Images {
   >;
 
   @doc("Get the resource")
-  get is ArmResourceRead<Image>;
+  get is ArmResourceRead<File>;
+
+  @doc("get file download link.")
+  listDownloadUri is ArmResourceActionSync<
+    Image,
+    void,
+    ArmResponse<FileDownloadResponse> | ErrorResponse
+  >;
 }
