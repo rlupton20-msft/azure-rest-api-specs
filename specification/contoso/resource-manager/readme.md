@@ -98,15 +98,6 @@ input-file:
   - Microsoft.Contoso/preview/2023-12-01-preview/openapi.json
 ```
 
-### Tag: package-2025-05-01-preview
-
-These settings apply only when `--tag=package-2025-05-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2025-05-01-preview'
-input-file:
-  - Microsoft.Contoso/preview/2025-05-01-preview/openapi.json
-```
-
 ### Tag: package-package-canonical
 
 These settings apply only when `--tag=package-canonical` is specified on the command line.
