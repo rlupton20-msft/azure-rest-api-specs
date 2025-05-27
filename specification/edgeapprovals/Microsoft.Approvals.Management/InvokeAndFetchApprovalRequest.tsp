@@ -24,24 +24,10 @@ model ApprovalRequestInput {
 @doc("The output for the invokeAndFetchApprovalRequest POST call.")
 model ApprovalRequestOutput {
   @doc("The current state of the approval request.")
-  approvalRequestState: ApprovalRequestState;
+  approvalRequestState: ApprovalWorkflowExecutionState;
 
   @doc("The approval token of the approval request.")
   approvalToken: string;
-}
-
-@doc("Enum of approval request state.")
-union ApprovalRequestState {
-  string,
-
-  @doc("The approval request in still in progress.")
-  InProgress: "InProgress",
-
-  @doc("The approval request has been approved.")
-  Approved: "Approved",
-
-  @doc("The approval request has been rejected.")
-  Rejected: "Rejected",
 }
 
 @armResourceOperations
