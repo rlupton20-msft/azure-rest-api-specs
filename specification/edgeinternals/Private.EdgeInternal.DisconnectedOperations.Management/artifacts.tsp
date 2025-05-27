@@ -10,19 +10,22 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.EdgeInternal;
-@doc("Disconnected operations file resource.")
+@doc("Disconnected operations artifact resource.")
 @parentResource(Image)
-model File is ProxyResource<FileProperties> {
-  ...ResourceNameParameter<File>;
+@added(Versions.v2025_05_01)
+model Artifact is ProxyResource<ArtifactProperties> {
+  ...ResourceNameParameter<Artifact>;
 }
 
 @armResourceOperations
-interface Files {
+@added(Versions.v2025_05_01)
+interface Artifacts {
   @doc("List by parent")
   listByParent is ArmResourceListByParent<
-    File,
+    Artifact,
     {
       ...ApiVersionParameter;
       ...FilterQueryParameter;
@@ -32,12 +35,12 @@ interface Files {
   >;
 
   @doc("Get the resource")
-  get is ArmResourceRead<File>;
+  get is ArmResourceRead<Artifact>;
 
-  @doc("get file download link.")
+  @doc("get artifact download link.")
   listDownloadUri is ArmResourceActionSync<
-    Image,
+    Artifact,
     void,
-    ArmResponse<FileDownloadResponse> | ErrorResponse
+    ArmResponse<ArtifactDownloadResult> | ErrorResponse
   >;
 }

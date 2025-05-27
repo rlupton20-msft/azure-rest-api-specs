@@ -10,6 +10,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.EdgeInternal;
 @doc("Disconnected operations image resource.")
@@ -33,4 +34,11 @@ interface Images {
 
   @doc("Get the resource")
   get is ArmResourceRead<Image>;
+
+  @doc("get deployment manifest.")
+  listDownloadUri is ArmResourceActionSync<
+    Image,
+    void,
+    ArmResponse<ImageDownloadResult> | ErrorResponse
+  >;
 }

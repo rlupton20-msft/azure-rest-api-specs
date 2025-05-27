@@ -8,7 +8,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 
-namespace Private.Edge;
+namespace Microsoft.Edge;
 @doc("Disconnected operation resource.")
 model DisconnectedOperation
   is TrackedResource<DisconnectedOperationProperties> {
