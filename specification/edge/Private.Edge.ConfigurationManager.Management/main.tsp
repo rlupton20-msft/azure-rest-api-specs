@@ -25,6 +25,7 @@ import "./WorkflowVersion.tsp";
 import "./WorkflowTemplate.tsp";
 import "./WorkflowTemplateVersion.tsp";
 import "./Execution.tsp";
+import "./Job.tsp";
 import "./Diagnostics.tsp";
 import "./Context.tsp";
 import "./SiteReference.tsp";
