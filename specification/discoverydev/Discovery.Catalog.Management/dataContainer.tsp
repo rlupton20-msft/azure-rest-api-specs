@@ -50,6 +50,7 @@ model WithStorageAccountId {
 @doc("An abstract representation of data store kind.")
 model DataStore {
   @doc("The data store kind.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: DataStoreType;
 }
 
@@ -105,6 +106,7 @@ model Credential {
   name: string;
 
   @doc("The data store kind.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType;
 
   ...Microsoft.Discovery.Shared.WithDescription;
@@ -112,7 +114,7 @@ model Credential {
 
 @doc("The managed identity credential properties.")
 model ManagedIdentityCredential extends Credential {
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType.ManagedIdentity;
 
   @doc("The managed identity client Id.")
@@ -122,7 +124,7 @@ model ManagedIdentityCredential extends Credential {
 
 @doc("SAS token credential properties")
 model KeyVaultSecretCredential extends Credential {
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType.KeyVaultSecret;
 
   @doc("The shared access token.")
