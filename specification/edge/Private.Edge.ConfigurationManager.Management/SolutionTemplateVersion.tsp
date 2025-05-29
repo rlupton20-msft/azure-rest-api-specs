@@ -91,7 +91,7 @@ model BulkPublishSolutionParameter {
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
-  
+
   @doc("Solution dependencies")
   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
@@ -111,6 +111,12 @@ model BulkPublishTargetDetails {
   solutionInstanceName?: string;
 }
 
+@doc("Apply Hierarchy parameter")
+model HierarchyDetails {
+  @doc("ArmId of Hierarchy")
+  hierarchyId: string;
+}
+
 @armResourceOperations
 interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
@@ -124,10 +130,16 @@ interface SolutionTemplateVersions {
     SolutionTemplateVersion,
     BulkDeploySolutionParameter
   >;
-  
- @doc("Post request to bulk pubish")
+
+  @doc("Post request to bulk pubish")
   bulkPublishSolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkPublishSolutionParameter
+  >;
+
+  @doc("Post request to apply")
+  applySolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    HierarchyDetails
   >;
 }
