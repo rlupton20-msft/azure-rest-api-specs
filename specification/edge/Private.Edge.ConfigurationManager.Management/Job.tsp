@@ -25,6 +25,8 @@ union JobType {
 @doc("Status of a job or job step.")
 union JobStatus {
   string,
+  /** The job or step is not started. */
+  NotStarted: "NotStarted",
   /** The job or step is in progress. */
   InProgress: "InProgress",
   /** The job or step succeeded. */
@@ -71,7 +73,7 @@ model JobParameterBase {
 @doc("Parameters for a deployment job.")
 model DeployJobParameter extends JobParameterBase {
   @doc("Job type discriminator value")
-  jobType: "deploy";
+  jobType: JobType.Deploy;
   parameter?: InstallSolutionParameter;
 }
 
