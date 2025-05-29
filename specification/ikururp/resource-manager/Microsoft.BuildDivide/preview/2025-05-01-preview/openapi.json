@@ -713,17 +713,29 @@
       ]
     },
     "RiderProperties": {
+      "required": [
+        "nickName",
+        "possessions"
+      ],
       "type": "object",
       "description": "Rider properties",
       "properties": {
+        "nickName": {
+          "type": "string",
+          "description": "Nickname of rider"
+        },
         "age": {
           "type": "integer",
           "format": "int32",
           "description": "Age of rider"
         },
-        "city": {
-          "type": "string",
-          "description": "City of rider"
+        "possessions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [ "Helmet", "Gloves", "Keys", "Phone", "IdCard" ]
+          },
+          "description": "Select items in rider's possession"
         },
         "profile": {
           "type": "string",
@@ -732,12 +744,8 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
+          "description": "The status of the last operation",
           "readOnly": true
-        },
-        "nickName": {
-          "type": "string",
-          "description": "Nickname of rider."
         }
       }
     },
@@ -812,6 +820,9 @@
       "readOnly": true
     },
     "Driver": {
+      "required": [
+        "properties"
+      ],
       "type": "object",
       "description": "Driver resource",
       "properties": {
@@ -848,36 +859,41 @@
       ]
     },
     "DriverProperties": {
+      "required": [
+        "ownerName"
+      ],
       "type": "object",
       "description": "Driver properties",
       "properties": {
+        "ownerName": {
+          "type": "string",
+          "description": "Name on driver"
+        },
+        "beltColor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Colors on driver's belt"
+        },
         "retailCost": {
           "type": "integer",
           "format": "int32",
-          "description": "Cost of Driver"
+          "description": "Cost of driver's belt"
+        },
+        "rarity": {
+          "type": "boolean",
+          "description": "Rarity of driver"
         },
         "driverId": {
           "type": "integer",
           "format": "int32",
-          "description": "Driver id of Driver"
-        },
-        "owner": {
-          "type": "string",
-          "description": "Owner of Driver"
-        },
-        "profile": {
-          "type": "string",
-          "format": "base64url",
-          "description": "Profile of Driver"
+          "description": "Id of driver"
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
+          "description": "The status of the last operation",
           "readOnly": true
-        },
-        "rarity": {
-          "type": "boolean",
-          "description": "Rarity of Driver"
         }
       }
     },
