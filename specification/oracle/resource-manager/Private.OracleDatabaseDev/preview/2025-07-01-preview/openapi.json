@@ -9695,15 +9695,6 @@
       "type": "object",
       "description": "DbSystem resource base model.",
       "properties": {
-        "adminPassword": {
-          "$ref": "#/definitions/Password",
-          "description": "A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.",
-          "minLength": 1,
-          "maxLength": 255,
-          "x-ms-mutability": [
-            "create"
-          ]
-        },
         "source": {
           "type": "string",
           "description": "The source of the database: Use `None` for creating a new database. The default is `None`.",
@@ -9774,19 +9765,31 @@
             "create"
           ]
         },
-        "dataStorageSizeInGbs": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.",
-          "readOnly": true
-        },
-        "databaseEdition": {
-          "$ref": "#/definitions/DbSystemDatabaseEditionType",
-          "description": "The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.",
+        "displayName": {
+          "type": "string",
+          "description": "The user-friendly name for the DB system. The name does not have to be unique.",
+          "minLength": 1,
+          "maxLength": 255,
           "x-ms-mutability": [
             "read",
             "create"
           ]
+        },
+        "initialDataStorageSizeInGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.",
+          "minimum": 2,
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "dataStorageSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.",
+          "minimum": 2,
+          "readOnly": true
         },
         "dbSystemOptions": {
           "$ref": "#/definitions/DbSystemOptions",
@@ -9807,10 +9810,7 @@
         "domain": {
           "type": "string",
           "description": "The domain name for the DB system.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "readOnly": true
         },
         "gridImageOcid": {
           "$ref": "#/definitions/Ocid",
@@ -9919,7 +9919,7 @@
           "type": "array",
           "description": "The public key portion of one or more key pairs used for SSH access to the DB system.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/SshPublicKey"
           },
           "x-ms-mutability": [
             "read",
@@ -9952,16 +9952,11 @@
       },
       "discriminator": "source",
       "required": [
-        "adminPassword",
         "source",
         "resourceAnchorId",
         "networkAnchorId",
         "cpuCoreCount",
-        "databaseEdition",
-        "domain",
         "hostname",
-        "ocid",
-        "lifecycleState",
         "shape",
         "sshPublicKeys"
       ]
@@ -10108,6 +10103,29 @@
     "DbSystemProperties": {
       "type": "object",
       "description": "DbSystem resource model.",
+      "properties": {
+        "databaseEdition": {
+          "$ref": "#/definitions/DbSystemDatabaseEditionType",
+          "description": "The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require EnterpriseEditionExtremePerformance.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "adminPassword": {
+          "$ref": "#/definitions/Password",
+          "description": "A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "databaseEdition",
+        "adminPassword"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/DbSystemBaseProperties"
@@ -13561,6 +13579,12 @@
           }
         ]
       }
+    },
+    "SshPublicKey": {
+      "type": "string",
+      "description": "SshPublicKey string",
+      "minLength": 1,
+      "maxLength": 1024
     },
     "StorageManagementType": {
       "type": "string",
