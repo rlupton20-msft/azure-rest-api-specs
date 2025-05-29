@@ -41,10 +41,10 @@ model JobStepStatisticsBase {
   statisticsType: JobType;
 }
 
-@doc("Default statistics for a job step, including total, success, and failed counts.")
+@doc("Deploy statistics for a job step, including total, success, and failed counts.")
 model DeployJobStepStatistics extends JobStepStatisticsBase {
   @doc("Statistics type discriminator value")
-  statisticsType: "deploy";
+  statisticsType: JobType.Deploy;
   @doc("Total count of items processed in this step")
   totalCount?: int32;
   @doc("Count of successful items in this step")
