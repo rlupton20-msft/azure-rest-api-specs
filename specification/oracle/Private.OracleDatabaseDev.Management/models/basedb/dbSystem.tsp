@@ -21,6 +21,16 @@ model DbSystem is TrackedResource<DbSystemProperties> {
 model DbSystemProperties extends DbSystemBaseProperties {
   @doc("The source of the database for creating a new database.")
   source: DbSystemSourceType.None;
+
+  @doc("The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require EnterpriseEditionExtremePerformance.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  databaseEdition: DbSystemDatabaseEditionType;
+
+  @doc("A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.")
+  @visibility(Lifecycle.Create)
+  @minLength(1)
+  @maxLength(255)
+  adminPassword: Password;
 }
 
 //OCI Reference: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/LaunchDbSystemBase
@@ -28,12 +38,6 @@ model DbSystemProperties extends DbSystemBaseProperties {
 @doc("DbSystem resource base model.")
 @discriminator("source")
 model DbSystemBaseProperties {
-  @doc("A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.")
-  @visibility(Lifecycle.Create)
-  @minLength(1)
-  @maxLength(255)
-  adminPassword: Password;
-
   @doc("The source of the database: Use `None` for creating a new database. The default is `None`.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   source?: DbSystemSourceType = DbSystemSourceType.None;
@@ -65,13 +69,21 @@ model DbSystemBaseProperties {
   @minValue(1)
   cpuCoreCount: int32;
 
+  @doc("The user-friendly name for the DB system. The name does not have to be unique.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  @minLength(1)
+  @maxLength(255)
+  displayName?: string;
+
+  @doc("Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.")
+  @visibility(Lifecycle.Create)
+  @minValue(2)
+  initialDataStorageSizeInGb?: int32;
+
   @doc("The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.")
   @visibility(Lifecycle.Read)
+  @minValue(2)
   dataStorageSizeInGbs?: int32;
-
-  @doc("The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
-  databaseEdition: DbSystemDatabaseEditionType;
 
   @doc("The DB system options.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
@@ -82,8 +94,8 @@ model DbSystemBaseProperties {
   diskRedundancy?: DiskRedundancyType;
 
   @doc("The domain name for the DB system.")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
-  domain: string;
+  @visibility(Lifecycle.Read)
+  domain?: string;
 
   @doc("The OCID of a grid infrastructure software image. This is a database software image of the type GRID_IMAGE.")
   @visibility(Lifecycle.Read)
@@ -97,7 +109,7 @@ model DbSystemBaseProperties {
 
   @doc("The OCID of the DB system.")
   @visibility(Lifecycle.Read)
-  ocid: Ocid;
+  ocid?: Ocid;
 
   @doc("The Oracle license model that applies to all the databases on the DB system. The default is LicenseIncluded.")
   @visibility(Lifecycle.Read)
@@ -109,7 +121,7 @@ model DbSystemBaseProperties {
 
   @doc("The current state of the DB system.")
   @visibility(Lifecycle.Read)
-  lifecycleState: DbSystemLifecycleState;
+  lifecycleState?: DbSystemLifecycleState;
 
   @doc("The port number configured for the listener on the DB system.")
   @visibility(Lifecycle.Read)
@@ -142,7 +154,7 @@ model DbSystemBaseProperties {
 
   @doc("The public key portion of one or more key pairs used for SSH access to the DB system.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
-  sshPublicKeys: string[];
+  sshPublicKeys: SshPublicKey[];
 
   @doc("The block storage volume performance level. Valid values are Balanced and HighPerformance. See [Block Volume Performance](/Content/Block/Concepts/blockvolumeperformance.htm) for more information.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
