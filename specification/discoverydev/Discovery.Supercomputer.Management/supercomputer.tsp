@@ -10,7 +10,6 @@ using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-using Microsoft.Discovery.Shared;
 
 @armProviderNamespace
 @versioned(Microsoft.Discovery.Versions)
@@ -56,7 +55,7 @@ model SupercomputerIdentities {
     */
   @doc("Cluster identity ID.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  clusterIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  clusterIdentity: Microsoft.Discovery.Identity;
 
   /**
       Kubelet identity ID used by the supercomputer.
@@ -64,10 +63,10 @@ model SupercomputerIdentities {
       This identity must have ManagedIdentityOperator role on the clusterIdentity.
     */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  kubeletIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  kubeletIdentity: Microsoft.Discovery.Identity;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
-  @doc("Workload identity IDs to be used by tools running on supercomputer.")
+  @doc("User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   workloadIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 }

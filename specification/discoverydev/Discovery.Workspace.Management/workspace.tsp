@@ -21,10 +21,6 @@ namespace Microsoft.Discovery;
 @doc("Workspace tracked resource")
 model Workspace is TrackedResource<WorkspaceProperties> {
   ...ResourceNameParameter<Workspace>;
-
-  /** Updatable managed service identity */
-  //   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
-  // TODO: Maybe add this later?
 }
 
 @doc("Workspace properties")
@@ -36,7 +32,7 @@ model WorkspaceProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked Storages.")
   @extension("x-ms-identifiers", #["id"])
-  storageIds?: Array<Microsoft.Discovery.Shared.StorageId>;
+  storageIds?: Array<Microsoft.Discovery.Shared.DiscoveryStorageId>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("List of linked SuperComputers.")
@@ -52,8 +48,8 @@ model WorkspaceProperties {
   workspaceUiUri?: url;
 
   @doc("Identity IDs used for leveraging Workspace resources.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workspaceIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  workspaceIdentity: Microsoft.Discovery.Identity;
 
   ...MoboConfigurationWithMrg;
 }

@@ -89,7 +89,7 @@ model DataAssetMount {
  *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Discovery/dataContainers/{dataContainerName}/dataAssets/MySharedStorageDataAsset1",
  *     }
  *   ],
- *   "sharedStorageId": "MySharedStorage"
+ *   "discoveryStorageId": "MySharedStorage"
  * }
  * ```
  * where SmilesTxtDataAsset refers to a blob DataAsset containing a single smiles.txt file, and
@@ -149,8 +149,8 @@ model RunRequest {
   @maxItems(10)
   inlineFiles?: Array<InlineFile>;
 
-  @doc("The Storage resource to use for this run.")
-  storageId: StorageId;
+  @doc("The Discovery Storage resource to use for this run.")
+  storageId: DiscoveryStorageId;
 
   // KnowledgeBase configuration is under discussion.
   // Currently this is called KnowledgeBaseDefinition, which really does not make sense.
@@ -161,7 +161,7 @@ model RunRequest {
    * Input DataAssets and associated relativeMountPath for each, relative to the working directory.
    *
    * Any DataAssetIds which point to SharedStorage must point to
-   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * the same DiscoveryStorage specified by DiscoveryStorageId, otherwise the
    * request will be rejected.
    */
   inputDataAssets?: DataAssetMount[];
@@ -170,7 +170,7 @@ model RunRequest {
    * Output DataAssets and associated relativeMountPath for each, relative to the working directory.
    *
    * Any DataAssetIds which point to SharedStorage must point to
-   * the same SharedStorage specified by sharedStorageId, otherwise the
+   * the same DiscoveryStorage specified by DiscoveryStorageId, otherwise the
    * request will be rejected.
    */
   outputDataAssets?: DataAssetMount[];

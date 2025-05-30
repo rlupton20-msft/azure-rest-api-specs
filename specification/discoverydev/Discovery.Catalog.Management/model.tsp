@@ -22,28 +22,24 @@ model Model is TrackedResource<ModelProperties> {
   ...ResourceNameParameter<Model>;
 }
 
-/** Model tracked resource list response item */
-model ModelListItem is TrackedResource<ModelListItemProperties> {
-  ...ResourceNameParameter<Model>;
-}
-
-model ModelListResult is ResourceListResult<ModelListItem>;
-
 @doc("Model properties")
-model ModelListItemProperties {
+model ModelProperties {
   ...DiscoveryResourceProperties;
 
   @doc("The ARM resource ID of the workspace.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   workspaceId: Microsoft.Discovery.Shared.WorkspaceId;
-}
 
-@doc("Model properties")
-model ModelProperties {
-  ...ModelListItemProperties;
+  /** The endpoint URI for the deployed model */
+  @visibility(Lifecycle.Read)
+  onlineEndpoint?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "/Microsoft.MachineLearningServices/workspaces/onlineEndpoints";
+    }
+  ]>;
+
   ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Models
-  extends DiscoveryResource<Model, ModelProperties, ModelListResult> {}
+interface Models extends DiscoveryResource<Model, ModelProperties> {}

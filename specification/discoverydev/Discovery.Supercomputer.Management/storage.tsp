@@ -36,6 +36,7 @@ model Storage is TrackedResource<StorageProperties> {
 @doc("An abstract representation of data storage kind.")
 model Store {
   @doc("The data storage kind.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: StorageKind;
 }
 
