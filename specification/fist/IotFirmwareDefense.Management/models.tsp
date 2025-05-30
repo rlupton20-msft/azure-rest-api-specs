@@ -387,15 +387,12 @@ model FirmwareProperties {
   fileName?: string;
 
   @doc("Firmware vendor.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   vendor?: string;
 
   @doc("Firmware model.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   `model`?: string;
 
   @doc("Firmware version.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
   version?: string;
 
   @doc("User-specified description of the firmware.")

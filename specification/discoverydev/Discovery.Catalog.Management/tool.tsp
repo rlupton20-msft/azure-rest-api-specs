@@ -4,6 +4,8 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+import "../Discovery.Management.Shared/all.tsp";
+
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
@@ -19,27 +21,17 @@ model Tool is TrackedResource<ToolProperties> {
   ...ResourceNameParameter<Tool>;
 }
 
-@doc("Discovery Tool properties")
+@doc("Discovery Tool list item properties")
 model ToolProperties {
-  @doc("Reference to tool definition.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  toolDefinitionId: string;
+  ...DiscoveryResourceProperties;
 
-  @doc("Tool definition YAML as a string.")
-  @visibility(Lifecycle.Read)
-  definitionContent: string;
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
+  @doc("Environment variables to make available")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  environmentVariables?: Record<string>;
 
-  @doc("The status of the last operation.")
-  @visibility(Lifecycle.Read)
-  provisioningState?: ProvisioningState;
+  ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Tools {
-  get is ArmResourceRead<Tool>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Tool>;
-  update is ArmResourcePatchAsync<Tool, ToolProperties>;
-  delete is ArmResourceDeleteWithoutOkAsync<Tool>;
-  listByResourceGroup is ArmResourceListByParent<Tool>;
-  listBySubscription is ArmListBySubscription<Tool>;
-}
+interface Tools extends DiscoveryResource<Tool, ToolProperties> {}

@@ -10,7 +10,6 @@ using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-using Microsoft.Discovery.Shared;
 
 @armProviderNamespace
 @versioned(Microsoft.Discovery.Versions)
@@ -26,11 +25,6 @@ model SupercomputerProperties {
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
-
-  // read
-  @doc("The ID of the workspace.")
-  @visibility(Lifecycle.Read)
-  workspaceId?: WorkspaceId;
 
   /**
     System Subnet ID associated with managed NodePool for system resources.
@@ -61,15 +55,20 @@ model SupercomputerIdentities {
     */
   @doc("Cluster identity ID.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  clusterIdentity: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  clusterIdentity: Microsoft.Discovery.Identity;
 
-  @doc("Kubelet identity ID used by kubelet agent running on nodes.")
+  /**
+      Kubelet identity ID used by the supercomputer.
+      This identity is used by the supercomputer at node level to access Azure resources.
+      This identity must have ManagedIdentityOperator role on the clusterIdentity.
+    */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  kubeletIdentity?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
+  kubeletIdentity: Microsoft.Discovery.Identity;
 
-  @doc("Workload identity IDs to be used by tools running on supercomputer.")
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "User-determined keys"
+  @doc("User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  workloadIdentities?: Array<Microsoft.Discovery.Shared.UserAssignedIdentityId>;
+  workloadIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 }
 
 @armResourceOperations

@@ -64,7 +64,7 @@ alias DataAssetId = Azure.Core.armResourceIdentifier<[
   }
 ]>;
 
-alias StorageId = Azure.Core.armResourceIdentifier<[
+alias DiscoveryStorageId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Discovery/Storages";
   }
@@ -109,6 +109,12 @@ alias NodePoolId = Azure.Core.armResourceIdentifier<[
 alias WorkspaceId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Discovery/workspaces";
+  }
+]>;
+
+alias WorkflowId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Discovery/workflows";
   }
 ]>;
 
