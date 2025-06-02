@@ -3672,9 +3672,30 @@
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
         },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/Authentication",
+          "description": "Defines the client authentication mechanism to the server."
+        },
         "additionalConfiguration": {
           "type": "string",
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+        },
+        "discoveredAssetEndpointProfileRef": {
+          "type": "string",
+          "description": "Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "status": {
+          "$ref": "#/definitions/AssetEndpointProfileStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -3683,8 +3704,41 @@
         }
       },
       "required": [
-        "targetAddress"
+        "targetAddress",
+        "endpointProfileType"
       ]
+    },
+    "AssetEndpointProfileStatus": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status properties.",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "description": "Array object to transfer and persist errors that originate from the Edge.",
+          "items": {
+            "$ref": "#/definitions/AssetEndpointProfileStatusError"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "AssetEndpointProfileStatusError": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status error properties.",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).",
+          "readOnly": true
+        }
+      }
     },
     "AssetEndpointProfileUpdate": {
       "type": "object",
@@ -3711,6 +3765,14 @@
           "type": "string",
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
+        },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationUpdate",
+          "description": "Defines the client authentication mechanism to the server."
         },
         "additionalConfiguration": {
           "type": "string",
@@ -4077,6 +4139,54 @@
         }
       }
     },
+    "Authentication": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentials",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509Credentials",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
+      },
+      "required": [
+        "method"
+      ]
+    },
     "AuthenticationMethod": {
       "type": "string",
       "description": "The method to authenticate the user of the client at the server.",
@@ -4105,6 +4215,51 @@
             "description": "The user authentication method is a username and password."
           }
         ]
+      }
+    },
+    "AuthenticationUpdate": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentialsUpdate",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509CredentialsUpdate",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
       }
     },
     "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityUpdate": {
