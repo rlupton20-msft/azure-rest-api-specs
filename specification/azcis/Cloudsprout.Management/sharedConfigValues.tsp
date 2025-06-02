@@ -21,9 +21,9 @@ model SharedConfigValuesResourceProperties {
   @doc("Moniker value to be published.")
   value?: string;
 
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Unions cannot be emitted to OpenAPI v2 unless all options are literals of the same type."
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Azure services must not have properties of type `unknown`."
   @doc("Moniker new value to be published.")
-  newValue?: string | Record<string>;
+  newValue?: unknown;
 
   @doc("Scope of Moniker value. Optional.")
   scope?: Scope;
