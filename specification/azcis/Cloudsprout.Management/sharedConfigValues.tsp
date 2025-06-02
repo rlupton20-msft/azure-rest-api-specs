@@ -22,7 +22,7 @@ model SharedConfigValuesResourceProperties {
   value?: string;
 
   @doc("Moniker new value to be published.")
-  newValue?: unique;
+  newValue?: unknown;
 
   @doc("Scope of Moniker value. Optional.")
   scope?: Scope;
