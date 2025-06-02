@@ -12,6 +12,8 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset properties.")
 model AssetProperties {
   @doc("Globally unique, immutable, non-reusable id.")
@@ -121,8 +123,10 @@ model AssetProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("Defines the dataset properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the dataset properties.")
 model Dataset {
   @doc("Name of the dataset.")
   name: string;
@@ -138,6 +142,8 @@ model Dataset {
   dataPoints?: DataPoint[];
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the data point properties.")
 model DataPointBase {
   @doc("The name of the data point.")
@@ -161,6 +167,8 @@ model DataPointBase {
 
 // workaround done to define a default after breaking change on enum values
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the data point properties.")
 model DataPoint extends DataPointBase {
   @doc("An indication of how the data point should be mapped to OpenTelemetry.")
@@ -210,6 +218,8 @@ union DataPointObservabilityMode {
   string,
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the event properties.")
 model EventBase {
   @doc("The name of the event.")
@@ -237,6 +247,8 @@ model EventBase {
 
 // workaround done to define a default after breaking change on enum values
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the event properties.")
 model Event extends EventBase {
   @doc("An indication of how the event should be mapped to OpenTelemetry.")
@@ -258,8 +270,8 @@ union EventsObservabilityMode {
   string,
 }
 
-@doc("Defines the event observability mode.")
 @added(Versions.v2024_07_01_preview)
+@doc("Defines the event observability mode.")
 union EventObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
@@ -272,6 +284,8 @@ union EventObservabilityMode {
   string,
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset status properties.")
 model AssetStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
@@ -297,6 +311,8 @@ model AssetStatus {
   events?: AssetStatusEvent[];
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset status error properties.")
 model AssetStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
@@ -308,8 +324,10 @@ model AssetStatusError {
   message?: string;
 }
 
-@doc("Defines the asset status dataset properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the asset status dataset properties.")
 model AssetStatusDataset {
   @doc("The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information.")
   @visibility(Lifecycle.Read)
@@ -320,8 +338,10 @@ model AssetStatusDataset {
   messageSchemaReference?: MessageSchemaReference;
 }
 
-@doc("Defines the asset status event properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the asset status event properties.")
 model AssetStatusEvent {
   @doc("The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information.")
   @visibility(Lifecycle.Read)
@@ -332,8 +352,10 @@ model AssetStatusEvent {
   messageSchemaReference?: MessageSchemaReference;
 }
 
-@doc("Defines the message schema reference properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the message schema reference properties.")
 model MessageSchemaReference {
   @doc("The message schema registry namespace.")
   @visibility(Lifecycle.Read)
