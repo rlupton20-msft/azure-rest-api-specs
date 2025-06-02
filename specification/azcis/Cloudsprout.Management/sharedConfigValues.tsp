@@ -21,6 +21,9 @@ model SharedConfigValuesResourceProperties {
   @doc("Moniker value to be published.")
   value?: string;
 
+  @doc("Moniker new value to be published.")
+  newValue?: unique;
+
   @doc("Scope of Moniker value. Optional.")
   scope?: Scope;
 
@@ -52,7 +55,7 @@ model Scope {
   @doc("The GeoValue for the specified GeoType. If GeoType is Cloud, GeoValue is the applicable cloud name for the Moniker value.")
   geoValue: string;
 
-  @doc("EnvType. The valid value are Prod, PPE, Test, Dev.")
+  @doc("EnvType. The valid value are Prod, PPE, Test, Dev, NCOE, Aircapi, CBV.")
   envType?: string;
 }
 
