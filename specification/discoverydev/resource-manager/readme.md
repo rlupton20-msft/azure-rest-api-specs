@@ -41,23 +41,27 @@ suppressions:
   - code: LatestVersionOfCommonTypesMustBeUsed
     from: discovery.json
     reason: Newer version no longer has MoboConfigurationWithMrg
-  - code: GetCollectionResponseSchema
-    reason: The contents of the definitionContent property is excessively large, not suitable for list response.
-    from:
-      - discovery.json
-    where:
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/agents"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/models"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/tools"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/workflows"]
   - code: AvoidAdditionalProperties
     reason: Enable customer to apply environment variables.
     from:
       - discovery.json
     where: 
       - $.definitions.ToolProperties.properties.environmentVariables
-      - $.definitions.ToolListItemProperties.properties.environmentVariables
       - $.definitions.ToolPropertiesUpdate.properties.environmentVariables
+  - code: AvoidAdditionalProperties
+    reason: Enable customer to definitionContent matching user defined formats.
+    from:
+      - discovery.json
+    where:
+      - $.definitions.WithDefinitionContent.properties.definitionContent
+      - $.definitions.AgentProperties.properties.definitionContent
+      - $.definitions.AgentPropertiesUpdate.properties.definitionContent
+      - $.definitions.ModelProperties.properties.definitionContent
+      - $.definitions.ModelPropertiesUpdate.properties.definitionContent
+      - $.definitions.ToolProperties.properties.definitionContent
+      - $.definitions.ToolPropertiesUpdate.properties.definitionContent
+      - $.definitions.WorkflowProperties.properties.definitionContent
+      - $.definitions.WorkflowPropertiesUpdate.properties.definitionContent
   - code: AvoidAdditionalProperties
     reason: Enable customer to assign identities to tools.
     from:
@@ -66,9 +70,12 @@ suppressions:
       - $.definitions.SupercomputerIdentities.properties.workloadIdentities
       - $.definitions.SupercomputerIdentitiesUpdate.properties.workloadIdentities
   - code: GuidUsage
-    reason: Refers to clientId from Azure.ResourceManager.CommonTypes.UserAssignedIdentity.
+    reason: Need to match ARM managed identity schema.
     from:
       - discovery.json
+    where:
+      - $.definitions["Azure.Core.uuid"].format
+
 ```
 
 ---

@@ -136,7 +136,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AgentListResult"
             }
@@ -300,7 +300,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ModelListResult"
             }
@@ -464,7 +464,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ToolListResult"
             }
@@ -503,7 +503,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WorkflowListResult"
             }
@@ -631,7 +631,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/AgentListResult"
             }
@@ -1855,7 +1855,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ModelListResult"
             }
@@ -3079,7 +3079,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/ToolListResult"
             }
@@ -3375,7 +3375,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The request has succeeded.",
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/WorkflowListResult"
             }
@@ -4300,22 +4300,28 @@
         }
       ]
     },
-    "AgentListItem": {
+    "AgentListResult": {
       "type": "object",
-      "description": "Agent tracked resource list response item",
+      "description": "The response of a Agent list operation.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/AgentListItemProperties",
-          "description": "The resource-specific properties for this resource."
+        "value": {
+          "type": "array",
+          "description": "The Agent items on this page",
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "value"
       ]
     },
-    "AgentListItemProperties": {
+    "AgentProperties": {
       "type": "object",
       "description": "Agent list item properties",
       "properties": {
@@ -4342,80 +4348,13 @@
             "create"
           ]
         },
-        "tools": {
+        "agents": {
           "type": "array",
-          "description": "References to the tools.",
+          "description": "References to other agents.",
           "items": {
-            "$ref": "#/definitions/ToolReference"
+            "$ref": "#/definitions/AgentReference"
           },
           "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "knowledgeBases": {
-          "type": "array",
-          "description": "References to the knowledgeBases.",
-          "items": {
-            "$ref": "#/definitions/KnowledgeBaseReference"
-          },
-          "x-ms-identifiers": [],
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "modelName",
-        "version"
-      ]
-    },
-    "AgentListResult": {
-      "type": "object",
-      "description": "The response of a AgentListItem list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The AgentListItem items on this page",
-          "items": {
-            "$ref": "#/definitions/AgentListItem"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "AgentProperties": {
-      "type": "object",
-      "description": "Agent properties",
-      "properties": {
-        "modelName": {
-          "type": "string",
-          "description": "Reference to the model.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of a resource definition",
           "x-ms-mutability": [
             "read",
             "update",
@@ -4449,8 +4388,9 @@
           ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -4466,7 +4406,7 @@
     },
     "AgentPropertiesUpdate": {
       "type": "object",
-      "description": "Agent properties",
+      "description": "Agent list item properties",
       "properties": {
         "modelName": {
           "type": "string",
@@ -4480,6 +4420,19 @@
         "version": {
           "type": "string",
           "description": "The version of a resource definition",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "agents": {
+          "type": "array",
+          "description": "References to other agents.",
+          "items": {
+            "$ref": "#/definitions/AgentReference"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -4513,8 +4466,9 @@
           ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -4563,6 +4517,11 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "Azure.Core.uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Universally Unique Identifier"
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
@@ -4756,7 +4715,11 @@
         },
         "kind": {
           "$ref": "#/definitions/CredentialType",
-          "description": "The data store kind."
+          "description": "The data store kind.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "description": {
           "type": "string",
@@ -5010,7 +4973,11 @@
       "properties": {
         "kind": {
           "$ref": "#/definitions/DataStoreType",
-          "description": "The data store kind."
+          "description": "The data store kind.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "discriminator": "kind",
@@ -5023,7 +4990,8 @@
       "description": "The kind of the backing data store.",
       "enum": [
         "AzureStorageBlob",
-        "AzureStorageFile"
+        "AzureStorageFile",
+        "DiscoveryStorage"
       ],
       "x-ms-enum": {
         "name": "DataStoreType",
@@ -5038,6 +5006,11 @@
             "name": "AzureStorageFile",
             "value": "AzureStorageFile",
             "description": "The Azure storage file kind."
+          },
+          {
+            "name": "DiscoveryStorage",
+            "value": "DiscoveryStorage",
+            "description": "The Discovery storage kind."
           }
         ]
       }
@@ -5063,6 +5036,73 @@
       },
       "required": [
         "version"
+      ]
+    },
+    "DiscoveryStorage": {
+      "type": "object",
+      "description": "The Discovery storage properties.",
+      "properties": {
+        "discoveryStorageId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The associated Discovery storage ID.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Discovery/Storages"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "discoveryStorageId"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataStore"
+        }
+      ],
+      "x-ms-discriminator-value": "DiscoveryStorage"
+    },
+    "Identity": {
+      "type": "object",
+      "description": "For user assigned identity resource property.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "The resource ID of the user assigned identity.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        },
+        "principalId": {
+          "$ref": "#/definitions/Azure.Core.uuid",
+          "description": "The principal ID of the assigned identity.",
+          "readOnly": true
+        },
+        "clientId": {
+          "$ref": "#/definitions/Azure.Core.uuid",
+          "description": "The client ID of the assigned identity.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "id"
       ]
     },
     "KeyVaultSecretCredential": {
@@ -5169,70 +5209,15 @@
         }
       ]
     },
-    "ModelListItem": {
-      "type": "object",
-      "description": "Model tracked resource list response item",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ModelListItemProperties",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "ModelListItemProperties": {
-      "type": "object",
-      "description": "Model properties",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of a resource definition",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "workspaceId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "The ARM resource ID of the workspace.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Discovery/workspaces"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "version",
-        "workspaceId"
-      ]
-    },
     "ModelListResult": {
       "type": "object",
-      "description": "The response of a ModelListItem list operation.",
+      "description": "The response of a Model list operation.",
       "properties": {
         "value": {
           "type": "array",
-          "description": "The ModelListItem items on this page",
+          "description": "The Model items on this page",
           "items": {
-            "$ref": "#/definitions/ModelListItem"
+            "$ref": "#/definitions/Model"
           }
         },
         "nextLink": {
@@ -5279,9 +5264,23 @@
             ]
           }
         },
-        "definitionContent": {
+        "onlineEndpoint": {
           "type": "string",
+          "format": "arm-id",
+          "description": "The endpoint URI for the deployed model",
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "/Microsoft.MachineLearningServices/workspaces/onlineEndpoints"
+              }
+            ]
+          }
+        },
+        "definitionContent": {
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -5309,8 +5308,9 @@
           ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -5566,12 +5566,23 @@
         },
         "entryReferenceId": {
           "type": "string",
+          "format": "arm-id",
           "description": "ARM ID of the the starting (entry) point Agent or Workflow.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Discovery/agents"
+              },
+              {
+                "type": "Microsoft.Discovery/workflows"
+              }
+            ]
+          }
         },
         "dataContainerIds": {
           "type": "array",
@@ -5647,12 +5658,23 @@
         },
         "entryReferenceId": {
           "type": "string",
+          "format": "arm-id",
           "description": "ARM ID of the the starting (entry) point Agent or Workflow.",
           "x-ms-mutability": [
             "read",
             "update",
             "create"
-          ]
+          ],
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Discovery/agents"
+              },
+              {
+                "type": "Microsoft.Discovery/workflows"
+              }
+            ]
+          }
         }
       }
     },
@@ -5958,7 +5980,11 @@
       "properties": {
         "kind": {
           "$ref": "#/definitions/StorageKind",
-          "description": "The data storage kind."
+          "description": "The data storage kind.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "discriminator": "kind",
@@ -5986,40 +6012,24 @@
       "description": "Dictionary of identity properties for the Supercomputer.",
       "properties": {
         "clusterIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/Identity",
           "description": "Cluster identity ID.",
           "x-ms-mutability": [
             "read",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "kubeletIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/Identity",
           "description": "Kubelet identity ID used by the supercomputer.\n      This identity is used by the supercomputer at node level to access Azure resources.\n      This identity must have ManagedIdentityOperator role on the clusterIdentity.",
           "x-ms-mutability": [
             "read",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "workloadIdentities": {
           "type": "object",
-          "description": "Workload identity IDs to be used by tools running on supercomputer.",
+          "description": "User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.",
           "additionalProperties": {
             "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
@@ -6042,7 +6052,7 @@
       "properties": {
         "workloadIdentities": {
           "type": "object",
-          "description": "Workload identity IDs to be used by tools running on supercomputer.",
+          "description": "User assigned identity IDs to be used by workloads as federated credentials running on supercomputer.",
           "additionalProperties": {
             "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
@@ -6171,22 +6181,28 @@
         }
       ]
     },
-    "ToolListItem": {
+    "ToolListResult": {
       "type": "object",
-      "description": "Tool tracked resource list response item",
+      "description": "The response of a Tool list operation.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/ToolListItemProperties",
-          "description": "The resource-specific properties for this resource."
+        "value": {
+          "type": "array",
+          "description": "The Tool items on this page",
+          "items": {
+            "$ref": "#/definitions/Tool"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "value"
       ]
     },
-    "ToolListItemProperties": {
+    "ToolProperties": {
       "type": "object",
       "description": "Discovery Tool list item properties",
       "properties": {
@@ -6215,66 +6231,11 @@
             "update",
             "create"
           ]
-        }
-      },
-      "required": [
-        "version"
-      ]
-    },
-    "ToolListResult": {
-      "type": "object",
-      "description": "The response of a ToolListItem list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The ToolListItem items on this page",
-          "items": {
-            "$ref": "#/definitions/ToolListItem"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "ToolProperties": {
-      "type": "object",
-      "description": "Discovery Tool properties",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of a resource definition",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "environmentVariables": {
-          "type": "object",
-          "description": "Environment variables to make available",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -6289,7 +6250,7 @@
     },
     "ToolPropertiesUpdate": {
       "type": "object",
-      "description": "Discovery Tool properties",
+      "description": "Discovery Tool list item properties",
       "properties": {
         "version": {
           "type": "string",
@@ -6313,8 +6274,9 @@
           ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -6465,8 +6427,9 @@
       "description": "For resource definition content",
       "properties": {
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -6561,22 +6524,28 @@
         }
       ]
     },
-    "WorkflowListItem": {
+    "WorkflowListResult": {
       "type": "object",
-      "description": "Workflow tracked resource list response item",
+      "description": "The response of a Workflow list operation.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/WorkflowListItemProperties",
-          "description": "The resource-specific properties for this resource."
+        "value": {
+          "type": "array",
+          "description": "The Workflow items on this page",
+          "items": {
+            "$ref": "#/definitions/Workflow"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "value"
       ]
     },
-    "WorkflowListItemProperties": {
+    "WorkflowProperties": {
       "type": "object",
       "description": "Discovery Workflow list item properties",
       "properties": {
@@ -6593,54 +6562,11 @@
             "update",
             "create"
           ]
-        }
-      },
-      "required": [
-        "version"
-      ]
-    },
-    "WorkflowListResult": {
-      "type": "object",
-      "description": "The response of a WorkflowListItem list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The WorkflowListItem items on this page",
-          "items": {
-            "$ref": "#/definitions/WorkflowListItem"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "WorkflowProperties": {
-      "type": "object",
-      "description": "Discovery Workflow properties",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "The status of the last operation.",
-          "readOnly": true
-        },
-        "version": {
-          "type": "string",
-          "description": "The version of a resource definition",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -6655,7 +6581,7 @@
     },
     "WorkflowPropertiesUpdate": {
       "type": "object",
-      "description": "Discovery Workflow properties",
+      "description": "Discovery Workflow list item properties",
       "properties": {
         "version": {
           "type": "string",
@@ -6667,8 +6593,9 @@
           ]
         },
         "definitionContent": {
-          "type": "string",
+          "type": "object",
           "description": "The JSON content for defining a resource",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -6798,21 +6725,12 @@
           "readOnly": true
         },
         "workspaceIdentity": {
-          "type": "string",
-          "format": "arm-id",
+          "$ref": "#/definitions/Identity",
           "description": "Identity IDs used for leveraging Workspace resources.",
           "x-ms-mutability": [
             "read",
-            "update",
             "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
+          ]
         },
         "managedResourceGroup": {
           "type": "string",
@@ -6880,23 +6798,6 @@
             "update",
             "create"
           ]
-        },
-        "workspaceIdentity": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Identity IDs used for leveraging Workspace resources.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ],
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-              }
-            ]
-          }
         }
       }
     },

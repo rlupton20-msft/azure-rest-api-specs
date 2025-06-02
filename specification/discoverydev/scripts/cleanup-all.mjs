@@ -1,4 +1,4 @@
-import {
+import fs, {
   existsSync,
   mkdirSync,
   readdirSync,
@@ -6,6 +6,7 @@ import {
   rmSync,
   writeFileSync,
 } from "fs";
+import { fileURLToPath } from "url";
 import { basename, dirname, resolve } from "path";
 import * as crypto from "node:crypto";
 
@@ -14,6 +15,7 @@ import {
   dataPlanePackageNames,
   validatePackage,
 } from "./common.mjs";
+import path from "node:path";
 
 const getPathForOperationId = ({ swaggerObject, operationId }) => {
   for (const [basePath, operations] of Object.entries(swaggerObject.paths)) {
@@ -37,7 +39,7 @@ const fixSetLists = ({ properties }) => {
     const key = `${propName}s`;
     if (Array.isArray(res[key])) {
       for (const ii in res[key]) {
-        res[key][ii][`${propName}Id`] = makeDiscoveryArmId({
+        res[key][ii][`${propName}Id`] = makeArmId({
           resourceTypeName: propName,
         });
       }
@@ -46,8 +48,42 @@ const fixSetLists = ({ properties }) => {
   return res;
 };
 
+const readJsonFromFile = async ({ resourceTypeName, propertyName }) => {
+  if (!resourceTypeName) {
+    throw new Error("Resource type name is missing");
+  }
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const filePath = path.resolve(
+    __dirname,
+    "json",
+    resourceTypeName.toLowerCase(),
+    `${propertyName}.mjs`,
+  );
+  if (!fs.existsSync(filePath)) {
+    throw new Error(
+      `readJsonFromFile: Could not find JSON file for "${resourceTypeName}.${propertyName}": ${filePath}`,
+    );
+  }
+  // const rawText = fs.readFileSync(filePath, "utf8");
+  // if (!rawText) {
+  //   throw new Error(
+  //     `readJsonFromFile: No file content for "${resourceTypeName}.${propertyName}": ${filePath}`,
+  //   );
+  // }
+  let parsedJson = null;
+  try {
+    parsedJson = await import(filePath);
+  } catch (err) {
+    throw new Error(`Invalid JSON file: ${filePath}`);
+  }
+  console.log(
+    `      - replacing ${resourceTypeName} > ${propertyName} with: ${filePath}.`,
+  );
+  return parsedJson.default;
+};
 const uuid = "00000011-1111-2222-2222-123456789111";
-const fixPropertiesBag = ({ properties }) => {
+const fixPropertiesBag = async ({ properties, resourceTypeName }) => {
   if (!properties) {
     return undefined;
   }
@@ -72,25 +108,40 @@ const fixPropertiesBag = ({ properties }) => {
       ? fixManagedIds({ object: properties.identities })
       : undefined,
     ...fixDiscoverIds({ object: properties }),
+    definitionContent:
+      resourceTypeName && properties.definitionContent
+        ? await readJsonFromFile({
+            resourceTypeName,
+            propertyName: "definitionContent",
+          })
+        : undefined,
   };
-  for(const propName of ["workspaceIdentity"]) {
-    if(res[propName]) {
-      res[propName] = managedIdentityResourceId;
+  for (const propName of ["workspaceIdentity"]) {
+    if (res[propName]) {
+      res[propName] = managedIdentityResourceObj;
     }
   }
   return fixSetLists({ properties: res });
 };
 
-const managedIdentityResourceId =
-  "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1";
+const managedIdentityResourceObj = {
+  id: "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedid1",
+};
 
-const makeDiscoveryArmId = ({ resourceTypeName }) => {
-  const irregularPlurals = {
-    bookshelf: "bookshelves",
-  };
-  const pathSegment =
-    irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`;
-  return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Discovery/${pathSegment}/${resourceTypeName}12`;
+const makeArmId = ({
+  resourceTypeName,
+  name,
+  provider = "Microsoft.Discovery",
+}) => {
+  let rtName = resourceTypeName;
+  if (!rtName.endsWith("s")) {
+    const irregularPlurals = {
+      bookshelf: "bookshelves",
+    };
+    rtName = irregularPlurals[resourceTypeName] ?? `${resourceTypeName}s`;
+  }
+
+  return `/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/resourceGroups/rgdiscovery/providers/${provider}/${rtName}/${name || resourceTypeName + "12"}`;
 };
 
 const fixManagedIds = ({ object }) => {
@@ -100,16 +151,16 @@ const fixManagedIds = ({ object }) => {
   const identityPropertyNames = ["clusterIdentity", "kubeletIdentity"];
   for (const propertyName of identityPropertyNames) {
     if (res[propertyName]) {
-      res[propertyName] = managedIdentityResourceId;
+      res[propertyName] = managedIdentityResourceObj;
     }
   }
   const identityListPropertyNames = ["workloadIdentities"];
 
   for (const propertyName of identityListPropertyNames) {
-    const _it = res[propertyName]
-    if (_it && (typeof _it === "object") && !Array.isArray(_it)) {
-      for(const [key, val] of Object.entries(_it)) {
-        _it[key] = fixIdentity({ identity: val})
+    const _it = res[propertyName];
+    if (_it && typeof _it === "object" && !Array.isArray(_it)) {
+      for (const [key, val] of Object.entries(_it)) {
+        _it[key] = fixIdentity({ identity: val });
       }
       res[propertyName] = _it;
     }
@@ -137,17 +188,27 @@ const fixDiscoverIds = ({ object }) => {
   };
   for (const resourceTypeName of discoveryTypeNames) {
     if (object[`${resourceTypeName}Id`]) {
-      resp[`${resourceTypeName}Id`] = makeDiscoveryArmId({
+      resp[`${resourceTypeName}Id`] = makeArmId({
         resourceTypeName,
       });
     }
     if (object[`${resourceTypeName}Ids`]) {
       resp[`${resourceTypeName}Ids`] = [
-        makeDiscoveryArmId({
+        makeArmId({
           resourceTypeName,
         }),
       ];
     }
+  }
+  if (object.entryReferenceId) {
+    resp.entryReferenceId = makeArmId({ resourceTypeName: "agents" });
+  }
+  if (object.onlineEndpoint) {
+    let wsId = makeArmId({
+      resourceTypeName: "workspaces",
+      provider: "Microsoft.MachineLearningServices",
+    });
+    resp.onlineEndpoint = `${wsId}/onlineEndpoints/ep2`;
   }
   return resp;
 };
@@ -177,7 +238,12 @@ const fixIdentity = ({ identity }) => {
 
 const definitionContent = "artifact_definition_content_in_yaml_format";
 
-const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
+const fixIds = async ({
+  swaggerObject,
+  exampleObject,
+  operationId,
+  isControlPlane,
+}) => {
   let basePath = getPathForOperationId({
     swaggerObject,
     operationId,
@@ -186,6 +252,7 @@ const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
     console.warn(`Unable to find base path "${basePath}"`);
     return exampleObject;
   }
+  const resourceTypeName = operationId.split("_")[0];
   for (const [returnCode, { body, ...rest }] of Object.entries(
     exampleObject.responses,
   )) {
@@ -210,26 +277,40 @@ const fixIds = ({ swaggerObject, exampleObject, operationId }) => {
     // }
 
     if (Object.keys(body).length > 0) {
+      let fixedProperties = properties;
+      if (properties) {
+        fixedProperties = await fixPropertiesBag({
+          properties,
+          resourceTypeName,
+        });
+      }
       exampleObject.responses[returnCode] = {
         ...rest,
         body: {
-          id: id ? basePath : undefined,
+          id: !id
+            ? undefined
+            : isControlPlane
+              ? makeArmId({ resourceTypeName, name: _name })
+              : basePath,
           name: name && _name ? _name : name,
           ...bodyRest,
           identity: identity && fixIdentity({ identity }),
 
-          properties: properties && fixPropertiesBag({ properties }),
+          properties: fixedProperties,
 
           // Handle list responses
           value: !Array.isArray(body?.value)
-            ? undefined
+            ? body?.value
             : body.value.map(({ id, name, identity, properties, ..._val }) => ({
-                id: id && name ? `${basePath}/${name}` : undefined,
+                id:
+                  id && isControlPlane
+                    ? makeArmId({ resourceTypeName, name })
+                    : undefined,
                 name,
                 ..._val,
                 identity: identity && fixIdentity({ identity }),
                 ...fixDiscoverIds({ object: _val }),
-                properties: properties && fixPropertiesBag({ properties }),
+                properties: fixedProperties,
               })),
           definitionContent: !body.definitionContent
             ? undefined
@@ -259,7 +340,7 @@ const fixRegexIssues = ({ object }) => {
   return res;
 };
 
-const runMain = () => {
+const runMain = async () => {
   console.log("***********************************");
   const dirs = [];
   const makeDirs = () => {
@@ -279,6 +360,7 @@ const runMain = () => {
   };
   for (const { inDir, outDir } of makeDirs()) {
     const outDirPath = resolve(outDir);
+    const isControlPlane = outDirPath.includes(".Management/");
 
     const swaggerDir = resolve(dirname(inDir));
     console.log("swaggerDir: ", swaggerDir);
@@ -291,8 +373,9 @@ const runMain = () => {
     if (!swaggerFile) {
       throw new Error("No specification file found");
     }
-    const swaggerObject = JSON.parse(readFileSync(swaggerFile));
-    // console.log("swaggerFile: ",swaggerFile)
+    const fileText = readFileSync(swaggerFile, "utf8");
+    const swaggerObject = JSON.parse(fileText);
+    console.log("swaggerFile: ", swaggerFile);
 
     console.log("\nDeleting:", outDirPath);
     rmSync(outDirPath, { recursive: true, force: true });
@@ -320,6 +403,7 @@ const runMain = () => {
           title = `${title} - generated by [MinimumSet] rule`;
         }
       }
+      const resourceTypeName = contents.operationId.split("_")[0];
       if (contents.parameters) {
         contents.parameters = fixRegexIssues({ object: contents.parameters });
 
@@ -330,16 +414,18 @@ const runMain = () => {
           // Fix issue with sending managedOnBehalfOfConfiguration in create/update payload
           contents.parameters.resource.properties.managedOnBehalfOfConfiguration =
             undefined;
-          contents.parameters.resource.properties = fixPropertiesBag({
+          contents.parameters.resource.properties = await fixPropertiesBag({
             properties: contents.parameters.resource.properties,
+            resourceTypeName,
           });
         }
         if (contents.parameters.properties?.properties) {
           // Fix issue with sending managedOnBehalfOfConfiguration in create/update payload
           contents.parameters.properties.properties.managedOnBehalfOfConfiguration =
             undefined;
-          contents.parameters.properties.properties = fixPropertiesBag({
+          contents.parameters.properties.properties = await fixPropertiesBag({
             properties: contents.parameters.properties.properties,
+            resourceTypeName,
           });
         }
       }
@@ -347,10 +433,11 @@ const runMain = () => {
       //   console.log(`---- ${filePath} no parameters?`)
       // }
       try {
-        fixIds({
+        await fixIds({
           swaggerObject,
           exampleObject: contents,
           operationId: contents.operationId,
+          isControlPlane,
         });
       } catch (err) {
         console.log(`Failed to fox IDs for ${file}: ${err.message}`);
@@ -373,4 +460,6 @@ const runMain = () => {
   // import("./validate-all.mjs")
 };
 
-runMain();
+runMain().catch((err) => {
+  console.error(err);
+});

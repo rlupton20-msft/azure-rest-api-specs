@@ -1981,6 +1981,77 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/action": {
+      "post": {
+        "operationId": "AutonomousDatabases_Action",
+        "tags": [
+          "AutonomousDatabases"
+        ],
+        "description": "Perform Lifecycle Management Action on Autonomous Database",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "autonomousdatabasename",
+            "in": "path",
+            "description": "The database name.",
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "pattern": ".*"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabaseLifecycleAction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AutonomousDatabase"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.OracleDatabaseDev/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups": {
       "get": {
         "operationId": "AutonomousDatabaseBackups_ListByParent",
@@ -6303,8 +6374,12 @@
           "readOnly": true
         },
         "scheduledOperations": {
-          "$ref": "#/definitions/ScheduledOperationsType",
+          "type": "array",
           "description": "The list of scheduled operations.",
+          "items": {
+            "$ref": "#/definitions/ScheduledOperationsType"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -6817,6 +6892,49 @@
         ]
       }
     },
+    "AutonomousDatabaseLifecycleAction": {
+      "type": "object",
+      "description": "Autonomous Database Action Object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/AutonomousDatabaseLifecycleActionEnum",
+          "description": "Autonomous Database lifecycle action"
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "AutonomousDatabaseLifecycleActionEnum": {
+      "type": "string",
+      "description": "Autonomous Database Action Enum",
+      "enum": [
+        "Start",
+        "Stop",
+        "Restart"
+      ],
+      "x-ms-enum": {
+        "name": "AutonomousDatabaseLifecycleActionEnum",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Start",
+            "value": "Start",
+            "description": "Start Autonomous Database"
+          },
+          {
+            "name": "Stop",
+            "value": "Stop",
+            "description": "Stop Autonomous Database"
+          },
+          {
+            "name": "Restart",
+            "value": "Restart",
+            "description": "Restart Autonomous Database"
+          }
+        ]
+      }
+    },
     "AutonomousDatabaseLifecycleState": {
       "type": "string",
       "description": "Autonomous database lifecycle state enum",
@@ -7231,8 +7349,12 @@
           ]
         },
         "scheduledOperations": {
-          "$ref": "#/definitions/ScheduledOperationsTypeUpdate",
+          "type": "array",
           "description": "The list of scheduled operations.",
+          "items": {
+            "$ref": "#/definitions/ScheduledOperationsType"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -8934,16 +9056,6 @@
         ]
       }
     },
-    "DayOfWeekUpdate": {
-      "type": "object",
-      "description": "DayOfWeek resource properties",
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/DayOfWeekName",
-          "description": "Name of the day of the week."
-        }
-      }
-    },
     "DbActionResponse": {
       "type": "object",
       "description": "Exascale DB Node action response",
@@ -9583,15 +9695,6 @@
       "type": "object",
       "description": "DbSystem resource base model.",
       "properties": {
-        "adminPassword": {
-          "$ref": "#/definitions/Password",
-          "description": "A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.",
-          "minLength": 1,
-          "maxLength": 255,
-          "x-ms-mutability": [
-            "create"
-          ]
-        },
         "source": {
           "type": "string",
           "description": "The source of the database: Use `None` for creating a new database. The default is `None`.",
@@ -9662,19 +9765,31 @@
             "create"
           ]
         },
-        "dataStorageSizeInGbs": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.",
-          "readOnly": true
-        },
-        "databaseEdition": {
-          "$ref": "#/definitions/DbSystemDatabaseEditionType",
-          "description": "The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.",
+        "displayName": {
+          "type": "string",
+          "description": "The user-friendly name for the DB system. The name does not have to be unique.",
+          "minLength": 1,
+          "maxLength": 255,
           "x-ms-mutability": [
             "read",
             "create"
           ]
+        },
+        "initialDataStorageSizeInGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.",
+          "minimum": 2,
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "dataStorageSizeInGbs": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.",
+          "minimum": 2,
+          "readOnly": true
         },
         "dbSystemOptions": {
           "$ref": "#/definitions/DbSystemOptions",
@@ -9695,10 +9810,7 @@
         "domain": {
           "type": "string",
           "description": "The domain name for the DB system.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "readOnly": true
         },
         "gridImageOcid": {
           "$ref": "#/definitions/Ocid",
@@ -9807,7 +9919,7 @@
           "type": "array",
           "description": "The public key portion of one or more key pairs used for SSH access to the DB system.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/SshPublicKey"
           },
           "x-ms-mutability": [
             "read",
@@ -9840,16 +9952,11 @@
       },
       "discriminator": "source",
       "required": [
-        "adminPassword",
         "source",
         "resourceAnchorId",
         "networkAnchorId",
         "cpuCoreCount",
-        "databaseEdition",
-        "domain",
         "hostname",
-        "ocid",
-        "lifecycleState",
         "shape",
         "sshPublicKeys"
       ]
@@ -9996,6 +10103,29 @@
     "DbSystemProperties": {
       "type": "object",
       "description": "DbSystem resource model.",
+      "properties": {
+        "databaseEdition": {
+          "$ref": "#/definitions/DbSystemDatabaseEditionType",
+          "description": "The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require EnterpriseEditionExtremePerformance.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "adminPassword": {
+          "$ref": "#/definitions/Password",
+          "description": "A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "databaseEdition",
+        "adminPassword"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/DbSystemBaseProperties"
@@ -10613,6 +10743,42 @@
             "description": "Updating value"
           }
         ]
+      }
+    },
+    "DnsResolutionFromAzureToOciProperties": {
+      "type": "object",
+      "description": "DnsResolutionFromAzureToOci properties",
+      "properties": {
+        "isEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether DNS forwarding from Azure to OCI is enabled for the Network Anchor.",
+          "default": false
+        },
+        "listeningEndpointIpAddress": {
+          "type": "string",
+          "description": "The IP address used for DNS forwarding from Azure to OCI."
+        }
+      }
+    },
+    "DnsResolutionFromOciToAzureProperties": {
+      "type": "object",
+      "description": "DnsResolutionFromOciToAzure properties",
+      "properties": {
+        "isEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether DNS forwarding from OCI to Azure is enabled for the Network Anchor.",
+          "default": false
+        },
+        "domainName": {
+          "type": "string",
+          "description": "The domain name used for DNS forwarding from OCI to Azure.",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "forwardingIpAddress": {
+          "type": "string",
+          "description": "The IP address used for DNS forwarding from OCI to Azure."
+        }
       }
     },
     "EstimatedPatchingTime": {
@@ -12266,6 +12432,24 @@
             "update",
             "create"
           ]
+        },
+        "dnsResolutionFromOciToAzureProperties": {
+          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
+          "description": "DnsResolutionFromOciToAzure properties",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsResolutionFromAzureToOciProperties": {
+          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
+          "description": "DnsResolutionFromAzureToOci properties",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "required": [
@@ -12304,6 +12488,24 @@
         "ociBackupCidrBlock": {
           "type": "string",
           "description": "OCI backup subnet cidr block.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsResolutionFromOciToAzureProperties": {
+          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
+          "description": "DnsResolutionFromOciToAzure properties",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsResolutionFromAzureToOciProperties": {
+          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
+          "description": "DnsResolutionFromAzureToOci properties",
           "x-ms-mutability": [
             "read",
             "update",
@@ -13253,7 +13455,7 @@
     },
     "ScheduledOperationsType": {
       "type": "object",
-      "description": "The list of scheduled operations.",
+      "description": "The details of scheduled operation.",
       "properties": {
         "dayOfWeek": {
           "$ref": "#/definitions/DayOfWeek",
@@ -13275,28 +13477,6 @@
       "required": [
         "dayOfWeek"
       ]
-    },
-    "ScheduledOperationsTypeUpdate": {
-      "type": "object",
-      "description": "The list of scheduled operations.",
-      "properties": {
-        "dayOfWeek": {
-          "$ref": "#/definitions/DayOfWeekUpdate",
-          "description": "Day of week"
-        },
-        "scheduledStartTime": {
-          "type": "string",
-          "description": "auto start time. value must be of ISO-8601 format HH:mm",
-          "minLength": 1,
-          "maxLength": 50
-        },
-        "scheduledStopTime": {
-          "type": "string",
-          "description": "auto stop time. value must be of ISO-8601 format HH:mm",
-          "minLength": 1,
-          "maxLength": 50
-        }
-      }
     },
     "SessionModeType": {
       "type": "string",
@@ -13399,6 +13579,12 @@
           }
         ]
       }
+    },
+    "SshPublicKey": {
+      "type": "string",
+      "description": "SshPublicKey string",
+      "minLength": 1,
+      "maxLength": 1024
     },
     "StorageManagementType": {
       "type": "string",

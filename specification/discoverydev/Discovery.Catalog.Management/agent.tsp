@@ -24,13 +24,6 @@ model Agent is TrackedResource<AgentProperties> {
   ...ResourceNameParameter<Agent>;
 }
 
-/** Agent tracked resource list response item */
-model AgentListItem is TrackedResource<AgentListItemProperties> {
-  ...ResourceNameParameter<Agent>;
-}
-
-model AgentListResult is ResourceListResult<AgentListItem>;
-
 @doc("Tool reference")
 model ToolReference {
   @doc("The resource ID of the tool.")
@@ -59,12 +52,16 @@ model KnowledgeBaseReference {
 }
 
 @doc("Agent list item properties")
-model AgentListItemProperties {
+model AgentProperties {
   @doc("Reference to the model.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   modelName: string;
 
   ...DiscoveryResourceProperties;
+
+  @doc("References to other agents.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  agents?: AgentReference[];
 
   @doc("References to the tools.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -73,14 +70,9 @@ model AgentListItemProperties {
   @doc("References to the knowledgeBases.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   knowledgeBases?: KnowledgeBaseReference[];
-}
 
-@doc("Agent properties")
-model AgentProperties {
-  ...AgentListItemProperties;
   ...WithDefinitionContent;
 }
 
 @armResourceOperations
-interface Agents
-  extends DiscoveryResource<Agent, AgentProperties, AgentListResult> {}
+interface Agents extends DiscoveryResource<Agent, AgentProperties> {}

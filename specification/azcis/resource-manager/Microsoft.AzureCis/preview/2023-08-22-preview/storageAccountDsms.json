@@ -288,6 +288,44 @@
     }
   },
   "definitions": {
+    "AccountSasInfo": {
+      "type": "object",
+      "description": "AccountSasInfo element contains Sas Key Information.",
+      "properties": {
+        "rootPath": {
+          "type": "string",
+          "description": "dSMS root folder."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Storage Account."
+        },
+        "dsmsLocation": {
+          "type": "string",
+          "description": "Path in Dsms endpoint. If this specified, then RootPath and Name should be ignored."
+        },
+        "signedPermissions": {
+          "type": "string",
+          "description": "The signed permissions for the account SAS. Acceptable values: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p)."
+        },
+        "signedServices": {
+          "type": "string",
+          "description": "Services like blob(b), queue(q) and table(t)."
+        },
+        "signedResourceTypes": {
+          "type": "string",
+          "description": "The signed resource types that are accessible with the account SAS. Service (s)/Container (c)/Object (o)."
+        }
+      },
+      "required": [
+        "rootPath",
+        "name",
+        "dsmsLocation",
+        "signedPermissions",
+        "signedServices",
+        "signedResourceTypes"
+      ]
+    },
     "Azure.Core.azureLocation": {
       "type": "string",
       "description": "Represents an Azure geography region where supported resource providers live."
@@ -339,7 +377,7 @@
       "properties": {
         "action": {
           "type": "string",
-          "description": "Action to be performed. Acceptable values: tierToCool, tierToArchive, tierToCold, tierToHot, delete."
+          "description": "Action to be performed. Acceptable values: 'tierToCool', 'tierToArchive', 'tierToCold', 'tierToHot', 'delete'."
         },
         "daysAfterModificationGreaterThan": {
           "type": "integer",
@@ -431,6 +469,24 @@
         "blobTypesFilter",
         "prefixMatchFilter",
         "blobIndexMatchFilter"
+      ]
+    },
+    "Replicate": {
+      "type": "object",
+      "description": "Replicate element defines where the secret should be replicated to.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Local: This secret is not replicated to other dSMS instance. AllDsmsRegions: This secret can be replicated to all dSMS instances. SpecifiedDsmsRegions: This secret can only be replicated to the specified dSMS instances."
+        },
+        "regions": {
+          "type": "string",
+          "description": "Regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon."
+        }
+      },
+      "required": [
+        "type",
+        "regions"
       ]
     },
     "StorageAccountDsmsProvisioningState": {
@@ -538,24 +594,67 @@
           "type": "string",
           "description": "Label of the XStore account."
         },
+        "xstoreBootstrapping": {
+          "type": "boolean",
+          "description": "If False, create Storage Account and dSMS object in Deferred Provisioning; if True, create dSMS object in Provisioning, then create Storage Account in Deferred Provisioning and refresh keys in dSMS. Optional, True by default."
+        },
         "eventEmittedUponProvisioning": {
           "type": "string",
           "description": "Name of the event to emit once the XStore account is created."
         },
+        "whitelists": {
+          "$ref": "#/definitions/Whitelists",
+          "description": "Storage account whitelist in dSMS."
+        },
+        "replicate": {
+          "$ref": "#/definitions/Replicate",
+          "description": "Storage account Replication in dSMS."
+        },
+        "blockAutoRollover": {
+          "type": "boolean",
+          "description": "Set to True to block auto key rollover. Optional, False by default."
+        },
+        "keyRenewalPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Override default key renewal period."
+        },
+        "releaseKeyToAgent": {
+          "type": "boolean",
+          "description": "Set to True if you need ACL the Storage Account to Autopilot or PilotFish environments. Optional."
+        },
+        "forceSyncGlobalDsmsSecret": {
+          "type": "boolean",
+          "description": "Set to True to force global sync of dSMS secret or False to skip it. Optional, False by default."
+        },
         "resourceProvider": {
           "type": "string",
-          "description": "Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal).",
+          "description": "Storage Account resource provider. Acceptable values: 'Classic' (for RDFE Storage Accounts), 'ARM' (StorageV2 (general purpose v2) on Azure Portal), 'Xstore', 'Invalid' (used to create a dummy account in dSMS).",
           "enum": [
             "Classic",
-            "ARM"
+            "ARM",
+            "Xstore",
+            "Invalid"
           ],
           "x-ms-enum": {
             "modelAsString": true
           }
         },
+        "pilotXstoreResourceProvider": {
+          "type": "boolean",
+          "description": "Set to True to pilot XStore resource provider. In new region or new cloud scenario, it can create Storage Account at earlier stage before ARM ready. This is mainly as a replacement for Classic resource provider which will be deprecated with RDFE."
+        },
+        "accountSasInfos": {
+          "type": "array",
+          "description": "Storage account shared access signature.",
+          "items": {
+            "$ref": "#/definitions/AccountSasInfo"
+          },
+          "x-ms-identifiers": []
+        },
         "residencyBoundary": {
           "type": "string",
-          "description": "Residency boundary. Acceptable values: Worldwide, National.",
+          "description": "Residency boundary. Acceptable values: 'Worldwide', 'National'.",
           "enum": [
             "Worldwide",
             "National"
@@ -566,15 +665,15 @@
         },
         "resiliencyMinimum": {
           "type": "string",
-          "description": "Minimum account replication type, e.g. Standard_LRS. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used."
+          "description": "Minimum account replication type, e.g. 'Standard_LRS'. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used."
         },
         "resiliencyMaximum": {
           "type": "string",
-          "description": "Maximum account replication type, e.g. Standard_ZRS."
+          "description": "Maximum account replication type, e.g. 'Standard_ZRS'."
         },
         "resilienciesProgressionId": {
           "type": "string",
-          "description": "Resiliencies progression id. Acceptable values: Default, PremiumDefault, Zonal.",
+          "description": "Resiliencies progression id. Acceptable values: 'Default', 'PremiumDefault', 'Zonal'.",
           "enum": [
             "Default",
             "PremiumDefault",
@@ -586,7 +685,11 @@
         },
         "additionalLocations": {
           "type": "string",
-          "description": "Additional locations to support resiliency, e.g. primary."
+          "description": "Additional locations to support resiliency, e.g. 'primary'."
+        },
+        "dualStackEndpointPreference": {
+          "$ref": "#/definitions/DualStackEndpointPreference",
+          "description": "Dual Stack Endpoint Preference."
         },
         "lifecycleManagementPolicy": {
           "type": "array",
@@ -595,18 +698,6 @@
             "$ref": "#/definitions/LifecycleManagementPolicyRule"
           },
           "x-ms-identifiers": []
-        },
-        "refreshInDsms": {
-          "type": "boolean",
-          "description": "Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default."
-        },
-        "originalResourceProvider": {
-          "type": "string",
-          "description": "The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider."
-        },
-        "dualStackEndpointPreference": {
-          "$ref": "#/definitions/DualStackEndpointPreference",
-          "description": "Dual Stack Endpoint Preference."
         },
         "requireInfrastructureEncryption": {
           "type": "boolean",
@@ -642,7 +733,7 @@
         },
         "storageAccountRdfeCreationTime": {
           "type": "string",
-          "description": "Storage Account rdfe creation time; a part of provisioning ResultData output.",
+          "description": "Storage Account RDFE creation time; a part of provisioning ResultData output.",
           "readOnly": true
         },
         "storageAccountXstoreCreationTime": {
@@ -650,9 +741,19 @@
           "description": "Storage Account XStore creation time; a part of provisioning ResultData output.",
           "readOnly": true
         },
-        "provisionStartTime_StorageAccountTemplate": {
+        "provisionStartTime_dsmsAccountTemplate": {
           "type": "string",
-          "description": "Resource template provision start time; a part of provisioning ResultData output.",
+          "description": "DsmsAccountTemplate provision start time; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "provisionStartTime_storageAccountTemplate": {
+          "type": "string",
+          "description": "StorageAccountTemplate provision start time; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "provisionStartTime_storageAccountSyncTemplate": {
+          "type": "string",
+          "description": "StorageAccountSyncTemplate provision start time; a part of provisioning ResultData output.",
           "readOnly": true
         }
       },
@@ -660,6 +761,41 @@
         "accountName",
         "rootPath",
         "resourceProvider"
+      ]
+    },
+    "Whitelist": {
+      "type": "object",
+      "description": "Whitelist element defines the whitelist for a secret.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the whitelist. ServiceID: whitelisting a service. SubscriptionID: whitelisting subscription ID for creating Storage Account objects. DnsDomain: whitelisting a DNS domain for creating chained certificates. ServiceTreeID: whitelisting a service tree ID."
+        },
+        "values": {
+          "type": "string",
+          "description": "Values of the whitelist, separated by semicolon."
+        }
+      },
+      "required": [
+        "type",
+        "values"
+      ]
+    },
+    "Whitelists": {
+      "type": "object",
+      "description": "Whitelists element is a wrapper object over a collection of Whitelist elements.",
+      "properties": {
+        "whitelist": {
+          "type": "array",
+          "description": "Array of whitelists.",
+          "items": {
+            "$ref": "#/definitions/Whitelist"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "whitelist"
       ]
     }
   },
