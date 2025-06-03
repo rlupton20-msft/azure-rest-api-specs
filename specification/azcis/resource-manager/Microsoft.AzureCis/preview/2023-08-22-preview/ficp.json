@@ -515,7 +515,7 @@
         },
         "noDisplay": {
           "type": "boolean",
-          "description": "No Display?"
+          "description": "Flag indicating if the policy should be displayed or not"
         }
       },
       "required": [
@@ -576,7 +576,7 @@
           "description": "Define the execution sequence in belonging policy set."
         },
         "policyType": {
-          "type": "string",
+          "$ref": "#/definitions/PolicyType",
           "description": "The type of approval for the policy. Available values are \"AutoApproval\", \"ManualApproval\" and \"ExplicitlyDeny\"."
         },
         "resourceType": {
@@ -623,6 +623,10 @@
       "type": "object",
       "description": "Ficp JIT Policy Set properties",
       "properties": {
+        "cloudId": {
+          "type": "string",
+          "description": "Cloud identifier"
+        },
         "policies": {
           "type": "array",
           "description": "List of Jit policies",
@@ -630,10 +634,6 @@
             "$ref": "#/definitions/JitPolicy"
           },
           "x-ms-identifiers": []
-        },
-        "cloudId": {
-          "type": "string",
-          "description": "Cloud identificator"
         },
         "azureLocation": {
           "$ref": "#/definitions/Azure.Core.azureLocation",
@@ -646,8 +646,8 @@
         }
       },
       "required": [
-        "policies",
-        "cloudId"
+        "cloudId",
+        "policies"
       ]
     },
     "JitPolicySetResource": {
@@ -797,13 +797,50 @@
         "value"
       ]
     },
+    "PolicyType": {
+      "type": "string",
+      "description": "Policy Type",
+      "enum": [
+        "AutoApproval",
+        "ManualApproval",
+        "ExplicitlyDeny"
+      ],
+      "x-ms-enum": {
+        "name": "PolicyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AutoApproval",
+            "value": "AutoApproval",
+            "description": "Auto Approval"
+          },
+          {
+            "name": "ManualApproval",
+            "value": "ManualApproval",
+            "description": "Manual Approval"
+          },
+          {
+            "name": "ExplicitlyDeny",
+            "value": "ExplicitlyDeny",
+            "description": "Explicitly Deny"
+          }
+        ]
+      }
+    },
     "ProvisioningMode": {
       "type": "object",
       "description": "Provisioning Mode",
       "properties": {
         "mode": {
           "type": "string",
-          "description": "Type of the provisioning mode, either \"Create\" or \"Delete\"."
+          "description": "Type of the provisioning mode, either \"Create\" or \"Delete\".",
+          "enum": [
+            "Create",
+            "Delete"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         }
       },
       "required": [
