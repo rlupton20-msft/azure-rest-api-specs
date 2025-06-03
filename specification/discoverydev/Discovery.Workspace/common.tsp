@@ -3,8 +3,6 @@ import "@typespec/http";
 import "../Discovery.Shared/data-plane.tsp";
 import "../Discovery.Shared/shared.tsp";
 
-using Microsoft.Discovery.Shared;
-
 @doc("Enumeration for message sender.")
 union Sender {
   /** Sent by Copilot */
@@ -63,36 +61,29 @@ model WithProjectIdOptional {
 }
 
 @doc("For investigation reference.")
-model WithInvestigationIdOptional {
+model WithInvestigationNameOptional {
   @doc("The ID of the associated Investigation")
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  investigationId?: string;
+  investigationName?: string;
+}
+
+@doc("For project name reference.")
+model WithProjectNameOptional {
+  @doc("The name of the associated Project")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  projectName?: string;
 }
 
 @doc("For searching by Project.")
-model WithQueryProjectId {
-  @doc("The ID of the associated Project")
+model WithQueryProjectName {
+  @doc("The name of the associated Project")
   @TypeSpec.Http.query
-  projectId?: string;
+  projectName?: string;
 }
 
 @doc("For searching by Investigation.")
-model WithQueryInvestigationId {
-  @doc("The ID of the associated Investigation")
+model WithQueryInvestigationName {
+  @doc("The name of the associated Investigation")
   @TypeSpec.Http.query
-  investigationId?: string;
-}
-
-//@doc("For searching by InvestigationVersion.")
-//model WithQueryInvestigationVersionId {
-//  @doc("The ID of the associated InvestigationVersion")
-//  @TypeSpec.Http.query
-//  investigationVersionId?: string;
-//}
-
-@doc("For searching by Conversation.")
-model WithQueryConversationId {
-  @doc("The ID of the associated Conversation")
-  @TypeSpec.Http.query
-  conversationId?: string;
+  investigationName?: string;
 }
