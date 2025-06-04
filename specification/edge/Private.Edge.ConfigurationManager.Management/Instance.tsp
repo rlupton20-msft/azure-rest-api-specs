@@ -101,15 +101,6 @@ interface Instances {
   @doc("Get Instance Resource")
   get is ArmResourceRead<Instance>;
 
-  @doc("Create or update Instance Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Instance>;
-
-  @doc("Update an Instance Resource")
-  update is ArmResourcePatchAsync<Instance, InstanceProperties>;
-
-  @doc("Delete Instance Resource")
-  delete is ArmResourceDeleteWithoutOkAsync<Instance>;
-
   @doc("List Instance Resources")
   listBySolution is ArmResourceListByParent<Instance>;
 }
