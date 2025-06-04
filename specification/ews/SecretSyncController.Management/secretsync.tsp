@@ -47,7 +47,7 @@ model SecretSyncProperties {
 
   @doc("An array of SecretObjectData that maps secret data from the external secret provider to the Kubernetes secret. Each entry specifies the source secret in the external provider and the corresponding key in the Kubernetes secret.")
   @minItems(1)
-  identifiers(#["targetKey"])
+  @identifiers(#["targetKey"])
   objectSecretMapping: KubernetesSecretObjectMapping[];
 
   @visibility(Lifecycle.Read)
