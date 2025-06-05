@@ -24,7 +24,12 @@ interface Images {
   @doc("List by parent")
   listByParent is ArmResourceListByParent<
     Image,
-    
+    {
+      ...ApiVersionParameter;
+      ...FilterQueryParameter;
+      ...TopQueryParameter;
+      ...SkipQueryParameter;
+    }
   >;
 
   @doc("Get the resource")
