@@ -76,9 +76,6 @@ model KnowledgeBase {
 }
 
 interface KnowledgeBases {
-  @doc("Fetch a KnowledgeBase by name. Gets latest version.")
-  getKnowledgeBase is ResourceRead<KnowledgeBase>;
-
   @doc("List KnowledgeBase resources")
   listKnowledgeBases is ResourceList<KnowledgeBase>;
 
