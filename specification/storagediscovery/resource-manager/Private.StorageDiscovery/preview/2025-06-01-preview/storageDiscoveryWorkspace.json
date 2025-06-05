@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "StorageDiscoveryClient",
-    "version": "2025-04-01-preview",
+    "version": "2025-06-01-preview",
     "x-typespec-generated": [
       {
         "emitter": "@azure-tools/typespec-autorest"
@@ -43,6 +43,9 @@
     },
     {
       "name": "Operations"
+    },
+    {
+      "name": "Report"
     }
   ],
   "paths": {
@@ -70,11 +73,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "List all provider operations": {
-            "$ref": "./examples/Operation_List.json"
           }
         },
         "x-ms-pageable": {
@@ -109,11 +107,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "List StorageDiscoveryWorkspaces by Subscription": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -151,11 +144,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "List StorageDiscoveryWorkspaces by Resource Group": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_ListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -201,11 +189,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Get a StorageDiscoveryWorkspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_Get.json"
           }
         }
       },
@@ -262,11 +245,6 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "Create or Update a StorageDiscoveryWorkspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_CreateOrUpdate.json"
-          }
         }
       },
       "patch": {
@@ -316,11 +294,6 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "Update a StorageDiscoveryWorkspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_Update.json"
-          }
         }
       },
       "delete": {
@@ -361,19 +334,56 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-examples": {
-          "Delete a StorageDiscoveryWorkspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_Delete.json"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{report}": {
+      "get": {
+        "operationId": "Report_Get",
+        "tags": [
+          "Report"
+        ],
+        "description": "Get a ReportResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "report",
+            "in": "path",
+            "description": "The name of the ReportResource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ReportResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}/report": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{report}/report": {
       "post": {
-        "operationId": "StorageDiscoveryWorkspaces_Report",
+        "operationId": "Report_Report",
         "tags": [
-          "StorageDiscoveryWorkspaces"
+          "Report"
         ],
         "description": "A long-running resource action.",
         "parameters": [
@@ -387,12 +397,12 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "storageDiscoveryWorkspaceName",
+            "name": "report",
             "in": "path",
-            "description": "The name of the StorageDiscoveryWorkspace",
+            "description": "The name of the ReportResource",
             "required": true,
             "type": "string",
-            "pattern": "^[a-z0-9]{3,18}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
             "name": "body",
@@ -430,11 +440,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "Get the StorageDiscoveryWorkspace data from workspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_Report.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -550,6 +555,25 @@
       },
       "required": [
         "results"
+      ]
+    },
+    "ReportProperties": {
+      "type": "object",
+      "description": "This is an empty model as the Report resource is used only as a proxy for the Report API."
+    },
+    "ReportResource": {
+      "type": "object",
+      "description": "A report resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ReportProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "ReportResponseColumn": {

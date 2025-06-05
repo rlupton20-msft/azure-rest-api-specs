@@ -12,6 +12,7 @@ using TypeSpec.Versioning;
 
 namespace Private.StorageDiscovery;
 
+@added(ApiVersion.v2025_06_01_preview)
 @doc("A report resource")
 model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
   ...ResourceNameParameter<
@@ -21,15 +22,16 @@ model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
   >;
 }
 
+@added(ApiVersion.v2025_06_01_preview)
 @doc("This is an empty model as the Report resource is used only as a proxy for the Report API.")
 model ReportProperties {}
 
+@added(ApiVersion.v2025_06_01_preview)
 @armResourceOperations
 interface Report {
   get is ArmResourceRead<ReportResource>;
   @autoRoute
   @post
-  @added(ApiVersion.v2025_04_01_preview)
   report is ArmResourceActionAsync<
     ReportResource,
     GetReportRequest,
