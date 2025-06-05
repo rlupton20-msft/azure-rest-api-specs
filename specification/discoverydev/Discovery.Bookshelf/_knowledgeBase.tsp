@@ -60,6 +60,7 @@ model BaseKnowledgeBase {
   ...DataPlaneResource;
   ...WithTags;
   ...WithDescription;
+  ...WithCopilotInstruction;
   ...WithStatus<IndexingStatus>;
 }
 
