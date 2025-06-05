@@ -79,9 +79,7 @@ interface KnowledgeBases {
   @doc("List KnowledgeBase resources")
   listKnowledgeBases is ResourceList<KnowledgeBase>;
 
-  getOperationStatus is Operations.GetResourceOperationStatus<KnowledgeBase>;
-
   @doc("Delete a KnowledgeBase.")
-  @pollingOperation(KnowledgeBases.getOperationStatus)
+  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
   deleteKnowledgeBase is LongRunningResourceDelete<KnowledgeBase>;
 }
