@@ -21,6 +21,12 @@ union JobType {
 
   @doc("A deployment job.")
   Deploy: "deploy",
+
+  @doc("A staging job.")
+  Staging: "staging",
+
+  @doc("A validation job.")
+  ExternalValidation: "externalValidation",
 }
 
 @doc("Status of a job or job step.")
