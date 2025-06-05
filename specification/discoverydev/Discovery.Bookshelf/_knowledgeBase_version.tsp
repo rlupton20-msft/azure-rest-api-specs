@@ -119,9 +119,9 @@ interface KnowledgeBaseVersions {
     WithRunId
   >;
 
-  @doc("Stop indexing.")
+  @doc("Cancel indexing.")
   @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
-  stopIndexing is Operations.LongRunningResourceAction<
+  cancelIndexing is Operations.LongRunningResourceAction<
     KnowledgeBaseVersion,
     WithNodePool,
     WithRunId
