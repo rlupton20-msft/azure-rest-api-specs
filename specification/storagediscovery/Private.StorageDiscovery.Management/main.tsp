@@ -274,6 +274,15 @@ interface StorageDiscoveryWorkspaces {
   delete is ArmResourceDeleteSync<StorageDiscoveryWorkspace>;
   listByResourceGroup is ArmResourceListByParent<StorageDiscoveryWorkspace>;
   listBySubscription is ArmListBySubscription<StorageDiscoveryWorkspace>;
+
+  @autoRoute
+  @post
+  @removed(ApiVersion.v2025_04_01_preview)
+  report is ArmResourceActionAsync<
+    StorageDiscoveryWorkspace,
+    GetReportRequest,
+    GetReportResponse
+  >;
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
