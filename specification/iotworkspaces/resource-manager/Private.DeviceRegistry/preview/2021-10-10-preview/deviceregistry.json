@@ -1691,7 +1691,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -1751,7 +1751,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1847,7 +1847,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1931,7 +1931,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -4843,71 +4843,6 @@
         }
       }
     },
-    "DiscoveredDeviceProperties": {
-      "type": "object",
-      "description": "Defines the Discovered Asset Endpoint Profile properties.",
-      "properties": {
-        "externalDeviceId": {
-          "type": "string",
-          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
-        },
-        "endpoints": {
-          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
-          "description": "Endpoints for discovered devices."
-        },
-        "discoveryId": {
-          "type": "string",
-          "description": "Identifier used to detect changes in the asset endpoint profile."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Hardware manufacturer name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "model": {
-          "type": "string",
-          "description": "Model name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystem": {
-          "type": "string",
-          "description": "Operating system name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystemVersion": {
-          "type": "string",
-          "description": "Operating system version."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes.",
-          "additionalProperties": {}
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "discoveryId",
-        "version"
-      ]
-    },
     "DiscoveredInboundEndpoints": {
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
@@ -6171,7 +6106,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6194,7 +6130,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6222,7 +6159,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6268,7 +6206,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -7119,7 +7058,7 @@
       "description": "Discovered device definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredDeviceProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredDeviceProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -7159,6 +7098,71 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "NamespaceDiscoveredDeviceProperties": {
+      "type": "object",
+      "description": "Defines the Discovered Asset Endpoint Profile properties.",
+      "properties": {
+        "externalDeviceId": {
+          "type": "string",
+          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
+          "description": "Endpoints for discovered devices."
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset endpoint profile."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Hardware manufacturer name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystem": {
+          "type": "string",
+          "description": "Operating system name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "description": "Operating system version."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes.",
+          "additionalProperties": {}
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "discoveryId",
+        "version"
       ]
     },
     "NamespaceDiscoveredDeviceUpdate": {

@@ -14,7 +14,7 @@ namespace Private.DeviceRegistry;
 
 @doc("Defines the Discovered Asset Endpoint Profile properties.")
 @added(Versions.v2025_07_01_preview)
-model DiscoveredDeviceProperties {
+model NamespaceDiscoveredDeviceProperties {
   @doc("A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant.")
   externalDeviceId?: string;
 
