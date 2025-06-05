@@ -4,9 +4,12 @@ import "@typespec/openapi";
 import "@typespec/rest";
 import "@typespec/versioning";
 
+import "./report.tsp";
+
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Azure.ResourceManager.CommonTypes;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
@@ -218,6 +221,12 @@ enum ApiVersion {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_04_01_preview: "2025-04-01-preview",
+
+  /** 2025-06-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_06_01_preview: "2025-06-01-preview",
 }
 
 @doc("Request to get StorageDiscoveryWorkspace data from ADX")
@@ -275,6 +284,7 @@ interface StorageDiscoveryWorkspaces {
   @autoRoute
   @post
   @added(ApiVersion.v2025_04_01_preview)
+  @removed(ApiVersion.v2025_06_01_preview)
   report is ArmResourceActionAsync<
     StorageDiscoveryWorkspace,
     GetReportRequest,
