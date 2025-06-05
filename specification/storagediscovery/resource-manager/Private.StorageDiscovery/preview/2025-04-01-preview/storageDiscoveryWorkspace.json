@@ -43,6 +43,9 @@
     },
     {
       "name": "Operations"
+    },
+    {
+      "name": "Report"
     }
   ],
   "paths": {
@@ -369,11 +372,53 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}/report": {
-      "post": {
-        "operationId": "StorageDiscoveryWorkspaces_Report",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{report}": {
+      "get": {
+        "operationId": "Report_Get",
         "tags": [
-          "StorageDiscoveryWorkspaces"
+          "Report"
+        ],
+        "description": "Get a ReportResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "report",
+            "in": "path",
+            "description": "The name of the ReportResource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ReportResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{report}/report": {
+      "post": {
+        "operationId": "Report_Report",
+        "tags": [
+          "Report"
         ],
         "description": "A long-running resource action.",
         "parameters": [
@@ -387,12 +432,12 @@
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "storageDiscoveryWorkspaceName",
+            "name": "report",
             "in": "path",
-            "description": "The name of the StorageDiscoveryWorkspace",
+            "description": "The name of the ReportResource",
             "required": true,
             "type": "string",
-            "pattern": "^[a-z0-9]{3,18}$"
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
             "name": "body",
@@ -432,11 +477,6 @@
             }
           }
         },
-        "x-ms-examples": {
-          "Get the StorageDiscoveryWorkspace data from workspace": {
-            "$ref": "./examples/StorageDiscoveryWorkspaces_Report.json"
-          }
-        },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
         },
@@ -447,6 +487,7 @@
   "definitions": {
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -549,6 +590,25 @@
       },
       "required": [
         "results"
+      ]
+    },
+    "ReportProperties": {
+      "type": "object",
+      "description": "This is an empty model as the Report resource is used only as a proxy for the Report API."
+    },
+    "ReportResource": {
+      "type": "object",
+      "description": "A report resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ReportProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
       ]
     },
     "ReportResponseColumn": {

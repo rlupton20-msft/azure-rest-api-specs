@@ -4,9 +4,12 @@ import "@typespec/openapi";
 import "@typespec/rest";
 import "@typespec/versioning";
 
+import "./report.tsp";
+
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Azure.ResourceManager.CommonTypes;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
@@ -271,15 +274,6 @@ interface StorageDiscoveryWorkspaces {
   delete is ArmResourceDeleteSync<StorageDiscoveryWorkspace>;
   listByResourceGroup is ArmResourceListByParent<StorageDiscoveryWorkspace>;
   listBySubscription is ArmListBySubscription<StorageDiscoveryWorkspace>;
-
-  @autoRoute
-  @post
-  @added(ApiVersion.v2025_04_01_preview)
-  report is ArmResourceActionAsync<
-    StorageDiscoveryWorkspace,
-    GetReportRequest,
-    GetReportResponse
-  >;
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
