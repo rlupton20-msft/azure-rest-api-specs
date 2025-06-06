@@ -93,6 +93,9 @@ model MessageLog {
   @doc("Indicates if this log entry represents an action.")
   isAction?: boolean;
 
+  @doc("Indicates the code environment")
+  codeEnvironment?: boolean;
+
   @doc("The destination agent, if applicable.")
   destinationAgent?: string;
 
