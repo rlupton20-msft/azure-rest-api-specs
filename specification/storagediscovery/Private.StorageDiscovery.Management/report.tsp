@@ -13,13 +13,10 @@ using TypeSpec.Versioning;
 namespace Private.StorageDiscovery;
 
 @added(ApiVersion.v2025_06_01_preview)
+@parentResource(StorageDiscoveryWorkspace)
 @doc("A report resource")
 model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
-  ...ResourceNameParameter<
-    Resource = ReportResource,
-    KeyName = "report",
-    SegmentName = "storageDiscoveryWorkspaces"
-  >;
+  ...ResourceNameParameter<Resource = ReportResource>;
 }
 
 @added(ApiVersion.v2025_06_01_preview)
