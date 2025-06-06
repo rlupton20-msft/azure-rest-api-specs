@@ -73,7 +73,8 @@ model DiscoveredOutboundEndpoints {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model DiscoveredInboundEndpoints {
-  @doc("Type of connection endpoint.")
+  @doc("Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}")
+  @pattern("^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$")
   endpointType: string;
 
   @doc("Fully qualified domain name.")
