@@ -66,9 +66,6 @@ model MessageLog {
   @key("logName")
   name: string;
 
-  @doc("The identifier of the user associated with this log entry.")
-  userId: string;
-
   @doc("The identifier of the conversation this log belongs to.")
   conversationId: string;
 
