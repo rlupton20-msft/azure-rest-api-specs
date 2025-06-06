@@ -447,6 +447,7 @@ model NamespaceAssetStatusDataset {
 
   @doc("Object to transfer and persist errors that originate from the edge.")
   @added(Versions.v2025_07_01_preview)
+  @visibility(Lifecycle.Read)
   error?: StatusError;
 }
 
@@ -465,6 +466,7 @@ model NamespaceAssetStatusEvent {
 
   @doc("Object to transfer and persist errors that originate from the edge.")
   @added(Versions.v2025_07_01_preview)
+  @visibility(Lifecycle.Read)
   error?: StatusError;
 }
 
@@ -481,6 +483,7 @@ model NamespaceAssetStatusStream {
 
   @doc("Object to transfer and persist errors that originate from the edge.")
   @added(Versions.v2025_07_01_preview)
+  @visibility(Lifecycle.Read)
   error?: StatusError;
 }
 
@@ -513,6 +516,7 @@ model NamespaceAssetStatusManagementAction {
   responseMessageSchemaReference?: NamespaceMessageSchemaReference;
 
   @doc("Object to transfer and persist errors that originate from the edge.")
+  @visibility(Lifecycle.Read)
   error?: StatusError;
 }
 

@@ -767,6 +767,15 @@
             "description": "The id (GUID) of the security or M365 group associated with the accounts resource."
           },
           "default": []
+        },
+        "budgets": {
+          "type": "array",
+          "description": "The list of budgets set on this billing policy.",
+          "items": {
+            "$ref": "#/definitions/Budget",
+            "description": "A budget associated with this billing policy."
+          },
+          "default": []
         }
       },
       "description": "Details of the Syntex Account.",
@@ -827,12 +836,82 @@
             },
             "identityId": {
               "type": "string",
-              "description": "The id (GUID) of the identity that is logically linked to the accounts resource"
+              "description": "The id (GUID) of the identity that is logically linked to the accounts resource."
+            },
+            "budgets": {
+              "type": "array",
+              "description": "The list of budgets set on this billing policy.",
+              "items": {
+                "$ref": "#/definitions/Budget",
+                "description": "A budget associated with this billing policy."
+              },
+              "default": null
             }
           }
         }
       },
       "description": "The type used for update operations of the Account."
+    },
+    "Budget": {
+      "type": "object",
+      "description": "The type used to describe limits for the spending on this Account.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier (GUID) of the budget."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Configured budget amount in the specified currency."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO currency code for the budget (e.g., USD)."
+        },
+        "thresholds": {
+          "type": "array",
+          "description": "List of billing thresholds that trigger actions.",
+          "items": {
+            "type": "integer",
+            "description": "The percentage of amount at which an action takes place.",
+            "format": "int32"
+          }
+        },
+        "reset": {
+          "enum": [
+            "Monthly",
+            "Annually",
+            "Quarterly"
+          ],
+          "description": "Frequency at which the budget resets.",
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ResetFrequency",
+            "modelAsString": true
+          }
+        },
+        "mails": {
+          "type": "array",
+          "description": "List of mail-enabled group IDs to notify.",
+          "items": {
+            "type": "string",
+            "description": "The ID (GUID) of a mail-enabled group to notify."
+          }
+        },
+        "active": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the budget is active: when false, the notifications are disabled"
+        },
+        "bid": {
+          "type": "string",
+          "description": "Unique identifier (GUID) of the associated Azure Budget resource."
+        },
+        "agId": {
+          "type": "string",
+          "description": "Unique identifier (GUID) of the associated Azure Action Group resource."
+        }
+      }
     }
   },
   "parameters": {

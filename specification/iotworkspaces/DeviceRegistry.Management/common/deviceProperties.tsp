@@ -206,7 +206,8 @@ model DeviceMessagingEndpoint {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
-  @doc("Type of connection used for the endpoint.")
+  @doc("Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}")
+  @pattern("^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$")
   endpointType?: string;
 
   @doc("Fully qualified domain name.")

@@ -53,13 +53,13 @@ model DataflowGraphProperties {
 
 /** DataflowGraph node properties. */
 @added(Versions.`2025-07-01-preview`)
-@discriminator("type")
+@discriminator("nodeType")
 model DataflowGraphNode {
   /** Name of the node. */
   name: string;
 
   /** Type of the node. */
-  type: DataflowGraphNodeType;
+  nodeType: DataflowGraphNodeType;
 }
 
 /** DataflowGraph node types. */
@@ -81,7 +81,7 @@ union DataflowGraphNodeType {
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphSourceNode extends DataflowGraphNode {
   /** Type of the source node. */
-  type: Source;
+  nodeType: Source;
 
   /** Source configuration. */
   sourceSettings: DataflowGraphSourceSettings;
@@ -95,13 +95,16 @@ model DataflowGraphSourceSettings {
 
   /** List of data sources. */
   dataSources: string[];
+
+  /** Reference to the resource in Azure Device Registry where the data in the endpoint originates from. */
+  assetRef?: string;
 }
 
 /** DataflowGraph graph node properties. */
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphGraphNode extends DataflowGraphNode {
   /** Type of the graph node. */
-  type: Graph;
+  nodeType: Graph;
 
   /** Graph configuration. */
   graphSettings: DataflowGraphNodeGraphSettings;
@@ -135,7 +138,7 @@ model DataflowGraphGraphNodeConfiguration {
 @added(Versions.`2025-07-01-preview`)
 model DatafloGraphDestinationNode extends DataflowGraphNode {
   /** Type of the destination node. */
-  type: Destination;
+  nodeType: Destination;
 
   /** Destination configuration. */
   destinationSettings: DataflowGraphDestinationNodeSettings;
