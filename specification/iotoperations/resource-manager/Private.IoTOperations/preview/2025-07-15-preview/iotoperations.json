@@ -662,7 +662,7 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors": {
       "get": {
         "operationId": "AkriConnector_ListByTemplate",
         "tags": [
@@ -719,7 +719,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors/{akriConnectorName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}": {
       "get": {
         "operationId": "AkriConnector_Get",
         "tags": [
@@ -757,7 +757,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -819,7 +819,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -911,7 +911,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -8224,7 +8224,10 @@
           "type": "string",
           "description": "Reference to the schema that describes the output of the transformation."
         }
-      }
+      },
+      "required": [
+        "serializationFormat"
+      ]
     },
     "DataflowGraphGraphNode": {
       "type": "object",
@@ -8271,15 +8274,15 @@
           "type": "string",
           "description": "Name of the node."
         },
-        "type": {
+        "nodeType": {
           "$ref": "#/definitions/DataflowGraphNodeType",
           "description": "Type of the node."
         }
       },
-      "discriminator": "type",
+      "discriminator": "nodeType",
       "required": [
         "name",
-        "type"
+        "nodeType"
       ]
     },
     "DataflowGraphNodeConnection": {

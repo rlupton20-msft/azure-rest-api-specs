@@ -39,11 +39,11 @@ model DataflowGraphProperties {
   requestDiskPersistence?: OperationalMode;
 
   /** List of nodes in the dataflow graph. */
-  @OpenAPI.extension("x-ms-identifiers", #["name"])
+  @identifiers(#["name"])
   nodes: DataflowGraphNode[];
 
   /** List of connections between nodes in the dataflow graph. */
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   nodeConnections: DataflowGraphNodeConnection[];
 
   /** The provisioning state of the dataflow graph. */
@@ -53,13 +53,13 @@ model DataflowGraphProperties {
 
 /** DataflowGraph node properties. */
 @added(Versions.`2025-07-01-preview`)
-@discriminator("type")
+@discriminator("nodeType")
 model DataflowGraphNode {
   /** Name of the node. */
   name: string;
 
   /** Type of the node. */
-  type: DataflowGraphNodeType;
+  nodeType: DataflowGraphNodeType;
 }
 
 /** DataflowGraph node types. */
@@ -81,7 +81,7 @@ union DataflowGraphNodeType {
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphSourceNode extends DataflowGraphNode {
   /** Type of the source node. */
-  type: Source;
+  nodeType: Source;
 
   /** Source configuration. */
   sourceSettings: DataflowGraphSourceSettings;
@@ -101,7 +101,7 @@ model DataflowGraphSourceSettings {
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphGraphNode extends DataflowGraphNode {
   /** Type of the graph node. */
-  type: Graph;
+  nodeType: Graph;
 
   /** Graph configuration. */
   graphSettings: DataflowGraphNodeGraphSettings;
@@ -117,7 +117,7 @@ model DataflowGraphNodeGraphSettings {
   artifact: string;
 
   /** Configuration key-value pairs. */
-  @OpenAPI.extension("x-ms-identifiers", #["key"])
+  @identifiers(#["key"])
   configuration?: DataflowGraphGraphNodeConfiguration[];
 }
 
@@ -135,7 +135,7 @@ model DataflowGraphGraphNodeConfiguration {
 @added(Versions.`2025-07-01-preview`)
 model DatafloGraphDestinationNode extends DataflowGraphNode {
   /** Type of the destination node. */
-  type: Destination;
+  nodeType: Destination;
 
   /** Destination configuration. */
   destinationSettings: DataflowGraphDestinationNodeSettings;
@@ -158,7 +158,7 @@ model DataflowGraphDestinationNodeSettings {
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphDestinationSchemaSettings {
   /** The format of the output data. */
-  serializationFormat?: DataflowGraphDestinationSchemaSerializationFormat;
+  serializationFormat: DataflowGraphDestinationSchemaSerializationFormat;
 
   /** Reference to the schema that describes the output of the transformation. */
   schemaRef?: string;
