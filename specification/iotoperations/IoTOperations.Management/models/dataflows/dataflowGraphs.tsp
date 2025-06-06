@@ -39,11 +39,11 @@ model DataflowGraphProperties {
   requestDiskPersistence?: OperationalMode;
 
   /** List of nodes in the dataflow graph. */
-  @OpenAPI.extension("x-ms-identifiers", #["name"])
+  @identifiers(#["name"])
   nodes: DataflowGraphNode[];
 
   /** List of connections between nodes in the dataflow graph. */
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   nodeConnections: DataflowGraphNodeConnection[];
 
   /** The provisioning state of the dataflow graph. */
@@ -120,7 +120,7 @@ model DataflowGraphNodeGraphSettings {
   artifact: string;
 
   /** Configuration key-value pairs. */
-  @OpenAPI.extension("x-ms-identifiers", #["key"])
+  @identifiers(#["key"])
   configuration?: DataflowGraphGraphNodeConfiguration[];
 }
 
@@ -154,26 +154,29 @@ model DataflowGraphDestinationNodeSettings {
   dataDestination: string;
 
   /** Output schema settings. */
-  outputSchemaSettings?: DataflowGraphSchemaSettings;
+  outputSchemaSettings?: DataflowGraphDestinationSchemaSettings;
 }
 
-/** DataflowGraph output schema settings. */
+/** DataflowGraph destination node output schema settings. */
 @added(Versions.`2025-07-01-preview`)
-model DataflowGraphSchemaSettings {
-  /** Output serialization format. */
-  serializationFormat?: DataflowGraphSerializationFormat;
+model DataflowGraphDestinationSchemaSettings {
+  /** The format of the output data. */
+  serializationFormat: DataflowGraphDestinationSchemaSerializationFormat;
 
   /** Reference to the schema that describes the output of the transformation. */
-  schemaRef: string;
+  schemaRef?: string;
 }
 
 /** Serialization format for dataflow graph. */
 @added(Versions.`2025-07-01-preview`)
-union DataflowGraphSerializationFormat {
-  TransformationSerializationFormat,
+union DataflowGraphDestinationSchemaSerializationFormat {
+  string,
 
-  /** Avro serialization format. */
-  Avro,
+  /** Parquet serialization format. */
+  Parquet,
+
+  /** Delta serialization format. */
+  Delta,
 }
 
 /** DataflowGraph DataflowGraphNode Connection. */
@@ -189,11 +192,30 @@ model DataflowGraphNodeConnection {
 /** DataflowGraph DataflowGraphNode Connection Input. */
 @added(Versions.`2025-07-01-preview`)
 model DataflowGraphConnectionInput {
-  /** Name of the source node. */
+  /** Name of the input node. */
   name: string;
 
-  /** Schema settings for the source node. */
-  schema?: DataflowGraphSchemaSettings;
+  /** Schema settings for the input node. */
+  schema?: DataflowGraphConnectionSchemaSettings;
+}
+
+/** DataflowGraph connection node output schema settings. */
+@added(Versions.`2025-07-01-preview`)
+model DataflowGraphConnectionSchemaSettings {
+  /** Output serialization format. */
+  serializationFormat?: DataflowGraphConnectionSchemaSerializationFormat;
+
+  /** Reference to the schema that describes the output of the transformation. */
+  schemaRef?: string;
+}
+
+/** Serialization format for dataflow graph connection. */
+@added(Versions.`2025-07-01-preview`)
+union DataflowGraphConnectionSchemaSerializationFormat {
+  TransformationSerializationFormat,
+
+  /** Avro serialization format. */
+  Avro,
 }
 
 /** DataflowGraph DataflowGraphNode Connection Output. */
