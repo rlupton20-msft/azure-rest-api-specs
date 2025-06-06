@@ -121,6 +121,15 @@ interface SolutionVersions {
   @doc("Get a Solution Version Resource")
   get is ArmResourceRead<SolutionVersion>;
 
+  @doc("Create or update a Solution Version Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<SolutionVersion>;
+
+  @doc("Update a Solution Version Resource")
+  update is ArmResourcePatchAsync<SolutionVersion, SolutionVersionProperties>;
+
+  @doc("Delete a Solution Version Resource")
+  delete is ArmResourceDeleteWithoutOkAsync<SolutionVersion>;
+
   @doc("List Solution Version Resources")
   listBySolution is ArmResourceListByParent<SolutionVersion>;
 }
