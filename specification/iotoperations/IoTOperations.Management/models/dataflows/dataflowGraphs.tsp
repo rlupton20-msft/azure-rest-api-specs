@@ -168,7 +168,7 @@ model DataflowGraphDestinationSchemaSettings {
 @added(Versions.`2025-07-01-preview`)
 union DataflowGraphDestinationSchemaSerializationFormat {
   string,
-  
+
   /** Parquet serialization format. */
   Parquet,
 
