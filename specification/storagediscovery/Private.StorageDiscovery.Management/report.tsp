@@ -13,6 +13,7 @@ using TypeSpec.Versioning;
 namespace Private.StorageDiscovery;
 
 @added(ApiVersion.v2025_06_01_preview)
+@parentResource(StorageDiscoveryWorkspace)
 @doc("A report resource")
 model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
   ...ResourceNameParameter<
@@ -29,6 +30,7 @@ model ReportProperties {}
 @added(ApiVersion.v2025_06_01_preview)
 @armResourceOperations
 interface Report {
+  get is ArmResourceRead<ReportResource>;
   @autoRoute
   @post
   report is ArmResourceActionAsync<
