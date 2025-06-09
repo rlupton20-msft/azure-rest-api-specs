@@ -80,7 +80,7 @@ model DiscoveredInboundEndpoints {
   @doc("Fully qualified domain name.")
   address: string;
 
-  @doc("Version associated with device endpoint.")
+  @doc("Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc.")
   version?: string;
 
   @doc("List of supported authentication methods supported by device for Inbound connections.")
