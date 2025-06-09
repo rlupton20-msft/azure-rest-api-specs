@@ -17,7 +17,7 @@ namespace Private.StorageDiscovery;
 model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
   ...ResourceNameParameter<
     Resource = ReportResource,
-    KeyName = "asdwResourceName",
+    KeyName = "discoveryResourceName",
     SegmentName = "reports"
   >;
 }
