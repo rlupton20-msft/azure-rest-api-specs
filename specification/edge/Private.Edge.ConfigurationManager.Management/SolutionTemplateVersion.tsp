@@ -58,11 +58,13 @@ model BulkDeploySolutionParameter {
   @doc("Targets")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkDeployTargetDetails[];
-
+  
+  @removed(Versions.v2025_06_01_preview)
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
+  @removed(Versions.v2025_06_01_preview)
   @doc("Solution dependencies")
   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
@@ -70,35 +72,6 @@ model BulkDeploySolutionParameter {
 
 @doc("Bulk deploy target details")
 model BulkDeployTargetDetails {
-  @doc("ArmId of Target")
-  targetId: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.Edge/Targets";
-    }
-  ]>;
-
-  @doc("Solution instance name")
-  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
-  solutionInstanceName?: string;
-}
-
-@doc("Bulk publish solution parameter")
-model BulkPublishSolutionParameter {
-  @doc("Targets")
-  @Azure.ResourceManager.identifiers(#[])
-  targets: BulkPublishTargetDetails[];
-
-  @doc("Solution instance name")
-  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
-  solutionInstanceName?: string;
-
-  @doc("Solution dependencies")
-  @Azure.ResourceManager.identifiers(#[])
-  solutionDependencies?: SolutionDependencyParameter[];
-}
-
-@doc("Bulk publish target details")
-model BulkPublishTargetDetails {
   @removed(Versions.v2025_06_01_preview)
   @doc("ArmId of Target")
   targetId: Azure.Core.armResourceIdentifier<[
@@ -119,6 +92,35 @@ model BulkPublishTargetDetails {
       type: "Private.Edge/Targets/Solutions/Versions";
     }
   ]>;
+}
+
+@doc("Bulk publish solution parameter")
+model BulkPublishSolutionParameter {
+  @doc("Targets")
+  @Azure.ResourceManager.identifiers(#[])
+  targets: BulkPublishTargetDetails[];
+
+  @doc("Solution instance name")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
+  @doc("Solution dependencies")
+  @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
+}
+
+@doc("Bulk publish target details")
+model BulkPublishTargetDetails {
+  @doc("ArmId of Target")
+  targetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets";
+    }
+  ]>;
+
+  @doc("Solution instance name")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
 }
 
 @doc("Apply Hierarchy parameter")
