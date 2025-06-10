@@ -82,6 +82,12 @@ model DayOfWeek {
 @maxLength(255)
 scalar Ocid extends string;
 
+@added(Versions.v20250701_preview)
+@doc("SshPublicKey string")
+@minLength(1)
+@maxLength(1024)
+scalar SshPublicKey extends string;
+
 @doc("LicenseModel enum")
 union LicenseModel {
   @doc("License included")

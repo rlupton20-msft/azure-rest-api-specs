@@ -30,6 +30,14 @@ model ModelProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   workspaceId: Microsoft.Discovery.Shared.WorkspaceId;
 
+  /** The endpoint URI for the deployed model */
+  @visibility(Lifecycle.Read)
+  onlineEndpoint?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "/Microsoft.MachineLearningServices/workspaces/onlineEndpoints";
+    }
+  ]>;
+
   ...WithDefinitionContent;
 }
 

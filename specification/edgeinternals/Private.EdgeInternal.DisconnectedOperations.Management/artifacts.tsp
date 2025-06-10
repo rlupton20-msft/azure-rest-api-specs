@@ -25,13 +25,7 @@ model Artifact is ProxyResource<ArtifactProperties> {
 interface Artifacts {
   @doc("List by parent")
   listByParent is ArmResourceListByParent<
-    Artifact,
-    {
-      ...ApiVersionParameter;
-      ...FilterQueryParameter;
-      ...TopQueryParameter;
-      ...SkipQueryParameter;
-    }
+    Artifact
   >;
 
   @doc("Get the resource")

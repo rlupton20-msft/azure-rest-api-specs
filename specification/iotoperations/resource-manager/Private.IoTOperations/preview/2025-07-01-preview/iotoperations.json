@@ -659,7 +659,7 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors": {
       "get": {
         "operationId": "AkriConnector_ListByTemplate",
         "tags": [
@@ -716,7 +716,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/akriConnectors/{akriConnectorName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}": {
       "get": {
         "operationId": "AkriConnector_Get",
         "tags": [
@@ -754,7 +754,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -816,7 +816,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -908,7 +908,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
           },
           {
-            "name": "akriConnectorName",
+            "name": "connectorName",
             "in": "path",
             "description": "Name of AkriConnector resource.",
             "required": true,
@@ -3968,6 +3968,10 @@
           "type": "string",
           "description": "The release name of the Helm chart."
         },
+        "repositoryName": {
+          "type": "string",
+          "description": "The name of the repository"
+        },
         "version": {
           "type": "string",
           "description": "The version of the Helm chart."
@@ -3986,6 +3990,7 @@
       },
       "required": [
         "releaseName",
+        "repositoryName",
         "version"
       ]
     },
@@ -4016,18 +4021,13 @@
           "type": "string",
           "description": "The registry to use for the Helm chart."
         },
-        "repository": {
-          "type": "string",
-          "description": "The repository to use for the Helm chart."
-        },
         "authSecretRef": {
           "$ref": "#/definitions/AkriConnectorTemplateHelmAuthSecretRef",
           "description": "Optional reference to a secret in the same namespace to use for pulling the Helm chart."
         }
       },
       "required": [
-        "registry",
-        "repository"
+        "registry"
       ]
     },
     "AkriConnectorTemplateHelmDeleteConfiguration": {
@@ -7839,11 +7839,11 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the source node."
+          "description": "Name of the input node."
         },
         "schema": {
-          "$ref": "#/definitions/DataflowGraphSchemaSettings",
-          "description": "Schema settings for the source node."
+          "$ref": "#/definitions/DataflowGraphConnectionSchemaSettings",
+          "description": "Schema settings for the input node."
         }
       },
       "required": [
@@ -7863,6 +7863,56 @@
         "name"
       ]
     },
+    "DataflowGraphConnectionSchemaSerializationFormat": {
+      "type": "string",
+      "description": "Serialization format for dataflow graph connection.",
+      "enum": [
+        "Delta",
+        "Json",
+        "Parquet",
+        "Avro"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowGraphConnectionSchemaSerializationFormat",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Delta",
+            "value": "Delta",
+            "description": "Delta Format"
+          },
+          {
+            "name": "Json",
+            "value": "Json",
+            "description": "JSON Format"
+          },
+          {
+            "name": "Parquet",
+            "value": "Parquet",
+            "description": "Parquet Format"
+          },
+          {
+            "name": "Avro",
+            "value": "Avro",
+            "description": "Avro serialization format."
+          }
+        ]
+      }
+    },
+    "DataflowGraphConnectionSchemaSettings": {
+      "type": "object",
+      "description": "DataflowGraph connection node output schema settings.",
+      "properties": {
+        "serializationFormat": {
+          "$ref": "#/definitions/DataflowGraphConnectionSchemaSerializationFormat",
+          "description": "Output serialization format."
+        },
+        "schemaRef": {
+          "type": "string",
+          "description": "Reference to the schema that describes the output of the transformation."
+        }
+      }
+    },
     "DataflowGraphDestinationNodeSettings": {
       "type": "object",
       "description": "DataflowGraph destination node settings.",
@@ -7876,13 +7926,54 @@
           "description": "Data destination at the endpoint."
         },
         "outputSchemaSettings": {
-          "$ref": "#/definitions/DataflowGraphSchemaSettings",
+          "$ref": "#/definitions/DataflowGraphDestinationSchemaSettings",
           "description": "Output schema settings."
         }
       },
       "required": [
         "endpointRef",
         "dataDestination"
+      ]
+    },
+    "DataflowGraphDestinationSchemaSerializationFormat": {
+      "type": "string",
+      "description": "Serialization format for dataflow graph.",
+      "enum": [
+        "Parquet",
+        "Delta"
+      ],
+      "x-ms-enum": {
+        "name": "DataflowGraphDestinationSchemaSerializationFormat",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Parquet",
+            "value": "Parquet",
+            "description": "Parquet serialization format."
+          },
+          {
+            "name": "Delta",
+            "value": "Delta",
+            "description": "Delta serialization format."
+          }
+        ]
+      }
+    },
+    "DataflowGraphDestinationSchemaSettings": {
+      "type": "object",
+      "description": "DataflowGraph destination node output schema settings.",
+      "properties": {
+        "serializationFormat": {
+          "$ref": "#/definitions/DataflowGraphDestinationSchemaSerializationFormat",
+          "description": "The format of the output data."
+        },
+        "schemaRef": {
+          "type": "string",
+          "description": "Reference to the schema that describes the output of the transformation."
+        }
+      },
+      "required": [
+        "serializationFormat"
       ]
     },
     "DataflowGraphGraphNode": {
@@ -7930,15 +8021,15 @@
           "type": "string",
           "description": "Name of the node."
         },
-        "type": {
+        "nodeType": {
           "$ref": "#/definitions/DataflowGraphNodeType",
           "description": "Type of the node."
         }
       },
-      "discriminator": "type",
+      "discriminator": "nodeType",
       "required": [
         "name",
-        "type"
+        "nodeType"
       ]
     },
     "DataflowGraphNodeConnection": {
@@ -8123,59 +8214,6 @@
         "value"
       ]
     },
-    "DataflowGraphSchemaSettings": {
-      "type": "object",
-      "description": "DataflowGraph output schema settings.",
-      "properties": {
-        "serializationFormat": {
-          "$ref": "#/definitions/DataflowGraphSerializationFormat",
-          "description": "Output serialization format."
-        },
-        "schemaRef": {
-          "type": "string",
-          "description": "Reference to the schema that describes the output of the transformation."
-        }
-      },
-      "required": [
-        "schemaRef"
-      ]
-    },
-    "DataflowGraphSerializationFormat": {
-      "type": "string",
-      "description": "Serialization format for dataflow graph.",
-      "enum": [
-        "Delta",
-        "Json",
-        "Parquet",
-        "Avro"
-      ],
-      "x-ms-enum": {
-        "name": "DataflowGraphSerializationFormat",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Delta",
-            "value": "Delta",
-            "description": "Delta Format"
-          },
-          {
-            "name": "Json",
-            "value": "Json",
-            "description": "JSON Format"
-          },
-          {
-            "name": "Parquet",
-            "value": "Parquet",
-            "description": "Parquet Format"
-          },
-          {
-            "name": "Avro",
-            "value": "Avro",
-            "description": "Avro serialization format."
-          }
-        ]
-      }
-    },
     "DataflowGraphSourceNode": {
       "type": "object",
       "description": "DataflowGraph source node properties.",
@@ -8209,6 +8247,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "assetRef": {
+          "type": "string",
+          "description": "Reference to the resource in Azure Device Registry where the data in the endpoint originates from."
         }
       },
       "required": [

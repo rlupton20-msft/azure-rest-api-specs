@@ -54,7 +54,7 @@ model AkriDiscoveryHandlerProperties {
   mode?: OperationalMode = Enabled;
 
   /** Device inbound endpoint types. */
-  @OpenAPI.extension("x-ms-identifiers", #["endpointType", "version"])
+  @identifiers(#["endpointType", "version"])
   @minItems(1)
   discoverableDeviceEndpointTypes: AkriDiscoveryHandlerDiscoverableDeviceEndpointType[];
 
@@ -68,7 +68,7 @@ model AkriDiscoveryHandlerProperties {
   schedule: AkriDiscoveryHandlerSchedule;
 
   /** Secrets that will be mounted onto discovery handler. */
-  @OpenAPI.extension("x-ms-identifiers", #["secretAlias"])
+  @identifiers(#["secretAlias"])
   secrets?: AkriConnectorsSecret[];
 }
 
@@ -82,8 +82,6 @@ model AkriDiscoveryHandlerAioMetadata {
 @added(Versions.`2025-07-01-preview`)
 model AkriDiscoveryHandlerDiagnostics {
   /** The log settings for the Connector template. */
-  #suppress "deprecated" "Csharp emitter has a bug with multiple levels of nested objects containing only 1 property"
-  @flattenProperty("csharp")
   logs: AkriConnectorsDiagnosticsLogs;
 }
 

@@ -41,15 +41,6 @@ suppressions:
   - code: LatestVersionOfCommonTypesMustBeUsed
     from: discovery.json
     reason: Newer version no longer has MoboConfigurationWithMrg
-  - code: GetCollectionResponseSchema
-    reason: The contents of the definitionContent property is excessively large, not suitable for list response.
-    from:
-      - discovery.json
-    where:
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/agents"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/models"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/tools"]
-      - $.paths["/subscriptions/{subscriptionId}/providers/Private.Discovery/workflows"]
   - code: AvoidAdditionalProperties
     reason: Enable customer to apply environment variables.
     from:
