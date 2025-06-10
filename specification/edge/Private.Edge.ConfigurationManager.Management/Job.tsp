@@ -110,7 +110,7 @@ model JobStep {
   message?: string;
 
   @doc("Statistics for the step")
-  statistics?: JobStepStatistics;
+  statistics?: JobStepStatisticsBase;
 
   @doc("Nested substeps for this step")
   steps?: JobStep[];
