@@ -67,7 +67,6 @@ model TaskSpec {
     }
   ]>;
 
-  @removed(Versions.v2025_06_01_preview)
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("Task specification")
@@ -90,7 +89,7 @@ model StageSpec {
 
   @added(Versions.v2025_06_01_preview)
   @doc("List of tasks in the stage")
-  tasks?: TaskSpec[];
+  tasks: TaskSpec[];
 
   @added(Versions.v2025_06_01_preview)
   @doc("Task options for the stage")
