@@ -206,13 +206,14 @@ model DeviceMessagingEndpoint {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
-  @doc("Type of connection used for the endpoint.")
+  @doc("Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}")
+  @pattern("^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$")
   endpointType?: string;
 
   @doc("Fully qualified domain name.")
   address: string;
 
-  @doc("Version associated with device endpoint.")
+  @doc("Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc.")
   version?: string;
 
   @doc("Defines the client authentication mechanism to the server.")

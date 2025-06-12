@@ -1769,7 +1769,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -1829,7 +1829,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1925,7 +1925,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -2009,7 +2009,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -3750,9 +3750,30 @@
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
         },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/Authentication",
+          "description": "Defines the client authentication mechanism to the server."
+        },
         "additionalConfiguration": {
           "type": "string",
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+        },
+        "discoveredAssetEndpointProfileRef": {
+          "type": "string",
+          "description": "Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "status": {
+          "$ref": "#/definitions/AssetEndpointProfileStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -3761,8 +3782,41 @@
         }
       },
       "required": [
-        "targetAddress"
+        "targetAddress",
+        "endpointProfileType"
       ]
+    },
+    "AssetEndpointProfileStatus": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status properties.",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "description": "Array object to transfer and persist errors that originate from the Edge.",
+          "items": {
+            "$ref": "#/definitions/AssetEndpointProfileStatusError"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "AssetEndpointProfileStatusError": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status error properties.",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).",
+          "readOnly": true
+        }
+      }
     },
     "AssetEndpointProfileUpdate": {
       "type": "object",
@@ -3789,6 +3843,14 @@
           "type": "string",
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
+        },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationUpdate",
+          "description": "Defines the client authentication mechanism to the server."
         },
         "additionalConfiguration": {
           "type": "string",
@@ -4155,6 +4217,54 @@
         }
       }
     },
+    "Authentication": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentials",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509Credentials",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
+      },
+      "required": [
+        "method"
+      ]
+    },
     "AuthenticationMethod": {
       "type": "string",
       "description": "The method to authenticate the user of the client at the server.",
@@ -4183,6 +4293,51 @@
             "description": "The user authentication method is a username and password."
           }
         ]
+      }
+    },
+    "AuthenticationUpdate": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentialsUpdate",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509CredentialsUpdate",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
       }
     },
     "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityUpdate": {
@@ -4766,78 +4921,14 @@
         }
       }
     },
-    "DiscoveredDeviceProperties": {
-      "type": "object",
-      "description": "Defines the Discovered Asset Endpoint Profile properties.",
-      "properties": {
-        "externalDeviceId": {
-          "type": "string",
-          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
-        },
-        "endpoints": {
-          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
-          "description": "Endpoints for discovered devices."
-        },
-        "discoveryId": {
-          "type": "string",
-          "description": "Identifier used to detect changes in the asset endpoint profile."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Hardware manufacturer name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "model": {
-          "type": "string",
-          "description": "Model name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystem": {
-          "type": "string",
-          "description": "Operating system name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystemVersion": {
-          "type": "string",
-          "description": "Operating system version."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes.",
-          "additionalProperties": {}
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "discoveryId",
-        "version"
-      ]
-    },
     "DiscoveredInboundEndpoints": {
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -4845,7 +4936,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -4870,7 +4961,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -4878,7 +4970,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -5337,7 +5429,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5345,7 +5438,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthentication",
@@ -5370,7 +5463,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5378,7 +5472,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthenticationUpdate",
@@ -6094,7 +6188,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6117,7 +6212,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6145,7 +6241,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6191,7 +6288,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6381,7 +6479,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -6970,7 +7068,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -7042,7 +7140,7 @@
       "description": "Discovered device definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredDeviceProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredDeviceProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -7082,6 +7180,71 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "NamespaceDiscoveredDeviceProperties": {
+      "type": "object",
+      "description": "Defines the Discovered Asset Endpoint Profile properties.",
+      "properties": {
+        "externalDeviceId": {
+          "type": "string",
+          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
+          "description": "Endpoints for discovered devices."
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset endpoint profile."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Hardware manufacturer name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystem": {
+          "type": "string",
+          "description": "Operating system name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "description": "Operating system version."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes.",
+          "additionalProperties": {}
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "discoveryId",
+        "version"
       ]
     },
     "NamespaceDiscoveredDeviceUpdate": {

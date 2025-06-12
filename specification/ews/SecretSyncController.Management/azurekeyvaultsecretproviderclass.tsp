@@ -43,7 +43,7 @@ model AzureKeyVaultSecretProviderClassProperties {
   objects?: string;
 
   @doc("Provisioning state of the AzureKeyVaultSecretProviderClass instance.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -53,10 +53,10 @@ interface AzureKeyVaultSecretProviderClasses {
   get is ArmResourceRead<AzureKeyVaultSecretProviderClass>;
 
   @doc("Creates, or updates, an AzureKeyVaultSecretProviderClass instance.")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<AzureKeyVaultSecretProviderClass>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AzureKeyVaultSecretProviderClass>;
 
   @doc("Updates an AzureKeyVaultSecretProviderClass instance.")
-  update is ArmCustomPatchSync<
+  update is ArmCustomPatchAsync<
     AzureKeyVaultSecretProviderClass,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       AzureKeyVaultSecretProviderClass,
@@ -65,7 +65,7 @@ interface AzureKeyVaultSecretProviderClasses {
   >;
 
   @doc("Deletes an AzureKeyVaultSecretProviderClass instance.")
-  delete is ArmResourceDeleteSync<AzureKeyVaultSecretProviderClass>;
+  delete is ArmResourceDeleteWithoutOkAsync<AzureKeyVaultSecretProviderClass>;
 
   @doc("Lists the AzureKeyVaultSecretProviderClass instances within a resource group.")
   listByResourceGroup is ArmResourceListByParent<AzureKeyVaultSecretProviderClass>;

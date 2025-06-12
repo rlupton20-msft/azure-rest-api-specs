@@ -13,8 +13,9 @@ using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the Asset Endpoint Profile properties.")
-@removed(Versions.v2025_07_01_preview)
 model AssetEndpointProfileProperties {
   @doc("Globally unique, immutable, non-reusable id.")
   @visibility(Lifecycle.Read)
@@ -25,7 +26,6 @@ model AssetEndpointProfileProperties {
 
   @doc("Defines the configuration for the connector type that is being used with the endpoint profile.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   endpointProfileType: string;
 
   @doc("Defines the client authentication mechanism to the server.")
@@ -34,7 +34,6 @@ model AssetEndpointProfileProperties {
 
   @doc("Defines the client authentication mechanism to the server.")
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   authentication?: Authentication;
 
   @doc("Defines the authentication mechanism for the southbound connector connecting to the shop floor/OT device.")
@@ -47,13 +46,11 @@ model AssetEndpointProfileProperties {
   @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   discoveredAssetEndpointProfileRef?: string;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
   @added(Versions.v2024_07_01_preview)
-  @removed(Versions.v2025_07_01_preview)
   status?: AssetEndpointProfileStatus;
 
   @doc("Provisioning state of the resource.")
@@ -61,9 +58,10 @@ model AssetEndpointProfileProperties {
   provisioningState?: ProvisioningState;
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Definition of the client authentication mechanism to the server.")
 @renamedFrom(Versions.v2024_07_01_preview, "UserAuthentication")
-@removed(Versions.v2025_07_01_preview)
 model Authentication {
   @doc("Defines the method to authenticate the user of the client at the server.")
   @renamedFrom(Versions.v2024_07_01_preview, "mode")
@@ -101,7 +99,8 @@ model OwnCertificate {
 
 @doc("Defines the asset endpoint profile status properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2025_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 model AssetEndpointProfileStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
   @extension("x-ms-identifiers", #[])
@@ -111,7 +110,8 @@ model AssetEndpointProfileStatus {
 
 @doc("Defines the asset endpoint profile status error properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2025_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 model AssetEndpointProfileStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
   @visibility(Lifecycle.Read)

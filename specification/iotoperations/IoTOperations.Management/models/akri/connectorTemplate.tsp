@@ -50,7 +50,7 @@ model AkriConnectorTemplateProperties {
   diagnostics?: AkriConnectorTemplateDiagnostics;
 
   /** Device inbound endpoint types. */
-  @OpenAPI.extension("x-ms-identifiers", #["endpointType", "version"])
+  @identifiers(#["endpointType", "version"])
   @minItems(1)
   deviceInboundEndpointTypes: AkriConnectorTemplateDeviceInboundEndpointType[];
 
@@ -139,6 +139,9 @@ model AkriConnectorTemplateHelmConfigurationSettings {
   /** The release name of the Helm chart. */
   releaseName: string;
 
+  /** The name of the repository */
+  repositoryName: string;
+
   /** The version of the Helm chart. */
   version: string;
 
@@ -200,9 +203,6 @@ model AkriConnectorTemplateHelmContainerRegistrySettings {
   /** The registry to use for the Helm chart. */
   registry: string;
 
-  /** The repository to use for the Helm chart. */
-  repository: string;
-
   /** Optional reference to a secret in the same namespace to use for pulling the Helm chart. */
   authSecretRef?: AkriConnectorTemplateHelmAuthSecretRef;
 }
@@ -242,7 +242,7 @@ model AkriConnectorTemplateManagedConfigurationSettings {
   allocation?: AkriConnectorTemplateAllocation;
 
   /** The persistent volume claims for the managed configuration. */
-  @OpenAPI.extension("x-ms-identifiers", #["claimName"])
+  @identifiers(#["claimName"])
   persistentVolumeClaims?: AkriConnectorTemplatePersistentVolumeClaim[];
 
   /** Additional configuration for the image of the managed configuration. */
@@ -254,11 +254,11 @@ model AkriConnectorTemplateManagedConfigurationSettings {
    * See https://raw.githubusercontent.com/kubernetes/kubernetes/refs/heads/master/api/openapi-spec/v3/apis__apps__v1_openapi.json.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "This is a Kubernetes resource type"
-  @extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   persistentVolumeClaimTemplates?: Record<unknown>[];
 
   /** Connector secrets that will be mounted onto all connector instances. */
-  @extension("x-ms-identifiers", #["secretAlias"])
+  @identifiers(#["secretAlias"])
   secrets?: AkriConnectorsSecret[];
 
   /** Trust list for the connector. This is used to specify the certificates that all connector instances should trust. */
@@ -418,7 +418,5 @@ model AkriConnectorTemplateHelmUpgradeConfiguration {
 @added(Versions.`2025-07-01-preview`)
 model AkriConnectorTemplateDiagnostics {
   /** The log settings for the Connector template. */
-  #suppress "deprecated" "Csharp emitter has a bug with multiple levels of nested objects containing only 1 property"
-  @flattenProperty("csharp")
   logs: AkriConnectorsDiagnosticsLogs;
 }
