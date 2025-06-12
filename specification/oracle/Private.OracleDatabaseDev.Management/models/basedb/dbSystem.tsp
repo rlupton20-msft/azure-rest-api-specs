@@ -30,7 +30,7 @@ model DbSystemProperties extends DbSystemBaseProperties {
   @visibility(Lifecycle.Create)
   @minLength(1)
   @maxLength(255)
-  adminPassword: Password;
+  adminPassword?: Password;
 }
 
 //OCI Reference: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/LaunchDbSystemBase
