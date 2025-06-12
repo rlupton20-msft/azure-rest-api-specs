@@ -112,15 +112,12 @@ model ApprovalSettings {
   @doc("Minimum number of approvers required for the approval request")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   minimumApproversRequired?: int64;
-
-  @doc("Behavior of enclave connection update workflow after endpoint update is approved (Automatic or Manual).")
-  connectionUpdateMode?: "Automatic" | "Manual" | string = "Automatic";
 }
 
 @added(Microsoft.Mission.Versions.v2024_12_01_preview)
 @doc("ApprovalSettings Properties")
-@withoutDefaultValues
-model ApprovalSettingsPatchModel is ApprovalSettings;
+model ApprovalSettingsPatchProperties
+  is UpdateableProperties<OmitDefaults<ApprovalSettings>>;
 
 @doc("Community Resource Properties")
 model CommunityBaseModel {
@@ -176,11 +173,11 @@ model CommunityModel is CommunityBaseModel {
 }
 
 @doc("Community Resource Properties without default values")
-@withoutDefaultValues
-model CommunityPatchProperties is CommunityBaseModel {
+model CommunityPatchProperties
+  is UpdateableProperties<OmitDefaults<CommunityBaseModel>> {
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
-  approvalSettings?: ApprovalSettingsPatchModel;
+  approvalSettings?: ApprovalSettingsPatchProperties;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Maintenance Mode configuration.")
@@ -190,7 +187,7 @@ model CommunityPatchProperties is CommunityBaseModel {
 @doc("Community Patch Resource")
 model CommunityPatchModel {
   @doc("Community Patch properties")
-  properties?: Update<CommunityPatchProperties>;
+  properties?: CommunityPatchProperties;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
   ...ManagedServiceIdentityProperty;
