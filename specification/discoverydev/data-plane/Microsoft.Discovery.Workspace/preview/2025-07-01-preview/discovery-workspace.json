@@ -144,7 +144,28 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/WithInvestigationNameOptional"
+              "type": "object",
+              "properties": {
+                "projectName": {
+                  "type": "string",
+                  "description": "The name of the associated Project",
+                  "x-ms-mutability": [
+                    "read",
+                    "create"
+                  ]
+                },
+                "investigationName": {
+                  "type": "string",
+                  "description": "The Name of the associated Investigation",
+                  "x-ms-mutability": [
+                    "read",
+                    "create"
+                  ]
+                }
+              },
+              "required": [
+                "projectName"
+              ]
             }
           }
         ],
@@ -900,7 +921,82 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RunRequest"
+              "type": "object",
+              "properties": {
+                "toolId": {
+                  "type": "string",
+                  "format": "arm-id",
+                  "description": "ID of the tool to execute",
+                  "x-ms-arm-id-details": {
+                    "allowedResources": [
+                      {
+                        "type": "Microsoft.Discovery/Tools"
+                      }
+                    ]
+                  }
+                },
+                "command": {
+                  "type": "string",
+                  "description": "Command to pass to tool container entrypoint.\n\nIf the tool has multiple containers defined, this command is executed on all of them.\n\nIf omitted, all containers execute their raw entrypoints."
+                },
+                "inlineFiles": {
+                  "type": "array",
+                  "description": "Encoded inline files to be mounted into the container, e.g. for generated code.",
+                  "maxItems": 10,
+                  "items": {
+                    "$ref": "#/definitions/InlineFile"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "storageId": {
+                  "type": "string",
+                  "format": "arm-id",
+                  "description": "The Discovery Storage resource to use for this run.",
+                  "x-ms-arm-id-details": {
+                    "allowedResources": [
+                      {
+                        "type": "Microsoft.Discovery/Storages"
+                      }
+                    ]
+                  }
+                },
+                "inputDataAssets": {
+                  "type": "array",
+                  "description": "Input DataAssets and associated relativeMountPath for each, relative to the working directory.\n\nAny DataAssetIds which point to SharedStorage must point to\nthe same DiscoveryStorage specified by DiscoveryStorageId, otherwise the\nrequest will be rejected.",
+                  "items": {
+                    "$ref": "#/definitions/DataAssetMount"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "outputDataAssets": {
+                  "type": "array",
+                  "description": "Output DataAssets and associated relativeMountPath for each, relative to the working directory.\n\nAny DataAssetIds which point to SharedStorage must point to\nthe same DiscoveryStorage specified by DiscoveryStorageId, otherwise the\nrequest will be rejected.",
+                  "items": {
+                    "$ref": "#/definitions/DataAssetMount"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "nodePoolIds": {
+                  "type": "array",
+                  "description": "IDs of NodePools to use for this run. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.",
+                  "items": {
+                    "type": "string",
+                    "format": "arm-id",
+                    "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+                    "x-ms-arm-id-details": {
+                      "allowedResources": [
+                        {
+                          "type": "Microsoft.Discovery/Supercomputers/NodePools"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "required": [
+                "toolId",
+                "storageId"
+              ]
             }
           }
         ],
@@ -971,7 +1067,7 @@
             "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/WithProjectName"
+            "$ref": "#/parameters/WithProjectNamePath"
           },
           {
             "name": "operationId",
@@ -1265,7 +1361,7 @@
         },
         "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1282,7 +1378,8 @@
       },
       "required": [
         "name",
-        "displayName"
+        "displayName",
+        "projectName"
       ]
     },
     "ConversationCreateOrUpdate": {
@@ -1300,7 +1397,7 @@
         },
         "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1366,7 +1463,7 @@
         },
         "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1729,6 +1826,30 @@
         ]
       }
     },
+    "IsAction": {
+      "type": "string",
+      "description": "Indicates if a log entry represents an action.",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "x-ms-enum": {
+        "name": "IsAction",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "True",
+            "value": "true",
+            "description": "Log entry represents an action."
+          },
+          {
+            "name": "False",
+            "value": "false",
+            "description": "Log entry does not represent an action."
+          }
+        ]
+      }
+    },
     "KnowledgeBaseResponse": {
       "type": "object",
       "description": "Knowledge base response",
@@ -1763,6 +1884,48 @@
             "name": "Information",
             "value": "Information",
             "description": "Information log level."
+          }
+        ]
+      }
+    },
+    "LogStatus": {
+      "type": "string",
+      "description": "Status of a log entry activity.",
+      "enum": [
+        "in_progress",
+        "cancelled",
+        "failed",
+        "completed",
+        "expired"
+      ],
+      "x-ms-enum": {
+        "name": "LogStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "InProgress",
+            "value": "in_progress",
+            "description": "Activity is currently in progress."
+          },
+          {
+            "name": "Cancelled",
+            "value": "cancelled",
+            "description": "Activity was cancelled."
+          },
+          {
+            "name": "Failed",
+            "value": "failed",
+            "description": "Activity failed to complete."
+          },
+          {
+            "name": "Completed",
+            "value": "completed",
+            "description": "Activity completed successfully."
+          },
+          {
+            "name": "Expired",
+            "value": "expired",
+            "description": "Activity expired before completion."
           }
         ]
       }
@@ -1918,77 +2081,93 @@
           "description": "The Log name/key.",
           "readOnly": true
         },
-        "conversationId": {
+        "conversationName": {
           "type": "string",
-          "description": "The identifier of the conversation this log belongs to."
+          "description": "The identifier of the conversation this log belongs to.",
+          "readOnly": true
         },
-        "messageId": {
+        "messageName": {
           "type": "string",
-          "description": "The identifier of the message this log is associated with."
+          "description": "The identifier of the message this log is associated with.",
+          "readOnly": true
         },
         "timestamp": {
           "type": "string",
-          "description": "The timestamp of the log entry in ISO 8601 format."
+          "description": "The timestamp of the log entry in ISO 8601 format.",
+          "readOnly": true
         },
         "logLevel": {
           "$ref": "#/definitions/LogLevel",
-          "description": "The log level for this entry."
+          "description": "The log level for this entry.",
+          "readOnly": true
         },
         "type": {
           "$ref": "#/definitions/LogType",
-          "description": "The type of activity for this log entry."
+          "description": "The type of activity for this log entry.",
+          "readOnly": true
         },
         "toolType": {
           "$ref": "#/definitions/ToolType",
-          "description": "The type of tool, if applicable."
+          "description": "The type of tool, if applicable.",
+          "readOnly": true
         },
         "toolName": {
           "type": "string",
-          "description": "The name of the tool, if applicable."
+          "description": "The name of the tool, if applicable.",
+          "readOnly": true
         },
         "toolArguments": {
           "type": "string",
-          "description": "The arguments passed to the tool, if applicable."
+          "description": "The arguments passed to the tool, if applicable.",
+          "readOnly": true
         },
         "isAction": {
-          "type": "boolean",
-          "description": "Indicates if this log entry represents an action."
+          "$ref": "#/definitions/IsAction",
+          "description": "Indicates if this log entry represents an action.",
+          "readOnly": true
         },
         "codeEnvironment": {
           "type": "boolean",
-          "description": "Indicates the code environment"
+          "description": "Indicates the code environment",
+          "readOnly": true
         },
         "destinationAgent": {
           "type": "string",
-          "description": "The destination agent, if applicable."
+          "description": "The destination agent, if applicable.",
+          "readOnly": true
         },
         "sender": {
           "type": "string",
-          "description": "The sender of the log entry."
+          "description": "The sender of the log entry.",
+          "readOnly": true
         },
         "text": {
           "type": "string",
-          "description": "The text content of the log entry."
+          "description": "The text content of the log entry.",
+          "readOnly": true
         },
         "status": {
-          "type": "string",
-          "description": "The status of the activity represented by this log entry."
+          "$ref": "#/definitions/LogStatus",
+          "description": "The status of the activity represented by this log entry.",
+          "readOnly": true
         },
         "createdAt": {
           "type": "integer",
           "format": "int64",
-          "description": "The creation time of the log entry (Unix timestamp)."
+          "description": "The creation time of the log entry (Unix timestamp).",
+          "readOnly": true
         },
         "completedAt": {
           "type": "integer",
           "format": "int64",
-          "description": "The completion time of the log entry (Unix timestamp)."
+          "description": "The completion time of the log entry (Unix timestamp).",
+          "readOnly": true
         }
       },
       "required": [
         "name",
-        "conversationId",
-        "messageId",
+        "conversationName",
+        "messageName",
         "timestamp",
         "logLevel",
         "type",
@@ -2007,7 +2186,7 @@
         "AwaitingUserInput",
         "Running",
         "Succeeded",
-        "Canceled",
+        "Cancelled",
         "Failed"
       ],
       "x-ms-enum": {
@@ -2035,8 +2214,8 @@
             "description": "Succeeded"
           },
           {
-            "name": "Canceled",
-            "value": "Canceled",
+            "name": "Cancelled",
+            "value": "Cancelled",
             "description": "Canceled"
           },
           {
@@ -2250,6 +2429,14 @@
       "type": "object",
       "description": "Parameters to run a Tool",
       "properties": {
+        "projectName": {
+          "type": "string",
+          "description": "The name of the associated Project",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "toolId": {
           "type": "string",
           "format": "arm-id",
@@ -2321,6 +2508,7 @@
         }
       },
       "required": [
+        "projectName",
         "toolId",
         "storageId"
       ]
@@ -2556,20 +2744,6 @@
         "dataAssetId"
       ]
     },
-    "WithInvestigationNameOptional": {
-      "type": "object",
-      "description": "For investigation reference.",
-      "properties": {
-        "investigationName": {
-          "type": "string",
-          "description": "The ID of the associated Investigation",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      }
-    },
     "WithKey": {
       "type": "object",
       "description": "For adding key",
@@ -2665,6 +2839,14 @@
       "x-ms-parameter-location": "method"
     },
     "WithProjectName": {
+      "name": "projectName",
+      "in": "path",
+      "description": "The name of the associated Project",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "WithProjectNamePath": {
       "name": "projectName",
       "in": "path",
       "description": "Name of the associated Project.",
