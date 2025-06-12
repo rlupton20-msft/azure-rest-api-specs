@@ -27,7 +27,7 @@ These are the global settings for the portal.
 ``` yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-10-01-preview
+tag: package-2024-04-01
 ```
 
 ### Tag: package-2024-10-01-preview
@@ -38,14 +38,6 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 input-file:
   - Microsoft.PortalServices/dashboards/preview/2024-10-01-preview/dashboards.json
   - Microsoft.PortalServices/extensions/preview/2024-10-01-preview/extensions.json
-  - Microsoft.PortalServices/copilotSettings/stable/2024-04-01/copilotSettings.json
-suppressions:
-  - code: TenantLevelAPIsNotAllowed
-    reason: The resource type CopilotSettings in the Microsoft.PortalServices resource provider is @tenantResource, and has received exception sign-off approval by PAS team and ARM team.
-    from:
-      - copilotSettings.json
-    where:
-      - $.paths["/providers/Microsoft.PortalServices/copilotSettings/default"]
 ```
 
 ### Tag: package-2024-04-01
