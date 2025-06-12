@@ -38,6 +38,7 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 input-file:
   - Microsoft.PortalServices/dashboards/preview/2024-10-01-preview/dashboards.json
   - Microsoft.PortalServices/extensions/preview/2024-10-01-preview/extensions.json
+  - Microsoft.PortalServices/copilotSettings/preview/2024-04-01-preview/copilotSettings.json
 ```
 
 ### Tag: package-2024-04-01
