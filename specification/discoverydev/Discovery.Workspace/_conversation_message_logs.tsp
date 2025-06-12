@@ -56,6 +56,37 @@ union LogLevel {
   string,
 }
 
+@doc("Status of a log entry activity.")
+union LogStatus {
+  @doc("Activity is currently in progress.")
+  InProgress: "in_progress",
+
+  @doc("Activity was cancelled.")
+  Cancelled: "cancelled",
+
+  @doc("Activity failed to complete.")
+  Failed: "failed",
+
+  @doc("Activity completed successfully.")
+  Completed: "completed",
+
+  @doc("Activity expired before completion.")
+  Expired: "expired",
+
+  string,
+}
+
+@doc("Indicates if a log entry represents an action.")
+union IsAction {
+  @doc("Log entry represents an action.")
+  True: "true",
+
+  @doc("Log entry does not represent an action.")
+  False: "false",
+
+  string,
+}
+
 @added(Versions.`2025-07-01-preview`)
 @doc("A copilot log related to a message.")
 @resource("logs")
@@ -67,51 +98,67 @@ model MessageLog {
   name: string;
 
   @doc("The identifier of the conversation this log belongs to.")
-  conversationId: string;
+  @visibility(Lifecycle.Read)
+  conversationName: string;
 
   @doc("The identifier of the message this log is associated with.")
-  messageId: string;
+  @visibility(Lifecycle.Read)
+  messageName: string;
 
   @doc("The timestamp of the log entry in ISO 8601 format.")
+  @visibility(Lifecycle.Read)
   timestamp: string;
 
   @doc("The log level for this entry.")
+  @visibility(Lifecycle.Read)
   logLevel: LogLevel;
 
   @doc("The type of activity for this log entry.")
+  @visibility(Lifecycle.Read)
   type: LogType;
 
   @doc("The type of tool, if applicable.")
+  @visibility(Lifecycle.Read)
   toolType?: ToolType;
 
   @doc("The name of the tool, if applicable.")
+  @visibility(Lifecycle.Read)
   toolName?: string;
 
   @doc("The arguments passed to the tool, if applicable.")
+  @visibility(Lifecycle.Read)
   toolArguments?: string;
 
   @doc("Indicates if this log entry represents an action.")
-  isAction?: boolean;
+  @visibility(Lifecycle.Read)
+  isAction?: IsAction;
 
   @doc("Indicates the code environment")
+  @visibility(Lifecycle.Read)
   codeEnvironment?: boolean;
 
   @doc("The destination agent, if applicable.")
+  @visibility(Lifecycle.Read)
   destinationAgent?: string;
 
   @doc("The sender of the log entry.")
+  @visibility(Lifecycle.Read)
   sender: string;
 
   @doc("The text content of the log entry.")
+  @visibility(Lifecycle.Read)
   text: string;
 
   @doc("The status of the activity represented by this log entry.")
-  status: string;
+  @visibility(Lifecycle.Read)
+  status: LogStatus;
 
   @doc("The creation time of the log entry (Unix timestamp).")
+  @visibility(Lifecycle.Read)
   createdAt: int64;
 
   @doc("The completion time of the log entry (Unix timestamp).")
+  @visibility(Lifecycle.Read)
   completedAt: int64;
 }
 

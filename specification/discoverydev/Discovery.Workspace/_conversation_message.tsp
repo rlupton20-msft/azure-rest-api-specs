@@ -146,7 +146,7 @@ union MessageStatus {
 
   /** Canceled */
   @lroCanceled
-  Canceled: "Canceled",
+  Cancelled: "Cancelled",
 
   /** Failed */
   @lroFailed

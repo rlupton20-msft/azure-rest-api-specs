@@ -62,7 +62,7 @@ model WithProjectIdOptional {
 
 @doc("For investigation reference.")
 model WithInvestigationNameOptional {
-  @doc("The ID of the associated Investigation")
+  @doc("The Name of the associated Investigation")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   investigationName?: string;
 }
@@ -72,6 +72,13 @@ model WithProjectNameOptional {
   @doc("The name of the associated Project")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   projectName?: string;
+}
+
+@doc("For required project name reference.")
+model WithProjectName {
+  @doc("The name of the associated Project")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  projectName: string;
 }
 
 @doc("For searching by Project.")

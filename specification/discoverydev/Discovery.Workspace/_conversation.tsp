@@ -25,7 +25,7 @@ model Conversation {
   ...DataPlaneResource;
   ...WithTitle;
   ...WithInvestigationNameOptional;
-  ...WithProjectNameOptional;
+  ...WithProjectName;
 }
 
 // TODO: Remove un-needed route prefix!
@@ -40,8 +40,7 @@ interface Conversations {
   @route("/conversations")
   @post
   createConversation is Azure.Core.Foundations.Operation<
-    WithInvestigationNameOptional,
-    Conversation,
+    WithProjectName & WithInvestigationNameOptional,
     Conversation
   >;
 
