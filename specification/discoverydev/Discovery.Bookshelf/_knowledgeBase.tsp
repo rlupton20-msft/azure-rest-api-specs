@@ -60,6 +60,7 @@ model BaseKnowledgeBase {
   ...DataPlaneResource;
   ...WithTags;
   ...WithDescription;
+  ...WithCopilotInstruction;
   ...WithStatus<IndexingStatus>;
 }
 
@@ -76,15 +77,10 @@ model KnowledgeBase {
 }
 
 interface KnowledgeBases {
-  @doc("Fetch a KnowledgeBase by name. Gets latest version.")
-  getKnowledgeBase is ResourceRead<KnowledgeBase>;
-
   @doc("List KnowledgeBase resources")
   listKnowledgeBases is ResourceList<KnowledgeBase>;
 
-  getOperationStatus is Operations.GetResourceOperationStatus<KnowledgeBase>;
-
   @doc("Delete a KnowledgeBase.")
-  @pollingOperation(KnowledgeBases.getOperationStatus)
+  @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
   deleteKnowledgeBase is LongRunningResourceDelete<KnowledgeBase>;
 }
