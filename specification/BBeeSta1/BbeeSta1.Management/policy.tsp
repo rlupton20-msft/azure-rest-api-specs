@@ -11,7 +11,7 @@ using OpenAPI;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.BbeeDev4;
+namespace Private.BbeeSta1;
 
 // ------------------------------------------------------------------
 // Section 3: Policy Service (Child resource: onboarding policy)
