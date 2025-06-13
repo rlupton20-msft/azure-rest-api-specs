@@ -129,6 +129,15 @@ model TargetProperties {
   @doc("Display name of target")
   displayName: string;
 
+  @added(Versions.v2025_06_01_preview)
+  @doc("ArmId of Context")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  contextId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/contexts",
+    }
+  ]>;
+
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
   @doc("target spec")
