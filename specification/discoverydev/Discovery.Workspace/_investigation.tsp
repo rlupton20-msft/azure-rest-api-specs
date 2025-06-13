@@ -4,12 +4,10 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./common.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.ClientGenerator.Core;
 using Microsoft.Discovery.Shared;
 
 @versioned(Microsoft.Discovery.Workspace.Versions)
@@ -89,7 +87,4 @@ interface Investigations {
     Investigation,
     QueryParametersTrait<WithQueryCreatedSince>
   >;
-
-  @doc("Clone investigation (to a new one).")
-  clone is Operations.ResourceAction<Investigation, {}, Investigation>;
 }

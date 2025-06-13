@@ -6,17 +6,11 @@ import "./_project.tsp";
 import "./_investigation.tsp";
 import "./_conversation.tsp";
 import "./_conversation_message.tsp";
-
-// import "./_conversation_message_confirmation.tsp";
-// import "./_conversation_message_dataAssets.tsp";
-// import "./_conversation_message_logs.tsp";
-
+import "./_conversation_message_logs.tsp";
 import "./_tool.tsp";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
 
 @useAuth(
   ApiKeyAuth<ApiKeyLocation.header, "api-key"> | OAuth2Auth<[

@@ -1,13 +1,11 @@
 import "./main.tsp";
+import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
-using Azure.ResourceManager.CommonTypes;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
 
 namespace Private.StorageDiscovery;
@@ -24,8 +22,12 @@ model ReportResource is Azure.ResourceManager.ProxyResource<ReportProperties> {
 }
 
 @added(ApiVersion.v2025_06_01_preview)
-@doc("This is an empty model as the Report resource is used only as a proxy for the Report API.")
-model ReportProperties {}
+@doc("Properties for the Report resource used only as a proxy for the Report API.")
+model ReportProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The status of the last operation.")
+  provisioningState?: Azure.ResourceManager.ResourceProvisioningState;
+}
 
 @added(ApiVersion.v2025_06_01_preview)
 @armResourceOperations
@@ -38,4 +40,6 @@ interface Report {
     GetReportRequest,
     GetReportResponse
   >;
+  listByResourceGroup is ArmResourceListByParent<ReportResource>;
+  listBySubscription is ArmListBySubscription<ReportResource>;
 }
