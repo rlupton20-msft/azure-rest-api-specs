@@ -10,7 +10,6 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.ClientGenerator.Core;
 using Microsoft.Discovery.Shared;
 
 @versioned(Microsoft.Discovery.Workspace.Versions)
@@ -147,7 +146,7 @@ union MessageStatus {
 
   /** Canceled */
   @lroCanceled
-  Canceled: "Canceled",
+  Cancelled: "Cancelled",
 
   /** Failed */
   @lroFailed
@@ -176,17 +175,14 @@ model ConversationMessage {
   ...DataPlaneResource;
 
   //   ...WithProjectIdOptional;
-  ...WithInvestigationIdOptional;
+  ...WithInvestigationNameOptional;
 
+  ...WithProjectNameOptional;
   ...WithSender;
 
   @doc("Message status")
   @visibility(Lifecycle.Read)
   status?: MessageStatus;
-
-  //   @doc("The command name")
-  //   @visibility(Lifecycle.Read)
-  //   commandName?: string;
 
   @doc("Citation list")
   @visibility(Lifecycle.Read)
@@ -195,10 +191,59 @@ model ConversationMessage {
   @doc("Array of data assets.")
   @visibility(Lifecycle.Read)
   dataAssets?: DataAsset[];
+}
 
-  //   @doc("Database query list")
-  //   @visibility(Lifecycle.Read)
-  //   dbQueries?: DbQuery[];
+@doc("A user confirmation for a copilot action related to a message.")
+model MessageConfirmation {
+  @doc("The confirmation name/key.")
+  @visibility(Lifecycle.Read)
+  @key("confirmationName")
+  name: string;
+
+  ...DataPlaneResource;
+
+  @doc("Confirmation status")
+  @visibility(Lifecycle.Read, Lifecycle.Update)
+  status: ConfirmationStatus;
+
+  @doc("Reason for status (e.g. deny reason)")
+  @visibility(Lifecycle.Read, Lifecycle.Update)
+  statusReason?: string;
+
+  @doc("Name of the agent seeking confirmation")
+  @visibility(Lifecycle.Read)
+  agentName?: string;
+
+  @doc("Name of the tool seeking confirmation")
+  @visibility(Lifecycle.Read)
+  toolName?: string;
+
+  @doc("Arguments for the tool")
+  @visibility(Lifecycle.Read)
+  toolArguments?: string;
+}
+
+@doc("Enumeration for message status.")
+union ConfirmationStatus {
+  /** Message is awaiting user input */
+  AwaitingUserInput: "AwaitingUserInput",
+
+  /** Message Confirmed */
+  Confirmed: "Confirmed",
+
+  /** Message Denied */
+  Denied: "Denied",
+
+  string,
+}
+
+@doc("A minimal response for confirmation status.")
+model MessageConfirmationStatus {
+  @doc("Enumeration for message status.")
+  status: ConfirmationStatus;
+
+  @doc("Reason for status (e.g. deny reason)")
+  statusReason?: string;
 }
 
 alias ConversationPathContent = {
@@ -229,23 +274,17 @@ interface ConversationMessages {
     QueryParametersTrait<WithQueryCreatedSince>
   >;
 
-  #suppress "@azure-tools/typespec-azure-core/use-standard-names"
-  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
-  #suppress "@azure-tools/typespec-azure-core/no-explicit-routes-resource-ops"
-  @doc("List Messages across conversations")
-  @route("/messages")
-  listMessagesByWorkspace(
-    ...Azure.ResourceManager.ApiVersionParameter,
-    ...WithQueryConversationId,
-    ...WithQueryCreatedSince,
-    ...WithQueryInvestigationId,
-    ...WithQueryProjectId,
-  ): Paged<ConversationMessage> | Azure.Core.Foundations.ErrorResponse;
-
   @doc("Cancel current copilot operation.")
   cancel is Operations.ResourceAction<
     ConversationMessage,
     {},
     ConversationMessage
+  >;
+
+  @doc("Submit user input in response to AwaitingUserInput status.")
+  submitUserInput is Operations.ResourceAction<
+    ConversationMessage,
+    MessageConfirmationStatus,
+    {}
   >;
 }
