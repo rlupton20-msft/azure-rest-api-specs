@@ -56,10 +56,6 @@ model RequestMetadata {
   approvalStatus?: ApprovalStatus = ApprovalStatus.Pending;
 }
 
-@doc("Request Metadata for approvals patch request.")
-@withoutDefaultValues
-model RequestMetadataPatchModel is RequestMetadata;
-
 @renamedFrom(Microsoft.Mission.Versions.v2024_12_01_preview, "Approvers")
 @doc("Approver Metadata for approvals request.")
 model Approver {
@@ -103,20 +99,24 @@ model ApprovalBaseModel {
   stateChangedAt?: utcDateTime;
 }
 
-@doc("Approvals model.")
 model ApprovalModel is ApprovalBaseModel {
   @doc("Request metadata for the approval request.")
   requestMetadata: RequestMetadata;
 }
 
+@doc("Request Metadata patch properties.")
+model RequestMetadataPatchModel
+  is UpdateableProperties<OmitDefaults<RequestMetadata>>;
+
 @doc("Approvals patch properties.")
-model ApprovalPatchProperties is ApprovalBaseModel {
-  @doc("Request metadata for the approval request without default values.")
+model ApprovalPatchProperties
+  is UpdateableProperties<OmitDefaults<ApprovalBaseModel>> {
+  @doc("Request metadata for the approval request.")
   requestMetadata: RequestMetadataPatchModel;
 }
 
 @doc("Approvals patch model.")
 model ApprovalPatchModel {
   @doc("Approval Patch properties")
-  properties?: Update<ApprovalPatchProperties>;
+  properties?: ApprovalPatchProperties;
 }
