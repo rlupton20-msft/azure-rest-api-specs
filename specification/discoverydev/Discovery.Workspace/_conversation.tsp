@@ -25,7 +25,7 @@ model Conversation {
   ...DataPlaneResource;
   ...WithTitle;
   ...WithInvestigationNameOptional;
-  ...WithProjectName;
+  ...WithProjectNameOptional;
 }
 
 // TODO: Remove un-needed route prefix!
