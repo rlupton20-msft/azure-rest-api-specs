@@ -131,7 +131,6 @@ model TargetProperties {
 
   @added(Versions.v2025_06_01_preview)
   @doc("ArmId of Context")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
   contextId: Azure.Core.armResourceIdentifier<[
     {
       type: "Private.Edge/contexts",
